@@ -878,12 +878,13 @@ ALTER SEQUENCE public.oauth_apps_id_seq OWNED BY public.oauth_apps.id;
 
 CREATE TABLE public.orgies (
     type character varying(8) NOT NULL,
-    data character varying(1100) NOT NULL,
+    data character varying(1200) NOT NULL,
     title character varying(1000) NOT NULL,
     created_utc integer NOT NULL,
     end_utc integer,
     start_utc integer NOT NULL,
-    started boolean NOT NULL
+    started boolean NOT NULL,
+    chat_id integer NOT NULL
 );
 
 
@@ -2839,6 +2840,14 @@ ALTER TABLE ONLY public.chat_memberships
 --
 
 ALTER TABLE ONLY public.chat_messages
+    ADD CONSTRAINT chat_messages_chat_fkey FOREIGN KEY (chat_id) REFERENCES public.chats(id);
+
+
+--
+-- Name: orgies chat_messages_chat_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orgies
     ADD CONSTRAINT chat_messages_chat_fkey FOREIGN KEY (chat_id) REFERENCES public.chats(id);
 
 
