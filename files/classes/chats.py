@@ -19,7 +19,7 @@ class Chat(Base):
 	@property
 	@lazy
 	def owner_id(self):
-		owner_id = g.db.query(ChatMembership.user_id).filter_by(chat_id=self.id).order_by(ChatMembership.created_utc).first()
+		owner_id = g.db.query(ChatMembership.user_id).filter_by(chat_id=self.id).order_by(ChatMembership.created_utc, ChatMembership.user_id).first()
 		if not owner_id:
 			return AUTOJANNY_ID
 		return owner_id[0]
