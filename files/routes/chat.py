@@ -237,9 +237,9 @@ def disconnect(v):
 	if not request.referrer: return ''
 	room = request.referrer
 
-	if request.referrer == f'{SITE_FULL}/notifications/messages':
+	if room == f'{SITE_FULL}/notifications/messages':
 		leave_room(v.id)
-		online["messages"].remove(v.id)
+		online["messages"].discard(v.id)
 		return ''
 
 	if online.get(room):
