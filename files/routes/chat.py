@@ -69,8 +69,7 @@ def speak(data, v):
 	chat_id = int(data['chat_id'])
 
 	chat = g.db.get(Chat, chat_id)
-	if not chat:
-		abort(404, "Chat not found!")
+	if not chat: return ''
 
 	if chat.id == 1:
 		if not v.allowed_in_chat: return ''
