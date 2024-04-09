@@ -108,7 +108,9 @@ def submit_get(v, hole=None):
 
 	if request.path.startswith('/h/') and not hole: abort(404)
 
-	return render_template("submit.html", v=v, hole=hole)
+	hole_objs = g.db.query(Hole) if SITE_NAME == 'WPD' else None
+
+	return render_template("submit.html", v=v, hole=hole, hole_objs=hole_objs)
 
 @app.get("/post/<int:pid>")
 @app.get("/post/<int:pid>/<anything>")

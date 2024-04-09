@@ -19,13 +19,16 @@
 								<label class='mt-4' for="hole">Hole</label>
 								<div class="input-group">
 									{%- set hole_placeholder = 'Required' if HOLE_REQUIRED else 'Optional' -%}
-									<input list="holes" autocomplete="off" id="hole" class="form-control" form="submitform" name="hole" data-nonce="{{g.nonce}}" data-oninput="savetext()" {% if hole %}value="{{hole}}"{% endif %} placeholder="{{hole_placeholder}}" {% if HOLE_REQUIRED %}required{% endif %}>
+									<input list="holes" autocomplete="off" id="hole" class="form-control" form="submitform" name="hole" data-nonce="{{g.nonce}}" data-oninput="savetext(){% if SITE_NAME == 'WPD' %};showrules(this ){% endif %}" {% if hole %}value="{{hole}}"{% endif %} placeholder="{{hole_placeholder}}" {% if HOLE_REQUIRED %}required{% endif %}>
 									<datalist id="holes">
 										{% for h in HOLES() %}
 											<option value="{{h}}"></option>
 										{% endfor %}
 									</datalist>
 								</div>
+
+								<div id="hole-rules" class="alert alert-warning mt-3 d-none"></div>
+
 								<label class='mt-4' for="post-title">Post Title</label>
 								<textarea autocomplete="off" class="form-control" id="post-title" type="text" name="title" placeholder="Required" value="{{title}}" minlength="1" maxlength="500" required data-nonce="{{g.nonce}}" data-oninput="checkForRequired();savetext()"></textarea>
 
@@ -136,4 +139,12 @@
 	{% include "modals/emoji.html" %}
 	{% include "modals/gif.html" %}
 	{% include "modals/expanded_image.html" %}
+
+	{% if SITE_NAME == 'WPD' %}
+		{% for hole in hole_objs %}
+			<div id="{{hole}}-sidebar" class="d-none">
+				{{hole.sidebar_html|safe}}
+			</div>
+		{% endfor %}
+	{% endif %}
 {% endblock %}

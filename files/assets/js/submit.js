@@ -310,3 +310,14 @@ function clear_files(kind) {
 		store.delete(kind);
 	}
 }
+
+function showrules(t) {
+	const rules_container = document.getElementById('hole-rules')
+	rules_container.classList.add('d-none')
+	const rules = document.getElementById(`${t.value}-sidebar`)
+	if (rules) {
+		rules_container.classList.remove('d-none')
+		rules_container.innerHTML = rules.innerHTML
+	}
+}
+showrules(document.getElementById('hole'))
