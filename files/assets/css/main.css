@@ -7825,7 +7825,22 @@ img[src$="/e/speechbubble.webp"] {
 	height: auto !important;
 }
 
-#reddit-embed {
+#embed {
 	border: none;
 	margin-bottom: 10px;
+}
+
+.instagram-post-embed {
+	height: 1050px
+}
+.instagram-profile-embed {
+	height: 562px
+}
+@media (max-width: 768px) {
+	.instagram-post-embed {
+		height: 930px
+	}
+	.instagram-profile-embed {
+		height: 411px
+	}
 }
