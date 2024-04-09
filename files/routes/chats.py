@@ -206,7 +206,7 @@ def schedule_orgy(v, chat_id):
 	if bare_youtube_regex.match(normalized_link):
 		orgy_type = 'youtube'
 		data, _ = get_youtube_id_and_t(normalized_link)
-		if chat.id == 1 and YOUTUBE_KEY != DEFAULT_CONFIG_VALUE:
+		if YOUTUBE_KEY != DEFAULT_CONFIG_VALUE:
 			req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={data}&key={YOUTUBE_KEY}&part=contentDetails", headers=HEADERS, timeout=5).json()
 			duration = req['items'][0]['contentDetails']['duration']
 			if duration != 'P0D':
