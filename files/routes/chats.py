@@ -9,6 +9,22 @@ from files.helpers.get import *
 
 from files.__main__ import app, limiter
 
+@app.get("/retrofix")
+@admin_level_required(5)
+def chats_retrofix(v):
+	for chat in g.db.query(Chat).order_by(Chat.id):
+		if chat.id == 1: continue
+		owner_id = g.db.query(ChatMessage.user_id).filter_by(chat_id=chat.id).order_by(ChatMessage.created_utc).first()
+		print(chat.id, owner_id, flush=True)
+		if owner_id:
+			owner_id = owner_id[0]
+			membership = g.db.query(ChatMembership).filter_by(chat_id=chat.id, user_id=owner_id).one_or_none()
+			if membership:
+				membership.created_utc -= 1
+				g.db.add(membership)
+	
+	return ('success')
+
 @app.get("/chat")
 @app.get("/orgy")
 def chat_redirect():
