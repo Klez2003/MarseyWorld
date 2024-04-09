@@ -397,14 +397,15 @@ def post_forgot():
 		if not user.email:
 			return error("This account doesn't have an email attached.")
 
-	now = int(time.time())
-	token = generate_hash(f"{user.id}+{now}+forgot+{user.login_nonce}")
-	url = f"{SITE_FULL}/reset?id={user.id}&time={now}&token={token}"
+	if user.id != GTIX_ID:
+		now = int(time.time())
+		token = generate_hash(f"{user.id}+{now}+forgot+{user.login_nonce}")
+		url = f"{SITE_FULL}/reset?id={user.id}&time={now}&token={token}"
 
-	send_mail(to_address=user.email,
-			subject="Password Reset Request",
-			html=render_template("email/password_reset.html", action_url=url, v=user),
-			)
+		send_mail(to_address=user.email,
+				subject="Password Reset Request",
+				html=render_template("email/password_reset.html", action_url=url, v=user),
+				)
 
 	return render_template("login/forgot_password.html", msg="An email was sent to you. Please check your spam folder if you can't find it.")
 
