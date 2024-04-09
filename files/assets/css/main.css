@@ -7824,3 +7824,8 @@ table.border-0 * {
 img[src$="/e/speechbubble.webp"] {
 	height: auto !important;
 }
+
+#reddit-embed {
+	border: none;
+	margin-bottom: 10px;
+}
