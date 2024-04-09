@@ -7704,12 +7704,6 @@ thead {
 	}
 }
 
-@media (min-width: 768px) {
-	#group-warning {
-		max-width: 50%
-	}
-}
-
 input[type="search"]::-webkit-search-cancel-button {
 	display: none;
 }

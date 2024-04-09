@@ -366,16 +366,6 @@ def remove_mod(v, hole):
 
 	return {"message": f"@{user.username} has been removed as a mod!"}
 
-@app.get("/create_hole")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def create_sub(v):
-	if not v.can_create_hole:
-		abort(403)
-
-	return render_template("hole/create_hole.html", v=v, cost=HOLE_COST)
-
 @app.post("/create_hole")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
@@ -672,7 +662,7 @@ def hole_marsey(v, hole):
 def subs(v):
 	holes = g.db.query(Hole, func.count(Post.hole)).outerjoin(Post, Hole.name == Post.hole).group_by(Hole.name).order_by(Hole.created_utc).all()
 	total_users = g.db.query(User).count()
-	return render_template('hole/holes.html', v=v, holes=holes, total_users=total_users)
+	return render_template('hole/holes.html', v=v, cost=HOLE_COST, holes=holes, total_users=total_users)
 
 @app.post("/hole_pin/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
