@@ -149,17 +149,17 @@
 								{% endif %}
 
 								{% if p.url and p.url.startswith('https://old.reddit.com/r/') %}
-									<iframe id="embed" src="{{p.url.replace('https://old.reddit.com/', 'https://embed.reddit.com/').split('?')[0]}}?context=1&showtitle=true{% if v.theme in DARK_THEMES %}&theme=dark{% endif %}" height="317" width="100%" allow="clipboard-read; clipboard-write"></iframe>
+									<iframe id="reddit-embed" src="{{p.url.replace('https://old.reddit.com/', 'https://embed.reddit.com/').split('?')[0]}}?context=1&showtitle=true{% if v.theme in DARK_THEMES %}&theme=dark{% endif %}" height="317" width="100%" allow="clipboard-read; clipboard-write"></iframe>
 									<script defer src="{{'js/reddit_embed.js' | asset}}"></script>
 								{% elif p.url and p.url.startswith('https://tiktok.com/@') %}
 									{% set id = p.url.split('/video/')[1] %}
 									{% if id %}
-										<iframe id="embed" src="https://www.tiktok.com/embed/{{id}}" height="756" width="325"></iframe>
+										<iframe id="tiktok-embed" src="https://www.tiktok.com/embed/{{id}}" height="756" width="325"></iframe>
 									{% endif %}
 								{% elif p.domain == 'teamblind.com' %}
 									{% set id = p.url.split('-')[-1] %}
 									{% if id %}
-										<iframe id="embed" src="https://www.teamblind.com/embed/{{id}}" height="500" width="500"></iframe>
+										<iframe id="blind-embed" src="https://www.teamblind.com/embed/{{id}}" height="500" width="500"></iframe>
 									{% endif %}
 								{% elif p.domain == 'instagram.com' %}
 									{% set path = p.url.split('https://instagram.com/')[1].rstrip('/') %}
@@ -170,7 +170,7 @@
 										{% set path = path + '/embed' %}
 										{% set class = "instagram-profile-embed" %}
 									{% endif %}
-									<iframe id="embed" class="{{class}}" src="https://www.instagram.com/{{path}}?theme=dark" style="width:calc(100% - 2px);min-width:326px;max-width:540px"></iframe>
+									<iframe id="instagram-embed" class="{{class}}" src="https://www.instagram.com/{{path}}?theme=dark" style="width:calc(100% - 2px);min-width:326px;max-width:540px"></iframe>
 								{% endif %}
 
 								<div id="post-text" class="{{p.award_classes(v)}}">
