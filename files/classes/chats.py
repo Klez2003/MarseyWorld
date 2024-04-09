@@ -19,7 +19,10 @@ class Chat(Base):
 	@property
 	@lazy
 	def owner_id(self):
-		return g.db.query(ChatMembership.user_id).filter_by(chat_id=self.id).order_by(ChatMembership.created_utc).first()[0] or AUTOJANNY_ID
+		owner_id = g.db.query(ChatMembership.user_id).filter_by(chat_id=self.id).order_by(ChatMembership.created_utc).first()
+		if not owner_id:
+			return AUTOJANNY_ID
+		return owner_id[0]
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
