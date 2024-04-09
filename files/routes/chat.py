@@ -243,7 +243,8 @@ def disconnect(v):
 		online["messages"].remove(v.id)
 		return ''
 
-	online[room].pop(v.id, None)
+	if online.get(room):
+		online[room].pop(v.id, None)
 
 	if v.username in typing[room]:
 		typing[room].remove(v.username)
