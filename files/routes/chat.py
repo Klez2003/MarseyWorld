@@ -109,6 +109,7 @@ def speak(data, v):
 
 	text_html = sanitize(text, count_emojis=True, chat=True)
 	if isinstance(text_html , tuple): return ''
+	if len(text_html) > 5000: return ''
 
 	execute_blackjack(v, None, text, "chat")
 	execute_under_siege(v, None, text, "chat")
