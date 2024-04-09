@@ -212,7 +212,9 @@ def remove_art(v, id):
 		)
 		g.db.add(ma)
 
-	os.remove(f'/asset_submissions/art/{entry.id}.webp')
+	if os.path.isfile(f'/asset_submissions/art/{entry.id}.webp'):
+		os.remove(f'/asset_submissions/art/{entry.id}.webp')
+
 	msg = f"{entry.msg_kind} removed!"
 	g.db.delete(entry)
 
