@@ -1,4 +1,5 @@
 import time
+from flask import g
 
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship
@@ -14,14 +15,11 @@ class Chat(Base):
 	name = Column(String)
 	created_utc = Column(Integer)
 
-	memberships = relationship("ChatMembership", order_by="ChatMembership.created_utc")
 
 	@property
 	@lazy
 	def owner_id(self):
-		if not self.memberships:
-			return AUTOJANNY_ID
-		return self.memberships[0].user_id
+		return g.db.query(ChatMembership.user_id).filter_by(chat_id=self.id).order_by(ChatMembership.created_utc).first()[0] or AUTOJANNY_ID
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

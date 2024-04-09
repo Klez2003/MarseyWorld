@@ -33,8 +33,8 @@ def chat_user(v, username):
 		abort(403, f"@{user.username} is muting notifications from you, so you can't chat with them!")
 
 
-	sq = g.db.query(Chat.id).join(Chat.memberships).filter(ChatMembership.user_id.in_((v.id, user.id))).group_by(Chat.id).having(func.count(Chat.id) == 2).subquery()
-	existing = g.db.query(Chat.id).join(Chat.memberships).filter(Chat.id == sq.c.id).group_by(Chat.id).having(func.count(Chat.id) == 2).one_or_none()
+	sq = g.db.query(Chat.id).join(ChatMembership, ChatMembership.chat_id == Chat.id).filter(ChatMembership.user_id.in_((v.id, user.id))).group_by(Chat.id).having(func.count(Chat.id) == 2).subquery()
+	existing = g.db.query(Chat.id).join(ChatMembership, ChatMembership.chat_id == Chat.id).filter(Chat.id == sq.c.id).group_by(Chat.id).having(func.count(Chat.id) == 2).one_or_none()
 	if existing:
 		return redirect(f"/chat/{existing.id}")
 
