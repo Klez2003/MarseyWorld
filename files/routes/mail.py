@@ -12,8 +12,8 @@ from files.__main__ import app, limiter
 @app.post("/verify_email")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit('3/day', deduct_when=lambda response: response.status_code < 400)
+@limiter.limit('3/day', deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def verify_email(v):
 	if v.email_verified:
