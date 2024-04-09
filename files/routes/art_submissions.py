@@ -44,12 +44,13 @@ def submit_art_post(v):
 	if not file or not file.content_type.startswith('image/'):
 		abort(400, "You need to submit an image!")
 
-	username = request.values.get('author', '').lower().strip()
-	author = get_user(username, v=v)
-
 	kind = request.values.get('kind', '').strip()
 	if kind not in {"sidebar", "banner"}:
 		abort(400, "Invalid kind!")
+
+	username = request.values.get('author', '').lower().strip()
+	author = get_user(username, v=v)
+
 
 	entry = ArtSubmission(
 				kind=kind,
