@@ -51,11 +51,14 @@ def submit_art_post(v):
 	username = request.values.get('author', '').lower().strip()
 	author = get_user(username, v=v)
 
+	hole = request.values.get('hole', '').lower().strip()
+	if not hole: hole = None
 
 	entry = ArtSubmission(
 				kind=kind,
 				author_id=author.id,
 				submitter_id=v.id,
+				hole=hole,
 			)
 	g.db.add(entry)
 	g.db.flush()
@@ -106,7 +109,20 @@ def approve_art(v, id):
 	old = f'/asset_submissions/art/{entry.id}.webp'
 	copyfile(old, f"/asset_submissions/art/original/{entry.id}.webp")
 
-	filename = f"files/assets/images/{SITE_NAME}/{entry.location_kind}/{entry.id}.webp"
+	hole = request.values.get('hole', '').lower().strip()
+	if hole:
+		hole = g.db.get(Hole, hole)
+		if not hole:
+			abort(404, "Hole not found!")
+
+		filename = f'/images/{time.time()}'.replace('.','') + '.webp'
+		if entry.kind == "sidebar":
+			hole.sidebarurls.append(f"{SITE_FULL_IMAGES}{filename}")
+		else:
+			hole.bannerurls.append(f"{SITE_FULL_IMAGES}{filename}")
+	else:
+		filename = f"files/assets/images/{SITE_NAME}/{entry.location_kind}/{entry.id}.webp"
+
 	move(old, filename)
 	process_image(filename, v, resize=entry.resize, trim=True)
 

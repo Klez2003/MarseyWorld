@@ -4,6 +4,7 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 from files.helpers.lazy import lazy
+from files.helpers.config.const import *
 
 sidebar_hashes = {}
 banner_hashes = {}
@@ -16,6 +17,11 @@ class ArtSubmission(Base):
 	submitter_id = Column(Integer, ForeignKey("users.id"))
 	created_utc = Column(Integer)
 	approved = Column(Boolean, default=False)
+
+	if SITE_NAME == 'WPD':
+		hole = Column(String, ForeignKey("holes.name"))
+	else:
+		hole = None
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

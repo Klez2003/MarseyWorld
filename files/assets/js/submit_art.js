@@ -3,6 +3,7 @@ function approve_art(t, id) {
 		{
 			"comment": document.getElementById(`${id}-comment`).value,
 			"author": document.getElementById(`${id}-author`).value,
+			"hole": document.getElementById(`${id}-hole`).value,
 		},
 		() => {
 			document.getElementById(`${id}-art`).remove()
