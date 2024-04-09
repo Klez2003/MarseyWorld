@@ -151,6 +151,9 @@
 								{% if p.url and p.url.startswith('https://old.reddit.com/r/') %}
 									<iframe id="embed" src="{{p.url.replace('https://old.reddit.com/', 'https://embed.reddit.com/').split('?')[0]}}?context=1&showtitle=true{% if v.theme in DARK_THEMES %}&theme=dark{% endif %}" height="317px" width="100%" allow="clipboard-read; clipboard-write"></iframe>
 									<script defer src="{{'js/reddit_embed.js' | asset}}"></script>
+								{% elif p.url and p.url.startswith('https://tiktok.com/@') %}
+									{% set id = p.url.split('/video/')[1] %}
+									<iframe id="embed" src="https://www.tiktok.com/embed/{{id}}" width="325px" height="750px"></iframe>
 								{% elif p.domain == 'instagram.com' %}
 									{% set path = p.url.split('https://instagram.com/')[1].rstrip('/') %}
 									{% if '/' in path %}
@@ -161,9 +164,6 @@
 										{% set class = "instagram-profile-embed" %}
 									{% endif %}
 									<iframe id="embed" class="{{class}}" src="https://www.instagram.com/{{path}}?theme=dark" style="width:calc(100% - 2px);min-width:326px;max-width:540px"></iframe>
-								{% elif p.domain == 'tiktok.com' %}
-									{% set id = p.url.split('/video/')[1] %}
-									<iframe id="embed" src="https://www.tiktok.com/embed/{{id}}" width="325px" height="750px"></iframe>
 								{% endif %}
 
 								<div id="post-text" class="{{p.award_classes(v)}}">
