@@ -153,7 +153,7 @@
 									<script defer src="{{'js/reddit_embed.js' | asset}}"></script>
 								{% elif p.url and p.url.startswith('https://tiktok.com/@') %}
 									{% set id = p.url.split('/video/')[1] %}
-									<iframe id="embed" src="https://www.tiktok.com/embed/{{id}}" width="325px" height="750px"></iframe>
+									<iframe id="embed" src="https://www.tiktok.com/embed/{{id}}" width="325px" height="753px"></iframe>
 								{% elif p.domain == 'instagram.com' %}
 									{% set path = p.url.split('https://instagram.com/')[1].rstrip('/') %}
 									{% if '/' in path %}
