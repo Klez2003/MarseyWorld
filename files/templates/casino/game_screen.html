@@ -46,7 +46,7 @@
 									<img id="wagerCoinsImg" loading="lazy" src="{{SITE_FULL_IMAGES}}/i/coins.webp?x=8" alt="coin" data-bs-toggle="tooltip"
 										data-bs-placement="bottom" title="Coin">
 								</label>
-								<span id="user-coins-amount-casino">{{v.coins}}</span>
+								<span id="user-coins-amount-casino">{{v.coins|commas}}</span>
 							</span>
 
 							<span class="unbreakable">
@@ -56,7 +56,7 @@
 									<img id="wagerMarseybuxImg" loading="lazy" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=8" alt="marseybux" data-bs-toggle="tooltip"
 										data-bs-placement="bottom" title="Marseybux">
 								</label>
-								<span id="user-bux-amount-casino">{{v.marseybux}}</span>
+								<span id="user-bux-amount-casino">{{v.marseybux|commas}}</span>
 							</span>
 						</div>
 					</div>

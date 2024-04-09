@@ -796,3 +796,9 @@ function toggleElement(id, id2) {
 	document.getElementById(id).classList.toggle('d-none');
 	document.getElementById(id2).focus()
 }
+
+const formatter = new Intl.NumberFormat('en-US');
+function change_currency(id, amount) {
+	const el = document.getElementById(id)
+	el.textContent = formatter.format(parseInt(el.textContent.replaceAll(',', '')) + amount);
+}
