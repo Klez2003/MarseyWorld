@@ -13,3 +13,23 @@ document.addEventListener('keydown', (e) => {
 
 	document.getElementById('start-orgy').click();
 });
+
+
+function autoSuggestTitle()	{
+	const urlField = document.getElementById("link");
+	const titleField = document.getElementById("title");
+	const isValidURL = urlField.checkValidity();
+
+	if (isValidURL && urlField.value.length > 0 && titleField.value === "") {
+		const x = new XMLHttpRequest();
+		x.onreadystatechange = function() {
+			if (x.readyState == 4 && x.status == 200 && !titleField.value) {
+				title = JSON.parse(x.responseText)["title"];
+				titleField.value = title;
+			}
+		}
+		x.open('get','/submit/title?url=' + urlField.value);
+		x.setRequestHeader('xhr', 'xhr');
+		x.send(null);
+	};
+};

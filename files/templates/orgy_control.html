@@ -26,7 +26,7 @@
 									<label for="link">Link (youtube, twitch, rumble, mp4 file)</label>
 								</div>
 								<div class="body w-lg-100">
-									<input id="link" autocomplete="off" type="text" name="link" class="form-control" placeholder="Required">
+									<input id="link" autocomplete="off" type="text" name="link" class="form-control" placeholder="Required" data-nonce="{{g.nonce}}" data-oninput="autoSuggestTitle()">
 								</div>
 							</div>
 							<div class="d-lg-flex border-bottom mt-3">
