@@ -25,6 +25,9 @@
 		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar/" ~ SITE_NAME ) %}
 	{% elif IS_EVENT() %}
 		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar") %}
+	{% elif v and v.chud %}
+		{% set image = SITE_FULL_IMAGES + "/i/rDrama/sidebar/2317.webp?x=8" %}
+		{% set expanded_image = image|expand_art %}
 	{% else %}
 		{% set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") %}
 		{% set expanded_image = image|expand_art %}
@@ -34,10 +37,6 @@
 	{% if request.path != '/sidebar' %}
 		{% if IS_HOMOWEEN() and not (hole and hole.sidebarurls) %}
 			{% include "events/homoween/eye_tracking.html" %}
-		{% elif v and (v.is_banned or v.chud) %}
-			<a href="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/sidebar2.webp">
-				<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/sidebar2.webp">
-			</a>
 		{% elif not (hole and hole.name == 'chudrama' and v and not v.can_see_chudrama) %}
 			{% if not expanded_image %}
 				{% set expanded_image = image %}
