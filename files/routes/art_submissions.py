@@ -124,7 +124,8 @@ def approve_art(v, id):
 		filename = f"files/assets/images/{SITE_NAME}/{entry.location_kind}/{entry.id}.webp"
 
 	move(old, filename)
-	process_image(filename, v, resize=entry.resize, trim=True)
+	trim = (entry.kind == 'sidebar')
+	process_image(filename, v, resize=entry.resize, trim=trim)
 
 	author = request.values.get('author').strip()
 	author = get_user(author)
