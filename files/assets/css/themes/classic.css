@@ -196,3 +196,19 @@ blockquote a {
 #bank-statement {
     border: 1px solid var(--black) !important;
 }
+
+.pagination > .page-item {
+    background: rgb(var(--background)) !important;
+}
+
+.sorting {
+    margin-top: 0.7rem;
+}
+
+.sorting .dropdown.dropdown-actions, .sorting form {
+    border: 1px solid;
+}
+
+.dropdown.dropdown-actions.mr-2 {
+    margin-right: 0 !important;
+}
