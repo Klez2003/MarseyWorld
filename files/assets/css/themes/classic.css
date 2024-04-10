@@ -205,10 +205,14 @@ blockquote a {
     margin-top: 0.7rem;
 }
 
-.sorting .dropdown.dropdown-actions, .sorting form {
+.sorting > div > .dropdown.dropdown-actions, .sorting > div > form {
     border: 1px solid;
 }
 
-.dropdown.dropdown-actions.mr-2 {
+.sorting > div > .dropdown.dropdown-actions.mr-2 {
     margin-right: 0 !important;
+}
+
+.sorting > div > .dropdown.dropdown-actions:last-child {
+    margin-right: 1rem;
 }
