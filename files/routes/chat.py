@@ -250,7 +250,9 @@ def disconnect(v):
 		typing[room].remove(v.username)
 
 	leave_room(room)
-	refresh_online(room)
+
+	if online.get(room):
+		refresh_online(room)
 
 	commit_and_close()
 
