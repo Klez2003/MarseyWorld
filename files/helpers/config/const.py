@@ -1055,6 +1055,11 @@ def IS_EVENT():
 		return "birthdead"
 	return None
 
+fourth_begin = datetime.datetime.strptime(f'4/7/{t.year}', '%d/%m/%Y')
+fourth_end = datetime.datetime.strptime(f'5/7/{t.year}', '%d/%m/%Y')
+def IS_FOURTH():
+	return SITE_NAME == 'rDrama' and fourth_begin < datetime.datetime.now() < fourth_end
+
 CHUD_PHRASES = ( #if you add a phrase, remove one in turn
 	"Trans lives matter",
 	"Black lives matter",

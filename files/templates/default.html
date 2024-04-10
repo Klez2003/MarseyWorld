@@ -29,6 +29,8 @@
 					{% set expand = false %}
 				{% elif IS_DKD() or IS_BIRTHGAY() or IS_BIRTHDEAD() %}
 					{% set src = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/banners") %}
+				{% elif IS_FOURTH() %}
+					{% set src = SITE_FULL_IMAGES ~ '/i/rDrama/4th-of-july-banner.webp' %}
 				{% elif SITE_NAME == "rDrama" %}
 					{% set href = "https://donate.transequality.org/a/ncte" %}
 					{% set expand = false %}
