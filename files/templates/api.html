@@ -19,13 +19,13 @@
 	<p>Python example:</p>
 	<pre>	import requests
 
-		headers = {"Authorization": "access_token_goes_here"}
+	headers = {"Authorization": "access_token_goes_here"}
 
-		url = "{{SITE_FULL}}/?sort=comments"
+	url = "{{SITE_FULL}}/?sort=comments"
 
-		r = requests.get(url, headers=headers)
+	r = requests.get(url, headers=headers)
 
-		print(r.json())
+	print(r.json())
 	</pre>
 	<p>The expected result of this would be a large JSON representation of the posts on the frontpage sorted by the number of comments</p>
 
@@ -34,13 +34,13 @@
 	<p>Aother python example:</p>
 	<pre>	import requests
 
-		headers = {"Authorization": "access_token_goes_here"}
+	headers = {"Authorization": "access_token_goes_here"}
 
-		url = "{{SITE_FULL}}/unread"
+	url = "{{SITE_FULL}}/unread"
 
-		r = requests.get(url, headers=headers)
+	r = requests.get(url, headers=headers)
 
-		print(r.json())
+	print(r.json())
 	</pre>
 	<p>The expected result of this would be a JSON representation of unread notifications for your account</p>
 
@@ -71,13 +71,13 @@
 	<p>Python example:</p>
 	<pre>	import requests
 
-		headers = {"Authorization": "access_token_goes_here"}
+	headers = {"Authorization": "access_token_goes_here"}
 
-		url = "{{SITE_FULL}}/?sort=comments"
+	url = "{{SITE_FULL}}/?sort=comments"
 
-		r = requests.get(url, headers=headers)
+	r = requests.get(url, headers=headers)
 
-		print(r.json())
+	print(r.json())
 	</pre>
 	<p>The expected result of this would be a large JSON representation of the posts on the frontpage sorted by the number of comments</p>
 
@@ -86,13 +86,13 @@
 	<p>Aother python example:</p>
 	<pre>	import requests
 
-		headers = {"Authorization": "access_token_goes_here"}
+	headers = {"Authorization": "access_token_goes_here"}
 
-		url = "{{SITE_FULL}}/unread"
+	url = "{{SITE_FULL}}/unread"
 
-		r = requests.get(url, headers=headers)
+	r = requests.get(url, headers=headers)
 
-		print(r.json())
+	print(r.json())
 	</pre>
 	<p>The expected result of this would be a JSON representation of unread notifications for your account</p>
 {% endblock %}
