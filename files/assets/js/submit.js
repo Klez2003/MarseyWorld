@@ -78,30 +78,23 @@ function remove_attachment() {
 }
 
 function autoSuggestTitle()	{
-
 	const urlField = document.getElementById("post-url");
-
 	const titleField = document.getElementById("post-title");
-
 	const isValidURL = urlField.checkValidity();
 
 	if (isValidURL && urlField.value.length > 0 && titleField.value === "") {
-
 		const x = new XMLHttpRequest();
 		x.onreadystatechange = function() {
 			if (x.readyState == 4 && x.status == 200 && !titleField.value) {
-
-				title=JSON.parse(x.responseText)["title"];
-				titleField.value=title;
+				title = JSON.parse(x.responseText)["title"];
+				titleField.value = title;
 				checkForRequired()
 			}
 		}
 		x.open('get','/submit/title?url=' + urlField.value);
 		x.setRequestHeader('xhr', 'xhr');
 		x.send(null);
-
 	};
-
 };
 
 function ghost_toggle(t) {
