@@ -1,7 +1,6 @@
 import time
 from math import floor
 import os
-import ffmpeg
 import random
 
 from sqlalchemy.orm import load_only
