@@ -8,7 +8,6 @@
 		</div>
 	{% endblock %}
 	{% block banner %}
-		{% include "modals/expanded_image.html" %}
 		{% if err or '@' not in request.path %}
 			{% if IS_FISTMAS() and not (hole and hole.bannerurls) %}
 				{% include 'events/fistmas/banner.html' %}
