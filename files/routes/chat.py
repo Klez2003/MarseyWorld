@@ -220,6 +220,9 @@ def connect(v):
 
 	join_room(room)
 
+	if not online.get(room):
+		online[room] = {}
+
 	if not typing.get(room):
 		typing[room] = []
 
