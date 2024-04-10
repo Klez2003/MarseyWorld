@@ -213,7 +213,7 @@ def connect(v):
 	if not request.referrer: return ''
 	room = request.referrer
 
-	if room == f'{SITE_FULL}/notifications/messages':
+	if room.startswith(f'{SITE_FULL}/notifications/messages'):
 		join_room(v.id)
 		online["messages"].add(v.id)
 		return ''
@@ -238,7 +238,7 @@ def disconnect(v):
 	if not request.referrer: return ''
 	room = request.referrer
 
-	if room == f'{SITE_FULL}/notifications/messages':
+	if room.startswith(f'{SITE_FULL}/notifications/messages'):
 		leave_room(v.id)
 		online["messages"].discard(v.id)
 		return ''
