@@ -211,7 +211,7 @@
 							<div class="body w-lg-100">
 								<form id="snappy-quotes" action="/settings/snappy_quotes" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 									<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
-									<small>Enter things you would like <a href="/id/{{SNAPPY_ID}}" rel="nofollow"><img src="/pp/2">@Snappy</a> to reply to your posts with.</small>
+									<small>Enter things you would like <a href="/id/{{SNAPPY_ID}}" rel="nofollow"><img src="/pp/{{SNAPPY_ID}}">@Snappy</a> to reply to your posts with.</small>
 									<textarea autocomplete="off" class="form-control rounded my-2" placeholder="Add your own custom Snappy quotes."
 									rows="3" name="snappy_quotes" form="snappy-quotes" maxlength="1000">{% if v.snappy_quotes %}{{v.snappy_quotes}}{% endif %}</textarea>
 									<small>Separate quotes with <code>[para]</code>. Limit of {{CUSTOM_SNAPPY_QUOTES_LENGTH}} characters</small>
