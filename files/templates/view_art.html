@@ -5,7 +5,7 @@
 		<h2 class="mt-4">{{title}}</h2>
 		{% for url in urls %}
 			<a href="{{url|expand_art}}">
-				<img class="mt-4 mr-3" style="max-width:80vw" src="{{url}}" loading="lazy" data-nonce="{{g.nonce}}" data-onclick="expandImage('{{url|expand_art}}')">
+				<img class="mt-4 mr-3" style="max-width:{% if request.path == '/banners' %}80vw{% else %}300px{% endif %}" src="{{url}}" loading="lazy" data-nonce="{{g.nonce}}" data-onclick="expandImage('{{url|expand_art}}')">
 			</a>
 		{% endfor %}
 	</div>
