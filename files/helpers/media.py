@@ -184,12 +184,14 @@ def process_video(file, v):
 		os.remove(old)
 		abort(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
+	is_icosaka = SITE == 'watchpeopledie.tv' and v and v.username.lower().startswith("icosaka")
+
 	is_reencoding = False
-	if codec != 'h264':
+	if codec != 'h264' and not is_icosaka:
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new)
 		is_reencoding = True
-	elif bitrate >= 3000000:
+	elif bitrate >= 3000000 and not is_icosaka:
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new, True)
 		is_reencoding = True
@@ -214,7 +216,7 @@ def process_video(file, v):
 
 	url = SITE_FULL_VIDEOS + new.split('/videos')[1]
 
-	if SITE == 'watchpeopledie.tv' and v and v.username.lower().startswith("icosaka"):
+	if is_icosaka:
 		gevent.spawn(delete_file, new, url)
 		return url, None, None
 
