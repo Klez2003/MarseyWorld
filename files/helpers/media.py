@@ -184,7 +184,7 @@ def process_video(file, v):
 		os.remove(old)
 		abort(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
-	is_icosaka = SITE == 'watchpeopledie.tv' and v and v.username.lower().startswith("icosaka")
+	is_icosaka = (SITE == 'watchpeopledie.tv' and v and v.username.lower().startswith("icosaka"))
 
 	is_reencoding = False
 	if codec != 'h264' and not is_icosaka:
