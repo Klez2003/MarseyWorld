@@ -91,12 +91,7 @@ def claim_rewards_all_users():
 			send_repeatable_notification(user.id, text)
 			g.db.add(user)
 
-			if has_yearly:
-				user.patron_utc = int(time.time()) + 31560000
-			else:
-				user.patron_utc = int(time.time()) + 2937600
-
-			if highest_tier > user.patron:
+			if highest_tier > user.patron or (highest_tier < user.patron and user.patron_utc - time.time() < 432000):
 				user.patron = highest_tier
 				badge_id = 20 + highest_tier
 
@@ -110,6 +105,11 @@ def claim_rewards_all_users():
 
 				for x in range(22, badge_id+1):
 					badge_grant(badge_id=x, user=user)
+
+			if has_yearly:
+				user.patron_utc = int(time.time()) + 31560000
+			else:
+				user.patron_utc = int(time.time()) + 2937600
 
 			g.db.flush()
 			user.lifetimedonated = g.db.query(func.sum(Transaction.amount)).filter_by(email=user.email).scalar()
