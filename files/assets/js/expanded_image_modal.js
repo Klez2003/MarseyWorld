@@ -38,6 +38,14 @@ function expandImage(url) {
 	document.getElementById('imgnav-next').classList.add('d-none')
 	document.getElementById('imgnav-prev').classList.add('d-none')
 
+	const element = this.event.target
+	all_images = element.parentElement.parentElement.parentElement.getElementsByClassName('img')
+	if (all_images.length != 0) {
+		last_img_index = all_images.length - 1
+		position = [].indexOf.call(all_images, element);
+		handle_navigation(0)
+	}
+
 	const e = this.event
 	if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
 		return;
