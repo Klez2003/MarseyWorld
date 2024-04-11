@@ -1862,10 +1862,8 @@ def delete_media_post(v):
 	if path.startswith('/assets/images'):
 		path = 'files' + path.split('?x=')[0]
 
-	if not os.path.isfile(path):
-		abort(400, "File not found on the server!")
-
-	os.remove(path)
+	if os.path.isfile(path):
+		os.remove(path)
 
 	to_delete = g.db.query(Post.thumburl, Post.posterurl).filter_by(url=url).all()
 	for tup in to_delete:
