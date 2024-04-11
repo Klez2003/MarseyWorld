@@ -1256,11 +1256,12 @@ INSERT INTO public.hat_defs VALUES (1532, 'Polaroid photo', 'Ahhh I remember whe
 INSERT INTO public.hat_defs VALUES (1533, 'Emu Otori Hat', 'Show your love to the amazing idol Emu Otori!', 2, 500, NULL, 1712599460);
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1533, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1534, true);
 
 
 --
