@@ -67,7 +67,7 @@ def submit_art_post(v):
 	file.save(highquality)
 	process_image(highquality, v) #to ensure not malware
 
-	if kind == "banner":
+	if kind == "banner" and v.id != AEVANN_ID:
 		with Image.open(highquality) as i:
 			if i.width != 2000 or i.height != 200:
 				os.remove(highquality)
