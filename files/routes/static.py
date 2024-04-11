@@ -457,4 +457,4 @@ def view_art(v):
 	urls = sorted(urls, key=lambda x: int(x.split('.webp')[0]), reverse=True)
 	urls = [f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/{location_kind}/{x}" for x in urls]
 
-	return render_template(f'view_art.html', v=v, urls=urls, title=title)
+	return render_template(f'view_art.html', v=v, urls=urls, title=title, kind=location_kind)
