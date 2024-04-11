@@ -181,6 +181,12 @@ document.addEventListener("click", function(e) {
 
 	if (element instanceof HTMLImageElement && (element.alt.startsWith('![](') || element.classList.contains('img'))) {
 		expandImage()
+		all_images = element.parentElement.parentElement.parentElement.getElementsByClassName('img')
+		if (all_images.length != 0) {
+			last_img_index = all_images.length - 1
+			position = [].indexOf.call(all_images, element);
+			handle_navigation(0)
+		}
 	}
 	else if (element.classList.contains('showmore')) {
 		showmore(element)
