@@ -953,8 +953,8 @@ def post_hole_snappy_quotes(v, hole):
 	if snappy_quotes.endswith('[para]'):
 		snappy_quotes = snappy_quotes[:-6].strip()
 
-	if len(snappy_quotes) > HOLE_SNAPPY_QUOTES_LENGTH:
-		abort(400, f"Quotes are too long (max {HOLE_SNAPPY_QUOTES_LENGTH} characters)")
+	if len(snappy_quotes) > CUSTOM_SNAPPY_QUOTES_LENGTH:
+		abort(400, f"Quotes are too long (max {CUSTOM_SNAPPY_QUOTES_LENGTH} characters)")
 
 	hole.snappy_quotes = snappy_quotes
 	g.db.add(hole)

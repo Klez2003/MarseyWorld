@@ -205,6 +205,6 @@ def inject_constants():
 			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT, "SNAPPY_ID":SNAPPY_ID, "ZOZBOT_ID":ZOZBOT_ID, "get_running_orgy":get_running_orgy,
 			"bar_position":bar_position, "datetime":datetime, "CSS_LENGTH_LIMIT":CSS_LENGTH_LIMIT, "cache":cache,
 			"emoji_count":emoji_count, "group_count":group_count, "user_count":user_count,
-			"HOLE_SIDEBAR_COLUMN_LENGTH":HOLE_SIDEBAR_COLUMN_LENGTH, "HOLE_SNAPPY_QUOTES_LENGTH":HOLE_SNAPPY_QUOTES_LENGTH,
+			"HOLE_SIDEBAR_COLUMN_LENGTH":HOLE_SIDEBAR_COLUMN_LENGTH, "CUSTOM_SNAPPY_QUOTES_LENGTH":CUSTOM_SNAPPY_QUOTES_LENGTH,
 			"top_poster_of_the_day":top_poster_of_the_day,
 		}

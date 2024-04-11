@@ -437,6 +437,35 @@ def keyword_notifs(v):
 	g.db.add(v)
 	return {"message": "Your keyword notifications have been updated!"}
 
+@app.post("/settings/snappy_quotes")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def snappy_quotes(v):
+	if v.patron < 5:
+		abort(403, f"Custom Snappy quotes are only available to {patron}s donating $50/month or higher!")
+
+	snappy_quotes = request.values.get("snappy_quotes", "").replace('\r','').strip()
+
+	if snappy_quotes.endswith('[para]'):
+		snappy_quotes = snappy_quotes[:-6].strip()
+
+	if snappy_quotes == v.snappy_quotes:
+		abort(400, "You didn't change anything!")
+
+	if len(snappy_quotes) > CUSTOM_SNAPPY_QUOTES_LENGTH:
+		abort(400, f"Quotes are too long (max {CUSTOM_SNAPPY_QUOTES_LENGTH} characters)")
+
+	if not snappy_quotes:
+		snappy_quotes = None
+
+	v.snappy_quotes = snappy_quotes
+	g.db.add(v)
+	return {"message": "Your custom Snappy quotes have been updated!"}
+
+
 
 def set_color(v, attr):
 	color = request.values.get(attr)

@@ -129,6 +129,7 @@ class User(Base):
 	defaulttime = Column(String, default=DEFAULT_TIME_FILTER)
 	custom_filter_list = Column(String)
 	keyword_notifs = Column(String)
+	snappy_quotes = deferred(Column(String))
 	original_username = Column(String)
 	extra_username = Column(String)
 	prelock_username = Column(String)
