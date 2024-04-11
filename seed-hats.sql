@@ -1254,7 +1254,7 @@ INSERT INTO public.hat_defs VALUES (1520, 'Smokey', 'Puffff', 2, 1000, NULL, 171
 INSERT INTO public.hat_defs VALUES (1530, 'Purple Aura', 'This person has a purple aura... Whatever that means.', 2, 1000, NULL, 1711680255);
 INSERT INTO public.hat_defs VALUES (1532, 'Polaroid photo', 'Ahhh I remember when I was young. How the time flies...', 2, 500, NULL, 1712164155);
 INSERT INTO public.hat_defs VALUES (1533, 'Emu Otori Hat', 'Show your love to the amazing idol Emu Otori!', 2, 500, NULL, 1712599460);
-
+INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep down, we all know you’re a furry.', 2, 500, NULL, 1712799964);
 
 
 --
