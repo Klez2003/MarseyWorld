@@ -151,7 +151,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 
 	criteria = (Notification.user_id == User.id, Notification.read == False)
 
-	keyword_users = g.db.query(User.id, User.keyword_notifs).outerjoin(Notification, and_(*criteria)).group_by(User.id, User.keyword_notifs).having(func.count(Notification.user_id) < 100).filter(User.keyword_notifs != None)
+	keyword_users = g.db.query(User.id, User.keyword_notifs).outerjoin(Notification, and_(*criteria)).group_by(User.id, User.keyword_notifs).having(func.count(Notification.user_id) < 100).filter(User.keyword_notifs != None, User.patron >= 5)
 
 	for uid, keyword_notifs in keyword_users:
 		for word in keyword_notifs.lower().split('\n'):

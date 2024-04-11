@@ -60,7 +60,7 @@ def execute_snappy(post, v):
 
 	post_ping_group_count = len(list(group_mention_regex.finditer(post.body)))
 
-	if post.author.snappy_quotes:
+	if post.author.snappy_quotes and post.author.patron >= 5:
 		quotes = post.author.snappy_quotes.split("[para]")
 		body = random.choice(quotes).strip()
 	elif SITE_NAME == 'rDrama' and (v.post_count <= 3 or v.new_user):
