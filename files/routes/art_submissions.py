@@ -116,12 +116,14 @@ def approve_art(v, id):
 			abort(404, "Hole not found!")
 
 		filename = f'/images/{time.time()}'.replace('.','') + '.webp'
+		entry_url = SITE_FULL_IMAGES + filename
 		if entry.kind == "sidebar":
 			hole.sidebarurls.append(f"{SITE_FULL_IMAGES}{filename}")
 		else:
 			hole.bannerurls.append(f"{SITE_FULL_IMAGES}{filename}")
 	else:
 		filename = f"files/assets/images/{SITE_NAME}/{entry.location_kind}/{entry.id}.webp"
+		entry_url = f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/{entry.location_kind}/{entry.id}.webp"
 
 	copyfile(old, filename)
 	trim = (entry.kind == 'sidebar')
@@ -132,8 +134,6 @@ def approve_art(v, id):
 	author = get_user(author)
 	entry.author_id = author.id
 	g.db.add(entry)
-
-	entry_url = f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/{entry.location_kind}/{entry.id}.webp"
 
 	if v.id != author.id:
 		msg = f"@{v.username} (a site admin) has approved a {entry.formatted_kind} you made:\n{entry_url}" 
