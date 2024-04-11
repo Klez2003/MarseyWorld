@@ -79,97 +79,98 @@ def execute_snappy(post, v):
 					)
 		g.db.add(vote)
 		post.downvotes += 1
-	elif IS_DKD():
-		SNAPPY_CHOICES = SNAPPY_KONGS
-	elif IS_FISTMAS():
-		SNAPPY_CHOICES = SNAPPY_QUOTES_FISTMAS
-	elif IS_HOMOWEEN():
-		SNAPPY_CHOICES = SNAPPY_QUOTES_HOMOWEEN
-	elif SNAPPY_MARSEYS and SNAPPY_QUOTES:
-		if random.random() > 0.5:
+	else:
+		if IS_DKD():
+			SNAPPY_CHOICES = SNAPPY_KONGS
+		elif IS_FISTMAS():
+			SNAPPY_CHOICES = SNAPPY_QUOTES_FISTMAS
+		elif IS_HOMOWEEN():
+			SNAPPY_CHOICES = SNAPPY_QUOTES_HOMOWEEN
+		elif SNAPPY_MARSEYS and SNAPPY_QUOTES:
+			if random.random() > 0.5:
+				SNAPPY_CHOICES = SNAPPY_QUOTES
+			else:
+				SNAPPY_CHOICES = SNAPPY_MARSEYS
+		elif SNAPPY_MARSEYS:
+			SNAPPY_CHOICES = SNAPPY_MARSEYS
+		elif SNAPPY_QUOTES:
 			SNAPPY_CHOICES = SNAPPY_QUOTES
 		else:
-			SNAPPY_CHOICES = SNAPPY_MARSEYS
-	elif SNAPPY_MARSEYS:
-		SNAPPY_CHOICES = SNAPPY_MARSEYS
-	elif SNAPPY_QUOTES:
-		SNAPPY_CHOICES = SNAPPY_QUOTES
-	else:
-		SNAPPY_CHOICES = [""]
+			SNAPPY_CHOICES = [""]
 
-	body = random.choice(SNAPPY_CHOICES).strip()
-	body = body.replace('%OP%', f'@{post.author_name}')
-	if body.startswith('▼') or body.startswith(':#marseydownvote'):
-		if body.startswith('▼'): body = body[1:]
-		vote = Vote(user_id=SNAPPY_ID,
-					vote_type=-1,
-					post_id=post.id,
-					real = True
-					)
-		g.db.add(vote)
-		post.downvotes += 1
-		if body.startswith('OP is a Trump supporter'):
-			snappy_report(post, 'Trump supporter')
-		elif body.startswith('You had your chance. Downvoted and reported'):
+		body = random.choice(SNAPPY_CHOICES).strip()
+		body = body.replace('%OP%', f'@{post.author_name}')
+		if body.startswith('▼') or body.startswith(':#marseydownvote'):
+			if body.startswith('▼'): body = body[1:]
+			vote = Vote(user_id=SNAPPY_ID,
+						vote_type=-1,
+						post_id=post.id,
+						real = True
+						)
+			g.db.add(vote)
+			post.downvotes += 1
+			if body.startswith('OP is a Trump supporter'):
+				snappy_report(post, 'Trump supporter')
+			elif body.startswith('You had your chance. Downvoted and reported'):
+				snappy_report(post, 'Retard')
+		elif body.startswith('▲') or body.startswith(':#marseyupvote'):
+			if body.startswith('▲'): body = body[1:]
+			vote = Vote(user_id=SNAPPY_ID,
+						vote_type=1,
+						post_id=post.id,
+						real = True
+						)
+			g.db.add(vote)
+			post.upvotes += 1
+		elif ':#marseyghost' in body:
+			ghost = True
+		elif body.startswith(':#marseyreport') or body.startswith(':#marseyreportmaxxer2') or body.startswith(':#marseyreportmaxxer3'):
 			snappy_report(post, 'Retard')
-	elif body.startswith('▲') or body.startswith(':#marseyupvote'):
-		if body.startswith('▲'): body = body[1:]
-		vote = Vote(user_id=SNAPPY_ID,
-					vote_type=1,
+		elif body == '!slots':
+			body = f'!slots{snappy.coins}'
+		elif body == '!pinggroup':
+			group = g.db.query(Group).filter(Group.name != 'focusgroup').order_by(func.random()).first()
+
+			cost = len(group.member_ids) * 5
+			snappy.charge_account('coins', cost)
+
+			body = f'!{group.name}'
+
+			ping_cost = cost
+		elif body.startswith(':#marseyglow'):
+			award_object = AwardRelationship(
+					user_id=snappy.id,
+					kind="glowie",
 					post_id=post.id,
-					real = True
-					)
-		g.db.add(vote)
-		post.upvotes += 1
-	elif ':#marseyghost' in body:
-		ghost = True
-	elif body.startswith(':#marseyreport') or body.startswith(':#marseyreportmaxxer2') or body.startswith(':#marseyreportmaxxer3'):
-		snappy_report(post, 'Retard')
-	elif body == '!slots':
-		body = f'!slots{snappy.coins}'
-	elif body == '!pinggroup':
-		group = g.db.query(Group).filter(Group.name != 'focusgroup').order_by(func.random()).first()
+					awarded_utc=time.time(),
+				)
+			g.db.add(award_object)
 
-		cost = len(group.member_ids) * 5
-		snappy.charge_account('coins', cost)
+			awarded_coins = int(AWARDS["glowie"]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT)
+			post.author.pay_account('coins', awarded_coins, f"Glowie award on {post.textlink}")
 
-		body = f'!{group.name}'
+			msg = f"@Snappy has given {post.textlink} the Glowie Award and you have received {awarded_coins} coins as a result!"
+			send_repeatable_notification(post.author.id, msg)
+		elif body.startswith("You're a chud, CHUD I tell you"):
+			award_object = AwardRelationship(
+					user_id=snappy.id,
+					kind="chud",
+					post_id=post.id,
+					awarded_utc=time.time(),
+					note="Trans lives matter",
+				)
+			g.db.add(award_object)
 
-		ping_cost = cost
-	elif body.startswith(':#marseyglow'):
-		award_object = AwardRelationship(
-				user_id=snappy.id,
-				kind="glowie",
-				post_id=post.id,
-				awarded_utc=time.time(),
-			)
-		g.db.add(award_object)
+			msg = f"@Snappy has given {post.textlink} the Chud Award\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**\n\n> Trans lives matter"
+			send_repeatable_notification(post.author.id, msg)
 
-		awarded_coins = int(AWARDS["glowie"]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT)
-		post.author.pay_account('coins', awarded_coins, f"Glowie award on {post.textlink}")
-
-		msg = f"@Snappy has given {post.textlink} the Glowie Award and you have received {awarded_coins} coins as a result!"
-		send_repeatable_notification(post.author.id, msg)
-	elif body.startswith("You're a chud, CHUD I tell you"):
-		award_object = AwardRelationship(
-				user_id=snappy.id,
-				kind="chud",
-				post_id=post.id,
-				awarded_utc=time.time(),
-				note="Trans lives matter",
-			)
-		g.db.add(award_object)
-
-		msg = f"@Snappy has given {post.textlink} the Chud Award\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**\n\n> Trans lives matter"
-		send_repeatable_notification(post.author.id, msg)
-
-		if v.chud != 1:
-			if v.chud and time.time() < v.chud: v.chud += 86400
-			else: v.chud = int(time.time()) + 86400
-			v.chud_phrase = 'trans lives matter'
-			badge_grant(user=v, badge_id=58)
-			post.chudded = True
-			complies_with_chud(post)
+			if v.chud != 1:
+				if v.chud and time.time() < v.chud: v.chud += 86400
+				else: v.chud = int(time.time()) + 86400
+				v.chud_phrase = 'trans lives matter'
+				badge_grant(user=v, badge_id=58)
+				post.chudded = True
+				complies_with_chud(post)
 
 	body += "\n\n"
 
