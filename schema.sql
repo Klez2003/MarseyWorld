@@ -1261,7 +1261,8 @@ CREATE TABLE public.users (
     shadowban_reason character varying(256),
     keyword_notifs character varying(1000),
     offsite_mentions boolean,
-    twitter character varying(50) DEFAULT 'twitter.com'::character varying NOT NULL
+    twitter character varying(50) DEFAULT 'twitter.com'::character varying NOT NULL,
+    snappy_quotes character varying(20000)
 );
 
 
