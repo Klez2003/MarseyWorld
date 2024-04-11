@@ -79,119 +79,97 @@ def execute_snappy(post, v):
 					)
 		g.db.add(vote)
 		post.downvotes += 1
-	elif v.id == CARP_ID:
-		if random.random() < 0.08:
-			body = random.choice(("i love you carp", "https://i.rdrama.net/images/16614707883108485.webp", "https://i.rdrama.net/images/1636916964YyM.webp", "https://youtube.com/watch?v=zRbQHTdsjuY", "https://i.rdrama.net/images/1696250281381682.webp", "https://i.rdrama.net/images/16975678508317988.webp", "https://i.rdrama.net/images/170526627808132.webp", "https://i.rdrama.net/images/17052853054732056.webp"))
-		elif IS_DKD():
-			body = ":#donkeykongfuckoffcarp:"
-		elif IS_HOMOWEEN():
-			body = "F̵̽̉U̷̓̕C̵̟̍K̴̾̍ ̵́̒O̶͐̇F̷͗̐F̴͛̄ ̸̆͠CARP"
-		elif IS_FISTMAS():
-			body = "Merry Christmas Carp :marseychristmasgift2:"
-		else:
-			body = ":#carpwavelove:"
-	elif v.id == AEVANN_ID:
-		body = "https://i.rdrama.net/images/16909380805064178.webp"
-	elif SITE == 'rdrama.net' and v.id == 253:
-		body = "https://i.rdrama.net/images/16961715452780113.webp"
-	elif SITE == 'rdrama.net' and v.id == 8094:
-		body = "https://i.rdrama.net/images/17025988883967621.webp"
-	elif SITE == 'rdrama.net' and v.id == 5214:
-		body = random.choice(("https://rdrama.net/audio/1704983217764354.mp3", "Dear Chiobu:\n\nWe are not accepting non-US residents because of difficulty of payment and difficulty of enforcing our Confidentiality Agreement internationally. Additionally, you seem to have opinions incompatible with ours, namely your opinions **Towards the Chinese** and **Towards Transgender Individuals**. We thank you for your interest."))
-	elif SITE == 'rdrama.net' and v.id == 9493:
-		body = "https://i.rdrama.net/images/16973719400351799.webp"
-	else:
-		if IS_DKD():
-			SNAPPY_CHOICES = SNAPPY_KONGS
-		elif IS_FISTMAS():
-			SNAPPY_CHOICES = SNAPPY_QUOTES_FISTMAS
-		elif IS_HOMOWEEN():
-			SNAPPY_CHOICES = SNAPPY_QUOTES_HOMOWEEN
-		elif SNAPPY_MARSEYS and SNAPPY_QUOTES:
-			if random.random() > 0.5:
-				SNAPPY_CHOICES = SNAPPY_QUOTES
-			else:
-				SNAPPY_CHOICES = SNAPPY_MARSEYS
-		elif SNAPPY_MARSEYS:
-			SNAPPY_CHOICES = SNAPPY_MARSEYS
-		elif SNAPPY_QUOTES:
+	elif IS_DKD():
+		SNAPPY_CHOICES = SNAPPY_KONGS
+	elif IS_FISTMAS():
+		SNAPPY_CHOICES = SNAPPY_QUOTES_FISTMAS
+	elif IS_HOMOWEEN():
+		SNAPPY_CHOICES = SNAPPY_QUOTES_HOMOWEEN
+	elif SNAPPY_MARSEYS and SNAPPY_QUOTES:
+		if random.random() > 0.5:
 			SNAPPY_CHOICES = SNAPPY_QUOTES
 		else:
-			SNAPPY_CHOICES = [""]
+			SNAPPY_CHOICES = SNAPPY_MARSEYS
+	elif SNAPPY_MARSEYS:
+		SNAPPY_CHOICES = SNAPPY_MARSEYS
+	elif SNAPPY_QUOTES:
+		SNAPPY_CHOICES = SNAPPY_QUOTES
+	else:
+		SNAPPY_CHOICES = [""]
 
-		body = random.choice(SNAPPY_CHOICES).strip()
-		body = body.replace('%OP%', f'@{post.author_name}')
-		if body.startswith('▼') or body.startswith(':#marseydownvote'):
-			if body.startswith('▼'): body = body[1:]
-			vote = Vote(user_id=SNAPPY_ID,
-						vote_type=-1,
-						post_id=post.id,
-						real = True
-						)
-			g.db.add(vote)
-			post.downvotes += 1
-			if body.startswith('OP is a Trump supporter'):
-				snappy_report(post, 'Trump supporter')
-			elif body.startswith('You had your chance. Downvoted and reported'):
-				snappy_report(post, 'Retard')
-		elif body.startswith('▲') or body.startswith(':#marseyupvote'):
-			if body.startswith('▲'): body = body[1:]
-			vote = Vote(user_id=SNAPPY_ID,
-						vote_type=1,
-						post_id=post.id,
-						real = True
-						)
-			g.db.add(vote)
-			post.upvotes += 1
-		elif ':#marseyghost' in body:
-			ghost = True
-		elif body.startswith(':#marseyreport') or body.startswith(':#marseyreportmaxxer2') or body.startswith(':#marseyreportmaxxer3'):
+	body = random.choice(SNAPPY_CHOICES).strip()
+	body = body.replace('%OP%', f'@{post.author_name}')
+	if body.startswith('▼') or body.startswith(':#marseydownvote'):
+		if body.startswith('▼'): body = body[1:]
+		vote = Vote(user_id=SNAPPY_ID,
+					vote_type=-1,
+					post_id=post.id,
+					real = True
+					)
+		g.db.add(vote)
+		post.downvotes += 1
+		if body.startswith('OP is a Trump supporter'):
+			snappy_report(post, 'Trump supporter')
+		elif body.startswith('You had your chance. Downvoted and reported'):
 			snappy_report(post, 'Retard')
-		elif body == '!slots':
-			body = f'!slots{snappy.coins}'
-		elif body == '!pinggroup':
-			group = g.db.query(Group).filter(Group.name != 'focusgroup').order_by(func.random()).first()
-
-			cost = len(group.member_ids) * 5
-			snappy.charge_account('coins', cost)
-
-			body = f'!{group.name}'
-
-			ping_cost = cost
-		elif body.startswith(':#marseyglow'):
-			award_object = AwardRelationship(
-					user_id=snappy.id,
-					kind="glowie",
+	elif body.startswith('▲') or body.startswith(':#marseyupvote'):
+		if body.startswith('▲'): body = body[1:]
+		vote = Vote(user_id=SNAPPY_ID,
+					vote_type=1,
 					post_id=post.id,
-					awarded_utc=time.time(),
-				)
-			g.db.add(award_object)
+					real = True
+					)
+		g.db.add(vote)
+		post.upvotes += 1
+	elif ':#marseyghost' in body:
+		ghost = True
+	elif body.startswith(':#marseyreport') or body.startswith(':#marseyreportmaxxer2') or body.startswith(':#marseyreportmaxxer3'):
+		snappy_report(post, 'Retard')
+	elif body == '!slots':
+		body = f'!slots{snappy.coins}'
+	elif body == '!pinggroup':
+		group = g.db.query(Group).filter(Group.name != 'focusgroup').order_by(func.random()).first()
 
-			awarded_coins = int(AWARDS["glowie"]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT)
-			post.author.pay_account('coins', awarded_coins, f"Glowie award on {post.textlink}")
+		cost = len(group.member_ids) * 5
+		snappy.charge_account('coins', cost)
 
-			msg = f"@Snappy has given {post.textlink} the Glowie Award and you have received {awarded_coins} coins as a result!"
-			send_repeatable_notification(post.author.id, msg)
-		elif body.startswith("You're a chud, CHUD I tell you"):
-			award_object = AwardRelationship(
-					user_id=snappy.id,
-					kind="chud",
-					post_id=post.id,
-					awarded_utc=time.time(),
-					note="Trans lives matter",
-				)
-			g.db.add(award_object)
+		body = f'!{group.name}'
 
-			msg = f"@Snappy has given {post.textlink} the Chud Award\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**\n\n> Trans lives matter"
-			send_repeatable_notification(post.author.id, msg)
+		ping_cost = cost
+	elif body.startswith(':#marseyglow'):
+		award_object = AwardRelationship(
+				user_id=snappy.id,
+				kind="glowie",
+				post_id=post.id,
+				awarded_utc=time.time(),
+			)
+		g.db.add(award_object)
 
-			if v.chud != 1:
-				if v.chud and time.time() < v.chud: v.chud += 86400
-				else: v.chud = int(time.time()) + 86400
-				v.chud_phrase = 'trans lives matter'
-				badge_grant(user=v, badge_id=58)
-				post.chudded = True
-				complies_with_chud(post)
+		awarded_coins = int(AWARDS["glowie"]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT)
+		post.author.pay_account('coins', awarded_coins, f"Glowie award on {post.textlink}")
+
+		msg = f"@Snappy has given {post.textlink} the Glowie Award and you have received {awarded_coins} coins as a result!"
+		send_repeatable_notification(post.author.id, msg)
+	elif body.startswith("You're a chud, CHUD I tell you"):
+		award_object = AwardRelationship(
+				user_id=snappy.id,
+				kind="chud",
+				post_id=post.id,
+				awarded_utc=time.time(),
+				note="Trans lives matter",
+			)
+		g.db.add(award_object)
+
+		msg = f"@Snappy has given {post.textlink} the Chud Award\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**\n\n> Trans lives matter"
+		send_repeatable_notification(post.author.id, msg)
+
+		if v.chud != 1:
+			if v.chud and time.time() < v.chud: v.chud += 86400
+			else: v.chud = int(time.time()) + 86400
+			v.chud_phrase = 'trans lives matter'
+			badge_grant(user=v, badge_id=58)
+			post.chudded = True
+			complies_with_chud(post)
 
 	body += "\n\n"
 
