@@ -645,6 +645,16 @@ TIER_TO_MONEY = {
 	8: 500,
 }
 
+TIER_TO_MUL = {
+	2: 500,
+	3: 550,
+	4: 600,
+	5: 650,
+	6: 700,
+	7: 750,
+	8: 800,
+}
+
 BADGE_BLACKLIST = { # only grantable by admins higher than PERMS['IGNORE_BADGE_BLACKLIST']
 	1, 2, 6, 10, 11, 12, # Alpha, Verified Email, Beta, Recruiter x3
 	16, 17, 143, 21, 22, 23, 24, 25, 26, 27, # Marsey Artist x3 / Patron Tiers

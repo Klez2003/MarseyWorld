@@ -70,12 +70,7 @@ def claim_rewards_all_users():
 				if tx_amount_for_tier < money: break
 				tier = t
 
-			marseybux += transaction.amount * 500
-
-			if tier > 2:
-				extra_mul = (tier - 2) / 10
-				extra_marseybux = marseybux * extra_mul
-				marseybux += extra_marseybux
+			marseybux += transaction.amount * TIER_TO_MUL[tier]
 
 			if tier > highest_tier:
 				highest_tier = tier
