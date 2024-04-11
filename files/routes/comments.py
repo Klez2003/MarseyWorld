@@ -190,6 +190,8 @@ def comment(v):
 
 	body = body.replace('\r', '')
 	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and posting_to_post and post_target.id == SNAPPY_THREAD and level == 1:
+		while '\n\n' in body:
+			body = body.replace('\n\n', '\n')
 		with open(f"snappy_{SITE_NAME}.txt", "r+") as f:
 			body_for_checking = '\n[para]\n' + body.lower() + '\n[para]\n'
 			if body_for_checking in f.read().lower() + '[para]\n':
