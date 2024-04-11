@@ -16,8 +16,8 @@ from .hole_relationship import *
 class Hole(Base):
 	__tablename__ = "holes"
 	name = Column(String, primary_key=True)
-	sidebar = Column(String)
-	sidebar_html = Column(String)
+	sidebar = deferred(Column(String))
+	sidebar_html = deferred(Column(String))
 	sidebarurls = Column(MutableList.as_mutable(ARRAY(String)), default=MutableList([]))
 	bannerurls = Column(MutableList.as_mutable(ARRAY(String)), default=MutableList([]))
 	marseyurl = Column(String)
