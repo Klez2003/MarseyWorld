@@ -11,7 +11,8 @@
 	{% set vlink = '<a href="/id/' ~ v.id ~ '"' %}
 	<div class="orgy-top-container">
 		<div id="orgy-col" class="col text-left px-md-2">
-			<h3 id="orgy-title" class="ml-3 mt-3 mb-4 d-inline-block">{{orgy.title}}</h3>
+			<h5 class="mt-2 mb-3 ml-1 d-mob-none" style="display:inline-block">{{orgy.title}}</h5> 
+			<b class="mt-2 mb-2 ml-1 text-small d-md-none" style="display:inline-block">{{orgy.title}}</b> 
 
 			{% if v.id == chat.owner_id %}
 				<a href="/chat/{{chat.id}}/orgies" class="orgy-control fas fa-tv text-muted ml-2"></a>
