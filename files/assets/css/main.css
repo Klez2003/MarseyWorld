@@ -7846,3 +7846,9 @@ img[src$="/e/speechbubble.webp"] {
 	width: 300px;
 	object-fit: contain;
 }
+
+@media (max-width: 768px) {
+	#award_quantity {
+		max-height: 33.5px;
+	}
+}
