@@ -1257,11 +1257,12 @@ INSERT INTO public.hat_defs VALUES (1533, 'Emu Otori Hat', 'Show your love to th
 INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep down, we all know you’re a furry.', 2, 500, NULL, 1712799964);
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1534, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1535, true);
 
 
 --
