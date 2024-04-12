@@ -172,7 +172,7 @@ class Post(Base):
 	@lazy
 	def author_name(self):
 		if self.ghost and not (hasattr(g, 'v') and g.v and self.id == g.v.id): return '👻'
-		return self.author.user_name
+		return self.author.switched.user_name
 
 	@property
 	@lazy

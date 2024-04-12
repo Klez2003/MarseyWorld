@@ -17,8 +17,8 @@
 		{%- endif %}
 	{% endif %}
 
-	{% if p.hole and p.author.exiler_username(p.hole) %}
-		<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{p.hole}} by @{{p.author.exiler_username(p.hole)}}"></i></a>
+	{% if p.hole and p.author.switched.exiler_username(p.hole) %}
+		<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{p.hole}} by @{{p.author.switched.exiler_username(p.hole)}}"></i></a>
 	{% endif %}
 
 	{% if p.bannedfor %}
@@ -53,7 +53,7 @@
 
 	{% if p.distinguished %}
 		<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="
-		{%- if p.author.mods_hole(p.hole) -%}
+		{%- if p.author.switched.mods_hole(p.hole) -%}
 			/h/{{p.hole}} mod
 		{%- else -%}
 			{{SITE_NAME}} admin
@@ -92,30 +92,30 @@
 	{% if p.ghost %}
 		<span {% if p.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
 	{% else %}
-		{% if FEATURES['PATRON_ICONS'] and p.author.patron > 1 and p.author.lifetimedonated_visible %}
-			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{p.author.patron}}.webp?b=11" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.patron_tooltip}}" alt="{{p.author.patron_tooltip}}">
+		{% if FEATURES['PATRON_ICONS'] and p.author.switched.patron > 1 and p.author.switched.lifetimedonated_visible %}
+			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{p.author.switched.patron}}.webp?b=11" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.patron_tooltip}}" alt="{{p.author.switched.patron_tooltip}}">
 		{% endif %}
 
-		{% if FEATURES['HOUSES'] and p.author.house %}
-			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/houses/{{p.author.house}}.webp?x=8" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.house}}" alt="House {{p.author.house}}">
+		{% if FEATURES['HOUSES'] and p.author.switched.house %}
+			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/houses/{{p.author.switched.house}}.webp?x=8" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.switched.house}}" alt="House {{p.author.switched.house}}">
 		{% endif %}
 
-		{% if p.author.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if p.author.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if p.author.verifiedcolor %}#{{p.author.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.verified}}"></i>
+		{% if p.author.switched.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if p.author.switched.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if p.author.switched.verifiedcolor %}#{{p.author.switched.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.verified}}"></i>
 		{% endif %}
-		<a class="user-name text-decoration-none {% if not p.author.earlylife %}unbreakable{% endif %}" href="{{p.author.url}}" data-pop-info='{{p.author.json_popover(v) | tojson}}' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="manual" data-content-id="popover" tabindex="0" style="color: #{{p.author.name_color}}; font-weight: bold">
+		<a class="user-name text-decoration-none {% if not p.author.switched.earlylife %}unbreakable{% endif %}" href="{{p.author.switched.url}}" data-pop-info='{{p.author.switched.json_popover(v) | tojson}}' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="manual" data-content-id="popover" tabindex="0" style="color: #{{p.author.switched.name_color}}; font-weight: bold">
 			<div class="profile-pic-30-wrapper" style="margin-top:9px;margin-bottom:9px">
-				<img loading="lazy" alt="@{{p.author.username}}'s profile picture" src="{{p.author.profile_url}}" class="profile-pic-30 mr-2">
-				{% if p.author.hat_active(v)[0] -%}
-					<img class="profile-pic-30-hat hat" loading="lazy" src="{{p.author.hat_active(v)[0]}}?x=8" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.hat_active(v)[1]}}" alt="@{{p.author.username}}'s hat">
+				<img loading="lazy" alt="@{{p.author.switched.username}}'s profile picture" src="{{p.author.switched.profile_url}}" class="profile-pic-30 mr-2">
+				{% if p.author.switched.hat_active(v)[0] -%}
+					<img class="profile-pic-30-hat hat" loading="lazy" src="{{p.author.switched.hat_active(v)[0]}}?x=8" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.hat_active(v)[1]}}" alt="@{{p.author.switched.username}}'s hat">
 				{%- endif %}
 			</div>
-			<span {% if p.author.patron and not p.distinguished %}class="patron" style="background-color:#{{p.author.name_color}}"{% elif p.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if p.author.pride_username(v) %}pride_username{% endif %}>{{p.author_name}}</span>
+			<span {% if p.author.switched.patron and not p.distinguished %}class="patron" style="background-color:#{{p.author.switched.name_color}}"{% elif p.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if p.author.switched.pride_username(v) %}pride_username{% endif %}>{{p.author_name}}</span>
 		</a>
 		{% if FEATURES['PRONOUNS'] %}
-			<span class="pronouns" style="color:#{{p.author.flaircolor}} !important;border-color:#{{p.author.flaircolor}} !important">{{p.author.pronouns_display}}</span>
+			<span class="pronouns" style="color:#{{p.author.switched.flaircolor}} !important;border-color:#{{p.author.switched.flaircolor}} !important">{{p.author.switched.pronouns_display}}</span>
 		{% endif %}
-		{% if p.author.flair_html %}
-			<bdi class="ml-2" style="color: #{{p.author.flaircolor}}">{{p.author.flair_html | safe}}</bdi>
+		{% if p.author.switched.flair_html %}
+			<bdi class="ml-2" style="color: #{{p.author.switched.flaircolor}}">{{p.author.switched.flair_html | safe}}</bdi>
 		{% endif %}
 	{% endif %}
 	<span class="ml-2 d-inline-block" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{p.created_utc}}')" id="timestamp-{{p.id}}">&nbsp;{{p.age_string}}</span>
