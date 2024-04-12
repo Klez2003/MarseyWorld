@@ -30,7 +30,7 @@ from files.routes.wrappers import *
 from .front import frontlist
 from .users import userpagelisting
 
-from files.__main__ import app, limiter, redis_instance
+from files.__main__ import app, limiter
 
 def _add_post_view(pid):
 	db = db_session()

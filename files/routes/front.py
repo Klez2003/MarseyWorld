@@ -10,7 +10,7 @@ from files.helpers.sorting_and_time import *
 from files.helpers.useractions import *
 from files.helpers.can_see import *
 from files.routes.wrappers import *
-from files.__main__ import app, cache, limiter, redis_instance
+from files.__main__ import app, cache, limiter
 
 @app.get("/")
 @app.get("/h/<hole>")
