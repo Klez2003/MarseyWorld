@@ -10,6 +10,10 @@
 	justify-content: space-around;
 }
 
+#chat-window {
+    max-height: calc(100vh - 210px);
+}
+
 @media (max-width: 768px) {
 	.orgy-top-container {
 		flex-flow: column wrap;
