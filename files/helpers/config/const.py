@@ -1073,7 +1073,7 @@ def IS_FOURTH():
 fool_begin = datetime.datetime.strptime(f'1/4/{t.year}', '%d/%m/%Y')
 fool_end = datetime.datetime.strptime(f'2/4/{t.year}', '%d/%m/%Y')
 def IS_FOOL():
-	return True or fool_begin < datetime.datetime.now() < fool_end
+	return fool_begin < datetime.datetime.now() < fool_end
 
 CHUD_PHRASES = ( #if you add a phrase, remove one in turn
 	"Trans lives matter",
