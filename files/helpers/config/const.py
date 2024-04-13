@@ -294,7 +294,7 @@ if SITE_NAME == 'rDrama':
 		"managing incontinence",
 		"Quran study group",
 		"Israeli Power Generator",
-		"/u/bardfinn's biggest fan club",
+		"/u/bardfinn's fan club",
 	)
 
 	BOOSTED_HOLES = {
