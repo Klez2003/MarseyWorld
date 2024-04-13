@@ -622,6 +622,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('raincloud', 'Classic', 2, 'sadness water', false, 1710108423),
 ('rapture', 'Classic', 2, 'disappear fly away wave goodbye leave', false, 1708217818),
 ('rarityrope', 'Misc', 2, 'contemplatesuicide contemplatingsuicide mylittlepony mlp hanging noose', false, 1705078317),
+('rifle', 'Misc', 2, 'assaultrifle gun die death anger angry', false, 1712967916),
 ('rinpaintbrush', 'Misc', 2, 'anime weeb', false, 1710947943),
 ('sakilaugh', 'Misc', 2, 'pjsk miku', false, 1711750411),
 ('sakinod', 'Misc', 2, 'pjsk miku', false, 1711750361),
