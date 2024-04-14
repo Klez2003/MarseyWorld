@@ -5757,6 +5757,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('sportygirlblackjak', 'Wojak', 2, 'woman athletic', false, 0),
 ('squareup', 'Classic', 2, 'fight punch dukes', false, 1679232083),
 ('squawksquawk', 'Misc', 2, 'bird chatter blabla talking', false, 1711169810),
+('squiddance', 'Misc', 2, 'dancing spongebob rave squidward', false, 1713121136),
 ('squirreljak', 'Wojak', 2, 'nuts love thisguy soyjak soysquirrel squirrelsoy', false, 1686169475),
 ('srdinepoppy', 'Misc', 2, 'popcorn reddit subredditdrama', false, 0),
 ('stab', 'Classic', 2, 'animated emoticon kill murder knife england', false, 0),
