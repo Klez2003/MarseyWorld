@@ -3640,6 +3640,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyminimalism2', 'Marsey', 2, 'minimalist polygons polygonal art', false, 0),
 ('marseyminion', 'Marsey', 2, 'gru pixar', false, 0),
 ('marseyminipixel', 'Marsey', 2, 'miniature small smol place 8bit mouse', false, 0),
+('marseymirror', 'Marsey', 2, 'lookmax cool sunglasses reflection narcissism narcissistic vain selfish esteem awesome', false, 1713114471),
 ('marseymisato', 'Marsey', 2, 'anime mommy alcoholic kiss blowkiss milf evangelion', false, 1687817784),
 ('marseymisatoannoyed', 'Marsey', 2, 'evangelion nge mommy milf anime weeb', false, 1687855524),
 ('marseymisatocheeky', 'Marsey', 2, 'nge evangelion raspberry anime weeb', false, 1689023322),
