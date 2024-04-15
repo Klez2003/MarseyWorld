@@ -181,7 +181,7 @@ def award_thing(v, thing_type, id):
 		abort(403, f'Long posts are protected from the {award_title} award!')
 
 	award_quantity = int(request.values.get("award_quantity", "1").strip())
-	if award_quantity < 1 or award_quantity > 30:
+	if award_quantity < 1 or award_quantity > 7:
 		award_quantity = 1
 
 	for x in range(award_quantity):
