@@ -270,16 +270,6 @@ def award_thing(v, thing_type, id):
 
 	can_alter_body = not obj.author.deflector or v == obj.author
 
-	if kind in {"ban", "grass"}:
-		ban_reason_link = f"/{thing_type}/{obj.id}"
-		if isinstance(obj, Comment):
-			ban_reason_link += '#context'
-		ban_reason = f'{quantity} {award_title} award{s} used by @{v.username} on <a href="{ban_reason_link}">{ban_reason_link}</a>'
-		author.ban_reason = ban_reason
-
-
-
-
 	awards = g.db.query(AwardRelationship).filter(
 		AwardRelationship.kind == kind,
 		AwardRelationship.user_id == v.id,
@@ -300,6 +290,13 @@ def award_thing(v, thing_type, id):
 		award.awarded_utc = int(time.time())
 		award.note = note
 		g.db.add(award)
+
+	if kind in {"ban", "grass"}:
+		ban_reason_link = f"/{thing_type}/{obj.id}"
+		if isinstance(obj, Comment):
+			ban_reason_link += '#context'
+		ban_reason = f'{award_title} award{s} used by @{v.username} on <a href="{ban_reason_link}">{ban_reason_link}</a>'
+		author.ban_reason = ban_reason
 
 	if kind == "emoji":
 		emoji_behavior = request.values.get("emoji_behavior").strip()
