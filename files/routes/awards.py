@@ -319,7 +319,7 @@ def award_thing(v, thing_type, id):
 		if not author.is_suspended or not author.unban_utc:
 			abort(403)
 
-		if not author.ban_reason.startswith('1-Day Ban award'):
+		if not author.ban_reason.startswith('Ban award'):
 			abort(400, "You can only use unban awards to undo the effect of ban awards!")
 
 		if author.unban_utc - time.time() > 86400 * quantity:

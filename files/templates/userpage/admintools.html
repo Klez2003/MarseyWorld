@@ -8,7 +8,7 @@
 		<h5 class="text-primary" id="profile-{{deviceType}}--banned">BANNED USER:
 			{{u.ban_reason | safe}}
 
-			{% if not u.ban_reason.startswith('1-Day ban award used by') %}
+			{% if not u.ban_reason.startswith('Ban award') %}
 				(by {{u.banned_by | safe}})
 			{% endif %}
 

@@ -1217,7 +1217,7 @@ def unban_user(fullname, v):
 	if not user.is_banned:
 		abort(400)
 
-	if FEATURES['AWARDS'] and user.ban_reason and user.ban_reason.startswith('1-Day ban award'):
+	if FEATURES['AWARDS'] and user.ban_reason and user.ban_reason.startswith('Ban award'):
 		abort(403, "You can't undo a ban award!")
 
 	user.is_banned = None

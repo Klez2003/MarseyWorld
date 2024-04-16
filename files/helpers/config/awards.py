@@ -579,7 +579,7 @@ AWARDS = {
 	},
 	"flairlock": {
 		"kind": "flairlock",
-		"title": "1-Day Flairlock",
+		"title": "Flairlock",
 		"description": "Sets a flair for the recipient and locks it for 24 hours.",
 		"icon": "fas fa-lock",
 		"color": "text-black",
@@ -607,7 +607,7 @@ AWARDS = {
 	},
 	"namelock": {
 		"kind": "namelock",
-		"title": "1-Day Namelock",
+		"title": "Namelock",
 		"description": "Changes the recipient's username to something of your choosing for 24 hours.",
 		"icon": "fas fa-at",
 		"color": "text-pink",
@@ -747,7 +747,7 @@ AWARDS = {
 	},
 	"ban": {
 		"kind": "ban",
-		"title": "1-Day Ban",
+		"title": "Ban",
 		"description": "Bans the recipient for a day.",
 		"icon": "fas fa-gavel",
 		"color": "text-danger",
@@ -761,7 +761,7 @@ AWARDS = {
 	},
 	"unban": {
 		"kind": "unban",
-		"title": "1-Day Unban",
+		"title": "Unban",
 		"description": "Removes 1 day from the ban duration of the recipient.",
 		"icon": "fas fa-gavel",
 		"color": "text-success",
