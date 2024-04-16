@@ -1417,7 +1417,7 @@ class User(Base):
 		badges = self.badges
 
 		if not self.lifetimedonated_visible and not (v and (v.id == self.id or v.admin_level >= PERMS['VIEW_PATRONS'])):
-			badges = [x for x in badges if x.badge_id not in {22, 23, 24, 25, 26, 27, 28, 257, 258, 259, 260, 261}]
+			badges = [x for x in badges if x.badge_id not in PATRON_BADGES]
 
 		return sorted(badges, key=badge_ordering_func)
 
@@ -1437,9 +1437,7 @@ class User(Base):
 		return g.db.query(Post).filter_by(author_id=self.id, effortpost=True).count()
 
 
-badge_ordering_tuple = (
-	22, 23, 24, 25, 26, 27, 28, #paypig
-	257, 258, 259, 260, 261, #lifetime donation
+badge_ordering_tuple = PATRON_BADGES + (
 	134, 237, #1 year and 2 year
 	10, 11, 12, #referred users
 	69, 70, 71, 72, 73, #coins spent

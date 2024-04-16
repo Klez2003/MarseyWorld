@@ -622,7 +622,7 @@ LEADERBOARD_LIMIT = PAGE_SIZE
 HOUSE_JOIN_COST = 500
 HOUSE_SWITCH_COST = 2000
 
-PATRON_BADGES = {22,23,24,25,26,27,28,257,258,259,260,261}
+PATRON_BADGES = (22,23,24,25,26,27,28,257,258,259,260,261,294)
 
 TIER_TO_NAME = {
 	1: "Beneficiary",
@@ -655,12 +655,12 @@ TIER_TO_MUL = {
 	8: 800,
 }
 
-BADGE_BLACKLIST = { # only grantable by admins higher than PERMS['IGNORE_BADGE_BLACKLIST']
+BADGE_BLACKLIST = PATRON_BADGES + ( # only grantable by admins higher than PERMS['IGNORE_BADGE_BLACKLIST']
 	1, 2, 6, 10, 11, 12, # Alpha, Verified Email, Beta, Recruiter x3
-	16, 17, 143, 21, 22, 23, 24, 25, 26, 27, # Marsey Artist x3 / Patron Tiers
+	16, 17, 143, # Marsey Artist x3
 	94, 95, 96, 97, 98, 109, 67, 68, 83, 84, 87, 90, 179, 185, # Award Status except Y'all-seeing eye
 	137, # Lottery Winner
-}
+)
 
 if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
