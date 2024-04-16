@@ -339,7 +339,7 @@ def award_thing(v, thing_type, id):
 				send_repeatable_notification(author.id, "You have been unbanned!")
 		elif kind == "grass":
 			new_unban_utc = int(time.time()) + 30 * 86400
-			if author.unban_utc > new_unban_utc:
+			if author.is_banned and (not author.unban_utc or author.unban_utc > new_unban_utc):
 				abort(403, f"{safe_username} already banned for more than 30 days!")
 			author.is_banned = AUTOJANNY_ID
 			author.unban_utc = new_unban_utc
