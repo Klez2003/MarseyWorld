@@ -1153,3 +1153,6 @@ if not IS_LOCALHOST:
 
 with open("includes/content-security-policy", "w") as f:
 	f.write(f'add_header Content-Security-Policy "{csp}";')
+
+def commas(number):
+	return "{:,}".format(number)

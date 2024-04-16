@@ -119,28 +119,28 @@ function updateBlackjackTable(state) {
 	if (gameCompleted) {
 		switch (state.status) {
 			case 'BLACKJACK':
-				updateResult(`Blackjack: Received ${state.payout} ${currency}`, "warning");
+				updateResult(`Blackjack: Received ${commas(state.payout)} ${currency}`, "warning");
 				break;
 			case 'WON':
 				if (state.status_split === 'LOST') {
 					updateResult(`Won and Lost: Received 0 ${currency}`, "success");
 				}
 				else if (state.status_split === 'PUSHED') {
-					updateResult(`Won and PUSHED: Received ${state.payout} ${currency}`, "success");
+					updateResult(`Won and PUSHED: Received ${commas(state.payout)} ${currency}`, "success");
 				}
 				else {
-					updateResult(`Won: Received ${state.payout} ${currency}`, "success");
+					updateResult(`Won: Received ${commas(state.payout)} ${currency}`, "success");
 				}
 				break;
 			case 'PUSHED':
 				if (state.status_split === 'WON') {
-					updateResult(`Won and PUSHED: Received ${state.payout} ${currency}`, "success");
+					updateResult(`Won and PUSHED: Received ${commas(state.payout)} ${currency}`, "success");
 				}
 				else if (state.status_split === 'LOST') {
-					updateResult(`Lost and Pushed: Lost ${state.wager.amount} ${currency}`, "danger");
+					updateResult(`Lost and Pushed: Lost ${commas(state.wager.amount)} ${currency}`, "danger");
 				}
 				else {
-					updateResult(`Pushed: Received ${state.wager.amount} ${currency}`, "success");
+					updateResult(`Pushed: Received ${commas(state.wager.amount)} ${currency}`, "success");
 				}
 
 				break;
@@ -149,14 +149,14 @@ function updateBlackjackTable(state) {
 					updateResult(`Won and Lost: Received 0 ${currency}`, "success");
 				}
 				else if (state.status_split === 'PUSHED') {
-					updateResult(`Lost and Pushed: Lost ${state.wager.amount} ${currency}`, "danger");
+					updateResult(`Lost and Pushed: Lost ${commas(state.wager.amount)} ${currency}`, "danger");
 				}
 				else {
 					let lost = state.wager.amount;
 					if (state.player_doubled_down || state.has_player_split) {
 						lost *= 2;
 					}
-					updateResult(`Lost ${lost} ${currency}`, "danger");
+					updateResult(`Lost ${commas(lost)} ${currency}`, "danger");
 				}
 
 				break;
@@ -172,7 +172,7 @@ function updateBlackjackTable(state) {
 
 
 	if (state.status === 'PLAYING' || (state.has_player_split && state.status_split === 'PLAYING')) {
-		updateResult(`${state.has_player_split ? state.wager.amount * 2 : state.wager.amount} ${currency} are at stake`, "success");
+		updateResult(`${commas(state.has_player_split ? state.wager.amount * 2 : state.wager.amount)} ${currency} are at stake`, "success");
 	} else {
 		enableWager();
 	}

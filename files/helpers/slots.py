@@ -103,13 +103,13 @@ def build_symbols(for_payout):
 
 def build_text(wager_value, result, currency):
 	if result == 0:
-		return f'Lost {wager_value} {currency}'
+		return f'Lost {commas(wager_value)} {currency}'
 	elif result == 1:
 		return 'Broke Even'
 	elif result == 12:
-		return f'Jackpot! Won {wager_value * (result-1)} {currency}'
+		return f'Jackpot! Won {commas(wager_value * (result-1))} {currency}'
 	else:
-		return f'Won {wager_value * (result-1)} {currency}'
+		return f'Won {commas(wager_value * (result-1))} {currency}'
 
 
 def determine_payout():

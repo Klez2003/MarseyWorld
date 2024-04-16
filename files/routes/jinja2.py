@@ -103,8 +103,8 @@ def expand_art(url):
 	return f"{SITE_FULL_IMAGES}/asset_submissions/art/original/{id}.webp"
 
 @app.template_filter("commas")
-def commas(number):
-	return "{:,}".format(number)
+def commas_filter(number):
+	return commas(number)
 
 def current_registered_users():
 	return "{:,}".format(g.db.query(User).count())

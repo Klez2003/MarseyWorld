@@ -511,15 +511,15 @@ class Comment(Base):
 		body = f"<span id='blackjack-{self.id}' class='ml-2'><em>{player_hand} vs. {dealer_hand}</em>"
 
 		if blackjack_status == 'push':
-			body += f"<strong class='ml-2'>Pushed. Refunded {wager} {currency_kind}.</strong>"
+			body += f"<strong class='ml-2'>Pushed. Refunded {commas(wager)} {currency_kind}.</strong>"
 		elif blackjack_status == 'bust':
-			body += f"<strong class='ml-2'>Bust. Lost {wager} {currency_kind}.</strong>"
+			body += f"<strong class='ml-2'>Bust. Lost {commas(wager)} {currency_kind}.</strong>"
 		elif blackjack_status == 'lost':
-			body += f"<strong class='ml-2'>Lost {wager} {currency_kind}.</strong>"
+			body += f"<strong class='ml-2'>Lost {commas(wager)} {currency_kind}.</strong>"
 		elif blackjack_status == 'won':
-			body += f"<strong class='ml-2'>Won {wager} {currency_kind}.</strong>"
+			body += f"<strong class='ml-2'>Won {commas(wager)} {currency_kind}.</strong>"
 		elif blackjack_status == 'blackjack':
-			body += f"<strong class='ml-2'>Blackjack! Won {floor(wager * 3/2)} {currency_kind}.</strong>"
+			body += f"<strong class='ml-2'>Blackjack! Won {commas(floor(wager * 3/2))} {currency_kind}.</strong>"
 
 		if is_insured == "1":
 			body += " <em class='text-success'>Insured.</em>"

@@ -27,7 +27,7 @@
 										<img width="{% if log.currency == 'coins' %}30{% else %}40{% endif %}" alt="{{log.currency}}" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/{{log.currency}}.webp?x=8" title="{{log.currency.title()}}">
 									</td>
 									<td class="unbreakable">
-										<b class="bank-statement-amount">{% if log.amount > 0 %}+{% endif %}{{log.amount}}</b>
+										<b class="bank-statement-amount">{% if log.amount > 0 %}+{% endif %}{{log.amount | commas}}</b>
 										<div class="text-gray-500">
 											<span class="font-weight-normal" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{log.created_utc}}')">
 												{{log.age_string}}
@@ -35,7 +35,7 @@
 										</div>
 									</td>
 									<td class="font-weight-normal">{{log.reason | safe}}</td>
-									<td class="unbreakable font-weight-bold">{{log.balance}}</td>
+									<td class="unbreakable font-weight-bold">{{log.balance | commas}}</td>
 								</tr>
 							{% endfor %}
 						</tbody>

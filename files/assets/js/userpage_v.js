@@ -12,6 +12,11 @@ function updateBux(mobile=false) {
 	if (amount > 0) document.getElementById("bux-transfer-taxed" + suf).textContent = amount;
 }
 
+function change_currency(id, amount) {
+	const el = document.getElementById(id)
+	el.textContent = commas(parseInt(el.textContent.replaceAll(',', '')) + amount);
+}
+
 function transferCoins(t, mobile=false) {
 	close_inline_emoji_modal();
 
