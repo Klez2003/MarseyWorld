@@ -180,7 +180,7 @@ def award_thing(v, thing_type, id):
 	if obj.is_longpost and kind in {"ectoplasm", "candycorn", "candycane", "stab", "glowie", "tilt", "queen", "chud", "marsify", "Furry", "Edgy", "Femboy", "Furry Founder", "Edgy Founder", "Femboy Founder"}:
 		abort(403, f'Long posts are protected from the {award_title} award!')
 
-	award_quantity = int(request.values.get("award_quantity", "1").strip())
+	award_quantity = int(request.values.get("award_quantity", "1").strip() or 1)
 	if award_quantity < 1 or award_quantity > 7:
 		award_quantity = 1
 
