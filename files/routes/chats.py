@@ -285,20 +285,21 @@ def remove_orgy(v, created_utc, chat_id):
 	elif v.id != chat.owner_id:
 		abort(403, "Only the chat owner can manage its orgies!")
 
-	orgy = g.db.query(Orgy).filter_by(created_utc=created_utc).one()
+	orgy = g.db.query(Orgy).filter_by(created_utc=created_utc).one_or_none()
 
-	if chat.id == 1:
-		ma = ModAction(
-			kind="remove_orgy",
-			user_id=v.id,
-			_note=f'<a href="{orgy.data}" rel="nofollow noopener">{orgy.title}</a>',
-		)
-		g.db.add(ma)
+	if orgy:
+		if chat.id == 1:
+			ma = ModAction(
+				kind="remove_orgy",
+				user_id=v.id,
+				_note=f'<a href="{orgy.data}" rel="nofollow noopener">{orgy.title}</a>',
+			)
+			g.db.add(ma)
 
-	started = orgy.started
-	g.db.delete(orgy)
-	g.db.commit()
-	if started:
-		requests.post(f'http://localhost:5001/chat/{chat_id}/refresh_chat', headers={"User-Agent": "refreshing_chat", "Host": SITE})
+		started = orgy.started
+		g.db.delete(orgy)
+		g.db.commit()
+		if started:
+			requests.post(f'http://localhost:5001/chat/{chat_id}/refresh_chat', headers={"User-Agent": "refreshing_chat", "Host": SITE})
 
 	return {"message": "Orgy stopped successfully!"}
