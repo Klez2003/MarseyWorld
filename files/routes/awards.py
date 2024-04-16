@@ -312,39 +312,38 @@ def award_thing(v, thing_type, id):
 		emoji = g.db.query(Emoji).filter_by(name=award.note).one_or_none()
 		if not emoji:
 			abort(404, f'an Emoji with the name "{award.note}" was not found!')
+	elif kind == "ban":
+		if not author.is_suspended:
+			author.ban(reason=ban_reason, days=quantity)
+		elif author.unban_utc:
+			author.unban_utc += 86400 * quantity
+		send_repeatable_notification(author.id, f"Your account has been banned for **{quantity} day{s}** for {obj.textlink}. It sucked and you should feel bad.")
+	elif kind == "unban":
+		if not author.is_suspended or not author.unban_utc:
+			abort(403)
+
+		if not author.ban_reason.startswith('1-Day Ban award'):
+			abort(400, "You can only use unban awards to undo the effect of ban awards!")
+
+		if author.unban_utc - time.time() > 86400 * quantity:
+			author.unban_utc -= 86400 * quantity
+			send_repeatable_notification(author.id, f"Your ban duration has been reduced by {quantity} day{s}!")
+		else:
+			author.unban_utc = None
+			author.is_banned = None
+			author.ban_reason = None
+			send_repeatable_notification(author.id, "You have been unbanned!")
+	elif kind == "grass":
+		new_unban_utc = int(time.time()) + 30 * 86400 * quantity
+		if author.is_banned and (not author.unban_utc or author.unban_utc > new_unban_utc):
+			abort(403, f"{safe_username} already banned for more than 30 days!")
+		author.is_banned = AUTOJANNY_ID
+		author.unban_utc = new_unban_utc
+		send_repeatable_notification(author.id, f"@{v.username} gave you {quantity} grass award{s} on {obj.textlink} and as a result you have been banned! You must [send the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
 
 
 	for x in range(quantity):
-		if kind == "ban":
-			if not author.is_suspended:
-				author.ban(reason=ban_reason, days=1)
-				send_repeatable_notification(author.id, f"Your account has been banned for **a day** for {obj.textlink}. It sucked and you should feel bad.")
-			elif author.unban_utc:
-				author.unban_utc += 86400
-				send_repeatable_notification(author.id, f"Your account has been banned for **yet another day** for {obj.textlink}. Seriously man?")
-		elif kind == "unban":
-			if not author.is_suspended or not author.unban_utc:
-				abort(403)
-
-			if not author.ban_reason.startswith('1-Day Ban award'):
-				abort(400, "You can only use unban awards to undo the effect of ban awards!")
-
-			if author.unban_utc - time.time() > 86400:
-				author.unban_utc -= 86400
-				send_repeatable_notification(author.id, "Your ban duration has been reduced by 1 day!")
-			else:
-				author.unban_utc = None
-				author.is_banned = None
-				author.ban_reason = None
-				send_repeatable_notification(author.id, "You have been unbanned!")
-		elif kind == "grass":
-			new_unban_utc = int(time.time()) + 30 * 86400
-			if author.is_banned and (not author.unban_utc or author.unban_utc > new_unban_utc):
-				abort(403, f"{safe_username} already banned for more than 30 days!")
-			author.is_banned = AUTOJANNY_ID
-			author.unban_utc = new_unban_utc
-			send_repeatable_notification(author.id, f"@{v.username} gave you the grass award on {obj.textlink} and as a result you have been banned! You must [send the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
-		elif kind == "pin":
+		if kind == "pin":
 			if not FEATURES['PINS']: abort(403)
 			if obj.is_banned: abort(403)
 
