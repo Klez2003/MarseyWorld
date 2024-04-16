@@ -660,6 +660,8 @@ def award_thing(v, thing_type, id):
 		elif kind == "jumpscare":
 			author.jumpscare += 1
 
+		g.db.flush()
+
 	author = obj.author
 	if v.id != author.id:
 		if author.deflector and AWARDS[kind]['deflectable']:
