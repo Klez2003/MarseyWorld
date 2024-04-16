@@ -52,9 +52,7 @@
 							<th>#</th>
 							<th>Name</th>
 
-							{% if v.is_member_of_group(group) or v.mods_group(group) %}
-								<th class="disable-sort-click"></th>
-							{% endif %}
+							<th class="disable-sort-click"></th>
 
 							{% if name == 'members' %}
 								<th>Approved on</th>
