@@ -116,8 +116,6 @@ def buy_award(v, kind, AWARDS):
 
 
 @app.post("/buy/<kind>")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
