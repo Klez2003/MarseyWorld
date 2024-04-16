@@ -235,10 +235,10 @@ def award_thing(v, thing_type, id):
 
 		if v.id != author.id:
 			if author.deflector and v.deflector and AWARDS[kind]['deflectable']:
-				msg = f"@{v.username} has tried to give {obj.textlink} the {award_title} Award but it was deflected on them, they also had a deflector up, so it bounced back and forth until it vaporized!"
+				msg = f"@{v.username} has tried to give {obj.textlink} the {award_title} award but it was deflected on them, they also had a deflector up, so it bounced back and forth until it vaporized!"
 				send_repeatable_notification(author.id, msg)
 
-				msg = f"{safe_username} under the effect of a deflector award; your {award_title} Award has been deflected back to you but your deflector protected you, the award bounced back and forth until it vaporized!"
+				msg = f"{safe_username} under the effect of a deflector award; your {award_title} award has been deflected back to you but your deflector protected you, the award bounced back and forth until it vaporized!"
 				send_repeatable_notification(v.id, msg)
 
 				g.db.delete(award)
@@ -637,15 +637,15 @@ def award_thing(v, thing_type, id):
 		author = obj.author
 		if v.id != author.id:
 			if author.deflector and AWARDS[kind]['deflectable']:
-				msg = f"@{v.username} has tried to give {obj.textlink} the {award_title} Award but it was deflected and applied to them :marseytroll:"
+				msg = f"@{v.username} has tried to give {obj.textlink} the {award_title} award but it was deflected and applied to them :marseytroll:"
 				n = send_repeatable_notification(author.id, msg)
 				if n: n.created_utc -= 2
 
-				msg = f"@{obj.author_name} is under the effect of a deflector award; your {award_title} Award has been deflected back to you :marseytroll:"
+				msg = f"@{obj.author_name} is under the effect of a deflector award; your {award_title} award has been deflected back to you :marseytroll:"
 				n = send_repeatable_notification(v.id, msg)
 				if n: n.created_utc -= 2
 			elif kind not in {'spider', 'jumpscare'}:
-				msg = f"@{v.username} has given {obj.textlink} the {award_title} Award"
+				msg = f"@{v.username} has given {obj.textlink} the {award_title} award"
 
 				if kind == 'shit':
 					msg += f" and has stolen from you {awarded_coins} coins as a result"
