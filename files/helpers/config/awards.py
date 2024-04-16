@@ -811,7 +811,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": True,
+		"enabled": SITE != 'rdrama.net',
 		"negative": False,
 		"included_in_lootbox": False,
 	},
