@@ -262,9 +262,13 @@ def schedule_orgy(v, chat_id):
 		ma = ModAction(
 			kind="schedule_orgy",
 			user_id=v.id,
-			_note=f'<a href="{data}" rel="nofollow noopener">{title}</a>',
+			_note=f'<a href="{normalized_link}" rel="nofollow noopener">{title}</a>',
 		)
 		g.db.add(ma)
+
+	if AEVANN_ID and v.id != AEVANN_ID:
+		text = f"@{v.username} has started [{title}]({normalized_link}) in [{chat.name}](/chat/{chat.id})"
+		send_repeatable_notification(AEVANN_ID, text)
 
 	return redirect(f"/chat/{chat_id}/orgies")
 
