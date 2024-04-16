@@ -180,11 +180,11 @@ def award_thing(v, thing_type, id):
 	if obj.is_longpost and kind in {"ectoplasm", "candycorn", "candycane", "stab", "glowie", "tilt", "queen", "chud", "marsify", "Furry", "Edgy", "Femboy", "Furry Founder", "Edgy Founder", "Femboy Founder"}:
 		abort(403, f'Long posts are protected from the {award_title} award!')
 
-	award_quantity = int(request.values.get("award_quantity", "1").strip() or 1)
-	if award_quantity < 1 or award_quantity > 7:
-		award_quantity = 1
+	quantity = int(request.values.get("quantity", "1").strip() or 1)
+	if quantity < 1 or quantity > 7:
+		quantity = 1
 
-	for x in range(award_quantity):
+	for x in range(quantity):
 		g.db.flush()
 		award = g.db.query(AwardRelationship).filter(
 			AwardRelationship.kind == kind,
@@ -671,7 +671,7 @@ def award_thing(v, thing_type, id):
 			if emoji_behavior == "horizontal":
 				award.kind = "emoji-hz"
 
-	plural = '' if award_quantity == 1 else 's'
+	plural = '' if quantity == 1 else 's'
 	return {"message": f"{award_title} award{plural} given to {thing_type} successfully!"}
 
 @app.post("/trick_or_treat")

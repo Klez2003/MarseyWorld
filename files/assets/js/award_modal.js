@@ -183,7 +183,7 @@ function giveaward(t) {
 			"kind": kind,
 			"note": document.getElementById(note_id).value,
 			"emoji_behavior": document.getElementById("emoji_behavior").value,
-			"award_quantity": document.getElementById("award_quantity").value,
+			"quantity": document.getElementById("award_quantity").value,
 		},
 		() => {
 			let owned = document.getElementById(`${kind}-owned`)
