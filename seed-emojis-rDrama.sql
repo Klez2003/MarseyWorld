@@ -1547,7 +1547,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyamber', 'Marsey', 2, 'dalle2 generated', false, 0),
 ('marseyame', 'Marsey', 2, 'femcel anime goth emo pigtail', false, 1711080786),
 ('marseyamericanpearlclutch', 'Marsey', 2, 'amerimutt mutt mutts americans burger burgers amerimutts usa yankee', false, 1682306259),
-('marseyamogus', 'Marsey', 2, 'sussy baka impostor imposter stonetoss among shh vent', false, 0),
+('marseyamogus', 'Marsey', 2, 'sussy baka impostor imposter stonetoss among shh vent shush quiet', false, 0),
 ('marseyampharos', 'Marsey', 2, 'pkmn pokemon 181', false, 1709487788),
 ('marseyancap', 'Marsey', 2, 'anarchocapitalist anarcho capitalist anarchy when u kill nigs lmao bottom text smile smiley', false, 1675809981),
 ('marseyandjesus', 'Marsey', 2, 'christianity christian god love wholesome happy hug', false, 0),
