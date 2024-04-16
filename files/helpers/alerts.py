@@ -179,7 +179,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 		coin_receivers = set()
 
 		for i in group_mention_regex.finditer(text):
-			if oldtext and re.search(f'(?<![:/\w])!{i.group(1)}($|\s)', oldtext):
+			if oldtext and re.search(f'(?<![:/\w])!{i.group(1)}($|[^\w-])', oldtext):
 				continue
 
 			if re.search(f'^>.*?(?<![:/\w])!{i.group(1)}', text):
