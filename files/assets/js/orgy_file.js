@@ -46,7 +46,9 @@ orgy_file.addEventListener("timeupdate", function() {
 });
 
 orgy_file.addEventListener("ended", function() {
-	location.reload()
+	setTimeout(function() {
+		location.reload()
+	}, 1000);
 });
 
 function add_waiting_listener() {
