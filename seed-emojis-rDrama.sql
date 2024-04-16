@@ -4424,6 +4424,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseysigh', 'Marsey', 2, 'breathe give up giveup reaction depression breathing depressed animated', false, 0),
 ('marseysignaling', 'Marsey', 2, 'railway light semaphore troomer tranny transgender train troid transsexual animated', false, 1663238068),
 ('marseysignup', 'Marsey', 2, 'rdrama graph ears schizo plot', false, 1670968851),
+('marseysillytime', 'Marsey', 2, 'ragecomics ragecomic sillymarsey smiling', false, 1713293530),
 ('marseysimpson', 'Marsey', 2, 'yellow simpsons groening homer bart lisa marge cartoon', false, 0),
 ('marseysing', 'Marsey', 2, 'singing jamming rocking music headphones happy smile karaoke ipod album', false, 0),
 ('marseysinga', 'Marsey', 2, 'moon june spring dance dapper happy proud smile dancing singing owl', false, 1678470061),
