@@ -578,6 +578,9 @@ def award_thing(v, thing_type, id):
 			emoji = g.db.query(Emoji).filter_by(name=award.note).one_or_none()
 			if not emoji:
 				abort(404, f'an Emoji with the name "{award.note}" was not found!')
+			emoji_behavior = request.values.get("emoji_behavior").strip()
+			if emoji_behavior == "horizontal":
+				award.kind = "emoji-hz"
 		elif kind == "grinch":
 			if author.grinch:
 				abort(409, f"{safe_username} already has this profile upgrade!")
@@ -665,11 +668,6 @@ def award_thing(v, thing_type, id):
 		g.db.add(author)
 
 		g.db.add(obj)
-
-		if award.kind == "emoji":
-			emoji_behavior = request.values.get("emoji_behavior").strip()
-			if emoji_behavior == "horizontal":
-				award.kind = "emoji-hz"
 
 	plural = '' if quantity == 1 else 's'
 	return {"message": f"{award_title} award{plural} given to {thing_type} successfully!"}
