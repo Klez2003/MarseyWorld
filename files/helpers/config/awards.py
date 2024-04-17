@@ -89,7 +89,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": IS_EVENT() and SITE_NAME == "rDrama",
+		"enabled": IS_MUSICAL_EVENT() and SITE_NAME == "rDrama",
 		"negative": False,
 		"included_in_lootbox": False,
 	},
@@ -392,7 +392,7 @@ AWARDS = {
 		"included_in_lootbox": False,
 	},
 
-	### Birthgay/Birthdead
+	### Birthday
 	"confetti": {
 		"kind": "confetti",
 		"title": "Confetti",
@@ -403,7 +403,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_BIRTHGAY() or IS_BIRTHDEAD(),
+		"enabled": IS_BDAY(),
 		"negative": False,
 		"included_in_lootbox": False,
 	},

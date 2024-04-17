@@ -118,7 +118,7 @@ def get_logged_in_user():
 
 	g.is_tor = (request.headers.get("cf-ipcountry") == "T1" and not (v and v.truescore >= 1000))
 
-	if v and not IS_EVENT():
+	if v and not IS_MUSICAL_EVENT():
 		session.pop("event_music", None)
 
 	g.show_nsfw = SITE_NAME == 'WPD' or (v and not v.nsfw_warnings) or session.get('nsfw_cookies', 0) >= int(time.time())

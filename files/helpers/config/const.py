@@ -1042,15 +1042,15 @@ dkd_end = datetime.datetime.strptime(f'10/4/{t.year}', '%d/%m/%Y')
 def IS_DKD():
 	return SITE_NAME == 'rDrama' and dkd_begin < datetime.datetime.now() < dkd_end
 
-birthgay_begin = datetime.datetime.strptime(f'20/5/{t.year}', '%d/%m/%Y')
-birthgay_end = datetime.datetime.strptime(f'22/5/{t.year}', '%d/%m/%Y')
-def IS_BIRTHGAY():
-	return SITE_NAME == 'rDrama' and birthgay_begin < datetime.datetime.now() < birthgay_end
 
-birthdead_begin = datetime.datetime.strptime(f'26/4/{t.year}', '%d/%m/%Y')
-birthdead_end = datetime.datetime.strptime(f'28/4/{t.year}', '%d/%m/%Y')
-def IS_BIRTHDEAD():
-	return SITE_NAME == 'WPD' and birthdead_begin < datetime.datetime.now() < birthdead_end
+if SITE_NAME == 'rDrama':
+	bday_begin = datetime.datetime.strptime(f'20/5/{t.year}', '%d/%m/%Y')
+	bday_end = datetime.datetime.strptime(f'22/5/{t.year}', '%d/%m/%Y')
+else:
+	bday_begin = datetime.datetime.strptime(f'26/4/{t.year}', '%d/%m/%Y')
+	bday_end = datetime.datetime.strptime(f'28/4/{t.year}', '%d/%m/%Y')
+def IS_BDAY():
+	return bday_begin < datetime.datetime.now() < bday_end
 
 def IS_EVENT():
 	if IS_FISTMAS():
@@ -1059,11 +1059,13 @@ def IS_EVENT():
 		return "homoween"
 	elif IS_DKD():
 		return "DKD"
-	elif IS_BIRTHGAY():
-		return "birthgay"
-	elif IS_BIRTHDEAD():
-		return "birthdead"
+	elif IS_BDAY():
+		return "bday"
+
 	return None
+
+def IS_MUSICAL_EVENT():
+	return IS_FISTMAS() or IS_HOMOWEEN() or IS_DKD()
 
 fourth_begin = datetime.datetime.strptime(f'4/7/{t.year}', '%d/%m/%Y')
 fourth_end = datetime.datetime.strptime(f'5/7/{t.year}', '%d/%m/%Y')

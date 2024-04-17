@@ -17,8 +17,8 @@
 
 	{% if hole and hole.sidebarurls %}
 		{% set image = hole.random_sidebar %}
-	{% elif IS_FISTMAS() %}
-		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar/" ~ SITE_NAME ) %}
+	{% elif IS_FISTMAS() or IS_BDAY() %}
+		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar/" ~ SITE_NAME) %}
 	{% elif IS_EVENT() %}
 		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar") %}
 	{% elif v and v.chud %}

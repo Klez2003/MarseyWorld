@@ -93,6 +93,13 @@
 						'marseypilgrim',
 						'carppilgrim',
 					] -%}
+				{% elif IS_BDAY() %}
+					{%- set icons = [
+						'marseyparty',
+						'marseyballoon3',
+						'marseyballoons',
+						'marseycupcake',
+					] -%}
 				{% elif IS_DKD() %}
 					{%- set icons = [
 						'diddykongstand',

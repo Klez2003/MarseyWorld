@@ -89,6 +89,7 @@ def selected_tab(request):
 
 @app.template_filter("seeded_random")
 def seeded_random(choices, p):
+	choices = [x for x in choices if not x.startswith('.')]
 	if request.path.startswith('/post/') and p:
 		random.seed(p.id)
 		chosen = random.choice(choices)
@@ -196,8 +197,8 @@ def inject_constants():
 			"git_head":git_head, "max_days":max_days, "EMOJI_KINDS":EMOJI_KINDS,
 			"BIO_FRIENDS_ENEMIES_LENGTH_LIMIT":BIO_FRIENDS_ENEMIES_LENGTH_LIMIT,
 			"SITE_FULL_IMAGES": SITE_FULL_IMAGES,
-			"IS_EVENT":IS_EVENT, "IS_FISTMAS":IS_FISTMAS, "IS_HOMOWEEN":IS_HOMOWEEN,
-			"IS_DKD":IS_DKD, "IS_BIRTHGAY":IS_BIRTHGAY, "IS_BIRTHDEAD":IS_BIRTHDEAD, "IS_FOURTH":IS_FOURTH,
+			"IS_EVENT":IS_EVENT, "IS_MUSICAL_EVENT":IS_MUSICAL_EVENT, "IS_FISTMAS":IS_FISTMAS, "IS_HOMOWEEN":IS_HOMOWEEN,
+			"IS_DKD":IS_DKD, "IS_BDAY":IS_BDAY, "IS_FOURTH":IS_FOURTH,
 			"CHUD_PHRASES":CHUD_PHRASES, "hasattr":hasattr, "calc_users":calc_users, "HOLE_INACTIVITY_DELETION":HOLE_INACTIVITY_DELETION,
 			"LIGHT_THEMES":LIGHT_THEMES, "DARK_THEMES":DARK_THEMES, "NSFW_EMOJIS":NSFW_EMOJIS, "HOLES":HOLES, "CARP_ID":CARP_ID,
 			"MAX_IMAGE_AUDIO_SIZE_MB":MAX_IMAGE_AUDIO_SIZE_MB, "MAX_IMAGE_AUDIO_SIZE_MB_PATRON":MAX_IMAGE_AUDIO_SIZE_MB_PATRON,

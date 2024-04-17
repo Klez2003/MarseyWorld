@@ -29,7 +29,7 @@
 		{{stackable_award('firework')}}
 	{% endif %}
 
-	{% if p.award_count("confetti", v) and (IS_BIRTHGAY() or IS_BIRTHDEAD()) %}
+	{% if p.award_count("confetti", v) and IS_BDAY() %}
 		<div class="confetti w-100 h-100"></div>
 	{% endif %}
 
