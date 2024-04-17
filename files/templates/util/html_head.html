@@ -24,8 +24,7 @@
 		{% endif %}
 
 		{% if focused_comment and not focused_comment.is_banned and not focused_comment.deleted_utc %}
-			{% set p, title = focused_comment, ['@', focused_comment.author_name, "'s comment on ",
-			'"', title, '"'] | join %}
+			{% set p = focused_comment %}
 		{% endif %}
 
 		{% set author, description, a_author, published, modified, url =
