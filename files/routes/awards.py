@@ -243,7 +243,8 @@ def award_thing(v, thing_type, id):
 			msg = f"{safe_username} under the effect of a deflector award; your {award_title} award{s} {has} been deflected back to you but your deflector protected you, the award{s} bounced back and forth until {it} vaporized!"
 			send_repeatable_notification(v.id, msg)
 
-			g.db.delete(award)
+			for award in awards:
+				g.db.delete(award)
 
 			return {"message": f"{quantity} {award_title} award{s} given to {thing_type} successfully!"}
 
