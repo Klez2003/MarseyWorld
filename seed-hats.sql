@@ -1186,7 +1186,7 @@ INSERT INTO public.hat_defs VALUES (1511, 'pkmn0195 Ass', 'Quagsire, the Water F
 INSERT INTO public.hat_defs VALUES (1518, 'Rainbow', 'ROYGBIV', 2, 1000, NULL, 1711672737);
 INSERT INTO public.hat_defs VALUES (1529, 'Tornado', 'Twista', 2, 1000, NULL, 1711679957);
 INSERT INTO public.hat_defs VALUES (1526, 'Fire II', 'HOT HOT HOT!', 2, 1000, NULL, 1711678914);
-
+INSERT INTO public.hat_defs VALUES (1537, 'greeble', ':greeble:', 2, 500, NULL, 1713150123);
 INSERT INTO public.hat_defs VALUES (1396, 'Click Me', 'Come on, you know you want to see my profile.', 2, 500, NULL, 1704921421);
 INSERT INTO public.hat_defs VALUES (1408, 'Kadio Stance', '*thwack* YEEEEEEEEOUCHHHHHHHHHH', 2, 500, NULL, 1705616850);
 INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
