@@ -1,0 +1,21 @@
+@keyframes bang {
+	from {
+		transform: translate3d(0,0,0);
+		opacity: 1;
+	}
+}
+
+button {
+	position: relative;
+}
+.btn-confetti {
+	position: absolute;
+	display: block;
+	left: 50%;
+	top: 0;
+	width: 3px;
+	height: 8px;
+	background: red;
+	animation: bang 700ms ease-out forwards;
+	opacity: 0
+}
