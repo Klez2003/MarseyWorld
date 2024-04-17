@@ -233,7 +233,19 @@ def award_thing(v, thing_type, id):
 	if kind == 'spider' and author.spider == 1:
 		abort(409, f"{safe_username} already best friends with a spider!")
 
+	awards = g.db.query(AwardRelationship).filter(
+		AwardRelationship.kind == kind,
+		AwardRelationship.user_id == v.id,
+		AwardRelationship.post_id == None,
+		AwardRelationship.comment_id == None
+	).order_by(AwardRelationship.id).limit(quantity).all()
+	num_owned = len(awards)
 
+	if quantity > num_owned:
+		bought = buy_awards(v, kind, AWARDS, quantity-num_owned)
+		if isinstance(bought, dict):
+			return bought
+		awards.extend(bought)
 
 	if v.id != author.id:
 		if author.deflector and v.deflector and AWARDS[kind]['deflectable']:
@@ -270,20 +282,6 @@ def award_thing(v, thing_type, id):
 					author.pay_account('coins', awarded_coins, f"{quantity} {award_title} award{s} on {obj.textlink}")
 
 	can_alter_body = not obj.author.deflector or v == obj.author
-
-	awards = g.db.query(AwardRelationship).filter(
-		AwardRelationship.kind == kind,
-		AwardRelationship.user_id == v.id,
-		AwardRelationship.post_id == None,
-		AwardRelationship.comment_id == None
-	).order_by(AwardRelationship.id).limit(quantity).all()
-	num_owned = len(awards)
-
-	if quantity > num_owned:
-		bought = buy_awards(v, kind, AWARDS, quantity-num_owned)
-		if isinstance(bought, dict):
-			return bought
-		awards.extend(bought)
 
 	for award in awards:
 		if isinstance(obj, Post): award.post_id = obj.id
