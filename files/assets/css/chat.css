@@ -22,12 +22,13 @@
 	height: 42px;
 }
 
-#chat-window::-webkit-scrollbar {
-	display: none;
-}
-
-#chat-window {
-	scrollbar-width: none;
+@media (max-width: 768px) {
+	#chat-window::-webkit-scrollbar {
+		display: none;
+	}
+	#chat-window {
+		scrollbar-width: none;
+	}
 }
 
 .chat-mention {
