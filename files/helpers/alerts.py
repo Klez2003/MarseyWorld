@@ -228,17 +228,18 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 
 			notify_users.update(members)
 
-			realghost = ghost and i.group(1) != 'ghosts'
-			if (realghost or v.id not in member_ids) and i.group(1) != 'followers':
-				if group and group.name == 'verifiedrich':
-					abort(403, f"Only !verifiedrich members can mention it!")
-				cost += len(members) * 5
-				cost_groups.append(i.group(1))
-				if cost > v.coins + v.marseybux:
-					abort(403, f"You need {cost} currency to mention these ping groups!")
+			if charge:
+				realghost = ghost and i.group(1) != 'ghosts'
+				if (realghost or v.id not in member_ids) and i.group(1) != 'followers':
+					if group and group.name == 'verifiedrich':
+						abort(403, f"Only !verifiedrich members can mention it!")
+					cost += len(members) * 5
+					cost_groups.append(i.group(1))
+					if cost > v.coins + v.marseybux:
+						abort(403, f"You need {cost} currency to mention these ping groups!")
 
-				if i.group(1) in {'biofoids','neofoids','jannies'}:
-					coin_receivers.update(member_ids)
+					if i.group(1) in {'biofoids','neofoids','jannies'}:
+						coin_receivers.update(member_ids)
 
 		if charge:
 			if cost:
