@@ -1,6 +1,6 @@
 {% if user %}
 	{% if not can_see(v, user) and request.path != '/shop/hats' and not request.path.startswith('/emojis/') %}
-		<hideme></hideme></td></tr><tr class="d-none"><td>
+		<hideme></hideme>
 	{% else %}
 		{%- include 'admin/shadowbanned_tooltip.html' -%}
 		<a {% if not user.earlylife %}class="unbreakable"{% endif %} data-sort="{{user.username.lower()}}" style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
