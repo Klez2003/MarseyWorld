@@ -229,7 +229,7 @@ def _leaderboard_task():
 	users14 = g.db.query(User).filter(User.id.in_(votes3.keys())).all()
 	users13 = []
 	for user in users14:
-		users13.append((user.id, votes3[user.id]-user.post_count-user.comment_count))
+		users13.append((user.id, votes3[user.id]))
 	if not users13: users13 = [(None,None)]
 	users13 = sorted(users13, key=lambda x: x[1], reverse=True)
 	users13_1, users13_2 = zip(*users13[:25])
