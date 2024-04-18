@@ -223,8 +223,8 @@ def _generate_emojis_original_zip():
 	make_archive('files/assets/emojis_original', 'zip', '/asset_submissions/emojis/original')
 
 def _leaderboard_task():
-	votes1 = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Post).filter(Vote.vote_type==1, Post.draft == False, Post.ghost == False, Post.is_banned == False, Post.deleted_utc == 0).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
-	votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment).filter(CommentVote.vote_type==1, Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
+	votes1 = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Post).filter(Vote.vote_type == 1, Post.draft == False, Post.ghost == False, Post.is_banned == False, Post.deleted_utc == 0).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
+	votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment).filter(CommentVote.vote_type == 1, Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
 	votes3 = Counter(dict(votes1)) + Counter(dict(votes2))
 	users14 = g.db.query(User).filter(User.id.in_(votes3.keys())).all()
 	users13 = []
@@ -238,8 +238,8 @@ def _leaderboard_task():
 	cache.set("users13_1", list(users13_1), timeout=CRON_CACHE_TIMEOUT)
 	cache.set("users13_2", list(users13_2), timeout=CRON_CACHE_TIMEOUT)
 
-	votes1 = g.db.query(Post.author_id, func.count(Post.author_id)).join(Vote).filter(Vote.vote_type==-1, Post.draft == False, Post.ghost == False, Post.is_banned == False, Post.deleted_utc == 0).group_by(Post.author_id).order_by(func.count(Post.author_id).desc()).all()
-	votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(CommentVote.vote_type==-1, Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
+	votes1 = g.db.query(Post.author_id, func.count(Post.author_id)).join(Vote).filter(Vote.vote_type == -1, Post.draft == False, Post.ghost == False, Post.is_banned == False, Post.deleted_utc == 0).group_by(Post.author_id).order_by(func.count(Post.author_id).desc()).all()
+	votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(CommentVote.vote_type == -1, Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
 	votes3 = Counter(dict(votes1)) + Counter(dict(votes2))
 	users8 = g.db.query(User.id).filter(User.id.in_(votes3.keys())).all()
 	users9 = []
