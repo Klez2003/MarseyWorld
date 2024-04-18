@@ -442,7 +442,7 @@ def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 
 	received_given = 'given' if is_who_simps_hates else 'received'
 	if total_items == 1: vote_str = vote_str[:-1] # we want to unpluralize if only 1 vote
-	total_items = f'{total_items} {vote_str} {received_given}'
+	total_items = f'{commas(total_items)} {vote_str} {received_given}'
 
 	name2 = f'Who @{username} {simps_haters}' if is_who_simps_hates else f"@{username}'s {simps_haters}"
 
