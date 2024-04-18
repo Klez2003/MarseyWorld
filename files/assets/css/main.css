@@ -7859,3 +7859,7 @@ img[src$="/e/speechbubble.webp"] {
 		max-height: 33.5px;
 	}
 }
+
+tr:has(hideme) {
+	display: none
+}
