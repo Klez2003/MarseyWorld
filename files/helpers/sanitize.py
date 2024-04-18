@@ -167,7 +167,7 @@ def find_all_emoji_endings(emoji):
 	return endings, emoji
 
 
-def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
+def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False, obj=None):
 	emojis = list(regexp.finditer(html))
 	captured = set()
 
@@ -178,7 +178,9 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 		emoji = i.group(1).lower()
 		attrs = ''
 
-		if is_title:
+		if is_title and '#' in emoji:
+			if obj:
+				obj.title = obj.title.replace(emoji, emoji.replace('#',''))
 			emoji = emoji.replace('#','')
 
 		if golden and len(emojis) <= 20 and ('marsey' in emoji or emoji in MARSEYS_CONST2):
@@ -653,7 +655,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 
 	emojis_used = set()
 
-	title = render_emoji(title, emoji_regex2, golden, emojis_used, is_title=True)
+	title = render_emoji(title, emoji_regex2, golden, emojis_used, is_title=True, obj=obj)
 
 	if count_emojis:
 		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)):
