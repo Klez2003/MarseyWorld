@@ -15,13 +15,13 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link py-3{% if request.path == '/notifications/chats' %} active{% endif %}" href="/notifications/chats">
-					Chats {% if v.chats_notifications_count %}<span class="font-weight-bold" style="color:#008080">({{v.chats_notifications_count}})</span>{% endif %}
+					<a class="nav-link py-3{% if request.path == '/notifications/messages' %} active{% endif %}" href="/notifications/messages">
+					Messages {% if v.message_notifications_count %}<span class="font-weight-bold" style="color:#d8910d">({{v.message_notifications_count}})</span>{% endif %}
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link py-3{% if request.path == '/notifications/messages' %} active{% endif %}" href="/notifications/messages">
-					Messages {% if v.message_notifications_count %}<span class="font-weight-bold" style="color:#d8910d">({{v.message_notifications_count}})</span>{% endif %}
+					<a class="nav-link py-3{% if request.path == '/notifications/chats' %} active{% endif %}" href="/notifications/chats">
+					Chats {% if v.chats_notifications_count %}<span class="font-weight-bold" style="color:#008080">({{v.chats_notifications_count}})</span>{% endif %}
 					</a>
 				</li>
 				{% if v.admin_level >= PERMS['VIEW_MODMAIL'] %}

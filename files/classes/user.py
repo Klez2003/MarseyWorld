@@ -823,17 +823,12 @@ class User(Base):
 	@lazy
 	def normal_notifications_count(self):
 		return self.notifications_count \
-			- self.chats_notifications_count \
 			- self.message_notifications_count \
+			- self.chats_notifications_count \
 			- self.modmail_notifications_count \
 			- self.post_notifications_count \
 			- self.modaction_notifications_count \
 			- self.offsite_notifications_count
-
-	@property
-	@lazy
-	def chats_notifications_count(self):
-		return g.db.query(ChatMembership).filter_by(user_id=self.id, notification=True).count()
 
 	@property
 	@lazy
@@ -850,6 +845,11 @@ class User(Base):
 			notifs = notifs.join(Comment.author).filter(User.shadowbanned == None)
 
 		return notifs.count()
+
+	@property
+	@lazy
+	def chats_notifications_count(self):
+		return g.db.query(ChatMembership).filter_by(user_id=self.id, notification=True).count()
 
 	@property
 	@lazy
@@ -937,10 +937,10 @@ class User(Base):
 		# only meaningful when notifications_count > 0; otherwise falsely '' ~ normal
 		if self.normal_notifications_count > 0:
 			return ''
-		elif self.chats_notifications_count > 0:
-			return 'chats'
 		elif self.message_notifications_count > 0:
 			return 'messages'
+		elif self.chats_notifications_count > 0:
+			return 'chats'
 		elif self.modmail_notifications_count > 0:
 			return 'modmail'
 		elif self.post_notifications_count > 0:
