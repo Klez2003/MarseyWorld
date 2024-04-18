@@ -387,7 +387,7 @@ def _set_top_poster_of_the_day_id():
 		User.admin_level == 0,
 	).group_by(User).order_by(func.sum(Post.upvotes).desc()).first()
 
-	if not user: return SNAPPY_ID
+	if not user: return
 
 	user = user[0]
 
