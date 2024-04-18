@@ -234,6 +234,9 @@ document.addEventListener("click", function(e) {
 		}
 	}
 
+	if (element.tagName == "VIDEO" && element.readyState == 0) {
+		element.play()
+	}
 
 	if (element.dataset.toggleelement) {
 		if (element.dataset.toggleelement.startsWith('#reply-'))
