@@ -383,7 +383,7 @@ def banned(v):
 @auth_required
 def grassed(v):
 	users = g.db.query(User).filter(
-		User.ban_reason.like('grass award used by @%'),
+		User.ban_reason.like('Grass award used by @%'),
 		User.unban_utc > time.time(),
 	)
 
