@@ -343,6 +343,11 @@
 		<script defer src="{{'js/namechanged.js' | asset}}"></script>
 	{% endif %}
 
+	{% if v.bite %}
+		<input hidden id="bite" value="{{v.bite}}">
+		<script defer src="{{'js/bite.js' | asset}}"></script>
+	{% endif %}
+
 	{% if v.marsify and v.marsify != 1 %}
 		<input hidden id="marsified" value="{{v.marsify}}">
 		<script defer src="{{'js/marsified.js' | asset}}"></script>
