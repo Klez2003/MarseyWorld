@@ -537,7 +537,6 @@ CSS_LENGTH_LIMIT = 20000 # do not make larger than 20000 characters without alte
 COMMENT_MAX_DEPTH = 200
 TRANSFER_MESSAGE_LENGTH_LIMIT = 200 # do not make larger than 10000 characters (comment limit) without altering the table
 MIN_REPOST_CHECK_URL_LENGTH = 9 # also change the constant in checkRepost() of submit.js
-CHAT_LENGTH_LIMIT = 1000
 HOLE_BANNER_LIMIT = 10
 
 BIO_FRIENDS_ENEMIES_LENGTH_LIMIT = 5000 # do not make larger than 5000 characters without altering the table

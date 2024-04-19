@@ -84,7 +84,7 @@ def speak(data, v):
 			f.write(data['file'])
 		image = process_image(name, v)
 
-	text = data['message'].strip()[:CHAT_LENGTH_LIMIT]
+	text = data['message'].strip()[:1000]
 	if image: text += f'\n\n{image}'
 	if not text: return ''
 
