@@ -17,6 +17,7 @@ OWO_EXCLUDE_PATTERNS = [
 	sanitize_url_regex, # bare links
 	mention_regex, # mentions
 	group_mention_regex, #ping group mentions
+	reddit_mention_regex, #/u/ and /r/
 	command_regex, # markup commands
 ]
 
