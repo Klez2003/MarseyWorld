@@ -44,7 +44,7 @@
 			{{macros.chat_window(vlink)}}
 		</div>
 
-		<div class="col text-left d-none d-lg-block pb-5" style="max-width:327px">
+		<div class="col text-left d-none d-lg-block pb-5" style="max-width:350px">
 			{% if chat.id == 1 %}
 				{% if SITE_NAME == 'WPD' %}
 					<h5>Chat Rules</h5>
@@ -77,7 +77,7 @@
 							</a>
 
 							{% if user.id == chat.owner_id %}
-								<img class="mx-2 chat-owner" data-bs-toggle="tooltip" alt="Owner" title="Owner" src="{{SITE_FULL_IMAGES}}/e/marseykingretard.webp">
+								<img class="ml-1 chat-owner" data-bs-toggle="tooltip" alt="Owner" title="Owner" src="{{SITE_FULL_IMAGES}}/e/marseykingretard.webp">
 							{% endif %}
 
 							<i class="d-none ml-1 text-smaller text-success online-marker online-marker-{{user.id}} fas fa-circle"></i>
