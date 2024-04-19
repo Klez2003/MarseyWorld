@@ -1163,6 +1163,7 @@ INSERT INTO public.hat_defs VALUES (1525, 'Blood', 'Splash!', 2, 1000, NULL, 171
 INSERT INTO public.hat_defs VALUES (1528, 'Swirl Splash Effect', 'Swploosh', 2, 1000, NULL, 1711679915);
 INSERT INTO public.hat_defs VALUES (1535, 'Miku Frame', 'Show your love for the only thing that will out live roaches in the apocalypse, Hatsune Miku !!', 2, 500, NULL, 1712893209);
 INSERT INTO public.hat_defs VALUES (1536, 'Sleeping Konata Hat', 'All the way from the anime series Lucky Star to the top of your head!', 2, 500, NULL, 1712895608);
+
 INSERT INTO public.hat_defs VALUES (1450, 'Red Eminent Horns', 'Queen of the devils, leader of the chuds.', 2, 500, NULL, 1708367282);
 INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokémon. A Ghost and Poison type. Gengar can pass through dimensions and appear almost anywhere. Since Gengar absorbs any warmth around it, the temperature suddenly drops wherever it appears.', 2, 500, NULL, 1698658745);
 INSERT INTO public.hat_defs VALUES (1376, 'pkmn0039', 'Jigglypuff, a Balloon Pokémon. It has large friendly eyes and it sings a pleasant song.', 2, 500, NULL, 1698658603);
@@ -1187,6 +1188,7 @@ INSERT INTO public.hat_defs VALUES (1518, 'Rainbow', 'ROYGBIV', 2, 1000, NULL, 1
 INSERT INTO public.hat_defs VALUES (1529, 'Tornado', 'Twista', 2, 1000, NULL, 1711679957);
 INSERT INTO public.hat_defs VALUES (1526, 'Fire II', 'HOT HOT HOT!', 2, 1000, NULL, 1711678914);
 INSERT INTO public.hat_defs VALUES (1537, 'greeble', ':greeble:', 2, 500, NULL, 1713150123);
+
 INSERT INTO public.hat_defs VALUES (1396, 'Click Me', 'Come on, you know you want to see my profile.', 2, 500, NULL, 1704921421);
 INSERT INTO public.hat_defs VALUES (1408, 'Kadio Stance', '*thwack* YEEEEEEEEOUCHHHHHHHHHH', 2, 500, NULL, 1705616850);
 INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
@@ -1264,7 +1266,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1537, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1539, true);
 
 
 --
