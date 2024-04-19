@@ -60,6 +60,15 @@
 		</div>
 
 		<div class="orgy-chat-window-item pl-1 pr-2">
+			{% if chat.id != 1 %}
+				<div class="border-right d-none d-md-block fl-r pt-2 mr-3" style="margin-top:-3px">
+					<span data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="<b>Members</b> {% for membership in sorted_memberships %}<br>@{{membership.user.username}} {% if membership.user_id == chat.owner_id %}👑{% endif %}{% endfor %}" class="text-muted">
+						<i class="fas fa-user fa-sm mr-1"></i>
+						<span class="chat-count" style="cursor:default">{{sorted_memberships|length}}</span>
+					</span>
+				</div>
+			{% endif %}
+
 			<div id="chat-group-template" class="d-none">
 				{{macros.chat_group_template()}}
 				</div>
