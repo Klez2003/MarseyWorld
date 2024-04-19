@@ -29,7 +29,6 @@
 					{% elif orgy.type == 'twitch' %}
 						<iframe src="https://player.twitch.tv/?channel={{orgy.data}}&parent={{SITE}}" frameborder="0" allowfullscreen></iframe>
 					{% elif orgy.type == 'file' %}
-						<meta name="referrer" content="strict-origin-when-cross-origin">
 						<video id="orgy-file" data-created_utc="{{orgy.real_start_utc}}" controls preload="none" src="{{orgy.data}}"></video>
 						<video id="break-file" class="d-none" controls preload="none" src="/assets/break.mp4" data-run="{{orgy.start_utc != orgy.real_start_utc}}"></video>
 						<script defer src="{{'js/orgy_file.js' | asset}}"></script>
