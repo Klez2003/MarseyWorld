@@ -380,8 +380,6 @@
 		{% endif %}
 	{% endif %}
 
-	<script defer src="{{'js/vendor/clipboard.js' | asset}}"></script>
-
 	{% if not p.replies %}{% include "comments.html" %}{% endif %}
 
 	<input hidden id="twoattrs-{{p.id}}" class="twoattrs" value="{{p.id}},{{p.comment_count}}">
