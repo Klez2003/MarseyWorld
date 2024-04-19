@@ -11,7 +11,7 @@ from files.helpers.logging import log_file
 from files.helpers.settings import *
 from files.helpers.cloudflare import *
 from files.routes.routehelpers import validate_formkey, check_session_id
-from files.__main__ import app, db_session, limiter
+from files.__main__ import app, limiter
 
 def rpath(n):
 	return request.path
@@ -73,7 +73,6 @@ def calc_users():
 
 def get_logged_in_user():
 	if hasattr(g, 'v') and g.v: return g.v
-	if not hasattr(g, 'db'): g.db = db_session()
 	g.desires_auth = True
 	v = None
 	token = request.headers.get("Authorization","").strip()

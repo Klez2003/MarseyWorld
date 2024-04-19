@@ -19,7 +19,7 @@ from files.routes.wrappers import *
 from files.classes.orgy import *
 from files.classes.chats import *
 
-from files.__main__ import app, cache, limiter
+from files.__main__ import app, cache, limiter, db_session
 
 from engineio.payload import Payload
 Payload.max_decode_packets = 50
@@ -38,25 +38,17 @@ cache.set('loggedin_chat', 0, timeout=86400)
 
 def auth_required_socketio(f):
 	def wrapper(*args, **kwargs):
+		if not hasattr(g, 'db'): g.db = db_session()
 		v = get_logged_in_user()
 		if not v or v.is_permabanned: return ''
-		return make_response(f(*args, v=v, **kwargs))
+		x = make_response(f(*args, v=v, **kwargs))
+		try: g.db.commit()
+		except: g.db.rollback()
+		g.db.close()
+		stdout.flush()
+		return x
 	wrapper.__name__ = f.__name__
 	return wrapper
-
-def is_not_banned_socketio(f):
-	def wrapper(*args, **kwargs):
-		v = get_logged_in_user()
-		if not v or v.is_suspended: return ''
-		return make_response(f(*args, v=v, **kwargs))
-	wrapper.__name__ = f.__name__
-	return wrapper
-
-def commit_and_close():
-	try: g.db.commit()
-	except: g.db.rollback()
-	g.db.close()
-	stdout.flush()
 
 @app.post('/chat/<int:chat_id>/refresh_chat')
 def refresh_chat(chat_id):
@@ -64,8 +56,10 @@ def refresh_chat(chat_id):
 	return ''
 
 @socketio.on('speak')
-@is_not_banned_socketio
+@auth_required_socketio
 def speak(data, v):
+	if v.is_banned: return ''
+
 	chat_id = int(data['chat_id'])
 
 	chat = g.db.get(Chat, chat_id)
@@ -191,8 +185,6 @@ def speak(data, v):
 
 	typing[request.referrer] = []
 
-	commit_and_close()
-
 	return ''
 
 def refresh_online(room):
@@ -231,8 +223,6 @@ def connect(v):
 
 	emit('typing', typing[room], room=room)
 
-	commit_and_close()
-
 	return ''
 
 @socketio.on('disconnect')
@@ -257,8 +247,6 @@ def disconnect(v):
 	if online.get(room):
 		refresh_online(room)
 
-	commit_and_close()
-
 	return ''
 
 @socketio.on('heartbeat')
@@ -276,13 +264,13 @@ def heartbeat(v):
 	if not already_there:
 		refresh_online(room)
 
-	commit_and_close()
-
 	return ''
 
 @socketio.on('typing')
-@is_not_banned_socketio
+@auth_required_socketio
 def typing_indicator(data, v):
+	if v.is_banned: return
+	
 	if not request.referrer: return ''
 	room = request.referrer
 
@@ -296,19 +284,18 @@ def typing_indicator(data, v):
 
 	emit('typing', typing[room], room=room)
 
-	commit_and_close()
-
 	return ''
 
 
 @socketio.on('delete')
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@auth_required_socketio
 def delete(id, v):
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
+		return ''
+
 	message = g.db.get(ChatMessage, id)
 	g.db.delete(message)
 	emit('delete', id, room=f'{SITE_FULL}/chat/1')
-
-	commit_and_close()
 
 	return ''
 
