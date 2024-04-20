@@ -25,7 +25,7 @@ function autoSuggestTitle()	{
 		x.onreadystatechange = function() {
 			if (x.readyState == 4 && x.status == 200 && !titleField.value) {
 				title = JSON.parse(x.responseText)["title"];
-				titleField.value = title;
+				titleField.value = title.slice(0, 40);
 			}
 		}
 		x.open('get','/submit/title?url=' + urlField.value);
