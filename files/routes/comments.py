@@ -396,6 +396,9 @@ def delete_comment(cid, v):
 		c.deleted_utc = int(time.time())
 		g.db.add(c)
 
+		c.author.truescore -= c.upvotes + c.downvotes
+		g.db.add(c.author)
+
 		if c.pinned:
 			c.pinned = None
 			c.pinned_utc = None
@@ -431,6 +434,9 @@ def undelete_comment(cid, v):
 		if c.author_id != v.id: abort(403)
 		c.deleted_utc = 0
 		g.db.add(c)
+
+		c.author.truescore += c.upvotes + c.downvotes
+		g.db.add(c.author)
 
 		if not (c.parent_post in ADMIGGER_THREADS and c.level == 1):
 			v.comment_count += 1

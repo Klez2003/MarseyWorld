@@ -760,6 +760,9 @@ def delete_post_pid(pid, v):
 
 		g.db.add(p)
 
+		p.author.truescore -= p.upvotes + p.downvotes
+		g.db.add(p.author)
+
 		cache.delete_memoized(frontlist)
 		cache.delete_memoized(userpagelisting)
 
@@ -784,6 +787,9 @@ def undelete_post_pid(pid, v):
 	if p.deleted_utc:
 		p.deleted_utc = 0
 		g.db.add(p)
+
+		p.author.truescore += p.upvotes + p.downvotes
+		g.db.add(p.author)
 
 		cache.delete_memoized(frontlist)
 		cache.delete_memoized(userpagelisting)
