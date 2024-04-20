@@ -1986,10 +1986,38 @@ CREATE INDEX block_target_idx ON public.userblocks USING btree (target_id);
 
 
 --
+-- Name: casino_games_active_user_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX casino_games_active_user_id_idx ON public.casino_games USING btree (active, user_id);
+
+
+--
+-- Name: casino_games_created_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX casino_games_created_utc_idx ON public.casino_games USING btree (created_utc);
+
+
+--
 -- Name: casino_games_user_id_winnings_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX casino_games_user_id_winnings_idx ON public.casino_games USING btree (user_id, winnings);
+
+
+--
+-- Name: casino_games_winnings_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX casino_games_winnings_idx ON public.casino_games USING btree (winnings);
+
+
+--
+-- Name: comment_new_sort_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comment_new_sort_idx ON public.comments USING btree (is_banned, deleted_utc, created_utc DESC, nsfw);
 
 
 --
@@ -2000,10 +2028,45 @@ CREATE INDEX comment_parent_index ON public.comments USING btree (parent_comment
 
 
 --
+-- Name: comment_pinned_utc_idex; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comment_pinned_utc_idex ON public.comments USING btree (pinned_utc);
+
+
+--
 -- Name: comment_post_id_index; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX comment_post_id_index ON public.comments USING btree (parent_post);
+
+
+--
+-- Name: comments_author_id_created_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comments_author_id_created_utc_idx ON public.comments USING btree (author_id, created_utc);
+
+
+--
+-- Name: comments_author_id_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comments_author_id_id_idx ON public.comments USING btree (author_id, id);
+
+
+--
+-- Name: comments_created_utc_asc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comments_created_utc_asc_idx ON public.comments USING btree (created_utc NULLS FIRST);
+
+
+--
+-- Name: comments_deleted_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comments_deleted_utc_idx ON public.comments USING btree (deleted_utc);
 
 
 --
@@ -2021,6 +2084,27 @@ CREATE INDEX commentvotes_commentid_userid_votetype_idx ON public.commentvotes U
 
 
 --
+-- Name: commentvotes_comments_type_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX commentvotes_comments_type_index ON public.commentvotes USING btree (vote_type);
+
+
+--
+-- Name: commentvotes_user_id_vote_type_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX commentvotes_user_id_vote_type_idx ON public.commentvotes USING btree (user_id, vote_type) INCLUDE (comment_id);
+
+
+--
+-- Name: creport_user_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX creport_user_idx ON public.commentreports USING btree (user_id);
+
+
+--
 -- Name: currency_logs_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2035,10 +2119,73 @@ CREATE INDEX emoji_kind ON public.emojis USING btree (kind);
 
 
 --
+-- Name: emojis_idx2; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX emojis_idx2 ON public.emojis USING btree (author_id);
+
+
+--
+-- Name: emojis_idx3; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX emojis_idx3 ON public.emojis USING btree (count DESC);
+
+
+--
+-- Name: emojis_idx4; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX emojis_idx4 ON public.emojis USING btree (submitter_id);
+
+
+--
+-- Name: fki_award_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_award_user_fkey ON public.award_relationships USING btree (user_id);
+
+
+--
+-- Name: fki_casino_game_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_casino_game_fkey ON public.comments USING btree (casino_game_id);
+
+
+--
+-- Name: fki_chat_messages_chat_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_chat_messages_chat_fkey ON public.chat_messages USING btree (chat_id);
+
+
+--
 -- Name: fki_chat_messages_quotes_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX fki_chat_messages_quotes_fkey ON public.chat_messages USING btree (quotes);
+
+
+--
+-- Name: fki_chat_messages_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_chat_messages_user_fkey ON public.chat_messages USING btree (user_id);
+
+
+--
+-- Name: fki_comment_approver_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_comment_approver_fkey ON public.comments USING btree (is_approved);
+
+
+--
+-- Name: fki_comment_option_votes_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_comment_option_votes_user_fkey ON public.comment_option_votes USING btree (user_id);
 
 
 --
@@ -2049,6 +2196,27 @@ CREATE INDEX fki_comment_save_relationship_comment_fkey ON public.comment_save_r
 
 
 --
+-- Name: fki_comment_sentto_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_comment_sentto_fkey ON public.comments USING btree (sentto);
+
+
+--
+-- Name: fki_commentvote_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_commentvote_user_fkey ON public.commentvotes USING btree (user_id);
+
+
+--
+-- Name: fki_exile_exiler_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_exile_exiler_fkey ON public.exiles USING btree (exiler_id);
+
+
+--
 -- Name: fki_exile_sub_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2056,10 +2224,38 @@ CREATE INDEX fki_exile_sub_fkey ON public.exiles USING btree (hole);
 
 
 --
+-- Name: fki_media_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_media_user_fkey ON public.media USING btree (user_id);
+
+
+--
 -- Name: fki_mod_sub_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX fki_mod_sub_fkey ON public.mods USING btree (hole);
+
+
+--
+-- Name: fki_modactions_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_modactions_user_fkey ON public.modactions USING btree (target_user_id);
+
+
+--
+-- Name: fki_post_approver_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_post_approver_fkey ON public.posts USING btree (is_approved);
+
+
+--
+-- Name: fki_post_sub_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_post_sub_fkey ON public.posts USING btree (hole);
 
 
 --
@@ -2088,6 +2284,83 @@ CREATE INDEX fki_sub_joins_sub_fkey ON public.stealth_hole_unblocks USING btree 
 --
 
 CREATE INDEX fki_sub_subscriptions_sub_fkey ON public.hole_follows USING btree (hole);
+
+
+--
+-- Name: fki_subactions_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_subactions_user_fkey ON public.hole_actions USING btree (target_user_id);
+
+
+--
+-- Name: fki_user_blacklisted_by_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_user_blacklisted_by_fkey ON public.users USING btree (blacklisted_by);
+
+
+--
+-- Name: fki_user_chudded_by_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_user_chudded_by_fkey ON public.users USING btree (chudded_by);
+
+
+--
+-- Name: fki_user_is_banned_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_user_is_banned_fkey ON public.users USING btree (is_banned);
+
+
+--
+-- Name: fki_user_referrer_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_user_referrer_fkey ON public.users USING btree (referred_by);
+
+
+--
+-- Name: fki_user_shadowbanned_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_user_shadowbanned_fkey ON public.users USING btree (shadowbanned);
+
+
+--
+-- Name: fki_view_viewer_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_view_viewer_fkey ON public.viewers USING btree (viewer_id);
+
+
+--
+-- Name: fki_vote_comment_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_vote_comment_fkey ON public.comment_option_votes USING btree (comment_id);
+
+
+--
+-- Name: fki_vote_post_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_vote_post_fkey ON public.post_option_votes USING btree (post_id);
+
+
+--
+-- Name: fki_vote_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_vote_user_fkey ON public.post_option_votes USING btree (user_id);
+
+
+--
+-- Name: fki_wall_user_id_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_wall_user_id_fkey ON public.comments USING btree (wall_user_id);
 
 
 --
@@ -2140,6 +2413,27 @@ CREATE INDEX modaction_action_idx ON public.modactions USING btree (kind);
 
 
 --
+-- Name: modaction_cid_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX modaction_cid_idx ON public.modactions USING btree (target_comment_id);
+
+
+--
+-- Name: modaction_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX modaction_id_idx ON public.modactions USING btree (id DESC);
+
+
+--
+-- Name: modaction_pid_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX modaction_pid_idx ON public.modactions USING btree (target_post_id);
+
+
+--
 -- Name: mute_target_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2151,6 +2445,13 @@ CREATE INDEX mute_target_idx ON public.usermutes USING btree (target_id);
 --
 
 CREATE INDEX notifications_comment_idx ON public.notifications USING btree (comment_id);
+
+
+--
+-- Name: notifs_user_read_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX notifs_user_read_idx ON public.notifications USING btree (user_id, read);
 
 
 --
@@ -2168,6 +2469,13 @@ CREATE INDEX option_post ON public.post_options USING btree (parent_id);
 
 
 --
+-- Name: post_app_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_app_id_idx ON public.posts USING btree (app_id);
+
+
+--
 -- Name: post_author_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2175,10 +2483,80 @@ CREATE INDEX post_author_id_idx ON public.posts USING btree (author_id);
 
 
 --
+-- Name: post_created_utc_asc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_created_utc_asc_idx ON public.posts USING btree (created_utc NULLS FIRST);
+
+
+--
 -- Name: post_created_utc_desc_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX post_created_utc_desc_idx ON public.posts USING btree (created_utc DESC);
+
+
+--
+-- Name: post_deleted_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_deleted_utc_idx ON public.posts USING btree (deleted_utc);
+
+
+--
+-- Name: post_new_sort_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_new_sort_idx ON public.posts USING btree (is_banned, deleted_utc, created_utc DESC, nsfw);
+
+
+--
+-- Name: post_nsfw_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_nsfw_idx ON public.posts USING btree (nsfw);
+
+
+--
+-- Name: post_pinned_idex; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_pinned_idex ON public.posts USING btree (pinned);
+
+
+--
+-- Name: post_pinned_utc_idex; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_pinned_utc_idex ON public.posts USING btree (pinned_utc);
+
+
+--
+-- Name: post_profile_pinned_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_profile_pinned_idx ON public.posts USING btree (profile_pinned);
+
+
+--
+-- Name: posts_bump_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX posts_bump_utc_idx ON public.posts USING btree (bump_utc);
+
+
+--
+-- Name: report_user_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX report_user_idx ON public.reports USING btree (user_id);
+
+
+--
+-- Name: subimssion_binary_group_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX subimssion_binary_group_idx ON public.posts USING btree (is_banned, deleted_utc, nsfw);
 
 
 --
@@ -2196,10 +2574,108 @@ CREATE INDEX transactions_email_idx ON public.transactions USING btree (email);
 
 
 --
+-- Name: user_private_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX user_private_idx ON public.users USING btree (is_private);
+
+
+--
+-- Name: users_bird_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_bird_idx ON public.users USING btree (bird);
+
+
+--
+-- Name: users_bite_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_bite_idx ON public.users USING btree (bite);
+
+
+--
+-- Name: users_chud_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_chud_idx ON public.users USING btree (chud);
+
+
+--
+-- Name: users_created_utc_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_created_utc_index ON public.users USING btree (created_utc);
+
+
+--
+-- Name: users_currency_spent_on_awards_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_currency_spent_on_awards_idx ON public.users USING btree (currency_spent_on_awards DESC);
+
+
+--
+-- Name: users_deflector_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_deflector_idx ON public.users USING btree (deflector);
+
+
+--
+-- Name: users_earlylife_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_earlylife_idx ON public.users USING btree (earlylife);
+
+
+--
+-- Name: users_edgified_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_edgified_idx ON public.users USING btree (sharpen);
+
+
+--
 -- Name: users_extra_username_trgm_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX users_extra_username_trgm_idx ON public.users USING gin (extra_username public.gin_trgm_ops);
+
+
+--
+-- Name: users_flairchanged_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_flairchanged_idx ON public.users USING btree (flairchanged);
+
+
+--
+-- Name: users_longpost_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_longpost_idx ON public.users USING btree (longpost);
+
+
+--
+-- Name: users_marseyawarded_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_marseyawarded_idx ON public.users USING btree (hieroglyphs);
+
+
+--
+-- Name: users_marsify_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_marsify_idx ON public.users USING btree (marsify);
+
+
+--
+-- Name: users_namechanged_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_namechanged_idx ON public.users USING btree (namechanged);
 
 
 --
@@ -2210,10 +2686,66 @@ CREATE INDEX users_original_username_trgm_idx ON public.users USING gin (origina
 
 
 --
+-- Name: users_owoify_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_owoify_idx ON public.users USING btree (owoify);
+
+
+--
+-- Name: users_patron_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_patron_utc_idx ON public.users USING btree (patron_utc);
+
+
+--
 -- Name: users_prelock_username_trgm_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX users_prelock_username_trgm_idx ON public.users USING gin (prelock_username public.gin_trgm_ops);
+
+
+--
+-- Name: users_progressivestack_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_progressivestack_idx ON public.users USING btree (progressivestack);
+
+
+--
+-- Name: users_queen_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_queen_idx ON public.users USING btree (queen);
+
+
+--
+-- Name: users_rainbow_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_rainbow_idx ON public.users USING btree (rainbow);
+
+
+--
+-- Name: users_rehab_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_rehab_idx ON public.users USING btree (rehab);
+
+
+--
+-- Name: users_spider_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_spider_idx ON public.users USING btree (spider);
+
+
+--
+-- Name: users_subs_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_subs_idx ON public.users USING btree (stored_subscriber_count);
 
 
 --
@@ -2228,6 +2760,20 @@ CREATE INDEX users_unbanutc_idx ON public.users USING btree (unban_utc DESC);
 --
 
 CREATE INDEX users_username_trgm_idx ON public.users USING gin (username public.gin_trgm_ops);
+
+
+--
+-- Name: vote_user_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX vote_user_index ON public.votes USING btree (user_id);
+
+
+--
+-- Name: votes_type_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX votes_type_index ON public.votes USING btree (vote_type);
 
 
 --
