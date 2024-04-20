@@ -51,6 +51,16 @@ function close_inline_emoji_modal() {
 	inline_carot_modal.style.display = "none";
 }
 
+
+function replaceText(input, current_word, new_text) {
+	const match = new RegExp(current_word+"(?=[^\\w-]|$)", "gi").exec(input.value) 
+	if (!match) return
+	input.focus()
+	const start_index = match.index;
+	const end_index = input.selectionStart;
+	input.setRangeText(new_text, start_index, end_index, "end");
+}
+
 function populate_inline_emoji_modal(results, textbox)
 {
 	selecting = true;
@@ -95,8 +105,7 @@ function populate_inline_emoji_modal(results, textbox)
 
 		emoji_option.addEventListener('click', () => {
 			close_inline_emoji_modal()
-			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=[^\\w-]|$)", "gi"), `:${name}: `)
-			textbox.focus()
+			replaceText(textbox, current_word, `:${name}: `)
 			if (typeof markdown === "function" && textbox.dataset.preview) {
 				markdown(textbox)
 			}

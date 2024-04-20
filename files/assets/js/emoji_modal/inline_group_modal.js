@@ -105,8 +105,7 @@ function populate_inline_group_modal(results, textbox)
 
 		group_option.addEventListener('click', () => {
 			close_inline_emoji_modal()
-			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=[^\\w-]|$)", "gi"), `!${name} `)
-			textbox.focus()
+			replaceText(textbox, current_word, `:${name}: `)
 			if (typeof markdown === "function" && textbox.dataset.preview) {
 				markdown(textbox)
 			}
