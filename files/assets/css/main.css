@@ -7864,10 +7864,3 @@ tr:has(hideme) {
 	height: 30px;
 	object-fit: contain;
 }
-
-@media (max-width: 768px) {
-	.awards-wrapper {
-		max-height: 43vh;
-		overflow-y: auto;
-	}
-}
