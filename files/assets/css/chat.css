@@ -153,7 +153,7 @@ lite-youtube {
 
 .quotes {
 	max-width: 80%;
-    overflow-y: hidden;
+	overflow-y: hidden;
 }
 
 .resizable > video {
@@ -183,8 +183,8 @@ img[alt^="![]("], .img {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    margin-top: 0.3rem;
-    margin-bottom: 0.3rem;
+	margin-top: 0.3rem;
+	margin-bottom: 0.3rem;
 }
 
 @media (max-width: 768px) {
@@ -201,7 +201,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #message *:not(#typing-indicator *) {
-    vertical-align: middle;
+	vertical-align: middle;
 }
 
 .patron[style*="background-color:#ffffff"] {
@@ -222,5 +222,5 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 *:target {
-    scroll-margin-top: 35vh;
+	scroll-margin-top: 35vh;
 }

@@ -5182,7 +5182,7 @@ span.green {
 .effortpost-flair {
 	padding: 5px 5px 4px 5px !important;
 	z-index: 2;
-    position: relative;
+	position: relative;
 }
 .patron[style*="background-color:#ffffff"] {
 	color: black !important;
@@ -7653,12 +7653,12 @@ blink {
 
 .admin-note + div + :not(.admin-note) {
 	border-top: 2px solid var(--primary) !important;
-    margin-top: 4rem !important;
-    margin-bottom: 4rem !important;
+	margin-top: 4rem !important;
+	margin-bottom: 4rem !important;
 }
 
 details {
-    margin-bottom: 1rem;
+	margin-bottom: 1rem;
 }
 
 details:not([open]) {
@@ -7678,7 +7678,7 @@ thead {
 	margin-left: -5px;
 	cursor: pointer;
 	text-decoration: none !important;
-    z-index: -1;
+	z-index: -1;
 	position: absolute;
 }
 
@@ -7743,7 +7743,7 @@ img[alpha]:not([alt*="#"]) {
 	margin-bottom: 4rem;
 	border: 2px solid var(--gray-400);
 	border-radius: 0.35rem;
-    overflow-y: scroll;
+	overflow-y: scroll;
 	padding: 1rem;
 }
 
@@ -7755,7 +7755,7 @@ img[alpha]:not([alt*="#"]) {
 
 .hole-settings-section textarea {
 	height: 500px;
-    width: 100%;
+	width: 100%;
 	resize: vertical !important;
 }
 
@@ -7769,7 +7769,7 @@ img[alpha]:not([alt*="#"]) {
 }
 
 .hole-settings-section h4 {
-    margin-top: 0.25rem;
+	margin-top: 0.25rem;
 }
 
 td[data-time] {

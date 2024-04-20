@@ -215,7 +215,7 @@ def schedule_orgy(v, chat_id):
 				orgy_type = 'file'
 
 				ydl_opts = {
-					"quiet":    True,
+					"quiet": True,
 					"simulate": True,
 					"forceurl": True,
 					'format': 'b',

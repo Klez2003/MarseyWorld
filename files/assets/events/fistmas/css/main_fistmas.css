@@ -355,7 +355,7 @@ body {
 }
 
 #mobile-bottom-navigation-bar > .btn {
-    background: none !important;
+	background: none !important;
 }
 
 /* Revert the snowcaps on it, is bad */
@@ -390,15 +390,15 @@ blockquote {
 }
 
 .notif-count {
-    padding: 5px 5px 2px 5px;
+	padding: 5px 5px 2px 5px;
 }
 
 .toast-body {
-    padding: 1rem 0.75rem 0.75rem 0.75rem;
+	padding: 1rem 0.75rem 0.75rem 0.75rem;
 }
 
 .alert {
-    padding: 0.75rem 3rem 0.5rem 1rem;
+	padding: 0.75rem 3rem 0.5rem 1rem;
 }
 
 .pagination-sm .page-link {
