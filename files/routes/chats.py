@@ -190,6 +190,9 @@ def schedule_orgy(v, chat_id):
 	if not title:
 		abort(400, "A title is required!")
 
+	if len(title) > 40:
+		abort(400, 'Title is too long (max 40 characters)')
+
 	normalized_link = normalize_url(link)
 
 	if start_utc:
