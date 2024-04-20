@@ -497,11 +497,11 @@ ERROR_MSGS = {
 	405: "idk how anyone gets this error but if you see this, remember to follow @carpathianflorist<br>the original error text here talked about internet gremlins and wtf",
 	409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do. So maybe like... don't try and do that? Sorry not sorry",
 	410: "You were too slow. The link FUCKING DIED. Request a new one and be more efficient.",
-	413: "That's a heckin' chonker of a file! Please make it smaller or maybe like upload it somewhere else idk<BR>jc wrote this one hi jc!<br>- carp",
+	413: "That's a heckin' chonker of a file! Please make it smaller or maybe like upload it somewhere else idk<br>jc wrote this one hi jc!<br>- carp",
 	415: "Please upload only Image, Video, or Audio files!",
 	418: "this really shouldn't happen now that we autoconvert webm files but if it does there's a cool teapot marsey so there's that",
 	429: "go spam somewhere else nerd",
-	500: "Hiiiii it's carp! I think this error means that there's a timeout error. And I think that means something took too long to load so it decided not to work at all. If you keep seeing this on the same page <I>but not other pages</I>, then something is probably wrong with that specific function. It may not be called a function, but that sounds right to me. Anyway, <s>ping me and I'll whine to someone smarter to fix it. Don't bother them.</s> <B>After a year and a half of infuriating pings, the new instructions are to quit whining and just wait until it works again oh my god shut UP.</B><BR><BR> Thanks ily &lt;3",
+	500: "Hiiiii it's carp! I think this error means that there's a timeout error. And I think that means something took too long to load so it decided not to work at all. If you keep seeing this on the same page <i>but not other pages</i>, then something is probably wrong with that specific function. It may not be called a function, but that sounds right to me. Anyway, <s>ping me and I'll whine to someone smarter to fix it. Don't bother them.</s> <b>After a year and a half of infuriating pings, the new instructions are to quit whining and just wait until it works again oh my god shut UP.</b><br><br> Thanks ily &lt;3",
 }
 
 ERROR_MARSEYS = {
