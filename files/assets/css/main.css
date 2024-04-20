@@ -5210,7 +5210,7 @@ span.green {
 .mod {
 	padding: 2px 5px 3px 5px;
 	border-radius: 5px;
-	color: white!important;
+	color: white !important;
 	background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet );
 	text-shadow: -1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black;
 }
@@ -5646,7 +5646,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
   }
 
 .ytp-pause-overlay-controls-hidden .ytp-pause-overlay, ytp-pause-overlay ytp-scroll-min {
-	display: none!important;
+	display: none !important;
 }
 
 .overflow-x-auto {
@@ -5750,10 +5750,10 @@ span > img[src$="/i/hand.webp"]+img[party]:not([data-src]) {
 .awards-wrapper > div > div {
 	padding: 5px !important;
 	text-align: center;
-	text-transform: none!important;
-	display: inline-block!important;
-	width: 117px!important;
-	margin-bottom: 1rem!important;
+	text-transform: none !important;
+	display: inline-block !important;
+	width: 117px !important;
+	margin-bottom: 1rem !important;
 	border-radius: 0.2rem;
 }
 
@@ -5766,7 +5766,7 @@ span > img[src$="/i/hand.webp"]+img[party]:not([data-src]) {
 }
 
 .awards-wrapper > div > div:hover:not(.disabled), .awards-wrapper .picked {
-	background-color: var(--primary)!important;
+	background-color: var(--primary) !important;
 }
 
 
@@ -5887,7 +5887,7 @@ a.emojitab {
 }
 
 .emoji2 {
-	background: none!important;
+	background: none !important;
 	width: 60px;
 	overflow: hidden;
 	border: none;
@@ -5944,7 +5944,7 @@ li > .sidebar {
 }
 
 .btn-dead:hover, .active.btn-dead:hover, .active.btn-dead {
-	border: 1px solid var(--primary)!important;
+	border: 1px solid var(--primary) !important;
 }
 
 .navsettings {
@@ -6542,7 +6542,7 @@ g {
 	padding: 5px;
 	margin: 5px 1px;
 	border-radius: 5px;
-	color: white!important;
+	color: white !important;
 	background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet );
 	text-shadow: -1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black;
 	font-weight: 600;
@@ -6860,7 +6860,7 @@ div.markdown {
 		font-size: 11px;
 	}
 	.awards-wrapper > div > div {
-		width: 101px!important;
+		width: 101px !important;
 	}
 	.download-video {
 		font-size: 10px;

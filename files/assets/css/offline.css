@@ -28,11 +28,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 [role=button] {
-	cursor: pointer!important;
+	cursor: pointer !important;
 }
 
 .button {
-	background-color: rgb(var(--background))!important;
+	background-color: rgb(var(--background)) !important;
 	background: 0 0;
 	font-weight: 600;
 	font-size: 1rem;
