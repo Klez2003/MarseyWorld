@@ -1308,7 +1308,7 @@ def bid_list(v, bid):
 	
 	name = name[0]
 
-	href = f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{bid}.webp?b=11'
+	href = f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{bid}.webp?b=12'
 
 	page = get_page()
 
