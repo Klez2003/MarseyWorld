@@ -39,4 +39,12 @@ function collapse_comment(id) {
 	const ta = document.getElementById('markdown-c_'+id);
 	if (ta && !ta.classList.contains('d-none'))
 		expandMarkdown(`c_${id}`)
+
+	if (closed) {
+		const children_count = document.getElementById(`replies-of-c_${id}`).getElementsByClassName('comment-body').length
+		document.getElementById(`children-count-${id}`).innerHTML = ` (${children_count} children)`
+	}
+	else {
+		document.getElementById(`children-count-${id}`).innerHTML = ''
+	}
 };

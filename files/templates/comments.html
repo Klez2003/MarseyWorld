@@ -278,6 +278,8 @@
 							{% if c.blackjack_result %}
 								{{c.blackjack_html | safe}}
 							{% endif %}
+
+							<span id="children-count-{{c.id}}" class="vertical-align ml-1"></span>
 						</div>
 
 						{{macros.reports(c, 'comment')}}
