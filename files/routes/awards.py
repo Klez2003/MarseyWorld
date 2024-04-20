@@ -124,6 +124,8 @@ def buy_awards(v, kind, AWARDS, quantity):
 
 
 @app.post("/buy/<kind>")
+@limiter.limit('1/second', scope=rpath) #Needed to fix race condition
+@limiter.limit('1/second', scope=rpath, key_func=get_ID) #Needed to fix race condition
 @limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
@@ -150,8 +152,8 @@ def alter_body(obj):
 		obj.title_html = filter_emojis_only(obj.title, golden=False, obj=obj, author=obj.author)
 
 @app.post("/award/<thing_type>/<int:id>")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit('1/second', scope=rpath) #Needed to fix race condition
+@limiter.limit('1/second', scope=rpath, key_func=get_ID) #Needed to fix race condition
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
