@@ -270,7 +270,7 @@ def heartbeat(v):
 @socketio.on('typing')
 @auth_required_socketio
 def typing_indicator(data, v):
-	if v.is_banned: return
+	if v.is_banned: return ''
 	
 	if not request.referrer: return ''
 	room = request.referrer
