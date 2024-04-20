@@ -267,7 +267,7 @@ def award_thing(v, thing_type, id):
 			if kind == 'shit':
 				awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) * quantity
 				v.charge_account('coins', awarded_coins, f"{quantity} deflected Shit award{s} on {obj.textlink}", should_check_balance=False)
-				obj.author.pay_account('coins', awarded_coins, f"{quanity} deflected Shit award{s} on {obj.textlink}")
+				obj.author.pay_account('coins', awarded_coins, f"{quantity} deflected Shit award{s} on {obj.textlink}")
 		elif kind != 'spider':
 			if AWARDS[kind]['cosmetic'] and not AWARDS[kind]['included_in_lootbox']:
 				awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) * quantity
