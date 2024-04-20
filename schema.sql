@@ -2140,10 +2140,52 @@ CREATE INDEX emojis_idx4 ON public.emojis USING btree (submitter_id);
 
 
 --
+-- Name: fki_award_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_award_user_fkey ON public.award_relationships USING btree (user_id);
+
+
+--
+-- Name: fki_casino_game_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_casino_game_fkey ON public.comments USING btree (casino_game_id);
+
+
+--
+-- Name: fki_chat_messages_chat_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_chat_messages_chat_fkey ON public.chat_messages USING btree (chat_id);
+
+
+--
+-- Name: fki_chat_messages_quotes_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_chat_messages_quotes_fkey ON public.chat_messages USING btree (quotes);
+
+
+--
+-- Name: fki_chat_messages_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_chat_messages_user_fkey ON public.chat_messages USING btree (user_id);
+
+
+--
 -- Name: fki_comment_approver_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX fki_comment_approver_fkey ON public.comments USING btree (is_approved);
+
+
+--
+-- Name: fki_comment_option_votes_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_comment_option_votes_user_fkey ON public.comment_option_votes USING btree (user_id);
 
 
 --
@@ -2161,6 +2203,13 @@ CREATE INDEX fki_comment_sentto_fkey ON public.comments USING btree (sentto);
 
 
 --
+-- Name: fki_commentvote_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_commentvote_user_fkey ON public.commentvotes USING btree (user_id);
+
+
+--
 -- Name: fki_exile_exiler_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2172,6 +2221,13 @@ CREATE INDEX fki_exile_exiler_fkey ON public.exiles USING btree (exiler_id);
 --
 
 CREATE INDEX fki_exile_sub_fkey ON public.exiles USING btree (hole);
+
+
+--
+-- Name: fki_media_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_media_user_fkey ON public.media USING btree (user_id);
 
 
 --
@@ -2238,6 +2294,13 @@ CREATE INDEX fki_subactions_user_fkey ON public.hole_actions USING btree (target
 
 
 --
+-- Name: fki_user_blacklisted_by_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_user_blacklisted_by_fkey ON public.users USING btree (blacklisted_by);
+
+
+--
 -- Name: fki_user_chudded_by_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2270,6 +2333,27 @@ CREATE INDEX fki_user_shadowbanned_fkey ON public.users USING btree (shadowbanne
 --
 
 CREATE INDEX fki_view_viewer_fkey ON public.viewers USING btree (viewer_id);
+
+
+--
+-- Name: fki_vote_comment_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_vote_comment_fkey ON public.comment_option_votes USING btree (comment_id);
+
+
+--
+-- Name: fki_vote_post_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_vote_post_fkey ON public.post_option_votes USING btree (post_id);
+
+
+--
+-- Name: fki_vote_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_vote_user_fkey ON public.post_option_votes USING btree (user_id);
 
 
 --
