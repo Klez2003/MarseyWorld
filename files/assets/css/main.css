@@ -7863,3 +7863,9 @@ img[src$="/e/speechbubble.webp"] {
 tr:has(hideme) {
 	display: none
 }
+
+.emoji-award-icon {
+	width: 20px;
+	height: 30px;
+	object-fit: contain;
+}
