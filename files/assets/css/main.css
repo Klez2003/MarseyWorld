@@ -7210,11 +7210,6 @@ input[type=number] {
 	}
 }
 
-@media (max-width: 394px) {
-	#note {
-		min-height: 80px;
-	}
-}
 
 
 .collapsed .showmore-text
@@ -7868,4 +7863,11 @@ tr:has(hideme) {
 	width: 20px;
 	height: 30px;
 	object-fit: contain;
+}
+
+@media (max-width: 768px) {
+	.awards-wrapper {
+		max-height: 43vh;
+		overflow-y: auto;
+	}
 }
