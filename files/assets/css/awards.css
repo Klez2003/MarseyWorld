@@ -21,6 +21,8 @@
 
 .emoji-award img, .emoji-hz-award img {
 	width: min(60px, 13vw) !important;
+    height: min(90px, 19.5vw) !important;
+    object-fit: contain;
 }
 
 .emoji-award:nth-child(even) {
