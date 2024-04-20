@@ -135,7 +135,7 @@ function update_inline_emoji_modal(event)
 
 	// Get current word at string, such as ":marse" or "word"
 	let coords = text.indexOf(' ', box_coords.pos);
-	current_word = /(^|\s|\+|-)([:!@][!#a-zA-Z0-9_-]{2,}(?=\n|$))/.exec(text.slice(0, coords === -1 ? text.length : coords));
+	current_word = /(^|\s|\+|-)([:!@][!#\w-]{2,}(?=\n|$))/.exec(text.slice(0, coords === -1 ? text.length : coords));
 	if (current_word) current_word = current_word[2].toLowerCase();
 
 	if (current_word && curr_word_is_emoji() && current_word != ":")
