@@ -184,7 +184,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_NOTES': 1,
 
 	'IS_PERMA_PROGSTACKED': 2,
-	'USER_LINK': 2,
 	'USER_CHANGE_FLAIR': 2,
 	'LOTTERY_VIEW_PARTICIPANTS': 2,
 	'POST_COMMENT_INFINITE_PINGS': 2,
@@ -232,6 +231,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'VIEW_EMAILS': 5,
 	'VIEW_CHATS': 5,
 	'INFINITE_CURRENCY': 5,
+	'USER_LINK': 5,
 }
 
 FEATURES = {
