@@ -62,8 +62,6 @@ def get_IP():
 		x = request.headers.get('CF-Connecting-IP')
 		if not x:
 			x = request.headers.get('X-Forwarded-For')
-		if not x:
-			print(get_ID(), flush=True)
 		return x
 
 limiter = Limiter(
