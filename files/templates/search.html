@@ -105,9 +105,9 @@
 							<div class="mt-3 d-flex align-items-center fl-r">
 																{{- macros.time_filter_buttons() -}}
 								{% if "/posts" in request.path %}
-									{{- macros.sorting_buttons(POST_SORTS) -}}
+									{{- macros.sorting_buttons(POST_SORTS, True) -}}
 								{% else %}
-									{{- macros.sorting_buttons(COMMENT_SORTS) -}}
+									{{- macros.sorting_buttons(COMMENT_SORTS, True) -}}
 								{% endif %}
 							</div>
 						{% endif %}

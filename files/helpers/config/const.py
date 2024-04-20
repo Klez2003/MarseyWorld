@@ -438,6 +438,7 @@ POST_SORTS = COMMENT_SORTS | {
 		"subscriptions": "bell",
 		"saves": "save"
 	}
+COMMENT_SORTS = COMMENT_SORTS | {"saves": "save"}
 
 ################################################################################
 ### COLUMN INFO
