@@ -104,11 +104,7 @@ function populate_inline_group_modal(results, textbox)
 		group_option_text.textContent = name;
 
 		group_option.addEventListener('click', () => {
-			close_inline_emoji_modal()
 			replaceText(textbox, current_word, `:${name}: `)
-			if (typeof markdown === "function" && textbox.dataset.preview) {
-				markdown(textbox)
-			}
 		});
 		group_option.appendChild(group_option_text);
 		inline_carot_modal.appendChild(group_option);

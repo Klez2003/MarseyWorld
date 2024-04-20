@@ -108,11 +108,7 @@ function populate_inline_user_modal(results, textbox)
 		user_option_text.textContent = name;
 
 		user_option.addEventListener('click', () => {
-			close_inline_emoji_modal()
 			replaceText(textbox, current_word, `:${name}: `)
-			if (typeof markdown === "function" && textbox.dataset.preview) {
-				markdown(textbox)
-			}
 		});
 		user_option.appendChild(user_option_img);
 		user_option.appendChild(user_option_text);

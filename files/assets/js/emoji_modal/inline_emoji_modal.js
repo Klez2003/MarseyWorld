@@ -53,12 +53,17 @@ function close_inline_emoji_modal() {
 
 
 function replaceText(input, current_word, new_text) {
+	close_inline_emoji_modal()
+
 	const match = new RegExp(current_word+"(?=[^\\w-]|$)", "gi").exec(input.value) 
 	if (!match) return
 	input.focus()
 	const start_index = match.index;
 	const end_index = input.selectionStart;
 	input.setRangeText(new_text, start_index, end_index, "end");
+
+	if (typeof markdown === "function" && textbox.dataset.preview)
+		markdown(textbox)
 }
 
 function populate_inline_emoji_modal(results, textbox)
@@ -104,11 +109,7 @@ function populate_inline_emoji_modal(results, textbox)
 		if (current_word.includes("!")) name = `!${name}`
 
 		emoji_option.addEventListener('click', () => {
-			close_inline_emoji_modal()
 			replaceText(textbox, current_word, `:${name}: `)
-			if (typeof markdown === "function" && textbox.dataset.preview) {
-				markdown(textbox)
-			}
 		});
 		// Pack
 		emoji_option.appendChild(emoji_option_img);
