@@ -3,7 +3,7 @@ from bleach.css_sanitizer import CSSSanitizer
 from bleach.linkifier import LinkifyFilter
 import functools
 
-from files.helpers.regex import sanitize_url_regex
+from files.helpers.regex import sanitize_url_regex, excessive_css_scale_regex
 from files.helpers.config.const import *
 
 allowed_tags = ('a','alpha','audio','b','big','blink','blockquote','br','center','code','del','details','em','g','gl','h1','h2','h3','h4','h5','h6','hr','i','img','li','lite-youtube','marquee','ol','p','pre','rp','rt','ruby','small','span','spoiler','strike','strong','sub','summary','sup','table','tbody','td','th','thead','tr','u','ul','video')
@@ -13,7 +13,7 @@ allowed_css_properties = ('background-color', 'color', 'filter', 'font-weight', 
 def allowed_attributes(tag, name, value):
 	if name == 'style':
 		value = value.lower()
-		if 'transform' in value and 'scale' in value and ('rotate' in value or 'skew' in value):
+		if 'transform' in value and 'scale' in value and excessive_css_scale_regex.search(value):
 			return False
 		return True
 

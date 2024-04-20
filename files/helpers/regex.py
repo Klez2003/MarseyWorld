@@ -159,6 +159,8 @@ pronouns_regex = re.compile("(\w{1,7})\/\w{1,7}(\/\w{1,7})?", flags=re.A)
 
 html_title_regex = re.compile("<title>(.{1,200})</title>", flags=re.I)
 
+excessive_css_scale_regex = re.compile("scale\(.*?(\d{3})", flags=re.A)
+
 commands = {
 	"fortune": FORTUNE_REPLIES,
 	"factcheck": FACTCHECK_REPLIES,
