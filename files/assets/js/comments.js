@@ -42,7 +42,8 @@ function collapse_comment(id) {
 
 	if (closed) {
 		const children_count = document.getElementById(`replies-of-c_${id}`).getElementsByClassName('comment-body').length
-		document.getElementById(`children-count-${id}`).innerHTML = ` (${children_count} children)`
+		let children = children_count == 1 ? 'child' : 'children'
+		document.getElementById(`children-count-${id}`).innerHTML = ` (${children_count} ${children})`
 	}
 	else {
 		document.getElementById(`children-count-${id}`).innerHTML = ''
