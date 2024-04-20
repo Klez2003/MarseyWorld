@@ -108,7 +108,7 @@ function populate_inline_user_modal(results, textbox)
 		user_option_text.textContent = name;
 
 		user_option.addEventListener('click', () => {
-			replaceText(textbox, current_word, `:${name}: `)
+			replaceText(textbox, current_word, `@${name} `)
 		});
 		user_option.appendChild(user_option_img);
 		user_option.appendChild(user_option_text);

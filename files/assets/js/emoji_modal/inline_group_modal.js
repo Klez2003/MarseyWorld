@@ -104,7 +104,7 @@ function populate_inline_group_modal(results, textbox)
 		group_option_text.textContent = name;
 
 		group_option.addEventListener('click', () => {
-			replaceText(textbox, current_word, `:${name}: `)
+			replaceText(textbox, current_word, `!${name} `)
 		});
 		group_option.appendChild(group_option_text);
 		inline_carot_modal.appendChild(group_option);
