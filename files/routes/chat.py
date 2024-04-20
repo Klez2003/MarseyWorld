@@ -60,7 +60,8 @@ def refresh_chat(chat_id):
 def speak(data, v):
 	if v.is_banned: return ''
 
-	chat_id = int(data['chat_id'])
+	try: chat_id = int(data['chat_id'])
+	except: return ''
 
 	chat = g.db.get(Chat, chat_id)
 	if not chat: return ''
