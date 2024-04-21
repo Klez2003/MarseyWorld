@@ -164,7 +164,6 @@ BOOSTED_SITES = {
 	'metafilter.com',
 	'sqwok.im',
 	'thelayoff.com',
-	'stackoverflow.com',
 	'serverfault.com',
 	'superuser.com',
 	'goodreads.com',
