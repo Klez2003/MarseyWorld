@@ -2085,6 +2085,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseychonkerpass', 'Marsey', 2, 'fat tranny troon yass obese blob princess', false, 1679531956),
 ('marseychonkersuicide', 'Marsey', 2, 'failed rope attempt fat', false, 1706655442),
 ('marseychonkertrain', 'Marsey', 2, 'failed 41 suicide rope attempt fat tranny troon', false, 1706656054),
+('marseychonkmaxx', 'Marsey', 2, 'fat obese pig disgusting fatty brap blimp round', false, 1713654204),
 ('marseychristchan', 'Marsey', 2, 'missionary jesus christianity cross', false, 1670508133),
 ('marseychristchanreading', 'Marsey', 2, 'christian cross jesus book missionary bible study', false, 1670508195),
 ('marseychristmas', 'Marsey', 2, 'candy cane santa holiday', false, 0),
