@@ -23,9 +23,9 @@
 		<img id="shop-banner" alt="shop banner" src="{{SITE_FULL_IMAGES}}/i/shop.webp">
 		<ul id="shop-stats" class="my-1 my-md-2">
 			{% if IS_HOMOWEEN() or IS_FISTMAS() %}
-				<li>Number of lootboxes you bought: {{v.lootboxes_bought}}</li>
+				<li>Number of lootboxes you bought: {{v.lootboxes_bought|commas}}</li>
 			{% endif %}
-			<li>Number of awards you bought: {{v.num_of_bought_awards}}</li>
+			<li>Number of awards you bought: {{v.num_of_bought_awards|commas}}</li>
 			<li>Currency you spent on awards: {{v.currency_spent_on_awards|commas}}</li>
 			<li>Total currency spent on awards: {{sales|commas}}</li>
 			<li>Your current coins: {{v.coins|commas}}</li>
