@@ -582,13 +582,13 @@ def settings_security_post(v):
 		if not v.verifyPass(request.values.get('password')):
 			abort(400, "Invalid password!")
 
-		token = request.values.get("2fa_remove")
+		if v.mfa_secret:
+			token = request.values.get("2fa_remove")
+			if not token or not v.validate_2fa(token):
+				abort(400, "Invalid token!")
+			v.mfa_secret = None
+			g.db.add(v)
 
-		if not token or not v.validate_2fa(token):
-			abort(400, "Invalid token!")
-
-		v.mfa_secret = None
-		g.db.add(v)
 		return {"message": "Two-factor authentication disabled!"}
 
 @app.post("/settings/log_out_all_others")
