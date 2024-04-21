@@ -879,7 +879,7 @@ ALTER SEQUENCE public.oauth_apps_id_seq OWNED BY public.oauth_apps.id;
 CREATE TABLE public.orgies (
     type character varying(8) NOT NULL,
     data character varying(1200) NOT NULL,
-    title character varying(1000) NOT NULL,
+    title character varying(40) NOT NULL,
     created_utc integer NOT NULL,
     end_utc integer,
     start_utc integer NOT NULL,

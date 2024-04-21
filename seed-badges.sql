@@ -142,7 +142,6 @@ INSERT INTO public.badge_defs VALUES (313, 'Zombiechad II', 'Zombified 10 people
 INSERT INTO public.badge_defs VALUES (323, 'Dramatard of the Year 2023', 'Voted as the best rdrama user of 2023. Congratulations!', 1705457749);
 INSERT INTO public.badge_defs VALUES (284, 'In Memoriam Theodora', 'When God calls one of His most blessed angels home, the heavens rejoice while we are left behind to weep with the rain.', 1686502188);
 INSERT INTO public.badge_defs VALUES (292, 'George ''Hard R'' Marsey', 'This user is an rDrama Times Best-Selling Author', 1690462861);
-INSERT INTO public.badge_defs VALUES (293, 'Gloriously Girthy', 'This user consumes the FDA recommended amount of sustenance', 1690470720);
 INSERT INTO public.badge_defs VALUES (203, 'Best rDrama OC 2022', 'The creator or commissioner of the best rDrama original content of 2022, as voted by rDrama users.', 1670627675);
 INSERT INTO public.badge_defs VALUES (214, 'Master Baiter 2022', 'The cunning mastermind behind the ruse which was voted best rDrama bait of 2022.', 1670719221);
 INSERT INTO public.badge_defs VALUES (300, 'Gorloj, Galactic High Council', 'This user cloaked /r/UFOs in their heavenly wisdom.', 1694717119);
@@ -208,6 +207,7 @@ INSERT INTO public.badge_defs VALUES (68, 'Pause Button', 'Spent 20,000 coins on
 INSERT INTO public.badge_defs VALUES (74, 'Grass Toucher', 'Awarded for molesting plant life', 0);
 INSERT INTO public.badge_defs VALUES (76, 'Low Roller', 'Bought 10 lootboxes', 0);
 INSERT INTO public.badge_defs VALUES (11, 'Silver Recruiter', 'Recruited 10 friends to join the site', 0);
+INSERT INTO public.badge_defs VALUES (293, 'Normal Person', 'This user shops at Walmart', 1690470720);
 INSERT INTO public.badge_defs VALUES (7, 'Bug Chaser', 'Found and reported a bug', 0);
 INSERT INTO public.badge_defs VALUES (77, 'Middle Roller', 'Bought 50 lootboxes', 0);
 INSERT INTO public.badge_defs VALUES (78, 'High Roller', 'Bought 150 lootboxes', 0);
