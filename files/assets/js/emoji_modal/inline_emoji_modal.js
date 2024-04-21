@@ -62,8 +62,8 @@ function replaceText(input, current_word, new_text) {
 	const end_index = input.selectionStart;
 	input.setRangeText(new_text, start_index, end_index, "end");
 
-	if (typeof markdown === "function" && textbox.dataset.preview)
-		markdown(textbox)
+	if (typeof markdown === "function" && input.dataset.preview)
+		markdown(input)
 }
 
 function populate_inline_emoji_modal(results, textbox)
