@@ -532,6 +532,7 @@ INSERT INTO public.hat_defs VALUES (166, 'Cartman', 'Fat antisemite - the archet
 INSERT INTO public.hat_defs VALUES (167, 'Cheesehead', 'For fans of the Green Gay Fudge Packers', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (168, 'Kyle', 'ngl I don''t watch South Park so idk the difference between this and Stan', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (169, 'Stan', 'ngl I don''t watch South Park so idk the difference between this and Kyle', 2, 500, NULL, 1662167687);
+
 INSERT INTO public.hat_defs VALUES (171, 'The Cleopatra', 'Did you know she was actually white?', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (172, 'Pimp Hat I', 'Women are objects', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (138, 'Top Hat (red)', 'Top hat, menstrual edition', 2, 500, NULL, 1662167687);
@@ -1267,7 +1268,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1540, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1541, true);
 
 
 --
