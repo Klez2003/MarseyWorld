@@ -334,7 +334,9 @@ function handle_files() {
 input.onchange = handle_files
 
 document.onpaste = function(event) {
-	input.files = structuredClone(event.clipboardData.files);
+	files = structuredClone(event.clipboardData.files);
+	if (!files.length) return
+	input.files = files
 	handle_files()
 }
 
