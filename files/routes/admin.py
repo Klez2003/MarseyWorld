@@ -1034,18 +1034,15 @@ def ban_user(fullname, v):
 	reason = reason_regex_post.sub(r'<a href="\1">\1</a>', reason)
 	reason = reason_regex_comment.sub(r'<a href="\1#context">\1</a>', reason)
 
-	duration = "permanently"
 	if days:
 		days_txt = str(days)
 		if days_txt.endswith('.0'): days_txt = days_txt[:-2]
 		duration = f"for {days_txt} day"
 		if days != 1: duration += "s"
-		if reason: text = f"@{v.username} (a site admin) has banned you for **{days_txt}** days for the following reason:\n\n> {reason}"
-		else: text = f"@{v.username} (a site admin) has banned you for **{days_txt}** days."
 	else:
-		if reason: text = f"@{v.username} (a site admin) has banned you permanently for the following reason:\n\n> {reason}"
-		else: text = f"@{v.username} (a site admin) has banned you permanently."
+		duration = "permanently"
 
+	text = f"@{v.username} (a site admin) has banned you {duration} for the following reason:\n\n> {reason}"
 
 	user.ban(admin=v, reason=reason, days=days)
 	send_repeatable_notification(user.id, text)
