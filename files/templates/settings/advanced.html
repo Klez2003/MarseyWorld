@@ -224,6 +224,26 @@
 					</div>
 				</section>
 
+				{% if SITE_NAME == 'rDrama' %}
+					<section id="site-settings-linked-accounts-section" class="settings-section-section">
+						<h5>Linked Accounts</h5>
+						<div class="settings-section rounded">
+							<div id="discord-section" class="d-lg-flex border-bottom">
+								<div class="title w-lg-25">
+									<label for="discord">Discord</label>
+								</div>
+								<div class="body w-lg-100">
+									<form id="discord" action="/settings/discord" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
+										<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
+										<input autocomplete="off" class="btn btn-primary" type="submit" value="Link Discord">
+									</form>
+									<small class="d-block mt-2">Link your Discord account to join the {{SITE_NAME}} Discord server.</small>
+								</div>
+							</div>
+						</div>
+					</section>
+				{% endif %}
+
 				<section id="site-settings-sort-time-filter-section" class="settings-section-section">
 					<h5>RSS Feed</h5>
 					<p class="text-small text-muted">Subscribe to the {{SITE_NAME}} RSS feed.</p>
