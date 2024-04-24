@@ -1282,6 +1282,8 @@ def subscribed_posts(v, username):
 	return get_saves_and_subscribes(v, "userpage/posts.html", Subscription, page, False)
 
 @app.post("/toggle_pins/<hole>/<sort>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def toggle_pins(hole, sort):
 	if sort == 'hot': default = True
