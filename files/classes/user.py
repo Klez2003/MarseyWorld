@@ -1091,7 +1091,7 @@ class User(Base):
 	@property
 	@lazy
 	def json(self):
-		if self.is_suspended:
+		if self.is_banned:
 			return {'username': self.username,
 					'original_username': self.original_username,
 					'url': self.url,
@@ -1137,12 +1137,6 @@ class User(Base):
 		if reason and len(reason) <= 256:
 			self.ban_reason = reason
 
-
-
-	@property
-	@lazy
-	def is_suspended(self):
-		return (self.is_banned and (not self.unban_utc or self.unban_utc > time.time()))
 
 	@property
 	@lazy

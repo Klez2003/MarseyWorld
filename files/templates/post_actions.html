@@ -113,7 +113,7 @@
 		{% if v.admin_level >= PERMS['USER_BAN'] and v.id != p.author_id %}
 			<button type="button" class="dropdown-item list-inline-item text-danger {% if p.author.is_permabanned %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/post/{{p.id}}', '{{p.author_name_punish_modal}}', '{{p.fullname}}')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</button>
 
-			<button type="button" id="unban-{{p.fullname}}" class="dropdown-item list-inline-item text-success {% if not p.author.is_suspended %}d-none{% endif %}" id="unexile2-user-{{p.id}}" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{p.fullname}}')"><i class="fas fa-user-slash"></i>Unban user</button>
+			<button type="button" id="unban-{{p.fullname}}" class="dropdown-item list-inline-item text-success {% if not p.author.is_banned %}d-none{% endif %}" id="unexile2-user-{{p.id}}" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{p.fullname}}')"><i class="fas fa-user-slash"></i>Unban user</button>
 		{% endif %}
 
 		{% if v.admin_level >= PERMS['USER_CHUD'] and v.id != p.author_id %}
