@@ -1033,6 +1033,8 @@ else:
 	bday_begin = datetime.datetime.strptime(f'26/4/{t.year}', '%d/%m/%Y')
 	bday_end = datetime.datetime.strptime(f'28/4/{t.year}', '%d/%m/%Y')
 def IS_BDAY():
+	if SITE == 'devrama.net':
+		return True
 	return bday_begin < datetime.datetime.now() < bday_end
 
 def IS_EVENT():
