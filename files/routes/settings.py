@@ -41,30 +41,6 @@ def settings(v):
 def settings_personal(v):
 	return render_template("settings/personal.html", v=v, msg=get_msg(), error=get_error())
 
-@app.post('/settings/discord')
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def link_discord(v):
-	if v.is_banned:
-		return {"message": "You're already banned!"}
-
-	reason = "Rule 4"
-	v.ban(reason=reason, days=1)
-	text = f"@AutoJanny has banned you for 1 day for the following reason:\n\n> {reason}"
-	send_repeatable_notification(v.id, text)
-	ma = ModAction(
-		kind="ban_user",
-		user_id=AUTOJANNY_ID,
-		target_user_id=v.id,
-		_note=f'duration: for 1 day, reason: "{reason}"'
-		)
-	g.db.add(ma)
-
-	return {"message": "You have been banned for 1 day!"}
-
 @app.post('/settings/remove_background')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
