@@ -56,18 +56,18 @@ def cron_fn(every_5m, every_1d, every_1mo):
 				_grant_two_year_badges()
 				g.db.commit()
 
-				#if not IS_LOCALHOST:
-					#reddit_mentions_task()
-					#g.db.commit()
+				if not IS_LOCALHOST and SITE_NAME == 'WPD':
+					reddit_mentions_task()
+					g.db.commit()
 
-					#lemmy_mentions_task()
-					#g.db.commit()
+					lemmy_mentions_task()
+					g.db.commit()
 
-					#fourchan_mentions_task()
-					#g.db.commit()
+					fourchan_mentions_task()
+					g.db.commit()
 
-					#soyjak_mentions_task()
-					#g.db.commit()
+					soyjak_mentions_task()
+					g.db.commit()
 
 			if every_1d or (not cache.get('stats') and not IS_LOCALHOST):
 				if IS_HOMOWEEN():
