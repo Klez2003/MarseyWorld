@@ -223,7 +223,7 @@ class User(Base):
 		if SITE == 'watchpeopledie.tv' and self.id == 5222:
 			return
 
-		if self.admin_level < PERMS['INFINITE_CURRENCY'] and self.id != 48:
+		if self.admin_level < PERMS['INFINITE_CURRENCY']:
 			user_query = g.db.query(User).options(load_only(User.id)).filter_by(id=self.id)
 
 			if currency == 'coins':
@@ -254,7 +254,7 @@ class User(Base):
 
 		should_check_balance = kwargs.get('should_check_balance', True)
 
-		if self.admin_level < PERMS['INFINITE_CURRENCY'] and self.id != 48:
+		if self.admin_level < PERMS['INFINITE_CURRENCY']:
 			user_query = g.db.query(User).options(load_only(User.id)).filter_by(id=self.id)
 
 		logs = []
@@ -262,7 +262,7 @@ class User(Base):
 			account_balance = self.coins
 
 			if not should_check_balance or account_balance >= amount:
-				if self.admin_level < PERMS['INFINITE_CURRENCY'] and self.id != 48:
+				if self.admin_level < PERMS['INFINITE_CURRENCY']:
 					user_query.update({ User.coins: User.coins - amount })
 				succeeded = True
 				logs = [['coins', amount]]
@@ -270,7 +270,7 @@ class User(Base):
 			account_balance = self.marseybux
 
 			if not should_check_balance or account_balance >= amount:
-				if self.admin_level < PERMS['INFINITE_CURRENCY'] and self.id != 48:
+				if self.admin_level < PERMS['INFINITE_CURRENCY']:
 					user_query.update({ User.marseybux: User.marseybux - amount })
 				succeeded = True
 				logs = [['marseybux', amount]]
@@ -281,10 +281,10 @@ class User(Base):
 			else:
 				subtracted_mbux = self.marseybux
 				subtracted_coins = amount - subtracted_mbux
-				if subtracted_coins > self.coins and self.admin_level < PERMS['INFINITE_CURRENCY'] and self.id != 48:
+				if subtracted_coins > self.coins and self.admin_level < PERMS['INFINITE_CURRENCY']:
 					return False
 
-			if self.admin_level < PERMS['INFINITE_CURRENCY'] and self.id != 48:
+			if self.admin_level < PERMS['INFINITE_CURRENCY']:
 				user_query.update({
 					User.marseybux: User.marseybux - subtracted_mbux,
 					User.coins: User.coins - subtracted_coins,
