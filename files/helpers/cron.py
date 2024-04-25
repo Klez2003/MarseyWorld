@@ -1,4 +1,5 @@
 import time
+import datetime
 import os
 import glob
 from sys import stdout
@@ -126,7 +127,8 @@ def cron(**kwargs):
 	cron_fn(**kwargs)
 
 def _grant_one_year_badges():
-	one_year_ago = int(time.time()) - 365.25 * 86400
+	today = datetime.datetime.today()
+	one_year_ago = datetime.datetime(today.year - 1, today.month, today.day + 1).timestamp()
 
 	notif_text = f"@AutoJanny has given you the following profile badge:\n\n{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/134.webp\n\n**1 Year Old 🥰**\n\nThis user has wasted an ENTIRE YEAR of their life here! Happy birthday!"
 	cid = notif_comment(notif_text)
@@ -141,7 +143,8 @@ def _grant_one_year_badges():
 	g.db.execute(_badge_query)
 
 def _grant_two_year_badges():
-	two_years_ago = int(time.time()) - 730.5 * 86400
+	today = datetime.datetime.today()
+	two_years_ago = datetime.datetime(today.year - 2, today.month, today.day + 1).timestamp()
 
 	notif_text = f"@AutoJanny has given you the following profile badge:\n\n{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/237.webp\n\n**2 Years Old 🥰🥰**\n\nThis user has wasted TWO WHOLE BUTT YEARS of their life here! Happy birthday!"
 	cid = notif_comment(notif_text)
