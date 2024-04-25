@@ -93,17 +93,17 @@
 
 					<div class="font-weight-bolder mb-1">
 						<div class="my-2">
-							<a class="mr-1" href="/@{{u.username}}/followers" id="profile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a> |
+							<a class="mr-1" href="/@{{u.username}}/followers" id="profile--followers">{{u.stored_subscriber_count|commas}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a> |
 
-							<a class="mx-1" href="/@{{u.username}}/following" id="profile--following">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a> |
+							<a class="mx-1" href="/@{{u.username}}/following" id="profile--following">follows {{u.follow_count|commas}} user{{'s' if u.follow_count != 1 else ''}}</a> |
 
-							<a class="mx-1" href="/@{{u.username}}/blockers" id="profile--blockers">{{u.blocking_count}} blocker{{'s' if u.blocking_count != 1 else ''}}</a> |
+							<a class="mx-1" href="/@{{u.username}}/blockers" id="profile--blockers">{{u.blocking_count|commas}} blocker{{'s' if u.blocking_count != 1 else ''}}</a> |
 
-							<a class="mx-1" href="/@{{u.username}}/blocking" id="profile--blocking">blocks {{u.block_count}} user{{'s' if u.block_count != 1 else ''}}</a> |
+							<a class="mx-1" href="/@{{u.username}}/blocking" id="profile--blocking">blocks {{u.block_count|commas}} user{{'s' if u.block_count != 1 else ''}}</a> |
 
-							<a class="mx-1" href="/@{{u.username}}/muters" id="profile--muters">{{u.muting_count}} muter{{'s' if u.muting_count != 1 else ''}}</a> |
+							<a class="mx-1" href="/@{{u.username}}/muters" id="profile--muters">{{u.muting_count|commas}} muter{{'s' if u.muting_count != 1 else ''}}</a> |
 
-							<a class="mx-1" href="/@{{u.username}}/muting" id="profile--muting">mutes {{u.mute_count}} user{{'s' if u.mute_count != 1 else ''}}</a>
+							<a class="mx-1" href="/@{{u.username}}/muting" id="profile--muting">mutes {{u.mute_count|commas}} user{{'s' if u.mute_count != 1 else ''}}</a>
 						</div>
 
 						<span id="profile-coins-amount">{{u.coins|commas}}</span>
@@ -404,21 +404,21 @@
 
 					<div class="font-weight-bolder">
 						<div>
-							<a class="mr-1" href="/@{{u.username}}/followers" id="profile-mobile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>
+							<a class="mr-1" href="/@{{u.username}}/followers" id="profile-mobile--followers">{{u.stored_subscriber_count|commas}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>
 
-							<a class="mx-1" href="/@{{u.username}}/following" id="profile-mobile--following"> follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>
+							<a class="mx-1" href="/@{{u.username}}/following" id="profile-mobile--following"> follows {{u.follow_count|commas}} user{{'s' if u.follow_count != 1 else ''}}</a>
 						</div>
 
 						<div>
-							<a class="mr-1" href="/@{{u.username}}/blockers" id="profile-mobile--blockers">{{u.blocking_count}} blocker{{'s' if u.blocking_count != 1 else ''}}</a>
+							<a class="mr-1" href="/@{{u.username}}/blockers" id="profile-mobile--blockers">{{u.blocking_count|commas}} blocker{{'s' if u.blocking_count != 1 else ''}}</a>
 
-							<a class="mx-1" href="/@{{u.username}}/blocking" id="profile-mobile--blocking">blocks {{u.block_count}} user{{'s' if u.block_count != 1 else ''}}</a>
+							<a class="mx-1" href="/@{{u.username}}/blocking" id="profile-mobile--blocking">blocks {{u.block_count|commas}} user{{'s' if u.block_count != 1 else ''}}</a>
 						</div>
 
 						<div class="mb-2">
-							<a class="mr-1" href="/@{{u.username}}/muters" id="profile-mobile--muters">{{u.muting_count}} muter{{'s' if u.muting_count != 1 else ''}}</a>
+							<a class="mr-1" href="/@{{u.username}}/muters" id="profile-mobile--muters">{{u.muting_count|commas}} muter{{'s' if u.muting_count != 1 else ''}}</a>
 
-							<a class="mx-1" href="/@{{u.username}}/muting" id="profile-mobile--muting">mutes {{u.mute_count}} user{{'s' if u.mute_count != 1 else ''}}</a>
+							<a class="mx-1" href="/@{{u.username}}/muting" id="profile-mobile--muting">mutes {{u.mute_count|commas}} user{{'s' if u.mute_count != 1 else ''}}</a>
 						</div>
 
 						<span id="profile-coins-amount-mobile" class="font-weight-bold">{{u.coins|commas}}</span>
