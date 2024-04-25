@@ -5147,8 +5147,8 @@ span.green {
 .btn-danger {
 	border-color: #E53E3E !important;
 }
-.alert {
-	color: #000000;
+.alert, .alert * {
+	color: #000000 !important;
 	font-weight: 500;
 }
 .btn-lg {
