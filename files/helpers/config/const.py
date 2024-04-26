@@ -1028,10 +1028,10 @@ def IS_DKD():
 
 if SITE_NAME == 'rDrama':
 	bday_begin = datetime.datetime.strptime(f'20/5/{t.year}', '%d/%m/%Y')
-	bday_end = datetime.datetime.strptime(f'22/5/{t.year}', '%d/%m/%Y')
+	bday_end = datetime.datetime.strptime(f'24/5/{t.year}', '%d/%m/%Y')
 else:
 	bday_begin = datetime.datetime.strptime(f'26/4/{t.year}', '%d/%m/%Y')
-	bday_end = datetime.datetime.strptime(f'28/4/{t.year}', '%d/%m/%Y')
+	bday_end = datetime.datetime.strptime(f'30/4/{t.year}', '%d/%m/%Y')
 def IS_BDAY():
 	return bday_begin < datetime.datetime.now() < bday_end
 
