@@ -4,7 +4,7 @@ let death_counter = parseInt(dt.getSeconds() + (60 * dt.getMinutes()) + (60 * 60
 function update_death_counter() {
 	death_counter += 1
 	for (const el of document.getElementsByClassName('deaths-today'))
-		el.innerHTML = death_counter.toLocaleString()
+		el.innerHTML = commas(death_counter)
 }
 
 update_death_counter()
