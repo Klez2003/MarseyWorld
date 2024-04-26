@@ -985,7 +985,7 @@ forced_hats = {
 	"sharpen": ("Bane Mask", "No one understands..."),
 	"earlylife": ("The Merchant", "SHUT IT DOWN, the goys know!"),
 	"marsify": ("Marsified", "I can't pick my own Marseys, help!"),
-	"is_banned": ("Behind Bars", "This user is banned and needs to do better!"),
+	"is_suspended": ("Behind Bars", "This user is banned and needs to do better!"),
 	"chud": (
 				("Egg_irl", "This user is getting in touch with xir identity!"),
 				("Trans Flag", "Just in case you forgot, trans lives matter."),

@@ -4,7 +4,7 @@
 			(by {{u.chudder | safe}}) - {{u.unchud_string}}
 		</h5>
 	{% endif %}
-	{% if u.is_banned %}
+	{% if u.is_suspended %}
 		<h5 class="text-primary" id="profile-{{deviceType}}--banned">BANNED USER:
 			{{u.ban_reason | safe}}
 
@@ -60,7 +60,7 @@
 					<input autocomplete="off" id="user-ban-submit-{{deviceType}}" type="submit" class="btn btn-danger" value="Ban user" disabled>
 				</form>
 
-				<button type="button" id="unban-{{deviceType}}" class="mt-1 {% if not u.is_banned %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{u.id}}')">Unban user</button>
+				<button type="button" id="unban-{{deviceType}}" class="mt-1 {% if not u.is_suspended %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{u.id}}')">Unban user</button>
 			{% endif %}
 			{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %}
 				<form id="shadowban-{{deviceType}}" class="mt-3 {% if u.shadowbanned %}d-none{% endif %}" action="/shadowban/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this)">
