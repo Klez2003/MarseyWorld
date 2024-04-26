@@ -461,7 +461,7 @@ def is_repost(v):
 def submit_post(v, hole=None):
 	flag_draft = request.values.get("draft", False, bool)
 
-	if v.is_permabanned or (v.is_banned and not flag_draft):
+	if v.is_permabanned or (v.is_suspended and not flag_draft):
 		abort(403, "You can't perform this action while banned!")
 
 	url = request.values.get("url", "").strip()

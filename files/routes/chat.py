@@ -58,7 +58,7 @@ def refresh_chat(chat_id):
 @socketio.on('speak')
 @auth_required_socketio
 def speak(data, v):
-	if v.is_banned: return ''
+	if v.is_suspended: return ''
 
 	try: chat_id = int(data['chat_id'])
 	except: return ''
@@ -270,7 +270,7 @@ def heartbeat(v):
 @socketio.on('typing')
 @auth_required_socketio
 def typing_indicator(data, v):
-	if v.is_banned: return ''
+	if v.is_suspended: return ''
 	
 	if not request.referrer: return ''
 	room = request.referrer
