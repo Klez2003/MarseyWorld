@@ -61,7 +61,7 @@ def calc_users():
 		else:
 			ddos_threshold = 1000
 
-		if g.loggedin_counter + g.loggedout_counter > ddos_threshold or (SITE == 'watchpeopledie.tv' and SITE_SETTINGS['login_required']):
+		if g.loggedin_counter + g.loggedout_counter > ddos_threshold or (SITE == 'watchpeopledie.tv' and get_setting('login_required')):
 			if not get_setting('under_attack'):
 				set_setting('under_attack', True)
 				set_security_level('under_attack')
