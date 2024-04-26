@@ -6,6 +6,9 @@ from flask import request
 
 def can_see(user, obj):
 	if isinstance(obj, (Post, Comment)):
+		if not user and SITE == 'watchpeopledie.tv' and isinstance(obj, Post) and obj.hole == 'sandshit':
+			return False
+
 		if not can_see(user, obj.author): return False
 		if user and user.id == obj.author_id: return True
 		if isinstance(obj, Post):
