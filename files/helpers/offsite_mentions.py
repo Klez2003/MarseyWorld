@@ -36,7 +36,9 @@ def reddit_mentions_task():
 		q = " or ".join(OFFSITE_NOTIF_QUERIES)
 		url = f'https://api.pullpush.io/reddit/search/{kind}?q={q}'
 		try: data = requests.get(url, headers=HEADERS, timeout=20).json()['data']
-		except: return
+		except Exception as e:
+			print(e, flush=True)
+			return
 
 		for thing in data:
 			if not thing.get('permalink'): continue
@@ -70,7 +72,10 @@ def reddit_mentions_task():
 def lemmy_mentions_task():
 	for q in OFFSITE_NOTIF_QUERIES:
 		url = f'https://lemm.ee/api/v3/search?q={q}'
-		data = requests.get(url, headers=HEADERS, timeout=20, proxies=proxies).json()
+		try: data = requests.get(url, headers=HEADERS, timeout=20, proxies=proxies).json()
+		except Exception as e:
+			print(e, flush=True)
+			return
 
 		for kind in ("post", "comment"):
 			for thing in data[f'{kind}s']:
@@ -102,7 +107,9 @@ def fourchan_mentions_task():
 	for q in queries:
 		url = f'https://archived.moe/_/api/chan/search?text={q}'
 		try: data = requests.get(url, headers=HEADERS, timeout=20, proxies=proxies).json()['0']['posts']
-		except: return
+		except Exception as e:
+			print(e, flush=True)
+			return
 
 		for thing in data:
 			board = thing['board']['shortname']
@@ -126,7 +133,9 @@ def soyjak_mentions_task():
 	for q in OFFSITE_NOTIF_QUERIES:
 		url = f'https://api.marge.moe/search?q={q}'
 		try: data = requests.get(url, headers={"User-Agent": "MarseyFromWPD"}, timeout=20, proxies=proxies).json()['results']
-		except: return
+		except Exception as e:
+			print(e, flush=True)
+			return
 
 		for thing in data:
 			text = f'<blockquote><p>{thing["comment"]}</p></blockquote>'
