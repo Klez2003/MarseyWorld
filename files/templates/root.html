@@ -43,9 +43,9 @@
 			<script defer src="{{'events/homoween/js/jumpscare.js' | asset}}"></script>
 		{% endif %}
 
-		{% if IS_BDAY() and not (v and v.poor) %}
-			<link rel="stylesheet" href="{{('events/bday/css/btn-confetti.css') | asset}}">
-			<script defer src="{{'events/bday/js/btn-confetti.js' | asset}}"></script>
+		{% if (IS_BDAY() or p and p.award_count("confetti", v)) and not (v and v.poor) %}
+			<link rel="stylesheet" href="{{('css/click_confetti.css') | asset}}">
+			<script defer src="{{'js/click_confetti.js' | asset}}"></script>
 		{% endif %}
 
 		<input hidden id="gnonce" value="{{g.nonce}}">
