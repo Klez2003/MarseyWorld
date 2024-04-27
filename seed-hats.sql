@@ -532,7 +532,6 @@ INSERT INTO public.hat_defs VALUES (166, 'Cartman', 'Fat antisemite - the archet
 INSERT INTO public.hat_defs VALUES (167, 'Cheesehead', 'For fans of the Green Gay Fudge Packers', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (168, 'Kyle', 'ngl I don''t watch South Park so idk the difference between this and Stan', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (169, 'Stan', 'ngl I don''t watch South Park so idk the difference between this and Kyle', 2, 500, NULL, 1662167687);
-
 INSERT INTO public.hat_defs VALUES (171, 'The Cleopatra', 'Did you know she was actually white?', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (172, 'Pimp Hat I', 'Women are objects', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (138, 'Top Hat (red)', 'Top hat, menstrual edition', 2, 500, NULL, 1662167687);
@@ -1075,6 +1074,7 @@ INSERT INTO public.hat_defs VALUES (1322, 'Butthead', '"Eh, this website sucks, 
 INSERT INTO public.hat_defs VALUES (1321, 'Beavis', '"GIVE ME TP FOR MY BUNGHOLE!"', 2, 500, NULL, 1692085009);
 INSERT INTO public.hat_defs VALUES (1320, 'The Master', '"So what shall it be? Do you join the Unity, or do you die here? Join! Die! Join! Die!"', 2, 500, NULL, 1691983112);
 INSERT INTO public.hat_defs VALUES (1319, 'Crown of thorns', 'King of the Jews', 2, 500, NULL, 1691981795);
+INSERT INTO public.hat_defs VALUES (1541, 'Skibidi Hat', 'Brr skibidi bop bop dob yes yes', 2, 1000, NULL, 1713667790);
 INSERT INTO public.hat_defs VALUES (1318, 'Football Helmet II', 'Touchdown!', 2, 500, NULL, 1691981743);
 INSERT INTO public.hat_defs VALUES (1317, 'Top Hat (Tiny)', 'A tiny top hat for a tiny man', 2, 500, NULL, 1691981612);
 INSERT INTO public.hat_defs VALUES (1448, 'Dharmachakra Wheel', 'With this sacred treasure I summon...', 2, 500, NULL, 1708366908);

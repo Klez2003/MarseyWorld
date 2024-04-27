@@ -2137,7 +2137,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseychtorrr2', 'Marsey', 2, 'reddit admin chonker fat', false, 0),
 ('marseychucky', 'Marsey', 2, 'doll halloween kill stab knife holiday possessed monster', false, 0),
 ('marseychud', 'Marsey', 2, '4chan virgin pol rightoid', false, 0),
-('marseychudblush', 'Marsey', 2, 'flustered', false, 1674390988),
+('marseychudblush', 'Marsey', 2, 'flustered cute shy', false, 1674390988),
 ('marseychudchartuptrend', 'Marsey', 2, 'chudsey graph trending upwards stocks moon', false, 1711313615),
 ('marseychuddance', 'Marsey', 2, 'stomp celebrate excited transphobe homophobe trump maga racist white mayo animated dancing', false, 1677699969),
 ('marseychudegg', 'Marsey', 2, 'transgender hatching repressed', false, 1668645562),
