@@ -131,7 +131,7 @@
 			<span class="ml-2 d-inline-block">Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" id="edited_timestamp-{{p.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{p.edited_utc}}')">{{p.edited_string}}</span></span>
 		{% endif %}
 	{% endif %}
-	<span class="ml-2 d-inline-block">{{p.views}} thread views</span>
+	<span class="ml-2 d-inline-block">{{p.views|commas}} thread views</span>
 
 	<a class="vertical-align ml-2" href="{{p.permalink}}">#{{p.id}}</a>
 
