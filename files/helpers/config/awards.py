@@ -403,7 +403,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_BDAY(),
+		"enabled": True,
 		"negative": False,
 		"included_in_lootbox": False,
 	},
