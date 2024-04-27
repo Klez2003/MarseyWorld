@@ -50,12 +50,6 @@ def cron_fn(every_5m, every_1d, every_1mo):
 				_unpin_expired()
 				g.db.commit()
 
-				_grant_one_year_badges()
-				g.db.commit()
-
-				_grant_two_year_badges()
-				g.db.commit()
-
 				if not IS_LOCALHOST and SITE_NAME == 'WPD':
 					reddit_mentions_task()
 					g.db.commit()
@@ -102,6 +96,12 @@ def cron_fn(every_5m, every_1d, every_1mo):
 					g.db.commit()
 
 				_set_top_poster_of_the_day_id()
+				g.db.commit()
+
+				_grant_one_year_badges()
+				g.db.commit()
+
+				_grant_two_year_badges()
 				g.db.commit()
 
 			if every_1mo:
