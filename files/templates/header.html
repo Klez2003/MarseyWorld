@@ -93,6 +93,10 @@
 						'marseypilgrim',
 						'carppilgrim',
 					] -%}
+				{% elif SITE_NAME == 'rDrama' %}
+					{%- set icons = [
+						'marseypizzashill',
+					] -%}
 				{% elif IS_BDAY() %}
 					{%- set icons = [
 						'marseyparty',
