@@ -341,7 +341,7 @@ class User(Base):
 			return True
 		if self.truescore >= TRUESCORE_MINIMUM:
 			return True
-		if self.patron:
+		if self.patron > 1:
 			return True
 		return False
 
