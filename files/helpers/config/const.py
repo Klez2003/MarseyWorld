@@ -806,6 +806,7 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 
 	AEVANN_ID = 9
 	GTIX_ID = 77694
+	CARP_ID = 48
 
 	SIGNUP_FOLLOW_ID = CARP_ID
 	CURRENCY_TRANSFER_ID = CARP_ID
