@@ -53,6 +53,10 @@ def submit_art_post(v):
 
 	hole = request.values.get('hole', '').lower().strip()
 	if not hole: hole = None
+	if hole:
+		hole = g.db.get(Hole, hole)
+		if not hole:
+			abort(404, "Hole not found!")
 
 	entry = ArtSubmission(
 				kind=kind,
