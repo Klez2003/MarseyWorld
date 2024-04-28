@@ -1138,6 +1138,7 @@ INSERT INTO public.hat_defs VALUES (1360, 'Fire', 'Nothing quite like burning al
 INSERT INTO public.hat_defs VALUES (1361, 'Jackpot', 'You’re gonna win big next round', 2, 500, NULL, 1698478525);
 INSERT INTO public.hat_defs VALUES (1364, 'Magikarps_Revenge', 'In case it wasn''t clear, what''s going on here is that this blasted carp tried to consume my flesh, and ended up killing himself in the process. Now the wretched thing''s corpse is stuck on my head.', 2, 500, NULL, 1698655386);
 INSERT INTO public.hat_defs VALUES (1406, 'typing', 'typing', 2, 1000, NULL, 1705612539);
+
 INSERT INTO public.hat_defs VALUES (1375, 'pkmn0110', 'Weezing loves the gases given off by rotted kitchen garbage. This Pokémon will find a dirty, unkempt house and make it its home. At night, when the people in the house are asleep, it will go through the trash.', 2, 500, NULL, 1698658478);
 INSERT INTO public.hat_defs VALUES (1372, 'pkmn0151', 'Mew. So rare that it is still said to be a mirage by many experts. Only a few people have seen it worldwide.', 2, 500, NULL, 1698657875);
 INSERT INTO public.hat_defs VALUES (1371, 'pkmn0054', 'Psyduck, the Platy Pokémon. A Water type. Psyduck is constantly bothered by headaches. The more its head hurts, the stronger its Psychic power.', 2, 500, NULL, 1698657676);
@@ -1165,6 +1166,7 @@ INSERT INTO public.hat_defs VALUES (1528, 'Swirl Splash Effect', 'Swploosh', 2, 
 INSERT INTO public.hat_defs VALUES (1535, 'Miku Frame', 'Show your love for the only thing that will out live roaches in the apocalypse, Hatsune Miku !!', 2, 500, NULL, 1712893209);
 INSERT INTO public.hat_defs VALUES (1536, 'Sleeping Konata Hat', 'All the way from the anime series Lucky Star to the top of your head!', 2, 500, NULL, 1712895608);
 INSERT INTO public.hat_defs VALUES (1539, 'MLG Hat', 'I am an epic pro gamer.', 2, 500, NULL, 1713490731);
+
 INSERT INTO public.hat_defs VALUES (1450, 'Red Eminent Horns', 'Queen of the devils, leader of the chuds.', 2, 500, NULL, 1708367282);
 INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokémon. A Ghost and Poison type. Gengar can pass through dimensions and appear almost anywhere. Since Gengar absorbs any warmth around it, the temperature suddenly drops wherever it appears.', 2, 500, NULL, 1698658745);
 INSERT INTO public.hat_defs VALUES (1376, 'pkmn0039', 'Jigglypuff, a Balloon Pokémon. It has large friendly eyes and it sings a pleasant song.', 2, 500, NULL, 1698658603);
@@ -1268,7 +1270,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1541, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1544, true);
 
 
 --
