@@ -52,11 +52,12 @@ def submit_art_post(v):
 	author = get_user(username, v=v)
 
 	hole = request.values.get('hole', '').lower().strip()
-	if not hole: hole = None
 	if hole:
 		hole = g.db.get(Hole, hole)
 		if not hole:
 			abort(404, "Hole not found!")
+	else:
+		hole = None
 
 	entry = ArtSubmission(
 				kind=kind,
