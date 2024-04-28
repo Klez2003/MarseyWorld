@@ -32,6 +32,7 @@ INSERT INTO public.badge_defs VALUES (320, 'Best Marsey 2023', 'The creator of t
 INSERT INTO public.badge_defs VALUES (325, 'Best rdrama activist 2023', 'Went out there and touched grass for the sake of drama, and was voted the best rdrama activist of 2023.', 1705459943);
 INSERT INTO public.badge_defs VALUES (326, 'Chud Hunter', 'Successfully reported wrongthink and got paid 🤑', 1707748016);
 INSERT INTO public.badge_defs VALUES (327, 'Top Poster of the Day', 'Has been Top Poster of the Day at least once', 1708092535);
+INSERT INTO public.badge_defs VALUES (336, 'Literary Genius', 'Wrote an original rDrama-themed Fanfiction', 1714262952);
 INSERT INTO public.badge_defs VALUES (328, 'WORDS WORDS WORDS', 'Wrote an effortpost 📃', 1708278966);
 INSERT INTO public.badge_defs VALUES (331, 'Sidebar Master', 'Contributed 10 (or more!!!!) sidebar images 🖼', 1709691233);
 INSERT INTO public.badge_defs VALUES (69, 'Little Big Spender', 'Spent 10,000 currency on awards', 0);
@@ -298,7 +299,7 @@ INSERT INTO public.badge_defs VALUES (73, 'Le Rich Gentlesir', 'Spent a fucking 
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 335, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 336, true);
 
 
 --
