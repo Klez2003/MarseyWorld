@@ -278,12 +278,18 @@ def typing_indicator(data, v):
 	if not typing.get(room):
 		typing[room] = []
 
-	if data and v.username not in typing[room]:
-		typing[room].append(v.username)
-	elif not data and v.username in typing[room]:
-		typing[room].remove(v.username)
+	typing_room = typing[room]
 
-	emit('typing', typing[room], room=room)
+	if data and v.username not in typing[room]:
+		typing_room.append(v.username)
+	elif not data and v.username in typing[room]:
+		typing_room.remove(v.username)
+
+	if v.shadowbanned:
+		emit('typing', typing_room)
+	else:
+		typing[room] = typing_room
+		emit('typing', typing[room], room=room)
 
 	return ''
 
