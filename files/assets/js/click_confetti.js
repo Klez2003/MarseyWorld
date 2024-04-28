@@ -1,4 +1,8 @@
 document.addEventListener('click', function(e) {
+	
+	if (e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLInputElement)
+		return;
+
 	function random(max){
 		return Math.random() * (max - 0) + 0;
 	}
