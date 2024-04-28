@@ -325,6 +325,8 @@ def _award_timers_task():
 	})
 	_process_timer(User.patron_utc, [22,23,24,25,26,27,28], f"Your {patron} status has expired!", {
 		User.patron: 0,
+		User.sig: None,
+		User.sig_html: None,
 		User.extra_username: None,
 		User.keyword_notifs: None,
 		User.snappy_quotes: None,
