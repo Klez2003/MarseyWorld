@@ -6266,6 +6266,7 @@ audio, video {
 
 .sidebar-wpd--holes a:hover {
 	color: #fff;
+    background-color: var(--primary);
 	text-decoration: none;
 }
 
