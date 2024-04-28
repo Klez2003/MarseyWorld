@@ -8,6 +8,7 @@
 .click-confetti {
 	position: fixed;
 	animation: bang 700ms ease-out forwards;
+	pointer-events: none;
 }
 
 .click-confetti > i {
