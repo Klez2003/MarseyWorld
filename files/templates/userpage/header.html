@@ -7,20 +7,20 @@
 					<a class="nav-link{% if path == '' or path.startswith('/wall/comment/') %} active{% endif %}" href="/@{{u.username}}">Wall</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link{% if path == '/posts' %} active{% endif %}" href="/@{{u.username}}/posts">Posts <span class="count">({{u.real_post_count(v)}})</span></a>
+					<a class="nav-link{% if path == '/posts' %} active{% endif %}" href="/@{{u.username}}/posts">Posts <span class="count">({{u.real_post_count(v)|commas}})</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link{% if path == '/comments' %} active{% endif %}" href="/@{{u.username}}/comments">Comments <span class="count">({{u.real_comment_count(v)}})</span></a>
+					<a class="nav-link{% if path == '/comments' %} active{% endif %}" href="/@{{u.username}}/comments">Comments <span class="count">({{u.real_comment_count(v)|commas}})</span></a>
 				</li>
 				{% if u.id == v.id %}
 					<li class="nav-item">
-						<a class="nav-link{% if path == '/saved/posts' %} active{% endif %}" href="/@{{u.username}}/saved/posts">Saved Posts <span class="count">({{u.saved_count}})</span></a>
+						<a class="nav-link{% if path == '/saved/posts' %} active{% endif %}" href="/@{{u.username}}/saved/posts">Saved Posts <span class="count">({{u.saved_count|commas}})</span></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link{% if path == '/saved/comments' %} active{% endif %}" href="/@{{u.username}}/saved/comments">Saved Comments <span class="count">({{u.saved_comment_count}})</span></a>
+						<a class="nav-link{% if path == '/saved/comments' %} active{% endif %}" href="/@{{u.username}}/saved/comments">Saved Comments <span class="count">({{u.saved_comment_count|commas}})</span></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link{% if path == '/subscribed/posts' %} active{% endif %}" href="/@{{u.username}}/subscribed/posts">Subscribed <span class="count">({{u.subscribed_count}})</span></a>
+						<a class="nav-link{% if path == '/subscribed/posts' %} active{% endif %}" href="/@{{u.username}}/subscribed/posts">Subscribed <span class="count">({{u.subscribed_count|commas}})</span></a>
 					</li>
 				{% endif %}
 			</ul>
