@@ -408,6 +408,9 @@ def change_settings(v, setting):
 	if setting == "offline_mode" and v.admin_level < PERMS["SITE_OFFLINE_MODE"]:
 		abort(403, "You can't change this setting!")
 
+	if setting == "login_required" and SITE == 'watchpeopledie.tv':
+		abort(403, "You can't change this setting!")
+
 	val = toggle_setting(setting)
 	if val: word = 'enable'
 	else: word = 'disable'
