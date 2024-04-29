@@ -184,14 +184,12 @@ def process_video(file, v):
 		os.remove(old)
 		abort(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
-	is_icosaka = (SITE == 'watchpeopledie.tv' and v and v.username.lower().startswith("icosaka"))
-
 	is_reencoding = False
-	if codec != 'h264' and not is_icosaka:
+	if codec != 'h264':
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new)
 		is_reencoding = True
-	elif bitrate >= 3000000 and not is_icosaka:
+	elif bitrate >= 3000000:
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new, True)
 		is_reencoding = True
@@ -215,10 +213,6 @@ def process_video(file, v):
 	g.db.add(media)
 
 	url = SITE_FULL_VIDEOS + new.split('/videos')[1]
-
-	if is_icosaka:
-		gevent.spawn(delete_file, new, url)
-		return url, None, None
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	ffmpeg.input(new).output(name, loglevel="quiet", map_metadata=-1, **{"vf":"scale='iw':-2", 'frames:v':1}).run()
@@ -292,15 +286,8 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 	)
 	g.db.add(media)
 
-	if SITE == 'watchpeopledie.tv' and v and "dylan" in v.username.lower() and "hewitt" in v.username.lower():
-		gevent.spawn(delete_file, filename, f'{SITE_FULL_IMAGES}{filename}')
-
 	return f'{SITE_FULL_IMAGES}{filename}'
 
-def delete_file(filename, url):
-	time.sleep(60)
-	os.remove(filename)
-	purge_files_in_cloudflare_cache(url)
 
 def process_badge_entry(oldname, v, comment_body):
 	try:
