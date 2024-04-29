@@ -14,9 +14,13 @@ if (post_permalinks) {
 				pid = permalink_after.split('/').slice(-2, -1)[0]
 			}
 
+			function go_next() {
+				location.replace(permalink_after.slice(1, -1))
+			}
+
 			for (const btn of document.getElementsByClassName('post_navigation')) {
 				btn.classList.remove('d-none')
-				btn.href = permalink_after.slice(1, -1)
+				btn.onclick = go_next
 			}
 
 			document.addEventListener('keydown', (e) => {
@@ -26,9 +30,7 @@ if (post_permalinks) {
 					!expandImageModal.classList.contains('show')
 				) {
 					if (["ArrowRight", "d"].includes(e.key))
-						location.href = permalink_after.slice(1, -1)
-					if (["ArrowLeft", "a"].includes(e.key))
-						history.back()
+						go_next()
 				}
 			})
 		}
