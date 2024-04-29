@@ -23,15 +23,13 @@
 			<div>
 				<p id="orgy-file-container" class="resizable">
 					{% if orgy.type == 'youtube' %}
-						<iframe style="border: none" sandbox="allow-scripts allow-same-origin allow-popups allow-presentation allow-popups-to-escape-sandbox" title="Play" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src="https://cdpn.io/pen/debug/NWeVNRj?v={{orgy.data}}&autoplay=1{% if orgy.end_utc %}&start={{orgy.seconds_since_starts}}{% endif %}"></iframe>
-					{% elif orgy.type == 'rumble' %}
-						<iframe src="{{orgy.data}}" frameborder="0" allowfullscreen></iframe>
-					{% elif orgy.type == 'twitch' %}
-						<iframe src="https://player.twitch.tv/?channel={{orgy.data}}&parent={{SITE}}" frameborder="0" allowfullscreen></iframe>
+						<iframe style="border: none" sandbox="allow-scripts allow-same-origin allow-popups allow-presentation allow-popups-to-escape-sandbox" title="Play" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src="{{orgy.data}}{% if orgy.end_utc %}&start={{orgy.seconds_since_starts}}{% endif %}"></iframe>
 					{% elif orgy.type == 'file' %}
 						<video id="orgy-file" data-created_utc="{{orgy.real_start_utc}}" controls preload="none" src="{{orgy.data}}"></video>
 						<video id="break-file" class="d-none" controls preload="none" src="/assets/break.mp4" data-run="{{orgy.start_utc != orgy.real_start_utc}}"></video>
 						<script defer src="{{'js/orgy_file.js' | asset}}"></script>
+					{% else %}
+						<iframe src="{{orgy.data}}" frameborder="0" allowfullscreen></iframe>
 					{% endif %}
 				</p>
 				{% if (orgies)|length > 1 %}
