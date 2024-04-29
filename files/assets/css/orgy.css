@@ -19,7 +19,7 @@
 		flex-flow: column wrap;
 	}
 	#chat-window {
-		max-height: 45.4vh !important;
+		max-height: 34.5vh !important;
 	}
 }
 
@@ -91,10 +91,4 @@ body > .container {
 
 #orgy-file-container > iframe {
 	aspect-ratio: 16/9;
-}
-
-@media (max-width: 768px) {
-	.has_header {
-		padding-top: 0 !important
-	}
 }
