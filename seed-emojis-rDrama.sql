@@ -6014,7 +6014,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('turtoisethinking', 'Misc', 2, 'wondering notice', false, 1711128221),
 ('turtoisetrap', 'Misc', 2, 'box', false, 1703171761),
 ('turtoisevomit', 'Misc', 2, 'sick ill disgusted puk', false, 1711132289),
-('typing', 'Classic', 2, 'animated emoticon writing programming', false, 0),
+('type', 'Classic', 2, 'animated emoticon writing programming', false, 0),
 ('u', 'Marsey Alphabet', 2, 'letter', false, 0),
 ('uglyangry', 'Classic', 2, 'seething teeth grinding', false, 1679156266),
 ('uglybussy', 'Classic', 2, 'showing ass butt sexy mooning', false, 1679156601),
