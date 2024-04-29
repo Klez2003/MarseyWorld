@@ -132,8 +132,6 @@ def reencode_video(old, new, check_sizes=False):
 		os.remove(old)
 		if os.path.isfile(tmp):
 			os.remove(tmp)
-		if SITE == 'watchpeopledie.tv':
-			rclone_copy(new)
 		return
 
 	if check_sizes:
@@ -142,8 +140,6 @@ def reencode_video(old, new, check_sizes=False):
 		if new_size > old_size:
 			os.remove(old)
 			os.remove(tmp)
-			if SITE == 'watchpeopledie.tv':
-				rclone_copy(new)
 			return
 
 	os.replace(tmp, new)
@@ -184,15 +180,12 @@ def process_video(file, v):
 		os.remove(old)
 		abort(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
-	is_reencoding = False
 	if codec != 'h264':
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new)
-		is_reencoding = True
 	elif bitrate >= 3000000:
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new, True)
-		is_reencoding = True
 	else:
 		try:
 			ffmpeg.input(old).output(new, loglevel="quiet", map_metadata=-1, acodec="copy", vcodec="copy").run()
@@ -219,7 +212,7 @@ def process_video(file, v):
 	posterurl = SITE_FULL_IMAGES + name
 	media.posterurl = posterurl
 
-	if SITE == 'watchpeopledie.tv' and not is_reencoding:
+	if SITE == 'watchpeopledie.tv':
 		gevent.spawn(rclone_copy, new)
 
 	return url, posterurl, name
@@ -318,8 +311,9 @@ def process_badge_entry(oldname, v, comment_body):
 if SITE == 'watchpeopledie.tv':
 	from rclone_python import rclone
 	def rclone_copy(filename):
+		print(f'attempting to sync {filename}', flush=True)
 		x = rclone.copy(filename, 'no:/videos', ignore_existing=True, show_progress=False)
-		print(filename, x, flush=True)
+		print(f'finished syncing {filename}', flush=True)
 	def rclone_delete(path):
 		params = ("rclone", "deletefile", path)
 		subprocess.run(params, check=True, timeout=30)
