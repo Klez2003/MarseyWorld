@@ -142,15 +142,11 @@ function checkRepost() {
 }
 
 document.addEventListener('keydown', (e) => {
-	if (!((e.ctrlKey || e.metaKey) && e.key === "Enter"))
-		return;
-
-	submitButton.click();
+	if ((e.ctrlKey || e.metaKey) && e.key === "Enter")
+		submitButton.click();
 });
 
-document.getElementById('post-title').addEventListener('keydown', (e) => {
-	if (e.key === "Enter") e.preventDefault();
-})
+for (const el of document.getElementsByTagName('input')) {
 
 checkRepost();
 
