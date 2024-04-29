@@ -318,7 +318,7 @@ def process_badge_entry(oldname, v, comment_body):
 if SITE == 'watchpeopledie.tv':
 	from rclone_python import rclone
 	def rclone_copy(filename):
-		rclone.copy(filename, 'no:/videos', ignore_existing=True, show_progress=False)
+		rclone.copy(filename, 'no:/videos', ignore_existing=True, show_progress=True)
 	def rclone_delete(path):
 		params = ("rclone", "deletefile", path)
 		subprocess.run(params, check=True, timeout=30)
