@@ -58,15 +58,6 @@
 		</div>
 
 		<div class="orgy-chat-window-item pl-1 pr-2">
-			{% if chat.id != 1 %}
-				<div class="border-right d-none d-md-block fl-r pt-2 mr-3" style="margin-top:-3px">
-					<span data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="<b>Members</b> {% for membership in sorted_memberships %}<br>@{{membership.user.username}} {% if membership.user_id == chat.owner_id %}👑{% endif %}{% endfor %}" class="text-muted">
-						<i class="fas fa-user fa-sm mr-1"></i>
-						<span class="chat-count" style="cursor:default">{{sorted_memberships|length}}</span>
-					</span>
-				</div>
-			{% endif %}
-
 			<div id="chat-group-template" class="d-none">
 				{{macros.chat_group_template()}}
 				</div>
@@ -76,6 +67,36 @@
 				{{macros.chat_line_template()}}
 			</div>
 			{{macros.chat_window(vlink)}}
+
+			{% if chat.id != 1 %}
+				<div class="mx-2">
+					<h5 class="mt-5 mb-1">Members ({{sorted_memberships|length}})</h5>
+					<ul class="col text-left d-mob-none bg-white mb-4 pb-2" style="max-width:300px;list-style-type:none">
+						{% for membership in sorted_memberships %}
+							{% set user = membership.user %}
+							{% set patron = '' %}
+							{% if user.patron %}
+								{% set patron = patron + 'class="patron chat-patron" style="background-color:#' ~ user.name_color ~ '"' %}
+							{% endif %}
+							{% if user.pride_username(None) %}
+								{% set patron = patron + ' pride_username' %}
+							{% endif %}
+							<li style="margin-top: 0.35rem">
+								<a class="font-weight-bold" target="_blank" href="/@{{user.username}}" style="color:#{{user.name_color}}">
+									<img loading="lazy" class="mr-1" src="/pp/{{user.id}}">
+									<span {{patron | safe}}>{{user.username}}</span>
+								</a>
+
+								{% if user.id == chat.owner_id %}
+									<img class="ml-1 chat-owner" data-bs-toggle="tooltip" alt="Owner" title="Owner" src="{{SITE_FULL_IMAGES}}/e/marseykingretard.webp">
+								{% endif %}
+
+								<i class="d-none ml-1 text-smaller text-success online-marker online-marker-{{user.id}} fas fa-circle"></i>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
 		</div>
 	</div>
 
