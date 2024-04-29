@@ -147,6 +147,11 @@ document.addEventListener('keydown', (e) => {
 });
 
 for (const el of document.getElementsByTagName('input')) {
+	el.addEventListener('keydown', (e) => {
+		if (e.key === "Enter")
+			e.preventDefault();
+	})
+}
 
 checkRepost();
 
