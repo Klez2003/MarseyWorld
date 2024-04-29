@@ -392,7 +392,7 @@ class User(Base):
 		user_forced_hats = []
 		for k, val in forced_hats.items():
 			get = getattr(self, k)
-			if get and (get == True or get > 1):
+			if get and (get is True or get > 1):
 				if isinstance(val[0], tuple):
 					user_forced_hats.append(random.choice(val))
 				else:
