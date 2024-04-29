@@ -2052,8 +2052,17 @@ def mark_effortpost(pid, v):
 		min_chars = 3000
 		min_lines = 20
 
-	if len(p.body) < min_chars or p.body_html.count('<p>') < min_lines:
+	if p.body_html.count('<p>') < min_lines:
 		abort(403, "Post is too short!")
+
+	soup = BeautifulSoup(p.body_html, 'lxml')
+	tags = soup.html.body.find_all(lambda tag: tag.name == 'p' and tag.text, recursive=False)
+	post_char_count = 0
+	for tag in tags:
+		post_char_count += len(tag.text)
+
+	if post_char_count < min_chars:
+		abort(403, "Post is too short.")
 
 	p.effortpost = True
 	g.db.add(p)
