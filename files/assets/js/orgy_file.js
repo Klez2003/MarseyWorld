@@ -15,7 +15,7 @@ function add_playing_listener() {
 		const created_utc = orgy_file.dataset.created_utc
 		orgy_file.currentTime = now - created_utc
 		if (screen_width < 768) {
-			const chat_window_height = innerHeight - orgy_file.offsetHeight - 187
+			const chat_window_height = innerHeight - orgy_file.offsetHeight - 184
 			document.getElementById('chat-window').setAttribute('style', `max-height: ${chat_window_height}px !important`)
 		}
 		setTimeout(add_waiting_listener, 5000);
