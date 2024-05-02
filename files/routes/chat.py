@@ -130,8 +130,7 @@ def speak(data, v):
 			user = get_user(i.group(1), graceful=True, attributes=[User.id])
 			if user and not user.has_muted(v) and not user.has_blocked(v):
 				existing = g.db.query(ChatMembership.user_id).filter_by(user_id=user.id, chat_id=chat_id).one_or_none()
-				leave = g.db.query(ChatLeave.user_id).filter_by(user_id=user.id, chat_id=chat_id).one_or_none()
-				if not existing and not leave:
+				if not existing:
 					chat_membership = ChatMembership(
 						user_id=user.id,
 						chat_id=chat_id,

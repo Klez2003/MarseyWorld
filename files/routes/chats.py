@@ -146,12 +146,6 @@ def leave_chat(v, chat_id):
 
 	g.db.delete(membership)
 
-	chat_leave = ChatLeave(
-		user_id=v.id,
-		chat_id=chat_id,
-	)
-	g.db.add(chat_leave)
-
 	return {"message": "Chat left successfully!"}
 
 
