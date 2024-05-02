@@ -70,7 +70,8 @@
 
 			{% if chat.id != 1 %}
 				<div class="mx-2 d-mob-none">
-					<h5 class="mt-5 mb-1">Members ({{sorted_memberships|length}})</h5>
+					<hr class="mt-5 mb-3">
+					<h5>Members ({{sorted_memberships|length}})</h5>
 					<ul class="col text-left bg-white mb-4 pb-2" style="max-width:300px;list-style-type:none">
 						{% for membership in sorted_memberships %}
 							{% set user = membership.user %}
