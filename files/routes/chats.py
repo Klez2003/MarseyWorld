@@ -196,7 +196,7 @@ def schedule_orgy(v, chat_id):
 	if start_utc:
 		start_utc = int(start_utc)
 	else:
-		last_orgy = g.db.query(Orgy).order_by(Orgy.start_utc.desc()).first()
+		last_orgy = g.db.query(Orgy).filter_by(chat_id=chat.id).order_by(Orgy.start_utc.desc()).first()
 		if last_orgy and last_orgy.end_utc:
 			start_utc = last_orgy.end_utc
 		else:
