@@ -52,6 +52,6 @@ def can_see(user, obj):
 		if obj.name in {'sandshit', 'isis', 'facism', 'furry', 'fatpeoplehate', 'toomanyxchromosomes', 'drugs', 'faggot', 'spalspace', 'deadniggerstorage'}: return bool(user)
 	elif obj.__class__.__name__ == 'User':
 		#DELETE_ME_PLS
-		if obj.id == 21238: return False
+		if not user and obj.id == 21238: return False
 		return not obj.shadowbanned or (user and user.id == obj.id) or (user and user.admin_level >= PERMS['USER_SHADOWBAN'])
 	return True
