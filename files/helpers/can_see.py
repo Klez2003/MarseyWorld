@@ -15,6 +15,8 @@ def can_see(user, obj):
 				return False
 			if any((x in obj.body.lower() for x in words_to_hide)):
 				return False
+			if isinstance(obj, Post) and any((x in obj.title.lower() for x in words_to_hide)):
+				return False
 
 		if not can_see(user, obj.author): return False
 		if user and user.id == obj.author_id: return True
