@@ -4,10 +4,17 @@ from files.classes.comment import Comment
 from files.classes.hole import Hole
 from flask import request
 
+#DELETE_ME_PLS
+words_to_hide = ('israel', 'isreal', 'palest', 'muslim', 'islam', 'hamas', 'jew', 'zion', 'gaza', 'rafah', 'isis', 'terror', 'iraq', 'allah', 'mohammad', 'muhammad', 'mohammed', 'muhammed', 'mohamad', 'muhamad', 'mohamed', 'muhamed', 'trans', 'train', 'tranny', 'troon', 'rowdy', 'nigger', 'bipoc')
+
 def can_see(user, obj):
 	if isinstance(obj, (Post, Comment)):
-		if not user and SITE == 'watchpeopledie.tv' and isinstance(obj, Post) and obj.hole in {'sandshit','isis'}:
-			return False
+		#DELETE_ME_PLS
+		if not user:
+			if obj.nsfw:
+				return False
+			if any((x in obj.body.lower() for x in words_to_hide)):
+				return False
 
 		if not can_see(user, obj.author): return False
 		if user and user.id == obj.author_id: return True
@@ -39,6 +46,10 @@ def can_see(user, obj):
 		if obj.name == 'chudrama': return bool(user) and user.can_see_chudrama
 		if obj.name == 'countryclub': return bool(user) and user.can_see_countryclub
 		if obj.name == 'highrollerclub': return bool(user) and user.can_see_highrollerclub
+		#DELETE_ME_PLS
+		if obj.name in {'sandshit', 'isis', 'facism', 'furry', 'fatpeoplehate', 'toomanyxchromosomes', 'drugs', 'faggot', 'spalspace', 'deadniggerstorage'}: return bool(user)
 	elif obj.__class__.__name__ == 'User':
+		#DELETE_ME_PLS
+		if obj.id == 21238: return False
 		return not obj.shadowbanned or (user and user.id == obj.id) or (user and user.admin_level >= PERMS['USER_SHADOWBAN'])
 	return True

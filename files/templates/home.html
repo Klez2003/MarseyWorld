@@ -6,8 +6,11 @@
 	{% elif request.path == '/' %}
 		{% if IS_DKD() %}
 			<title>Kongrama</title>
-		{% else %}
+		{# DELETE_ME_PLS #}
+		{% elif v %}
 			<title>{{SITE_NAME}}{% if TAGLINES %}: {{TAGLINES|random}}{% endif %}</title>
+		{% else %}
+			<title>{{SITE_NAME}}{% if TAGLINES %}: {{TAGLINES[0]}}{% endif %}</title>
 		{% endif %}
 	{% else %}
 		{{super()}}
