@@ -206,11 +206,10 @@ def schedule_orgy(v, chat_id):
 
 	if bare_youtube_regex.match(normalized_link):
 		orgy_type = 'youtube'
-		data, _ = get_youtube_id_and_t(normalized_link)
-		if YOUTUBE_KEY == DEFAULT_CONFIG_VALUE:
-			data = f'https://cdpn.io/pen/debug/NWeVNRj?v={data}&autoplay=1'
-		else:
-			req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={data}&key={YOUTUBE_KEY}&part=contentDetails", headers=HEADERS, timeout=5).json()
+		id, _ = get_youtube_id_and_t(normalized_link)
+		data = f'https://cdpn.io/pen/debug/NWeVNRj?v={id}&autoplay=1'
+		if YOUTUBE_KEY != DEFAULT_CONFIG_VALUE:
+			req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={YOUTUBE_KEY}&part=contentDetails", headers=HEADERS, timeout=5).json()
 			duration = req['items'][0]['contentDetails']['duration']
 			if duration != 'P0D':
 				duration = isodate.parse_duration(duration).total_seconds()
@@ -226,7 +225,7 @@ def schedule_orgy(v, chat_id):
 				}
 
 				with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-					info = ydl.extract_info(f"https://www.youtube.com/watch?v={data}")
+					info = ydl.extract_info(f"https://www.youtube.com/watch?v={id}")
 				data = info["url"]
 	elif rumble_regex.match(normalized_link):
 		orgy_type = 'rumble'
