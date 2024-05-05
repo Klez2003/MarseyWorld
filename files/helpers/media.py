@@ -312,7 +312,7 @@ if SITE == 'watchpeopledie.tv':
 	def rclone_copy(filename):
 		print(f'attempting to sync {filename}', flush=True)
 		params = ["rclone", "copy", filename, "no:/videos"]
-		subprocess.run(params, check=True, timeout=300)
+		subprocess.run(params, check=True, timeout=3000)
 		print(f'finished syncing {filename}', flush=True)
 
 	def rclone_delete(path):
