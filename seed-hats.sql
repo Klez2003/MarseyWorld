@@ -1144,6 +1144,7 @@ INSERT INTO public.hat_defs VALUES (1371, 'pkmn0054', 'Psyduck, the Platy Pokém
 INSERT INTO public.hat_defs VALUES (1449, 'Zero Two Horns', 'Hi, darling!', 2, 500, NULL, 1708367087);
 INSERT INTO public.hat_defs VALUES (1543, 'Darksign', 'Be safe, Ashen one. Don''t you dare go hollow.', 2, 500, NULL, 1714317992);
 INSERT INTO public.hat_defs VALUES (1545, 'Imagine', 'A world without dramatards.', 2, 1000, NULL, 1714475830);
+
 INSERT INTO public.hat_defs VALUES (1456, 'Spiked Emo Beanie', 'Touch the ear buttons, I dare you.', 2, 500, NULL, 1708647722);
 INSERT INTO public.hat_defs VALUES (1457, 'Scarlet Shine', 'I shimmer bitch.', 2, 500, NULL, 1708647756);
 INSERT INTO public.hat_defs VALUES (1463, 'Colombian Fedora', 'Mi Señora!', 2, 500, NULL, 1708647999);
@@ -1272,7 +1273,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1554, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1555, true);
 
 
 --
