@@ -33,6 +33,7 @@ INSERT INTO public.badge_defs VALUES (325, 'Best rdrama activist 2023', 'Went ou
 INSERT INTO public.badge_defs VALUES (326, 'Chud Hunter', 'Successfully reported wrongthink and got paid 🤑', 1707748016);
 INSERT INTO public.badge_defs VALUES (327, 'Top Poster of the Day', 'Has been Top Poster of the Day at least once', 1708092535);
 INSERT INTO public.badge_defs VALUES (336, 'Literary Genius', 'Wrote an original rDrama-themed Fanfiction', 1714262952);
+INSERT INTO public.badge_defs VALUES (337, 'INcel bronze', 'User invited two internet celebs to rDrama', 1715140233);
 INSERT INTO public.badge_defs VALUES (328, 'WORDS WORDS WORDS', 'Wrote an effortpost 📃', 1708278966);
 INSERT INTO public.badge_defs VALUES (331, 'Sidebar Master', 'Contributed 10 (or more!!!!) sidebar images 🖼', 1709691233);
 INSERT INTO public.badge_defs VALUES (69, 'Little Big Spender', 'Spent 10,000 currency on awards', 0);
@@ -62,6 +63,7 @@ INSERT INTO public.badge_defs VALUES (141, 'Marsey Typographer', 'For substantia
 INSERT INTO public.badge_defs VALUES (321, 'Master Baiter 2023', 'The cunning mastermind behind the ruse which was voted best rdrama bait of 2023.', 1705457673);
 INSERT INTO public.badge_defs VALUES (329, 'WORDS WORDS WORDS WORDS', 'Wrote 10 (or more!!!!) effortposts 📃', 1708279122);
 INSERT INTO public.badge_defs VALUES (332, 'Sidebar God', 'Contributed 100 (or more!!!!) sidebar images 🖼🎨', 1709691274);
+INSERT INTO public.badge_defs VALUES (338, 'INcel silver', 'User invited two internet celebs to rDrama', 1715140318);
 INSERT INTO public.badge_defs VALUES (298, 'Gray Alien', 'This user probed /r/UFOs and left the next morning.', 1694717005);
 INSERT INTO public.badge_defs VALUES (213, 'Best Marsey 2022', 'The creator of the best Marsey emoji of 2022, as voted by rDrama users.', 1670719193);
 INSERT INTO public.badge_defs VALUES (215, 'Own Goal', 'Don''t take this user''s advice on sportsball betting.', 1671150354);
@@ -126,6 +128,8 @@ INSERT INTO public.badge_defs VALUES (279, 'Time Stone', 'Our oath to protect th
 INSERT INTO public.badge_defs VALUES (280, 'Infinity Gauntlet', 'And so the sun rises on a grateful gay cartoon cat website.', 1683850413);
 INSERT INTO public.badge_defs VALUES (330, 'WORDS WORDS WORDS WORDS WORDS', 'Wrote 100 (or more!!!!) effortposts 📃🤓', 1708279153);
 INSERT INTO public.badge_defs VALUES (333, 'Banner Master', 'Contributed 10 (or more!!!!) banners 🖼', 1709696049);
+INSERT INTO public.badge_defs VALUES (339, 'INcel gold', 'User invited five internet celebs to rDrama', 1715140378);
+INSERT INTO public.badge_defs VALUES (340, 'INcel Diamond', 'User invited TEN internet celebs to rDrama', 1715140401);
 INSERT INTO public.badge_defs VALUES (281, 'Namelock', 'This user has been forcibly renamed', 1684120696);
 INSERT INTO public.badge_defs VALUES (245, 'Kongmaxxer: N', 'Contributed a KONGMAXXED Marsey or emoji during Donkey Kong December', 1679419208);
 INSERT INTO public.badge_defs VALUES (282, 'Rehab Counselor', 'Awarded for participating in the Marsey''s Methlab Event', 1685121792);
@@ -299,7 +303,7 @@ INSERT INTO public.badge_defs VALUES (73, 'Le Rich Gentlesir', 'Spent a fucking 
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 336, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 340, true);
 
 
 --
