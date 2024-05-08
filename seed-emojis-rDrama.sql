@@ -2064,6 +2064,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseycharlesiii', 'Marsey', 2, 'king england britain royalty royal monarch', false, 1664652665),
 ('marseycharlesmanson', 'Marsey', 2, 'charlie charliemanson murderer killer swastika crazy psycho schizo helterskelter prison cult', false, 0),
 ('marseycharliebrown', 'Marsey', 2, 'peanuts halloween ghost rock costume', false, 1666242060),
+('marseycharliebrown2', 'Marsey', 2, 'peanuts bald comic charles schulz cartoon snoopy chuck', false, 1715143433),
 ('marseycharmander', 'Marsey', 2, 'pkmn pokemon 004', false, 1697861674),
 ('marseychartbar', 'Marsey', 2, 'stats statistics graph plot data column poll survey vote', false, 0),
 ('marseychartdowntrend', 'Marsey', 2, 'graph plot data stats decrease falling stocks', false, 1673666710),
