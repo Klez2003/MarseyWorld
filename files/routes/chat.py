@@ -269,7 +269,7 @@ def heartbeat(v):
 @socketio.on('typing')
 @auth_required_socketio
 def typing_indicator(data, v):
-	if v.is_suspended: return ''
+	if v.is_suspended or v.shadowbanned: return ''
 	
 	if not request.referrer: return ''
 	room = request.referrer
@@ -277,18 +277,12 @@ def typing_indicator(data, v):
 	if not typing.get(room):
 		typing[room] = []
 
-	if v.shadowbanned:
-		if data and v.username not in typing[room]:
-			emit('typing', typing[room] + [v.username])
-		elif not data and v.username in typing[room]:
-			emit('typing', typing[room] - [v.username])
-	else:
-		if data and v.username not in typing[room]:
-			typing[room].append(v.username)
-			emit('typing', typing[room], room=room)
-		elif not data and v.username in typing[room]:
-			typing[room].remove(v.username)
-			emit('typing', typing[room], room=room)
+	if data and v.username not in typing[room]:
+		typing[room].append(v.username)
+	elif not data and v.username in typing[room]:
+		typing[room].remove(v.username)
+
+	emit('typing', typing[room], room=room)
 
 	return ''
 
