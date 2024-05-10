@@ -269,10 +269,6 @@ def schedule_orgy(v, chat_id):
 		)
 		g.db.add(ma)
 
-	if AEVANN_ID and v.id != AEVANN_ID:
-		text = f"@{v.username} has started [{title}]({orgy.data}) in [{chat.name}](/chat/{chat.id})"
-		send_repeatable_notification(AEVANN_ID, text)
-
 	return redirect(f"/chat/{chat_id}/orgies")
 
 @app.post("/chat/<int:chat_id>/remove_orgy/<int:created_utc>")
