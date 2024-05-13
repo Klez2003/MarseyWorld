@@ -8,7 +8,7 @@
 	{% include "modals/emoji.html" %}
 	{% include "modals/gif.html" %}
 	{% set vlink = '<a href="/id/' ~ v.id ~ '"' %}
-	<div class="container pb-3 pb-md-2">
+	<div class="container pb-3">
 		<div class="row justify-content-around" id="main-content-row">
 			<div class="col h-100 {% block customPadding %}custom-gutters{% endblock %}" id="main-content-col">
 				{% if chat.id != 1 %}
