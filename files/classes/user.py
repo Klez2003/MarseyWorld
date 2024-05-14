@@ -1449,7 +1449,7 @@ class User(Base):
 
 
 badge_ordering_tuple = PATRON_BADGES + (
-	134, 237, #1 year and 2 year
+	134, 237, 341, #1 year, 2 year, 3 year
 	10, 11, 12, #referred users
 	69, 70, 71, 72, 73, #coins spent
 	76, 77, 78, #lootboxes bought
