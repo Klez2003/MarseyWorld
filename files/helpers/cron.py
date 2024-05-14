@@ -104,6 +104,9 @@ def cron_fn(every_5m, every_1d, every_1mo):
 				_grant_two_year_badges()
 				g.db.commit()
 
+				_grant_three_year_badges()
+				g.db.commit()
+
 			if every_1mo:
 				_give_marseybux_salary()
 				g.db.commit()
@@ -156,6 +159,22 @@ def _grant_two_year_badges():
 	_badge_query = text(f"""insert into badges
 	select 237, id, null, null, extract(epoch from now())
 	from users where created_utc < {two_years_ago} and id not in (select user_id from badges where badge_id=237);""")
+	g.db.execute(_badge_query)
+
+def _grant_three_year_badges():
+	today = datetime.datetime.today()
+	three_years_ago = datetime.datetime(today.year - 3, today.month, today.day + 1).timestamp()
+
+	notif_text = f"@AutoJanny has given you the following profile badge:\n\n{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/341.webp\n\n**3 Years Old 🥰🥰🥰**\n\nThis user has wasted THREE WHOLE BUTT YEARS of their life here! Happy birthday!"
+	cid = notif_comment(notif_text)
+	_notif_query = text(f"""insert into notifications
+	select id, {cid}, false, extract(epoch from now())
+	from users where created_utc < {three_years_ago} and id not in (select user_id from badges where badge_id=341);""")
+	g.db.execute(_notif_query)
+
+	_badge_query = text(f"""insert into badges
+	select 341, id, null, null, extract(epoch from now())
+	from users where created_utc < {three_years_ago} and id not in (select user_id from badges where badge_id=341);""")
 	g.db.execute(_badge_query)
 
 def _hole_inactive_purge_task():
