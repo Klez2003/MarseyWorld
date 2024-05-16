@@ -282,8 +282,6 @@ def api(v):
 @auth_desired
 def contact(v):
 	listing, total, page = modmail_listing(v)
-	err = v and v.is_suspended and 'underage' in v.ban_reason.lower()
-	print(err, flush=True)
 	return render_template("contact.html",
 							v=v,
 							listing=listing,
@@ -291,7 +289,6 @@ def contact(v):
 							page=page,
 							standalone=True,
 							render_replies=True,
-							err=err,
 						)
 
 @app.post("/contact")

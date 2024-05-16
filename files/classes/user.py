@@ -1152,6 +1152,11 @@ class User(Base):
 
 	@property
 	@lazy
+	def is_underage(self):
+		return self.is_suspended and 'underage' in self.ban_reason.lower()
+
+	@property
+	@lazy
 	def applications(self):
 		return g.db.query(OauthApp).filter_by(author_id=self.id).order_by(OauthApp.id).all()
 

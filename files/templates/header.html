@@ -177,7 +177,7 @@
 
 			{% if not request.path.startswith('/search/') %}
 				<div class="flex-grow-1 d-fl {% if not v %}pad{% endif %}">
-					<form class="form-inline search d-mob-none flex-nowrap mx-0 mx-lg-auto mb-0" {% if err %}style="margin-right:40rem!important"{% endif %} action="{% if request.path.startswith('/search') %}{{request.path}}{% else %}/search/posts/{% endif %}" method="get">
+					<form class="form-inline search d-mob-none flex-nowrap mx-0 mx-lg-auto mb-0" {% if err or v and v.is_underage %}style="margin-right:40rem!important"{% endif %} action="{% if request.path.startswith('/search') %}{{request.path}}{% else %}/search/posts/{% endif %}" method="get">
 						<input autocomplete="off" class="form-control w-100" type="search" placeholder="{{search_placeholder}}" name="q" value="{{request.values.get('q', '')}}">
 						<span class="input-group-append">
 							<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem">
@@ -226,7 +226,7 @@
 				{% endif %}
 			{% endif %}
 
-			{% if not err %}
+			{% if not err and not (v and v.is_underage) %}
 				{% if v and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
 					<a class="mobile-nav-icon d-md-none" href="/admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin Tools">
 						<i class="fas fa-crown align-middle text-gray-500 black"></i>
