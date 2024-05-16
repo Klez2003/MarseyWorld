@@ -7,8 +7,8 @@
 		<p><b>Author:</b> <a href="{{obj.author.url}}">@{{obj.author.username}}</a></p>
 		<p><b>Author Created At:</b> <span data-time="{{obj.author.created_utc}}"></span></p>
 		<p><b>Author Truescore:</b> {{obj.author.truescore|commas}}</p>
-		<p><b>Upvotes: </b>{{ups | length}}</p>
-		<p><b>Downvotes: </b>{{downs | length}}</p>
+		<p><b>Upvotes: </b>{{ups | length | commas}}</p>
+		<p><b>Downvotes: </b>{{downs | length | commas}}</p>
 
 		<h2>Upvotes</h2>
 		<div class="overflow-x-auto">
