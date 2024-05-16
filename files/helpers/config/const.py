@@ -514,7 +514,7 @@ ERROR_MARSEYS = {
 	403: "marseytroll",
 	404: "marseyconfused",
 	405: "marseyretard",
-	406: "marseydisagree",
+	406: "marseynominers",
 	409: "marseynoyou",
 	410: "marseyrave",
 	413: "marseychonker2",
