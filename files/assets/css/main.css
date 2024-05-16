@@ -4402,11 +4402,11 @@ small, .small {
 	margin-top: 2rem;
 	padding-left: 12px;
 }
-#notifications .comment, #userpage .comment {
+#notifications .comment, #userpage .comment, #contact .comment {
 	margin-top: 0.5rem;
 	margin-bottom: 1rem;
 }
-#notifications .comment:last-child, #userpage .comment:last-child {
+#notifications .comment:last-child, #userpage .comment:last-child, #contact .comment:last-child {
 	margin-bottom: 0;
 }
 .comment .comment-body {

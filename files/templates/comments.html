@@ -36,7 +36,7 @@
 					</div>
 					{% if render_replies %}
 						<div id="replies-of-{{c.fullname}}">
-							{% if level<9 or request.path.startswith('/notifications') %}
+							{% if level<9 or request.path.startswith('/notifications') or request.path == '/contact' %}
 								{% for reply in replies %}
 									{{single_comment(reply, level=level+1)}}
 								{% endfor %}
@@ -61,7 +61,7 @@
 			{% endif %}
 
 			{% if standalone and level == 1 %}
-				<div id="post-info-{{c.id}}" class="{% if c.admin_note %}admin-note{% endif %} post-info mb-1 mr-2 {% if request.path.startswith('/notifications') %}mt-5{% elif request.path == '/search/messages' %}mt-6{% else %}mt-3{% endif %}">
+				<div id="post-info-{{c.id}}" class="{% if c.admin_note %}admin-note{% endif %} post-info mb-1 mr-2 {% if request.path.startswith('/notifications') or request.path == '/contact' %}mt-5{% elif request.path == '/search/messages' %}mt-6{% else %}mt-3{% endif %}">
 					{% if c.parent_post and c.post.nsfw %}
 						<span class="badge badge-danger text-small-extra mr-1">NSFW</span>
 					{% endif %}
@@ -535,7 +535,7 @@
 
 				{% if render_replies %}
 					<div id="replies-of-{{c.fullname}}">
-						{% if request.path.startswith('/notifications') and replies|length > 8 %}
+						{% if (request.path.startswith('/notifications') or request.path == '/contact') and replies|length > 8 %}
 							{% for reply in replies %}
 								{% if reply.parent_post %}
 									{% set collapse = reply.collapse %}
@@ -544,7 +544,7 @@
 								{% endif %}
 								{{single_comment(reply, level=level+1, collapse=collapse)}}
 							{% endfor %}
-						{% elif request.path.startswith('/notifications') or level < 9 %}
+						{% elif (request.path.startswith('/notifications') or request.path == '/contact') or level < 9 %}
 							{% for reply in replies %}
 								{{single_comment(reply, level=level+1)}}
 							{% endfor %}
@@ -554,7 +554,7 @@
 						{% endif %}
 					</div>
 
-					{% if (request.path.startswith('/notification') or request.path == '/search/messages') and c.level == 1 and c.sentto and not c.parent_post and c.author_id != AUTOJANNY_ID %}
+					{% if (request.path.startswith('/notification') or request.path in ('/search/messages', '/contact')) and c.level == 1 and c.sentto and not c.parent_post and c.author_id != AUTOJANNY_ID %}
 						<button id="toggle-reply-{{c.fullname}}" type="button" class="btn btn-primary nobackground mt-2" data-nonce="{{g.nonce}}" data-onclick="toggleReplyBox(this, 'reply-to-{{c.fullname}}')">Reply</button>
 
 						{% if c.sentto == MODMAIL_ID and v and v.id != c.author_id and v.admin_level >= PERMS['USER_BAN'] %}

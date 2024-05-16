@@ -1,8 +1,8 @@
 {% extends "default.html" %}
 {% block pagetitle %}Contact{% endblock %}
 {% block content %}
-	<div class="px-2 px-md-0">
-		<h1 class="text-lg-sm">Contact {{SITE_NAME}} Admins</h1>
+	<div id="contact" class="px-2 px-md-0">
+		<h3 class="text-lg-sm">Contact {{SITE_NAME}} Admins</h3>
 		{% if v %}
 			<form id="contactform" action="/contact" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="contact(this)">
 				<label for="input-message" class="mt-3">Your message</label>
@@ -25,7 +25,20 @@
 		{% else %}
 			<h4>by email: {{EMAIL}}</h4>
 		{% endif %}
+
+		{% if listing %}
+			<h3 class="text-lg-sm mt-5 pb-0 mb-0" style="margin-bottom:-14px !important">Previous Contacts</h3>
+			{% with comments=listing %}
+				{% include "comments.html" %}
+			{% endwith %}
+		{% endif %}
 	</div>
 
 	<script defer src="{{'js/contact.js' | asset}}"></script>
+{% endblock %}
+
+{% block pagenav %}
+	{% if listing %}
+		{{macros.pagination()}}
+	{% endif %}
 {% endblock %}

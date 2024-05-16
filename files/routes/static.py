@@ -15,6 +15,7 @@ from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
 from files.routes.wrappers import *
+from files.routes.notifications import modmail_listing
 from files.__main__ import app, cache, limiter
 
 
@@ -280,7 +281,15 @@ def api(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def contact(v):
-	return render_template("contact.html", v=v)
+	listing, total, page = modmail_listing(v)
+	return render_template("contact.html",
+							v=v,
+							listing=listing,
+							total=total,
+							page=page,
+							standalone=True,
+							render_replies=True,
+						)
 
 @app.post("/contact")
 @limiter.limit('1/second', scope=rpath)

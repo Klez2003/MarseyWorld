@@ -150,11 +150,7 @@ def notifications_chats(v):
 
 	return render_template("notifications.html", v=v, notifications=chats)
 
-@app.get("/notifications/modmail")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['VIEW_MODMAIL'])
-def notifications_modmail(v):
+def modmail_listing(v):
 	page = get_page()
 
 	sq = g.db.query(Comment.top_comment_id, Comment.created_utc).distinct(Comment.top_comment_id).filter_by(sentto=MODMAIL_ID).order_by(Comment.top_comment_id, Comment.created_utc.desc()).subquery()
@@ -173,6 +169,15 @@ def notifications_modmail(v):
 	if not session.get("GLOBAL"):
 		v.last_viewed_modmail_notifs = int(time.time())
 		g.db.add(v)
+
+	return listing, total, page
+
+@app.get("/notifications/modmail")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@admin_level_required(PERMS['VIEW_MODMAIL'])
+def notifications_modmail(v):
+	listing, total, page = modmail_listing(v)
 
 	if v.client: return {"data":[x.json for x in listing]}
 
