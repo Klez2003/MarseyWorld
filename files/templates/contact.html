@@ -33,6 +33,10 @@
 			{% endwith %}
 		{% endif %}
 	</div>
+
+	{% if v and v.is_underage %}
+		<script defer src="{{'js/underage.js' | asset}}"></script>
+	{% endif %}
 {% endblock %}
 
 {% block pagenav %}

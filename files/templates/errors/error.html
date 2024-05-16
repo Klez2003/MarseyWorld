@@ -15,6 +15,7 @@
 				{%- endif %}
 				{% if title == 'THIS IS AN 18+ WEBSITE' %}
 					<div><a href="/contact" class="btn btn-primary mt-1">Contact Admins</a></div>
+					<script defer src="{{'js/underage.js' | asset}}"></script>
 				{% else %}
 					<div><a href="/" class="btn btn-primary mt-3">Go to frontpage</a></div>
 				{% endif %}
