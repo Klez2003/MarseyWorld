@@ -293,6 +293,10 @@ def delete(id, v):
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		return ''
 
+	for msg in g.db.query(ChatMessage).filter_by(quotes=id):
+		msg.quotes = None
+		g.db.add(msg)
+
 	message = g.db.get(ChatMessage, id)
 	g.db.delete(message)
 	emit('delete', id, room=f'{SITE_FULL}/chat/1')
