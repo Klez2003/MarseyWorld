@@ -4,7 +4,7 @@
 	<div id="contact" class="px-2 px-md-0">
 		<h3 class="text-lg-sm">Contact {{SITE_NAME}} Admins</h3>
 		{% if v %}
-			<form id="contactform" action="/contact" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="contact(this)">
+			<form id="contactform" action="/contact" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
 				<label for="input-message" class="mt-3">Your message</label>
 				<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 				<textarea autocomplete="off" maxlength="10000" id="input-message" form="contactform" name="message" class="file-ta form-control" required></textarea>
@@ -33,8 +33,6 @@
 			{% endwith %}
 		{% endif %}
 	</div>
-
-	<script defer src="{{'js/contact.js' | asset}}"></script>
 {% endblock %}
 
 {% block pagenav %}
