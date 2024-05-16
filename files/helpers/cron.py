@@ -50,7 +50,7 @@ def cron_fn(every_5m, every_1d, every_1mo):
 				_unpin_expired()
 				g.db.commit()
 
-				if not IS_LOCALHOST and SITE_NAME == 'WPD':
+				if not IS_LOCALHOST:
 					reddit_mentions_task()
 					g.db.commit()
 
