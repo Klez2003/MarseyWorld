@@ -104,10 +104,9 @@ def execute_blackjack(v, target, body, kind):
 
 			extra_info = None
 
-	if extra_info:
+	if v and extra_info:
 		for id in notified_ids:
-			username = v.username if v else 'AutoJanny'
-			send_repeatable_notification_duplicated(id, f"Blackjack by @{username}: {extra_info}")
+			send_repeatable_notification_duplicated(id, f"Blackjack by @{v.username}: {extra_info}")
 	return True
 
 def find_all_emoji_endings(emoji):
