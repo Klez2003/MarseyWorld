@@ -180,10 +180,13 @@ def process_video(file, v):
 		os.remove(old)
 		abort(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
+	is_reencoding = False
 	if codec != 'h264':
+		is_reencoding = True
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new)
 	elif bitrate >= 3000000:
+		is_reencoding = True
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new, True)
 	else:
@@ -212,7 +215,7 @@ def process_video(file, v):
 	posterurl = SITE_FULL_IMAGES + name
 	media.posterurl = posterurl
 
-	if SITE == 'watchpeopledie.tv':
+	if SITE == 'watchpeopledie.tv' and not is_reencoding:
 		gevent.spawn(rclone_copy, new)
 
 	return url, posterurl, name
