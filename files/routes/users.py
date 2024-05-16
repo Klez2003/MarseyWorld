@@ -143,6 +143,9 @@ def transfer_currency(v, username, currency_name, apply_tax):
 	if apply_tax and not v.patron and not receiver.patron:
 		tax = math.ceil(amount*TAX_PCT)
 
+	if v.shadowbanned:
+		return {"message": f"{amount - tax} {currency_name} have been transferred to @{receiver.username}"}
+
 	reason = request.values.get("reason", "").strip()
 	log_message = f"@{v.username} has transferred {amount} {currency_name} to @{receiver.username}"
 	notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} {currency_name}!"
