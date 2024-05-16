@@ -774,6 +774,7 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 		403: "You're not allowed to do that",
 		404: "That wasn't found.",
 		405: "You can't use this method here... if you keep getting this error tell us it's prolly something borked.",
+		406: "You have been banned for being underage.<br>If this was in error, please contact the admins below.",
 		409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do.",
 		410: "This link is dead. Request a new one to try again.",
 		413: "You need to upload a smaller file please.",
