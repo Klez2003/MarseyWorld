@@ -7870,5 +7870,5 @@ tr:has(hideme) {
 .chunky-hr {
 	margin-top: 4rem !important;
 	margin-bottom: 4rem !important;
-	border-top: 2px solid var(--primary);
+	border-top: 2px solid;
 }
