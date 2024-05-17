@@ -15,7 +15,6 @@ class Chat(Base):
 	name = Column(String)
 	created_utc = Column(Integer)
 
-
 	@property
 	@lazy
 	def owner_id(self):
