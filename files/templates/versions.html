@@ -4,7 +4,7 @@
 	<h2 class="my-4 py-md-2 d-none d-md-block">Versions of <a href="{{obj.permalink}}">/{% if obj.fullname.startswith('p_') %}post{% else %}comment{% endif %}/{{obj.id}}</a></h2>
 	<h4 class="my-4 py-md-2 d-md-none">Versions of <a href="{{obj.permalink}}">/{% if obj.fullname.startswith('p_') %}post{% else %}comment{% endif %}/{{obj.id}}</a></h4>
 
-	<hr class="my-3">
+	<hr class="my-5">
 
 	{% if obj.fullname.startswith('p_') %}
 		<h3>{{obj.title_html | safe}}</h3>
@@ -13,12 +13,12 @@
 	{{obj.body_html | safe}}
 
 	{% for edit in obj.edits %}
-		<hr class="my-3">
+		<hr class="my-5">
 		{% if obj.fullname.startswith('p_') %}
 			<h3>{{edit.old_title_html | safe}}</h3>
 		{% endif %}
 		{{edit.old_body_html | safe}}
 	{% endfor %}
 
-	<hr class="my-3">
+	<hr class="my-5">
 {% endblock %}
