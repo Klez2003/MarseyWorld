@@ -7866,3 +7866,9 @@ tr:has(hideme) {
 	height: 30px;
 	object-fit: contain;
 }
+
+.chunky-hr {
+	margin-top: 4rem !important;
+	margin-bottom: 4rem !important;
+	border-top: 2px solid var(--primary);
+}
