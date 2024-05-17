@@ -132,6 +132,7 @@ def reencode_video(old, new, check_sizes=False):
 		os.remove(old)
 		if os.path.isfile(tmp):
 			os.remove(tmp)
+		rclone_copy(new)
 		return
 
 	if check_sizes:
@@ -140,6 +141,7 @@ def reencode_video(old, new, check_sizes=False):
 		if new_size > old_size:
 			os.remove(old)
 			os.remove(tmp)
+			rclone_copy(new)
 			return
 
 	os.replace(tmp, new)
