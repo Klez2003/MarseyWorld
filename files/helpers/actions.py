@@ -547,10 +547,8 @@ def execute_under_siege(v, target, body, kind):
 			reason = f'report on <a href="{target.permalink}">post</a>'
 		else:
 			reason = f'report on <a href="{target.permalink}">comment</a>'
-	elif hasattr(target, 'permalink'):
-		reason = f'<a href="{target.permalink}">{kind}</a>'
 	else:
-		reason = kind
+		reason = f'<a href="{target.permalink}">{kind}</a>'
 
 	minutes = math.ceil(v.age / 60)
 	time_taken = f'{minutes} minute'

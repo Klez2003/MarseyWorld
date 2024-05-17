@@ -106,9 +106,6 @@ def speak(data, v):
 	if isinstance(text_html , tuple): return ''
 	if len(text_html) > 5000: return ''
 
-	execute_blackjack(v, None, text, "chat")
-	execute_under_siege(v, None, text, "chat")
-
 	quotes = data['quotes']
 	if quotes: quotes = int(quotes)
 	else: quotes = None
@@ -124,6 +121,9 @@ def speak(data, v):
 	)
 	g.db.add(chat_message)
 	g.db.flush()
+
+	execute_blackjack(v, chat_message, text, "chat")
+	execute_under_siege(v, chat_message, text, "chat")
 
 	if v.id == chat.owner_id:
 		for i in chat_adding_regex.finditer(text):
