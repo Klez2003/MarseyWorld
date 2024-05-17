@@ -157,7 +157,7 @@ def modmail_listing(v):
 
 	comments = g.db.query(Comment).filter(Comment.id == sq.c.top_comment_id).order_by(sq.c.created_utc.desc())
 
-	if v.admin_level < PERMS['VIEW_MODMAIL']:
+	if request.path == '/contact':
 		comments = comments.filter_by(author_id=v.id)
 
 	total = comments.count()
