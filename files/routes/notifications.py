@@ -177,10 +177,7 @@ def modmail_listing(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['VIEW_MODMAIL'])
 def notifications_modmail(v):
-	if v:
-		listing, total, page = modmail_listing(v)
-	else:
-		listing, total, page = None, None, None
+	listing, total, page = modmail_listing(v)
 
 	if v.client: return {"data":[x.json for x in listing]}
 

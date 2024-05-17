@@ -281,7 +281,10 @@ def api(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def contact(v):
-	listing, total, page = modmail_listing(v)
+	if v:
+		listing, total, page = modmail_listing(v)
+	else:
+		listing, total, page = None, None, None
 	return render_template("contact.html",
 							v=v,
 							listing=listing,
