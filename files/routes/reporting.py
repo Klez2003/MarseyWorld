@@ -52,7 +52,7 @@ def report_post(pid, v):
 				_note=f'"{post.flair}"'
 			)
 			g.db.add(ma)
-			position = f'a /h/{post.hole} mod'
+			position = f'an /h/{post.hole} mod'
 
 		if v.id != post.author_id:
 			message = f'@{v.username} ({position}) has flaired {post.textlink} with the flair: `"{og_flair}"`'
