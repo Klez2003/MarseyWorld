@@ -97,6 +97,7 @@ def execute_blackjack(v, target, body, kind):
 			extra_info = f"reports on {target.permalink}"
 		elif kind in {'comment', 'message'}:
 			for id in notified_ids:
+				g.db.flush()
 				existing = g.db.query(Notification).filter_by(comment_id=target.id, user_id=id).one_or_none()
 				if existing: continue
 				n = Notification(comment_id=target.id, user_id=id)
