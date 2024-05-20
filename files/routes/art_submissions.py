@@ -75,7 +75,7 @@ def submit_art_post(v):
 		with Image.open(highquality) as i:
 			if i.width != 2000 or i.height != 200:
 				os.remove(highquality)
-				abort(400, "Banners must be 2000x200")
+				abort(400, "Banners must be 2000x200 px")
 
 	path = f"files/assets/images/{SITE_NAME}/{entry.location_kind}"
 	if not entry.hashes:
