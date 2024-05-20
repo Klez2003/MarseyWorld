@@ -176,6 +176,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseybambianime', 'Marsey', 2, 'weebshit happy', false, 1699688301),
 ('marseybanana', 'Marsey', 2, 'fruit', false, 1710377942),
 ('marseybanette2', 'Marsey', 2, 'pokemon pkmn 354', false, 1699225862),
+('marseybassmega', 'Marsey', 2, 'megaman rockman helmet blaster', false, 1716177193),
 ('marseybeanconfused2', 'Marsey', 2, 'question', false, 1706049714),
 ('marseybeantears', 'Marsey', 2, 'crying cry', false, 1704840980),
 ('marseybearcatsmascot', 'Marsey', 2, 'university ncaa sports', false, 1701117167),
