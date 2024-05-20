@@ -8,6 +8,9 @@ from files.helpers.alerts import push_notif
 from files.classes.notifications import Notification
 
 def notify(text, created_utc):
+	if len(text) > 1000:
+		text = text[:1000] + "..."
+
 	text = sanitize(text, blackjack="offsite mention", golden=False)
 
 	existing_comment = g.db.query(Comment.id).filter_by(
