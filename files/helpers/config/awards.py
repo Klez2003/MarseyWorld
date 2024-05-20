@@ -101,7 +101,7 @@ AWARDS = {
 		"color": "text-blue",
 		"price": 300 if IS_FISTMAS() else 1000,
 		"deflectable": True,
-		"cosmetic": False,
+		"cosmetic": True,
 		"ghost": False,
 		"enabled": IS_EVENT(),
 		"negative": False,
