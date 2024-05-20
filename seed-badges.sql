@@ -42,6 +42,7 @@ INSERT INTO public.badge_defs VALUES (297, 'Weather Balloon', 'This user was sho
 INSERT INTO public.badge_defs VALUES (335, 'Easter Egg Aficionado', 'Decorated a chicken abortion for Jesus', 1712039193);
 INSERT INTO public.badge_defs VALUES (341, '3 Years Old 🥰🥰🥰', 'This user has wasted THREE WHOLE BUTT YEARS of their life here! Happy birthday!', 1715708828);
 INSERT INTO public.badge_defs VALUES (180, 'Marsey Consoomer', 'Conned rDrama out of sick merch in exchange for a donation to Redbubble.', 1664417205);
+INSERT INTO public.badge_defs VALUES (342, '3rd Birthgay Bash Survivor', 'Awarded for surviving rDrama''s third annual Birthgay Bash', 1716230542);
 INSERT INTO public.badge_defs VALUES (183, '2022 Spooooooky Marsey Artist', 'Contributed a VERY SCARY Marsey for Halloween 2022!', 1666225718);
 INSERT INTO public.badge_defs VALUES (176, 'Fish Of The Year', 'Awarded for outstanding achievement in the field of achievement. Well done!', 1663340894);
 INSERT INTO public.badge_defs VALUES (177, 'Sweatshop Laborer', 'lmao thanks retard', 1663616592);
@@ -65,6 +66,7 @@ INSERT INTO public.badge_defs VALUES (321, 'Master Baiter 2023', 'The cunning ma
 INSERT INTO public.badge_defs VALUES (329, 'WORDS WORDS WORDS WORDS', 'Wrote 10 (or more!!!!) effortposts 📃', 1708279122);
 INSERT INTO public.badge_defs VALUES (332, 'Sidebar God', 'Contributed 100 (or more!!!!) sidebar images 🖼🎨', 1709691274);
 INSERT INTO public.badge_defs VALUES (338, 'INcel silver', 'User invited two internet celebs to rDrama', 1715140318);
+INSERT INTO public.badge_defs VALUES (343, '3rd Birthgay Bash Artist', 'Awarded for contributing a beautiful 3pilled birthday banner or sidebar art for Marsey''s 3rd birthday!', 1716230587);
 INSERT INTO public.badge_defs VALUES (298, 'Gray Alien', 'This user probed /r/UFOs and left the next morning.', 1694717005);
 INSERT INTO public.badge_defs VALUES (213, 'Best Marsey 2022', 'The creator of the best Marsey emoji of 2022, as voted by rDrama users.', 1670719193);
 INSERT INTO public.badge_defs VALUES (215, 'Own Goal', 'Don''t take this user''s advice on sportsball betting.', 1671150354);
@@ -304,7 +306,7 @@ INSERT INTO public.badge_defs VALUES (73, 'Le Rich Gentlesir', 'Spent a fucking 
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 341, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 343, true);
 
 
 --
