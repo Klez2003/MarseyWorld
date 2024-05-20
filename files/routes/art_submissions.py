@@ -71,6 +71,16 @@ def submit_art_post(v):
 	file.save(highquality)
 	process_image(highquality, v) #to ensure not malware
 
+	# #to ensure under 2MB
+	temp = f'/asset_submissions/art/{entry.id}-t.webp'
+	copyfile(highquality, temp)
+	trim = (entry.kind == 'sidebar')
+	try: process_image(temp, v, resize=entry.resize, trim=trim)
+	except: 
+		os.remove(highquality)
+		abort(413, f"Max size for site assets is {MAX_IMAGE_SIZE_BANNER_RESIZED_MB} MB")
+	os.remove(temp)
+
 	if kind == "banner" and v.id != AEVANN_ID:
 		with Image.open(highquality) as i:
 			if i.width != 2000 or i.height != 200:
