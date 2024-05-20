@@ -103,7 +103,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": IS_FISTMAS() or IS_HOMOWEEN(),
+		"enabled": IS_EVENT(),
 		"negative": False,
 		"included_in_lootbox": False,
 	},
@@ -433,7 +433,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": False,
-		"included_in_lootbox": False,
+		"included_in_lootbox": True,
 	},
 	"emoji-hz": {
 		"kind": "emoji-hz",
@@ -461,7 +461,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": False,
-		"included_in_lootbox": False,
+		"included_in_lootbox": True,
 	},
 	"shit": {
 		"kind": "shit",
@@ -489,7 +489,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": False,
-		"included_in_lootbox": False,
+		"included_in_lootbox": True,
 	},
 	"firework": {
 		"kind": "firework",
@@ -503,7 +503,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": False,
-		"included_in_lootbox": False,
+		"included_in_lootbox": True,
 	},
 	"ricardo": {
 		"kind": "ricardo",
@@ -517,7 +517,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": False,
-		"included_in_lootbox": False,
+		"included_in_lootbox": True,
 	},
 	"tilt": {
 		"kind": "tilt",
@@ -531,7 +531,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": True,
-		"included_in_lootbox": False,
+		"included_in_lootbox": True,
 	},
 	"glowie": {
 		"kind": "glowie",
@@ -545,7 +545,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": True,
-		"included_in_lootbox": False,
+		"included_in_lootbox": True,
 	},
 	"gold": {
 		"kind": "gold",
@@ -559,7 +559,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": False,
-		"included_in_lootbox": False,
+		"included_in_lootbox": True,
    },
 	"spider": {
 		"kind": "spider",
