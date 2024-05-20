@@ -99,7 +99,7 @@ AWARDS = {
 		"description": "???",
 		"icon": "fas fa-box-open",
 		"color": "text-blue",
-		"price": 300 if IS_FISTMAS() else 1000,
+		"price": 300 if IS_FISTMAS() else 800,
 		"deflectable": True,
 		"cosmetic": True,
 		"ghost": False,
