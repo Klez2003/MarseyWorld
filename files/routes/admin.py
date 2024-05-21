@@ -345,7 +345,6 @@ def reported_posts(v):
 	listing = g.db.query(Post).distinct(Post.id).options(load_only(Post.id)).filter_by(
 				is_approved=None,
 				is_banned=False,
-				deleted_utc=0
 			).join(Post.reports).join(User, User.id == Report.user_id).filter(User.shadowbanned == None, User.is_muted == False)
 
 	total = listing.count()
@@ -368,7 +367,6 @@ def reported_comments(v):
 	listing = g.db.query(Comment).distinct(Comment.id).options(load_only(Comment.id)).filter_by(
 				is_approved=None,
 				is_banned=False,
-				deleted_utc=0
 			).join(Comment.reports).join(User, User.id == CommentReport.user_id).filter(User.shadowbanned == None, User.is_muted == False)
 
 	total = listing.count()
