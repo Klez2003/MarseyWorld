@@ -433,7 +433,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": False,
-		"included_in_lootbox": True,
+		"included_in_lootbox": IS_DKD() or IS_BDAY(),
 	},
 	"emoji-hz": {
 		"kind": "emoji-hz",
@@ -461,7 +461,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": False,
-		"included_in_lootbox": True,
+		"included_in_lootbox": IS_DKD() or IS_BDAY(),
 	},
 	"shit": {
 		"kind": "shit",
@@ -489,7 +489,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": False,
-		"included_in_lootbox": True,
+		"included_in_lootbox": IS_DKD() or IS_BDAY(),
 	},
 	"firework": {
 		"kind": "firework",
@@ -503,7 +503,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": False,
-		"included_in_lootbox": True,
+		"included_in_lootbox": IS_DKD() or IS_BDAY(),
 	},
 	"ricardo": {
 		"kind": "ricardo",
@@ -517,7 +517,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": False,
-		"included_in_lootbox": True,
+		"included_in_lootbox": IS_DKD() or IS_BDAY(),
 	},
 	"tilt": {
 		"kind": "tilt",
@@ -531,7 +531,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": True,
-		"included_in_lootbox": True,
+		"included_in_lootbox": IS_DKD() or IS_BDAY(),
 	},
 	"glowie": {
 		"kind": "glowie",
@@ -545,7 +545,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": True,
-		"included_in_lootbox": True,
+		"included_in_lootbox": IS_DKD() or IS_BDAY(),
 	},
 	"gold": {
 		"kind": "gold",
@@ -559,7 +559,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"negative": False,
-		"included_in_lootbox": True,
+		"included_in_lootbox": IS_DKD() or IS_BDAY(),
    },
 	"spider": {
 		"kind": "spider",
