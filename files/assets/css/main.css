@@ -7165,7 +7165,11 @@ input[type=number] {
 	.award-tab {
 		font-size: 10px !important;
 		letter-spacing: 1px !important;
-		max-width: 43%;
+		max-width: 40%;
+	}
+
+	#effect-content-tab {
+	    margin-left: 6vw !important;
 	}
 
 	.ping-groups * {
