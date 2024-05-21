@@ -345,7 +345,7 @@ def reported_posts(v):
 	listing = g.db.query(Post).distinct(Post.id).options(load_only(Post.id)).filter_by(
 				is_approved=None,
 				is_banned=False,
-			).join(Post.reports).join(User, User.id == Report.user_id).filter(User.shadowbanned == None, User.is_muted == False)
+			).join(Post.reports).join(User, User.id == Report.user_id).filter(User.shadowbanned == None, User.is_muted == False, User.id != SNAPPY_ID)
 
 	total = listing.count()
 
