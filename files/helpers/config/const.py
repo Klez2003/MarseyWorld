@@ -295,6 +295,7 @@ if SITE_NAME == 'rDrama':
 		"Quran study group",
 		"Israeli Power Generator",
 		"/u/bardfinn's fan club",
+		"world's oldest website",
 	)
 
 	BOOSTED_HOLES = {
