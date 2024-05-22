@@ -33,10 +33,7 @@ def shop_awards(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def shop(v):
-	AWARDS = deepcopy(AWARDS_ENABLED())
-
-	if v.house:
-		AWARDS[v.house] = deepcopy(HOUSE_AWARDS[v.house])
+	AWARDS = deepcopy(AWARDS_ENABLED(v))
 
 	for val in AWARDS.values(): val["owned"] = 0
 
@@ -45,8 +42,6 @@ def shop(v):
 
 	for val in AWARDS.values():
 		val["baseprice"] = int(val["price"])
-		if val["kind"].endswith('Founder'):
-			val["baseprice"] = int(val["baseprice"] / 0.75)
 		val["price"] = int(val["price"] * v.award_discount)
 
 	sales = g.db.query(func.sum(User.currency_spent_on_awards)).scalar()
@@ -91,7 +86,7 @@ def buy_awards(v, kind, AWARDS, quantity):
 	if kind == "lootbox":
 		lootbox_items = []
 		for _ in range(LOOTBOX_ITEM_COUNT*quantity): # five items per lootbox
-			LOOTBOX_CONTENTS = [x["kind"] for x in AWARDS_ENABLED().values() if x["included_in_lootbox"]]
+			LOOTBOX_CONTENTS = [x["kind"] for x in AWARDS_ENABLED(v).values() if x["included_in_lootbox"]]
 			lb_award = random.choice(LOOTBOX_CONTENTS)
 			lootbox_items.append(AWARDS[lb_award]['title'])
 			lb_award = AwardRelationship(user_id=v.id, kind=lb_award, price_paid=price // LOOTBOX_ITEM_COUNT)
@@ -130,10 +125,7 @@ def buy_awards(v, kind, AWARDS, quantity):
 @limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def buy(v, kind):
-	AWARDS = deepcopy(AWARDS_ENABLED())
-
-	if v.house:
-		AWARDS[v.house] = HOUSE_AWARDS[v.house]
+	AWARDS = deepcopy(AWARDS_ENABLED(v))
 
 	if kind not in AWARDS: abort(400)
 
@@ -170,9 +162,7 @@ def award_thing(v, thing_type, id):
 
 	author = obj.author
 
-	AWARDS = deepcopy(AWARDS_ENABLED())
-	if v.house:
-		AWARDS[v.house] = HOUSE_AWARDS[v.house]
+	AWARDS = deepcopy(AWARDS_ENABLED(v))
 
 	if kind not in AWARDS:
 		abort(404, "This award doesn't exist.")
@@ -200,7 +190,7 @@ def award_thing(v, thing_type, id):
 	if v.shadowbanned:
 		return {"message": f"{quantity} {award_title} award{s} given to {thing_type} successfully!"}
 
-	if obj.is_longpost and kind in {"ectoplasm", "candycorn", "candycane", "stab", "glowie", "tilt", "queen", "chud", "marsify", "Furry", "Edgy", "Femboy", "Furry Founder", "Edgy Founder", "Femboy Founder"}:
+	if obj.is_longpost and kind in {"ectoplasm", "candycorn", "candycane", "stab", "glowie", "tilt", "queen", "chud", "marsify", "owoify", "sharpen", "rainbow"}:
 		abort(403, f'Long posts are protected from the {award_title} award!')
 
 	note = request.values.get("note", "").strip()
@@ -436,18 +426,26 @@ def award_thing(v, thing_type, id):
 			author.house = "Vampire"
 
 		badge_grant(user=author, badge_id=168)
-	elif "Racist" in kind and kind == v.house:
+	elif kind == "earlylife":
 		if author.earlylife: author.earlylife += 86400 * quantity
 		else: author.earlylife = int(time.time()) + 86400 * quantity
 		badge_grant(user=author, badge_id=169)
-	elif ("Furry" in kind and kind == v.house):
+	elif kind == "shutitdown":
+		if not author.earlylife:
+			abort(400, f"{safe_username} is not under the effect of an Early Life award!")
+		author.earlylife -= 86400 * quantity
+		if author.earlylife <= time.time():
+			author.earlylife = 0
+			badge = author.has_badge(169)
+			if badge: g.db.delete(badge)
+	elif kind == "owoify":
 		if author.owoify: author.owoify += 21600 * quantity
 		else: author.owoify = int(time.time()) + 21600 * quantity
 		badge_grant(user=author, badge_id=167)
 
 		if can_alter_body:
 			alter_body(obj)
-	elif ("Edgy" in kind and kind == v.house):
+	elif kind == "sharpen":
 		if author.sharpen: author.sharpen += 86400 * quantity
 		else: author.sharpen = int(time.time()) + 86400 * quantity
 		badge_grant(user=author, badge_id=289)
@@ -455,7 +453,7 @@ def award_thing(v, thing_type, id):
 		if can_alter_body:
 			obj.sharpened = True
 			alter_body(obj)
-	elif ("Femboy" in kind and kind == v.house):
+	elif kind == "rainbow":
 		if author.rainbow: author.rainbow += 86400 * quantity
 		else: author.rainbow = int(time.time()) + 86400 * quantity
 		badge_grant(user=author, badge_id=171)
@@ -634,7 +632,7 @@ def award_thing(v, thing_type, id):
 				author.zombie = min(author.zombie, 10)
 
 				badge_grant(user=author, badge_id=182)
-	elif kind == "bite":
+	elif kind == "zombiebite":
 		for award in awards:
 			g.db.flush()
 			if author.zombie < 0:
@@ -711,12 +709,12 @@ def trick_or_treat(v):
 	if result == 0:
 		message = "Trick!"
 	else:
-		choices = [x["kind"] for x in AWARDS_ENABLED().values() if x["included_in_lootbox"]]
+		choices = [x["kind"] for x in AWARDS_ENABLED(v).values() if x["included_in_lootbox"]]
 		award = random.choice(choices)
 		award_object = AwardRelationship(user_id=v.id, kind=award)
 		g.db.add(award_object)
 
-		award_title = AWARDS_ENABLED()[award]['title']
+		award_title = AWARDS_ENABLED(v)[award]['title']
 		message = f"Treat! You got a {award_title} award!"
 
 	return {"message": f"{message}", "result": f"{result}"}

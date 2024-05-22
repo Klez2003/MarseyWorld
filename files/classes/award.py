@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
-from files.helpers.config.awards import AWARDS, HOUSE_AWARDS
+from files.helpers.config.awards import *
 from files.helpers.lazy import lazy
 
 
@@ -37,7 +37,6 @@ class AwardRelationship(Base):
 	@lazy
 	def type(self):
 		if self.kind in AWARDS: return AWARDS[self.kind]
-		elif self.kind in HOUSE_AWARDS: return HOUSE_AWARDS[self.kind]
 		else: return AWARDS["fallback"]
 
 	@property

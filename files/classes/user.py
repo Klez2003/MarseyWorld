@@ -18,7 +18,7 @@ from files.classes.chats import ChatMembership
 from files.classes.currency_logs import CurrencyLog
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
-from files.helpers.config.awards import AWARDS_ENABLED, HOUSE_AWARDS
+from files.helpers.config.awards import *
 from files.helpers.media import *
 from files.helpers.security import *
 from files.helpers.sorting_and_time import *
@@ -600,10 +600,7 @@ class User(Base):
 	@property
 	@lazy
 	def user_awards(self):
-		return_value = list(AWARDS_ENABLED().values())
-
-		if self.house:
-			return_value.append(HOUSE_AWARDS[self.house])
+		return_value = list(AWARDS_ENABLED(self).values())
 
 		awards_owned = g.db.query(AwardRelationship.kind, func.count()) \
 			.filter_by(user_id=self.id, post_id=None, comment_id=None) \
@@ -775,7 +772,7 @@ class User(Base):
 		total_awards = post_awards + comment_awards
 
 		for a in total_awards:
-			kind = a.kind.replace(' Founder', '').replace('emoji-hz', 'emoji')
+			kind = a.kind.replace('emoji-hz', 'emoji')
 			if kind in awards:
 				awards[kind]['count'] += 1
 			else:
