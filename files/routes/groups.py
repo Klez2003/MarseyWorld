@@ -338,6 +338,8 @@ def group_usurp(v, group_name):
 	).first()
 
 	if is_active or not month_old_applications:
+		send_notification(user.id, f"@{v.username} has tried to usurp control of !{group.name} from you and failed because you reviewed a membership application in the past month!")
+		g.db.commit()
 		abort(403, "The current regime has reviewed a membership application in the past month, so you can't usurp them!")
 
 	send_repeatable_notification(group.owner_id, f"@{v.username} has usurped control of !{group.name} from you. This was possible because you (and your mods) have spent more than a month not reviewing membership applications. Be active next time sweaty :!marseycheeky:")
