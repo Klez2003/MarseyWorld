@@ -55,7 +55,7 @@ function close_inline_emoji_modal() {
 function replaceText(input, current_word, new_text) {
 	close_inline_emoji_modal()
 
-	const match = new RegExp(current_word+"(?=[^\\w-]|$)", "gi").exec(input.value) 
+	const match = new RegExp(current_word+"(?=[^\\w-]|$)", "gi").exec(input.value.substring(0, input.selectionStart)) 
 	if (!match) return
 	input.focus()
 	const start_index = match.index;
