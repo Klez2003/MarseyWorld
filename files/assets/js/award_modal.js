@@ -98,6 +98,8 @@ const gif_button = note_section.querySelector('[title="Add GIF"]')
 const giveaward_button = document.getElementById('giveaward')
 
 function pick(kind, price, coins, marseybux) {
+	document.getElementById("award_quantity").value = 1
+
 	global_price = price;
 
 	price = parseInt(price)
