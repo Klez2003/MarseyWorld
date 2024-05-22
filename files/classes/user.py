@@ -782,7 +782,7 @@ class User(Base):
 				awards[kind] = a.type
 				awards[kind]['count'] = 1
 
-		return sorted(list(awards.values()), key=lambda x: x['kind'], reverse=True)
+		return sorted(list(awards.values()), key=lambda x: x['count'], reverse=True)
 
 	@property
 	@lazy
