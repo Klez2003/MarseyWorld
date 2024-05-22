@@ -247,17 +247,6 @@ ALTER SEQUENCE public.casino_games_id_seq OWNED BY public.casino_games.id;
 
 
 --
--- Name: chat_leaves; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.chat_leaves (
-    user_id integer NOT NULL,
-    chat_id integer NOT NULL,
-    created_utc integer NOT NULL
-);
-
-
---
 -- Name: chat_memberships; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1493,14 +1482,6 @@ ALTER TABLE ONLY public.badges
 
 ALTER TABLE ONLY public.casino_games
     ADD CONSTRAINT casino_games_pkey PRIMARY KEY (id);
-
-
---
--- Name: chat_leaves chat_leaves_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.chat_leaves
-    ADD CONSTRAINT chat_leaves_pkey PRIMARY KEY (user_id, chat_id);
 
 
 --
@@ -2886,22 +2867,6 @@ ALTER TABLE ONLY public.comments
 
 ALTER TABLE ONLY public.casino_games
     ADD CONSTRAINT casino_games_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
--- Name: chat_leaves chat_leaves_chat_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.chat_leaves
-    ADD CONSTRAINT chat_leaves_chat_fkey FOREIGN KEY (chat_id) REFERENCES public.chats(id);
-
-
---
--- Name: chat_leaves chat_leaves_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.chat_leaves
-    ADD CONSTRAINT chat_leaves_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
