@@ -82,6 +82,8 @@ else:
 	SITE_FULL_IMAGES = f'https://{SITE_IMAGES}'
 	SITE_FULL_VIDEOS = f'https://{SITE_VIDEOS}'
 
+if SITE == 'marsey.world':
+	SITE_FULL_IMAGES = f'https://i.watchpeopledie.tv'
 
 if SITE == 'rdrama.net':
 	OTHER_SITE_NAME = 'WPD'
