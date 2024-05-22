@@ -988,7 +988,13 @@ def u_username(v, username):
 
 	if page == 1 and sort == 'new':
 		pinned = []
-		pinned = g.db.query(Post).filter_by(profile_pinned=True, author_id=u.id, is_banned=False).all()
+		pinned = g.db.query(Post).filter_by(profile_pinned=True, author_id=u.id)
+
+		if v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
+			pinned = pinned.filter_by(is_banned=False)
+
+		pinned = pinned.all()
+
 		for p in pinned:
 			ids = [p.id] + ids
 
