@@ -74,8 +74,7 @@ def submit_art_post(v):
 	# #to ensure under 2MB
 	temp = f'/asset_submissions/art/{entry.id}-t.webp'
 	copyfile(highquality, temp)
-	trim = (entry.kind == 'sidebar')
-	try: process_image(temp, v, resize=entry.resize, trim=trim)
+	try: process_image(temp, v, resize=entry.resize)
 	except: 
 		os.remove(highquality)
 		abort(413, f"Max size for site assets is {MAX_IMAGE_SIZE_BANNER_RESIZED_MB} MB")
@@ -140,8 +139,7 @@ def approve_art(v, id):
 		entry_url = f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/{entry.location_kind}/{entry.id}.webp"
 
 	copyfile(old, filename)
-	trim = (entry.kind == 'sidebar')
-	process_image(filename, v, resize=entry.resize, trim=trim)
+	process_image(filename, v, resize=entry.resize)
 	os.remove(old)
 
 	author = request.values.get('author').strip()
