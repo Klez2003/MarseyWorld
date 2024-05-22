@@ -8,7 +8,7 @@ import time
 from sqlalchemy.sql import text, and_
 from sqlalchemy.orm import load_only
 
-from files.classes import Comment, Post, Notification, PushSubscription, Group, Mod
+from files.classes import Comment, Post, Notification, PushSubscription, Group, Mod, GroupMembership
 
 from .config.const import *
 from .regex import *
@@ -257,8 +257,9 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 			if coin_receivers:
 				g.db.query(User).options(load_only(User.id)).filter(User.id.in_(coin_receivers)).update({ User.coins: User.coins + 5 })
 
-	if len(notify_users) > 400 and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
-		abort(403, "You can only notify a maximum of 400 users.")
+	largest_ping_group_count = g.db.query(func.count(GroupMembership.group_name)).group_by(GroupMembership.group_name).order_by(func.count(GroupMembership.group_name).desc()).first()[0]
+	if len(notify_users) > largest_ping_group_count and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
+		abort(403, f"You can only notify a maximum of {largest_ping_group_count} users.")
 
 	if v.shadowbanned or (obj and obj.is_banned):
 		notify_users = set(x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all())
