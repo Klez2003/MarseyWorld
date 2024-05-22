@@ -415,7 +415,7 @@ def award_thing(v, thing_type, id):
 
 		if can_alter_body:
 			alter_body(obj)
-	elif "Vampire" in kind and kind == v.house:
+	elif kind == "bite":
 		if author.bite: author.bite += 172800 * quantity
 		else:
 			if author.house.startswith("Vampire"):
