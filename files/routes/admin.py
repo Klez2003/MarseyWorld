@@ -2054,7 +2054,7 @@ def mark_effortpost(pid, v):
 		abort(403, "Post is too short!")
 
 	soup = BeautifulSoup(p.body_html, 'lxml')
-	tags = soup.html.body.find_all(lambda tag: tag.name in {'p','ul'} and tag.text, recursive=False)
+	tags = soup.html.body.find_all(lambda tag: tag.name in {'p','ul','table'} and tag.text, recursive=False)
 	post_char_count = 0
 	for tag in tags:
 		post_char_count += len(tag.text)
