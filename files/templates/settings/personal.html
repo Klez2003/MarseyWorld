@@ -225,7 +225,7 @@
 													Use an MP3 file (Max size is 8MB)
 												{% endif %}
 											</div>
-											<input autocomplete="off" id="file-upload2" type="file" name="file" {% if g.is_tor %}disabled{% endif %} accept="audio/mp3" data-nonce="{{g.nonce}}" onchange_submit hidden>
+											<input autocomplete="off" id="file-upload2" type="file" name="file" {% if g.is_tor %}disabled{% endif %} accept="audio/mpeg" data-nonce="{{g.nonce}}" onchange_submit hidden>
 										</label>
 									</form>
 									<form action="/settings/song_change" method="post">
