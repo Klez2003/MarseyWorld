@@ -38,6 +38,7 @@ document.body.appendChild(inline_carot_modal);
 let e
 
 let current_word = "";
+let start_index = 0;
 let selecting;
 let emoji_index = 0;
 
@@ -52,15 +53,11 @@ function close_inline_emoji_modal() {
 }
 
 
-function replaceText(input, current_word, new_text) {
+function replaceText(input, new_text) {
 	close_inline_emoji_modal()
 
-	const match = new RegExp(current_word+"(?=[^\\w-]|$)", "gi").exec(input.value.substring(0, input.selectionStart)) 
-	if (!match) return
 	input.focus()
-	const start_index = match.index;
-	const end_index = input.selectionStart;
-	input.setRangeText(new_text, start_index, end_index, "end");
+	input.setRangeText(new_text, start_index, input.selectionStart, "end");
 
 	if (typeof markdown === "function" && input.dataset.preview)
 		markdown(input)
@@ -109,7 +106,7 @@ function populate_inline_emoji_modal(results, textbox)
 		if (current_word.includes("!")) name = `!${name}`
 
 		emoji_option.addEventListener('click', () => {
-			replaceText(textbox, current_word, `:${name}: `)
+			replaceText(textbox, `:${name}: `)
 		});
 		// Pack
 		emoji_option.appendChild(emoji_option_img);
@@ -146,7 +143,11 @@ function update_inline_emoji_modal(event)
 	// Get current word at string, such as ":marse" or "word"
 	let coords = text.indexOf(' ', box_coords.pos);
 	current_word = /(^|\s|\+|-)([:!@][!#\w-]{2,}(?=\n|$))/.exec(text.slice(0, coords === -1 ? text.length : coords));
-	if (current_word) current_word = current_word[2].toLowerCase();
+
+	if (current_word) {
+		current_word = current_word[2].toLowerCase();
+		start_index = event.target.selectionStart - current_word.length
+	}
 
 	if (current_word && curr_word_is_emoji() && current_word != ":")
 	{
