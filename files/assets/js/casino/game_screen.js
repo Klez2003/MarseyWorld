@@ -12,15 +12,15 @@ function initializeGame() {
 
 function updatePlayerCurrencies(updated) {
 	if (updated.coins) {
-		document.getElementById("user-coins-amount").textContent = formatter.format(updated.coins);
-		document.getElementById("user-coins-amount-mobile").textContent = formatter.format(updated.coins);
-		document.getElementById("user-coins-amount-casino").textContent = formatter.format(updated.coins);
+		document.getElementById("user-coins-amount").textContent = commas(updated.coins);
+		document.getElementById("user-coins-amount-mobile").textContent = commas(updated.coins);
+		document.getElementById("user-coins-amount-casino").textContent = commas(updated.coins);
 	}
 
 	if (updated.marseybux) {
-		document.getElementById("user-bux-amount").textContent = formatter.format(updated.marseybux);
-		document.getElementById("user-bux-amount-mobile").textContent = formatter.format(updated.marseybux);
-		document.getElementById("user-bux-amount-casino").textContent = formatter.format(updated.marseybux);
+		document.getElementById("user-bux-amount").textContent = commas(updated.marseybux);
+		document.getElementById("user-bux-amount-mobile").textContent = commas(updated.marseybux);
+		document.getElementById("user-bux-amount-casino").textContent = commas(updated.marseybux);
 	}
 }
 
