@@ -21,7 +21,7 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link py-3{% if request.path == '/notifications/chats' %} active{% endif %}" href="/notifications/chats">
-					Chats {% if v.chats_notifications_count %}<span class="font-weight-bold" style="color:#008080">({{v.chats_notifications_count}})</span>{% endif %}
+					Chats {% if v.chat_mentions_notifications_count %}<span class="font-weight-bold" style="color:#dd1ae0">({{v.chat_mentions_notifications_count}})</span>{% endif %} {% if v.chats_notifications_count %}<span class="font-weight-bold" style="color:#008080">({{v.chats_notifications_count}})</span>{% endif %}
 					</a>
 				</li>
 				{% if v.admin_level >= PERMS['VIEW_MODMAIL'] %}
@@ -64,11 +64,14 @@
 		{% if request.path == '/notifications/chats' %}
 			<table class="mt-4 ml-md-3" style="max-width:1000px">
 				<tbody>
-					{% for chat, notification in notifications %}
+					{% for chat, notification, mentions in notifications %}
 						<tr>
 							<td>
 								<a href="/chat/{{chat.id}}">
 									{{chat.name}}
+									{% if mentions %}
+										<span class="notif-chats notif-count ml-1" style="padding-left:4.5px;background:#dd1ae0">{{mentions}}</span>
+									{% endif %}
 									{% if notification %}
 										<i class="fas fa-circle ml-2 text-small" style="color:#008080"></i>
 									{% endif %}

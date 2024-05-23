@@ -815,13 +815,14 @@ class User(Base):
 				Comment.deleted_utc == 0,
 			)
 
-		return notifs.count() + self.chats_notifications_count + self.modmail_notifications_count + self.post_notifications_count + self.modaction_notifications_count + self.offsite_notifications_count
+		return notifs.count() + self.chat_mentions_notifications_count + self.chats_notifications_count + self.modmail_notifications_count + self.post_notifications_count + self.modaction_notifications_count + self.offsite_notifications_count
 
 	@property
 	@lazy
 	def normal_notifications_count(self):
 		return self.notifications_count \
 			- self.message_notifications_count \
+			- self.chat_mentions_notifications_count \
 			- self.chats_notifications_count \
 			- self.modmail_notifications_count \
 			- self.post_notifications_count \
@@ -843,6 +844,11 @@ class User(Base):
 			notifs = notifs.join(Comment.author).filter(User.shadowbanned == None)
 
 		return notifs.count()
+
+	@property
+	@lazy
+	def chat_mentions_notifications_count(self):
+		return g.db.query(func.sum(ChatMembership.mentions)).filter_by(user_id=self.id).one()[0]
 
 	@property
 	@lazy
@@ -943,6 +949,8 @@ class User(Base):
 			return ''
 		elif self.message_notifications_count > 0:
 			return 'messages'
+		elif self.chat_mentions_notifications_count > 0:
+			return 'chat_mentions'
 		elif self.chats_notifications_count > 0:
 			return 'chats'
 		elif self.modmail_notifications_count > 0:
@@ -961,6 +969,7 @@ class User(Base):
 		colors = {
 			'': '#dc3545',
 			'messages': '#d8910d',
+			'chat_mentions': '#dd1ae0',
 			'chats': '#008080',
 			'modmail': '#f15387',
 			'posts': '#0000ff',

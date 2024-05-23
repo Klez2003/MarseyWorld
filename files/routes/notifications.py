@@ -32,6 +32,7 @@ def clear(v):
 	chat_memberships = g.db.query(ChatMembership).filter_by(user_id=v.id, notification=True)
 	for membership in chat_memberships:
 		membership.notification = False
+		membership.mentions = 0
 		g.db.add(membership)
 
 	v.last_viewed_modmail_notifs = int(time.time())
@@ -143,7 +144,7 @@ def notifications_messages(v):
 def notifications_chats(v):
 	sq = g.db.query(ChatMessage.created_utc, ChatMessage.chat_id).distinct(ChatMessage.chat_id).order_by(ChatMessage.chat_id, ChatMessage.created_utc.desc()).subquery()
 
-	chats = g.db.query(Chat, ChatMembership.notification) \
+	chats = g.db.query(Chat, ChatMembership.notification, ChatMembership.mentions) \
 	.join(ChatMembership, and_(Chat.id == ChatMembership.chat_id, ChatMembership.user_id == v.id)) \
 	.join(sq, Chat.id == sq.c.chat_id) \
 	.order_by(sq.c.created_utc.desc()).all()

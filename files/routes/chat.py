@@ -146,7 +146,7 @@ def speak(data, v):
 					g.db.delete(existing)
 					g.db.flush()
 
-	alrdy_here = list(online[request.referrer].keys())
+	alrdy_here = set(online[request.referrer].keys())
 	memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
 		ChatMembership.chat_id == chat_id,
 		ChatMembership.user_id.notin_(alrdy_here),
@@ -161,6 +161,18 @@ def speak(data, v):
 	body = f'in "{chat.name}"'
 	url = f'{SITE_FULL}/chat/{chat.id}'
 	push_notif(uids, title, body, url)
+
+
+
+	notify_users = NOTIFY_USERS(chat_message.text, v) - alrdy_here
+	memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
+		ChatMembership.chat_id == chat_id,
+		ChatMembership.user_id.in_(notify_users),
+	)
+	for membership in memberships:
+		membership.mentions += 1
+		g.db.add(membership)
+
 
 	data = {
 		"id": chat_message.id,
