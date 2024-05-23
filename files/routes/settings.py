@@ -457,8 +457,8 @@ def snappy_quotes(v):
 	if snappy_quotes == v.snappy_quotes:
 		abort(400, "You didn't change anything!")
 
-	if len(snappy_quotes) > CUSTOM_SNAPPY_QUOTES_LENGTH:
-		abort(400, f"Quotes are too long (max {CUSTOM_SNAPPY_QUOTES_LENGTH} characters)")
+	if len(snappy_quotes) > USER_SNAPPY_QUOTES_LENGTH:
+		abort(400, f"Quotes are too long (max {USER_SNAPPY_QUOTES_LENGTH} characters)")
 
 	if not snappy_quotes:
 		snappy_quotes = None

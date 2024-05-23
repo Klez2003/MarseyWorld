@@ -213,8 +213,8 @@
 									<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 									<small>Enter things you would like <a href="/id/{{SNAPPY_ID}}" rel="nofollow"><img src="/pp/{{SNAPPY_ID}}">@Snappy</a> to reply to your posts with.</small>
 									<textarea autocomplete="off" class="form-control rounded my-2" placeholder="Add your own custom Snappy quotes."
-									rows="3" name="snappy_quotes" form="snappy-quotes" maxlength="1000">{% if v.snappy_quotes %}{{v.snappy_quotes}}{% endif %}</textarea>
-									<small>Separate quotes with <code>[para]</code>. Limit of {{CUSTOM_SNAPPY_QUOTES_LENGTH}} characters</small>
+									rows="3" name="snappy_quotes" form="snappy-quotes" maxlength="{{USER_SNAPPY_QUOTES_LENGTH}}">{% if v.snappy_quotes %}{{v.snappy_quotes}}{% endif %}</textarea>
+									<small>Separate quotes with <code>[para]</code>. Limit of {{USER_SNAPPY_QUOTES_LENGTH}} characters</small>
 									<div class="d-flex">
 										<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Save Changes">
 									</div>

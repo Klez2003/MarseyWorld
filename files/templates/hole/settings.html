@@ -84,9 +84,9 @@
 				<div class="w-lg-100">
 					<form id="snappy_quotes" action="/h/{{hole}}/snappy_quotes" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 						<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
-						<textarea autocomplete="off" maxlength="{{CUSTOM_SNAPPY_QUOTES_LENGTH}}" class="form-control rounded dont-resize" id="hole-snappy" placeholder="Enter Snappy Quotes here..." rows="10" name="snappy_quotes" form="snappy_quotes">{% if snappy_quotes %}{{snappy_quotes}}{% endif %}</textarea>
+						<textarea autocomplete="off" maxlength="{{HOLE_SNAPPY_QUOTES_LENGTH}}" class="form-control rounded dont-resize" id="hole-snappy" placeholder="Enter Snappy Quotes here..." rows="10" name="snappy_quotes" form="snappy_quotes">{% if snappy_quotes %}{{snappy_quotes}}{% endif %}</textarea>
 						<small>Separate quotes with <code>[para]</code></small>
-						<p><small>Limit of {{CUSTOM_SNAPPY_QUOTES_LENGTH}} characters</small></p>
+						<p><small>Limit of {{HOLE_SNAPPY_QUOTES_LENGTH}} characters</small></p>
 						<div class="d-flex mt-2">
 							<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Save">
 						</div>

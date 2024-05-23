@@ -443,6 +443,8 @@ POST_SORTS = COMMENT_SORTS | {
 	}
 COMMENT_SORTS = COMMENT_SORTS | {"saves": "save"}
 
+USER_SNAPPY_QUOTES_LENGTH = 1000
+
 ################################################################################
 ### COLUMN INFO
 ################################################################################
@@ -450,7 +452,7 @@ COMMENT_SORTS = COMMENT_SORTS | {"saves": "save"}
 HOLE_NAME_COLUMN_LENGTH = 25
 HOLE_SIDEBAR_COLUMN_LENGTH = 10000
 HOLE_SIDEBAR_HTML_COLUMN_LENGTH = 20000
-CUSTOM_SNAPPY_QUOTES_LENGTH = 20000
+HOLE_SNAPPY_QUOTES_LENGTH = 50000
 HOLE_SIDEBAR_URL_COLUMN_LENGTH = 60
 HOLE_BANNER_URL_COLUMN_LENGTH = 60
 HOLE_MARSEY_URL_LENGTH = 60
