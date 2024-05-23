@@ -369,7 +369,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	sanitized = numbered_list_regex.sub(r'\1\. ', sanitized)
 
-	sanitized = strikethrough_regex.sub(r'\1<del>\2</del>', sanitized)
+	sanitized = strikethrough_regex.sub(r'<del>\1</del>', sanitized)
 
 	sanitized = sanitized.replace('_', '▔')
 	sanitized = markdown(sanitized)
@@ -670,7 +670,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 				obj.nsfw = True
 				break
 
-	title = strikethrough_regex.sub(r'\1<del>\2</del>', title)
+	title = strikethrough_regex.sub(r'<del>\1</del>', title)
 
 	if link:
 		title = bleach.Cleaner(
