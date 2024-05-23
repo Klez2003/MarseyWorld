@@ -193,7 +193,7 @@ if (nav.length) {
 
 function formkey() {
 	let formkey = document.getElementById("formkey")
-	if (formkey) return formkey.innerHTML;
+	if (formkey) return formkey.textContent;
 	else return null;
 }
 
