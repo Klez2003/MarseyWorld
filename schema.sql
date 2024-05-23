@@ -713,7 +713,7 @@ CREATE TABLE public.holes (
     marseyurl character varying(60),
     created_utc integer,
     sidebarurls character varying(60)[] DEFAULT '{}'::character varying[] NOT NULL,
-    snappy_quotes character varying(20000),
+    snappy_quotes character varying(50000),
     public_use boolean NOT NULL
 );
 
@@ -1251,7 +1251,7 @@ CREATE TABLE public.users (
     keyword_notifs character varying(1000),
     offsite_mentions boolean,
     twitter character varying(50) DEFAULT 'twitter.com'::character varying NOT NULL,
-    snappy_quotes character varying(20000)
+    snappy_quotes character varying(1000)
 );
 
 
