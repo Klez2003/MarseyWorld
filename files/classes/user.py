@@ -848,7 +848,7 @@ class User(Base):
 	@property
 	@lazy
 	def chat_mentions_notifications_count(self):
-		return g.db.query(func.sum(ChatMembership.mentions)).filter_by(user_id=self.id).one()[0]
+		return g.db.query(func.sum(ChatMembership.mentions)).filter_by(user_id=self.id).one()[0] or 0
 
 	@property
 	@lazy
