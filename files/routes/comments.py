@@ -319,8 +319,13 @@ def comment(v):
 
 			push_notif(subscriber_ids, f'New comment in subscribed thread by @{c.author_name}', c.body, c)
 
-		if parent_user.id != v.id and notify_op:
+		if parent_user.id != v.id and notify_op and parent_user.id not in notify_users:
 			notify_users.add(parent_user.id)
+			if isinstance(parent, User):
+				title = f"New comment on your wall by @{c.author_name}"
+			else:
+				title = f'New reply by @{c.author_name}'
+			push_notif({parent_user.id}, title, c.body, c)
 
 		notify_users -= BOT_IDs
 
@@ -333,14 +338,6 @@ def comment(v):
 		for x in notify_users:
 			n = Notification(comment_id=c.id, user_id=x)
 			g.db.add(n)
-
-		if parent_user.id != v.id and notify_op:
-			if isinstance(parent, User):
-				title = f"New comment on your wall by @{c.author_name}"
-			else:
-				title = f'New reply by @{c.author_name}'
-
-			push_notif({parent_user.id}, title, c.body, c)
 
 	vote = CommentVote(user_id=v.id,
 						 comment_id=c.id,
