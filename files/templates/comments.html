@@ -235,12 +235,12 @@
 
 							<a class="vertical-align ml-1" href="{{c.permalink}}">#{{c.id}}</a>
 
-							{% if c.edited_utc and v and (v.id == c.author_id or v.admin_level >= PERMS['VIEW_VERSIONS']) %}
-								<a href="/versions/{{c.fullname}}" class="font-italic" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-onmouseover="timestamp(this, '{{c.edited_utc}}')">
+							{% if v and (v.id == c.author_id or c.edited_utc and v.admin_level >= PERMS['VIEW_VERSIONS']) %}
+								<a href="/versions/{{c.fullname}}" class="{% if not c.edited_utc %}d-none{% endif %} font-italic" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-onmouseover="timestamp(this, '{{c.edited_utc}}')">
 									&nbsp; Edited <span id="comment-edited_string-{{c.id}}">{{c.edited_string}}</span>
 								</a>
-							{% else %}
-								<span class="{% if not c.edited_utc %}d-none{% endif %} font-italic" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-onmouseover="timestamp(this, '{{c.edited_utc}}')">
+							{% elif c.edited_utc %}
+								<span class="font-italic" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-onmouseover="timestamp(this, '{{c.edited_utc}}')">
 									&nbsp; Edited <span id="comment-edited_string-{{c.id}}">{{c.edited_string}}</span>
 								</span>
 							{% endif %}
