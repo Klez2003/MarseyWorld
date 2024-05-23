@@ -109,7 +109,7 @@
 				</section>
 			{% endif %}
 			<div id="hole-banners">
-				{% for banner in hole.bannerurls %}
+				{% for banner in hole.bannerurls|reverse %}
 					<section class="mt-5 d-block hole-settings-subsection">
 						<img class="mr-3" loading="lazy" alt="/h/{{hole.name}} banner" src="{{banner}}">
 						<button class="btn btn-danger hole-banner-delete-button mt-2" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="delete_image(this, '/h/{{hole.name}}/settings/banners/delete')">Delete</button>
@@ -136,7 +136,7 @@
 				</section>
 			{% endif %}
 			<div id="hole-sidebars">
-				{% for sidebar in hole.sidebarurls %}
+				{% for sidebar in hole.sidebarurls|reverse %}
 					<section class="mt-5 d-block hole-settings-subsection">
 						<img class="mr-3" loading="lazy" alt="/h/{{hole.name}} sidebar" src="{{sidebar}}">
 						<button class="btn btn-danger hole-sidebar-delete-button mt-2" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="delete_image(this, '/h/{{hole.name}}/settings/sidebars/delete')">Delete</button>
