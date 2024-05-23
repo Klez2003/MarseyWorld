@@ -156,10 +156,10 @@ lite-youtube {
 	overflow-y: hidden;
 }
 
-.resizable {
+.resizable:has(video) {
 	height: 28vh;
 }
-.resize > video {
+.resizable > video {
 	margin: 14px 0 0 0 !important;
 }
 
