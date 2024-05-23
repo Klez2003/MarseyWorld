@@ -142,9 +142,6 @@ def leave_chat(v, chat_id):
 	if not chat:
 		abort(404, "Chat not found!")
 
-	if v.id == chat.owner_id:
-		abort(403, "The chat owner can't leave it!")
-
 	membership = g.db.query(ChatMembership).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
 	if not membership:
 		abort(400, "You're not a member of this chat!")
