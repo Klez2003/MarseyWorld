@@ -283,6 +283,9 @@ def award_thing(v, thing_type, id):
 		g.db.add(award)
 
 	if kind in {"ban", "grass"}:
+		if author.is_suspended and author.ban_reason.startswith('Grass award used by @'):
+			abort(400, f"You can't give a {kind} award to an already-grassed user!")
+
 		ban_reason_link = f"/{thing_type}/{obj.id}"
 		if isinstance(obj, Comment):
 			ban_reason_link += '#context'
