@@ -156,7 +156,7 @@ lite-youtube {
 	overflow-y: hidden;
 }
 
-.resizable:has(video) {
+#chat-window .resizable {
 	height: 28vh;
 }
 .resizable > video {
