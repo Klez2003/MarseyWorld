@@ -7877,7 +7877,3 @@ tr:has(hideme) {
 	margin-bottom: 4rem !important;
 	border-top: 2px solid;
 }
-
-.post_navigation:focus {
-	outline: none !important;
-}
