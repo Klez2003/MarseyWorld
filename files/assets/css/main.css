@@ -7165,7 +7165,7 @@ input[type=number] {
 @media (max-width: 768px) {
 	.award-tab {
 		font-size: 9px !important;
-		letter-spacing: 1px !important;
+		letter-spacing: 0.8px !important;
 		max-width: 40%;
 	}
 
