@@ -404,6 +404,9 @@ def settings_personal_post(v):
 def filters(v):
 	filters = request.values.get("filters", "").strip()
 
+	if filters in {"", "None"}:
+		filters = None
+
 	if filters == v.custom_filter_list:
 		abort(400, "You didn't change anything!")
 
