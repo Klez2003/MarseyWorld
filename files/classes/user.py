@@ -950,7 +950,7 @@ class User(Base):
 		elif self.message_notifications_count > 0:
 			return 'messages'
 		elif self.chat_mentions_notifications_count > 0:
-			return 'chat_mentions'
+			return 'chats/'
 		elif self.chats_notifications_count > 0:
 			return 'chats'
 		elif self.modmail_notifications_count > 0:
@@ -969,7 +969,7 @@ class User(Base):
 		colors = {
 			'': '#dc3545',
 			'messages': '#d8910d',
-			'chat_mentions': '#dd1ae0',
+			'chats/': '#dd1ae0',
 			'chats': '#008080',
 			'modmail': '#f15387',
 			'posts': '#0000ff',
