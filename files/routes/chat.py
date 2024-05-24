@@ -157,8 +157,8 @@ def speak(data, v):
 		g.db.add(membership)
 
 	uids = set(x.user_id for x in memberships)
-	title = 'New messages'
-	body = f'in "{chat.name}"'
+	title = f'New messages in "{chat.name}"'
+	body = ''
 	url = f'{SITE_FULL}/chat/{chat.id}'
 	push_notif(uids, title, body, url)
 
