@@ -254,7 +254,8 @@ CREATE TABLE public.chat_memberships (
     user_id integer NOT NULL,
     chat_id integer NOT NULL,
     created_utc integer NOT NULL,
-    notification boolean NOT NULL
+    notification boolean NOT NULL,
+    mentions integer NOT NULL
 );
 
 
@@ -1156,7 +1157,7 @@ CREATE TABLE public.users (
     mfa_secret character varying(32),
     is_private boolean DEFAULT false NOT NULL,
     unban_utc integer DEFAULT 0,
-    custom_filter_list character varying(1000) DEFAULT ''::character varying,
+    custom_filter_list character varying(1000),
     stored_subscriber_count integer DEFAULT 0 NOT NULL,
     original_username character varying(30),
     flair_html character varying(1000),
