@@ -575,8 +575,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 				link.string = href
 
 		#insert target="_blank" and ref="nofollower noopener" for external link
+		link["target"] = "_blank"
 		if not href.startswith('/') and not href.startswith(f'{SITE_FULL}/'):
-			link["target"] = "_blank"
 			link["rel"] = "nofollow noopener"
 
 		if has_transform:
