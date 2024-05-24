@@ -578,6 +578,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		if not href.startswith('/') and not href.startswith(f'{SITE_FULL}/'):
 			link["target"] = "_blank"
 			link["rel"] = "nofollow noopener"
+		elif chat:
+			link["target"] = "_blank"
 
 		if has_transform:
 			del link["href"]
