@@ -177,6 +177,12 @@ def speak(data, v):
 		membership.mentions += 1
 		g.db.add(membership)
 
+	uids = set(x.user_id for x in memberships)
+	title = f'New mention of you in "{chat.name}"'
+	body = chat_message.text
+	url = f'{SITE_FULL}/chat/{chat.id}'
+	push_notif(uids, title, body, url)
+
 
 	data = {
 		"id": chat_message.id,
