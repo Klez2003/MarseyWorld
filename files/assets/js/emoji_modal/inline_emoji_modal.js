@@ -137,10 +137,10 @@ function update_inline_emoji_modal(event)
 			break;
 	}
 
-	let coords = text.indexOf(' ', box_coords.pos);
-
-	text = text.slice(0, coords === -1 ? text.length : coords)
-	text = text.split('\n').slice(-1)
+	const begin = text.lastIndexOf('\n', event.target.selectionStart - 1) + 1;
+	let end = text.indexOf(' ', box_coords.pos);
+	if (end === -1) end = text.length
+	text = text.substring(begin, end);
 
 	current_word = /(^|\s|\+|-)([:!@][!#\w-]{2,}(?=\n|$))/.exec(text);
 
