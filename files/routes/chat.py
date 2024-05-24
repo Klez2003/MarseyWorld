@@ -164,10 +164,12 @@ def speak(data, v):
 
 
 
-	notify_users = NOTIFY_USERS(chat_message.text, v) - alrdy_here
+	notify_users = NOTIFY_USERS(chat_message.text, v)
 
 	if chat_message.quotes:
 		notify_users.add(chat_message.quoted_message.user_id)
+
+	notify_users -= alrdy_here
 
 	memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
 		ChatMembership.chat_id == chat_id,
