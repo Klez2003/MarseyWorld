@@ -2636,6 +2636,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyfart2', 'Marsey', 2, 'brap gas animated', false, 1705955144),
 ('marseyfashion', 'Marsey', 2, 'suit', false, 1690158623),
 ('marseyfatherjoseph', 'Marsey', 2, 'christian christmas jesus immaculate god xmas pray', false, 0),
+('marseyfatrick', 'Marsey', 2, 'patrick tomlinson stealthygeek grayscale', false, 1716666685),
 ('marseyfattie', 'Marsey', 2, 'brap fatass chonker pig lorg', false, 0),
 ('marseyfbi', 'Marsey', 2, 'cop glownigger fed glowie agent federal', false, 0),
 ('marseyfbiagent', 'Marsey', 2, 'feds glowies usa america waco swat m16 firearm rifle cops police', false, 0),
