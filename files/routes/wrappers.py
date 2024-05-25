@@ -96,6 +96,7 @@ def get_logged_in_user():
 
 				if v and request.method != "GET":
 					submitted_key = request.values.get("formkey")
+					g.v = v
 					if not validate_formkey(v, submitted_key):
 						v = None
 			else:
