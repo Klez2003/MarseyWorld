@@ -146,25 +146,24 @@ def speak(data, v):
 					g.db.delete(existing)
 					g.db.flush()
 
-	alrdy_here = set(online[request.referrer].keys())
-	memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
-		ChatMembership.chat_id == chat_id,
-		ChatMembership.user_id.notin_(alrdy_here),
-		ChatMembership.notification == False,
-	)
-	for membership in memberships:
-		membership.notification = True
-		g.db.add(membership)
-
-	uids = set(x.user_id for x in memberships)
-	title = f'New messages in "{chat.name}"'
-	body = ''
-	url = f'{SITE_FULL}/chat/{chat.id}'
-	push_notif(uids, title, body, url)
-
-
-
 	if chat.id != 1:
+		alrdy_here = set(online[request.referrer].keys())
+		memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
+			ChatMembership.chat_id == chat_id,
+			ChatMembership.user_id.notin_(alrdy_here),
+			ChatMembership.notification == False,
+		)
+		for membership in memberships:
+			membership.notification = True
+			g.db.add(membership)
+
+		uids = set(x.user_id for x in memberships)
+		title = f'New messages in "{chat.name}"'
+		body = ''
+		url = f'{SITE_FULL}/chat/{chat.id}'
+		push_notif(uids, title, body, url)
+
+
 		notify_users = NOTIFY_USERS(chat_message.text, v)
 		if chat_message.quotes:
 			notify_users.add(chat_message.quoted_message.user_id)
