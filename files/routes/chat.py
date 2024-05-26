@@ -164,26 +164,27 @@ def speak(data, v):
 
 
 
-	notify_users = NOTIFY_USERS(chat_message.text, v)
+	if chat.id != 1:
+		notify_users = NOTIFY_USERS(chat_message.text, v)
 
-	if chat_message.quotes:
-		notify_users.add(chat_message.quoted_message.user_id)
+		if chat_message.quotes:
+			notify_users.add(chat_message.quoted_message.user_id)
 
-	notify_users -= alrdy_here
+		notify_users -= alrdy_here
 
-	memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
-		ChatMembership.chat_id == chat_id,
-		ChatMembership.user_id.in_(notify_users),
-	)
-	for membership in memberships:
-		membership.mentions += 1
-		g.db.add(membership)
+		memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
+			ChatMembership.chat_id == chat_id,
+			ChatMembership.user_id.in_(notify_users),
+		)
+		for membership in memberships:
+			membership.mentions += 1
+			g.db.add(membership)
 
-	uids = set(x.user_id for x in memberships)
-	title = f'New mention of you in "{chat.name}"'
-	body = chat_message.text
-	url = f'{SITE_FULL}/chat/{chat.id}#{chat_message.id}'
-	push_notif(uids, title, body, url)
+		uids = set(x.user_id for x in memberships)
+		title = f'New mention of you in "{chat.name}"'
+		body = chat_message.text
+		url = f'{SITE_FULL}/chat/{chat.id}#{chat_message.id}'
+		push_notif(uids, title, body, url)
 
 
 	data = {
