@@ -1145,6 +1145,7 @@ INSERT INTO public.hat_defs VALUES (1449, 'Zero Two Horns', 'Hi, darling!', 2, 5
 INSERT INTO public.hat_defs VALUES (1543, 'Darksign', 'Be safe, Ashen one. Don''t you dare go hollow.', 2, 500, NULL, 1714317992);
 INSERT INTO public.hat_defs VALUES (1545, 'Imagine', 'A world without dramatards.', 2, 1000, NULL, 1714475830);
 INSERT INTO public.hat_defs VALUES (1555, 'Dildo Head', 'Prominently showing your love for BBC', 2, 500, NULL, 1715029375);
+
 INSERT INTO public.hat_defs VALUES (1456, 'Spiked Emo Beanie', 'Touch the ear buttons, I dare you.', 2, 500, NULL, 1708647722);
 INSERT INTO public.hat_defs VALUES (1457, 'Scarlet Shine', 'I shimmer bitch.', 2, 500, NULL, 1708647756);
 INSERT INTO public.hat_defs VALUES (1463, 'Colombian Fedora', 'Mi Señora!', 2, 500, NULL, 1708647999);
@@ -1174,6 +1175,7 @@ INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokém
 INSERT INTO public.hat_defs VALUES (1376, 'pkmn0039', 'Jigglypuff, a Balloon Pokémon. It has large friendly eyes and it sings a pleasant song.', 2, 500, NULL, 1698658603);
 INSERT INTO public.hat_defs VALUES (1374, 'pkmn0143', 'Snorlax, the Sleeping Pokémon. Snorlax becomes much too lazy to lift even a finger when it has a full belly.', 2, 500, NULL, 1698658340);
 INSERT INTO public.hat_defs VALUES (1373, 'SlowCrown', 'Slowking, the Royal Pokémon. A Water and Psychic type. If a Shellder bites a Slowpoke''s tail, Slowpoke evolves into Slowbro. But if a Shellder bites a Slowpoke''s head, the Slowpoke evolves into Slowking with the intelligence of a genius.', 2, 500, NULL, 1698658076);
+
 INSERT INTO public.hat_defs VALUES (1458, 'Anime Eyes (red)', 'I am tired of all of this.', 2, 500, NULL, 1708647781);
 INSERT INTO public.hat_defs VALUES (1460, 'Dismantle', 'i haven''t used this since the heian era.', 2, 500, NULL, 1708647852);
 INSERT INTO public.hat_defs VALUES (1464, 'Digital Cry', 'Stop, you''re hurting my feelings.', 2, 500, NULL, 1708648022);
@@ -1200,6 +1202,7 @@ INSERT INTO public.hat_defs VALUES (1408, 'Kadio Stance', '*thwack* YEEEEEEEEOUC
 INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
 INSERT INTO public.hat_defs VALUES (1370, 'pkmn0133', 'Eevee, the Evolution Pokémon. Eevee is rarely seen, and can adapt to severe habitats by evolving, changing its capabilities and form.', 2, 1000, NULL, 1698657507);
 INSERT INTO public.hat_defs VALUES (1366, 'pkmn0001', 'Bulbasaur. It bears the seed of a plant on its back from birth. The seed slowly develops. Researchers are unsure whether to classify Bulbasaur as a plant or animal. Bulbasaur are extremely tough and very difficult to capture in the wild.', 2, 500, NULL, 1698656032);
+
 INSERT INTO public.hat_defs VALUES (1410, 'Fisherman Hat II', 'Put On something like a military hat!', 2, 500, NULL, 1705785598);
 INSERT INTO public.hat_defs VALUES (1413, 'Cuddlybear', 'This user is cute like a bear! And definitely wont tear you apart.', 2, 500, NULL, 1705794605);
 INSERT INTO public.hat_defs VALUES (1411, 'BUTT-head', 'Every time i take a dump the shit gets stuck in the hairs and it''s IMPOSSIBLE to clean it up.', 2, 500, NULL, 1705792639);
@@ -1272,7 +1275,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1555, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1558, true);
 
 
 --
