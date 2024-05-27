@@ -81,6 +81,8 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('classichanging', 'Classic', 2, 'suicide', false, 1715793081),
 ('classicyawn', 'Classic', 2, 'bored', false, 1715729901),
 ('climb', 'Classic', 2, 'hill people smiley wave', false, 1708215791),
+('clitpeeler', 'Misc', 2, 'booster smrpg wpd', false, 1716819515),
+('clitpeelerorb', 'Misc', 2, 'booster spinning sphere wpd', false, 1716819480),
 ('crackpipe', 'Misc', 2, 'smoke drugs high', false, 1705825988),
 ('creepy', 'Classic', 2, 'grin blood scary smile murder', false, 1708217898),
 ('crying2', 'Misc', 2, 'alien', false, 1710959107),
