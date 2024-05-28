@@ -1090,6 +1090,7 @@ INSERT INTO public.hat_defs VALUES (1452, 'I Eat Drywall Hat', 'Yeah I eat drywa
 INSERT INTO public.hat_defs VALUES (1309, 'Vault-Tec', 'When the bombs drop I''ll be the safest.', 2, 500, NULL, 1691293282);
 INSERT INTO public.hat_defs VALUES (1308, 'NukaCola', 'Soda and radiation? Sign me up!', 2, 500, NULL, 1691293260);
 INSERT INTO public.hat_defs VALUES (1289, 'Energy Dome', 'Collects latent Orgone energy and recirculates it into the Medulla Oblongata.', 2, 500, NULL, 1689298931);
+
 INSERT INTO public.hat_defs VALUES (1307, 'Puppet', 'Am I really in control?', 2, 500, NULL, 1691293222);
 INSERT INTO public.hat_defs VALUES (1306, 'Neon Green Halo', 'So toxic that even my halo changed color.', 2, 500, NULL, 1691293205);
 INSERT INTO public.hat_defs VALUES (1303, 'SCP999', 'Cute and cuddly maybe people will finally like me!', 2, 500, NULL, 1691293125);
@@ -1146,6 +1147,9 @@ INSERT INTO public.hat_defs VALUES (1543, 'Darksign', 'Be safe, Ashen one. Don''
 INSERT INTO public.hat_defs VALUES (1545, 'Imagine', 'A world without dramatards.', 2, 1000, NULL, 1714475830);
 INSERT INTO public.hat_defs VALUES (1555, 'Dildo Head', 'Prominently showing your love for BBC', 2, 500, NULL, 1715029375);
 
+
+
+
 INSERT INTO public.hat_defs VALUES (1456, 'Spiked Emo Beanie', 'Touch the ear buttons, I dare you.', 2, 500, NULL, 1708647722);
 INSERT INTO public.hat_defs VALUES (1457, 'Scarlet Shine', 'I shimmer bitch.', 2, 500, NULL, 1708647756);
 INSERT INTO public.hat_defs VALUES (1463, 'Colombian Fedora', 'Mi Señora!', 2, 500, NULL, 1708647999);
@@ -1175,6 +1179,8 @@ INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokém
 INSERT INTO public.hat_defs VALUES (1376, 'pkmn0039', 'Jigglypuff, a Balloon Pokémon. It has large friendly eyes and it sings a pleasant song.', 2, 500, NULL, 1698658603);
 INSERT INTO public.hat_defs VALUES (1374, 'pkmn0143', 'Snorlax, the Sleeping Pokémon. Snorlax becomes much too lazy to lift even a finger when it has a full belly.', 2, 500, NULL, 1698658340);
 INSERT INTO public.hat_defs VALUES (1373, 'SlowCrown', 'Slowking, the Royal Pokémon. A Water and Psychic type. If a Shellder bites a Slowpoke''s tail, Slowpoke evolves into Slowbro. But if a Shellder bites a Slowpoke''s head, the Slowpoke evolves into Slowking with the intelligence of a genius.', 2, 500, NULL, 1698658076);
+
+
 
 INSERT INTO public.hat_defs VALUES (1458, 'Anime Eyes (red)', 'I am tired of all of this.', 2, 500, NULL, 1708647781);
 INSERT INTO public.hat_defs VALUES (1460, 'Dismantle', 'i haven''t used this since the heian era.', 2, 500, NULL, 1708647852);
@@ -1206,10 +1212,12 @@ INSERT INTO public.hat_defs VALUES (1366, 'pkmn0001', 'Bulbasaur. It bears the s
 INSERT INTO public.hat_defs VALUES (1410, 'Fisherman Hat II', 'Put On something like a military hat!', 2, 500, NULL, 1705785598);
 INSERT INTO public.hat_defs VALUES (1413, 'Cuddlybear', 'This user is cute like a bear! And definitely wont tear you apart.', 2, 500, NULL, 1705794605);
 INSERT INTO public.hat_defs VALUES (1411, 'BUTT-head', 'Every time i take a dump the shit gets stuck in the hairs and it''s IMPOSSIBLE to clean it up.', 2, 500, NULL, 1705792639);
+
 INSERT INTO public.hat_defs VALUES (1412, 'Panda Hat', 'Welcome to panda express, watchu want?', 2, 500, NULL, 1705794572);
 INSERT INTO public.hat_defs VALUES (1385, 'Christmas String Lights', 'Have a Merry Christmas!', 2, 1000, NULL, 1700491518);
 INSERT INTO public.hat_defs VALUES (1384, 'Slow Snowfall', 'Slower snowfall (for dramatic effect)!', 2, 1000, NULL, 1700491458);
 INSERT INTO public.hat_defs VALUES (1383, 'Patel Petals', 'Pretty pastel petals go zooming by!', 2, 1000, NULL, 1700491275);
+
 INSERT INTO public.hat_defs VALUES (1414, 'MILF Hat', 'This user loves MILFS.', 2, 500, NULL, 1705794625);
 INSERT INTO public.hat_defs VALUES (1415, 'Cat Milf Hat', 'This user loves furry milfs!', 2, 500, NULL, 1705794651);
 INSERT INTO public.hat_defs VALUES (1416, 'Vouge Hat', 'Style and fashion!', 2, 500, NULL, 1705794669);
@@ -1275,7 +1283,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1558, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1566, true);
 
 
 --
