@@ -146,7 +146,7 @@ def speak(data, v):
 					g.db.delete(existing)
 					g.db.flush()
 
-	if chat.id != 1:
+	if SITE_NAME == 'rDrama' and chat.id != 1: #disabled on wpd for now cuz it takes too long, need to put it in gevent
 		alrdy_here = set(online[request.referrer].keys())
 		memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
 			ChatMembership.chat_id == chat_id,
