@@ -58,7 +58,8 @@ def refresh_chat(chat_id):
 @socketio.on('speak')
 @auth_required_socketio
 def speak(data, v):
-	if v.is_suspended: return ''
+	if SITE_NAME == 'WPD' and v.is_suspended:
+		return ''
 
 	try: chat_id = int(data['chat_id'])
 	except: return ''
