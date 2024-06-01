@@ -271,12 +271,15 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 
 
 def push_notif(uids, title, body, url_or_comment):
+	if VAPID_PUBLIC_KEY == DEFAULT_CONFIG_VALUE:
+		return
+
 	if hasattr(g, 'v') and g.v and g.v.shadowbanned:
 		uids = [x[0] for x in g.db.query(User.id).filter(User.id.in_(uids), User.admin_level >= PERMS['USER_SHADOWBAN']).all()]
 		if not uids:
 			return
 
-	if VAPID_PUBLIC_KEY == DEFAULT_CONFIG_VALUE:
+	if hasattr(g, 'v') and g.v and g.v.admin_level and not url_or_comment.startswith(f'{SITE_FULL}/chat/182'):
 		return
 
 	if isinstance(url_or_comment, Comment):
