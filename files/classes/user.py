@@ -857,7 +857,7 @@ class User(Base):
 			return g.db.query(ChatMembership).filter(
 				ChatMembership.user_id == self.id,
 				ChatMembership.notification == True,
-				ChatMembership.chat_id.notin_((12,219,360)),
+				ChatMembership.chat_id.notin_((12,219,320,360)),
 			).count()
 		return g.db.query(ChatMembership).filter_by(user_id=self.id, notification=True).count()
 
