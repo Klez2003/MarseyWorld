@@ -1706,6 +1706,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyautumn2', 'Marsey', 2, 'fall season leaf leaves pumpkin spice latte wind scarf', false, 1663109364),
 ('marseyavegorenj', 'Marsey', 2, 'sparkle blue', false, 1692349729),
 ('marseyaveragetotally', 'Marsey', 2, 'lurker missing texture 3d', false, 1690451381),
+('marseyaveri', 'Marsey', 2, 'furry fox animal', false, 1717285584),
 ('marseyavril1', 'Marsey', 2, 'lavigne canadian leaf beautiful hot sexy punk rocker singer musician artist tie sk8er boi complicated brunette', false, 0),
 ('marseyavril2', 'Marsey', 2, 'lavigne canadian leaf beautiful hot sexy punk rocker singer musician artist girlfriend waifu love blow kiss blowkiss heart pink hair', false, 0),
 ('marseyavril3', 'Marsey', 2, 'lavigne canadian leaf beautiful hot sexy punk rocker singer musician artist blonde green hair he wasnt', false, 0),
