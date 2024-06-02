@@ -853,7 +853,7 @@ class User(Base):
 	@property
 	@lazy
 	def chats_notifications_count(self):
-		if self.id == AEVANN_ID:
+		if self.id == AEVANN_ID and SITE == 'rdrama.net':
 			return g.db.query(ChatMembership).filter(
 				ChatMembership.user_id == self.id,
 				ChatMembership.notification == True,
