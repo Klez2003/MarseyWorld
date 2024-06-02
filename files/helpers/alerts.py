@@ -279,9 +279,6 @@ def push_notif(uids, title, body, url_or_comment):
 		if not uids:
 			return
 
-	# if SITE == 'rdrama.net' and hasattr(g, 'v') and g.v and g.v.admin_level and not (isinstance(url_or_comment, str) and url_or_comment.startswith(f'{SITE_FULL}/chat/182')):
-	# 	return
-
 	if isinstance(url_or_comment, Comment):
 		c = url_or_comment
 		if c.is_banned: return
