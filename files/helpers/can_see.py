@@ -6,9 +6,9 @@ from flask import request
 
 #DELETE_ME_PLS
 if SITE_NAME == 'rDrama':
-	words_to_hide = ('israel', 'isreal', 'palest', 'muslim', 'islam', 'hamas', 'jew', 'zion', 'gaza', 'rafah', 'isis', 'terror', 'iraq', 'allah', 'mohammad', 'muhammad', 'mohammed', 'muhammed', 'mohamad', 'muhamad', 'mohamed', 'muhamed', 'trans', 'train', 'tranny', 'troon', 'rowdy', 'nigger', 'bipoc', 'rape', 'rapist', 'wpd', 'watchpeopledie')
+	words_to_hide = ('israel', 'isreal', 'palest', 'muslim', 'islam', 'hamas', 'jew', 'zion', 'gaza', 'rafah', 'isis', 'terror', 'iraq', 'allah', 'mohammad', 'muhammad', 'mohammed', 'muhammed', 'mohamad', 'muhamad', 'mohamed', 'muhamed', 'trans', 'train', 'tranny', 'troon', 'rowdy', 'nigger', 'nog', 'bipoc', 'rape', 'rapist', 'wpd', 'watchpeopledie')
 else:
-	words_to_hide = ('israel', 'isreal', 'palest', 'muslim', 'islam', 'hamas', 'jew', 'zion', 'gaza', 'rafah', 'isis', 'terror', 'iraq', 'allah', 'mohammad', 'muhammad', 'mohammed', 'muhammed', 'mohamad', 'muhamad', 'mohamed', 'muhamed', 'trans', 'train', 'tranny', 'troon', 'rowdy', 'nigger', 'bipoc', 'rape', 'rapist')
+	words_to_hide = ('israel', 'isreal', 'palest', 'muslim', 'islam', 'hamas', 'jew', 'zion', 'gaza', 'rafah', 'isis', 'terror', 'iraq', 'allah', 'mohammad', 'muhammad', 'mohammed', 'muhammed', 'mohamad', 'muhamad', 'mohamed', 'muhamed', 'trans', 'train', 'tranny', 'troon', 'rowdy', 'nigger', 'nog', 'bipoc', 'rape', 'rapist')
 
 def can_see(user, obj):
 	if isinstance(obj, (Post, Comment)):

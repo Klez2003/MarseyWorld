@@ -14,6 +14,7 @@ SLURS = {
 	"negroid": "BIPOC",
 	"nignog": "BIPOC",
 	"nig nog": "BIPOC",
+	"(?<!\w)nog(?!\w)": "BIPOC",
 	"niglet": 'BIPOClet',
 	"negress": "BIPOCette",
 	"faggot": "cute twink",
