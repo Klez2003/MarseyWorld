@@ -279,6 +279,7 @@ def push_notif(uids, title, body, url_or_comment, chat_id=None):
 		if not uids:
 			return
 
+	uids = set(uids)
 	if SITE == 'rdrama.net' and chat_id != 182:
 		uids.discard(AEVANN_ID)
 		uids.discard(147)
