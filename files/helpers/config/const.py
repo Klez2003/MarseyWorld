@@ -233,7 +233,8 @@ PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_REMOVE': 5,
 	'MODS_EVERY_HOLE': 5,
 	'MODS_EVERY_GROUP': 5,
-	'INFINITE_CURRENCY': 5,
+
+	'INFINITE_CURRENCY': 6,
 }
 
 FEATURES = {
