@@ -283,6 +283,7 @@ def push_notif(uids, title, body, url_or_comment, chat_id=None):
 	if SITE == 'rdrama.net' and chat_id != 182 and '!jannies' not in body:
 		uids.discard(AEVANN_ID)
 		uids.discard(147)
+		uids.discard(11031)
 
 	if isinstance(url_or_comment, Comment):
 		c = url_or_comment
