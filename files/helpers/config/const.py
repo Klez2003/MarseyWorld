@@ -791,7 +791,6 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 		500: "Internal Server Error. Something went very wrong when trying to fulfill your request. Try refreshing the page. If it still doesn't work, shoot <a href='/@CLiTPEELER'>@CLiTPEELER</a> a message.",
 	}
 
-	ERROR_MARSEYS[403] = "marseyconfused"
 	ERROR_MARSEYS[500] = "marseylaptopangry2"
 
 	BUG_THREAD = 61549
