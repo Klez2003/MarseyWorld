@@ -270,7 +270,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 	return notify_users - BOT_IDs - {v.id, 0} - v.all_twoway_blocks - v.muters
 
 
-def push_notif(uids, title, body, url_or_comment):
+def push_notif(uids, title, body, url_or_comment, chat_id=None):
 	if VAPID_PUBLIC_KEY == DEFAULT_CONFIG_VALUE:
 		return
 
@@ -278,6 +278,10 @@ def push_notif(uids, title, body, url_or_comment):
 		uids = [x[0] for x in g.db.query(User.id).filter(User.id.in_(uids), User.admin_level >= PERMS['USER_SHADOWBAN']).all()]
 		if not uids:
 			return
+
+	if SITE == 'rdrama.net' and chat_id != 182:
+		uids.discard(AEVANN_ID)
+		uids.discard(147)
 
 	if isinstance(url_or_comment, Comment):
 		c = url_or_comment

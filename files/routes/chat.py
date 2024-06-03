@@ -162,7 +162,7 @@ def speak(data, v):
 		title = f'New messages in "{chat.name}"'
 		body = ''
 		url = f'{SITE_FULL}/chat/{chat.id}'
-		push_notif(uids, title, body, url)
+		push_notif(uids, title, body, url, chat_id=chat.id)
 
 
 		notify_users = NOTIFY_USERS(chat_message.text, v)
@@ -183,7 +183,7 @@ def speak(data, v):
 			title = f'New mention of you in "{chat.name}"'
 			body = chat_message.text
 			url = f'{SITE_FULL}/chat/{chat.id}#{chat_message.id}'
-			push_notif(uids, title, body, url)
+			push_notif(uids, title, body, url, chat_id=chat.id)
 
 
 	data = {
