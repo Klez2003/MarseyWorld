@@ -48,6 +48,11 @@
 					</div>
 				</div>
 			{% endif %}
+
+			{% if v.admin_level >= PERMS['VIEW_EMAILS'] -%}
+				<div id="profile--email" class="mt-2">Email: {{u.email}}</div>
+			{%- endif %}
+
 			{% if v.admin_level >= PERMS['USER_BAN'] %}
 				<form class="my-3 {% if u.is_permabanned %}d-none{% endif %}" action="/ban_user/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this)">
 					<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
