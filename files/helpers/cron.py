@@ -187,7 +187,7 @@ def _hole_inactive_purge_task():
 		.filter(Post.hole != None, Post.created_utc > one_week_ago,
 			Post.draft == False, Post.is_banned == False,
 			Post.deleted_utc == 0)]
-	active_holes.extend(['changelog','countryclub','museumofrdrama','highrollerclub','test','truth']) # holes immune from deletion
+	active_holes.extend(['changelog','countryclub','museumofrdrama','highrollerclub','test','truth','marsey']) # holes immune from deletion
 
 	dead_holes = g.db.query(Hole).filter(Hole.name.notin_(active_holes)).all()
 	names = [x.name for x in dead_holes]
