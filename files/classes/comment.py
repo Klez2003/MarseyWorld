@@ -89,7 +89,7 @@ def normalize_urls_runtime(body, v):
 	if v and v.imgsed:
 		body = instagram_to_imgsed_regex.sub(r'\1https://imgsed.com/', body)
 
-	if not v or v.controversial:
+	if v and v.controversial:
 		body = controversial_regex.sub(controversial_link_matcher, body)
 
 	return body
