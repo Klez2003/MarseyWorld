@@ -147,7 +147,7 @@ def speak(data, v):
 					g.db.delete(existing)
 					g.db.flush()
 
-	if SITE_NAME == 'rDrama' and chat.id != 1: #disabled on wpd for now cuz it takes too long, need to put it in gevent
+	if chat.id != 1: #disabled on wpd for now cuz it takes too long, need to put it in gevent
 		alrdy_here = set(online[request.referrer].keys())
 		memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
 			ChatMembership.chat_id == chat_id,
@@ -164,26 +164,26 @@ def speak(data, v):
 		url = f'{SITE_FULL}/chat/{chat.id}'
 		push_notif(uids, title, body, url, chat_id=chat.id)
 
+		if SITE_NAME == 'rDrama':
+			notify_users = NOTIFY_USERS(chat_message.text, v)
+			if chat_message.quotes:
+				notify_users.add(chat_message.quoted_message.user_id)
+			notify_users -= alrdy_here
 
-		notify_users = NOTIFY_USERS(chat_message.text, v)
-		if chat_message.quotes:
-			notify_users.add(chat_message.quoted_message.user_id)
-		notify_users -= alrdy_here
+			if notify_users:
+				memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
+					ChatMembership.chat_id == chat_id,
+					ChatMembership.user_id.in_(notify_users),
+				)
+				for membership in memberships:
+					membership.mentions += 1
+					g.db.add(membership)
 
-		if notify_users:
-			memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
-				ChatMembership.chat_id == chat_id,
-				ChatMembership.user_id.in_(notify_users),
-			)
-			for membership in memberships:
-				membership.mentions += 1
-				g.db.add(membership)
-
-			uids = set(x.user_id for x in memberships)
-			title = f'New mention of you in "{chat.name}"'
-			body = chat_message.text
-			url = f'{SITE_FULL}/chat/{chat.id}#{chat_message.id}'
-			push_notif(uids, title, body, url, chat_id=chat.id)
+				uids = set(x.user_id for x in memberships)
+				title = f'New mention of you in "{chat.name}"'
+				body = chat_message.text
+				url = f'{SITE_FULL}/chat/{chat.id}#{chat_message.id}'
+				push_notif(uids, title, body, url, chat_id=chat.id)
 
 
 	data = {
