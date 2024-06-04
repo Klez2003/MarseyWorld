@@ -5869,6 +5869,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('soyjakfat', 'Wojak', 2, 'obese wingcuck', false, 0),
 ('soyjakferal', 'Wojak', 2, 'will enjoy feraljak jacksepticeye', false, 1680541833),
 ('soyjakfront', 'Wojak', 2, 'soy', false, 0),
+('soyjakfrontneutral', 'Wojak', 2, 'party plier', false, 1716416230),
 ('soyjakhipster', 'Wojak', 2, '', false, 0),
 ('soyjakmaga', 'Wojak', 2, 'israel nazi', false, 0),
 ('soyjakssmirk', 'Wojak', 2, 'smug plan planning stare look saying think thinking hehe haha lol', false, 1686797443),
