@@ -30,11 +30,9 @@ def check_for_treasure(from_comment, in_text):
 
 	if amount != 0:
 		if amount > 0:
-			active_lottery = get_active_lottery()
 			lottery_tickets_seed = random.randint(1, 100)
 			lottery_tickets_instead = lottery_tickets_seed <= lotterizer_rate
-
-			if active_lottery and lottery_tickets_instead:
+			if lottery_tickets_instead and get_active_lottery():
 				ticket_count = floor(amount / LOTTERY_TICKET_COST)
 				grant_lottery_tickets_to_user(user, ticket_count)
 				from_comment.treasure_amount = f'l{ticket_count}'
