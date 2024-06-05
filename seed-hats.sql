@@ -1182,6 +1182,7 @@ INSERT INTO public.hat_defs VALUES (1373, 'SlowCrown', 'Slowking, the Royal Pok√
 
 
 
+
 INSERT INTO public.hat_defs VALUES (1458, 'Anime Eyes (red)', 'I am tired of all of this.', 2, 500, NULL, 1708647781);
 INSERT INTO public.hat_defs VALUES (1460, 'Dismantle', 'i haven''t used this since the heian era.', 2, 500, NULL, 1708647852);
 INSERT INTO public.hat_defs VALUES (1464, 'Digital Cry', 'Stop, you''re hurting my feelings.', 2, 500, NULL, 1708648022);
@@ -1283,7 +1284,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1566, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1567, true);
 
 
 --
