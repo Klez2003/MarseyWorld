@@ -126,66 +126,6 @@ def speak(data, v):
 	execute_blackjack(v, chat_message, text, "chat")
 	execute_under_siege(v, chat_message, text, "chat")
 
-	if v.id == chat.owner_id:
-		for i in chat_adding_regex.finditer(text):
-			user = get_user(i.group(1), graceful=True, attributes=[User.id])
-			if user and not user.has_muted(v) and not user.has_blocked(v):
-				existing = g.db.query(ChatMembership.user_id).filter_by(user_id=user.id, chat_id=chat_id).one_or_none()
-				if not existing:
-					chat_membership = ChatMembership(
-						user_id=user.id,
-						chat_id=chat_id,
-					)
-					g.db.add(chat_membership)
-					g.db.flush()
-
-		for i in chat_kicking_regex.finditer(text):
-			user = get_user(i.group(1), graceful=True, attributes=[User.id])
-			if user:
-				existing = g.db.query(ChatMembership).filter_by(user_id=user.id, chat_id=chat_id).one_or_none()
-				if existing:
-					g.db.delete(existing)
-					g.db.flush()
-
-	if chat.id != 1: #disabled on wpd for now cuz it takes too long, need to put it in gevent
-		alrdy_here = set(online[request.referrer].keys())
-		memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
-			ChatMembership.chat_id == chat_id,
-			ChatMembership.user_id.notin_(alrdy_here),
-			ChatMembership.notification == False,
-		)
-		for membership in memberships:
-			membership.notification = True
-			g.db.add(membership)
-
-		uids = set(x.user_id for x in memberships)
-		title = f'New messages in "{chat.name}"'
-		body = ''
-		url = f'{SITE_FULL}/chat/{chat.id}'
-		push_notif(uids, title, body, url, chat_id=chat.id)
-
-		if SITE_NAME == 'rDrama':
-			notify_users = NOTIFY_USERS(chat_message.text, v)
-			if chat_message.quotes:
-				notify_users.add(chat_message.quoted_message.user_id)
-			notify_users -= alrdy_here
-
-			if notify_users:
-				memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
-					ChatMembership.chat_id == chat_id,
-					ChatMembership.user_id.in_(notify_users),
-				)
-				for membership in memberships:
-					membership.mentions += 1
-					g.db.add(membership)
-
-				uids = set(x.user_id for x in memberships)
-				title = f'New mention of you in "{chat.name}"'
-				body = chat_message.text
-				url = f'{SITE_FULL}/chat/{chat.id}#{chat_message.id}'
-				push_notif(uids, title, body, url, chat_id=chat.id)
-
-
 	data = {
 		"id": chat_message.id,
 		"quotes": chat_message.quotes,
@@ -208,6 +148,64 @@ def speak(data, v):
 		emit('speak', data, room=request.referrer)
 
 	typing[request.referrer] = []
+
+	if v.id == chat.owner_id:
+		for i in chat_adding_regex.finditer(text):
+			user = get_user(i.group(1), graceful=True, attributes=[User.id])
+			if user and not user.has_muted(v) and not user.has_blocked(v):
+				existing = g.db.query(ChatMembership.user_id).filter_by(user_id=user.id, chat_id=chat_id).one_or_none()
+				if not existing:
+					chat_membership = ChatMembership(
+						user_id=user.id,
+						chat_id=chat_id,
+					)
+					g.db.add(chat_membership)
+					g.db.flush()
+
+		for i in chat_kicking_regex.finditer(text):
+			user = get_user(i.group(1), graceful=True, attributes=[User.id])
+			if user:
+				existing = g.db.query(ChatMembership).filter_by(user_id=user.id, chat_id=chat_id).one_or_none()
+				if existing:
+					g.db.delete(existing)
+					g.db.flush()
+
+	if chat.id != 1:
+		alrdy_here = set(online[request.referrer].keys())
+		memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
+			ChatMembership.chat_id == chat_id,
+			ChatMembership.user_id.notin_(alrdy_here),
+			ChatMembership.notification == False,
+		)
+		for membership in memberships:
+			membership.notification = True
+			g.db.add(membership)
+
+		uids = set(x.user_id for x in memberships)
+		title = f'New messages in "{chat.name}"'
+		body = ''
+		url = f'{SITE_FULL}/chat/{chat.id}'
+		push_notif(uids, title, body, url, chat_id=chat.id)
+
+		notify_users = NOTIFY_USERS(chat_message.text, v)
+		if chat_message.quotes:
+			notify_users.add(chat_message.quoted_message.user_id)
+		notify_users -= alrdy_here
+
+		if notify_users:
+			memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
+				ChatMembership.chat_id == chat_id,
+				ChatMembership.user_id.in_(notify_users),
+			)
+			for membership in memberships:
+				membership.mentions += 1
+				g.db.add(membership)
+
+			uids = set(x.user_id for x in memberships)
+			title = f'New mention of you in "{chat.name}"'
+			body = chat_message.text
+			url = f'{SITE_FULL}/chat/{chat.id}#{chat_message.id}'
+			push_notif(uids, title, body, url, chat_id=chat.id)
 
 	return ''
 
