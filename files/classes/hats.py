@@ -49,7 +49,7 @@ class Hat(Base):
 	__tablename__ = "hats"
 
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	hat_id = Column(Integer, ForeignKey('hat_defs.id'), primary_key=True)
+	hat_id = Column(Integer, ForeignKey("hat_defs.id"), primary_key=True)
 	equipped = Column(Boolean, default=False)
 	created_utc = Column(Integer)
 
