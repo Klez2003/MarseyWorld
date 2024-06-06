@@ -1527,8 +1527,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('mammamia', 'Misc', 2, 'italian fat obese attention seeker notice single mother wtf hand signal', false, 1687525928),
 ('mammamia2', 'Misc', 2, 'italian fat obese attention seeker notice single mother wtf hand signal', false, 1687525994),
 ('mankykong', 'Donkey Kong', 2, 'donkeykong dk barrel throwing', false, 1679357520),
-('manulagree', 'Misc', 2, 'yes yeah yea trio three bow nod', false, 1717626958),
-('manulalright', 'Misc', 2, 'agree okay wink', false, 1717626989),
 ('manulannoyed', 'Misc', 2, 'hiss reee angry', false, 1717627038),
 ('manullol', 'Misc', 2, 'haha lmao lmfao laugh jolly', false, 1717642474),
 ('manulsmug', 'Misc', 2, 'spongebob grin', false, 1717643147),
