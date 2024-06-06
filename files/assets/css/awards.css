@@ -223,8 +223,11 @@
 	text-transform: lowercase;
 }
 
+.sharpen:not(a):not(.blood):not(.author-bitten), h1.sharpen.post-title:not(.author-bitten) a {
+	color: red !important;
+}
+
 .sharpen:not(a):not(.blood), h1.sharpen.post-title a {
-	color: red;
 	font-weight: bold !important;
 	font-style: italic !important;
 }
