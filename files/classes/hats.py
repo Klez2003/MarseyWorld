@@ -15,7 +15,7 @@ class HatDef(Base):
 	id = Column(Integer, primary_key=True)
 	name = Column(String)
 	description = Column(String)
-	author_id = Column(Integer, ForeignKey('users.id'))
+	author_id = Column(Integer, ForeignKey("users.id"))
 	price = Column(Integer)
 	submitter_id = Column(Integer, ForeignKey("users.id"))
 	created_utc = Column(Integer)
@@ -48,7 +48,7 @@ class HatDef(Base):
 class Hat(Base):
 	__tablename__ = "hats"
 
-	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	hat_id = Column(Integer, ForeignKey('hat_defs.id'), primary_key=True)
 	equipped = Column(Boolean, default=False)
 	created_utc = Column(Integer)

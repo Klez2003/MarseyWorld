@@ -32,7 +32,7 @@ class Badge(Base):
 
 	__tablename__ = "badges"
 
-	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	badge_id = Column(Integer, ForeignKey('badge_defs.id'), primary_key=True)
 	description = Column(String)
 	url = Column(String)
