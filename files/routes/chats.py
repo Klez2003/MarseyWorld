@@ -243,7 +243,7 @@ def schedule_orgy(v, chat_id):
 			abort(400, "For linking an mp4 file, you can only use archive.org or one of the approved media hosts outlined in https://rdrama.net/formatting#approved")
 		orgy_type = 'file'
 		data = normalized_link
-		video_info = ffmpeg.probe(data, headers=f'referer:{SITE_FULL}/chat')
+		video_info = ffmpeg.probe(data)
 		duration = float(video_info['streams'][0]['duration'])
 		if duration == 2.0: raise
 		if duration > 3000:
