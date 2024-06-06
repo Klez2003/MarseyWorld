@@ -11,7 +11,7 @@ echo "${EXPORT_EMOJIS%?}" >> "/d/seed-emojis-$SITE_NAME.sql"
 echo "ON CONFLICT (name) DO UPDATE SET tags = EXCLUDED.tags, kind = EXCLUDED.kind, nsfw = EXCLUDED.nsfw;" >> "/d/seed-emojis-$SITE_NAME.sql"
 
 #pull and push
-/d/scripts/g
+#/d/scripts/g
 
 #execute seed-emojis.sql of other site
 if [ $SITE_NAME == "rDrama" ]; then
