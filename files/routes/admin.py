@@ -387,6 +387,10 @@ def reported_comments(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['ADMIN_HOME_VISIBLE'])
 def admin_home(v):
+	if CLOUDFLARE_AVAILABLE:
+		try: under_attack = (requests.get(f"{CLOUDFLARE_API_URL}/zones/{CF_ZONE}/settings/security_level", headers=CF_HEADERS, timeout=CLOUDFLARE_REQUEST_TIMEOUT_SECS).json()['result']['value'] == "under_attack")
+		except: return render_template("admin/admin_home.html", v=v)
+		set_setting('under_attack', under_attack)
 	return render_template("admin/admin_home.html", v=v)
 
 @app.post("/admin/site_settings/<setting>")
