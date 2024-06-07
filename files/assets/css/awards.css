@@ -272,6 +272,11 @@
 	font-weight: 400;
 }
 
+@keyframes move-colors {
+	from {background-position: 0px;}
+	to {background-position: 1000px;}
+}
+
 @keyframes lgbt {
 	0% { filter: hue-rotate(0deg); }
 	100% { filter: hue-rotate(360deg); }
