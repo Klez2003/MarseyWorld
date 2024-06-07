@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <linearGradient gradientUnits="userSpaceOnUse" id="myGradient" x1="0" y1="0" x2="60" y2="0">
+            <stop offset="0%" stop-color="#a78e00" />
+            <stop offset="33%" stop-color="#947d00" />
+            <stop offset="100%" stop-color="#847000" />
+        </linearGradient>
+        <pattern id="bg" patternUnits="userSpaceOnUse" width="60" height="1" patternTransform="rotate(-45 50 50)">
+            <rect width="100%" height="100%" fill="url(#myGradient)">
+            </rect>
+        </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#bg)"></rect>
+    <animateTransform
+        attributeName="transform"
+        attributeType="XML"
+        type="translate"
+        from="-84.852"
+        to="0"
+        dur="2s"
+        repeatCount="indefinite" />
+</svg>

@@ -7611,7 +7611,7 @@ blink {
 
 .gold-text:not(a), :not(td) > a[href="/h/highrollerclub"]:not(.hole-flair) {
 	font-family: open sans,sans-serif !important;
-	background: url("/i/animations/gold_gradient.svg") repeat;
+	background: url("/i/animations/gold_gradient_light.svg") repeat;
 	background-size: 200% 200%;
 	color: transparent !important;
 	font-weight: 700 !important;
