@@ -7,7 +7,7 @@ lite-youtube, iframe {
 	color-scheme: light !important;
 }
 
-.gold-text:not(a), h1.gold-text.post-title a, :not(td) > a[href="/h/highrollerclub"]:not(.hole-flair) {
+.gold-text:not(a), :not(td) > a[href="/h/highrollerclub"]:not(.hole-flair) {
 	background: url("/i/animations/gold_gradient.svg");
 	background-size: 200% 200%;
 }
