@@ -1,4 +1,4 @@
-let audio = new Audio(`/i/6.webp`);
+let audio = new Audio(`/assets/underage_${SITE_NAME}.mp3`);
 
 audio.play();
 if (audio.paused) {
