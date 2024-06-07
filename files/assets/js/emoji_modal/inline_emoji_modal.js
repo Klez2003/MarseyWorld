@@ -118,6 +118,11 @@ function populate_inline_emoji_modal(results, textbox)
 	return i;
 }
 
+document.addEventListener("mouseup", (e) => {
+	if (e.button == 0)
+		close_inline_emoji_modal()
+})
+
 function update_inline_emoji_modal(event)
 {
 	const box_coords = update_ghost_div_textarea(event.target);
@@ -137,15 +142,24 @@ function update_inline_emoji_modal(event)
 			break;
 	}
 
-	const begin = text.lastIndexOf(' ', event.target.selectionStart - 1) + 1;
-	let end = text.indexOf(' ', box_coords.pos);
-	if (end === -1) end = text.length
+	const begin = Math.max(text.lastIndexOf(' ', event.target.selectionStart - 1) + 1, text.lastIndexOf('\n', event.target.selectionStart - 1) + 1);
+
+	let end1 = text.indexOf(' ', box_coords.pos);
+	let end2 = text.indexOf('\n', box_coords.pos);
+	if (end1 == - 1) end1 = 999999999999
+	if (end2 == - 1) end2 = 999999999999
+	let end = Math.min(end1, end2)
+	if (end == 999999999999) end = text.length
+
 	text = text.substring(begin, end);
 
 	current_word = /(^|\s|\+|-)([:!@][!#\w-]{2,}(?=\n|$))/.exec(text);
 
 	if (current_word) {
 		current_word = current_word[2].toLowerCase();
+		const diff = end - box_coords.pos
+		if (diff > 0)
+			current_word = current_word.slice(0, -diff)
 		start_index = event.target.selectionStart - current_word.length
 	}
 
