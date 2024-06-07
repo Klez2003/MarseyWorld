@@ -1183,10 +1183,10 @@ INSERT INTO public.hat_defs VALUES (1560, 'Cat Ears III', 'Mee-ow :3', 2, 500, N
 INSERT INTO public.hat_defs VALUES (1562, 'Dahmer Cut', 'Show your support for necrophiliac cannibalism', 2, 500, NULL, 1716863716);
 INSERT INTO public.hat_defs VALUES (1564, 'Jessie Beanie', 'You can''t keep getting away with it', 2, 500, NULL, 1716864120);
 INSERT INTO public.hat_defs VALUES (1567, 'WeedOrb', 'But that all changed when the Weed Nation attacked.', 2, 1000, NULL, 1717547254);
-
 INSERT INTO public.hat_defs VALUES (1458, 'Anime Eyes (red)', 'I am tired of all of this.', 2, 500, NULL, 1708647781);
 INSERT INTO public.hat_defs VALUES (1460, 'Dismantle', 'i haven''t used this since the heian era.', 2, 500, NULL, 1708647852);
 INSERT INTO public.hat_defs VALUES (1464, 'Digital Cry', 'Stop, you''re hurting my feelings.', 2, 500, NULL, 1708648022);
+INSERT INTO public.hat_defs VALUES (1568, 'Garfield Hat', 'I hate mondays.', 2, 500, NULL, 1717716151);
 INSERT INTO public.hat_defs VALUES (1468, 'Blonde Bone Hair', 'I''m a Karen... But deadlier.', 2, 500, NULL, 1708648181);
 INSERT INTO public.hat_defs VALUES (1471, 'Black Hair', 'I''m as basic as it gets.', 2, 500, NULL, 1708648266);
 INSERT INTO public.hat_defs VALUES (1474, 'Bowtie (red)', 'Dressed to impress the femboys!', 2, 500, NULL, 1708648360);
