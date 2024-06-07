@@ -54,11 +54,11 @@ def end_lottery_session():
 		chance_to_win = user.currently_held_lottery_tickets / len(raffle) * 100
 		chance_to_win = str(chance_to_win)[:5]
 		if user.id == winner:
-			notification_text = f'You won {active_lottery.prize} coins in the lottershe! ' \
+			notification_text = f'You won {commas(active_lottery.prize)} coins in the lottershe! ' \
 				+ f'Congratulations!\n\nYour odds of winning were: {chance_to_win}%'
 		else:
 			notification_text = 'You did not win the lottershe. Better luck next time!\n\n' \
-				+ f'Your odds of winning were: {chance_to_win}%\n\nWinner: @{winning_user.username} (won {active_lottery.prize} coins)'
+				+ f'Your odds of winning were: {chance_to_win}%\n\nWinner: @{winning_user.username} (won {commas(active_lottery.prize)} coins)'
 		send_repeatable_notification(user.id, notification_text)
 		user.currently_held_lottery_tickets = 0
 
@@ -71,7 +71,7 @@ def end_lottery_session():
 
 	g.db.commit() # Intentionally commit early because cron runs with other tasks
 
-	return True, f'{winning_user.username} won {active_lottery.prize} coins!'
+	return True, f'{winning_user.username} won {commas(active_lottery.prize)} coins!'
 
 
 def start_new_lottery_session():

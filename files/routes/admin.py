@@ -183,7 +183,7 @@ def distribute(v, kind, option_id):
 
 	coinsperperson = int(pool / len(votes))
 
-	text = f"You won {coinsperperson} coins betting on {parent.textlink} :marseyparty:"
+	text = f"You won {commas(coinsperperson)} coins betting on {parent.textlink} :marseyparty:"
 	cid = notif_comment(text)
 	for vote in votes:
 		u = vote.user
