@@ -26,7 +26,7 @@
 			{% for user in users %}
 				<tr>
 					<td>{% include "user_in_table.html" %}</td>
-					<td>{{user.truescore}}</td>
+					<td>{{user.truescore | commas}}</td>
 					<td>{{user.ban_reason | safe}}</td>
 					<td>{{user.banned_by | safe}}</td>
 					<td {% if user.unban_utc %}data-time="{{user.unban_utc}}"{% endif %}></td>

@@ -22,7 +22,7 @@
 						{% endif %}
 					</td>
 					<td data-sort="{{user.lifetimedonated}}">${{user.lifetimedonated}}</td>
-					<td>{{user.truescore}}</td>
+					<td>{{user.truescore | commas}}</td>
 				</tr>
 			{% endfor %}
 		</table>
