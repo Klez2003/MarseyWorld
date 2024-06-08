@@ -404,14 +404,14 @@ def settings_personal_post(v):
 def filters(v):
 	filters = request.values.get("filters", "").strip()
 
+	if len(filters) > 1000:
+		abort(400, "Filters are too long (max 1000 characters)")
+
 	if filters in {"", "None"}:
 		filters = None
 
 	if filters == v.custom_filter_list:
 		abort(400, "You didn't change anything!")
-
-	if len(filters) > 1000:
-		abort(400, "Filters are too long (max 1000 characters)")
 
 	v.custom_filter_list = filters
 	g.db.add(v)
