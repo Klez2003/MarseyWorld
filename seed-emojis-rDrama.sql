@@ -4409,6 +4409,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyrussiadolls', 'Marsey', 2, 'toys ussr babushka matryoshka soviet', false, 0),
 ('marseyrussiaglow', 'Marsey', 2, 'animated red putin fsb kgb trump commie communist hat comrade', false, 0),
 ('marseyrussian', 'Marsey', 2, 'putin vodka adidas tracksuit vatnik ai alcohol beer drunk moscow', false, 1664643821),
+('marseyrussianflag', 'Marsey', 2, 'slavic country', false, 1717899524),
 ('marseyrussianmutt', 'Marsey', 2, 'slav vatnik ukraine eastern', false, 1674253975),
 ('marseyrustyventure', 'Marsey', 2, 'dramamine bros brothers adult swim cartoon character glasses goattee goatee beard', false, 0),
 ('marseyrylan', 'Marsey', 2, 'blonde smirk blinking animated', false, 1683609134),
