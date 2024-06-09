@@ -613,7 +613,13 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		if pos >= 0:
 			sanitized = (sanitized[:pos] + showmore_regex.sub(r'\1<p><button class="showmore">SHOW MORE</button></p><d class="d-none">\2</d>', sanitized[pos:], count=1))
 
-	allowed_count = 0 if chat else 5
+	if blackjack == "rules":
+		allowed_count = 20
+	elif chat:
+		allowed_count = 0
+	else:
+		allowed_count = 5
+
 	if "style" in sanitized and "filter" in sanitized:
 		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > allowed_count:
 			return error("Max 5 usages of 'blur' and 'drop-shadow'!")
