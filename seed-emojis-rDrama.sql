@@ -2568,6 +2568,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyeerie2', 'Marsey', 2, 'contented calico', false, 0),
 ('marseyeerie3', 'Marsey', 2, 'contented calico yarn knitting troublemaker', false, 0),
 ('marseyeerieangel', 'Marsey', 2, 'cloud halo', false, 1715022275),
+('marseyeeriedeathpose', 'Marsey', 2, 'griffin family guy dead broken', false, 1718073515),
 ('marseyees', 'Marsey', 2, 'bucees', false, 1704388631),
 ('marseyeevee', 'Marsey', 2, 'pokemon pkmn halloween costume trickortreat 133', false, 1697764662),
 ('marseyeff', 'Marsey', 2, 'free speech horn finger electronic frontier foundation', false, 1667448820),
