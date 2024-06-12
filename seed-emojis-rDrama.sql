@@ -1707,6 +1707,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyastronaut', 'Marsey', 2, 'space stars sleeping spacesuit scifi galaxy', false, 0),
 ('marseyastronaut2', 'Marsey', 2, 'cosmonaut spacesuit helmet', false, 0),
 ('marseyastronautblack', 'Marsey', 2, 'space science nasa', false, 1697152210),
+('marseyastronautgun', 'Marsey', 2, 'weapon kill', false, 1718173542),
 ('marseyatfagent', 'Marsey', 2, 'feds glowies usa america waco swat m16 firearm rifle cops police', false, 0),
 ('marseyatlaspilot', 'Marsey', 2, 'anime weeb rwby', false, 1708915724),
 ('marseyatlasshrugged', 'Marsey', 2, 'ayn rand objectivist objectivism libertarian girlboss capitalist capitalism book', false, 0),
