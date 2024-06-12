@@ -1160,6 +1160,7 @@ INSERT INTO public.hat_defs VALUES (1483, 'Japanese Text', '私は強いです',
 INSERT INTO public.hat_defs VALUES (1484, 'Rainbow Spiked Hair', 'If I color myself enough they''ll love me.', 2, 500, NULL, 1708648741);
 INSERT INTO public.hat_defs VALUES (1566, 'Princess Tiara', '"Happily ever after" not included', 2, 500, NULL, 1716864569);
 INSERT INTO public.hat_defs VALUES (1487, 'Purple Hearts', 'I''m lusting for you.', 2, 500, NULL, 1708648873);
+
 INSERT INTO public.hat_defs VALUES (1492, 'HP Bar', 'I''m feeling healthy and refreshed.', 2, 500, NULL, 1708649015);
 INSERT INTO public.hat_defs VALUES (1498, 'Anime Smile', 'Power of friendship!', 2, 500, NULL, 1708649155);
 INSERT INTO public.hat_defs VALUES (1499, 'Pigtail Bows', 'Twice the bow, twice the cute!', 2, 500, NULL, 1708649179);
@@ -1191,7 +1192,9 @@ INSERT INTO public.hat_defs VALUES (1468, 'Blonde Bone Hair', 'I''m a Karen... B
 INSERT INTO public.hat_defs VALUES (1471, 'Black Hair', 'I''m as basic as it gets.', 2, 500, NULL, 1708648266);
 INSERT INTO public.hat_defs VALUES (1474, 'Bowtie (red)', 'Dressed to impress the femboys!', 2, 500, NULL, 1708648360);
 INSERT INTO public.hat_defs VALUES (1477, 'Zombie Hand', 'Even in death it won''t let go of me.', 2, 500, NULL, 1708648456);
+
 INSERT INTO public.hat_defs VALUES (1478, 'Cone', 'Watch out, this user is a hazard.', 2, 500, NULL, 1708648482);
+
 INSERT INTO public.hat_defs VALUES (1485, 'Cute Army Cap', 'You''ll address me as Weeb Sergeant.', 2, 500, NULL, 1708648770);
 INSERT INTO public.hat_defs VALUES (1490, 'Red Hearts', 'I love you all!', 2, 500, NULL, 1708648948);
 INSERT INTO public.hat_defs VALUES (1495, 'Hi', 'Hello! How are you?', 2, 500, NULL, 1708649083);
@@ -1231,6 +1234,7 @@ INSERT INTO public.hat_defs VALUES (1389, 'Catushanka', 'Ushanka with cat ears!'
 INSERT INTO public.hat_defs VALUES (1390, 'Catushankapink', 'Usanka with cat ears! (But pink)', 2, 500, NULL, 1703206340);
 INSERT INTO public.hat_defs VALUES (1418, 'Camo Cap', 'Today we be hunting salt water puppies.', 2, 500, NULL, 1705794721);
 INSERT INTO public.hat_defs VALUES (1387, 'Stupid Sexy Flanders', 'It''s like you''re wearing nothing at all. Nothing at all. Nothing at all.', 2, 1000, NULL, 1701104112);
+
 INSERT INTO public.hat_defs VALUES (1419, 'Cowboy Hat (pink)', 'This user is a cowgirl, or a gay cowboy.', 2, 500, NULL, 1705794752);
 INSERT INTO public.hat_defs VALUES (1420, 'CuddlyBear2', 'Grab the lashes and face slashes.', 2, 500, NULL, 1705794785);
 INSERT INTO public.hat_defs VALUES (1421, 'Fancy Cowboy Hat (blue)', 'It''s a boy!', 2, 500, NULL, 1705794807);
@@ -1285,7 +1289,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1570, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1574, true);
 
 
 --
