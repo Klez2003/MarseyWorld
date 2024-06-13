@@ -1192,7 +1192,6 @@ INSERT INTO public.hat_defs VALUES (1468, 'Blonde Bone Hair', 'I''m a Karen... B
 INSERT INTO public.hat_defs VALUES (1471, 'Black Hair', 'I''m as basic as it gets.', 2, 500, NULL, 1708648266);
 INSERT INTO public.hat_defs VALUES (1474, 'Bowtie (red)', 'Dressed to impress the femboys!', 2, 500, NULL, 1708648360);
 INSERT INTO public.hat_defs VALUES (1477, 'Zombie Hand', 'Even in death it won''t let go of me.', 2, 500, NULL, 1708648456);
-
 INSERT INTO public.hat_defs VALUES (1478, 'Cone', 'Watch out, this user is a hazard.', 2, 500, NULL, 1708648482);
 
 INSERT INTO public.hat_defs VALUES (1485, 'Cute Army Cap', 'You''ll address me as Weeb Sergeant.', 2, 500, NULL, 1708648770);
