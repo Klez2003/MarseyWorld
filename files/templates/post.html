@@ -96,7 +96,7 @@
 								<span class="post-flair bg-danger font-weight-bolder mr-1">CHILD WARNING</span>
 							{% endif %}
 
-							{% if p.effortpost %}
+							{% if p.effortpost and not p.draft %}
 								<a href="/?effortposts_only=True" class="post-flair effortpost-flair font-weight-bolder mr-1">EFFORTPOST</a>
 							{% endif %}
 

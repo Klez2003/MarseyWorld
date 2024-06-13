@@ -2043,24 +2043,8 @@ def mark_effortpost(pid, v):
 	if p.effortpost:
 		abort(400, "Post is already marked as an effortpost!")
 
-	if SITE_NAME == 'WPD':
-		min_chars = 2000
-		min_lines = 10
-	else:
-		min_chars = 3000
-		min_lines = 20
-
-	if p.body_html.count('<p>') < min_lines:
+	if not p.can_be_effortpost:
 		abort(403, "Post is too short!")
-
-	soup = BeautifulSoup(p.body_html, 'lxml')
-	tags = soup.html.body.find_all(lambda tag: tag.name in {'p','ul','table'} and tag.text, recursive=False)
-	post_char_count = 0
-	for tag in tags:
-		post_char_count += len(tag.text)
-
-	if post_char_count < min_chars:
-		abort(403, "Post is too short.")
 
 	p.effortpost = True
 	g.db.add(p)

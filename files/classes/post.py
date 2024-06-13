@@ -2,6 +2,7 @@ import random
 import time
 from urllib.parse import urlparse
 from flask import g
+from bs4 import BeautifulSoup
 
 from sqlalchemy import Column, FetchedValue, ForeignKey
 from sqlalchemy.orm import deferred, relationship
@@ -432,3 +433,27 @@ class Post(Base):
 			return v.admin_level >= PERMS['POST_COMMENT_MODERATION']
 		else:
 			return v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (v.mods_hole(self.hole)) or self.author_id == v.id
+
+	@property
+	@lazy
+	def can_be_effortpost(self):
+		if SITE_NAME == 'WPD':
+			min_chars = 2000
+			min_lines = 10
+		else:
+			min_chars = 3000
+			min_lines = 20
+
+		if self.body_html.count('<p>') < min_lines:
+			return False
+
+		soup = BeautifulSoup(self.body_html, 'lxml')
+		tags = soup.html.body.find_all(lambda tag: tag.name in {'p','ul','table'} and tag.text, recursive=False)
+		post_char_count = 0
+		for tag in tags:
+			post_char_count += len(tag.text)
+
+		if post_char_count < min_chars:
+			return False
+
+		return True
