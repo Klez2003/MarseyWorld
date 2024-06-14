@@ -4296,6 +4296,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyravecope', 'Marsey', 2, 'crab dance seethe dilate dead', false, 1678737961),
 ('marseyravegigaspeed', 'Marsey', 2, 'sneed seethe dilate smug crab dance celebrate mock seafood crustacean delicious fast', false, 1681571773),
 ('marseyravenbranwen', 'Marsey', 2, 'anime weeb rwby sword mask', false, 1709437079),
+('marseyravesad', 'Marsey', 2, 'crab dance', false, 1718294770),
 ('marseyravesuperspeed', 'Marsey', 2, 'crab ripbozo dead dance', false, 1679793929),
 ('marseyraytraced', 'Marsey', 2, 'beautiful 3d hd 4k realistic render', false, 1674459113),
 ('marseyrca', 'Marsey', 2, 'cable female wire', false, 1689252274),
