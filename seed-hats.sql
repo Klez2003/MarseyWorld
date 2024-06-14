@@ -1193,8 +1193,8 @@ INSERT INTO public.hat_defs VALUES (1471, 'Black Hair', 'I''m as basic as it get
 INSERT INTO public.hat_defs VALUES (1474, 'Bowtie (red)', 'Dressed to impress the femboys!', 2, 500, NULL, 1708648360);
 INSERT INTO public.hat_defs VALUES (1477, 'Zombie Hand', 'Even in death it won''t let go of me.', 2, 500, NULL, 1708648456);
 INSERT INTO public.hat_defs VALUES (1478, 'Cone', 'Watch out, this user is a hazard.', 2, 500, NULL, 1708648482);
-
 INSERT INTO public.hat_defs VALUES (1485, 'Cute Army Cap', 'You''ll address me as Weeb Sergeant.', 2, 500, NULL, 1708648770);
+
 INSERT INTO public.hat_defs VALUES (1490, 'Red Hearts', 'I love you all!', 2, 500, NULL, 1708648948);
 INSERT INTO public.hat_defs VALUES (1495, 'Hi', 'Hello! How are you?', 2, 500, NULL, 1708649083);
 INSERT INTO public.hat_defs VALUES (1496, 'Pink Heart Halo', 'I''m falling for you my dear.', 2, 500, NULL, 1708649109);
@@ -1288,7 +1288,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1574, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1575, true);
 
 
 --
