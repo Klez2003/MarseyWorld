@@ -186,6 +186,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_NOTES': 1,
 	'POST_BETS': 1,
 	'POST_BETS_DISTRIBUTE': 1,
+	'POST_COMMENT_EDITING': 1,
 
 	'IS_PERMA_PROGSTACKED': 2,
 	'USER_CHANGE_FLAIR': 2,
@@ -206,7 +207,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'MODERATE_PENDING_SUBMITTED_ASSETS': 3,
 	'UPDATE_ASSETS': 3,
 	'MARK_EFFORTPOST': 3,
-	'POST_COMMENT_EDITING': 3,
 
 	'PROGSTACK': 4,
 	'UNDO_AWARD_PINS': 4,
