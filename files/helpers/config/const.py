@@ -184,6 +184,8 @@ PERMS = { # Minimum admin_level to perform action.
 	'EXEMPT_FROM_IP_LOGGING': 1,
 	'USER_BADGES': 1,
 	'ADMIN_NOTES': 1,
+	'POST_BETS': 1,
+	'POST_BETS_DISTRIBUTE': 1,
 
 	'IS_PERMA_PROGSTACKED': 2,
 	'USER_CHANGE_FLAIR': 2,
@@ -191,8 +193,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'POST_COMMENT_INFINITE_PINGS': 2,
 	'IGNORE_EDITING_LIMIT': 2,
 	'ORGIES': 2,
-	'POST_BETS': 2,
-	'POST_BETS_DISTRIBUTE': 2,
 	'DELETE_MEDIA': 2,
 
 	'ADMIN_ACTIONS_REVERT': 3,
