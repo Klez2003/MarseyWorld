@@ -686,6 +686,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('supersquirrel', 'Misc', 2, 'superman hero landing land pose action sit fall superhero marvel avengers spiderman', false, 1714871143),
 ('tableflip', 'Misc', 2, 'angry mad outrage', false, 1708820545),
 ('targetspotted', 'Misc', 2, 'scope zoom sniper crosshair gun point zodiac', false, 1715347713),
+('tarrantjak', 'Wojak', 2, 'wojak', false, 1718387017),
 ('tayily', 'Tay', 2, 'love', false, 1708103471),
 ('tbhdance', 'Misc', 2, 'creature bounce', false, 1708392534),
 ('tereziod', 'Misc', 2, 'icp juggalo faygo', false, 1702443787),
