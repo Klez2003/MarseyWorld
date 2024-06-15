@@ -40,7 +40,7 @@ def reddit_mentions_task():
 		url = f'https://api.pullpush.io/reddit/search/{kind}?q={q}'
 		try: data = requests.get(url, headers=HEADERS, timeout=20).json()['data']
 		except Exception as e:
-			print(e, flush=True)
+			print(f'reddit mentions: {e}', flush=True)
 			return
 
 		for thing in data:
@@ -77,7 +77,7 @@ def lemmy_mentions_task():
 		url = f'https://lemm.ee/api/v3/search?q={q}'
 		try: data = requests.get(url, headers=HEADERS, timeout=20, proxies=proxies).json()
 		except Exception as e:
-			print(e, flush=True)
+			print(f'lemmy mentions: {e}', flush=True)
 			return
 
 		for kind in ("post", "comment"):
@@ -111,7 +111,7 @@ def fourchan_mentions_task():
 		url = f'https://archived.moe/_/api/chan/search?text={q}'
 		try: data = requests.get(url, headers=HEADERS, timeout=20, proxies=proxies).json()['0']['posts']
 		except Exception as e:
-			print(e, flush=True)
+			print(f'4chan mentions: {e}', flush=True)
 			return
 
 		for thing in data:
@@ -137,7 +137,7 @@ def soyjak_mentions_task():
 		url = f'https://api.marge.moe/search?q={q}'
 		try: data = requests.get(url, headers={"User-Agent": "MarseyFromWPD"}, timeout=20, proxies=proxies).json()['results']
 		except Exception as e:
-			print(e, flush=True)
+			print(f'soyjak mentions: {e}', flush=True)
 			return
 
 		for thing in data:
