@@ -3731,6 +3731,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseymasquerade', 'Marsey', 2, 'mask costume party dance carnival disguise', false, 1697665353),
 ('marseymasquerain', 'Marsey', 2, 'pkmn pokemon 284', false, 1714589168),
 ('marseymasterchief', 'Marsey', 2, 'halo game', false, 0),
+('marseymath', 'Marsey', 2, 'lady confused thinking genius not julia roberts', false, 1718449139),
 ('marseymati', 'Marsey', 2, 'annoyed irritation top hat reaction angry irritated tophat', false, 0),
 ('marseymaushold', 'Marsey', 2, 'pkmn pokemon family 925', false, 1697770032),
 ('marseymaxrockatansky', 'Marsey', 2, 'mad madmax fury road furyroad post apocalyptic apocalypse australian australia', false, 0),
