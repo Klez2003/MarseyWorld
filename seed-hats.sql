@@ -1197,6 +1197,7 @@ INSERT INTO public.hat_defs VALUES (1485, 'Cute Army Cap', 'You''ll address me a
 
 INSERT INTO public.hat_defs VALUES (1490, 'Red Hearts', 'I love you all!', 2, 500, NULL, 1708648948);
 INSERT INTO public.hat_defs VALUES (1495, 'Hi', 'Hello! How are you?', 2, 500, NULL, 1708649083);
+
 INSERT INTO public.hat_defs VALUES (1496, 'Pink Heart Halo', 'I''m falling for you my dear.', 2, 500, NULL, 1708649109);
 INSERT INTO public.hat_defs VALUES (1500, 'Exclamation', 'WHAT?!', 2, 500, NULL, 1708649201);
 INSERT INTO public.hat_defs VALUES (1508, 'pkmn0088', 'Grimer, the Sludge Pokémon. It was born when sludge in a dirty stream was exposed to X-rays from the moon.', 2, 500, NULL, 1710737819);
@@ -1288,7 +1289,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1575, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1576, true);
 
 
 --
