@@ -4614,6 +4614,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyskellington', 'Marsey', 2, 'skeleton tim christmas halloween before burton jack nightmare musical movie film', false, 1666840958),
 ('marseyski', 'Marsey', 2, 'skier skiing sking winter snow', false, 0),
 ('marseyskibiditoilet', 'Marsey', 2, 'gmod sfm', false, 1700060788),
+('marseyskibiditoilet2', 'Marsey', 2, 'source filmmaker gmod sfm ohio animated', false, 1718450084),
 ('marseyskifreeyeti', 'Marsey', 2, 'abominable snowman monster pixel gif', false, 1694129562),
 ('marseyskinnedwalk', 'Marsey', 2, 'watchpeopledie zllctnxaspywgb3 animated walking trotting skeleton bones organs', false, 0),
 ('marseyskinny', 'Marsey', 2, 'tall anorexia bulimia anorexic bulimic', false, 1670515138),
