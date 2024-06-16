@@ -39,9 +39,9 @@ def subreddit(subreddit, v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def reddit_post(subreddit, v, path):
-	post_id = path.rsplit("/", 1)[0].replace('/', '')
 	reddit = v.reddit if v else "old.reddit.com"
-	return redirect(f'https://{reddit}/{post_id}')
+	id = path.split("/")[0]
+	return redirect(f'https://{reddit}/{id}')
 
 
 @app.get("/marseys")
