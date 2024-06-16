@@ -19,11 +19,12 @@ from files.routes.notifications import modmail_listing
 from files.__main__ import app, cache, limiter
 
 
-@app.get("/r/drama/comments/<id>/<title>")
-@app.get("/r/Drama/comments/<id>/<title>")
+@app.get("/r/drama/comments/<id>/<path:path>")
+@app.get("/r/Drama/comments/<id>/<path:path>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-def rdrama(id, title):
+def rdrama(id, path):
 	id = ''.join(f'{x}/' for x in id)
+	title = path.rsplit("/", 1)[0].replace('/', '')
 	return redirect(f'/archives/drama/comments/{id}{title}.html')
 
 @app.get("/r/<subreddit>")
