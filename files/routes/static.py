@@ -19,8 +19,8 @@ from files.routes.notifications import modmail_listing
 from files.__main__ import app, cache, limiter
 
 
-@app.get("/r/drama/comments/<int:id>/<title>")
-@app.get("/r/Drama/comments/<int:id>/<title>")
+@app.get("/r/drama/comments/<id>/<title>")
+@app.get("/r/Drama/comments/<id>/<title>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def rdrama(id, title):
 	id = ''.join(f'{x}/' for x in id)
