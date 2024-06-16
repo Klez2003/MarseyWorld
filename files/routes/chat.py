@@ -188,6 +188,8 @@ def speak(data, v):
 		push_notif(uids, title, body, url, chat_id=chat.id)
 
 		notify_users = NOTIFY_USERS(chat_message.text, v)
+		if notify_users == 'everyone':
+			notify_users = set()
 		if chat_message.quotes:
 			notify_users.add(chat_message.quoted_message.user_id)
 		notify_users -= alrdy_here
