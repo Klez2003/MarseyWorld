@@ -182,9 +182,9 @@ def _hole_inactive_purge_task():
 	if not HOLE_INACTIVITY_DELETION:
 		return False
 
-	one_week_ago = time.time() - 604800
+	two_weeks_ago = time.time() - 86400 * 14
 	active_holes = [x[0] for x in g.db.query(Post.hole).distinct() \
-		.filter(Post.hole != None, Post.created_utc > one_week_ago,
+		.filter(Post.hole != None, Post.created_utc > two_weeks_ago,
 			Post.draft == False, Post.is_banned == False,
 			Post.deleted_utc == 0)]
 	active_holes.extend(['changelog','countryclub','museumofrdrama','highrollerclub','test','truth','marsey']) # holes immune from deletion
