@@ -100,6 +100,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('crying2', 'Misc', 2, 'alien', false, 1710959107),
 ('cutebaphomet', 'Misc', 2, 'satan gay', false, 1707427157),
 ('dankdino', 'Misc', 2, 'cdm cursed memes dinosaur', false, 1706975922),
+('deadasf', 'Misc', 2, 'skull spinning death animated', false, 1718634482),
 ('derpynoose', 'Misc', 2, 'suicide mlp pony little rope', false, 1706993578),
 ('deviousskull', 'Misc', 2, 'smile troll frown', false, 1710606245),
 ('dokiyuri', 'Misc', 2, 'ddlc selfharm', false, 1707335577),
