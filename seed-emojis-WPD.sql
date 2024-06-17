@@ -550,6 +550,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyspinarak2', 'Marsey', 2, 'pkmn pokemon 167', false, 1699668492),
 ('marseysprigatito2', 'Marsey', 2, 'pkmn pokemon 906', false, 1698969823),
 ('marseysquirtle2', 'Marsey', 2, 'pkmn pokemon 007', false, 1699845405),
+('marseysrilankaflag', 'Marsey', 2, 'ceylon', false, 1718428478),
 ('marseystare2', 'Marsey', 2, 'staring waiting', false, 1704966538),
 ('marseystaryu', 'Marsey', 2, 'pkmn pokemon 120', false, 1698882692),
 ('marseystfu', 'Marsey', 2, 'middle finger flip happy', false, 1714553834),
