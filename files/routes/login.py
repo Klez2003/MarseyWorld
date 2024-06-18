@@ -333,10 +333,9 @@ def sign_up_post(v):
 			send_notification(ref_user.id, f"A new user - @{new_user.username} - has signed up via your referral link!")
 
 			badge_grant(user=ref_user, badge_id=10)
-			# off-by-one: newly referred user isn't counted
-			if ref_user.referral_count >= 9:
+			if ref_user.referral_count >= 10:
 				badge_grant(user=ref_user, badge_id=11)
-			if ref_user.referral_count >= 99:
+			if ref_user.referral_count >= 100:
 				badge_grant(user=ref_user, badge_id=12)
 
 	if email:
