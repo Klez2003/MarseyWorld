@@ -5984,6 +5984,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('squiddance', 'Misc', 2, 'dancing spongebob rave squidward', false, 1713121136),
 ('squirreljak', 'Wojak', 2, 'nuts love thisguy soyjak soysquirrel squirrelsoy', false, 1686169475),
 ('srdinepoppy', 'Misc', 2, 'popcorn reddit subredditdrama', false, 0),
+('srsbrd', 'Misc', 2, 'reddit redditor shit says bird sjw social justice warrior', false, 1718738422),
 ('stab', 'Classic', 2, 'animated emoticon kill murder knife england', false, 0),
 ('stabler', 'Misc', 2, 'elliot sickfuck svu', false, 1688562747),
 ('stacyyes', 'Wojak', 2, 'chad gigachad gigastacy wojak meme female foid femoid agree', false, 1690740112),
