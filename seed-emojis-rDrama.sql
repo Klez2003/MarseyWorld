@@ -5559,7 +5559,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('pepebreakdance', 'Misc', 2, 'pepethefrog frog breakdancing dancing notmyproblem problem dealwithit dontcare', false, 1702959193),
 ('pepeclownball', 'Misc', 2, 'world honk', false, 1682721135),
 ('pepeclowndance', 'Misc', 2, 'world clownworld', false, 1682727141),
-('pepedance', 'Misc', 2, 'feels good', false, 1682722642),
 ('pepedrool', 'Misc', 2, 'peepo retard stupid slobber', false, 1682880117),
 ('pepedrum', 'Misc', 2, 'football soccer', false, 0),
 ('pepeduck2', 'Misc', 2, 'rootitootishooti shooting peepo guns goose', false, 1682879832),
