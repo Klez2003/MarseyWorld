@@ -235,7 +235,7 @@ def view_more(v, pid, sort, offset):
 		comments, output = get_comments_v_properties(v, None, Comment.parent_post == pid, Comment.id.notin_(ids), Comment.level < 10)
 
 		if sort == "hot":
-			comments = comments.filter(Comment.pinned == None)
+			comments = comments.filter(Comment.pinned == None, Comment.num_of_pinned_children == 0)
 
 		comments = comments.filter(Comment.level == 1)
 		comments = sort_objects(sort, comments, Comment)
@@ -249,7 +249,7 @@ def view_more(v, pid, sort, offset):
 			)
 
 		if sort == "hot":
-			comments = comments.filter(Comment.pinned == None)
+			comments = comments.filter(Comment.pinned == None, Comment.num_of_pinned_children == 0)
 
 		comments = sort_objects(sort, comments, Comment)
 
