@@ -1324,7 +1324,6 @@ class User(Base):
 	def can_post_in_ghost_threads(self):
 		if SITE_NAME == 'WPD': return False
 		if not TRUESCORE_MINIMUM: return True
-		if self.admin_level >= PERMS['POST_IN_GHOST_THREADS']: return True
 		if self.truescore >= TRUESCORE_MINIMUM: return True
 		if self.patron: return True
 		return False
