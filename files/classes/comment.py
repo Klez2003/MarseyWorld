@@ -546,14 +546,14 @@ class Comment(Base):
 
 	def pin_parents(self):
 		c = self
-		while c.level > 2:
+		while c.level > 1:
 			c = c.parent_comment
 			c.num_of_pinned_children += 1
 			g.db.add(c)
 
 	def unpin_parents(self):
 		c = self
-		while c.level > 2:
+		while c.level > 1:
 			c = c.parent_comment
 			c.num_of_pinned_children -= 1
 			if c.num_of_pinned_children < 0:
