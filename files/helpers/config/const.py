@@ -228,9 +228,9 @@ PERMS = { # Minimum admin_level to perform action.
 	'VIEW_EMAILS': 4,
 	'VIEW_CHATS': 4,
 	'USER_LINK': 4,
+	'ADMIN_ADD': 4,
+	'ADMIN_REMOVE': 4,
 
-	'ADMIN_ADD': 5,
-	'ADMIN_REMOVE': 5,
 	'MODS_EVERY_HOLE': 5,
 	'MODS_EVERY_GROUP': 5,
 	'INFINITE_CURRENCY': 5,
