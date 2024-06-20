@@ -6640,6 +6640,9 @@ div.custom-control:last-of-type {
 }
 
 
+.comment-text blockquote {
+    max-height: 2000px;
+}
 
 blockquote {
 	border-left: 2px solid var(--primary);
