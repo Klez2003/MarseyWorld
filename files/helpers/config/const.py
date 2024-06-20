@@ -393,6 +393,7 @@ LONGPOSTBOT_REPLIES = (
 	"https://i.rdrama.net/images/17053964397685544.webp",
 	"https://i.rdrama.net/images/165178832073224.webp",
 	"None of these words are in the Bible",
+	'https://i.rdrama.net/images/17189081272030811.webp',
 )
 
 CHUD_MSGS = (
