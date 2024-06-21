@@ -92,7 +92,7 @@ def speak(data, v):
 			else:
 				del muted[vname]
 				refresh_online(f'{SITE_FULL}/chat/1')
-		if v.admin_level >= PERMS['USER_BAN']:
+		if v.admin_level >= PERMS['CHAT_MUTE']:
 			for i in mute_regex.finditer(text.lower()):
 				username = i.group(1).lower()
 				muted_until = int(int(i.group(2)) * 60 + time.time())

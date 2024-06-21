@@ -157,6 +157,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_MOP_VISIBLE': 1,
 	'ADMIN_HOME_VISIBLE': 1,
 	'REPORTS_REMOVE': 1,
+	'CHAT_MUTE': 1,
 
 	'POST_BETS': 2,
 	'POST_BETS_DISTRIBUTE': 2,
