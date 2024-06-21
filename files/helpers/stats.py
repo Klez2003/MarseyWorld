@@ -115,7 +115,7 @@ def stats():
 			"Banned users": "{:,}".format(g.db.query(User).filter(User.is_banned != None).count()),
 			"Users with a private profile": "{:,}".format(g.db.query(User).filter_by(is_private=True).count()),
 			"Users with a verified email": "{:,}".format(g.db.query(User).filter_by(email_verified=True).count()),
-			"Coins in circulation": "{:,}".format(g.db.query(func.sum(User.coins)).scalar()),
+			"Currency in circulation": "{:,}".format(g.db.query(func.sum(User.coins + User.marseybux)).scalar()),
 			"Total currency spent on awards": "{:,}".format(g.db.query(func.sum(User.currency_spent_on_awards)).scalar()),
 			"Total currency spent on hats": "{:,}".format(g.db.query(func.sum(User.currency_spent_on_hats)).scalar()),
 			"Signups last 24h": "{:,}".format(g.db.query(User).filter(User.created_utc > day).count()),
