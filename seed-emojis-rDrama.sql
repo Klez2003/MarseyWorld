@@ -2186,6 +2186,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseychingchonggrandma', 'Marsey', 2, 'asian old woman granny chinese', false, 1708429323),
 ('marseychingchongitsover', 'Marsey', 2, 'asian sino chink sad dejected fail xi yellow nip gook wandanle pensive', false, 1674903169),
 ('marseychingchongitstony', 'Marsey', 2, 'itsover wereback', false, 1704318446),
+('marseychingchongjerkoff', 'Marsey', 2, 'asia hat china', false, 1718996082),
 ('marseychingchongmutt', 'Marsey', 2, 'asian mixed singapore american', false, 1699374511),
 ('marseychingchongnotes', 'Marsey', 2, 'pencil pad write asian azn rice gook nip slit slant squint', false, 1675422126),
 ('marseychingchongpearlclutch', 'Marsey', 2, 'asian chinese jap gook korean nip yikes scared chink rice', false, 1664035377),
