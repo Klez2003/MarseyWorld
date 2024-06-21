@@ -23,9 +23,9 @@
 	<header id="shop-header" class="container text-center pb-0">
 		<img id="shop-banner" class="mt-5" alt="shop banner" src="{{SITE_FULL_IMAGES}}/i/hats.webp?x=8">
 		<ul id="shop-stats" class="my-1 my-md-2">
-			<li class="mt-2">Number of hats you bought: {{v.num_of_owned_hats}}</li>
-			<li>Number of hats you designed: {{v.num_of_designed_hats}}</li>
-			<li>Number of hats: {{num_of_hats}}</li>
+			<li class="mt-2">Number of hats you bought: {{v.num_of_owned_hats|commas}}</li>
+			<li>Number of hats you designed: {{v.num_of_designed_hats|commas}}</li>
+			<li>Number of hats: {{num_of_hats|commas}}</li>
 			<li>Currency you spent on hats: {{v.currency_spent_on_hats|commas}}</li>
 			<li>Total currency spent on hats: {{sales|commas}}</li>
 			<li>Your current coins: {{v.coins|commas}}</li>
@@ -70,8 +70,8 @@
 						{% if SITE == 'rdrama.net' %}
 							<td>{% include "user_in_table.html" %}</td>
 						{% endif %}
-						<td><a href="/hat_owners/{{hat.id}}">{{hat.number_sold}}</a></td>
-						<td>{{hat.price}}</td>
+						<td><a href="/hat_owners/{{hat.id}}">{{hat.number_sold|commas}}</a></td>
+						<td>{{hat.price|commas}}</td>
 						<td class="shop-table-actions" style="width:unset">
 							{% if hat.id not in owned_hat_ids and hat.is_purchasable %}
 								<div id="if-not-owned-{{hat.id}}">
