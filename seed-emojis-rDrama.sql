@@ -5789,6 +5789,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('ramonajak', 'Wojak', 2, 'woman ice tea twitter', false, 0),
 ('rape', 'Misc', 2, 'sex animated', false, 1710514880),
 ('rapeson', 'Wojak', 2, 'wojak soyjak cobson evilson hornyson', false, 1718404495),
+('rapevictim', 'Misc', 2, 'painting reactionimage spiky', false, 1719069096),
 ('rattly', 'Donkey Kong', 2, 'donkeykong dk snake snek', false, 1679357386),
 ('ratvibe', 'Misc', 2, 'ratso mouse dance party jamming', false, 1690844960),
 ('ravenstarfirelaughing', 'Misc', 2, 'mocking scoffing girls giggling', false, 1692970754),
