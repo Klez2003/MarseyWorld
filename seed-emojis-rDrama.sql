@@ -3479,6 +3479,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseykfc', 'Marsey', 2, 'col sanders colonel kentucky fried chicken', false, 0),
 ('marseykhmerrouge', 'Marsey', 2, 'revolutionary cambodia communist polpot scarf gun blood bayonet', false, 1708332800),
 ('marseykhorne', 'Marsey', 2, 'warhammer 40k chaos god war death blood', false, 0),
+('marseykickflip', 'Marsey', 2, 'skate skater punk extreme', false, 1719013119),
 ('marseykilldozer', 'Marsey', 2, 'vehicle deforestation caterpillar large construction angry rampage bulldozer', false, 1694430659),
 ('marseykilldozerhappy', 'Marsey', 2, 'vehicle deforestation caterpillar large construction cat', false, 1694430203),
 ('marseykilldozertroll', 'Marsey', 2, 'vehicle deforestation caterpillar large construction trollface trololo', false, 1694430421),
