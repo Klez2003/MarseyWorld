@@ -3610,6 +3610,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseylemon', 'Marsey', 2, 'pucker sour fruit citrus tear', false, 0),
 ('marseylenin', 'Marsey', 2, 'ussr russia communism socialism marxist commie soviet proletariat marxism leninist leninism revolution bolshevik', false, 0),
 ('marseylenny', 'Marsey', 2, 'innuendo dirty sex horny emoticon perverted', false, 0),
+('marseylepen', 'Marsey', 2, 'mime beret parisian scarf marine french politics', false, 1719147315),
 ('marseyletsfuckinggo2', 'Marsey', 2, 'hyped screaming shouting yelling', false, 1663161484),
 ('marseyletsgo', 'Marsey', 2, 'lfg jump cheer celebrate fist happy jubilant yay', false, 1696455642),
 ('marseyley', 'Marsey', 2, 'commission leyley coaal', false, 1701626491),
