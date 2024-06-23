@@ -2369,6 +2369,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseycrusader', 'Marsey', 2, 'knight deusvult templar crusades catholic', false, 0),
 ('marseycrusader2', 'Marsey', 2, 'crusading catholic christian pope knight templar warrior soldier sword shield lasereyes istanbul constantinople', false, 1663212423),
 ('marseycry', 'Marsey', 2, 'tear upset crying reaction sobbing sob tears sad', false, 0),
+('marseycry2', 'Marsey', 2, 'box tears sad panic shame embarrass hide', false, 1719103430),
 ('marseycrying', 'Marsey', 2, 'tear cried despair weeping reaction depression sob tears sadness depressed animated sad', false, 0),
 ('marseycrying2', 'Marsey', 2, 'cry', false, 1664261857),
 ('marseycryingclown', 'Marsey', 2, 'seethe pathetic miserable sad circus pensive', false, 1671062862),
