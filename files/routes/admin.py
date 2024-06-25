@@ -1457,7 +1457,11 @@ def pin_post(post_id, v):
 	if FEATURES['AWARDS'] and post.pinned and post.pinned.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
 		abort(403, "Can't pin award pins!")
 
-	pins = g.db.query(Post).filter(Post.pinned != None, Post.is_banned == False).count()
+	permapinned = g.db.query(Post).filter(
+		Post.pinned != None,
+		Post.pinned_utc == None,
+		Post.is_banned == False,
+	).count()
 
 	if not post.pinned_utc:
 		post.pinned_utc = int(time.time()) + 3600
@@ -1466,8 +1470,8 @@ def pin_post(post_id, v):
 		if v.id != post.author_id:
 			send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has pinned {post.textlink}")
 	else:
-		if pins >= PIN_LIMIT + 1:
-			abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
+		if permapinned >= PIN_LIMIT + 1:
+			abort(403, f"Can't have more than {PIN_LIMIT} perma-pinned posts!")
 		post.pinned_utc = None
 		pin_time = 'permanently'
 		code = 201
