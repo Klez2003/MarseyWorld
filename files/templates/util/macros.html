@@ -294,7 +294,7 @@
 	{% set ns = namespace() %}
 	{% if not mentioned %}
 		{% for group_name in group_memberships_names %}
-			{% if '<a href="/!' ~ group_name ~ '"' in m.text_html %}
+			{% if (group_name == 'everyone' and '<a href="/users"' in m.text_html) or (group_name == 'jannies' and '<a href="/admins"' in m.text_html) or '<a href="/!' ~ group_name ~ '"' in m.text_html %}
 				{% set ns.group_mentioned = True %}
 			{% endif %}
 		{% endfor %}

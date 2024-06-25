@@ -995,10 +995,15 @@ class User(Base):
 	@property
 	@lazy
 	def group_memberships_names(self):
-		return [x[0] for x in g.db.query(GroupMembership.group_name).filter(
+		names = [x[0] for x in g.db.query(GroupMembership.group_name).filter(
 				GroupMembership.user_id == self.id,
 				GroupMembership.approved_utc != None,
-			).order_by(GroupMembership.group_name).all()]
+			).order_by(GroupMembership.group_name).all()] + ['everyone']
+
+		if self.admin_level > 0:
+			names.append('jannies')
+
+		return names
 
 	@lazy
 	def has_follower(self, user):
