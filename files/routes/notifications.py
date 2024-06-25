@@ -276,7 +276,7 @@ def notifications_modactions(v):
 
 	total = listing.count()
 	listing = listing.order_by(cls.id.desc())
-	listing = listing.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
+	listing = listing.offset(100*(page-1)).limit(100).all()
 
 	for ma in listing:
 		ma.unread = ma.created_utc > v.last_viewed_log_notifs
