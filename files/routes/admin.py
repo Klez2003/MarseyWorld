@@ -1470,7 +1470,7 @@ def pin_post(post_id, v):
 		if v.id != post.author_id:
 			send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has pinned {post.textlink}")
 	else:
-		if permapinned >= PIN_LIMIT + 1:
+		if permapinned >= PIN_LIMIT:
 			abort(403, f"Can't have more than {PIN_LIMIT} perma-pinned posts!")
 		post.pinned_utc = None
 		pin_time = 'permanently'
