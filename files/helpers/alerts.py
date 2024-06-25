@@ -8,7 +8,7 @@ import time
 from sqlalchemy.sql import text, and_
 from sqlalchemy.orm import load_only
 
-from files.classes import Comment, Post, Notification, PushSubscription, Group, Mod, GroupMembership
+from files.classes import Comment, Post, Notification, PushSubscription, Group, Mod, GroupMembership, ChatMembership
 
 from .config.const import *
 from .regex import *
@@ -136,7 +136,7 @@ def add_notif(cid, uid, text, pushnotif_url='', check_existing=True):
 	push_notif({uid}, 'New notification', text, pushnotif_url)
 
 
-def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=True, commenters_ping_post_id=None, charge=True):
+def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=True, commenters_ping_post_id=None, charge=True, chat=None):
 	# Restrict young accounts from generating notifications
 	if v.age < NOTIFICATION_SPAM_AGE_THRESHOLD:
 		return set()
@@ -193,18 +193,25 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 				abort(403, "Only admins can mention !focusgroup")
 
 			if i.group(1) == 'everyone':
-				if charge:
-					cost = g.db.query(User).count() * 5
-					if cost > v.coins + v.marseybux:
-						abort(403, f"You need {cost} currency to mention these ping groups!")
-					
-					reason = f"Group pinging cost (<code>!everyone</code>)"
-					if obj:
-						reason += f" on {obj.textlink}"
-					v.charge_account('coins/marseybux', cost, reason)
-					if obj:
-						obj.ping_cost += cost
-				return 'everyone'
+				if chat:
+					if not v.id == chat.owner_id:
+						abort(403, "You need to be the chat owner to do that!")
+					group = None
+					member_ids = set(x[0] for x in g.db.query(ChatMembership.user_id).filter_by(chat_id=chat.id).all()) - {v.id}
+				else:
+					if charge:
+						cost = g.db.query(User).count() * 5
+
+						if cost > v.coins + v.marseybux:
+							abort(403, f"You need {cost} currency to mention these ping groups!")
+						
+						reason = "Group pinging cost (<code>!everyone</code>)"
+						if obj:
+							reason += f" on {obj.textlink}"
+						v.charge_account('coins/marseybux', cost, reason)
+						if obj:
+							obj.ping_cost += cost
+					return 'everyone'
 			elif i.group(1) == 'jannies':
 				group = None
 				member_ids = set(x[0] for x in g.db.query(User.id).filter(User.admin_level > 0))

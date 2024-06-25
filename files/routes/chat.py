@@ -187,7 +187,7 @@ def speak(data, v):
 		url = f'{SITE_FULL}/chat/{chat.id}'
 		push_notif(uids, title, body, url, chat_id=chat.id)
 
-		notify_users = NOTIFY_USERS(chat_message.text, v)
+		notify_users = NOTIFY_USERS(chat_message.text, v, chat=chat)
 		if notify_users == 'everyone':
 			notify_users = set()
 		if chat_message.quotes:
