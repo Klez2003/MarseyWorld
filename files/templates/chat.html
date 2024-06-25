@@ -41,7 +41,7 @@
 				{{macros.chat_line_template()}}
 			</div>
 
-			{{macros.chat_window(vlink)}}
+			{{macros.chat_window(vlink, v.group_memberships_names)}}
 		</div>
 
 		<div class="col text-left d-none d-lg-block pb-5" style="max-width:350px">
@@ -93,6 +93,7 @@
 	<input id="slurreplacer" hidden value="{{v.slurreplacer}}">
 	<input id="admin_level" hidden value="{{v.admin_level}}">
 	<input id="blocked_user_ids" hidden value="{{(v.userblocks|string)[1:-1]}}">
+	<input id="group_names" hidden value="{{(v.group_memberships_names|string)[1:-1]}}">
 	<script defer src="{{'js/vendor/socketio.js' | asset}}"></script>
 	<script defer src="{{'js/flash.js' | asset}}"></script>
 	<script defer src="{{'js/vendor/lozad.js' | asset}}"></script>

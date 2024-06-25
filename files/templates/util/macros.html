@@ -289,9 +289,17 @@
 		<input hidden class="user_id" {% if m %}value="{{m.user_id}}"{% endif %}>
 {% endmacro %}
 
-{% macro chat_line_template(id, m, vlink) %}
+{% macro chat_line_template(id, m, vlink, group_memberships_names) %}
 	{% set mentioned = m and vlink in m.text_html or (m and m.quoted_message and m.quoted_message.user_id == v.id) %}
-	<div class="chat-line {% if mentioned %}chat-mention{% endif %}" {% if m %}id="{{id}}"{% endif %}>
+	{% set ns = namespace() %}
+	{% if not mentioned %}
+		{% for group_name in group_memberships_names %}
+			{% if '<a href="/!' ~ group_name ~ '"' in m.text_html %}
+				{% set ns.group_mentioned = True %}
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+	<div class="chat-line {% if mentioned or ns.group_mentioned %}chat-mention{% endif %}" {% if m %}id="{{id}}"{% endif %}>
 		<div class="d-flex align-items-center">
 			<div class="text-muted chat-line-content">
 				<div class="{% if not (m and m.quotes) %}d-none{% endif %} quotes" style="font-size:12px">
@@ -344,7 +352,7 @@
 	</div>
 {% endmacro %}
 
-{% macro chat_window(vlink)%}
+{% macro chat_window(vlink, group_memberships_names)%}
 	<div id="shrink">
 		<div id="chat-window" class="chat-window-{{chat.id}} container p-0">
 			{% set messages_list = messages.items()|list %}
@@ -356,7 +364,7 @@
 					{% endif %}
 					{{chat_group_template(id, m)}}
 				{% endif %}
-				{{chat_line_template(id, m, vlink)}}
+				{{chat_line_template(id, m, vlink, group_memberships_names)}}
 			{% endfor %}
 			</div>
 		</div>

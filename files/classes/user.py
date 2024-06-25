@@ -992,6 +992,14 @@ class User(Base):
 				GroupMembership.approved_utc != None,
 			).order_by(GroupMembership.group_name).all()
 
+	@property
+	@lazy
+	def group_memberships_names(self):
+		return [x[0] for x in g.db.query(GroupMembership.group_name).filter(
+				GroupMembership.user_id == self.id,
+				GroupMembership.approved_utc != None,
+			).order_by(GroupMembership.group_name).all()]
+
 	@lazy
 	def has_follower(self, user):
 		if not user or self.id == user.id: return False # users can't follow themselves

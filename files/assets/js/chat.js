@@ -21,6 +21,10 @@ let is_typing = false;
 
 const blocked_user_ids = document.getElementById('blocked_user_ids').value.split(', ')
 
+const group_names = document.getElementById('group_names').value.replaceAll(', ', '|').replaceAll("'", "")
+const group_names_pattern = String.raw`(\s|^)!(` + group_names + String.raw`)(\s|$)`
+const group_names_regex = new RegExp(group_names_pattern, "g");
+
 socket.on('speak', function(json) {
 	if (blocked_user_ids.includes(json.user_id.toString())) {
 		return
@@ -39,7 +43,7 @@ socket.on('speak', function(json) {
 	}
 
 	chatline.classList.remove('chat-mention');
-	if (text_html.includes(`<a href="/id/${vid}"`)) {
+	if (text_html.includes(`<a href="/id/${vid}"`) || text.match(group_names_pattern)) {
 		chatline.classList.add('chat-mention');
 	}
 
