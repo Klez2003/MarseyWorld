@@ -19,31 +19,6 @@
 
 {% block pagetitle %}{{SITE_NAME if not hole else '/h/' ~ hole.name}}{% endblock %}
 
-{% block head_final %}
-	{% set preview = hole.random_sidebar if hole and hole.sidebarurls else hole.bannerurl %}
-
-	{% if hole %}
-		<meta property="og:type" content="article">
-		<meta property="og:title" content="/h/{{hole}}">
-		<meta property="og:site_name" content="{{SITE}}">
-		<meta property="og:image" content="{{preview}}">
-		<meta property="og:url" content="{{request.full_path}}">
-		<meta property="og:author" name="author" content="{{SITE_FULL}}">
-
-		<meta name="twitter:card" content="summary_large_image">
-		<meta name="twitter:site" content="{{SITE_FULL}}">
-		<meta name="twitter:title" content="/h/{{hole.name}}">
-		<meta name="twitter:creator" content="{{SITE_FULL}}">
-		<meta name="twitter:image" content="{{preview}}">
-		<meta name="twitter:url" content="{{request.full_path}}">
-	{% endif %}
-
-	{% if hole.sidebar %}
-		<meta property="og:description" name="description" content="{{hole.sidebar}}">
-		<meta name="twitter:description" content="{{hole.sidebar}}">
-	{% endif %}
-{% endblock %}
-
 {% block desktopBanner %}
 	{%- set search_placeholder = "Search" -%}
 	{%- if hole -%}

@@ -57,8 +57,8 @@
 			{% endif %}
 		{% endset %}
 	{% elif hole %}
-		{% set title, description =
-		'/h/'+hole.name, hole.sidebar if hole.sidebar %}
+		{% set title, description = '/h/'+hole.name, hole.sidebar if hole.sidebar %}
+		{% set image = hole.random_sidebar if hole and hole.sidebarurls else hole.bannerurl %}
 	{% endif %}
 
 	<link rel="icon" type="image/webp" href="/icon.webp?x=8">
