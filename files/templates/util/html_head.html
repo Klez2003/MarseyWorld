@@ -93,7 +93,7 @@
 	<meta name="twitter:title" content="{{title}}">
 	<meta name="twitter:creator" content="{{author | default(SITE_FULL)}}">
 	<meta name="twitter:description" content="{{description | default(SITE_NAME ~ ' - ' ~ DESCRIPTION)}}">
-	<meta name="twitter:url" content="{{url}}">
+	<meta name="twitter:url" content="{{request.full_path}}">
 {% endmacro %}
 
 {% macro stylesheets() %}
