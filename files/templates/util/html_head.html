@@ -17,8 +17,7 @@
 {% macro page_meta(title=none) %}
 	{% if 'post/' in request.path and p %}
 		{% if not v_forbid_deleted -%}
-			{% set image = p.thumb_url if p.has_thumb %}
-			{% set image = p.realurl(v) if p.is_image %}
+			{% set image = p.realurl(v) if p.is_image else p.thumb_url %}
 			{% set video = p.realurl(v) if p.is_video %}
 			{% set audio = p.realurl(v) if p.is_audio %}
 		{% endif %}
