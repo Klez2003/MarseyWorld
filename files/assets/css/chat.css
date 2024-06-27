@@ -4,12 +4,12 @@
 }
 
 #online, #members {
-	max-height: calc(100vh - 200px);
+	max-height: calc(100dvh - 200px);
 	overflow-y: auto;
 	background-color: var(--background) !important;
 }
 #online.online-wpd {
-	max-height: calc(100vh - 365px);
+	max-height: calc(100dvh - 365px);
 }
 
 #chat-window .chat-profile {
@@ -127,7 +127,7 @@ lite-youtube {
 }
 
 .chat-message {
-	max-height: 72vh;
+	max-height: 72dvh;
 	overflow: auto;
 	max-width: 80%;
 	display: inline-block;
@@ -146,7 +146,7 @@ lite-youtube {
 }
 
 #chat-window .resizable {
-	height: 28vh;
+	height: 28dvh;
 }
 .resizable > video {
 	margin: 14px 0 0 0 !important;
