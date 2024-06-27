@@ -401,6 +401,7 @@ LONGPOSTBOT_REPLIES = (
 	"not reading your substack",
 	"https://i.rdrama.net/images/16758166234569614.webp",
 	"https://i.rdrama.net/images/16763687631229467.webp",
+	"> Blah Blah blah blah\n\n> yap yap yap yap\n\nDidnt read",
 )
 
 CHUD_MSGS = (
