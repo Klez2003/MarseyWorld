@@ -386,7 +386,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
 
-	if limit_pings and len(names) > limit_pings and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
+	if limit_pings and len(names) > limit_pings and author and author.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
 		return error("Max ping limit is 5 for comments and 50 for posts!")
 
 	users_list = get_users(names, graceful=True)
