@@ -1,10 +1,6 @@
 #chat-window {
-	max-height: calc(100vh - 240px);
 	overflow-y: auto;
 	background-color: transparent !important;
-}
-.chat-window-1 {
-	max-height: calc(100vh - 208px) !important;
 }
 
 #online, #members {
@@ -64,16 +60,9 @@ blockquote {
 	padding-left: 5px;
 }
 
-@media (max-width: 768px) {
-	#shrink * {
-		font-size: 12px !important;
-	}
-	#chat-window {
-		max-height: calc(100vh - 292px);
-	}
-	.chat-window-1 {
-		max-height: calc(100vh - 263px) !important;
-	}
+#chat {
+	display: flex;
+	flex-direction: column;
 }
 
 p {
@@ -197,7 +186,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (min-width: 768px) {
-	#chatsend, #shrink .format .fas {
+	#chatsend, #chat .format .fas {
 		font-size: 1.3rem !important;
 	}
 }

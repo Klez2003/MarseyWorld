@@ -730,10 +730,16 @@ body::after {
 .has_header {
 	padding-top: 79.54px !important
 }
+#chat {
+	height: calc(100vh - 79.54px - 1rem)
+}
 
 @media (max-width: 768px) {
 	.has_header {
 		padding-top: calc(var(--safe-area-inset-top) + 65.8px) !important
+	}
+	#chat {
+		height: calc(100vh - var(--safe-area-inset-top) - 65.8px)
 	}
 }
 

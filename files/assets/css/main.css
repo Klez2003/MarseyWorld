@@ -7146,10 +7146,16 @@ input[type=number] {
 .has_header {
 	padding-top: 81.55px !important
 }
+#chat {
+	height: calc(100vh - 81.55px - 1rem)
+}
 
 @media (max-width: 768px) {
 	.has_header {
 		padding-top: calc(var(--safe-area-inset-top) + 67.8px) !important
+	}
+	#chat {
+		height: calc(100vh - var(--safe-area-inset-top) - 81.55px)
 	}
 }
 

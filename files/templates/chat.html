@@ -10,81 +10,84 @@
 	{% set vlink = '<a href="/id/' ~ v.id ~ '"' %}
 	<div class="container pb-3">
 		<div class="row justify-content-around" id="main-content-row">
-			<div class="col h-100 {% block customPadding %}custom-gutters{% endblock %}" id="main-content-col">
-				{% if chat.id != 1 %}
-					<h5 class="mt-2 mb-3 ml-1 toggleable d-mob-none" style="display:inline-block">{{chat.name}}</h5> 
-					<b class="mt-2 mb-2 ml-1 text-small toggleable d-md-none" style="display:inline-block">{{chat.name}}</b> 
+			<div id="chat" class="col {% block customPadding %}custom-gutters{% endblock %}">
+				<span>
+					{% if chat.id != 1 %}
+						<h5 class="mt-2 mb-3 ml-1 toggleable d-mob-none" style="display:inline-block">{{chat.name}}</h5> 
+						<b class="mt-2 mb-2 ml-1 text-small toggleable d-md-none" style="display:inline-block">{{chat.name}}</b> 
 
-					{% if v.id == chat.owner_id %}
-						<button class="px-2 toggleable" type="button" data-nonce="{{g.nonce}}" data-onclick="toggleElement('chat-name-form', 'chat-name')">
-							<i class="fas fa-pen text-small text-muted"></i>
-						</button>
+						{% if v.id == chat.owner_id %}
+							<button class="px-2 toggleable" type="button" data-nonce="{{g.nonce}}" data-onclick="toggleElement('chat-name-form', 'chat-name')">
+								<i class="fas fa-pen text-small text-muted"></i>
+							</button>
 
-						<form id="chat-name-form" class="d-none mt-2" action="/chat/{{chat.id}}/name" method="post">
-							<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
-							<input id="chat-name" autocomplete="off" class="form-control d-inline-block" name="new_name" value="{{chat.name}}" style="max-width:300px">
-							<button type="submit" class="btn btn-primary" style="margin-top:-5px">Save</button>
-						</form>
+							<form id="chat-name-form" class="d-none mt-2" action="/chat/{{chat.id}}/name" method="post">
+								<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
+								<input id="chat-name" autocomplete="off" class="form-control d-inline-block" name="new_name" value="{{chat.name}}" style="max-width:300px">
+								<button type="submit" class="btn btn-primary" style="margin-top:-5px">Save</button>
+							</form>
 
-						<a href="/chat/{{chat.id}}/orgies" class="orgy-control fas fa-tv text-muted ml-2"></a>
+							<a href="/chat/{{chat.id}}/orgies" class="orgy-control fas fa-tv text-muted ml-2"></a>
+						{% endif %}
+
+						<button id="leave-private-chat" type="submit" class="btn btn-danger fl-r mt-1 mt-md-2 pt-0 px-2 text-small-sm" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/chat/{{chat.id}}/leave')">Leave</button>
 					{% endif %}
-
-					<button id="leave-private-chat" type="submit" class="btn btn-danger fl-r mt-1 mt-md-2 pt-0 px-2 text-small-sm" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/chat/{{chat.id}}/leave')">Leave</button>
-				{% endif %}
+				</span>
 
 				<div id="chat-group-template" class="d-none">
 					{{macros.chat_group_template()}}
+					</div>
 				</div>
+
+				<div id="chat-line-template" class="d-none">
+					{{macros.chat_line_template()}}
+				</div>
+
+				{{macros.chat_window(vlink, v.group_memberships_names)}}
 			</div>
 
-			<div id="chat-line-template" class="d-none">
-				{{macros.chat_line_template()}}
-			</div>
+			<div class="col text-left d-none d-lg-block pb-5" style="max-width:350px">
+				{% if chat.id == 1 %}
+					{% if SITE_NAME == 'WPD' %}
+						<h5>Chat Rules</h5>
+						<ul class="mt-2 mb-4">
+							<li>Follow the rules mentioned on <a href="/sidebar">the sidebar</a>.</li>
+							<li>Do not try to crash the chatroom with malicious code (CSS).</li>					
+							<li>Do not send porn in chat.</li>
+							<li>Do not spam.</li>
+						</ul>
+					{% endif %}
 
-			{{macros.chat_window(vlink, v.group_memberships_names)}}
-		</div>
-
-		<div class="col text-left d-none d-lg-block pb-5" style="max-width:350px">
-			{% if chat.id == 1 %}
-				{% if SITE_NAME == 'WPD' %}
-					<h5>Chat Rules</h5>
-					<ul class="mt-2 mb-4">
-						<li>Follow the rules mentioned on <a href="/sidebar">the sidebar</a>.</li>
-						<li>Do not try to crash the chatroom with malicious code (CSS).</li>					
-						<li>Do not send porn in chat.</li>
-						<li>Do not spam.</li>
-					</ul>
-				{% endif %}
-
-				<h5>Users Online (<span class="chat-count"></span>)</h5>
-				<div id="online" class="mt-2 {% if SITE_NAME == 'WPD' %}online-wpd{% endif %}"></div>
-			{% else %}
-				<h5>Members ({{sorted_memberships|length}})</h5>
-				<div id="members" class="mt-2">
-					{% for membership in sorted_memberships %}
-						{% set user = membership.user %}
-						{% set patron = '' %}
-						{% if user.patron %}
-							{% set patron = patron + 'class="patron chat-patron" style="background-color:#' ~ user.name_color ~ '"' %}
-						{% endif %}
-						{% if user.pride_username(None) %}
-							{% set patron = patron + ' pride_username' %}
-						{% endif %}
-						<li style="margin-top: 0.35rem">
-							<a class="font-weight-bold" target="_blank" href="/@{{user.username}}" style="color:#{{user.name_color}}">
-								<img loading="lazy" class="mr-1" src="/pp/{{user.id}}">
-								<span {{patron | safe}}>{{user.username}}</span>
-							</a>
-
-							{% if user.id == chat.owner_id %}
-								<img class="ml-1 chat-owner" data-bs-toggle="tooltip" alt="Owner" title="Owner" src="{{SITE_FULL_IMAGES}}/e/marseykingretard.webp">
+					<h5>Users Online (<span class="chat-count"></span>)</h5>
+					<div id="online" class="mt-2 {% if SITE_NAME == 'WPD' %}online-wpd{% endif %}"></div>
+				{% else %}
+					<h5>Members ({{sorted_memberships|length}})</h5>
+					<div id="members" class="mt-2">
+						{% for membership in sorted_memberships %}
+							{% set user = membership.user %}
+							{% set patron = '' %}
+							{% if user.patron %}
+								{% set patron = patron + 'class="patron chat-patron" style="background-color:#' ~ user.name_color ~ '"' %}
 							{% endif %}
+							{% if user.pride_username(None) %}
+								{% set patron = patron + ' pride_username' %}
+							{% endif %}
+							<li style="margin-top: 0.35rem">
+								<a class="font-weight-bold" target="_blank" href="/@{{user.username}}" style="color:#{{user.name_color}}">
+									<img loading="lazy" class="mr-1" src="/pp/{{user.id}}">
+									<span {{patron | safe}}>{{user.username}}</span>
+								</a>
 
-							<i class="d-none ml-1 text-smaller text-success online-marker online-marker-{{user.id}} fas fa-circle"></i>
-						</li>
-					{% endfor %}
-				</div>
-			{% endif %}
+								{% if user.id == chat.owner_id %}
+									<img class="ml-1 chat-owner" data-bs-toggle="tooltip" alt="Owner" title="Owner" src="{{SITE_FULL_IMAGES}}/e/marseykingretard.webp">
+								{% endif %}
+
+								<i class="d-none ml-1 text-smaller text-success online-marker online-marker-{{user.id}} fas fa-circle"></i>
+							</li>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
 		</div>
 	</div>
 
