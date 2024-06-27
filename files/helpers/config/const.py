@@ -399,6 +399,8 @@ LONGPOSTBOT_REPLIES = (
 	"https://i.rdrama.net/images/17189081272030811.webp",
 	"https://i.rdrama.net/images/17189984660267773.webp",
 	"not reading your substack",
+	"https://i.rdrama.net/images/16758166234569614.webp",
+	"https://i.rdrama.net/images/16763687631229467.webp",
 )
 
 CHUD_MSGS = (
