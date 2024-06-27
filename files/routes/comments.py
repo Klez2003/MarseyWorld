@@ -188,7 +188,7 @@ def comment(v):
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
 		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
-	body = body.replace('\r', '')
+	body = remove_cuniform(body)
 	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and posting_to_post and post_target.id == SNAPPY_THREAD and level == 1:
 		while '\n\n' in body:
 			body = body.replace('\n\n', '\n')

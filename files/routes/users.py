@@ -1470,7 +1470,7 @@ def settings_claim_rewards(v):
 
 	transactions = g.db.query(Transaction).filter_by(email=v.email).all()
 	if not transactions:
-		abort(400, f"No matching email found. Please ensure you’re using the same email here that you used on {DONATE_SERVICE}.")
+		abort(400, f"No matching email found. Please ensure you're using the same email here that you used on {DONATE_SERVICE}.")
 
 	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
 	if not transactions:

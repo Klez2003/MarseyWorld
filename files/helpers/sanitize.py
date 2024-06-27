@@ -277,7 +277,8 @@ def remove_cuniform(sanitized):
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace('\u202e','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
 	sanitized = sanitized.replace("𒐪","").replace("𒐫","").replace("﷽","").replace("⸻","")
 	sanitized = sanitized.replace("\r", "")
-	sanitized = sanitized.replace("’", "'")
+	sanitized = sanitized.replace("‘", "'").replace("’", "'")
+	sanitized = sanitized.replace('“', '"').replace('”', '"')
 	return sanitized.strip()
 
 def get_youtube_id_and_t(url):
