@@ -402,6 +402,7 @@ LONGPOSTBOT_REPLIES = (
 	"https://i.rdrama.net/images/16758166234569614.webp",
 	"https://i.rdrama.net/images/16763687631229467.webp",
 	"> Blah Blah blah blah\n\n> yap yap yap yap\n\nDidnt read",
+	"https://i.rdrama.net/images/17194996128531878.webp",
 )
 
 CHUD_MSGS = (
