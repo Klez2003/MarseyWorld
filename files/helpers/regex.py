@@ -5,7 +5,7 @@ from flask import g
 from files.classes.media import Media
 from .config.const import *
 
-NOT_IN_CODE_OR_LINKS = '(?!([^<]*<\/(code|pre|a)>|[^`\n]*`))'
+NOT_IN_CODE_OR_LINKS = '(?!([^<]*<\/(code|pre|a)>|[^`\n]*`|[^`]*```))'
 
 valid_username_regex = re.compile("^[\w-]{3,25}$", flags=re.A)
 valid_username_patron_regex = re.compile("^[\w-]{1,25}$", flags=re.A)
