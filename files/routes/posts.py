@@ -148,7 +148,7 @@ def post_id(pid, v, anything=None, hole=None):
 		# output is needed: see comments.py
 		comments, output = get_comments_v_properties(v, None, Comment.parent_post == p.id, Comment.level < 10)
 
-		if sort == "hot":
+		if sort == "hot" or sort == defaultsortingcomments:
 			pinned = [c[0] for c in comments.filter(Comment.pinned != None).order_by(Comment.created_utc.desc())]
 			comments = comments.filter(Comment.pinned == None)
 
@@ -158,7 +158,7 @@ def post_id(pid, v, anything=None, hole=None):
 	else:
 		comments = g.db.query(Comment).filter(Comment.parent_post == p.id)
 
-		if sort == "hot":
+		if sort == "hot" or sort == defaultsortingcomments:
 			pinned = comments.filter(Comment.pinned != None).order_by(Comment.created_utc.desc()).all()
 			comments = comments.filter(Comment.pinned == None)
 
@@ -193,7 +193,7 @@ def post_id(pid, v, anything=None, hole=None):
 
 	p.replies = comments
 
-	if sort == "hot":
+	if sort == "hot" or sort == defaultsortingcomments:
 		pinned2 = {}
 		for pin in pinned:
 			if pin.level > 1:
