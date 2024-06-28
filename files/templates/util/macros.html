@@ -365,7 +365,9 @@
 			{% endif %}
 			{{chat_line_template(id, m, vlink, group_memberships_names)}}
 		{% endfor %}
-		</div>
+		{% if messages_list %}
+			</div>
+		{% endif %}
 	</div>
 
 	<div class="mt-3"></div>
