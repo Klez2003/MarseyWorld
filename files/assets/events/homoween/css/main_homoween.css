@@ -739,7 +739,7 @@ body::after {
 		padding-top: calc(var(--safe-area-inset-top) + 65.8px) !important
 	}
 	#chat {
-		height: calc(100dvh - var(--safe-area-inset-top) - 65.8px)
+		height: calc(100dvh - var(--safe-area-inset-top) - 65.8px - 0.1rem)
 	}
 }
 
