@@ -27,7 +27,7 @@
 						<div id="image-upload-block">
 							<div><label>New Image</label></div>
 
-							<img loading="lazy" id="image-preview" class="d-none" style="max-width:50%;border:5px white solid" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
+							<img loading="lazy" id="image-preview" class="d-none" style="max-width:50%;border:5px black solid" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
 							<label class="btn btn-secondary m-0" for="file-upload">
 								<div>Select Image<br>(optional)</div>
 								<input autocomplete="off" id="file-upload" accept="image/*" type="file" name="image" {% if g.is_tor %}disabled{% endif %} hidden>

@@ -6786,7 +6786,7 @@ div.markdown {
 #expanded-image {
 	max-width: 90%;
 	max-height: 100vh;
-	border: 5px white solid;
+	border: 5px black solid;
 }
 @media (max-width: 768px) {
 	#expanded-image {

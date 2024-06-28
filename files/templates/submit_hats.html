@@ -12,7 +12,7 @@
 					<div id="image-upload-block">
 						<div><label class="mt-3">Image</label></div>
 
-						<img loading="lazy" id="image-preview" class="d-none" style="max-width:50%;border:5px white solid" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
+						<img loading="lazy" id="image-preview" class="d-none" style="max-width:50%;border:5px black solid" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
 						<label class="btn btn-secondary m-0" for="file-upload">
 							<div>Select Image</div>
 							<input autocomplete="off" id="file-upload" accept="image/*" type="file" name="image" {% if g.is_tor %}disabled{% endif %} hidden>
@@ -53,7 +53,7 @@
 								<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 
 								<div><label class="mt-3">Image</label></div>
-								<img loading="lazy" src="{{SITE_FULL_IMAGES}}/asset_submissions/hats/{{hat.name}}.webp?s={{range(1, 10000000)|random}}" style="max-width:50%;border:5px white solid" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
+								<img loading="lazy" src="{{SITE_FULL_IMAGES}}/asset_submissions/hats/{{hat.name}}.webp?s={{range(1, 10000000)|random}}" style="max-width:50%;border:5px black solid" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
 
 								<div class="profile-pic-100-wrapper ml-4 mt-4">
 									<img loading="lazy" alt="avatar" src="{{v.profile_url}}" class="profile-pic-100">
