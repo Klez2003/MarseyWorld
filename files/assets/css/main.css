@@ -7839,14 +7839,14 @@ img[src$="/e/speechbubble.webp"] {
 	height: 1050px
 }
 .instagram-profile-embed {
-	height: 562px
+	height: 574px
 }
 @media (max-width: 768px) {
 	.instagram-post-embed {
 		height: 930px
 	}
 	.instagram-profile-embed {
-		height: 411px
+		height: 423px
 	}
 }
 
