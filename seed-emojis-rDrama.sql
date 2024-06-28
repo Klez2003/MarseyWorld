@@ -2083,6 +2083,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseycandycorn', 'Marsey', 2, 'sweet halloween sugar holiday', false, 1666999203),
 ('marseycanned', 'Marsey', 2, 'srdine sleeping tin fish sardine', false, 0),
 ('marseycannibal', 'Marsey', 2, 'blood devil psycho skeleton maniac murder horror', false, 1698776567),
+('marseycantnootice', 'Marsey', 2, 'noticer noooticer coomer', false, 1719490630),
 ('marseycantsneed', 'Marsey', 2, 'george floyd breathe dead black', false, 0),
 ('marseycapitalistmanlet', 'Marsey', 2, 'money top hat rich landlord cigar llm tophat', false, 0),
 ('marseycapysmoochtrans', 'Marsey', 2, 'kiss love spit horny', false, 1697152269),
