@@ -25,6 +25,9 @@
 	#chat-window {
 		scrollbar-width: none;
 	}
+	#chat * {
+		font-size: 13px !important;
+	}
 }
 
 .chat-mention {
