@@ -8,8 +8,8 @@
 				<div class="body">
 					{% for name, value in thresholds.items() %}
 						<div class="d-flex mb-4">
-							<label for="{{name}}" class="mb-0 w-50 w-md-25 my-auto">{{name.title()}}</label>
-							<input autocomplete="off" class="form-control w-75 w-md-100" type="number" min="0" step="1" id="{{name}}" name="{{name}}" value="{{value}}" required>
+							<label for="{{name}}-threshold" class="mb-0 w-50 w-md-25 my-auto">{{name.title()}}</label>
+							<input autocomplete="off" class="form-control w-75 w-md-100" type="number" min="0" step="1" id="{{name}}-threshold" name="{{name}}" value="{{value}}" required>
 						</div>
 					{% endfor %}
 				</div>
