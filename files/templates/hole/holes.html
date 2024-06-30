@@ -12,7 +12,7 @@
 						<input autocomplete="off" minlength="3" maxlength="25" pattern='[a-zA-Z0-9_\-]*' class="form-control" id="create-hole-name" type="text" name="name" required>
 						<small class="form-text text-muted">3-25 characters, including letters, numbers, _ , and -</small>
 						{% if HOLE_INACTIVITY_DELETION or True %}
-							<p class="text-danger mt-2">Warning: holes get automatically deleted if they spend 7 days with no new posts.</p>
+							<p class="text-danger mt-2">Warning: holes get automatically deleted if they spend 14 days with no new posts.</p>
 						{% endif %}
 						<div class="footer">
 							<div class="d-flex">
