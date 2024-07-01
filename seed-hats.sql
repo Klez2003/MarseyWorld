@@ -990,7 +990,6 @@ INSERT INTO public.hat_defs VALUES (1153, 'Hope Eradicated', 'Who needs friends 
 INSERT INTO public.hat_defs VALUES (1150, 'Power In Misery', 'Stop wasting company resources by getting killed...', 2, 500, NULL, 1679343066);
 INSERT INTO public.hat_defs VALUES (514, 'Glowing', 'Hit me with your car', 2, 1000, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (1157, 'Divine Light', 'Who has time to enjoy life when you''re making MONEY?!', 2, 500, NULL, 1679347512);
-
 INSERT INTO public.hat_defs VALUES (1155, 'Flesh Automaton', 'You are a flesh automaton powered by neurotransmiters', 2, 500, NULL, 1679347040);
 INSERT INTO public.hat_defs VALUES (1169, 'Mimic', 'That is NOT a health pack!', 2, 500, NULL, 1679359754);
 INSERT INTO public.hat_defs VALUES (1167, 'Tattered Rain Hat', 'Old and worn. You''ve never seen it before but it feels nostalgic.', 2, 500, NULL, 1679359347);
@@ -1144,7 +1143,6 @@ INSERT INTO public.hat_defs VALUES (1372, 'pkmn0151', 'Mew. So rare that it is s
 INSERT INTO public.hat_defs VALUES (1371, 'pkmn0054', 'Psyduck, the Platy Pokémon. A Water type. Psyduck is constantly bothered by headaches. The more its head hurts, the stronger its Psychic power.', 2, 500, NULL, 1698657676);
 INSERT INTO public.hat_defs VALUES (1449, 'Zero Two Horns', 'Hi, darling!', 2, 500, NULL, 1708367087);
 INSERT INTO public.hat_defs VALUES (1543, 'Darksign', 'Be safe, Ashen one. Don''t you dare go hollow.', 2, 500, NULL, 1714317992);
-
 INSERT INTO public.hat_defs VALUES (1545, 'Imagine', 'A world without dramatards.', 2, 1000, NULL, 1714475830);
 INSERT INTO public.hat_defs VALUES (1555, 'Dildo Head', 'Prominently showing your love for BBC', 2, 500, NULL, 1715029375);
 INSERT INTO public.hat_defs VALUES (1556, 'The Bloody Hat', 'Cover yourself in blood', 2, 1000, NULL, 1716771647);
@@ -1168,7 +1166,6 @@ INSERT INTO public.hat_defs VALUES (1499, 'Pigtail Bows', 'Twice the bow, twice 
 INSERT INTO public.hat_defs VALUES (1507, 'pkmn0172 Ears', 'Pichu, the Tiny Mouse Pokémon. A pre-evolved form of Pikachu. Despite their size, Pichu release bursts of electricity that can shock even humans. However, Pichu are unskilled at become the rat, and sometimes release it by accident when surprised, or when laughing, and become the rat become the rat', 2, 500, NULL, 1710736368);
 INSERT INTO public.hat_defs VALUES (1510, 'pkmn0195', 'Quagsire, the Water Fish Pokémon and the evolved form of Wooper. Known as quite dim-witted, it doesn''t care when it crashes its head against rocks or the bottoms of boats.', 2, 500, NULL, 1710737929);
 INSERT INTO public.hat_defs VALUES (1513, 'pkmn0272', 'Ludicolo, the Carefree Pokémon. Ludicolo becomes extremely active whenever it hears a cheery rhythm. This can also lead it to exert extreme power in battle.', 2, 500, NULL, 1710738317);
-
 INSERT INTO public.hat_defs VALUES (1517, 'Malta Flag', 'Repubblika ta'' Malta', 2, 1000, NULL, 1711671657);
 INSERT INTO public.hat_defs VALUES (1525, 'Blood', 'Splash!', 2, 1000, NULL, 1711678746);
 INSERT INTO public.hat_defs VALUES (1528, 'Swirl Splash Effect', 'Swploosh', 2, 1000, NULL, 1711679915);
@@ -1301,7 +1298,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1634, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1638, true);
 
 
 --
