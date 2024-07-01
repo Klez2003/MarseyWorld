@@ -1143,6 +1143,7 @@ INSERT INTO public.hat_defs VALUES (1372, 'pkmn0151', 'Mew. So rare that it is s
 INSERT INTO public.hat_defs VALUES (1371, 'pkmn0054', 'Psyduck, the Platy Pokémon. A Water type. Psyduck is constantly bothered by headaches. The more its head hurts, the stronger its Psychic power.', 2, 500, NULL, 1698657676);
 INSERT INTO public.hat_defs VALUES (1449, 'Zero Two Horns', 'Hi, darling!', 2, 500, NULL, 1708367087);
 INSERT INTO public.hat_defs VALUES (1543, 'Darksign', 'Be safe, Ashen one. Don''t you dare go hollow.', 2, 500, NULL, 1714317992);
+
 INSERT INTO public.hat_defs VALUES (1545, 'Imagine', 'A world without dramatards.', 2, 1000, NULL, 1714475830);
 INSERT INTO public.hat_defs VALUES (1555, 'Dildo Head', 'Prominently showing your love for BBC', 2, 500, NULL, 1715029375);
 INSERT INTO public.hat_defs VALUES (1556, 'The Bloody Hat', 'Cover yourself in blood', 2, 1000, NULL, 1716771647);
@@ -1160,19 +1161,27 @@ INSERT INTO public.hat_defs VALUES (1483, 'Japanese Text', '私は強いです',
 INSERT INTO public.hat_defs VALUES (1484, 'Rainbow Spiked Hair', 'If I color myself enough they''ll love me.', 2, 500, NULL, 1708648741);
 INSERT INTO public.hat_defs VALUES (1566, 'Princess Tiara', '"Happily ever after" not included', 2, 500, NULL, 1716864569);
 INSERT INTO public.hat_defs VALUES (1487, 'Purple Hearts', 'I''m lusting for you.', 2, 500, NULL, 1708648873);
-
 INSERT INTO public.hat_defs VALUES (1492, 'HP Bar', 'I''m feeling healthy and refreshed.', 2, 500, NULL, 1708649015);
 INSERT INTO public.hat_defs VALUES (1498, 'Anime Smile', 'Power of friendship!', 2, 500, NULL, 1708649155);
 INSERT INTO public.hat_defs VALUES (1499, 'Pigtail Bows', 'Twice the bow, twice the cute!', 2, 500, NULL, 1708649179);
 INSERT INTO public.hat_defs VALUES (1507, 'pkmn0172 Ears', 'Pichu, the Tiny Mouse Pokémon. A pre-evolved form of Pikachu. Despite their size, Pichu release bursts of electricity that can shock even humans. However, Pichu are unskilled at become the rat, and sometimes release it by accident when surprised, or when laughing, and become the rat become the rat', 2, 500, NULL, 1710736368);
 INSERT INTO public.hat_defs VALUES (1510, 'pkmn0195', 'Quagsire, the Water Fish Pokémon and the evolved form of Wooper. Known as quite dim-witted, it doesn''t care when it crashes its head against rocks or the bottoms of boats.', 2, 500, NULL, 1710737929);
 INSERT INTO public.hat_defs VALUES (1513, 'pkmn0272', 'Ludicolo, the Carefree Pokémon. Ludicolo becomes extremely active whenever it hears a cheery rhythm. This can also lead it to exert extreme power in battle.', 2, 500, NULL, 1710738317);
+
 INSERT INTO public.hat_defs VALUES (1517, 'Malta Flag', 'Repubblika ta'' Malta', 2, 1000, NULL, 1711671657);
 INSERT INTO public.hat_defs VALUES (1525, 'Blood', 'Splash!', 2, 1000, NULL, 1711678746);
 INSERT INTO public.hat_defs VALUES (1528, 'Swirl Splash Effect', 'Swploosh', 2, 1000, NULL, 1711679915);
 INSERT INTO public.hat_defs VALUES (1535, 'Miku Frame', 'Show your love for the only thing that will out live roaches in the apocalypse, Hatsune Miku !!', 2, 500, NULL, 1712893209);
 INSERT INTO public.hat_defs VALUES (1536, 'Sleeping Konata Hat', 'All the way from the anime series Lucky Star to the top of your head!', 2, 500, NULL, 1712895608);
 INSERT INTO public.hat_defs VALUES (1539, 'MLG Hat', 'I am an epic pro gamer.', 2, 500, NULL, 1713490731);
+
+
+
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (1450, 'Red Eminent Horns', 'Queen of the devils, leader of the chuds.', 2, 500, NULL, 1708367282);
 INSERT INTO public.hat_defs VALUES (1544, 'Sweden Flag', 'Över Norden jag härskar, med det arv som jag gavs, gång på gång, sjung Carolus sång!', 2, 1000, NULL, 1714318091);
 INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokémon. A Ghost and Poison type. Gengar can pass through dimensions and appear almost anywhere. Since Gengar absorbs any warmth around it, the temperature suddenly drops wherever it appears.', 2, 500, NULL, 1698658745);
@@ -1204,10 +1213,14 @@ INSERT INTO public.hat_defs VALUES (1508, 'pkmn0088', 'Grimer, the Sludge Pokém
 INSERT INTO public.hat_defs VALUES (1511, 'pkmn0195 Ass', 'Quagsire, the Water Fish Pokémon. The Quagsire makes its home in clean freshwater lakes. The Quagsire is covered by a slippery layer of skin, making this Pokémon especially difficult to handle.', 2, 500, NULL, 1710737979);
 INSERT INTO public.hat_defs VALUES (1518, 'Rainbow', 'ROYGBIV', 2, 1000, NULL, 1711672737);
 INSERT INTO public.hat_defs VALUES (1529, 'Tornado', 'Twista', 2, 1000, NULL, 1711679957);
+
 INSERT INTO public.hat_defs VALUES (1526, 'Fire II', 'HOT HOT HOT!', 2, 1000, NULL, 1711678914);
 INSERT INTO public.hat_defs VALUES (1537, 'greeble', ':greeble:', 2, 500, NULL, 1713150123);
 INSERT INTO public.hat_defs VALUES (1538, 'NIKO Hat', 'When two shots aren''t needed go with one.', 2, 500, NULL, 1713490420);
 INSERT INTO public.hat_defs VALUES (1540, 'Mood Hat', 'Real time mood.', 2, 500, NULL, 1713531474);
+
+
+
 INSERT INTO public.hat_defs VALUES (1396, 'Click Me', 'Come on, you know you want to see my profile.', 2, 500, NULL, 1704921421);
 INSERT INTO public.hat_defs VALUES (1408, 'Kadio Stance', '*thwack* YEEEEEEEEOUCHHHHHHHHHH', 2, 500, NULL, 1705616850);
 INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
@@ -1289,7 +1302,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1578, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1631, true);
 
 
 --
