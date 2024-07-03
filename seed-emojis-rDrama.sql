@@ -735,6 +735,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('carptropius', 'Carp', 2, 'pkmn pokemon 357', false, 1697754718),
 ('carptropius2', 'Carp', 2, 'pokemon pkmn 357', false, 1698860600),
 ('carptroublemaker', 'Carp', 2, 'evil', false, 1687459834),
+('carptwerking', 'Carp', 2, 'dance butt animated', false, 1720021981),
 ('carptympole', 'Carp', 2, 'pokemon pkmn 535', false, 1698717170),
 ('carptynamo', 'Carp', 2, 'pokemon pkmn 602', false, 1698611676),
 ('carptynamo2', 'Carp', 2, 'pokemon pkmn 602', false, 1698780197),
