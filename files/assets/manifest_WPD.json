@@ -3,8 +3,8 @@
 	"short_name": "WPD",
 	"start_url": "/",
 	"display": "standalone",
-	"background_color": "#805AD5",
-	"theme_color": "#805AD5",
+	"background_color": "#805ad5",
+	"theme_color": "#805ad5",
 	"description": "WPD",
 	"icons": [
 			{

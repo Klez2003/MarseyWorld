@@ -270,7 +270,7 @@ if SITE_NAME == 'rDrama':
 	FEATURES['BLOCK_MUTE_EXILE_EXPIRY'] = True
 
 	CURSORMARSEY_DEFAULT = True
-	DEFAULT_COLOR = "ff459a"
+	DEFAULT_THEME = "dramblr"
 
 	patron = "Paypig"
 
