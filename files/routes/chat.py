@@ -187,11 +187,18 @@ def speak(data, v):
 		url = f'{SITE_FULL}/chat/{chat.id}'
 		push_notif(uids, title, body, url, chat_id=chat.id)
 
-		notify_users = NOTIFY_USERS(chat_message.text, v, chat=chat)
-		if notify_users == 'everyone':
-			notify_users = set()
-		if chat_message.quotes:
-			notify_users.add(chat_message.quoted_message.user_id)
+		if chat.membership_count == 2:
+			notify_users = set(g.db.query(ChatMembership.user_id).filter(
+				ChatMembership.chat_id == chat.id,
+				ChatMembership.user_id != v.id,
+			).one())
+		else:
+			notify_users = NOTIFY_USERS(chat_message.text, v, chat=chat)
+			if notify_users == 'everyone':
+				notify_users = set()
+			if chat_message.quotes:
+				notify_users.add(chat_message.quoted_message.user_id)
+
 		notify_users -= alrdy_here
 
 		if notify_users:

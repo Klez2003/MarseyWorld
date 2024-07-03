@@ -23,6 +23,11 @@ class Chat(Base):
 			return AUTOJANNY_ID
 		return owner_id[0]
 
+	@property
+	@lazy
+	def membership_count(self):
+		return g.db.query(ChatMembership).filter_by(chat_id=self.id).count()
+
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
 		super().__init__(*args, **kwargs)
