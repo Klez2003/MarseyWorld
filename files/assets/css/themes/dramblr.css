@@ -31,7 +31,7 @@ p, blockquote {
 }
 
 blockquote {
-	background-color: rgb(var(--background));
+	background-color: #000E25;
 }
 
 #frontpage #main-content-row {
@@ -49,14 +49,6 @@ blockquote {
 .btn {
 	border-color: var(--gray-500);
 	color: var(--gray-300)
-}
-
-.srd {
-	background-color: var(--gray-900) !important;
-}
-
-.srd a {
-	color: var(--gray-200) !important
 }
 
 .sidebar {
@@ -84,36 +76,8 @@ blockquote {
 	color: var(--gray-300) !important;
 }
 
-.score-up, .active.arrow-up::before, .arrow-up::after, .arrow-up:hover::before {
-	color: var(--secondary) !important;
-}
-
-.score-down, .active.arrow-down::before, .arrow-down::after, .arrow-down:hover::before {
-	color: var(--secondary) !important;
-}
-
-.arrow-up::before, .arrow-down::before, .score {
-	color: var(--gray-400);
-}
-
 #frontpage .post-title a {
 	color: var(--gray-300)
-}
-
-.text-info {
-	color: var(--gold) !important
-}
-
-.comment-collapse-icon::before {
-	color: var(--gray-500) !important
-}
-
-.fa-microphone-stand {
-	color: var(--primary) !important
-}
-
-.fa-robot {
-	color: var(--secondary) !important
 }
 
 .modal-content {
