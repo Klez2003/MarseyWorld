@@ -706,6 +706,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('pepesuit', 'Misc', 2, 'cigarette classy', false, 1707417675),
 ('peptobismol', 'Misc', 2, 'nausea heartburn indigestion upset stomach diarrhea pink medicine', false, 1718225831),
 ('permaban', 'Misc', 2, 'mods jannies out', false, 1709390948),
+('pikatits', 'Misc', 2, 'pikachu pokemon yiff bikini breasts boobs hawt furry twerking dancing', false, 1720274839),
 ('pin', 'Misc', 2, 'sticky pinned admin jannies', false, 1711859162),
 ('pinkieimposter', 'Misc', 2, 'mlp pony', false, 1718079836),
 ('pinkiepie', 'Misc', 2, 'goofy troll mlp', false, 1717892403),
