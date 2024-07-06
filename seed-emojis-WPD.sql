@@ -165,6 +165,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('footsniffer', 'Misc', 2, 'gross feet weirdo', false, 1710822324),
 ('forbidden', 'Misc', 2, 'canceled dismissed', false, 1707773151),
 ('funkykongboard', 'Donkey Kong', 2, 'dk donkeykong surfboard sunglasses', false, 1718316062),
+('furryban', 'Misc', 2, 'rivet ratchet hammer banned', false, 1720228368),
 ('furrymonika', 'Misc', 2, 'ddlc dokidokiliteratureclub', false, 1709452549),
 ('gaypride', 'Classic', 2, 'lgbtqia lesbian bisexual', false, 1710107869),
 ('gemspin', 'Misc', 2, 'gempost gemposting gemposter gemmy coal based sharty soyteens spinning', false, 1720121307),
