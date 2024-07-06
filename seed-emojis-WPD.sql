@@ -758,6 +758,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('sendcoinspls', 'Misc', 2, 'gambling alien begging', false, 1710959331),
 ('serbianwojak', 'Wojak', 2, 'soldier', false, 1708081029),
 ('sharkcat', 'Misc', 2, 'hybrid', false, 1709262227),
+('sharktits', 'Misc', 2, 'furry boobs breasts yiff', false, 1720238789),
 ('skibiditoilet', 'Misc', 2, 'tiktok zoomer alphoid', false, 1715757103),
 ('skullrotate', 'Misc', 2, 'bones death symbol pirates', false, 1707444285),
 ('slamdunk', 'Classic', 2, 'basketball sports', false, 1710107788),
