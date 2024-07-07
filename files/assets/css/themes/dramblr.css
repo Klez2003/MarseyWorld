@@ -1,110 +1,73 @@
+@charset "UTF-8";
+
 :root {
 	color-scheme: dark;
-	--white: #E1E1E1;
-	--black: #94a3b8;
-	--primary: #0284c7;
-	--gold: #f59e0b;
-	--secondary: #dc3545;
-	--gray: #383838;
-	--gray-100: #f1f5f9;
-	--gray-200: #e2e8f0;
-	--gray-300: #cbd5e1;
-	--gray-400: #94a3b8;
-	--gray-500: #728195;
-	--gray-600: #475569;
-	--gray-700: #2d3c50;
-	--gray-800: #1e293b;
-	--gray-900: #0f172a;
+	--dark: #505961;
+	--secondary: #505961;
+	--white: #c9d1d9;
+	--black: #c9d1d9;
+	--light: #b1bac4;
+	--muted: #c9d1d9;
+	--gray: #505961;
+	--gray-100: #c9d1d9;
+	--gray-200: #b1bac4;
+	--gray-300: #505961;
+	--gray-400: #6e7681;
+	--gray-500: #262b32;
+	--gray-600: #1e293B;
+	--gray-700: #21262d;
+	--gray-800: #161b22;
+	--gray-900: #0d1117;
 	--background: 30, 41, 59;
 }
 
-.container.transparent, .card {
-	background-color: var(--gray-800) !important;
+body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textarea, #root > div.App {
+	background-color: var(--gray-600) !important;
 }
 
-.navbar-light {
-	background-color: rgb(var(--background)) !important
+.transparent, #login, .App-side {
+	background: none !important;
 }
 
-p, blockquote {
-	color: var(--gray-200)
+.tooltip-inner {
+	color: #383838 !important;
 }
 
-blockquote {
-	background-color: #000E25;
+.modal .comment-actions .list-group-item {
+	background-color: var(--gray-600) !important;
 }
 
-#frontpage #main-content-row {
-	background-color: var(--gray-800) !important
+.sidebar
+{
+	border-radius: 6px;
+	margin-top: 6px;
 }
 
-#thread .comment-section {
-	background-color: var(--gray-800) !important
+.table th, .table td {
+	border-top: none;
 }
 
-.card {
-	border-color: var(--gray-600) !important
-}
-
-.btn {
-	border-color: var(--gray-500);
-	color: var(--gray-300)
-}
-
-.sidebar {
-	color: var(--gray-200)
-}
-
-#mobile-bottom-navigation-bar {
-	background-color: rgb(var(--background)) !important;
-	border-color: var(--gray-600) !important;
-}
-
-#mobile-bottom-navigation-bar .text-primary {
-	color: var(--gray-200) !important
-}
-
-#mobile-bottom-navigation-bar .text-muted {
-	color: var(--gray-400) !important
-}
-
-#frontpage div#expandImageModal.modal.expanded-image-modal {
-	background-color: transparent !important;
-}
-
-.text-small-extra.text-primary {
-	color: var(--gray-300) !important;
-}
-
-#frontpage .post-title a {
-	color: var(--gray-300)
-}
-
-.modal-content {
-	background-color: rgb(var(--background))
-}
-
-.tooltip {
-	color: var(--gray-700);
-}
-
-.dropdown-menu {
-	background-color: var(--gray-800);
-}
-
-.post-title {
-	color: var(--gray-300) !important;
+table tbody tr:nth-of-type(odd) {
+	background-color: rgba(0, 0, 0, 0.3);
 }
 
 .visited, h5.post-title a:not(.effortpost-flair):visited, a[href^="https://"]:not([href^="https://rdrama.net" i], [href^="https://watchpeopledie.tv" i], .dropdown-item, .nav-link, .novisited):visited {
 	color: #6e6e6e !important;
 }
 
-.modal .comment-actions .list-group-item {
-	background-color: rgb(var(--background));
+.modal-content {
+	border: 1px var(--gray-500) solid;
+}
+
+[disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled, .disabled:before {
+	color: #858b91 !important;
 }
 
 /* repeated here to override an earlier rule in this file */
 .unread {
 	background: #ffffff22 !important;
+}
+
+blockquote {
+	background-color: #000E25;
 }
