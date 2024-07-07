@@ -165,8 +165,6 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		mul = 4
 	elif target.author.progressivestack or (IS_HOMOWEEN() and target.author.zombie < 0) or target.author.admin_level >= PERMS['IS_PERMA_PROGSTACKED']:
 		mul = 2
-	elif SITE == 'rdrama.net' and target.author.new_user and not target.author.alts:
-		mul = 2
 	elif SITE == 'rdrama.net' and 6 <= datetime.fromtimestamp(target.created_utc).hour <= 10:
 		mul = 2
 	elif SITE == 'rdrama.net' and cls == Post:
