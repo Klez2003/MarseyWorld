@@ -64,6 +64,7 @@ if SITE_NAME == 'rDrama':
 		"krayon(?! \()": "krayon (sister toucher)",
 		"discord": "groomercord",
 		'nigga': 'neighbor',
+		"(?<!cow)tools(?!\w)": "cowtools",
 	}
 
 PROFANITIES = {
