@@ -271,6 +271,7 @@ if SITE_NAME == 'rDrama':
 
 	CURSORMARSEY_DEFAULT = True
 	DEFAULT_THEME = "dramblr"
+	DEFAULT_COLOR = "ff459a"
 
 	patron = "Paypig"
 
