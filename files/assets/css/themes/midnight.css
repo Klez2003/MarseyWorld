@@ -67,3 +67,7 @@ table tbody tr:nth-of-type(odd) {
 .unread {
 	background: #ffffff22 !important;
 }
+
+blockquote {
+	background-color: #000E25;
+}
