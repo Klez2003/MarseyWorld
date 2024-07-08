@@ -3351,6 +3351,8 @@ a.text-warning:hover, a.text-warning:focus {
 .text-danger, :not(td) > a[href="/h/chudrama"] {
 	color: #d54e56 !important;
 }
+
+
 .text-muted {
 	color: #6c757d !important;
 }
@@ -6582,7 +6584,7 @@ g {
 	border-radius: 4px;
 	border: 1px solid rgba(255, 255, 255, 0.3);
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-	z-index: 1000000001;
+	z-index: 100000000002;
 }
 
 #inline-carot-modal .inline-modal-option
