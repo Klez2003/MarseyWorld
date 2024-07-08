@@ -752,6 +752,7 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 	PERMS['CSS_DISABLED'] = 3
 	PERMS['HOLE_CREATE'] = 4
+	PERMS['MODS_EVERY_HOLE'] = 4
 
 	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
 	TRUESCORE_MINIMUM = 100
