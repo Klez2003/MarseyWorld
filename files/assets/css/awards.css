@@ -302,4 +302,5 @@
 
 .author-bitten {
 	filter: grayscale(100%);
+    color: #576273 !important;
 }

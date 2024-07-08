@@ -19,3 +19,7 @@ code {
 .dataTables_wrapper .dataTables_length select {
 	background-color: black !important;
 }
+
+.author-bitten {
+	color: #a5a5a5 !important;
+}
