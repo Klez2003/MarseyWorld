@@ -363,6 +363,7 @@ class Comment(Base):
 					'ban_reason': self.ban_reason,
 					'id': self.id,
 					'post_id': self.post.id if self.post else 0,
+					'hole': self.post.hole if self.post else None,
 					'level': self.level,
 					'parent': self.parent_fullname
 					}
@@ -370,6 +371,7 @@ class Comment(Base):
 			data = {'deleted_utc': self.deleted_utc,
 					'id': self.id,
 					'post_id': self.post.id if self.post else 0,
+					'hole': self.post.hole if self.post else None,
 					'level': self.level,
 					'parent': self.parent_fullname
 					}
@@ -395,6 +397,7 @@ class Comment(Base):
 				'pinned': self.pinned,
 				'distinguished': self.distinguished,
 				'post_id': self.post.id if self.post else 0,
+				'hole': self.post.hole if self.post else None,
 				'score': self.score,
 				'upvotes': self.upvotes,
 				'downvotes': self.downvotes,
