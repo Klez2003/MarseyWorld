@@ -23,6 +23,8 @@ def delete_unnecessary_tags(tags, name):
 
 	if not new_tags: abort(400, "Invalid tags!")
 
+	new_tags = sorted(new_tags)
+
 	return ' '.join(new_tags)
 
 @app.get("/submit/marseys")
