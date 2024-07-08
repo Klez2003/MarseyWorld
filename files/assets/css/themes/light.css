@@ -30,7 +30,7 @@
 }
 
 .form-control {
-	background: transparent;
+	background: rgb(var(--background));
 	border-color: var(--primary) !important;
 }
 
