@@ -449,7 +449,7 @@ class User(Base):
 	@property
 	@lazy
 	def name_color(self):
-		if self.bite: return "565656"
+		if self.bite: return "838383"
 		return self.namecolor
 
 	@property

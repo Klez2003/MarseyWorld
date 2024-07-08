@@ -419,12 +419,12 @@ def award_thing(v, thing_type, id):
 		if can_alter_body:
 			alter_body(obj)
 	elif kind == "bite":
-		if author.bite: author.bite += 172800 * quantity
+		if author.bite: author.bite += 86400 * quantity
 		else:
 			if author.house.startswith("Vampire"):
 				abort(400, f"{safe_username} already a permanent vampire!")
 
-			author.bite = int(time.time()) + 172800 * quantity
+			author.bite = int(time.time()) + 86400 * quantity
 			author.old_house = author.house
 			author.house = "Vampire"
 
