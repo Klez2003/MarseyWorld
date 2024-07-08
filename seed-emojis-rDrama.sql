@@ -3828,6 +3828,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseymayoparty', 'Marsey', 2, 'bukakke bukkake mayonaise mayonnaise cum semen jizz spunk nut sperm messy sloppy lewd facial cumshot', false, 0),
 ('marseymayosnipe', 'Marsey', 2, 'white gun cracker whitey wypipo', false, 1683853451),
 ('marseymayu', 'Marsey', 2, 'idolmaster anime animegirl ribbon', false, 1667211868),
+('marseymccoxmaul', 'Marsey', 2, 'artist cape coder creator divinity elf leather maker musician ryker', false, 1720413845),
 ('marseymcdonald', 'Marsey', 2, 'ronald mcdonalds gun clown fastfood', false, 1698968716),
 ('marseymcwagie', 'Marsey', 2, 'wageslave poor mcdonalds wagecuck maccas antiwork college', false, 0),
 ('marseyme', 'Marsey', 2, 'drive ryangosling ryan gosling literallyme literally goose goosed scorpion driver cool sexy hotguy you i hot jacket', false, 1682243819),
