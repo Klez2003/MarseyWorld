@@ -5781,6 +5781,10 @@ toast {
 	z-index: 1000000002 !important;
 }
 
+#awardModal{
+	z-index: 100000000001 !important;
+}
+
 @media (max-width: 426px) {
 	.awardbtn {
 		display: block;
