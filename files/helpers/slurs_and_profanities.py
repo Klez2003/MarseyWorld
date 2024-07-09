@@ -23,7 +23,6 @@ SLURS = {
 	"(?<!\w)spics(?!\w)": "hard-working Americans",
 	"kike": "jewish chad",
 	"(?<!\w)heeb": "jewish chad",
-	"daisy's destruction": "Cars 2",
 	"daisys destruction": "Cars 2",
 	"daisy destruction": "Cars 2",
 	"pajeet": "sexy Indian dude",
