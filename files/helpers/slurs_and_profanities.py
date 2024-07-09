@@ -29,6 +29,7 @@ SLURS = {
 	"pajeet": "sexy Indian dude",
 	"dyke(?!\w)": "cute butch",
 	"dykes": "cute butches",
+	"sheboon": "ebony cupcake",
 }
 
 #DON'T ADD ANY FILTERS WITH ' OR ", VECTOR FOR HTML INJECTION
