@@ -19,11 +19,7 @@
 		</h5>
 	</a>
 
-	{# DELETE_ME_PLS #}
-	{% if not v %}
-		{% set image = SITE_FULL_IMAGES + "/i/WPD/sidebar/622.webp?x=8" %}
-		{% set expanded_image = image|expand_art %}
-	{% elif hole and hole.sidebarurls %}
+	{% if hole and hole.sidebarurls %}
 		{% set image = hole.random_sidebar %}
 	{% elif IS_FISTMAS() or IS_BDAY() %}
 		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar/" ~ SITE_NAME) %}

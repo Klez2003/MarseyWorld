@@ -279,10 +279,6 @@ class Post(Base):
 		if self.distinguished and SITE_NAME == 'WPD':
 			return 0
 
-		#DELETE_ME_PLS
-		if not v and kind == "ricardo":
-			return 0
-
 		num = len([x for x in self.awards if x.kind == kind])
 
 		if kind in {"shit", "fireflies", "tilt"}:
