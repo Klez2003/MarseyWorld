@@ -542,7 +542,7 @@ ERROR_MARSEYS = {
 
 EMOJI_SRCS = ['files/assets/emojis.csv']
 
-PIN_LIMIT = 5
+PIN_LIMIT = 10
 POST_TITLE_LENGTH_LIMIT = 500 # do not make larger than 500 without altering the table
 POST_TITLE_HTML_LENGTH_LIMIT = 1500 # do not make larger than 1500 without altering the table
 
