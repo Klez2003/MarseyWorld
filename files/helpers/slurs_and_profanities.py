@@ -15,7 +15,7 @@ SLURS = {
 	"nignog": "BIPOC",
 	"nig nog": "BIPOC",
 	"(?<!\w)nog(?!\w)": "BIPOC",
-	"niglet": 'BIPOClet',
+	"niglet": "BIPOClet",
 	"negress": "BIPOCette",
 	"faggot": "cute twink",
 	"fag": "strag",
@@ -32,7 +32,7 @@ SLURS = {
 }
 
 #DON'T ADD ANY FILTERS WITH ' OR ", VECTOR FOR HTML INJECTION
-if SITE_NAME == 'rDrama':
+if SITE_NAME == "rDrama":
 	SLURS |= {
 		"retarded": "r-slurred",
 		" a retard": " an r-slur",
@@ -60,30 +60,30 @@ if SITE_NAME == 'rDrama':
 		"its almost like": "Im an r-slur but",
 		"krayon(?! \()": "krayon (sister toucher)",
 		"discord": "groomercord",
-		'nigga': 'neighbor',
+		"nigga": "neighbor",
 		"(?<!cow)tools(?!\w)": "cowtools",
 	}
 
 PROFANITIES = {
-	'motherfucker': 'motherlover',
-	'fuck': 'frick',
-	'(?<!\w)ass(?!\w)': 'butt',
-	'shitting': 'pooping',
-	'damn': 'darn',
-	'bitch(?!\w)': 'b-word',
-	'toilet': 'potty',
-	'(?<!\w)asshole': 'butthole',
-	'(?<!\w)rape': 'r*pe',
-	'(?<!\w)hell(?!\w)': 'heck',
-	'(?<!\w)sex(?!\w)': 's*x',
-	'(?<!\w)cum(?!\w)': 'c*m',
-	'(?<!\w)dick': 'peepee',
-	'cock(?!\w)': 'peepee',
-	'cocks': 'peepees',
-	'penis': 'peepee',
-	'pussy': 'kitty',
-	'pussies': 'kitties',
-	'cunt': 'c*nt',
+	"motherfucker": "motherlover",
+	"fuck": "frick",
+	"(?<!\w)ass(?!\w)": "butt",
+	"shitting": "pooping",
+	"damn": "darn",
+	"bitch(?!\w)": "b-word",
+	"toilet": "potty",
+	"(?<!\w)asshole": "butthole",
+	"(?<!\w)rape": "r*pe",
+	"(?<!\w)hell(?!\w)": "heck",
+	"(?<!\w)sex(?!\w)": "s*x",
+	"(?<!\w)cum(?!\w)": "c*m",
+	"(?<!\w)dick": "peepee",
+	"cock(?!\w)": "peepee",
+	"cocks": "peepees",
+	"penis": "peepee",
+	"pussy": "kitty",
+	"pussies": "kitties",
+	"cunt": "c*nt",
 }
 
 
