@@ -120,7 +120,7 @@
 		<hr>
 	</div>
 	<div class="sidebar-wpd--holes sidebar-wpd--holes--3">
-		{% set holes = ['Discussion','Meta','Music','Pets','Social'] %}
+		{% set holes = ['Art','Discussion','Meta','Music','Pets','Social'] %}
 		{% for name in holes %}
 			<a href="/h/{{name.lower()}}" {% if hole and hole.name == name.lower() %}class="active-hole"{% endif %}>{{name}}</a>
 		{% endfor %}
