@@ -408,7 +408,6 @@ INSERT INTO public.hat_defs VALUES (1050, 'Canada Flag', 'Number one in the worl
 INSERT INTO public.hat_defs VALUES (1053, 'England Flag', 'IT''S COMING HOME, IT''S COOOOMING HOME', 2, 1000, NULL, 1668710363);
 INSERT INTO public.hat_defs VALUES (1054, 'Brazil Flag', 'Gib mone pl0x or I report u huehuehue', 2, 1000, NULL, 1668710960);
 INSERT INTO public.hat_defs VALUES (1055, 'Germany Flag', 'Klappe zu, Affe tot.', 2, 1000, NULL, 1668711193);
-INSERT INTO public.hat_defs VALUES (1056, 'Argentina Flag', 'LOS MALVINAS SON ARGENTINAS', 2, 1000, NULL, 1668711374);
 INSERT INTO public.hat_defs VALUES (1057, 'China Flag', '动态网自由门 天安門 天安门 法輪功 李洪志 Free Tibet 六四天安門事件 The Tiananmen Square protests of 1989 天安門大屠殺 The Tiananmen Square Massacre 反右派鬥爭 The Anti-Rightist Struggle 大躍進政策 The Great Leap Forward 文化大革命 The Great Proletarian Cultural Revolution', 2, 1000, NULL, 1668711609);
 INSERT INTO public.hat_defs VALUES (1058, 'France Flag', 'C''est la vie.', 2, 1000, NULL, 1668711767);
 INSERT INTO public.hat_defs VALUES (1059, 'Spain Flag', 'Cada loco con su tema.', 2, 1000, NULL, 1668711951);
@@ -1218,6 +1217,7 @@ INSERT INTO public.hat_defs VALUES (1540, 'Mood Hat', 'Real time mood.', 2, 500,
 
 
 
+INSERT INTO public.hat_defs VALUES (1056, 'Argentina Flag', 'LAS MALVINAS SON ARGENTINAS', 2, 1000, NULL, 1668711374);
 INSERT INTO public.hat_defs VALUES (1396, 'Click Me', 'Come on, you know you want to see my profile.', 2, 500, NULL, 1704921421);
 INSERT INTO public.hat_defs VALUES (1408, 'Kadio Stance', '*thwack* YEEEEEEEEOUCHHHHHHHHHH', 2, 500, NULL, 1705616850);
 INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
