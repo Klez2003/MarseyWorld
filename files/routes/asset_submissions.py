@@ -406,8 +406,8 @@ def submit_hat(v):
 @feature_required('HAT_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("120/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("120/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit("120/minute;400/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("120/minute;400/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'])
 def approve_hat(v, name):
 	comment = request.values.get("comment", "").strip()

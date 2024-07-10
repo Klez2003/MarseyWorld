@@ -97,8 +97,8 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, hole=None):
 @app.post("/comment")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("20/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("20/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit("20/minute;400/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("20/minute;400/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_banned
 def comment(v):
 	parent_fullname = request.values.get("parent_fullname").strip()

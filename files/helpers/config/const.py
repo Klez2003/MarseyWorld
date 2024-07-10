@@ -53,7 +53,7 @@ class Service(Enum):
 	RDRAMA = auto()
 	CHAT = auto()
 
-DEFAULT_RATELIMIT = "30/minute;200/hour;1000/day"
+DEFAULT_RATELIMIT = "30/minute;400/hour;1000/day"
 CASINO_RATELIMIT = "100/minute;5000/hour;20000/day"
 DELETE_RATELIMIT = "10/minute;50/day"
 

@@ -121,8 +121,8 @@ def buy_awards(v, kind, AWARDS, quantity):
 @app.post("/buy/<kind>")
 @limiter.limit('1/second', scope=rpath) #Needed to fix race condition
 @limiter.limit('1/second', scope=rpath, key_func=get_ID) #Needed to fix race condition
-@limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit("100/minute;400/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("100/minute;400/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def buy(v, kind):
 	AWARDS = deepcopy(AWARDS_ENABLED(v))
