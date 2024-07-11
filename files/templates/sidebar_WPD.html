@@ -74,7 +74,7 @@
 	<a class="btn btn-primary btn-block mb-3" href="/ping_groups">PING GROUPS</a>
 
 	{% if hole %}
-		{% if v and v.admin_level >= PERMS["HOLE_SETTINGS"] %}
+		{% if v and v.admin_level %}
 			<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/settings">/h/{{hole}} SETTINGS</a>
 			<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/log">/h/{{hole}} LOG</a>
 			<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/followers">/h/{{hole}} FOLLOWERS</a>
