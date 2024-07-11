@@ -102,7 +102,7 @@ def front_all(v, hole=None):
 
 
 LIMITED_WPD_HOLES = {'aftermath', 'fights', 'gore', 'medical', 'request', 'selfharm',
-					 'discussion', 'meta', 'music', 'pets', 'social',
+					 'art', 'discussion', 'meta', 'music', 'pets', 'social',
 					 'countryclub', 'highrollerclub',
 					 'slavshit', 'sandshit'}
 
