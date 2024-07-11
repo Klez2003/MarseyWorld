@@ -412,7 +412,10 @@ def create_sub2(v):
 @auth_required
 def hole_settings(v, hole):
 	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
+
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+		abort(403)
+
 	return render_template('hole/settings.html', v=v, sidebar=hole.sidebar, hole=hole, css=hole.css, snappy_quotes=hole.snappy_quotes)
 
 
@@ -424,7 +427,10 @@ def hole_settings(v, hole):
 @auth_required
 def post_hole_sidebar(v, hole):
 	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
+
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+		abort(403)
+
 	if v.shadowbanned: abort(400)
 
 	sidebar = request.values.get('sidebar', '').strip()
@@ -462,7 +468,10 @@ def post_hole_css(v, hole):
 	css = request.values.get('css', '').strip()
 
 	if not hole: abort(404)
-	if not v.mods_hole(hole.name): abort(403)
+
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+		abort(403)
+
 	if v.shadowbanned: abort(400)
 
 	if len(css) > CSS_LENGTH_LIMIT:
@@ -503,7 +512,10 @@ def upload_hole_sidebar(v, hole):
 	if g.is_tor: abort(403, "File uploads are not allowed through TOR")
 
 	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
+
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+		abort(403)
+
 	if v.shadowbanned: abort(500)
 
 	file = request.files["image"]
@@ -532,7 +544,9 @@ def upload_hole_sidebar(v, hole):
 @auth_required
 def delete_hole_sidebar(v, hole):
 	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
+
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+		abort(403)
 
 	if not hole.sidebarurls:
 		abort(404, f"Sidebar image not found (/h/{hole.name} has no sidebar images)")
@@ -567,7 +581,10 @@ def upload_hole_banner(v, hole):
 	if g.is_tor: abort(403, "File uploads are not allowed through TOR")
 
 	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
+
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+		abort(403)
+
 	if v.shadowbanned: abort(500)
 
 	file = request.files["image"]
@@ -596,7 +613,9 @@ def upload_hole_banner(v, hole):
 @auth_required
 def delete_hole_banner(v, hole):
 	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
+
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+		abort(403)
 
 	if not hole.bannerurls:
 		abort(404, f"Banner not found (/h/{hole.name} has no banner images)")
@@ -631,7 +650,10 @@ def hole_marsey(v, hole):
 	if g.is_tor: abort(403, "File uploads are not allowed through TOR!")
 
 	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
+
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+		abort(403)
+
 	if v.shadowbanned: abort(500)
 
 	file = request.files["marsey"]
@@ -741,9 +763,11 @@ def hole_unpin(v, pid):
 @auth_required
 def hole_stealth(v, hole):
 	hole = get_hole(hole)
-	if hole.name in {'mnn','glory','racist'} and v.admin_level < PERMS["MODS_EVERY_HOLE"]:
+	if hole.name in {'mnn','glory','racist'} and v.admin_level < PERMS["HOLE_SETTINGS"]:
 		abort(403)
-	if not v.mods_hole(hole.name): abort(403)
+
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+		abort(403)
 
 	hole.stealth = not hole.stealth
 	g.db.add(hole)
@@ -776,7 +800,8 @@ def hole_stealth(v, hole):
 def hole_public_use(v, hole):
 	hole = get_hole(hole)
 
-	if not v.mods_hole(hole.name): abort(403)
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+		abort(403)
 
 	if hole in {'furry','vampire','racist','femboy','edgy'}:
 		abort(400, "House holes can't have Public Use mode enabled.")
@@ -947,7 +972,10 @@ def post_hole_snappy_quotes(v, hole):
 	snappy_quotes = request.values.get('snappy_quotes', '').strip()
 
 	if not hole: abort(404)
-	if not v.mods_hole(hole.name): abort(403)
+
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+		abort(403)
+
 	if v.shadowbanned: abort(400)
 
 	if snappy_quotes.endswith('[para]'):

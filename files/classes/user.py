@@ -466,7 +466,7 @@ class User(Base):
 		if not hole: return False
 		if self.is_permabanned or self.shadowbanned: return False
 		if hole == 'test'and self.truescore >= TRUESCORE_MINIMUM: return True
-		if self.admin_level >= PERMS['MODS_EVERY_HOLE']: return True
+
 		try:
 			return any(map(lambda x: x.hole == hole, self.hole_mods))
 		except:
@@ -527,8 +527,6 @@ class User(Base):
 
 	@lazy
 	def mod_date(self, hole):
-		if self.admin_level >= PERMS['MODS_EVERY_HOLE']: return 1
-
 		mod_ts = g.db.query(Mod.created_utc).filter_by(user_id=self.id, hole=hole).one_or_none()
 		if mod_ts is None:
 			return None
