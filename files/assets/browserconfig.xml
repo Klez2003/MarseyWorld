@@ -3,7 +3,7 @@
 	<msapplication>
 		<tile>
 			<square150x150logo src="/icon.webp?x=8">
-			<TileColor>#ff459a</TileColor>
+			<TileColor>#f04bec</TileColor>
 		</tile>
 	</msapplication>
 </browserconfig>

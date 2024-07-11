@@ -5,7 +5,7 @@ INSERT INTO public.users (
 	marsify, last_viewed_modmail_notifs, last_viewed_post_notifs, last_viewed_log_notifs, last_viewed_offsite_notifs, lifetimedonated, lifetimedonated_visible, show_sigs, grinch, imgsed, hole_creation_notifs, group_creation_notifs, effortpost_notifs, house
 ) VALUES
 ('AutoJanny', '', extract(epoch from now()), 0, true,
-	'AutoJanny', 'hot', 'top', 'day', 'ff459a', 'ff459a', 'dark', 'ff459a',
+	'AutoJanny', 'hot', 'top', 'day', 'f04bec', 'f04bec', 'dark', 'f04bec',
 	'old.reddit.com', 'clean/it/up', 'Verified', '/i/pfps/1.webp', '/i/pfps/1.webp',
 	0, 0, 0, 0, 0, 0, false, true, false, false, false, false, false, ''),
 ('Snappy', '', extract(epoch from now()), 0, true,
