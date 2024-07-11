@@ -201,7 +201,7 @@ def _hole_inactive_purge_task():
 				description=f'Let a hole they owned die (/h/{name})'
 			)
 
-		text = f":marseyrave: /h/{name} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:"
+		text = f":marseyrave: /h/{name} has been deleted for inactivity after two weeks without new posts. All posts in it have been moved to the main feed :marseyrave:"
 		mod_ids = (x[0] for x in g.db.query(Mod.user_id).filter_by(hole=name))
 		extra_criteria = or_(User.hole_creation_notifs == True, User.id.in_(mod_ids))
 		alert_active_users(text, None, extra_criteria)
