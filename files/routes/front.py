@@ -13,6 +13,7 @@ from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
 
 @app.get("/")
+@app.get("/community")
 @app.get("/h/<hole>")
 @limiter.limit("30/minute;5000/hour;10000/day", deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
@@ -73,6 +74,8 @@ def front_all(v, hole=None):
 
 	hide_cw = (SITE_NAME == 'WPD' and v and v.hide_cw)
 
+	is_community = (request.path == '/community')
+
 	ids, total, size = frontlist(sort=sort,
 					page=page,
 					t=t,
@@ -84,6 +87,7 @@ def front_all(v, hole=None):
 					pins=pins,
 					effortposts_only=effortposts_only,
 					hide_cw=hide_cw,
+					is_community=is_community,
 					)
 
 	posts = get_posts(ids, v=v)
@@ -101,13 +105,15 @@ def front_all(v, hole=None):
 	return result
 
 
-LIMITED_WPD_HOLES = {'aftermath', 'fights', 'gore', 'medical', 'request', 'selfharm',
-					 'art', 'discussion', 'meta', 'music', 'pets', 'social',
+COMMUNITY_WPD_HOLES = {'art', 'discussion', 'meta', 'music', 'pets', 'social'}
+
+LIMITED_WPD_HOLES = COMMUNITY_WPD_HOLES | \
+					 {'aftermath', 'fights', 'gore', 'medical', 'request', 'selfharm',
 					 'countryclub', 'highrollerclub',
 					 'slavshit', 'sandshit'}
 
 @cache.memoize(timeout=86400)
-def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, hole=None, pins=True, effortposts_only=False, hide_cw=False):
+def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, hole=None, pins=True, effortposts_only=False, hide_cw=False, is_community=False):
 	posts = g.db.query(Post)
 
 	if v and v.hidevotedon:
@@ -172,10 +178,12 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		posts = posts.filter(Post.hole != 'pets')
 	elif SITE_NAME == 'WPD' and not v and hole == None and sort != "hot":
 		posts = posts.filter(Post.hole.notin_({'pets','selfharm'}))
+	elif is_community:
+		posts = posts.filter(Post.hole.in_(COMMUNITY_WPD_HOLES))
 
 	posts = posts.options(load_only(Post.id)).offset(size * (page - 1))
 
-	if SITE_NAME == 'WPD' and sort == "hot" and hole == None:	
+	if SITE_NAME == 'WPD' and sort == "hot" and hole == None and not is_community:	
 		posts = posts.limit(200).all()
 		posts_in_limited_holes = [x for x in posts if x.hole in LIMITED_WPD_HOLES]
 		captured_holes = set()
