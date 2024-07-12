@@ -170,6 +170,8 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 	if SITE_NAME == 'WPD' and sort == "hot" and page == 1 and not hole:
 		posts = posts.filter(Post.hole != 'pets')
+	elif SITE_NAME == 'WPD' and not v and hole == None and sort != "hot":
+		posts = posts.filter(Post.hole.notin_({'pets','selfharm'}))
 
 	posts = posts.options(load_only(Post.id)).offset(size * (page - 1))
 
@@ -183,9 +185,6 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			else:
 				posts.remove(post)
 		posts = posts[:size]
-	elif SITE_NAME == 'WPD' and not v and hole == None:
-		posts = posts.limit(200).all()
-		posts = [x for x in posts if x.hole not in {'pets','selfharm'}][:size]
 	else:
 		posts = posts.limit(size).all()
 
