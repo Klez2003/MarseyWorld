@@ -174,12 +174,13 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 	if v: size = v.frontsize or 0
 	else: size = PAGE_SIZE
 
-	if SITE_NAME == 'WPD' and sort == "hot" and page == 1 and not hole:
-		posts = posts.filter(Post.hole != 'pets')
-	elif SITE_NAME == 'WPD' and not v and hole == None and sort != "hot":
-		posts = posts.filter(Post.hole.notin_({'pets','selfharm'}))
-	elif is_community:
-		posts = posts.filter(Post.hole.in_(COMMUNITY_WPD_HOLES))
+	if SITE_NAME == 'WPD':
+		if is_community:
+			posts = posts.filter(Post.hole.in_(COMMUNITY_WPD_HOLES))
+		elif not v and hole == None and sort != "hot":
+			posts = posts.filter(Post.hole.notin_({'pets','selfharm'}))
+		elif page == 1 and not hole and sort == "hot":
+			posts = posts.filter(Post.hole != 'pets')
 
 	posts = posts.options(load_only(Post.id)).offset(size * (page - 1))
 
