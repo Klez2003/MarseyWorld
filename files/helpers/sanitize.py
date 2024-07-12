@@ -716,7 +716,7 @@ def is_whitelisted(domain, k):
 	if k.lower().startswith('utm_'):
 		return False
 
-	if domain not in {'youtube.com','reddit.com','twitter.com','msn.com','wsj.com','tiktok.com','forbes.com','dailymail.co.uk','facebook.com','spotify.com','nytimes.com','businessinsider.com','instagram.com','yahoo.com','thedailybeast.com','nypost.com','newsweek.com','bloomberg.com','quora.com','nbcnews.com','reuters.com','tmz.com','cnbc.com','marketwatch.com','thetimes.co.uk','sfchronicle.com','washingtonpost.com','cbsnews.com','foxnews.com','bbc.com','bbc.co.uk','ifunny.co','independent.co.uk','wikipedia.org'}:
+	if domain not in {'youtube.com','reddit.com','twitter.com','msn.com','wsj.com','tiktok.com','forbes.com','dailymail.co.uk','facebook.com','spotify.com','nytimes.com','businessinsider.com','instagram.com','yahoo.com','thedailybeast.com','nypost.com','newsweek.com','bloomberg.com','quora.com','nbcnews.com','reuters.com','tmz.com','cnbc.com','marketwatch.com','thetimes.co.uk','sfchronicle.com','washingtonpost.com','cbsnews.com','foxnews.com','bbc.com','bbc.co.uk','ifunny.co','independent.co.uk','wikipedia.org','substack.com'}:
 		return True
 
 	if domain == 'wikipedia.org' and k != 'wprov':
@@ -727,6 +727,7 @@ def is_whitelisted(domain, k):
 
 	if k in {
 		'q', #generic
+		'timestamp', #substack.com
 		'after','context','page','token','url', #reddit.com
 		'f', #twitter.com
 		'fbid','story_fbid','u', #facebook.com
