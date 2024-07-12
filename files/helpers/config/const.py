@@ -833,7 +833,7 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 	SIGNUP_FOLLOW_ID = CARP_ID
 	CURRENCY_TRANSFER_ID = CARP_ID
 
-	EXEMPT_FROM_SPAM_FILTER = {1718156}
+	EXEMPT_FROM_SPAM_FILTER = {1718156, 1783542}
 
 	TIER_TO_NAME = {
 		1: "Beneficiary",
