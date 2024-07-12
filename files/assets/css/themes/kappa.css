@@ -1,0 +1,190 @@
+:root {
+  --white:#f1e6b5 !important;
+  --black:#f1e6b5 !important;
+  --silver-100: #a5b8c6 !important;
+  --silver-200: #dbe4ebe7 !important;
+  --bronze:#be7f42 !important;
+  --blue-100: #4042aa !important;
+  --blue-200: #003153 !important;
+  --blue-300: #002147 !important;
+  --blue-400: #0038a8 !important;
+  --gold-100: #d4af37 !important;
+  --gold-200: #c5b358 !important;
+  --gold-300: #ecd540 !important;
+  --gold-400: #f1e6b5 !important;
+  --transparent: rbga (1, 1, 1, 0);
+}
+
+.fas {
+    color: var(--gold-100)
+}
+
+body {
+    background-color: var(--blue-300);
+}
+.arrow-up::before, .arrow-down::before, .score {
+	color:var(--silver-100);
+}
+
+.score-up, .active.arrow-up::before, .arrow-up::after, .arrow-up:hover::before {
+	color: var(--gold-100) !important;
+}
+
+.score-down, .active.arrow-down::before, .arrow-down::after, .arrow-down:hover::before {
+	color: var(--bronze) !important;
+}
+
+#frontpage #main-content-row {
+	background-color: var(--blue-200) !important;
+}
+
+.sidebar {
+	color: var(--gold-200) !important;
+    background-color: var(--blue-200) !important;
+}
+
+#thread .comment-section {
+	background-color: var(--blue-300) !important;
+}
+
+.comment-collapse-icon::before {
+    color: var(--blue-100) !important;
+}
+.comment-collapse-desktop {
+	color: var(--blue-400) !important;
+}
+
+.container.transparent, .card {
+	background-color: var(--blue-200) !important;
+}
+
+.navbar, .navbar .container-fluid {
+    background-color: var(--blue-100) !important;
+  }
+
+.navbar-light {
+	background-color: var(--blue-100) !important;
+}
+
+#mobile-bottom-navigation-bar {
+	background-color:var(--blue-100) !important;
+}
+#mobile-bottom-navigation-bar .text-primary {
+	color:var(--gold-100) !important;
+}
+#mobile-bottom-navigation-bar .text-muted {
+	color:var(--gold-200) !important;
+}
+
+.text-small-extra.text-primary {
+	color: var(--gold-100) !important;
+}
+
+.post-title {
+	color: var(--gold-300) !important;
+    font-family: Rockwell, Georgia;
+}
+
+#frontpage .post-title a {
+	color: var(--gold-300) !important;
+}
+
+.visited, h5.post-title a:visited, a[href^="https://"]:not([href^="https://rdrama.net" i], [href^="https://watchpeopledie.tv" i], .dropdown-item, .nav-link, .no-visited):visited {
+	color: var(--blue-100) !important;
+}
+
+.fa-robot {
+	color: var(--silver-100) !important;
+}
+
+.text-admin {
+color: var(--gold-400);
+}
+
+.fa-microphone-stand {
+	color:var(--blue-400) !important;
+}
+
+.text-info {
+	color: var(--bronze) !important;
+}
+
+.unread {
+	color: var(--blue-300) !important;
+}
+
+.card  {
+    border-color: var(--gold-200) !important;
+}
+.tooltip {
+    color: var(--silver-200) !important;
+}
+.tooltip-inner {
+    background-color: var(--bronze) !important;
+}
+
+p, blockquote {
+    color: var(--gold-400) !important;
+}
+
+blockquote {
+    background-color: var(--blue-400) !important;
+}
+
+.btn {
+    border-color: var(--gold-300) !important;
+    color: var(--gold-300) !important;
+}
+.srd {
+    background-color: var(--silver-100) !important;
+}
+.srd a {
+    color: var(--gold-300) !important;
+}
+#expandImageModal {
+ background-color: var(--transparent) !important;
+}
+
+.modal {
+    background-color: var(--transparent);
+}
+
+.modal-content {
+    color: var(--silver-100)!important;
+    background-color: #003366 !important;
+}
+
+.dropdown-menu  {
+    color: var(--blue-400) !important;
+}
+ 
+.comment-actions {
+    color: var(--gold-400) !important;
+}
+
+.list-group-item {
+    color: var(--gold-300) !important;
+}
+
+img#logo-rDrama.ml-1 {
+    content: url(/assets/images/Kappa.png);
+    width: 149px;
+    height: 35px;
+  }
+  #header--icon:not([alt^="/h/"]) {
+    content: url(/assets/images/emojis/marseyking.webp);
+    width: 25px;
+    height: 35px;
+  }
+    .directory--link--title, .directory--link--description, .dropdown-item, .header--currency, .settings, custom-control-label {
+        color: var(--gold-100);
+        }
+
+a.user-name.text-decoration-none[href="/@CREAMY_DOG_ORGASM"] > span {
+    font-size: 0px;
+    padding: 0 !important;
+}
+a.user-name.text-decoration-none[href="/@CREAMY_DOG_ORGASM"]:after {
+    content: "CREAMY_DOG_ORGASM";
+    font-size: 12px;
+}
