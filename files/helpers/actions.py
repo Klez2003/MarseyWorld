@@ -462,7 +462,7 @@ def execute_antispam_post_check(title, v, url):
 def execute_antispam_duplicate_comment_check(v, body_html):
 	if v.admin_level >= PERMS['BYPASS_ANTISPAM_CHECKS']:
 		return
-	if v.id in ANTISPAM_BYPASS_IDS:
+	if v.id in EXEMPT_FROM_SPAM_FILTER:
 		return
 	if v.age >= NOTIFICATION_SPAM_AGE_THRESHOLD:
 		return
@@ -484,7 +484,7 @@ def execute_antispam_comment_check(body, v):
 	if v.admin_level >= PERMS['BYPASS_ANTISPAM_CHECKS']:
 		return
 
-	if v.id in ANTISPAM_BYPASS_IDS: return
+	if v.id in EXEMPT_FROM_SPAM_FILTER: return
 	if len(body) <= COMMENT_SPAM_LENGTH_THRESHOLD: return
 	now = int(time.time())
 	cutoff = now - 60 * 60 * 24
