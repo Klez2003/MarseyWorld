@@ -132,14 +132,13 @@ lite-youtube {
 .chat-message {
 	max-height: 72dvh;
 	overflow: hidden;
-	max-width: 80%;
 	display: inline-block;
 }
 
 @media (min-width: 992px)
 {
 	.chat-message {
-		max-width: calc(70vw - 400px);
+		max-width: 70vw;
 	}
 }
 
