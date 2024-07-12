@@ -413,7 +413,7 @@ def create_sub2(v):
 def hole_settings(v, hole):
 	hole = get_hole(hole)
 
-	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["CHANGE_ALL_HOLE_SETTINGS"]:
 		abort(403)
 
 	return render_template('hole/settings.html', v=v, sidebar=hole.sidebar, hole=hole, css=hole.css, snappy_quotes=hole.snappy_quotes)
@@ -428,7 +428,7 @@ def hole_settings(v, hole):
 def post_hole_sidebar(v, hole):
 	hole = get_hole(hole)
 
-	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["CHANGE_ALL_HOLE_SETTINGS"]:
 		abort(403)
 
 	if v.shadowbanned: abort(400)
@@ -469,7 +469,7 @@ def post_hole_css(v, hole):
 
 	if not hole: abort(404)
 
-	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["CHANGE_ALL_HOLE_SETTINGS"]:
 		abort(403)
 
 	if v.shadowbanned: abort(400)
@@ -513,7 +513,7 @@ def upload_hole_sidebar(v, hole):
 
 	hole = get_hole(hole)
 
-	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["CHANGE_ALL_HOLE_SETTINGS"]:
 		abort(403)
 
 	if v.shadowbanned: abort(500)
@@ -545,7 +545,7 @@ def upload_hole_sidebar(v, hole):
 def delete_hole_sidebar(v, hole):
 	hole = get_hole(hole)
 
-	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["CHANGE_ALL_HOLE_SETTINGS"]:
 		abort(403)
 
 	if not hole.sidebarurls:
@@ -582,7 +582,7 @@ def upload_hole_banner(v, hole):
 
 	hole = get_hole(hole)
 
-	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["CHANGE_ALL_HOLE_SETTINGS"]:
 		abort(403)
 
 	if v.shadowbanned: abort(500)
@@ -614,7 +614,7 @@ def upload_hole_banner(v, hole):
 def delete_hole_banner(v, hole):
 	hole = get_hole(hole)
 
-	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["CHANGE_ALL_HOLE_SETTINGS"]:
 		abort(403)
 
 	if not hole.bannerurls:
@@ -651,7 +651,7 @@ def hole_marsey(v, hole):
 
 	hole = get_hole(hole)
 
-	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["CHANGE_ALL_HOLE_SETTINGS"]:
 		abort(403)
 
 	if v.shadowbanned: abort(500)
@@ -763,10 +763,10 @@ def hole_unpin(v, pid):
 @auth_required
 def hole_stealth(v, hole):
 	hole = get_hole(hole)
-	if hole.name in {'mnn','glory','racist'} and v.admin_level < PERMS["HOLE_SETTINGS"]:
+	if hole.name in {'mnn','glory','racist'} and v.admin_level < PERMS["CHANGE_ALL_HOLE_SETTINGS"]:
 		abort(403)
 
-	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["CHANGE_ALL_HOLE_SETTINGS"]:
 		abort(403)
 
 	hole.stealth = not hole.stealth
@@ -800,7 +800,7 @@ def hole_stealth(v, hole):
 def hole_public_use(v, hole):
 	hole = get_hole(hole)
 
-	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["CHANGE_ALL_HOLE_SETTINGS"]:
 		abort(403)
 
 	if hole in {'furry','vampire','racist','femboy','edgy'}:
@@ -973,7 +973,7 @@ def post_hole_snappy_quotes(v, hole):
 
 	if not hole: abort(404)
 
-	if not v.mods_hole(hole.name) and v.admin_level < PERMS["HOLE_SETTINGS"]:
+	if not v.mods_hole(hole.name) and v.admin_level < PERMS["CHANGE_ALL_HOLE_SETTINGS"]:
 		abort(403)
 
 	if v.shadowbanned: abort(400)
