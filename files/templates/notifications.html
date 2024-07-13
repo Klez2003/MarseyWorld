@@ -74,9 +74,11 @@
 									{% endif %}
 									{% if notification %}
 										<i class="fas fa-circle ml-2 text-small" style="color:#008080"></i>
+									{% elif notification == None %}
+										<i class="fas fa-bell-slash ml-2 text-danger" data-bs-toggle="tooltip" title="Muted (just leave bro)"></i>
 									{% endif %}
 									{% if get_running_orgy(v, chat.id) %}
-										<i class="fas fa-tv ml-2 text-small" style="color:#008080"></i>
+										<i class="fas fa-tv ml-2 text-small" style="color:#008080" data-bs-toggle="tooltip" title="Orgy running"></i>
 									{% endif %}
 								</a>
 							</td>

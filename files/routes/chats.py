@@ -67,6 +67,8 @@ def chat(v, chat_id):
 	if not chat:
 		abort(404, "Chat not found!")
 
+	muting_chat = False
+
 	if chat.id == 1:
 		if not v.allowed_in_chat:
 			abort(403, f"To prevent spam, you'll need {TRUESCORE_MINIMUM} truescore (this is {TRUESCORE_MINIMUM} votes, either up or down, on any threads or comments you've made) in order to access chat. Sorry! I love you 💖")
@@ -74,6 +76,7 @@ def chat(v, chat_id):
 		membership = g.db.query(ChatMembership).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
 		if v.admin_level < PERMS['VIEW_CHATS'] and not membership:
 			abort(403, "You're not a member of this chat!")
+		muting_chat = (membership.notification == None)
 
 	displayed_messages = g.db.query(ChatMessage).options(joinedload(ChatMessage.quoted_message)).filter(ChatMessage.chat_id == chat.id)
 
@@ -87,7 +90,8 @@ def chat(v, chat_id):
 		sorted_memberships = None
 	else:
 		if not session.get("GLOBAL") and membership:
-			membership.notification = False
+			if membership.notification:
+				membership.notification = False
 			membership.mentions = 0
 			g.db.add(membership)
 			g.db.commit() #to clear notif count
@@ -103,9 +107,9 @@ def chat(v, chat_id):
 	orgy = get_running_orgy(v, chat_id)
 	if orgy:
 		orgies = g.db.query(Orgy).filter_by(chat_id=chat_id).order_by(Orgy.start_utc).all()
-		return render_template("orgy.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships, orgy=orgy, orgies=orgies)
+		return render_template("orgy.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships, muting_chat=muting_chat, orgy=orgy, orgies=orgies)
 
-	return render_template("chat.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships)
+	return render_template("chat.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships, muting_chat=muting_chat)
 
 
 @app.post("/chat/<int:chat_id>/name")
@@ -151,6 +155,31 @@ def leave_chat(v, chat_id):
 
 	return {"message": "Chat left successfully!"}
 
+@app.post("/chat/<int:chat_id>/toggle_mute")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def mute_chat(v, chat_id):
+	chat = g.db.get(Chat, chat_id)
+	if not chat:
+		abort(404, "Chat not found!")
+
+	membership = g.db.query(ChatMembership).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
+	if not membership:
+		abort(400, "You're not a member of this chat!")
+
+	if membership.notification == None:
+		membership.notification = False
+		msg = "Chat unmuted successfully (yayyy)"
+	else:
+		membership.notification = None
+		msg = "Chat muted successfully (die)"
+
+	g.db.add(membership)
+
+	return {"message": msg}
 
 @app.get("/chat/<int:chat_id>/orgies")
 @auth_required
