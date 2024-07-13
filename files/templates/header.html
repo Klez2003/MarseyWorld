@@ -542,7 +542,7 @@
 												{% endif %}
 
 												{% if membership.notification == None %}
-													<i class="fas fa-bell-slash text-danger" data-bs-toggle="tooltip" title="Muted chat{% if v.id == membership.user_id %} (kys){% elif v.id == chat.owner_id %} (kick him){% endif %}"></i>
+													<i class="fas fa-bell-slash text-danger" data-bs-toggle="tooltip" title="Muted chat{% if v.id == membership.user_id %} (kys){% elif v.id == chat.owner_id %} (kick him){% else %}(kill him){% endif %}"></i>
 												{% endif %}
 
 												<i class="d-none ml-1 text-smaller text-success online-marker online-marker-{{user.id}} fas fa-circle"></i>
