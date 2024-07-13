@@ -169,6 +169,7 @@ def speak(data, v):
 				if existing:
 					g.db.delete(existing)
 					g.db.flush()
+					send_notification(user.id, f"@{v.username} kicked you from chat [{chat.name}](/chat/{chat.id})")
 
 	if chat.id != 1:
 		alrdy_here = set(online[request.referrer].keys())
