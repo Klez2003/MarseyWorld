@@ -91,6 +91,8 @@ def chat(v, chat_id):
 		sorted_memberships = None
 	else:
 		if not session.get("GLOBAL") and membership:
+			if membership.notification:
+				membership.notification = False
 			membership.mentions = 0
 			g.db.add(membership)
 			g.db.commit() #to clear notif count

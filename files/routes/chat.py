@@ -210,7 +210,6 @@ def speak(data, v):
 				ChatMembership.user_id.in_(notify_users),
 			)
 			for membership in memberships:
-				membership.notification = False
 				membership.mentions += 1
 				g.db.add(membership)
 
