@@ -76,7 +76,8 @@ def chat(v, chat_id):
 		membership = g.db.query(ChatMembership).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
 		if v.admin_level < PERMS['VIEW_CHATS'] and not membership:
 			abort(403, "You're not a member of this chat!")
-		muting_chat = (membership.notification == None)
+		if membership:
+			muting_chat = (membership.notification == None)
 
 	displayed_messages = g.db.query(ChatMessage).options(joinedload(ChatMessage.quoted_message)).filter(ChatMessage.chat_id == chat.id)
 
