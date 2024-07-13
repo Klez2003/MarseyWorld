@@ -17,7 +17,7 @@
 			{% if v.id == chat.owner_id %}
 				<a href="/chat/{{chat.id}}/orgies" class="orgy-control fas fa-tv text-muted ml-2"></a>
 			{% else %}
-				<button class="px-2" type="button" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" title="{% if muting_chat %}Unmute{% else %}Mute (don't do it){% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this, '/chat/{{chat.id}}/toggle_mute')">
+				<button class="px-2" type="button" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" title="{% if muting_chat %}Unmute (do it){% else %}Mute (don't do it){% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this, '/chat/{{chat.id}}/toggle_mute')">
 					<i class="fas fa-bell-slash {% if muting_chat %}text-danger{% else %}text-muted{% endif %}"></i>
 				</button>
 			{% endif %}
