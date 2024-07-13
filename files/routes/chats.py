@@ -174,9 +174,11 @@ def mute_chat(v, chat_id):
 	if membership.notification == None:
 		membership.notification = False
 		msg = "Chat unmuted successfully (yayyy)"
+		send_notification(chat.owner_id, f"@{v.username} unmuted your chat [{chat.name}](/chat/{chat.id}).")
 	else:
 		membership.notification = None
 		msg = "Chat muted successfully (die)"
+		send_notification(chat.owner_id, f"@{v.username} muted your chat [{chat.name}](/chat/{chat.id}), kick him now!")
 
 	g.db.add(membership)
 
