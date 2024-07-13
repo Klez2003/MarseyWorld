@@ -559,7 +559,7 @@
 
 						{% if c.sentto == MODMAIL_ID and v and v.id != c.author_id and v.admin_level >= PERMS['USER_BAN'] %}
 							<button type="button" class="btn btn-danger mt-2 ml-2 {% if c.author.switched.is_muted %}d-none{% endif %}" id="mute-user-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mute_user/{{c.author.switched.id}}','mute-user-{{c.id}}','unmute-user-{{c.id}}','d-none')">Mute</button>
-							<button type="button" class="btn btn-primary mt-2 ml-2 {% if not c.author.switched.is_muted %}d-none{% endif %} btn-success" id="unmute-user-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_user/{{c.author.switched.id}}','mute-user-{{c.id}}','unmute-user-{{c.id}}','d-none')">Unmute (do it)</button>
+							<button type="button" class="btn btn-primary mt-2 ml-2 {% if not c.author.switched.is_muted %}d-none{% endif %} btn-success" id="unmute-user-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_user/{{c.author.switched.id}}','mute-user-{{c.id}}','unmute-user-{{c.id}}','d-none')">Unmute</button>
 						{% endif %}
 
 						{% if c.author_id != v.id and request.path == '/notifications/messages' %}
