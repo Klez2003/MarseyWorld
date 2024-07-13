@@ -71,8 +71,7 @@
 									{{chat.name}}
 									{% if mentions %}
 										<span class="notif-chats notif-count ml-1" style="padding-left:4.5px;background:#dd1ae0">{{mentions}}</span>
-									{% endif %}
-									{% if notification %}
+									{% elif notification %}
 										<i class="fas fa-circle ml-2 text-small" style="color:#008080"></i>
 									{% elif notification == None %}
 										<i class="fas fa-bell-slash ml-2 text-danger" data-bs-toggle="tooltip" title="Muted (just leave bro)"></i>
