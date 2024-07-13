@@ -198,7 +198,9 @@ def speak(data, v):
 			if notify_users == 'everyone':
 				notify_users = set()
 			if chat_message.quotes:
-				notify_users.add(chat_message.quoted_message.user_id)
+				quoted_user = g.db.get(User, chat_message.quoted_message.user_id)
+				if not quoted_user.has_muted(v) and not quoted_user.has_blocked(v):
+					notify_users.add(quoted_user.id)
 
 		notify_users -= alrdy_here
 
