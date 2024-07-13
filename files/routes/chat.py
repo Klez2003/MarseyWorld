@@ -13,7 +13,7 @@ from files.helpers.slurs_and_profanities import censor_slurs_profanities
 from files.helpers.regex import *
 from files.helpers.media import *
 from files.helpers.sanitize import *
-from files.helpers.alerts import push_notif
+from files.helpers.alerts import *
 from files.helpers.can_see import *
 from files.routes.wrappers import *
 from files.classes.orgy import *
@@ -169,7 +169,7 @@ def speak(data, v):
 				if existing:
 					g.db.delete(existing)
 					g.db.flush()
-					send_notification(user.id, f"@{v.username} kicked you from their chat [{chat.name}](/chat/{chat.id})")
+					send_repeatable_notification(user.id, f"@{v.username} kicked you from their chat [{chat.name}](/chat/{chat.id})")
 
 	if chat.id != 1:
 		alrdy_here = set(online[request.referrer].keys())
