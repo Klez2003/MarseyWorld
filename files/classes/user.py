@@ -1164,7 +1164,7 @@ class User(Base):
 	@property
 	@lazy
 	def is_underage(self):
-		return (self.is_suspended and self.ban_reason.lower().startswith('underage')) or (self.shadowbanned and self.shadowban_reason.lower().startswith('underage'))
+		return (self.is_suspended and (' underage' in self.ban_reason or self.ban_reason.lower().startswith('underage'))) or (self.shadowbanned and (' underage' in self.shadowban_reason or self.shadowban_reason.lower().startswith('underage')))
 
 	@property
 	@lazy
