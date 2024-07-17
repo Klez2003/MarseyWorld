@@ -3327,6 +3327,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyhmmhips', 'Marsey', 2, 'spice smug hands lawry seasoning', false, 1679942074),
 ('marseyhmmm', 'Marsey', 2, 'confused reaction thinking thunk thonk judgment', false, 0),
 ('marseyhobbes', 'Marsey', 2, 'calvin waterson tiger comic', false, 1669097969),
+('marseyhobo', 'Marsey', 2, 'bindle job locomotive tracks travel vagrant work', false, 1721091085),
 ('marseyhodag', 'Marsey', 2, 'halloween homoween cryptid bunyan oxen monster fangs claws horns spooky', false, 1696889325),
 ('marseyholdingcoin', 'Marsey', 2, 'offer money upvote gift approve', false, 1681461654),
 ('marseyhole', 'Marsey', 2, 'dig diglett pokemon hide hidden under tunnel', false, 1687818166),
