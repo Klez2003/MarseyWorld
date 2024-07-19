@@ -1181,3 +1181,5 @@ with open("includes/content-security-policy", "w") as f:
 
 def commas(number):
 	return "{:,}".format(number)
+
+AMERICAS_CODES = {'AI','AG','AR','AW','BS','BB','BZ','BM','BO','BQ','BV','BR','CA','KY','CL','CO','CR','CU','CW','DM','DO','EC','SV','FK','GF','GL','GD','GP','GT','GY','HT','HN','JM','MQ','MX','MS','NI','PA','PY','PE','PR','BL','KN','LC','MF','PM','VC','SX','GS','SR','TT','TC','US','UY','VE','VG','VI'}

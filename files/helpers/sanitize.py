@@ -770,6 +770,7 @@ domain_replacements = {
 	'https://conspiracies.win/': 'https://scored.co/',
 	'https://kotakuinaction2.win/': 'https://scored.co/',
 	'https://omegacanada.win/': 'https://scored.co/',
+	'https://videos2.watchpeopledie.tv/': 'https://videos.watchpeopledie.tv/',
 }
 
 def normalize_url(url):
