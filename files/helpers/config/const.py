@@ -929,6 +929,7 @@ approved_embed_hosts = [
 	'watchpeopledie.tv',
 	'i.watchpeopledie.tv',
 	'videos.watchpeopledie.tv',
+	'videos2.watchpeopledie.tv',
 	'staging.rdrama.net',
 
 	### Third-Party Image Hosts
