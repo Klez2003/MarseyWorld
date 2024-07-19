@@ -1,7 +1,7 @@
 import time
 from math import floor
 from urllib.parse import parse_qs, urlencode, urlparse, urlunparse, ParseResult
-from flask import g
+from flask import g, request
 
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects.postgresql import TSVECTOR
