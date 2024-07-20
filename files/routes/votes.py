@@ -68,7 +68,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 		if IS_BDAY():
 			coin_mult *= 3
-		elif IS_EVENT() or SITE_NAME == 'rDrama':
+		elif IS_EVENT():
 			coin_mult *= 2
 
 		if IS_HOMOWEEN() and target.author.zombie > 0:
