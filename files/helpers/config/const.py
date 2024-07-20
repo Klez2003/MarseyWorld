@@ -316,7 +316,6 @@ if SITE_NAME == 'rDrama':
 		'museumofrdrama',
 		'femaledatingstrategy',
 		'meta',
-		'countryclub',
 		'lit',
 		'highrollerclub',
 		'love4fatpeople',
