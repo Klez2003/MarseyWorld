@@ -734,7 +734,7 @@ def is_whitelisted(domain, k):
 		'f', #twitter.com
 		'fbid','story_fbid','u', #facebook.com
 		'id', #facebook.com, #msn.com
-		'v','lb','list','start','time_continue', #youtube.com
+		'v','lb','list','time_continue', #youtube.com
 	}:
 		return True
 
