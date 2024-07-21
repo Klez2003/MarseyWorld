@@ -1096,6 +1096,7 @@ def chud(fullname, v):
 	if fullname.startswith('p_'):
 		post_id = fullname.split('p_')[1]
 		post = g.db.get(Post, post_id)
+		post.chudded = True
 		user = post.author
 	elif fullname.startswith('c_'):
 		comment_id = fullname.split('c_')[1]
