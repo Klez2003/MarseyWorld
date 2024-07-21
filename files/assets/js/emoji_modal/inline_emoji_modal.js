@@ -228,6 +228,7 @@ function update_inline_emoji_modal(event)
 function inline_carot_navigate(event)
 {
 	if (!selecting) return;
+	if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
 
 	let select_items = inline_carot_modal.querySelectorAll(".inline-modal-option");
 	if (!select_items || !(curr_word_is_emoji() || curr_word_is_group() || curr_word_is_user())) return;
