@@ -89,7 +89,7 @@ def buy_awards(v, kind, AWARDS, quantity):
 			LOOTBOX_CONTENTS = [x["kind"] for x in AWARDS_ENABLED(v).values() if x["included_in_lootbox"]]
 			lb_award = random.choice(LOOTBOX_CONTENTS)
 			lootbox_items.append(AWARDS[lb_award]['title'])
-			lb_award = AwardRelationship(user_id=v.id, kind=lb_award, price_paid=price // LOOTBOX_ITEM_COUNT)
+			lb_award = AwardRelationship(user_id=v.id, kind=lb_award, price_paid=0)
 			g.db.add(lb_award)
 
 		v.lootboxes_bought += quantity
@@ -257,12 +257,14 @@ def award_thing(v, thing_type, id):
 			safe_username = f"Your award{s} {has} been deflected but failed since you're"
 
 			if kind == 'shit':
-				awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) * quantity
+				not_from_lootbox_quantity = len([award for award in awards if award.price_paid])
+				awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) * not_from_lootbox_quantity
 				v.charge_account('coins', awarded_coins, f"{quantity} deflected Shit award{s} on {obj.textlink}", should_check_balance=False)
 				obj.author.pay_account('coins', awarded_coins, f"{quantity} deflected Shit award{s} on {obj.textlink}")
 		elif kind != 'spider':
-			if AWARDS[kind]['cosmetic'] and not AWARDS[kind]['included_in_lootbox']:
-				awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) * quantity
+			not_from_lootbox_quantity = len([award for award in awards if award.price_paid])
+			if AWARDS[kind]['cosmetic']:
+				awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) * not_from_lootbox_quantity
 			else:
 				awarded_coins = 0
 
