@@ -1133,9 +1133,6 @@ CHUD_PHRASES = ( #if you add a phrase, remove one in turn
 	"Communism will win",
 )
 
-def capitalize_chud_phrase(chud_phrase):
-	return capitalize_first(chud_phrase).replace('israel', 'Israel').replace('ukraine', 'Ukraine').replace('ccp', 'CCP')
-
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"}
 
 GIRL_NAMES = { #Lists on purpose
@@ -1187,8 +1184,5 @@ with open("includes/content-security-policy", "w") as f:
 
 def commas(number):
 	return "{:,}".format(number)
-
-def capitalize_first(str):
-	return str[0].upper() + str[1:]
 
 AMERICAS_CODES = {'AI','AG','AR','AW','BS','BB','BZ','BM','BO','BQ','BV','BR','CA','KY','CL','CO','CR','CU','CW','DM','DO','EC','SV','FK','GF','GL','GD','GP','GT','GY','HT','HN','JM','MQ','MX','MS','NI','PA','PY','PE','PR','BL','KN','LC','MF','PM','VC','SX','GS','SR','TT','TC','US','UY','VE','VG','VI'}

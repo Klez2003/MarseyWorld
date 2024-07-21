@@ -272,7 +272,7 @@ def comment(v):
 		c.ban_reason = "AutoJanny"
 		g.db.add(c)
 
-		body = random.choice(CHUD_MSGS).format(username=v.username, type='comment', CHUD_PHRASE=capitalize_chud_phrase(v.chud_phrase))
+		body = random.choice(CHUD_MSGS).format(username=v.username, type='comment', CHUD_PHRASE=v.chud_phrase)
 		body_jannied_html = sanitize(body)
 
 		c_jannied = Comment(author_id=AUTOJANNY_ID,

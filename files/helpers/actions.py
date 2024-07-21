@@ -161,7 +161,7 @@ def execute_snappy(post, v):
 				)
 			g.db.add(award_object)
 
-			msg = f"@Snappy has given {post.textlink} the Chud Award\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**\n\n`Trans lives matter`"
+			msg = f"@Snappy has given {post.textlink} the Chud Award\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**\n\n> Trans lives matter"
 			send_repeatable_notification(post.author.id, msg)
 
 			if v.chud != 1:
