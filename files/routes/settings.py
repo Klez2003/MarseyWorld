@@ -139,7 +139,7 @@ def settings_personal_post(v):
 		updated = True
 	elif request.values.get("reddit", v.reddit) != v.reddit:
 		reddit = request.values.get("reddit")
-		if reddit in {'old.reddit.com', 'new.reddit.com', 'reddit.com', 'undelete.pullpush.io'}:
+		if reddit in {'old.reddit.com', 'new.reddit.com', 'sh.reddit.com', 'reddit.com', 'undelete.pullpush.io'}:
 			updated = True
 			v.reddit = reddit
 	elif request.values.get("poor", v.poor) != v.poor:
