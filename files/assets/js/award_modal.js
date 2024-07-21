@@ -177,6 +177,7 @@ function pick(kind, price, coins, marseybux) {
 
 function giveaward(t) {
 	const kind = document.getElementById('kind').value;
+	const quantity = document.getElementById("award_quantity").value
 
 	const note_id = (kind == "chud" ? "chud_phrase" : "note")
 
@@ -185,11 +186,11 @@ function giveaward(t) {
 			"kind": kind,
 			"note": document.getElementById(note_id).value,
 			"emoji_behavior": document.getElementById("emoji_behavior").value,
-			"quantity": document.getElementById("award_quantity").value,
+			"quantity": quantity,
 		},
 		() => {
 			let owned = document.getElementById(`${kind}-owned`)
-			let ownednum = Number(owned.textContent) - 1;
+			let ownednum = Number(owned.textContent) - quantity;
 			owned.textContent = ownednum
 
 			let ownedblock = document.getElementById(`${kind}-owned-block`)
