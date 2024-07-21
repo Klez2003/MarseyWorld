@@ -302,6 +302,7 @@ if SITE_NAME == 'rDrama':
 		"Israeli Power Generator",
 		"/u/bardfinn's fan club",
 		"world's oldest website",
+		"we like trains",
 	)
 
 	BOOSTED_HOLES = {
