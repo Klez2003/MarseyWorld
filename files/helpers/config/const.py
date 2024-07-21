@@ -406,6 +406,7 @@ LONGPOSTBOT_REPLIES = (
 	"https://i.rdrama.net/images/17194996128531878.webp",
 	"what is bro yapping about :marseyskull:",
 	"https://i.rdrama.net/images/17215821618015614.webp",
+	"Get raped faggot",
 )
 
 CHUD_MSGS = (
