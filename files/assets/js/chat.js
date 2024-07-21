@@ -197,6 +197,9 @@ function quote(t) {
 	document.getElementById('QuotedMessageLink').href = `#${id}`
 
 	ta.focus()
+
+	if (scrolled_down)
+		box.scrollTo(0, box.scrollHeight)
 }
 
 ta.addEventListener("keydown", function(e) {
