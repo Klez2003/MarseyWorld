@@ -425,19 +425,19 @@ def execute_antispam_post_check(title, v, url):
 
 	similar_posts = g.db.query(Post).filter(
 					Post.author_id == v.id,
-					Post.title.op('<->')(title) < SPAM_SIMILARITY_THRESHOLD,
+					Post.title.op('<->')(title) < POST_BODY_SPAM_SIMILAR_THRESHOLD,
 					Post.created_utc > cutoff
 	).all()
 
 	if url:
 		similar_urls = g.db.query(Post).filter(
 					Post.author_id == v.id,
-					Post.url.op('<->')(url) < SPAM_URL_SIMILARITY_THRESHOLD,
+					Post.url.op('<->')(url) < POST_URL_SPAM_SIMILAR_THRESHOLD,
 					Post.created_utc > cutoff
 		).all()
 	else: similar_urls = []
 
-	threshold = SPAM_SIMILAR_COUNT_THRESHOLD
+	threshold = POST_SPAM_COUNT_THRESHOLD
 	if v.age >= (60 * 60 * 24 * 7): threshold *= 3
 	elif v.age >= (60 * 60 * 24): threshold *= 2
 
@@ -491,7 +491,7 @@ def execute_antispam_comment_check(body, v):
 
 	similar_comments = g.db.query(Comment).filter(
 		Comment.author_id == v.id,
-		Comment.body.op('<->')(body) < COMMENT_SPAM_SIMILAR_THRESHOLD,
+		Comment.body.op('<->')(body) < COMMENT_BODY_SPAM_SIMILAR_THRESHOLD,
 		Comment.created_utc > cutoff
 	).all()
 
