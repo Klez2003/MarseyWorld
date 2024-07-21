@@ -308,7 +308,9 @@ def handle_youtube_links(url):
 	if not id: return None
 	if yt_id_regex.fullmatch(id):
 		if not t:
-			t = params.get('t', params.get('start', [0]))[0]
+			t = params.get('t', [0])[0]
+		if not t:
+			t = params.get('start', [0])[0]
 		if not t:
 			t = params.get('time_continue', [0])[0]
 		if isinstance(t, str):
