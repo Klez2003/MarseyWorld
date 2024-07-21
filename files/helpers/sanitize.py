@@ -309,6 +309,8 @@ def handle_youtube_links(url):
 	if yt_id_regex.fullmatch(id):
 		if not t:
 			t = params.get('t', params.get('start', [0]))[0]
+		if not t:
+			t = params.get('time_continue')[0]
 		if isinstance(t, str):
 			t = t.replace('s','').replace('S','')
 			split = t.split('m')
