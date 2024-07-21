@@ -882,7 +882,7 @@ def complies_with_chud(obj):
 	#torture title_html and check for chud_phrase in plain title and leave if it's there
 	if isinstance(obj, Post):
 		obj.title_html = torture_chud(obj.title_html, obj.author.username)
-		if not obj.author.chud or obj.author.chud_phrase in obj.title.lower():
+		if not obj.author.chud or obj.author.chud_phrase.lower() in obj.title.lower():
 			return True
 
 	#check for chud_phrase in body_html
@@ -896,7 +896,7 @@ def complies_with_chud(obj):
 
 		for tag in tags:
 			for text in tag.find_all(text=True, recursive=False):
-				if not obj.author.chud or obj.author.chud_phrase in text.lower():
+				if not obj.author.chud or obj.author.chud_phrase.lower() in text.lower():
 					return True
 
 	return False

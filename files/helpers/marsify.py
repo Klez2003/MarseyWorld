@@ -7,7 +7,7 @@ def marsify(text, chud_phrase):
 	if '`' in text or '<pre>' in text or '<code>' in text:
 		return text
 
-	chud_words = chud_phrase.split() if chud_phrase else []
+	chud_words = chud_phrase.lower().split() if chud_phrase else []
 
 	new_text = ''
 	for x in text.split(' '):

@@ -1142,7 +1142,7 @@ def chud(fullname, v):
 		user.chud = 1
 		duration = "permanently"
 
-	user.chud_phrase = request.values.get("chud_phrase", "Trans lives matter").strip().lower()
+	user.chud_phrase = request.values.get("chud_phrase", "Trans lives matter").strip()
 
 	text = f"@{v.username} (a site admin) has chudded you **{duration}**"
 	if reason: text += f" for the following reason:\n\n> {reason}"

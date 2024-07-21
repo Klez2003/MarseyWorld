@@ -31,7 +31,7 @@ def owoify(source, chud_phrase):
 	words = [Word(s) for s in word_matches]
 	spaces = [Word(s) for s in space_matches]
 
-	ignored_words = chud_phrase.split() if chud_phrase else []
+	ignored_words = chud_phrase.lower().split() if chud_phrase else []
 
 	for pattern in (poll_regex, choice_regex, bet_regex):
 		matches = [x.group(0) for x in pattern.finditer(source.lower())]

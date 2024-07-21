@@ -560,7 +560,7 @@ def award_thing(v, thing_type, id):
 		if note not in CHUD_PHRASES:
 			abort(400, "Invalid phrase!")
 
-		author.chud_phrase = note.lower()
+		author.chud_phrase = note
 
 		badge_grant(user=author, badge_id=58)
 

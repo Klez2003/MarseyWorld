@@ -756,7 +756,7 @@ class User(Base):
 
 				text += f"{days}d {hours:02d}h {mins:02d}m"
 
-		return f'''{text} - chud phrase: "{self.chud_phrase[0].upper()}{self.chud_phrase[1:].replace('israel', 'Israel').replace('ukraine', 'Ukraine').replace('ccp', 'CCP')}"'''
+		return f'''{text} - chud phrase: "{self.chud_phrase}"'''
 
 	@property
 	@lazy

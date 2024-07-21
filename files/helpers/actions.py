@@ -167,7 +167,7 @@ def execute_snappy(post, v):
 			if v.chud != 1:
 				if v.chud and time.time() < v.chud: v.chud += 86400
 				else: v.chud = int(time.time()) + 86400
-				v.chud_phrase = 'trans lives matter'
+				v.chud_phrase = 'Trans lives matter'
 				badge_grant(user=v, badge_id=58)
 				post.chudded = True
 				complies_with_chud(post)

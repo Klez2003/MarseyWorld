@@ -226,7 +226,7 @@ def comment(v):
 
 	body_html = sanitize(body, limit_pings=5, showmore=(not v.hieroglyphs), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id, obj=c, author=v)
 
-	if post_target.id not in ADMIGGER_THREADS and not (v.chud and v.chud_phrase in body.lower()):
+	if post_target.id not in ADMIGGER_THREADS and not (v.chud and v.chud_phrase.lower() in body.lower()):
 		existing = g.db.query(Comment.id).filter(
 			Comment.author_id == v.id,
 			Comment.deleted_utc == 0,
