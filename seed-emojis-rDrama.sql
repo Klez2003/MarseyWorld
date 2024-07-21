@@ -512,7 +512,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('carpfuecoco', 'Carp', 2, 'pkmn pokemon 909', false, 1712076173),
 ('carpfuta', 'Carp', 2, 'tits boobs penis dick balls', true, 1707932998),
 ('carpghost', 'Carp', 2, 'halloween ethereal spooky scary janny pale mop fish carpathianflorist horror', false, 1666228432),
-('carpgigatetard', 'Carp', 2, 'dumb stupid drool', false, 1687462131),
+('carpgigaretard', 'Carp', 2, 'dumb stupid drool', false, 1687462131),
 ('carpgillman', 'Carp', 2, 'blacklagoon creature monster halloween swamp merman', false, 1696826545),
 ('carpglitter', 'Carp', 2, 'admin jannie sparkle blingeez myspace retro shiny', false, 1691288185),
 ('carpglow', 'Carp', 2, 'animated fed cia fbi agent', false, 1688989508),
