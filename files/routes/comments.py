@@ -269,7 +269,7 @@ def comment(v):
 
 	if not complies_with_chud(c):
 		c.is_banned = True
-		c.ban_reason = "AutoJanny"
+		c.ban_reason = "AutoJanny for lack of chud phrase"
 		g.db.add(c)
 
 		body = random.choice(CHUD_MSGS).format(username=v.username, type='comment', CHUD_PHRASE=v.chud_phrase)

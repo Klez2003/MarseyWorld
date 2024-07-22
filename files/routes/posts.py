@@ -679,7 +679,7 @@ def submit_post(v, hole=None):
 
 	if not p.draft and not complies_with_chud(p):
 		p.is_banned = True
-		p.ban_reason = "AutoJanny"
+		p.ban_reason = "AutoJanny for lack of chud phrase"
 
 		body = random.choice(CHUD_MSGS).format(username=v.username, type='post', CHUD_PHRASE=v.chud_phrase)
 		body_jannied_html = sanitize(body)

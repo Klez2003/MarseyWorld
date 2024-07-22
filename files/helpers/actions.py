@@ -447,7 +447,7 @@ def execute_antispam_post_check(title, v, url):
 		for post in similar_posts + similar_urls:
 			post.is_banned = True
 			post.profile_pinned = False
-			post.ban_reason = "AutoJanny"
+			post.ban_reason = "AutoJanny for spamming"
 			g.db.add(post)
 			ma = ModAction(
 					user_id=AUTOJANNY_ID,
@@ -507,7 +507,7 @@ def execute_antispam_comment_check(body, v):
 
 	for comment in similar_comments:
 		comment.is_banned = True
-		comment.ban_reason = "AutoJanny"
+		comment.ban_reason = "AutoJanny for spamming"
 		g.db.add(comment)
 		ma = ModAction(
 			user_id=AUTOJANNY_ID,
