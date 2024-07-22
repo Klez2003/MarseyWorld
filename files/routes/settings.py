@@ -1043,7 +1043,7 @@ def settings_change_flair(v):
 def settings_pronouns_change(v):
 	pronouns = process_settings_plaintext("pronouns", v.pronouns, 15, DEFAULT_PRONOUNS)
 
-	if not pronouns_regex.fullmatch(pronouns):
+	if pronouns and not pronouns_regex.fullmatch(pronouns):
 		abort(400, "The pronouns you entered don't match the required format!")
 
 	bare_pronouns = pronouns.lower().replace('/', '')
