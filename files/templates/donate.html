@@ -58,11 +58,28 @@
 		</div>
 
 		{% if can_see %}
-			<li class="pl-2 mt-2">
-				If you donate via {{DONATE_SERVICE}}, please first make sure your email on {{SITE}} and your email on {{DONATE_SERVICE}} are the same, then click "Claim Donation Rewards" <a href="/settings/security#site-settings-email-section">here</a></li>
+			<ul>
+				<li class="pl-2 mt-2">
+					If you donate via {{DONATE_SERVICE}}, please first make sure your email on {{SITE}} and your email on {{DONATE_SERVICE}} are the same, then click "Claim Donation Rewards" <a href="/settings/security#site-settings-email-section">here</a>
+				</li>
+				<li class="pl-2 mt-2">
+					If you donate crypto, please let us know by <a href="/contact">sending us the transaction id via modmail</a> so we can give you your donation rewards manually!
+				</li>
+			</ul>
+		{% else %}
+			<div class="mt-3">
+				If you donate:
+				<ol>
+					<li class="pl-2 mt-2">
+						Please <a href="/settings/security#site-settings-email-section">make sure you have an email linked to your account</a> (it's required to process donations)
+					</li>
+					<li class="pl-2 mt-2">
+						Then inform us about your donation by <a href="/contact">sending us the transaction id via modmail</a> so we can give you your donation rewards!
+					</li>
+				</ol>
+				Thank you!
+			</div>
 		{% endif %}
-		<li class="pl-2 mt-2">
-			If you donate{% if can_see %} crypto{% endif %}, please let us know by <a href="/contact">sending us the transaction id via modmail</a> so we can give you your donation rewards manually!</li>
 
 		<h3 class="mt-5 mt-md-6 text-success">Donation Rewards</h1>
 
