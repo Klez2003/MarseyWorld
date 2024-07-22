@@ -434,7 +434,7 @@ def is_repost(v):
 		return not_a_repost
 
 	url = request.values.get('url')
-	if not url or len(url) < MIN_REPOST_CHECK_URL_LENGTH:
+	if not url or len(url) < MIN_REPOST_CHECK_URL_LENGTH or not url.startswith('http'):
 		abort(400)
 
 	if reddit_s_url_regex.fullmatch(url) or tiktok_t_url_regex.fullmatch(url):
