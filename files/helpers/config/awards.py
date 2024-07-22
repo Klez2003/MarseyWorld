@@ -981,8 +981,8 @@ AWARDS = {
 		"negative": False,
 		"included_in_lootbox": False,
 	},
-	"pride": {
-		"kind": "pride",
+	"lgbt": {
+		"kind": "lgbt",
 		"title": "Pride",
 		"description": "Permanently glams up the recipient's name, showing lifelong support for the LGBTQIA+ community.",
 		"icon": "fas fa-heart",

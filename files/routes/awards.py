@@ -337,7 +337,7 @@ def award_thing(v, thing_type, id):
 			abort(409, f"{safe_username} already has this profile upgrade!")
 		author.verified = "Verified"
 		badge_grant(user=author, badge_id=150)
-	elif kind == "pride":
+	elif kind == "lgbt":
 		if author.has_badge(303):
 			abort(409, f"{safe_username} already has this profile upgrade!")
 		badge_grant(user=author, badge_id=303)
