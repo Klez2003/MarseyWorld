@@ -1318,8 +1318,6 @@ class User(Base):
 
 		if self.patron: return True
 
-		if time.time() < 1710097215: return True
-
 		if self.truescore >= TRUESCORE_DONATE_MINIMUM: return True
 
 		return False
