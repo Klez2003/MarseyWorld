@@ -167,8 +167,6 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 	if v and v.admin_level < PERMS['USER_SHADOWBAN']:
 		posts = posts.join(Post.author).filter(or_(User.id == v.id, User.shadowbanned == None))
 
-	total = posts.count()
-
 	posts = sort_objects(sort, posts, Post)
 
 	if v: size = v.frontsize or 0
@@ -181,10 +179,14 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			posts = posts.filter(Post.hole.notin_({'pets','selfharm'}))
 
 	if SITE_NAME == 'WPD' and sort == "hot" and hole == None and not is_community:
-		posts1 = posts.filter(Post.hole.notin_(LIMITED_WPD_HOLES)).offset((size - 3) * (page - 1)).limit(size - 3).all()
+		size -= 3
+		posts1 = posts.filter(Post.hole.notin_(LIMITED_WPD_HOLES))
+		total = posts1.count()
+		posts1 = posts1.offset(size * (page - 1)).limit(size).all()
 		posts2 = posts.filter(Post.hole.in_(LIMITED_WPD_HOLES)).offset(3 * (page - 1)).limit(3).all()
 		posts = posts1 + posts2
 	else:
+		total = posts.count()
 		posts = posts.offset(size * (page - 1)).limit(size).all()
 
 	if pins and page == 1 and not gt and not lt:
