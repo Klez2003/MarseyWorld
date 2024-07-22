@@ -507,7 +507,8 @@ def lost_2fa_post():
 	if not user or not user.email or not user.mfa_secret:
 		return render_template("message.html",
 						title="Removal request received",
-						message="If username, password, and email match, we will send you an email."), 202
+						message="If username, password, and email match, we will send you an email.",
+						v=v), 202
 
 
 	email = request.values.get("email").strip().lower()
@@ -519,7 +520,8 @@ def lost_2fa_post():
 	if not user.verifyPass(password):
 		return render_template("message.html",
 						title="Removal request received",
-						message="If username, password, and email match, we will send you an email."), 202
+						message="If username, password, and email match, we will send you an email.",
+						v=v), 202
 
 	valid = int(time.time())
 	token = generate_hash(f"{user.id}+{user.username}+disable2fa+{valid}+{user.mfa_secret}+{user.login_nonce}")
@@ -535,7 +537,8 @@ def lost_2fa_post():
 
 	return render_template("message.html",
 						title="Removal request received",
-						message="If the username, password, and email match, we will send you an email. Please check your spam folder if you can't find it."), 202
+						message="If the username, password, and email match, we will send you an email. Please check your spam folder if you can't find it.",
+						v=v), 202
 
 @app.get("/reset_2fa")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
