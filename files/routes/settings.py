@@ -1041,7 +1041,7 @@ def settings_change_flair(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_pronouns_change(v):
-	pronouns = process_settings_plaintext("pronouns", v.pronouns, 15, "they/them")
+	pronouns = process_settings_plaintext("pronouns", v.pronouns, 15, DEFAULT_PRONOUNS)
 
 	if not pronouns_regex.fullmatch(pronouns):
 		abort(400, "The pronouns you entered don't match the required format!")

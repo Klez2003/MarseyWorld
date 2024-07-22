@@ -154,13 +154,13 @@ class User(Base):
 	group_creation_notifs = Column(Boolean, default=False)
 	effortpost_notifs = Column(Boolean, default=False)
 	offsite_mentions = Column(Boolean)
+	pronouns = Column(String, default=DEFAULT_PRONOUNS)
 
 	if SITE_NAME == 'WPD' and not IS_LOCALHOST:
 		twitter = 'twitter.com'
 		imgsed = False
 		controversial = False
 		reddit = 'old.reddit.com'
-		pronouns = 'they/them'
 		earlylife = 0
 		hole_creation_notifs = False
 		hidevotedon = Column(Boolean, default=False)
@@ -170,7 +170,6 @@ class User(Base):
 		imgsed = Column(Boolean, default=False)
 		controversial = Column(Boolean, default=False)
 		reddit = Column(String, default='old.reddit.com')
-		pronouns = Column(String, default='they/them')
 		earlylife = Column(Integer, default=0)
 		hole_creation_notifs = Column(Boolean, default=True)
 		hidevotedon = False

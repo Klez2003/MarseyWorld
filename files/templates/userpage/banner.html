@@ -74,7 +74,7 @@
 									{% endif %}
 					</div>
 
-					{% if FEATURES['PRONOUNS'] and can_see(v, u) %}
+					{% if FEATURES['PRONOUNS'] and can_see(v, u) and u.pronouns %}
 						<p class="font-weight-bolder" id="profile--pronouns" style="color: #{{u.flaircolor}}">{{u.pronouns_display}}</p>
 					{% endif %}
 
@@ -380,7 +380,7 @@
 						<span class="followsyou badge badge-secondary text-small align-middle mx-1" id="profile-mobile--follows-you">Follows you</span>
 					{% endif %}
 
-					{% if FEATURES['PRONOUNS'] and can_see(v, u) %}
+					{% if FEATURES['PRONOUNS'] and can_see(v, u) and u.pronouns %}
 						<p style="color: #{{u.flaircolor}}" id="profile-mobile--pronouns">{{u.pronouns_display}}</p>
 					{% endif %}
 

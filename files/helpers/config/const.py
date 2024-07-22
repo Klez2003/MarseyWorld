@@ -244,7 +244,7 @@ FEATURES = {
 	'AWARDS': True,
 	'CHAT': True,
 	'PINS': True,
-	'PRONOUNS': False,
+	'PRONOUNS': True,
 	'BADGES': True,
 	'HATS': True,
 	'HOUSES': True,
@@ -266,7 +266,11 @@ FEATURES = {
 	'BLOCK_MUTE_EXILE_EXPIRY': False,
 }
 
+DEFAULT_PRONOUNS = None
+
 if SITE_NAME == 'rDrama':
+	DEFAULT_PRONOUNS = 'they/them'
+
 	FEATURES['BLOCK_MUTE_EXILE_EXPIRY'] = True
 
 	CURSORMARSEY_DEFAULT = True
@@ -694,7 +698,6 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	TWITTER_ID = "rdramanet"
 	DEFAULT_TIME_FILTER = "day"
 
-	FEATURES['PRONOUNS'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 
 	PERMS['VIEW_VERSIONS'] = 5
@@ -860,14 +863,12 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 	}
 elif SITE == 'devrama.net':
 	AEVANN_ID = 7
-	FEATURES['PRONOUNS'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 	PERMS["SITE_SETTINGS"] = 4
 	PERMS["ORGIES"] = 4
 	PERMS["CHANGE_UNDER_SIEGE"] = 4
 	PERMS["SITE_CACHE_PURGE_CDN"] = 4
 else: # localhost or testing environment implied
-	FEATURES['PRONOUNS'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 	HOLE_BANNER_LIMIT = 69420
 
