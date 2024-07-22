@@ -179,8 +179,6 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			posts = posts.filter(Post.hole.in_(COMMUNITY_WPD_HOLES))
 		elif not v and hole == None and sort != "hot":
 			posts = posts.filter(Post.hole.notin_({'pets','selfharm'}))
-		elif page == 1 and not hole and sort == "hot":
-			posts = posts.filter(Post.hole != 'pets')
 
 	if SITE_NAME == 'WPD' and sort == "hot" and hole == None and not is_community:
 		posts1 = posts.filter(Post.hole.notin_(LIMITED_WPD_HOLES)).offset((size - 3) * (page - 1)).limit(size - 3).all()
