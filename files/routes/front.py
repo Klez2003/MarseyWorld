@@ -188,6 +188,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			posts = posts1 + posts2
 		else:
 			elapsed_pages = posts.filter(Post.hole.notin_(LIMITED_WPD_HOLES)).count() / size
+			size += 3
 			posts = posts.filter(Post.hole.in_(LIMITED_WPD_HOLES)).offset(3 * elapsed_pages + size * (page - 1 - elapsed_pages)).limit(size).all()
 	else:
 		posts = posts.offset(size * (page - 1)).limit(size).all()
