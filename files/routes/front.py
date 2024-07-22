@@ -181,14 +181,12 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			posts = posts.filter(Post.hole.notin_({'pets','selfharm'}))
 
 	if SITE_NAME == 'WPD' and sort == "hot" and hole == None and not is_community:
-		size -= 3
-		posts1 = posts.filter(Post.hole.notin_(LIMITED_WPD_HOLES)).offset((size) * (page - 1)).limit(size).all()
+		posts1 = posts.filter(Post.hole.notin_(LIMITED_WPD_HOLES)).offset((size - 3) * (page - 1)).limit(size - 3).all()
 		if posts1:
 			posts2 = posts.filter(Post.hole.in_(LIMITED_WPD_HOLES)).offset(3 * (page - 1)).limit(3).all()
 			posts = posts1 + posts2
 		else:
-			elapsed_pages = posts.filter(Post.hole.notin_(LIMITED_WPD_HOLES)).count() / size
-			size += 3
+			elapsed_pages = posts.filter(Post.hole.notin_(LIMITED_WPD_HOLES)).count() / (size - 3)
 			posts = posts.filter(Post.hole.in_(LIMITED_WPD_HOLES)).offset(3 * elapsed_pages + size * (page - 1 - elapsed_pages)).limit(size).all()
 	else:
 		posts = posts.offset(size * (page - 1)).limit(size).all()
