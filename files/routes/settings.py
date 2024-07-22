@@ -1047,8 +1047,10 @@ def settings_pronouns_change(v):
 		abort(400, "The pronouns you entered don't match the required format!")
 
 	bare_pronouns = pronouns.lower().replace('/', '')
-	if 'nig' in bare_pronouns: pronouns = 'BI/POC'
-	elif 'fag' in bare_pronouns: pronouns = 'cute/twink'
+	if bare_pronouns.startswith('nig'):
+		pronouns = 'BI/POC'
+	elif bare_pronouns.startswith('fag'):
+		pronouns = 'cute/twink'
 
 	v.pronouns = pronouns
 	g.db.add(v)
