@@ -59,11 +59,11 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		if SITE_NAME == 'WPD':
 			coin_mult = 8
 		else:
-			coin_mult = 4
+			coin_mult = 16
 	else:
 		coin_mult = 1
 
-		if SITE_NAME == 'WPD':
+		if SITE_NAME == 'WPD' or cls == Post:
 			coin_mult *= 4
 
 		if IS_BDAY():
