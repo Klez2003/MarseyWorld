@@ -987,7 +987,7 @@ AWARDS = {
 		"description": "Permanently glams up the recipient's name, showing lifelong support for the LGBTQIA+ community.",
 		"icon": "fas fa-heart",
 		"color": "text-purple",
-		"price": 1000000,
+		"price": 50000,
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
