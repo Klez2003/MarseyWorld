@@ -156,12 +156,12 @@ def transfer_currency(v, username, currency_name, apply_tax):
 		notif_text += '\n\n> ' + '\n\n> '.join(reason.splitlines())
 		log_message += '\n\n> ' + '\n\n> '.join(reason.splitlines())
 
-	charge_reason = f'Gift to <a href="/@{username}">@{username}</a>'
+	charge_reason = f'Gift to <a href="/id/{receiver.id}">@{username}</a>'
 	if not v.charge_account(currency_name, amount, charge_reason):
 		abort(400, f"You don't have enough {currency_name}")
 
 	if currency_name in {'marseybux', 'coins'}:
-		pay_reason = f'Gift from <a href="/@{v.username}">@{v.username}</a>'
+		pay_reason = f'Gift from <a href="/id/{v.id}">@{v.username}</a>'
 		receiver.pay_account(currency_name, amount - tax, pay_reason)
 	else:
 		raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
