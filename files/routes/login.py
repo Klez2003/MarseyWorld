@@ -501,6 +501,7 @@ def lost_2fa(v):
 @app.post("/lost_2fa")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit("3/day", deduct_when=lambda response: response.status_code < 400)
+@auth_desired
 def lost_2fa_post():
 	username = request.values.get("username")
 	user = get_user(username, graceful=True)
