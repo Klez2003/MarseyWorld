@@ -147,8 +147,12 @@ def approve_art(v, id):
 	entry.author_id = author.id
 	g.db.add(entry)
 
+	pay_reason = f'Reward for making <a href="{entry_url}">{entry.formatted_kind}</a>'
+	author.pay_account('coins', 250, pay_reason)
+	g.db.add(author)
+
 	if v.id != author.id:
-		msg = f"@{v.username} (a site admin) has approved a {entry.formatted_kind} you made:\n{entry_url}" 
+		msg = f"@{v.username} (a site admin) has approved a {entry.formatted_kind} you made:\n{entry_url}\n\nYou have received 250 coins as a reward!" 
 
 		if comment:
 			msg += f"\nComment: `{comment}`"
