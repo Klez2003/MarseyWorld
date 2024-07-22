@@ -1007,7 +1007,8 @@ class User(Base):
 		if not self.is_private: return True
 		if not user: return False
 		if self.id == user.id: return True
-		return user.admin_level >= PERMS['VIEW_PRIVATE_PROFILES'] or (user.eye and SITE != 'rdrama.net') #to stop the doxing, if u see this, pls dont tell anyone
+		if SITE_NAME == 'rDrama' and self.id == CARP_ID: return False
+		return user.admin_level >= PERMS['VIEW_PRIVATE_PROFILES'] or user.eye
 
 	@property
 	@lazy
