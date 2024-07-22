@@ -114,7 +114,7 @@ LIMITED_WPD_HOLES = COMMUNITY_WPD_HOLES | \
 
 @cache.memoize(timeout=86400)
 def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, hole=None, pins=True, effortposts_only=False, hide_cw=False, is_community=False):
-	posts = g.db.query(Post)
+	posts = g.db.query(Post).options(load_only(Post.id))
 
 	if v and v.hidevotedon:
 		posts = posts.outerjoin(Vote,
@@ -182,20 +182,12 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		elif page == 1 and not hole and sort == "hot":
 			posts = posts.filter(Post.hole != 'pets')
 
-	posts = posts.options(load_only(Post.id)).offset(size * (page - 1))
-
-	if SITE_NAME == 'WPD' and sort == "hot" and hole == None and not is_community:	
-		posts = posts.limit(200).all()
-		posts_in_limited_holes = [x for x in posts if x.hole in LIMITED_WPD_HOLES]
-		captured_holes = set()
-		for post in posts_in_limited_holes:
-			if len(captured_holes) < 3 and post.hole not in captured_holes:
-				captured_holes.add(post.hole)
-			else:
-				posts.remove(post)
-		posts = posts[:size]
+	if SITE_NAME == 'WPD' and sort == "hot" and hole == None and not is_community:
+		posts1 = posts.filter(Post.hole.notin_(LIMITED_WPD_HOLES)).offset((size - 3) * (page - 1)).limit(size - 3).all()
+		posts2 = posts.filter(Post.hole.in_(LIMITED_WPD_HOLES)).offset(3 * (page - 1)).limit(3).all()
+		posts = posts1 + posts2
 	else:
-		posts = posts.limit(size).all()
+		posts = posts.offset(size * (page - 1)).limit(size).all()
 
 	if pins and page == 1 and not gt and not lt:
 		if hole:
