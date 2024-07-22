@@ -215,6 +215,8 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 			elif i.group(1) == 'jannies':
 				group = None
 				member_ids = set(x[0] for x in g.db.query(User.id).filter(User.admin_level > 0))
+				if SITE == 'watchpeopledie.tv':
+					member_ids -= AEVANN_ID
 			elif i.group(1) == 'holejannies':
 				if not get_obj_hole(obj):
 					abort(403, "!holejannies can only be used inside holes!")
