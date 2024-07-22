@@ -515,7 +515,7 @@ def lost_2fa_post():
 	if not email_regex.fullmatch(email):
 		abort(400, "Invalid email")
 
-	password =request.values.get("password")
+	password = request.values.get("password")
 	if not user.verifyPass(password):
 		return render_template("message.html",
 						title="Removal request received",
