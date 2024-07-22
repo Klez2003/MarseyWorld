@@ -6,11 +6,11 @@
 	<div id="login-form">
 		<form action="/lost_2fa" method="post" class="mt-3">
 			<label for="username" class="autofocus mt-3">Username</label>
-			<input autocomplete="off" class="form-control" id="username" type="text" name="username" required{% if v %} value="{{v.username}}" disabled{% endif %}>
+			<input autocomplete="off" class="form-control {% if v %}disabled{% endif %}" id="username" type="text" name="username" required {% if v %}value="{{v.username}}"{% endif %}>
 			<label for="email" class="mt-3">Password</label>
 			<input autocomplete="off" class="form-control" id="password" type="password" name="password" required>
 			<label for="email" class="mt-3">Email</label>
-			<input autocomplete="off" class="form-control" id="password" type="email" name="email" required{% if v %} value="{{v.email}}" disabled{% endif %}>
+			<input autocomplete="off" class="form-control {% if v %}disabled{% endif %}" id="password" type="email" name="email" required {% if v %}value="{{v.email}}"{% endif %}>
 			<input autocomplete="off" class="btn btn-primary login w-100 mt-4" type="submit" value="Send recovery link">
 		</form>
 	</div>
