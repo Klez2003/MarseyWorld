@@ -505,10 +505,11 @@ def lost_2fa_post():
 	print(1, flush=True)
 
 	username = request.values.get("username")
+	print(username, flush=True)
 	user = get_user(username, graceful=True)
 
 	print(2, flush=True)
-
+	
 	if not user or not user.email or not user.mfa_secret:
 		return render_template("message.html",
 						title="Removal request received",
