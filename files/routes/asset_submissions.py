@@ -226,15 +226,12 @@ def approve_emoji(v, name):
 		new_path = f'/asset_submissions/emojis/original/{emoji.name}.{i.format.lower()}'
 	rename(highquality, new_path)
 
-	if 'pkmn' in emoji.tags: amount = 500
-	else: amount = 250
-
 	pay_reason = f'Reward for making <img loading="lazy" data-bs-toggle="tooltip" alt=":{emoji.name}:" title=":{emoji.name}:" src="{SITE_FULL_IMAGES}/e/{emoji.name}.webp">'
-	author.pay_account('coins', amount, pay_reason)
+	author.pay_account('coins', 250, pay_reason)
 	g.db.add(author)
 
 	if v.id != author.id:
-		msg = f"@{v.username} (a site admin) has approved an emoji you made: :{emoji.name}:\n\nYou have received {amount} coins as a reward!"
+		msg = f"@{v.username} (a site admin) has approved an emoji you made: :{emoji.name}:\n\nYou have received 250 coins as a reward!"
 
 		if comment:
 			msg += f"\nComment: `{comment}`"
