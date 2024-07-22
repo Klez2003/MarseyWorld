@@ -502,13 +502,8 @@ def lost_2fa(v):
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit("3/day", deduct_when=lambda response: response.status_code < 400)
 def lost_2fa_post():
-	print(1, flush=True)
-
 	username = request.values.get("username")
 	user = get_user(username, graceful=True)
-
-	print(2, flush=True)
-
 	if not user or not user.email or not user.mfa_secret:
 		return render_template("message.html",
 						title="Removal request received",
@@ -520,24 +515,16 @@ def lost_2fa_post():
 	if not email_regex.fullmatch(email):
 		abort(400, "Invalid email")
 
-	print(3, flush=True)
-
 	password = request.values.get("password")
 	if not user.verifyPass(password):
 		return render_template("message.html",
 						title="Removal request received",
 						message="If username, password, and email match, we will send you an email."), 202
 
-	print(4, flush=True)
-
 	valid = int(time.time())
 	token = generate_hash(f"{user.id}+{user.username}+disable2fa+{valid}+{user.mfa_secret}+{user.login_nonce}")
 
-	print(5, flush=True)
-
 	action_url = f"{SITE_FULL}/reset_2fa?id={user.id}&t={valid}&token={token}"
-
-	print(6, flush=True)
 
 	send_mail(to_address=user.email,
 			subject="Two-factor Authentication Removal Request",
@@ -545,8 +532,6 @@ def lost_2fa_post():
 								action_url=action_url,
 								v=user)
 			)
-
-	print(7, flush=True)
 
 	return render_template("message.html",
 						title="Removal request received",
