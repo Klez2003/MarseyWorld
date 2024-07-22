@@ -1003,15 +1003,11 @@ class User(Base):
 		return g.db.query(Follow).filter_by(target_id=self.id, user_id=user.id).one_or_none()
 
 	@lazy
-	def is_visible_to(self, user, page):
+	def is_visible_to(self, user):
 		if not self.is_private: return True
 		if not user: return False
 		if self.id == user.id: return True
-		if user.admin_level >= PERMS['VIEW_PRIVATE_PROFILES']: return True
-		if user.eye:
-			if SITE_NAME != 'rDrama': return True
-			if page == 1: return True
-		return False
+		return user.admin_level >= PERMS['VIEW_PRIVATE_PROFILES'] or (user.eye and SITE != 'rdrama.net') #to stop the doxing, if u see this, pls dont tell anyone
 
 	@property
 	@lazy

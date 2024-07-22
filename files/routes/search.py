@@ -73,7 +73,7 @@ def searchposts(v):
 		author = get_user(criteria['author'], v=v)
 		if author.id != v.id:
 			posts = posts.filter(Post.ghost == False)
-		if not author.is_visible_to(v, 0):
+		if not author.is_visible_to(v):
 			if v.client:
 				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 			return render_template("search.html",
@@ -212,7 +212,7 @@ def searchcomments(v):
 		author = get_user(criteria['author'], v=v)
 		if author.id != v.id:
 			comments = comments.filter(Comment.ghost == False)
-		if not author.is_visible_to(v, 0):
+		if not author.is_visible_to(v):
 			if v.client:
 				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 
@@ -311,7 +311,7 @@ def searchmessages(v):
 	if 'author' in criteria:
 		comments = comments.filter(Comment.ghost == False)
 		author = get_user(criteria['author'], v=v)
-		if not author.is_visible_to(v, 0):
+		if not author.is_visible_to(v):
 			if v.client:
 				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 
