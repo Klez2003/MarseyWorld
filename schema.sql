@@ -1216,7 +1216,7 @@ CREATE TABLE public.users (
     total_lottery_winnings integer DEFAULT 0 NOT NULL,
     last_active integer DEFAULT 0 NOT NULL,
     last_viewed_post_notifs integer NOT NULL,
-    pronouns character varying(15) NOT NULL,
+    pronouns character varying(15),
     last_viewed_log_notifs integer NOT NULL,
     imgsed boolean NOT NULL,
     earlylife integer,

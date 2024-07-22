@@ -3049,7 +3049,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyfoucault', 'Marsey', 2, 'philosophy history postmodern', false, 0),
 ('marseyfox', 'Marsey', 2, 'fursona furry fursuit kitsune', false, 0),
 ('marseyfoxgloveyourself', 'Marsey', 2, 'kys point flower', false, 1690929328),
-('marseyfoxxylove', 'Marsey', 2, 'drawn together butt booty ass sexy', false, 1717822347),
+('marseyfoxxy', 'Marsey', 2, 'drawn together butt booty ass sexy', false, 1717822347),
 ('marseyfranklin', 'Marsey', 2, 'thinking constitution founding fathers', false, 0),
 ('marseyfrederikx', 'Marsey', 2, 'king denmark dane danish', false, 1705268407),
 ('marseyfreedomgundam', 'Marsey', 2, 'anime weeb robot mech', false, 1707899346),
