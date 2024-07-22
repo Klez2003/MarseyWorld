@@ -64,6 +64,9 @@
 	animation-direction: reverse;
 }
 .emoji-hz-award:nth-child(even) img {
+	transform: scaleX(-1) !important;
+}
+.emoji-hz-award:nth-child(even) img.reversed {
 	transform: scaleX(1) !important;
 }
 .emoji-hz-award:nth-child(1), .emoji-hz-award:nth-child(5), .emoji-hz-award:nth-child(9), .emoji-hz-award:nth-child(13), .emoji-hz-award:nth-child(17) {
