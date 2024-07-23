@@ -198,8 +198,12 @@ function quote(t) {
 
 	ta.focus()
 
-	if (scrolled_down)
+	if (scrolled_down) {
 		box.scrollTo(0, box.scrollHeight)
+		setTimeout(function() {
+			box.scrollTo(0, box.scrollHeight)
+		}, 100);
+	}
 }
 
 ta.addEventListener("keydown", function(e) {
