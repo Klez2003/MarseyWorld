@@ -2069,7 +2069,7 @@ def mark_effortpost(pid, v):
 	g.db.add(ma)
 
 	if SITE_NAME == 'WPD':
-		mul = 7
+		mul = 1
 	else:
 		mul = 3
 
