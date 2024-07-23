@@ -63,6 +63,8 @@ if SITE_NAME == 'rDrama':
 		'discord': 'groomercord',
 		'nigga': 'neighbor',
 		'(?<!cow)tools(?!\w)': 'cowtools',
+		'upvote': 'upmarsey',
+		'downvote': 'downmarsey',
 	}
 
 PROFANITIES = {
