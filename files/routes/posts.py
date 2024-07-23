@@ -198,10 +198,12 @@ def post_id(pid, v, anything=None, hole=None):
 		for pin in pinned:
 			if pin.level > 1:
 				pinned2[pin.top_comment] = ''
+				ids.add(pin.top_comment.id)
 				if pin.top_comment in comments:
 					comments.remove(pin.top_comment)
 			else:
 				pinned2[pin] = ''
+				ids.add(pin.id)
 
 		p.replies = list(pinned2.keys()) + p.replies
 
