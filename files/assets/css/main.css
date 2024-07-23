@@ -7369,8 +7369,8 @@ button, .btn {
 }
 
 .post-linked-img {
-	max-height: 500px;
-	max-width: 100%;
+	max-height: 500px !important;
+	max-width: 100% !important;
 }
 
 .img {
