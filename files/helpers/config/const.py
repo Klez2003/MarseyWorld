@@ -412,6 +412,7 @@ LONGPOSTBOT_REPLIES = (
 	"https://i.rdrama.net/images/17215821618015614.webp",
 	"Get raped faggot",
 	"https://media.giphy.com/media/CMc604oNR1dzG/giphy.webp",
+	"https://i.rdrama.net/images/1721617343773228.webp",
 )
 
 CHUD_MSGS = (
