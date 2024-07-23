@@ -925,6 +925,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('wpdbillboard', 'Misc', 2, 'welcome hello watchpeopledie', false, 1707015071),
 ('wpdreadtherules', 'Misc', 2, 'broken cookie watchpeopledie', false, 1707015362),
 ('wtf', 'Classic', 2, 'what fuck exclamation shock', false, 1708216416),
+('xenmeow', 'Misc', 2, 'cat kitty', false, 1721698291),
 ('yoloegg', 'Misc', 2, 'egggang', false, 1717187134),
 ('yourock', 'Classic', 2, 'sign great wow cool', false, 1708218374),
 ('yousuck', 'Classic', 2, 'tomato throw boo hate', false, 1710109128)
