@@ -249,19 +249,6 @@ def schedule_orgy(v, chat_id):
 			if duration != 'P0D':
 				duration = isodate.parse_duration(duration).total_seconds()
 				end_utc = int(start_utc + duration)
-				orgy_type = 'file'
-
-				ydl_opts = {
-					"quiet": True,
-					"simulate": True,
-					"forceurl": True,
-					'format': 'b',
-					'proxy': PROXY_URL
-				}
-
-				with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-					info = ydl.extract_info(f"https://www.youtube.com/watch?v={id}")
-				data = info["url"]
 	elif rumble_regex.match(normalized_link):
 		orgy_type = 'rumble'
 		data = normalized_link
