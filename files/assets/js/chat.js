@@ -202,7 +202,7 @@ function quote(t) {
 		box.scrollTo(0, box.scrollHeight)
 		setTimeout(function() {
 			box.scrollTo(0, box.scrollHeight)
-		}, 20);
+		}, 40);
 	}
 }
 
