@@ -414,6 +414,7 @@ LONGPOSTBOT_REPLIES = (
 	"https://media.giphy.com/media/CMc604oNR1dzG/giphy.webp",
 	"https://i.rdrama.net/images/1721617343773228.webp",
 	"https://i.rdrama.net/images/16844996389783444.webp",
+	"https://i.rdrama.net/images/167356368370703.webp",
 )
 
 CHUD_MSGS = (
