@@ -1778,7 +1778,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyauthleft', 'Marsey', 2, 'marxist ussr marxism ccp communist khmer rouge leftoid communism juche', false, 0),
 ('marseyauthright', 'Marsey', 2, 'rightoid national socialism ss socialist nazi wehrmacht hitler fascist', false, 0),
 ('marseyauthrightill', 'Marsey', 2, 'nazi german gun rifle', false, 1695359643),
-('marseyautism', 'Marsey', 2, 'retarded neurodivergent hat sped aspergers', false, 0),
+('marseyautism', 'Marsey', 2, 'aspergers autist hat neurodivergent retarded sped', false, 0),
 ('marseyautismcap', 'Marsey', 2, 'retard sperg blue hat king dropped', false, 1675771506),
 ('marseyautismchonker', 'Marsey', 2, 'fat obese retarded hat autistic neurodivergent', false, 0),
 ('marseyautismdisconcerting', 'Marsey', 2, 'autist autistic creepy uncomfortable weird retard smile hat strange scary', false, 1691988757),
