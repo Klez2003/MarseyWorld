@@ -331,10 +331,11 @@ def group_usurp(v, group_name):
 		Comment.body_html.like(search_html),
 	).first()
 
-	month_old_applications = g.db.query(GroupMembership.user_id).filter(
+	month_old_applications = g.db.query(GroupMembership.user_id).join(GroupMembership.user).filter(
 		GroupMembership.group_name == group.name,
 		GroupMembership.approved_utc == None,
 		GroupMembership.created_utc < one_month_ago,
+		User.shadowbanned != None,
 	).first()
 
 	if is_active or not month_old_applications:
