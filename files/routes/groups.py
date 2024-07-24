@@ -335,7 +335,7 @@ def group_usurp(v, group_name):
 		GroupMembership.group_name == group.name,
 		GroupMembership.approved_utc == None,
 		GroupMembership.created_utc < one_month_ago,
-		User.shadowbanned != None,
+		User.shadowbanned == None,
 	).first()
 
 	if is_active or not month_old_applications:
