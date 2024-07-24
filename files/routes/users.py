@@ -102,14 +102,14 @@ def claim_rewards_all_users():
 					badge_grant(badge_id=x, user=user)
 
 			if has_yearly:
-				val = time.time() + 31560000
+				val = 31560000
 			else:
-				val = time.time() + 2937600
+				val = 2937600
 
 			if user.patron_utc:
 				user.patron_utc += val
 			else:
-				user.patron_utc = val
+				user.patron_utc = time.time() + val
 
 			g.db.flush()
 			user.lifetimedonated = g.db.query(func.sum(Transaction.amount)).filter_by(email=user.email).scalar()
