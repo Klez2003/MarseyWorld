@@ -1006,7 +1006,7 @@ class User(Base):
 		if not self.is_private: return True
 		if not user: return False
 		if self.id == user.id: return True
-		if SITE_NAME == 'rDrama' and self.id in {CARP_ID, 1376}: return False
+		if SITE_NAME == 'rDrama' and self.id in {CARP_ID, 1376} and request.values.get('page', 0) > 1: return False
 		return user.admin_level >= PERMS['VIEW_PRIVATE_PROFILES'] or user.eye
 
 	@property
