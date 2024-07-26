@@ -323,27 +323,27 @@ def group_usurp(v, group_name):
 		abort(403, "Only members of groups can usurp them!")
 
 	search_html = f'''%</a> has % your application to <a href="/!{group.name}" rel="nofollow">!{group.name}</a></p>'''
-	one_month_ago = time.time() - 2629800
+	two_mo_ago = time.time() - 86400 * 60
 	is_active = g.db.query(Notification.created_utc).join(Notification.comment).filter(
-		Notification.created_utc > one_month_ago,
+		Notification.created_utc > two_mo_ago,
 		Comment.author_id == AUTOJANNY_ID,
 		Comment.parent_post == None,
 		Comment.body_html.like(search_html),
 	).first()
 
-	month_old_applications = g.db.query(GroupMembership.user_id).join(GroupMembership.user).filter(
+	two_mo_old_applications = g.db.query(GroupMembership.user_id).join(GroupMembership.user).filter(
 		GroupMembership.group_name == group.name,
 		GroupMembership.approved_utc == None,
-		GroupMembership.created_utc < one_month_ago,
+		GroupMembership.created_utc < two_mo_ago,
 		User.shadowbanned == None,
 	).first()
 
-	if is_active or not month_old_applications:
-		send_notification(group.owner_id, f"@{v.username} has tried to usurp control of !{group.name} from you and failed because you reviewed a membership application in the past month!")
+	if is_active or not two_mo_old_applications:
+		send_notification(group.owner_id, f"@{v.username} has tried to usurp control of !{group.name} from you and failed because you reviewed a membership application in the past 2 months!")
 		g.db.commit()
-		abort(403, "The current regime has reviewed a membership application in the past month, so you can't usurp them!")
+		abort(403, "The current regime has reviewed a membership application in the past 2 months, so you can't usurp them!")
 
-	send_repeatable_notification(group.owner_id, f"@{v.username} has usurped control of !{group.name} from you. This was possible because you (and your mods) have spent more than a month not reviewing membership applications. Be active next time sweaty :!marseycheeky:")
+	send_repeatable_notification(group.owner_id, f"@{v.username} has usurped control of !{group.name} from you. This was possible because you (and your mods) have spent more than 2 months not reviewing membership applications. Be active next time sweaty :!marseycheeky:")
 
 	group.owner_id = v.id
 	g.db.add(group)
