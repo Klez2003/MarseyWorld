@@ -3552,6 +3552,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyjwby', 'Marsey', 2, 'jewish merchant rwby ruby rose anime weeb', false, 1712810260),
 ('marseykaiser', 'Marsey', 2, 'prussian history wwi rifle reich wilhelm germany soldier', false, 0),
 ('marseykakuna', 'Marsey', 2, 'pkmn pokemon 014', false, 1700178600),
+('marseykamala', 'Marsey', 2, 'candidate coconut debate election harris politics president speech states unburdened united', false, 1721957368),
 ('marseykamikaze', 'Marsey', 2, 'japanese nip pilot ww2 wwii world war', false, 0),
 ('marseykanaya', 'Marsey', 2, 'maryam troll homestuck', false, 1688217402),
 ('marseykangaskhan', 'Marsey', 2, 'pkmn pokemon 115 carpkangaskhan', false, 1697932663),
