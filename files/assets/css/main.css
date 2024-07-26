@@ -6277,12 +6277,12 @@ audio, video {
 	text-decoration: none;
 }
 
-#sidebar--directory--head {
+.sidebar--big--head {
 	display: block;
 	font-size: 1.35rem;
 }
 
-#sidebar--directory--subhead {
+.sidebar--big--subhead {
 	display: block;
 	font-size: 0.85rem;
 }
