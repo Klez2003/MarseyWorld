@@ -19,9 +19,9 @@ def giphy(v, path=None):
 	except:
 		pass
 	if searchTerm and limit:
-		url = f"https://api.giphy.com/v1/gifs/search?q={searchTerm}&api_key={GIPHY_KEY}&limit={limit}"
+		url = f"https://tenor.googleapis.com/v2/search?media_filter=webp&q={searchTerm}&key={GIPHY_KEY}&limit={limit}"
 	elif searchTerm and not limit:
-		url = f"https://api.giphy.com/v1/gifs/search?q={searchTerm}&api_key={GIPHY_KEY}&limit=48"
+		url = f"https://tenor.googleapis.com/v2/search?media_filter=webp&q={searchTerm}&key={GIPHY_KEY}&limit=48"
 	else:
-		url = f"https://api.giphy.com/v1/gifs?api_key={GIPHY_KEY}&limit=48"
+		url = f"https://tenor.googleapis.com/v2?media_filter=webp&key={GIPHY_KEY}&limit=48"
 	return requests.get(url, headers=HEADERS, timeout=5).json()

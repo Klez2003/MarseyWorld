@@ -118,7 +118,6 @@ async function show_gif_categories(t, form) {
 document.getElementById('gifs-back-btn').addEventListener('click', () => show_gif_categories(null, null));
 
 async function searchGifs(searchTerm) {
-
 	gifSearchBar.value = searchTerm;
 	noGIFs.classList.add("d-none");
 
@@ -126,11 +125,11 @@ async function searchGifs(searchTerm) {
 
 	let response = await fetch("/giphy?searchTerm=" + searchTerm + "&limit=48");
 	let data = await response.json()
-	data = data.data
+	data = data.results
 
-	if (data.length) {
+	if (data) {
 		for (const e of data) {
-			const url = "https://media.giphy.com/media/" + e.id + "/giphy.webp";
+			const url = e.media_formats.webp.url
 			const insert = `<img class="giphy" loading="lazy" data-bs-dismiss="modal" src="${url}"></div>`
 			container.insertAdjacentHTML('beforeend', insert);
 		}
