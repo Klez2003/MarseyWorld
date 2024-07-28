@@ -1374,9 +1374,7 @@ if KOFI_TOKEN:
 @app.post("/gumroad")
 @limiter.exempt
 def gumroad():
-	print('test', flush=True)
 	data = request.values
-	print(data, flush=True)
 	ip = request.headers.get('CF-Connecting-IP')
 	if ip != '34.193.146.117':
 		print(STARS, flush=True)
