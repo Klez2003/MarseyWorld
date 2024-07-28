@@ -3527,7 +3527,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyjoan', 'Marsey', 2, 'gay clown gacy wayne', false, 0),
 ('marseyjoe', 'Marsey', 2, 'family guy swanson cop police wheelchair retard disabled', false, 1671089479),
 ('marseyjohnson', 'Marsey', 2, 'wig history founding father wtf did just read bruh wut', false, 0),
-('marseyjoint', 'Marsey', 2, 'smoke weed marijuana reefer drugs smoking 420 pot', false, 0),
+('marseyjoint', 'Marsey', 2, '420 drugs fag marijuana pot reefer smoke smoking weed', false, 0),
 ('marseyjokemissed', 'Marsey', 2, 'sarcasm', false, 1689966847),
 ('marseyjolteon', 'Marsey', 2, 'trick or treat pokemon halloween eevee costume holiday', false, 0),
 ('marseyjolteon2', 'Marsey', 2, 'pkmn pokemon 135', false, 1714222481),
