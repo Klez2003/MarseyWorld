@@ -333,6 +333,7 @@ if SITE_NAME == 'rDrama':
 		'femme',
 		'therapy',
 		'atheism',
+		'kamala',
 	}
 
 	OFFSITE_NOTIF_QUERIES.update({'marsey', 'r/drama', 'justice4darrell', 'cringetopia.org'})
