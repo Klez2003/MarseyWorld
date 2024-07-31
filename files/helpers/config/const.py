@@ -416,6 +416,7 @@ LONGPOSTBOT_REPLIES = (
 	"https://i.rdrama.net/images/16844996389783444.webp",
 	"https://i.rdrama.net/images/167356368370703.webp",
 	"When you look in the mirror, can you tell that you're stupid?",
+	"https://i.rdrama.net/images/17224404628678622.webp",
 )
 
 CHUD_MSGS = (
