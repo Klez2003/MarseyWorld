@@ -9,6 +9,8 @@
 		{% else %}
 			<title>{{SITE_NAME}}{% if TAGLINES %}: {{TAGLINES|random}}{% endif %}</title>
 		{% endif %}
+	{% elif request.path == '/community' %}
+		<title>Community</title>
 	{% else %}
 		{{super()}}
 	{% endif %}
