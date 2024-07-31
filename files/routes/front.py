@@ -200,8 +200,11 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			if v:
 				pins = pins.filter(or_(Post.hole == None, Post.hole.notin_(v.hole_blocks)))
 
+		if v:
+			pins = pins.filter(Post.author_id.notin_(v.userblocks))
+		if is_community:
+			pins = pins.filter(Post.hole.in_(COMMUNITY_WPD_HOLES))
 
-		if v: pins = pins.filter(Post.author_id.notin_(v.userblocks))
 		pins = pins.order_by(Post.created_utc.desc()).all()
 		posts = pins + posts
 
