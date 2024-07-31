@@ -9,14 +9,20 @@
 		{% else %}
 			<title>{{SITE_NAME}}{% if TAGLINES %}: {{TAGLINES|random}}{% endif %}</title>
 		{% endif %}
-	{% elif request.path == '/community' %}
-		<title>Community</title>
 	{% else %}
 		{{super()}}
 	{% endif %}
 {% endblock %}
 
-{% block pagetitle %}{{SITE_NAME if not hole else '/h/' ~ hole.name}}{% endblock %}
+{% block pagetitle %}
+	{% if hole %}
+		{{'/h/' ~ hole.name}}
+	{% elif request.path == '/community' %}
+		Community
+	{% else %}
+		{{SITE_NAME}}
+	{% endif %}
+{% endblock %}
 
 {% block desktopBanner %}
 	{%- set search_placeholder = "Search" -%}
