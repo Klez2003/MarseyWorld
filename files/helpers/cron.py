@@ -131,7 +131,10 @@ def cron(**kwargs):
 
 def _grant_one_year_badges():
 	today = datetime.datetime.today()
-	one_year_ago = datetime.datetime(today.year - 1, today.month, today.day + 1).timestamp()
+	try:
+		one_year_ago = datetime.datetime(today.year - 1, today.month, today.day + 1).timestamp()
+	except ValueError:
+		one_year_ago = datetime.datetime(today.year - 1, today.month + 1, 1).timestamp()
 
 	notif_text = f"@AutoJanny has given you the following profile badge:\n\n{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/134.webp\n\n**1 Year Old 🥰**\n\nThis user has wasted an ENTIRE YEAR of their life here! Happy birthday!"
 	cid = notif_comment(notif_text)
@@ -147,7 +150,10 @@ def _grant_one_year_badges():
 
 def _grant_two_year_badges():
 	today = datetime.datetime.today()
-	two_years_ago = datetime.datetime(today.year - 2, today.month, today.day + 1).timestamp()
+	try:
+		two_years_ago = datetime.datetime(today.year - 2, today.month, today.day + 1).timestamp()
+	except ValueError:
+		two_years_ago = datetime.datetime(today.year - 2, today.month + 1, 1).timestamp()
 
 	notif_text = f"@AutoJanny has given you the following profile badge:\n\n{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/237.webp\n\n**2 Years Old 🥰🥰**\n\nThis user has wasted TWO WHOLE BUTT YEARS of their life here! Happy birthday!"
 	cid = notif_comment(notif_text)
@@ -163,7 +169,10 @@ def _grant_two_year_badges():
 
 def _grant_three_year_badges():
 	today = datetime.datetime.today()
-	three_years_ago = datetime.datetime(today.year - 3, today.month, today.day + 1).timestamp()
+	try:
+		three_years_ago = datetime.datetime(today.year - 3, today.month, today.day + 1).timestamp()
+	except ValueError:
+		three_years_ago = datetime.datetime(today.year - 3, today.month + 1, 1).timestamp()
 
 	notif_text = f"@AutoJanny has given you the following profile badge:\n\n{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/341.webp\n\n**3 Years Old 🥰🥰🥰**\n\nThis user has wasted THREE WHOLE BUTT YEARS of their life here! Happy birthday!"
 	cid = notif_comment(notif_text)
