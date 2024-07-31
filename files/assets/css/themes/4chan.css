@@ -282,3 +282,9 @@ i.fas.fa-feather-alt i.fas.fa-bell i.fas.fa-music i.fas.fa-trophy i.fas.fa-comme
 .active-hole {
 	background-color: #f7eae1 !important;
 }
+
+@media (min-width: 768px) {
+	::-webkit-scrollbar {
+		width: 10px;
+	}
+}

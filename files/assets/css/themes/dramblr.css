@@ -71,3 +71,9 @@ table tbody tr:nth-of-type(odd) {
 blockquote {
 	background-color: #000E25;
 }
+
+@media (min-width: 768px) {
+	::-webkit-scrollbar {
+		width: 10px;
+	}
+}

@@ -103,3 +103,9 @@ pre {
 .modal .comment-actions .list-group-item:focus, .modal .comment-actions .list-group-item:hover {
 	background-color: #323338 !important;
 }
+
+@media (min-width: 768px) {
+	::-webkit-scrollbar {
+		width: 10px;
+	}
+}

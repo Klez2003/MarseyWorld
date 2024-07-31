@@ -116,3 +116,9 @@ blockquote {
 .form-control:disabled, [readonly] {
 	color: var(--light) !important;
 }
+
+@media (min-width: 768px) {
+	::-webkit-scrollbar {
+		width: 10px;
+	}
+}
