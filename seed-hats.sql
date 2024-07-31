@@ -1201,7 +1201,6 @@ INSERT INTO public.hat_defs VALUES (1485, 'Cute Army Cap', 'You''ll address me a
 
 INSERT INTO public.hat_defs VALUES (1490, 'Red Hearts', 'I love you all!', 2, 500, NULL, 1708648948);
 INSERT INTO public.hat_defs VALUES (1495, 'Hi', 'Hello! How are you?', 2, 500, NULL, 1708649083);
-
 INSERT INTO public.hat_defs VALUES (1496, 'Pink Heart Halo', 'I''m falling for you my dear.', 2, 500, NULL, 1708649109);
 INSERT INTO public.hat_defs VALUES (1500, 'Exclamation', 'WHAT?!', 2, 500, NULL, 1708649201);
 INSERT INTO public.hat_defs VALUES (1508, 'pkmn0088', 'Grimer, the Sludge Pokémon. It was born when sludge in a dirty stream was exposed to X-rays from the moon.', 2, 500, NULL, 1710737819);
@@ -1222,7 +1221,8 @@ INSERT INTO public.hat_defs VALUES (1056, 'Argentina Flag', 'LAS MALVINAS SON AR
 
 
 
-
+INSERT INTO public.hat_defs VALUES (1642, 'kamalaharris2024', 'Show your support for America''s first cop president. 👮‍♀️', 2, 500, NULL, 1721601346);
+INSERT INTO public.hat_defs VALUES (1576, 'Sri Lanka Flag', 'Ayubowan, appachchi apita hikuwo', 2, 1000, NULL, 1718431346);
 INSERT INTO public.hat_defs VALUES (1396, 'Click Me', 'Come on, you know you want to see my profile.', 2, 500, NULL, 1704921421);
 INSERT INTO public.hat_defs VALUES (1408, 'Kadio Stance', '*thwack* YEEEEEEEEOUCHHHHHHHHHH', 2, 500, NULL, 1705616850);
 INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
