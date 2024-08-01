@@ -787,8 +787,6 @@ def normalize_url(url):
 	if url.endswith('.amp'):
 		url = url.split('.amp')[0]
 
-	url = giphy_regex.sub(r'\1.webp', url)
-
 	if not url.startswith('/') and not url.startswith('https://rdrama.net') and not url.startswith('https://watchpeopledie.tv'):
 		try: parsed_url = urlparse(url)
 		except:

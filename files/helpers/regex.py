@@ -125,8 +125,6 @@ image_sub_regex = re.compile(f'(?<!")(https:\/\/[\w\-.#&/=\?@%;+,:]{{5,250}}(\.|
 image_regex_extensions_no_gif = image_regex_extensions.replace('|gif', '')
 imgur_regex = re.compile(f'^(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.({image_regex_extensions_no_gif})', flags=re.I|re.A)
 
-giphy_regex = re.compile('(https:\/\/media\.giphy\.com\/media\/[a-z0-9]+\/giphy)\.gif', flags=re.I|re.A)
-
 rumble_regex = re.compile('https://rumble\.com/embed/([a-zA-Z0-9]*)(/\?pub=([a-zA-Z0-9]*))?', flags=re.I|re.A)
 
 twitch_regex = re.compile('(https:\/\/)?(www\.)?twitch.tv\/(.*)', flags=re.I|re.A)
