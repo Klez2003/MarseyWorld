@@ -1223,6 +1223,7 @@ INSERT INTO public.hat_defs VALUES (1056, 'Argentina Flag', 'LAS MALVINAS SON AR
 
 INSERT INTO public.hat_defs VALUES (1642, 'kamalaharris2024', 'Show your support for America''s first cop president. 👮‍♀️', 2, 500, NULL, 1721601346);
 INSERT INTO public.hat_defs VALUES (1576, 'Sri Lanka Flag', 'Ayubowan, appachchi apita hikuwo', 2, 1000, NULL, 1718431346);
+
 INSERT INTO public.hat_defs VALUES (1396, 'Click Me', 'Come on, you know you want to see my profile.', 2, 500, NULL, 1704921421);
 INSERT INTO public.hat_defs VALUES (1408, 'Kadio Stance', '*thwack* YEEEEEEEEOUCHHHHHHHHHH', 2, 500, NULL, 1705616850);
 INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
@@ -1304,7 +1305,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1644, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1645, true);
 
 
 --
