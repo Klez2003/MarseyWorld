@@ -1,6 +1,7 @@
 INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUES
 ('abbottthumbsup', 'Misc', 2, 'greg agree', false, 1718688344),
 ('airhorn', 'Classic', 2, 'attention notice loud sound noise', false, 1710108539),
+('anagarf', 'Misc', 2, 'anorexic garfield gorefield insane selfharm sh', false, 1722284140),
 ('angry2', 'Classic', 2, 'mad upset enraged emoticon', false, 1712031177),
 ('asian', 'Classic', 2, 'gook bow nip jap china', false, 1708215706),
 ('attentionseekerarm', 'Misc', 2, 'selfharm blood emo', false, 1706956694),
@@ -213,6 +214,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('hellokitty', 'Misc', 2, 'sanrio', false, 1718660367),
 ('highqualitybait', 'Misc', 2, 'baitpost baitposting fish fishing', false, 1719709714),
 ('hitlerapproved', 'Misc', 2, 'authright chud nazi rightoid ss thumbs up', false, 1720657949),
+('iheartwpd', 'Wojak', 2, 'ilovewpd wojak', false, 1722325432),
 ('ilovemyboyfriend', 'Misc', 2, 'psyduck', false, 1708095439),
 ('ilovewpd', 'Misc', 2, 'logo watchpeopledie', false, 1719089855),
 ('islamicstateofisrael', 'Misc', 2, 'logo palestine arabic muslim terrorism jewish jews', false, 1714755384),
@@ -411,6 +413,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyflagssaotome', 'Marsey Flags', 2, 'principe', false, 1713830270),
 ('marseyflagsstvincent', 'Marsey Flags', 2, 'grenadines caribbean', false, 1713830383),
 ('marseyflagstennesse', 'Marsey Flags', 2, 'state', false, 1716048811),
+('marseyflagtrans', 'Marsey Flags', 2, 'lgbt pride', false, 1722276518),
 ('marseyflamengo', 'Marsey', 2, 'soccer team brazil football', false, 1710217721),
 ('marseyforsakenangel', 'Marsey', 2, 'gore rainbow', false, 1706975761),
 ('marseyfuckingfunny', 'Marsey', 2, 'sarcastic dumbass kys so', false, 1699786550),
