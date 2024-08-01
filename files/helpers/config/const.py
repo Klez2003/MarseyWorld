@@ -524,6 +524,7 @@ LONGPOSTBOT_REPLIES = (
 	"?",
 	"https://i.rdrama.net/images/17225430325674362.webp",
 	"tldr?",
+	"ok",
 )
 
 CHUD_MSGS = (
