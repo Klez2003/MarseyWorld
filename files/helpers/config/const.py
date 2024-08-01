@@ -341,6 +341,46 @@ if SITE_NAME == 'rDrama':
 	OFFSITE_NOTIF_QUERIES.update({'marsey', 'r/drama', 'justice4darrell', 'cringetopia.org'})
 
 elif SITE_NAME == 'WPD':
+	TAGLINES = (
+		"people dying and cartoon cats <3",
+		"The Antisocial Network",
+		"come for the gore, stay for the drama",
+		"NO ADS NO PORN JUST HORRIFYING SHIT",
+		"egg gang egg gang egg gang egg gang",
+		"Plex did 9/11",
+		"clipter help video wont playing",
+		"largest collection of donkey kong emojis",
+		"MOM I SWEAR IT'S ABOUT HAIR DYE",
+		"bringing peace to the Middle East ",
+		"you're just here for the articles",
+		"Pokemon FAQs, Trading & More",
+		"it's NOT just a phase",
+		"please stop reporting Snappy",
+		"(sped up nightcore bass-boosted mix)",
+		"the ponies did nothing wrong",
+		"like TheYNC but not shit",
+		"go back to TikTok ",
+		"Marsey the Cat's one true home!",
+		"is not your therapist",
+		"WAKEUPWAKEUPWAKEUPYOUHAVETOWAKEUP",
+		"Log off. Call your dad. Go to church.",
+		"Taylor Swift for President ",
+		"please remember to stay hydrated",
+		"Columbine unreleased GoPro footage 4K",
+		"mistakes were made.",
+		"be sure to drink your Ovaltine",
+		"enter now to win reservations at Dorsia!",
+		"Mergers & Acquisitions",
+		"Enterprise Cloud-Hosting Solutions",
+		"free ps5 giveaways every hour",
+		"pairs well w/ fava beans & a nice chianti",
+		"please help me theyve got me locked in th",
+		"home of the Goodburger",
+		"shouldn't you be sleeping?",
+		"are your doors locked?",
+		"don't look out the window.",
+	)
+
 	OFFSITE_NOTIF_QUERIES.update({'marsey', 'watchpeopledie', 'makemycoffin'})
 
 
