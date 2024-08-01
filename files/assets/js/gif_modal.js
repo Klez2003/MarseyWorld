@@ -123,19 +123,19 @@ async function searchGifs(searchTerm) {
 
 	container.innerHTML = '';
 
-	let response = await fetch("/giphy?searchTerm=" + searchTerm + "&limit=48");
+	let response = await fetch("/tenor?searchTerm=" + searchTerm + "&limit=48");
 	let data = await response.json()
 	data = data.results
 
 	if (data) {
 		for (const e of data) {
 			const url = e.media_formats.webp.url
-			const insert = `<img class="giphy" loading="lazy" data-bs-dismiss="modal" src="${url}"></div>`
+			const insert = `<img class="tenor" loading="lazy" data-bs-dismiss="modal" src="${url}"></div>`
 			container.insertAdjacentHTML('beforeend', insert);
 		}
 
-		const giphy = document.getElementsByClassName('giphy')
-		for (const element of giphy) {
+		const tenor = document.getElementsByClassName('tenor')
+		for (const element of tenor) {
 			element.addEventListener('click', () => {insertGif (element.src)});
 		}
 	}

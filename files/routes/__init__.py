@@ -36,7 +36,7 @@ from .votes import *
 from .feeds import *
 if FEATURES['AWARDS']:
 	from .awards import *
-from .giphy import *
+from .tenor import *
 from .holes import *
 if FEATURES['GAMBLING']:
 	from .lottery import *
