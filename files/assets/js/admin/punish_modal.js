@@ -14,7 +14,8 @@ function punishModal(t, kind, link, name, fullname) {
 			}
 
 		if (kind == "ban") {
-			values["alts"] = document.getElementById('ban_alts').value;
+			if (document.getElementById('ban_alts').checked)
+				values["alts"] = 'yes';
 		}
 		else {
 			values["chud_phrase"] = document.getElementById('chud_phrase_modal').value;
