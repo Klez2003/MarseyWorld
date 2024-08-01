@@ -343,6 +343,7 @@ if SITE_NAME == 'rDrama':
 		"a global superpower by 2020",
 		"all-natural homeopathic herpes treatment",
 		"vegan dating",
+		"Kamala 2024",
 	)
 
 	BOOSTED_HOLES = {
