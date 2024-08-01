@@ -522,6 +522,7 @@ LONGPOSTBOT_REPLIES = (
 	"Praying Trump gets elected so you get sent to some kind of concentration camp",
 	"Didn't read",
 	"?",
+	"https://i.rdrama.net/images/17225430325674362.webp"
 )
 
 CHUD_MSGS = (
