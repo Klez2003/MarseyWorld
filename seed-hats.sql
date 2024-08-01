@@ -1220,7 +1220,6 @@ INSERT INTO public.hat_defs VALUES (1056, 'Argentina Flag', 'LAS MALVINAS SON AR
 
 
 
-
 INSERT INTO public.hat_defs VALUES (1642, 'kamalaharris2024', 'Show your support for America''s first cop president. 👮‍♀️', 2, 500, NULL, 1721601346);
 INSERT INTO public.hat_defs VALUES (1576, 'Sri Lanka Flag', 'Ayubowan, appachchi apita hikuwo', 2, 1000, NULL, 1718431346);
 
