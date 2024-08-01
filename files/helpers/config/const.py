@@ -300,6 +300,7 @@ if SITE_NAME == 'rDrama':
 		"socialist discourse & dating",
 		"DIY estrogen recipes",
 		"#1 guide to transitioning in Texas",
+		"Nintendo Switch ROMs",
 		"erectile dysfunction treatments",
 		"managing incontinence",
 		"Quran study group",
@@ -307,6 +308,7 @@ if SITE_NAME == 'rDrama':
 		"/u/bardfinn's fan club",
 		"world's oldest website",
 		"we like trains!",
+		"watch Family Guy online",
 	)
 
 	BOOSTED_HOLES = {
