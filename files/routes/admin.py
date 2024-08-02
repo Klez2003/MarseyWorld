@@ -1850,6 +1850,8 @@ def delete_media_post(v):
 	if not url:
 		abort(400, "No url provided!")
 
+	url = url.replace('https://videos2.watchpeopledie.tv/', 'https://videos.watchpeopledie.tv/')
+
 	if not image_link_regex.fullmatch(url) and not video_link_regex.fullmatch(url) and not asset_image_link_regex.fullmatch(url):
 		abort(400, "Invalid url")
 
