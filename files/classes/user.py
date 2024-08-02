@@ -1456,6 +1456,33 @@ class User(Base):
 	def effortposts_made(self):
 		return g.db.query(Post).filter_by(author_id=self.id, effortpost=True).count()
 
+	@property
+	@lazy
+	def checkmark_classes(self):
+		classes = []
+
+		if self.sharpen:
+			classes.append('sharpen')
+		if self.rainbow:
+			classes.append('rainbow-text')
+		if self.bite:
+			classes.append('author-bitten')
+		if self.queen:
+			classes.append('queen')
+
+		if self.verified == 'Glowiefied':
+			classes.append('glow')
+		elif self.verified == 'Valid':
+			classes.append('valid')
+		elif self.verified == 'Coronated':
+			classes.append('g')
+
+		if not classes and self.pride_username:
+			classes.append('pride')
+		
+		return ' '.join(classes)
+
+
 
 badge_ordering_tuple = PATRON_BADGES + (
 	134, 237, 341, #1 year, 2 year, 3 year

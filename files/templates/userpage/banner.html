@@ -61,7 +61,7 @@
 									{% endif %}
 
 									{% if u.verified %}
-										<span id="profile--verified"><i class="fas fa-badge-check align-middle ml-2 {% if u.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if u.verifiedcolor %}#{{u.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.verified}}"></i></span>
+										<span id="profile--verified"><i class="fas fa-badge-check align-middle ml-2 {{u.checkmark_classes}}" style="color:{% if u.verifiedcolor %}#{{u.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.verified}}"></i></span>
 									{% endif %}
 
 									{% if u.admin_level >= PERMS['ADMIN_MOP_VISIBLE'] %}
@@ -368,7 +368,7 @@
 					{% endif %}
 
 					{% if u.verified %}
-						<span id="profile-mobile--verified"><i class="fas fa-badge-check align-middle ml-2 {% if u.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if u.verifiedcolor %}#{{u.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.verified}}"></i></span>&nbsp;
+						<span id="profile-mobile--verified"><i class="fas fa-badge-check align-middle ml-2 {{u.checkmark_classes}}" style="color:{% if u.verifiedcolor %}#{{u.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.verified}}"></i></span>&nbsp;
 					{% endif %}
 
 					{% if u.admin_level >= PERMS['ADMIN_MOP_VISIBLE'] %}

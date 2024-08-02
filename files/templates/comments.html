@@ -192,7 +192,7 @@
 									<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/houses/{{c.author.switched.house}}.webp?x=8" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{c.author.switched.house}}" alt="House {{c.author.switched.house}}">
 								{% endif %}
 
-								{% if c.author.switched.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if c.author.switched.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if c.author.switched.verifiedcolor %}#{{c.author.switched.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.switched.verified}}"></i>
+								{% if c.author.switched.verified %}<i class="fas fa-badge-check align-middle ml-1 {{c.author.switched.checkmark_classes}}" style="color:{% if c.author.switched.verifiedcolor %}#{{c.author.switched.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.switched.verified}}"></i>
 								{% endif %}
 
 								<a class="user-name text-decoration-none {% if not c.author.switched.earlylife %}unbreakable{% endif %}" href="{{c.author.switched.url}}" data-pop-info='{{c.author.switched.json_popover(v) | tojson}}'' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="manual" data-content-id="popover" tabindex="0" style="color:#{{c.author.switched.name_color}}; font-size:12px; font-weight:bold">

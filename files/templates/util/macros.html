@@ -100,7 +100,7 @@
 			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/houses/{{p.author.switched.house}}.webp?x=8" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.switched.house}}" alt="House {{p.author.switched.house}}">
 		{% endif %}
 
-		{% if p.author.switched.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if p.author.switched.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if p.author.switched.verifiedcolor %}#{{p.author.switched.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.verified}}"></i>
+		{% if p.author.switched.verified %}<i class="fas fa-badge-check align-middle ml-1 {{p.author.switched.checkmark_classes}}" style="color:{% if p.author.switched.verifiedcolor %}#{{p.author.switched.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.verified}}"></i>
 		{% endif %}
 		<a class="user-name text-decoration-none {% if not p.author.switched.earlylife %}unbreakable{% endif %}" href="{{p.author.switched.url}}" data-pop-info='{{p.author.switched.json_popover(v) | tojson}}' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="manual" data-content-id="popover" tabindex="0" style="color: #{{p.author.switched.name_color}}; font-weight: bold">
 			<div class="profile-pic-30-wrapper" style="margin-top:9px;margin-bottom:9px">

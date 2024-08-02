@@ -281,7 +281,7 @@
 	100% { filter: hue-rotate(360deg); }
 }
 
-.zozbot, [pride_username], :not(td) > a[href="/h/countryclub"]:not(.hole-flair) {
+.zozbot, [pride_username], :not(td) > a[href="/h/countryclub"]:not(.hole-flair), .pride {
 	color: red;
 	animation: lgbt 3s linear infinite;
 }
@@ -303,7 +303,7 @@
 	filter: grayscale(100%);
 }
 
-:not(td) > a[href="/h/transgender"] {
+:not(td) > a[href="/h/transgender"], .valid {
 	-webkit-text-fill-color: transparent;
     background: repeating-linear-gradient(45deg, rgba(221, 147, 181, 1) 0%, rgba(199, 151, 188, 1) 10%, rgba(176, 156, 196, 1) 20%, rgba(153, 161, 204, 1) 30%, rgba(132, 165, 211, 1) 40%, rgba(0, 191, 255, 1) 50%, rgba(132, 165, 211, 1) 60%, rgba(153, 161, 204, 1) 70%, rgba(176, 156, 196, 1) 80%, rgba(199, 151, 188, 1) 90%);
     background-repeat: repeat;
