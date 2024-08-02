@@ -34,10 +34,6 @@
 
 	{{macros.reports(p, 'post')}}
 
-	{% if v.id == AEVANN_ID %}
-		wtf {{p.hot_ranking}}
-	{% endif %}
-
 	<div id="post-{{p.id}}" class="actual-post card {% if u and p.profile_pinned %}pinned-to-profile{% endif %} {% if p.ghost %}ghost-post{% endif %} {% if p.unread %}unread{% endif %} {% if p.is_banned %} banned{% endif %}{% if p.deleted_utc %} deleted{% endif %}{% if p.pinned %} pinned{% endif %}{% if voted == 1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}{% if p.nsfw %} nsfw{% endif %}">
 		<div class="d-flex flex-row-reverse flex-md-row flex-nowrap" style="align-items:flex-start">
 			<div class="voting my-2 d-none d-md-flex pr-2">
