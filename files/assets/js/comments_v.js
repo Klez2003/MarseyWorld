@@ -245,6 +245,9 @@ function comment_edit(id) {
 				const edited_string = document.getElementById('comment-edited_string-' + id)
 				edited_string.textContent = data["edited_string"]
 				edited_string.parentElement.classList.remove('d-none')
+				edited_string.parentElement.onmouseover = () => {
+					timestamp(edited_string.parentElement, Math.floor(Date.now() / 1000))
+				};
 			}
 
 			const input = ta.parentElement.querySelector('input[type="file"]')
