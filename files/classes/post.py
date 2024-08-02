@@ -453,3 +453,10 @@ class Post(Base):
 			return False
 
 		return True
+
+	@property
+	@lazy
+	def hot_ranking(self):
+		ti = int(time.time()) + 3600
+		metric = self.realupvotes + 1 + self.comment_count/5
+		return -1000000*(metric / pow(((ti - self.created_utc)/1000), 1.4))
