@@ -188,6 +188,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('funkykongboard', 'Donkey Kong', 2, 'dk donkeykong surfboard sunglasses', false, 1718316062),
 ('furryban', 'Misc', 2, 'rivet ratchet hammer banned', false, 1720228368),
 ('furryboobs', 'Misc', 2, 'animated breasts catgirl tits titties', false, 1721360875),
+('furryfap', 'Misc', 2, 'hand jerkoff masturbate wank', false, 1722592881),
 ('furrymonika', 'Misc', 2, 'ddlc dokidokiliteratureclub', false, 1709452549),
 ('gaypride', 'Classic', 2, 'lgbtqia lesbian bisexual', false, 1710107869),
 ('gemspin', 'Misc', 2, 'gempost gemposting gemposter gemmy coal based sharty soyteens spinning', false, 1720121307),
