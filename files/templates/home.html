@@ -71,7 +71,7 @@
 									{% for category, icon in CATEGORIES_ICONS.items() %}
 										{% set color = "primary" if session.get(category, True) else "muted" %}
 										<form action="/toggle_category/{{category}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
-											<button type="submit" class="btn text-{{color}} mx-2">
+											<button type="submit" class="btn text-{{color}} border-0">
 												<i type="submit" class="fas fa-{{icon}} text-{{color}} mr-2"></i>
 												{{category}}
 											</button>
