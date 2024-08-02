@@ -200,8 +200,8 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		if v:
 			pins = pins.filter(Post.author_id.notin_(v.userblocks))
 
-		for category in categories.items():
-			if not category:
+		for category, enabled in categories.items():
+			if not enabled:
 				filtered = (x.lower() for x in CATEGORIES_HOLES[category])
 				pins = pins.filter(Post.hole.notin_(filtered))
 
