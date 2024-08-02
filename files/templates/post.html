@@ -172,10 +172,10 @@
 										<iframe id="external-embed" class="{{class}}" src="https://www.instagram.com/{{path}}?theme=dark" style="width:calc(100% - 2px);min-width:326px;max-width:540px"></iframe>
 									{% elif p.domain.endswith('substack.com') %}
 										{% if 'substack.com/p/' in p.url and p.url.count('/') == 4 %}
-											<iframe id="external-embed" src="{{p.url.replace('substack.com/p/', 'substack.com/embed/p/')}}" height="650" width="500"></iframe>
+											<iframe id="external-embed" src="{{p.url.replace('substack.com/p/', 'substack.com/embed/p/')}}" height="650" width="500" style="max-width:100%"></iframe>
 										{% elif '/note/c-' in p.url %}
 											{% set id = p.url.split('/note/c-')[-1] %}
-											<iframe id="external-embed" src="https://substack.com/embed/c/{{id}}" height="600" width="500"></iframe>
+											<iframe id="external-embed" src="https://substack.com/embed/c/{{id}}" height="600" width="500" style="max-width:100%"></iframe>
 										{% endif %}
 									{% endif %}
 								{% endif %}
