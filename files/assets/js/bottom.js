@@ -180,7 +180,7 @@ document.addEventListener("click", function(e) {
 	if (!element) return
 
 	if (element instanceof HTMLImageElement && (element.alt.startsWith('![](') || element.classList.contains('img'))) {
-		expandImage()
+		expandImage(element.dataset.expandedUrl)
 		all_images = element.parentElement.parentElement.parentElement.parentElement.getElementsByClassName('img')
 		if (all_images.length != 0) {
 			last_img_index = all_images.length - 1
