@@ -112,9 +112,6 @@ INSERT INTO public.badge_defs VALUES (255, '2nd Birthgay Bash Survivor', 'Awarde
 INSERT INTO public.badge_defs VALUES (256, 'Birthgay Banner Artist', 'Contributed a beautiful banner to Marsey''s second birthgay celebration!', 1683506361);
 INSERT INTO public.badge_defs VALUES (257, 'Bronze-Tier Venture Capitalist', 'This king has contributed a lifetime total of at least $100 to keeping rDrama thriving', 1683678214);
 INSERT INTO public.badge_defs VALUES (258, 'Silver-Tier Venture Capitalist', 'This king has contributed a lifetime total of at least $500 to keeping rDrama thriving', 1683678250);
-INSERT INTO public.badge_defs VALUES (259, 'Gold-Tier Venture Capitalist', 'This king has contributed a lifetime total of at least $2500 to keeping rDrama thriving', 1683678275);
-INSERT INTO public.badge_defs VALUES (260, 'Platinum-Tier Venture Capitalist', 'This king has contributed a lifetime total of at least $5000 to keeping rDrama thriving', 1683678305);
-INSERT INTO public.badge_defs VALUES (261, 'Double-Platinum-Tier Venture Capitalist', 'This king has contributed a lifetime total of at least $10000 to keeping rDrama thriving', 1683678332);
 INSERT INTO public.badge_defs VALUES (262, 'AHS Supersoldier', 'A strong person stands up for themself. A stronger person stands up for others.', 1683849886);
 INSERT INTO public.badge_defs VALUES (263, 'Antifa Supersoldier', '''No Trump, no KKK, no fascist USA.'' —All Thinking People of Conscience Everywhere', 1683849938);
 INSERT INTO public.badge_defs VALUES (264, 'BLM Fist', 'Made a mayo monkey shut up and listen', 1683849976);
@@ -138,6 +135,7 @@ INSERT INTO public.badge_defs VALUES (330, 'WORDS WORDS WORDS WORDS WORDS', 'Wro
 INSERT INTO public.badge_defs VALUES (333, 'Banner Master', 'Contributed 10 (or more!!!!) banners 🖼', 1709696049);
 INSERT INTO public.badge_defs VALUES (339, 'INcel gold', 'User invited five internet celebs to rDrama', 1715140378);
 INSERT INTO public.badge_defs VALUES (340, 'INcel Diamond', 'User invited TEN internet celebs to rDrama', 1715140401);
+INSERT INTO public.badge_defs VALUES (259, 'Gold-Tier Venture Capitalist', 'This king has contributed a lifetime total of at least $2,500 to keeping rDrama thriving', 1683678275);
 INSERT INTO public.badge_defs VALUES (281, 'Namelock', 'This user has been forcibly renamed', 1684120696);
 INSERT INTO public.badge_defs VALUES (245, 'Kongmaxxer: N', 'Contributed a KONGMAXXED Marsey or emoji during Donkey Kong December', 1679419208);
 INSERT INTO public.badge_defs VALUES (282, 'Rehab Counselor', 'Awarded for participating in the Marsey''s Methlab Event', 1685121792);
@@ -148,7 +146,9 @@ INSERT INTO public.badge_defs VALUES (287, 'Carp Artisan', 'Contributed a Carp e
 INSERT INTO public.badge_defs VALUES (288, 'Carp Master', 'Contributed 10 (or more!!!!) Carp emojis ✨', 1687530535);
 INSERT INTO public.badge_defs VALUES (289, 'Sharpened', 'No one understand this user.', 1687725417);
 INSERT INTO public.badge_defs VALUES (290, 'Smartest Fish Award', 'Awarded for outstanding achievement in the field of QA, signed by Aevann Himself. The highest honor that can be bestowed upon a codecel.', 1687901922);
+INSERT INTO public.badge_defs VALUES (260, 'Platinum-Tier Venture Capitalist', 'This king has contributed a lifetime total of at least $5,000 to keeping rDrama thriving', 1683678305);
 INSERT INTO public.badge_defs VALUES (291, 'Griller', 'Enough about trans rights! Enough about trans wrongs! I just wanna grill for God''s sake!', 1689087935);
+INSERT INTO public.badge_defs VALUES (261, 'Double-Platinum-Tier Venture Capitalist', 'This king has contributed a lifetime total of at least $10,000 to keeping rDrama thriving', 1683678332);
 INSERT INTO public.badge_defs VALUES (286, 'Pilgrimage', 'This user went on a quest to an rDrama holy site', 1687363815);
 INSERT INTO public.badge_defs VALUES (241, 'SNITCH', 'This nigga snitched on a fellow rDrama user AND GOT PAID 🤑💰💸', 1679066554);
 INSERT INTO public.badge_defs VALUES (313, 'Zombiechad II', 'Zombified 10 people during Homoween 2023.', 1698600949);
