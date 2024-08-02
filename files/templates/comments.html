@@ -447,22 +447,20 @@
 												<button type="button" id="undistinguish-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.distinguished %}d-md-block{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish-{{c.id}}','undistinguish-{{c.id}}','d-md-block')"><i class="fas fa-id-badge text-info fa-fw"></i>Undistinguish</button>
 											{% endif %}
 
-											{% if c.parent_post %}
-												{% set url = "" %}
+											{% set url = "" %}
 
-												{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-													{% set url = "pin_comment_admin" %}
-												{% elif v.id == c.post.author_id %}
-													{% set url = "pin_comment_op" %}
-												{% elif v.mods_hole(c.post.hole) %}
-													{% set url = "pin_comment_mod" %}
-												{% endif %}
+											{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+												{% set url = "pin_comment_admin" %}
+											{% elif c.parent_post and v.id == c.post.author_id %}
+												{% set url = "pin_comment_op" %}
+											{% elif c.parent_post and v.mods_hole(c.post.hole) %}
+												{% set url = "pin_comment_mod" %}
+											{% endif %}
 
-												{% if url != "" %}
-													<button type="button" id="pin-{{c.id}}" class="dropdown-item list-inline-item {% if not c.pinned %}d-md-block{% endif %} text-muted d-none text-info" data-bs-dismiss="modal" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Pin</button>
+											{% if url != "" %}
+												<button type="button" id="pin-{{c.id}}" class="dropdown-item list-inline-item {% if not c.pinned %}d-md-block{% endif %} text-muted d-none text-info" data-bs-dismiss="modal" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Pin</button>
 
-													<button type="button" id="unpin-{{c.id}}" class="dropdown-item list-inline-item {% if c.pinned %}d-md-block{% endif %} text-muted d-none text-info" data-bs-dismiss="modal" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/un{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Unpin</button>
-												{% endif %}
+												<button type="button" id="unpin-{{c.id}}" class="dropdown-item list-inline-item {% if c.pinned %}d-md-block{% endif %} text-muted d-none text-info" data-bs-dismiss="modal" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/un{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Unpin</button>
 											{% endif %}
 
 											{% if v.id != c.author_id and not c.ghost %}
