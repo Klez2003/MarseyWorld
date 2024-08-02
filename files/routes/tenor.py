@@ -13,15 +13,9 @@ from files.__main__ import app
 def tenor(v, path=None):
 
 	searchTerm = request.values.get("searchTerm", "").strip()
-	limit = 48
-	try:
-		limit = int(request.values.get("limit", 48))
-	except:
-		pass
-	if searchTerm and limit:
-		url = f"https://tenor.googleapis.com/v2/search?media_filter=webp&q={searchTerm}&key={TENOR_KEY}&limit={limit}"
-	elif searchTerm and not limit:
-		url = f"https://tenor.googleapis.com/v2/search?media_filter=webp&q={searchTerm}&key={TENOR_KEY}&limit=48"
+
+	if searchTerm:
+		url = f"https://tenor.googleapis.com/v2/search?media_filter=webp&key={TENOR_KEY}&limit=50&q={searchTerm}"
 	else:
-		url = f"https://tenor.googleapis.com/v2?media_filter=webp&key={TENOR_KEY}&limit=48"
+		url = f"https://tenor.googleapis.com/v2/featured?media_filter=webp&key={TENOR_KEY}&limit=50"
 	return requests.get(url, headers=HEADERS, timeout=5).json()

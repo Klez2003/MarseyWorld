@@ -29,6 +29,10 @@ async function show_gif_categories(t, form) {
 
 	container.innerHTML = `
 	<div class="card">
+		<div class="gif-cat-overlay"><div>Trending</div></div>
+		<img loading="lazy" src="https://media.tenor.com/C84XvrdyLswAAAAx/spongebob-patrick-star.webp">
+	</div>
+	<div class="card">
 		<div class="gif-cat-overlay"><div>Agree</div></div>
 		<img loading="lazy" src="https://media.giphy.com/media/wGhYz3FHaRJgk/200w.webp">
 	</div>
@@ -103,7 +107,10 @@ async function show_gif_categories(t, form) {
 
 	const overlays = document.getElementsByClassName('gif-cat-overlay')
 	for (const element of overlays) {
-		element.addEventListener('click', () => {searchGifs(element.firstElementChild.innerHTML)});
+		let searchTerm = element.firstElementChild.innerHTML
+		if (searchTerm == 'Trending')
+			searchTerm = ''
+		element.addEventListener('click', () => {searchGifs(searchTerm)});
 	}
 
 	if (t) {
@@ -123,7 +130,7 @@ async function searchGifs(searchTerm) {
 
 	container.innerHTML = '';
 
-	let response = await fetch("/tenor?searchTerm=" + searchTerm + "&limit=48");
+	let response = await fetch("/tenor?searchTerm=" + searchTerm);
 	let data = await response.json()
 	data = data.results
 
@@ -144,4 +151,7 @@ async function searchGifs(searchTerm) {
 	}
 }
 
-gifSearchBar.addEventListener('change', () => {searchGifs(gifSearchBar.value)});
+gifSearchBar.addEventListener("keydown", function(e) {
+	if (e.key === 'Enter')
+		searchGifs(gifSearchBar.value)
+})
