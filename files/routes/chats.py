@@ -77,7 +77,7 @@ def chat(v, chat_id):
 		if v.admin_level < PERMS['VIEW_CHATS'] and not membership:
 			abort(403, "You're not a member of this chat!")
 		if membership:
-			muting_chat = (membership.notification == None)
+			muting_chat = membership.muted
 
 	displayed_messages = g.db.query(ChatMessage).options(joinedload(ChatMessage.quoted_message)).filter(ChatMessage.chat_id == chat.id)
 
@@ -171,12 +171,12 @@ def mute_chat(v, chat_id):
 	if not membership:
 		abort(400, "You're not a member of this chat!")
 
-	if membership.notification == None:
-		membership.notification = False
+	if membership.muted:
+		membership.muted = False
 		msg = "Chat unmuted successfully (yayyy)"
 		send_notification(chat.owner_id, f"@{v.username} unmuted your chat [{chat.name}](/chat/{chat.id}).")
 	else:
-		membership.notification = None
+		membership.muted = True
 		msg = "Chat muted successfully (die)"
 		send_notification(chat.owner_id, f"@{v.username} muted your chat [{chat.name}](/chat/{chat.id}), kick him now!")
 
