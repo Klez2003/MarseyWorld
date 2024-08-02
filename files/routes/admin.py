@@ -1871,7 +1871,7 @@ def delete_media_post(v):
 				remove_image_using_link(extra_url)
 				purge_files_in_cloudflare_cache(extra_url)
 
-	if url.startswith('https://videos'):
+	if url.startswith(SITE_FULL_VIDEOS):
 		posterurl = g.db.query(Media.posterurl).filter_by(filename=path).one_or_none()
 		if posterurl:
 			remove_image_using_link(posterurl[0])
@@ -1884,11 +1884,12 @@ def delete_media_post(v):
 		)
 	g.db.add(ma)
 
-	if url.startswith('https://videos'):
+	if not url.startswith('https://videos'):
+		purge_files_in_cloudflare_cache(url)
+
+	if SITE == 'watchpeopledie.tv' and url.startswith(SITE_FULL_VIDEOS):
 		filename = url.split(SITE_FULL_VIDEOS)[1]
 		gevent.spawn(rclone_delete, f'no:/videos{filename}')
-	else:
-		purge_files_in_cloudflare_cache(url)
 
 	return {"message": "Media deleted successfully!"}
 
