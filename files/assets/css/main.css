@@ -792,8 +792,7 @@ textarea.form-control {
 	border-radius: 0.35rem;
 }
 .btn:hover {
-	color: #212529;
-	text-decoration: none;
+	opacity: 0.5;
 }
 .btn:focus, .btn.focus {
 	outline: 0;
