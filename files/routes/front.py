@@ -172,7 +172,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			filtered = (x.lower() for x in CATEGORIES_HOLES[category])
 			posts = posts.filter(Post.hole.notin_(filtered))
 
-	if SITE_NAME == 'WPD' and sort == "hot" and hole == None and False:
+	if SITE_NAME == 'WPD' and sort == "hot" and hole == None and False not in categories.values():
 		limited_WPD_holes = []
 		for k, val in tuple(categories.items())[1:]:
 			if val:
