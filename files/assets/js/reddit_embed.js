@@ -3,6 +3,6 @@ addEventListener("message", function(t) {
 		const data = JSON.parse(t.data)
 		let height = data.data
 		if (data && "type" in data && data.type == "resize.embed")
-			document.getElementById('reddit-embed').height = height
+			document.getElementById('external-embed').height = height
 	}
 })

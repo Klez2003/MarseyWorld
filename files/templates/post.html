@@ -146,29 +146,38 @@
 									{% endif %}
 								{% endif %}
 
-								{% if p.url and p.url.startswith('https://old.reddit.com/r/') %}
-									<iframe id="reddit-embed" src="{{p.url.replace('https://old.reddit.com/', 'https://embed.reddit.com/').split('?')[0]}}?context=1&showtitle=true{% if v.theme in DARK_THEMES %}&theme=dark{% endif %}" height="317" width="100%" allow="clipboard-read; clipboard-write" scrolling="no"></iframe>
-									<script defer src="{{'js/reddit_embed.js' | asset}}"></script>
-								{% elif p.url and p.url.startswith('https://tiktok.com/@') %}
-									{% set id = p.url.split('/video/')[1] %}
-									{% if id %}
-										<iframe id="tiktok-embed" src="https://www.tiktok.com/embed/{{id}}" height="756" width="325"></iframe>
+								{% if p.url %}
+									{% if p.url.startswith('https://old.reddit.com/r/') %}
+										<iframe id="external-embed" src="{{p.url.replace('https://old.reddit.com/', 'https://embed.reddit.com/').split('?')[0]}}?context=1&showtitle=true{% if v.theme in DARK_THEMES %}&theme=dark{% endif %}" height="317" width="100%" allow="clipboard-read; clipboard-write" scrolling="no"></iframe>
+										<script defer src="{{'js/reddit_embed.js' | asset}}"></script>
+									{% elif p.url.startswith('https://tiktok.com/@') %}
+										{% set id = p.url.split('/video/')[1] %}
+										{% if id %}
+											<iframe id="external-embed" src="https://www.tiktok.com/embed/{{id}}" height="756" width="325"></iframe>
+										{% endif %}
+									{% elif p.url.startswith('https://teamblind.com/') %}
+										{% set id = p.url.split('-')[-1] %}
+										{% if id %}
+											<iframe id="external-embed" src="https://www.teamblind.com/embed/{{id}}" height="500" width="500" style="max-width:100%"></iframe>
+										{% endif %}
+									{% elif p.url.startswith('https://instagram.com/') %}
+										{% set path = p.url.split('https://instagram.com/')[1].rstrip('/') %}
+										{% if '/' in path %}
+											{% set path = path + '/embed/captioned' %}
+											{% set class = "instagram-post-embed" %}
+										{% else %}
+											{% set path = path + '/embed' %}
+											{% set class = "instagram-profile-embed" %}
+										{% endif %}
+										<iframe id="external-embed" class="{{class}}" src="https://www.instagram.com/{{path}}?theme=dark" style="width:calc(100% - 2px);min-width:326px;max-width:540px"></iframe>
+									{% elif p.domain.endswith('substack.com') %}
+										{% if 'substack.com/p/' in p.url and p.url.count('/') == 4 %}
+											<iframe id="external-embed" src="{{p.url.replace('substack.com/p/', 'substack.com/embed/p/')}}" height="650" width="500"></iframe>
+										{% elif '/note/c-' in p.url %}
+											{% set id = p.url.split('/note/c-')[-1] %}
+											<iframe id="external-embed" src="https://substack.com/embed/c/{{id}}" height="600" width="500"></iframe>
+										{% endif %}
 									{% endif %}
-								{% elif p.domain == 'teamblind.com' %}
-									{% set id = p.url.split('-')[-1] %}
-									{% if id %}
-										<iframe id="blind-embed" src="https://www.teamblind.com/embed/{{id}}" height="500" width="500" style="max-width:100%"></iframe>
-									{% endif %}
-								{% elif p.domain == 'instagram.com' %}
-									{% set path = p.url.split('https://instagram.com/')[1].rstrip('/') %}
-									{% if '/' in path %}
-										{% set path = path + '/embed/captioned' %}
-										{% set class = "instagram-post-embed" %}
-									{% else %}
-										{% set path = path + '/embed' %}
-										{% set class = "instagram-profile-embed" %}
-									{% endif %}
-									<iframe id="instagram-embed" class="{{class}}" src="https://www.instagram.com/{{path}}?theme=dark" style="width:calc(100% - 2px);min-width:326px;max-width:540px"></iframe>
 								{% endif %}
 
 								<div id="post-text" class="{{p.award_classes(v)}}">
