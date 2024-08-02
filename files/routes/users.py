@@ -533,7 +533,7 @@ def transfer_bux(v, username):
 	return transfer_currency(v, username, 'marseybux', False)
 
 @app.get("/@<username>/css")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def get_css(username):
 	user = get_user(username, attributes=[User.css, User.background])
 

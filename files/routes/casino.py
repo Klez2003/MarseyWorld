@@ -12,8 +12,8 @@ from files.routes.wrappers import *
 from files.__main__ import app, limiter
 
 @app.get("/casino")
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def casino(v):
 	if v.rehab:
@@ -23,8 +23,8 @@ def casino(v):
 
 
 @app.get("/casino/<game>")
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def casino_game_page(v, game):
 	if v.rehab:
@@ -53,8 +53,8 @@ def casino_game_page(v, game):
 
 
 @app.get("/casino/<game>/feed")
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def casino_game_feed(v, game):
 	if v.rehab:
@@ -68,8 +68,8 @@ def casino_game_feed(v, game):
 
 # Lottershe
 @app.get("/lottershe")
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def lottershe(v):
 	if v.rehab:
@@ -82,8 +82,8 @@ def lottershe(v):
 @app.post("/casino/slots")
 @limiter.limit('1/second', scope=rpath) #Needed to fix race condition
 @limiter.limit('1/second', scope=rpath, key_func=get_ID) #Needed to fix race condition
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def pull_slots(v):
 	if v.rehab:
@@ -116,8 +116,8 @@ def pull_slots(v):
 @app.post("/casino/twentyone/deal")
 @limiter.limit('1/second', scope=rpath) #Needed to fix race condition
 @limiter.limit('1/second', scope=rpath, key_func=get_ID) #Needed to fix race condition
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def blackjack_deal_to_player(v):
 	if v.rehab:
@@ -138,8 +138,8 @@ def blackjack_deal_to_player(v):
 @app.post("/casino/twentyone/hit")
 @limiter.limit('1/second', scope=rpath) #Needed to fix race condition
 @limiter.limit('1/second', scope=rpath, key_func=get_ID) #Needed to fix race condition
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def blackjack_player_hit(v):
 	if v.rehab:
@@ -157,8 +157,8 @@ def blackjack_player_hit(v):
 @app.post("/casino/twentyone/stay")
 @limiter.limit('1/second', scope=rpath) #Needed to fix race condition
 @limiter.limit('1/second', scope=rpath, key_func=get_ID) #Needed to fix race condition
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def blackjack_player_stay(v):
 	if v.rehab:
@@ -176,8 +176,8 @@ def blackjack_player_stay(v):
 @app.post("/casino/twentyone/double_down")
 @limiter.limit('1/second', scope=rpath) #Needed to fix race condition
 @limiter.limit('1/second', scope=rpath, key_func=get_ID) #Needed to fix race condition
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def blackjack_player_doubled_down(v):
 	if v.rehab:
@@ -194,8 +194,8 @@ def blackjack_player_doubled_down(v):
 @app.post("/casino/twentyone/buy_insurance")
 @limiter.limit('1/second', scope=rpath) #Needed to fix race condition
 @limiter.limit('1/second', scope=rpath, key_func=get_ID) #Needed to fix race condition
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def blackjack_player_bought_insurance(v):
 	if v.rehab:
@@ -211,8 +211,8 @@ def blackjack_player_bought_insurance(v):
 @app.post("/casino/twentyone/split")
 @limiter.limit('1/second', scope=rpath) #Needed to fix race condition
 @limiter.limit('1/second', scope=rpath, key_func=get_ID) #Needed to fix race condition
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def split(v):
 	if v.rehab:
@@ -227,8 +227,8 @@ def split(v):
 
 # Roulette
 @app.get("/casino/roulette/bets")
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def roulette_get_bets(v):
 	if v.rehab:
@@ -242,8 +242,8 @@ def roulette_get_bets(v):
 @app.post("/casino/roulette/place_bet")
 @limiter.limit('1/second', scope=rpath) #Needed to fix race condition
 @limiter.limit('1/second', scope=rpath, key_func=get_ID) #Needed to fix race condition
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(CASINO_CSS_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def roulette_player_placed_bet(v):
 	if v.rehab:
