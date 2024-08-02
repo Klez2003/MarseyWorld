@@ -117,6 +117,8 @@ CHUD_REPLACEMENTS = {
 
 	'EVERYONE': 'EVERYPONY',
 	'EVERYBODY': 'EVERYPONY',
+
+	'whose': 'thats',
 }
 
 GIRL_PHRASES = [
