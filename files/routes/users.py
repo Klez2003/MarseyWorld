@@ -1337,14 +1337,18 @@ def bid_list(v, bid):
 	return render_template("owners.html", v=v, users=users, page=page, total=total, kind="Badge", name=name, href=href)
 
 
-KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
+KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip().split(',')
 if KOFI_TOKEN:
 	@app.post("/kofi")
 	@limiter.exempt
 	def kofi():
 		data = json.loads(request.values['data'])
 		verification_token = data['verification_token']
-		if verification_token != KOFI_TOKEN: abort(400)
+		if verification_token not in KOFI_TOKEN:
+			print(STARS, flush=True)
+			print(f'/exempt fail: {verification_token}')
+			print(STARS, flush=True)
+			abort(400)
 
 		id = data['kofi_transaction_id']
 		created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
