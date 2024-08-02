@@ -1477,7 +1477,7 @@ class User(Base):
 		elif self.verified == 'Coronated':
 			classes.append('g')
 
-		if not classes and self.pride_username:
+		if not classes and self.pride_username(g.v):
 			classes.append('pride')
 		
 		return ' '.join(classes)
