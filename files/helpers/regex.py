@@ -49,7 +49,7 @@ controversial_regex = re.compile('https:\/\/old\.reddit\.com\/r\/\w{2,20}\/comme
 spoiler_regex = re.compile('\|\|(.+?)\|\|' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 hole_mention_regex = re.compile('(?<![\w/])\/?([hH]\/[\w-]{3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
-strikethrough_regex = re.compile('~{1,2}([^~]+)~{1,2}' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+strikethrough_regex = re.compile(r'(?<!\\)~{1,2}([^~]+)~{1,2}' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 mute_regex = re.compile("\/mute @?([\w-]{1,30}) ([0-9]+)", flags=re.A|re.I)
 unmute_regex = re.compile("\/unmute @?([\w-]{1,30})", flags=re.A|re.I)
