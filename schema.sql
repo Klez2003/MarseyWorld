@@ -254,8 +254,9 @@ CREATE TABLE public.chat_memberships (
     user_id integer NOT NULL,
     chat_id integer NOT NULL,
     created_utc integer NOT NULL,
-    notification boolean,
-    mentions integer NOT NULL
+    notification boolean NOT NULL,
+    mentions integer NOT NULL,
+    muted boolean NOT NULL
 );
 
 
