@@ -38,6 +38,7 @@ from .hole_logs import *
 from .subscriptions import *
 from .userblock import *
 from .usermute import *
+from .art_submissions import *
 
 if SITE == 'devrama.net':
 	DEFAULT_ADMIN_LEVEL = 3
@@ -1481,6 +1482,16 @@ class User(Base):
 			classes.append('pride')
 		
 		return ' '.join(classes)
+
+	@property
+	@lazy
+	def sidebar_num(self):
+		return g.db.query(ArtSubmission).filter_by(kind='sidebar', author_id=self.id, approved=True).count()
+
+	@property
+	@lazy
+	def banner_num(self):
+		return g.db.query(ArtSubmission).filter_by(kind='banner', author_id=self.id, approved=True).count()
 
 
 

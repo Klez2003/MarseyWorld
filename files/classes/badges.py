@@ -86,7 +86,16 @@ class Badge(Base):
 		else:
 			return self.name
 
-		return f'{self.name} - {text}'
+		text = f'{self.name} - {text}'
+
+		if self.badge_id in {99, 331, 332}:
+			s = 's' if self.user.sidebar_num > 1 else ''
+			text += f' ({self.user.sidebar_num} sidebar image{s})'
+		elif self.badge_id in {101, 333, 334}:
+			s = 's' if self.user.banner_num > 1 else ''
+			text += f' ({self.user.banner_num} banner{s})'
+
+		return text
 
 	@property
 	@lazy
