@@ -207,4 +207,5 @@ def inject_constants():
 			"bar_position":bar_position, "datetime":datetime, "CSS_LENGTH_LIMIT":CSS_LENGTH_LIMIT, "cache":cache,
 			"emoji_count":emoji_count, "group_count":group_count, "user_count":user_count,
 			"HOLE_SIDEBAR_COLUMN_LENGTH":HOLE_SIDEBAR_COLUMN_LENGTH, "HOLE_SNAPPY_QUOTES_LENGTH":HOLE_SNAPPY_QUOTES_LENGTH, "USER_SNAPPY_QUOTES_LENGTH":USER_SNAPPY_QUOTES_LENGTH, "top_poster_of_the_day":top_poster_of_the_day,
+			"CATEGORIES_ICONS":CATEGORIES_ICONS, "CATEGORIES_HOLES":CATEGORIES_HOLES,
 		}

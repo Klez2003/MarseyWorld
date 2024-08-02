@@ -65,10 +65,6 @@
 		</div>
 	{% endif %}
 
-	<a class="btn btn-primary btn-block mb-3" href="/community">
-		<span class="sidebar--big--head">COMMUNITY</span>
-		<span class="sidebar--big--subhead">Browse Community Holes</span>
-	</a>
 	<a class="btn btn-primary btn-block mb-3" href="/?effortposts_only=True">BROWSE EFFORTPOSTS</a>
 	<a class="btn btn-primary btn-block mb-3" href="/post/122529/new-user-welcome-message-supplement-for">SITE GUIDE</a>
 	<a class="btn btn-primary btn-block mb-3" href="/directory">
@@ -96,8 +92,7 @@
 		<hr>
 	</div>
 	<div class="sidebar-wpd--holes sidebar-wpd--holes--3">
-		{% set holes = ['Accident','Animal','Beating','Beheading','Bladed','Burning','Cartel','Combat','Compilation','Disaster','Drowning','Electricity','Execution','Explosions','Falling','Industrial','ISIS','Maiming','Police','Shooting','Suicide','Vehicle','Other'] %}
-		{% for name in holes %}
+		{% for name in CATEGORIES_HOLES['Death'] %}
 			<a href="/h/{{name.lower()}}" {% if hole and hole.name == name.lower() %}class="active-hole"{% endif %}>{{name}}</a>
 		{% endfor %}
 	</div>
@@ -108,8 +103,7 @@
 		<hr>
 	</div>
 	<div class="sidebar-wpd--holes sidebar-wpd--holes--3">
-		{% set holes = ['Aftermath','Fights','Gore','Medical','Request','SelfHarm'] %}
-		{% for name in holes %}
+		{% for name in CATEGORIES_HOLES['Gore'] %}
 			<a href="/h/{{name.lower()}}" {% if hole and hole.name == name.lower() %}class="active-hole"{% endif %}>{{name}}</a>
 		{% endfor %}
 	</div>
@@ -120,8 +114,7 @@
 		<hr>
 	</div>
 	<div class="sidebar-wpd--holes sidebar-wpd--holes--3">
-		{% set holes = ['Art','Discussion','Meta','Music','Pets','Social'] %}
-		{% for name in holes %}
+		{% for name in CATEGORIES_HOLES['Community'] %}
 			<a href="/h/{{name.lower()}}" {% if hole and hole.name == name.lower() %}class="active-hole"{% endif %}>{{name}}</a>
 		{% endfor %}
 	</div>

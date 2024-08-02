@@ -1308,6 +1308,18 @@ def toggle_pins(hole, sort):
 
 	return {"message": "Pins toggled successfully!"}
 
+@app.post("/toggle_category/<category>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+def toggle_category(category):
+	if category not in CATEGORIES_ICONS:
+		abort(400, "Invalid category!")
+
+	session[category] = not session.get(category, True)
+
+	return {"message": f"{category} toggled successfully!"}
+
 
 @app.get("/badge_owners/<int:bid>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)

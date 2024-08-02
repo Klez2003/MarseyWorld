@@ -228,6 +228,10 @@
 .fa-pen:before{content:"\f304"}
 .fa-newspaper:before{content:"\f1ea"}
 .fa-walkie-talkie:before{content:"\f8ef"}
+.fa-filter:before{content:"\f0b0"}
+.fa-skull:before{content:"\f54c"}
+.fa-droplet:before{content:"\f043"}
+.fa-person-rifle:before{content:"\e54e"}
 
 /* do not remove - fixes hand, talking, marsey-love components
 	from breaking out of the comment box

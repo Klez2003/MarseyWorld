@@ -148,6 +148,9 @@ if len(SITE_NAME) > 5:
 if not IS_LOCALHOST:
 	OFFSITE_NOTIF_QUERIES.add(SITE)
 
+CATEGORIES_ICONS = {}
+CATEGORIES_HOLES = {}
+
 TAGLINES = ()
 
 PERMS = { # Minimum admin_level to perform action.
@@ -442,6 +445,20 @@ elif SITE_NAME == 'WPD':
 	)
 
 	OFFSITE_NOTIF_QUERIES.update({'marsey', 'watchpeopledie', 'makemycoffin'})
+
+	CATEGORIES_ICONS = {
+		'Death':'skull',
+		'Gore':'droplet',
+		'Community':'users',
+		'Active Conflicts':'person-rifle',
+	}
+
+	CATEGORIES_HOLES = {
+		'Death': ('Accident','Animal','Beating','Beheading','Bladed','Burning','Cartel','Combat','Compilation','Disaster','Drowning','Electricity','Execution','Explosions','Falling','Industrial','ISIS','Maiming','Police','Shooting','Suicide','Vehicle','Other'),
+		'Gore': ('Aftermath','Fights','Gore','Medical','Request','SelfHarm'),
+		'Community': ('Art','Discussion','Meta','Music','Pets','Social'),
+		'Active Conflicts': ('Slavshit','Sandshit'),
+	}
 
 
 LONGPOSTBOT_REPLIES = (
