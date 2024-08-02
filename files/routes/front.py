@@ -176,7 +176,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		limited_WPD_holes = []
 		for k, val in tuple(categories.items())[1:]:
 			if val:
-				limited_WPD_holes += CATEGORIES_HOLES[k]
+				limited_WPD_holes += (x.lower() for x in CATEGORIES_HOLES[k])
 
 		posts1 = posts.filter(Post.hole.notin_(limited_WPD_holes)).offset((size - 5) * (page - 1)).limit(size - 5).all()
 		if posts1:
