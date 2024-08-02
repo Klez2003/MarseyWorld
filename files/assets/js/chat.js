@@ -198,6 +198,8 @@ function quote(t) {
 
 	ta.focus()
 
+	const scrolled_down = (box.scrollHeight - box.scrollTop <= innerHeight)
+
 	if (scrolled_down) {
 		box.scrollTo(0, box.scrollHeight)
 		setTimeout(function() {
