@@ -99,6 +99,7 @@ def searchposts(v):
 						Post.title.ilike('%'+x+'%'),
 						Post.body.ilike('%'+x+'%'),
 						Post.url.ilike('%'+x+'%'),
+						Post.embed.ilike('%'+x+'%'),
 					) for x in criteria['q']]
 		posts = posts.filter(*words)
 
