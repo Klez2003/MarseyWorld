@@ -1884,8 +1884,7 @@ def delete_media_post(v):
 		)
 	g.db.add(ma)
 
-	if not url.startswith('https://videos'):
-		purge_files_in_cloudflare_cache(url)
+	purge_files_in_cloudflare_cache(url)
 
 	if SITE == 'watchpeopledie.tv' and url.startswith(SITE_FULL_VIDEOS):
 		filename = url.split(SITE_FULL_VIDEOS)[1]
