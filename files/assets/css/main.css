@@ -3885,7 +3885,7 @@ small, .small {
 	cursor: pointer;
 	font-size: 1.3rem;
 	color: var(--gray-200);
-	font-family: "font awesome 5 pro" !important;
+	font-family: "font awesome 6 pro" !important;
 	font-weight: 900;
 	content: "\f357";
 }
@@ -3906,7 +3906,7 @@ small, .small {
 	cursor: pointer;
 	font-size: 1.3rem;
 	color: var(--gray-200);
-	font-family: "font awesome 5 pro" !important;
+	font-family: "font awesome 6 pro" !important;
 	font-weight: 900;
 	content: "\f354";
 }
