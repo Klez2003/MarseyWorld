@@ -203,7 +203,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		for category in categories.items():
 			if not category:
 				filtered = (x.lower() for x in CATEGORIES_HOLES[category])
-				pins = pins.filter(Post.hole.notin_(CATEGORIES_HOLES[filtered]))
+				pins = pins.filter(Post.hole.notin_(filtered))
 
 		pins = pins.order_by(Post.created_utc.desc()).all()
 		posts = pins + posts
