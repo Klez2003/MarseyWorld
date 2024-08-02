@@ -5,8 +5,9 @@ for (const id of save_value) {
 		document.getElementById(id).value = value
 }
 
-autoExpand(document.getElementById('post-text'))
-markdown(document.getElementById("post-text"));
+const postText = document.getElementById('post-text')
+autoExpand(postText)
+markdown(postText);
 
 const save_checked = ['post-notify', 'post-new', 'post-nsfw', 'post-draft', 'post-effortpost', 'post-ghost', 'post-cw']
 for (const key of save_checked) {
@@ -276,9 +277,10 @@ function submit_restore_files(kind, id) {
 			else {
 				oldfiles["post-text"] = new DataTransfer();
 				for (const file of files) {
-					oldfiles["post-text"].items.add(file);
+					if (postText.value.includes(`[${file.name}]`)) 
+						oldfiles["post-text"].items.add(file);
 				}
-				markdown(document.getElementById("post-text"))
+				markdown(postText)
 			}
 		};
 	}
