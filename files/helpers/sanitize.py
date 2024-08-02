@@ -781,7 +781,6 @@ def normalize_url(url):
 		if url.startswith(k):
 			url = url.replace(k, val)
 
-	url = url.replace("/giphy.gif", "/giphy.webp")
 	url = url.replace('/amp/', '/')
 
 	if url.endswith('.amp'):
