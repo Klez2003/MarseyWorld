@@ -498,31 +498,39 @@ let patron
 if (location.host == 'rdrama.net') patron = 'paypig'
 else patron = 'patron'
 
+function check_file_size(input, file) {
+	if (!file) return false
+
+	let max_size
+	let max_size_patron
+	let type
+
+	if (file.type.startsWith('video/')) {
+		max_size = MAX_VIDEO_SIZE_MB
+		max_size_patron = MAX_VIDEO_SIZE_MB_PATRON
+		type = 'video'
+	}
+	else {
+		max_size = MAX_IMAGE_AUDIO_SIZE_MB
+		max_size_patron = MAX_IMAGE_AUDIO_SIZE_MB_PATRON
+		type = 'image/audio'
+	}
+
+	if (file.size > max_size_patron * 1024 * 1024 || (!vpatron && file.size > max_size * 1024 * 1024)) {
+		const msg = `Max ${type} size is ${max_size} MB (${max_size_patron} MB for ${patron}s)`
+		showToast(false, msg);
+		input.value = null;
+		return false
+	}
+
+	return true
+}
+
 function handle_files(input, newfiles) {
 	if (!newfiles) return;
 
 	for (const file of newfiles) {
-		let max_size
-		let max_size_patron
-		let type
-
-		if (file.type.startsWith('video/')) {
-			max_size = MAX_VIDEO_SIZE_MB
-			max_size_patron = MAX_VIDEO_SIZE_MB_PATRON
-			type = 'video'
-		}
-		else {
-			max_size = MAX_IMAGE_AUDIO_SIZE_MB
-			max_size_patron = MAX_IMAGE_AUDIO_SIZE_MB_PATRON
-			type = 'image/audio'
-		}
-
-		if (file.size > max_size_patron * 1024 * 1024 || (!vpatron && file.size > max_size * 1024 * 1024)) {
-			const msg = `Max ${type} size is ${max_size} MB (${max_size_patron} MB for ${patron}s)`
-			showToast(false, msg);
-			input.value = null;
-			return
-		}
+		check_file_size(input, file)
 	}
 
 	const ta = input.parentElement.parentElement.parentElement.parentElement.querySelector('textarea.file-ta');
@@ -574,29 +582,31 @@ if (file_upload) {
 		if (file_upload.files)
 		{
 			const file = file_upload.files[0]
-			const char_limit = screen_width >= 768 ? 50 : 10;
-			file_upload.previousElementSibling.textContent = file.name.substr(0, char_limit);
-			if (file.type.startsWith('image/')) {
-				const fileReader = new FileReader();
-				fileReader.readAsDataURL(file_upload.files[0]);
-				fileReader.onload = function() {
-					document.getElementById('image-preview').setAttribute('src', this.result);
-					document.getElementById('image-preview').classList.remove('d-none');
-					document.getElementById('image-preview').classList.add('mr-2');
-				};
-			}
-			else {
-				document.getElementById('image-preview').classList.add('d-none');
-				document.getElementById('image-preview').classList.remove('mr-2');
-			}
+			if (check_file_size(file_upload, file)) {
+				const char_limit = screen_width >= 768 ? 50 : 10;
+				file_upload.previousElementSibling.textContent = file.name.substr(0, char_limit);
+				if (file.type.startsWith('image/')) {
+					const fileReader = new FileReader();
+					fileReader.readAsDataURL(file_upload.files[0]);
+					fileReader.onload = function() {
+						document.getElementById('image-preview').setAttribute('src', this.result);
+						document.getElementById('image-preview').classList.remove('d-none');
+						document.getElementById('image-preview').classList.add('mr-2');
+					};
+				}
+				else {
+					document.getElementById('image-preview').classList.add('d-none');
+					document.getElementById('image-preview').classList.remove('mr-2');
+				}
 
-			if (typeof checkForRequired === "function") {
-				document.getElementById('urlblock').classList.add('d-none');
-				document.getElementById('remove-attachment').classList.remove('d-none');
-				checkForRequired();
-			}
-			else {
-				document.getElementById('submit-btn').disabled = false;
+				if (typeof checkForRequired === "function") {
+					document.getElementById('urlblock').classList.add('d-none');
+					document.getElementById('remove-attachment').classList.remove('d-none');
+					checkForRequired();
+				}
+				else {
+					document.getElementById('submit-btn').disabled = false;
+				}
 			}
 		}
 	}
