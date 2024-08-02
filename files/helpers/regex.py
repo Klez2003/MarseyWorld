@@ -104,7 +104,7 @@ exclamation_point_regex = re.compile('(?<!!|\?)(?<!, motherfucker)(!)(?!!|\?)(?=
 image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/({hosts})\/|\/)).*?)\)', flags=re.A)
 
 video_regex_extensions = '|'.join(VIDEO_FORMATS)
-video_sub_regex = re.compile(f'(?<!")(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({video_regex_extensions}))' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+video_sub_regex = re.compile(f'(?<!")(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({video_regex_extensions}))' + NOT_IN_CODE_OR_LINKS, flags=re.A|re.I)
 
 def video_sub_regex_matcher(match):
 	url = match.group(1)
