@@ -140,7 +140,15 @@
 		<div class="col-12">
 			<div class="posts">
 				{% block listing_template %}
-					{% include "post_listing.html" %}
+					{% if error %}
+						<div class="row no-gutters">
+							<div class="col">
+								{{macros.ghost_box(error, '', 1)}}
+							</div>
+						</div>
+					{% else %}
+						{% include "post_listing.html" %}
+					{% endif %}
 				{% endblock %}
 			</div>
 		</div>
