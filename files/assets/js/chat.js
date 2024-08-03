@@ -25,6 +25,10 @@ const group_names = document.getElementById('group_names').value.replaceAll(', '
 const group_names_pattern = String.raw`(\s|^)!(` + group_names + String.raw`)(\s|$)`
 const group_names_regex = new RegExp(group_names_pattern, "g");
 
+function scrolled_down() {
+	return box.scrollHeight - box.scrollTop <= innerHeight
+}
+
 socket.on('speak', function(json) {
 	if (blocked_user_ids.includes(json.user_id.toString())) {
 		return
@@ -54,7 +58,6 @@ socket.on('speak', function(json) {
 
 	const users = document.getElementsByClassName('user_id');
 	const last_user = users[users.length-1].value;
-	const scrolled_down = (box.scrollHeight - box.scrollTop <= innerHeight)
 
 	if (last_user != json.user_id) {
 		document.getElementsByClassName('avatar-pic')[0].src = '/pp/' + json.user_id
@@ -125,10 +128,10 @@ socket.on('speak', function(json) {
 	register_new_elements(line2);
 	bs_trigger(line2)
 
-	if (scrolled_down && document.getElementsByClassName('chat-message').length > 250)
+	if (scrolled_down() && document.getElementsByClassName('chat-message').length > 250)
 		document.getElementById('chat-window').firstElementChild.remove()
 
-	if (scrolled_down || json.user_id == vid) {	
+	if (scrolled_down() || json.user_id == vid) {	
 		box.scrollTo(0, box.scrollHeight)
 		setTimeout(function() {
 			box.scrollTo(0, box.scrollHeight)
@@ -198,9 +201,7 @@ function quote(t) {
 
 	ta.focus()
 
-	const scrolled_down = (box.scrollHeight - box.scrollTop <= innerHeight)
-
-	if (scrolled_down) {
+	if (scrolled_down()) {
 		box.scrollTo(0, box.scrollHeight)
 		setTimeout(function() {
 			box.scrollTo(0, box.scrollHeight)
