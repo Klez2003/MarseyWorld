@@ -1940,11 +1940,11 @@ def insert_transaction_post(v):
 	amount = request.values.get("amount", "").strip()
 	username = request.values.get("username", "").strip()
 
-	if type not in {'BMAC', 'BTC', 'ETH', 'XMR', 'SOL', 'DOGE', 'LTC'}:
+	if type not in {'Kofi', 'BTC', 'ETH', 'XMR', 'SOL', 'DOGE', 'LTC'}:
 		abort(400, "Invalid transaction currency!")
 
-	if type == 'BMAC':
-		id = 'BMAC-' + str(int(time.time()))
+	if type == 'Kofi':
+		id = 'Kofi-' + str(int(time.time()))
 
 	if not id:
 		abort(400, "A transaction ID is required!")
