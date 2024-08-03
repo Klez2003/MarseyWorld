@@ -5986,7 +5986,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('reindeer', 'Capy', 2, 'christmas santa rudolf capy cold aevann holiday animated walking', false, 0),
 ('repostcapy', 'Capy', 2, 'capybara transphobic transphobia legislator', false, 1679152719),
 ('reposthorse', 'Misc', 2, 'chud mlp cartoon', false, 0),
-('repostkitty', 'Misc', 2, 'waste internet data cat', false, 1686274899),
 ('requiredreading', 'Misc', 2, 'masterlawlz lawlz longpost copypasta words wordswordswords oldschool drama rdrama reddit ben ben10 autism tldr didntread toolong', false, 1685841060),
 ('retardedchildren', 'Misc', 2, 'helped stamp', false, 0),
 ('rfybear', 'Misc', 2, 'animal', false, 0),
