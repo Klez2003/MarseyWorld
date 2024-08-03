@@ -5,7 +5,7 @@
 {%- endmacro -%}
 
 {%- macro random_image(path) -%}
-	{{- SITE_FULL_IMAGES ~ "/" ~ path ~ "/" ~ listdir('files/' ~ path)|seeded_random(p) ~ '?x=8' -}}
+	{{- SITE_FULL_IMAGES ~ "/" ~ path ~ "/" ~ listdir('files/' ~ path)|seeded_random(p) ~ '?x=9' -}}
 {%- endmacro -%}
 
 {% macro post_meta(p) %}
@@ -97,7 +97,7 @@
 		{% endif %}
 
 		{% if FEATURES['HOUSES'] and p.author.switched.house %}
-			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/houses/{{p.author.switched.house}}.webp?x=8" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.switched.house}}" alt="House {{p.author.switched.house}}">
+			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/houses/{{p.author.switched.house}}.webp?x=9" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.switched.house}}" alt="House {{p.author.switched.house}}">
 		{% endif %}
 
 		{% if p.author.switched.verified %}<i class="fas fa-badge-check align-middle ml-1 {{p.author.switched.checkmark_classes}}" style="color:{% if p.author.switched.verifiedcolor %}#{{p.author.switched.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.verified}}"></i>
@@ -106,7 +106,7 @@
 			<div class="profile-pic-30-wrapper" style="margin-top:9px;margin-bottom:9px">
 				<img loading="lazy" alt="@{{p.author.switched.username}}'s profile picture" src="{{p.author.switched.profile_url}}" class="profile-pic-30 mr-2">
 				{% if p.author.switched.hat_active(v)[0] -%}
-					<img class="profile-pic-30-hat hat" loading="lazy" src="{{p.author.switched.hat_active(v)[0]}}?x=8" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.hat_active(v)[1]}}" alt="@{{p.author.switched.username}}'s hat">
+					<img class="profile-pic-30-hat hat" loading="lazy" src="{{p.author.switched.hat_active(v)[0]}}?x=9" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.hat_active(v)[1]}}" alt="@{{p.author.switched.username}}'s hat">
 				{%- endif %}
 			</div>
 			<span {% if p.author.switched.patron and not p.distinguished %}class="patron" style="background-color:#{{p.author.switched.name_color}}"{% elif p.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if p.author.switched.pride_username(v) %}pride_username{% endif %}>{{p.author_name}}</span>

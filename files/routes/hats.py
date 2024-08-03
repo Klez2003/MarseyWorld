@@ -109,7 +109,7 @@ def unequip_hat(v, hat_id):
 def hat_owners(v, hat_id):
 	name = g.db.query(HatDef.name).filter_by(id=hat_id).one()[0]
 
-	href = f'{SITE_FULL_IMAGES}/i/hats/{name}.webp?x=8'
+	href = f'{SITE_FULL_IMAGES}/i/hats/{name}.webp?x=9'
 
 	page = get_page()
 
