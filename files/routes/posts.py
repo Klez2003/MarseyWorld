@@ -499,6 +499,9 @@ def submit_post(v, hole=None):
 	if hole == 'changelog':
 		abort(400, "/h/changelog is archived")
 
+	if hole == 'announcements' and v.admin_level < PERMS["POST_IN_H_ANNOUNCEMENTS"]:
+		abort(400, "Your admin level isn't high enough to post in /h/announcement")
+
 	if hole in {'furry','vampire','racist','femboy','edgy'} and not v.client and not v.house.lower().startswith(hole):
 		abort(400, f"You need to be a member of House {hole.capitalize()} to post in /h/{hole}")
 

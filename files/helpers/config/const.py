@@ -236,6 +236,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_LINK': 4,
 	'ADMIN_ADD': 4,
 	'ADMIN_REMOVE': 4,
+	'POST_IN_H_ANNOUNCEMENTS': 4,
 
 	'MODS_EVERY_HOLE': 5,
 	'MODS_EVERY_GROUP': 5,
