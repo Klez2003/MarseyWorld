@@ -7059,7 +7059,7 @@ input[type=number] {
 	padding-top: 81.55px !important
 }
 #chat {
-	height: calc(100dvh - 81.55px - 2rem)
+	height: calc(100dvh - 49.55px)
 }
 
 @media (max-width: 768px) {
