@@ -7,6 +7,7 @@ let commentFormID;
 function insertGif (url) {
 	const commentBox = document.getElementById(commentFormID);
 	insertText(commentBox, url)
+	markdown(commentBox)
 }
 
 const gifModal = document.getElementById('gifModal')
