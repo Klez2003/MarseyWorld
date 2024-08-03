@@ -419,10 +419,9 @@ if (!location.pathname.startsWith('/chat/') && (gbrowser == 'iphone' || gbrowser
 	}
 }
 
-const screen_width = (innerWidth > 0) ? innerWidth : screen.width;
 function focusSearchBar(element)
 {
-	if (screen_width >= 768) {
+	if (innerWidth >= 768) {
 		element.focus();
 	}
 }
@@ -431,7 +430,7 @@ let MINFLIES;
 let MAXFLIES;
 let ACTUALMAXFILES;
 
-if (screen_width < 768) {
+if (innerWidth < 768) {
 	MINFLIES = 5;
 	MAXFLIES = 10;
 	ACTUALMAXFILES = 50;
@@ -583,7 +582,7 @@ if (file_upload) {
 		{
 			const file = file_upload.files[0]
 			if (check_file_size(file_upload, file)) {
-				const char_limit = screen_width >= 768 ? 50 : 10;
+				const char_limit = innerWidth >= 768 ? 50 : 10;
 				file_upload.previousElementSibling.textContent = file.name.substr(0, char_limit);
 				if (file.type.startsWith('image/')) {
 					const fileReader = new FileReader();
@@ -671,7 +670,7 @@ function handleUploadProgress(e, upload_prog) {
 }
 
 
-if (screen_width < 768) {
+if (innerWidth < 768) {
 	let object
 
 	const expandImageModal = document.getElementById('expandImageModal')

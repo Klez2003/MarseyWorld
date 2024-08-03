@@ -127,7 +127,7 @@ function update_inline_emoji_modal(event)
 {
 	const box_coords = update_ghost_div_textarea(event.target);
 
-	box_coords.x = Math.min(box_coords.x, screen_width - 150)
+	box_coords.x = Math.min(box_coords.x, innerWidth - 150)
 
 	let text = event.target.value;
 

@@ -343,7 +343,7 @@ document.addEventListener('click', function(e) {
 const input = document.getElementById('file')
 function handle_files() {
 	if (!input.files.length) return
-	const char_limit = screen_width >= 768 ? 50 : 5;
+	const char_limit = innerWidth >= 768 ? 50 : 5;
 	input.previousElementSibling.className  = "";
 	input.previousElementSibling.textContent = input.files[0].name.substr(0, char_limit);
 }
