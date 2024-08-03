@@ -65,17 +65,17 @@ def front_all(v, hole=None):
 			default = False
 		pins = session.get(f'{hole}_{sort}', default)
 
+	categories = {}
+	for category in CATEGORIES_ICONS.keys():
+		categories[category] = session.get(category, True)
+
 	if not v:
-		result = cache.get(f'frontpage_{sort}_{t}_{page}_{hole}_{pins}_{effortposts_only}')
+		result = cache.get(f'frontpage_{sort}_{t}_{page}_{hole}_{pins}_{effortposts_only}_{categories}')
 		if result:
 			calc_users()
 			return result
 
 	hide_cw = (SITE_NAME == 'WPD' and v and v.hide_cw)
-
-	categories = {}
-	for category in CATEGORIES_ICONS.keys():
-		categories[category] = session.get(category, True)
 
 	ids, total, size = frontlist(sort=sort,
 					page=page,
@@ -101,7 +101,7 @@ def front_all(v, hole=None):
 	result = render_template("home.html", v=v, listing=posts, total=total, sort=sort, t=t, page=page, hole=hole, home=True, pins=pins, size=size)
 
 	if not v:
-		cache.set(f'frontpage_{sort}_{t}_{page}_{hole}_{pins}_{effortposts_only}', result, timeout=900)
+		cache.set(f'frontpage_{sort}_{t}_{page}_{hole}_{pins}_{effortposts_only}_{categories}', result, timeout=900)
 
 	return result
 
