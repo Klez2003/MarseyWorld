@@ -235,3 +235,7 @@
 		width: 10px;
 	}
 }
+
+.category-btn.text-muted {
+    color: var(--black) !important;
+}
