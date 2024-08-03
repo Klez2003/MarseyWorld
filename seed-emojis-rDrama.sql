@@ -3181,6 +3181,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseygingerbread3', 'Marsey', 2, 'cookie christmas holiday', false, 0),
 ('marseygirl', 'Marsey', 2, 'dress toddler tween sister horror shining', false, 0),
 ('marseygirlboss', 'Marsey', 2, 'woman foid starbucks', false, 1709749217),
+('marseygivecoconut', 'Marsey', 2, 'beach fruit harris kamala palm president take unburdened', false, 1722721891),
 ('marseygivecrown', 'Marsey', 2, 'king based swole reaction muscles', false, 0),
 ('marseygiveup', 'Marsey', 2, 'despair reaction depression miserable fall over depressed falling animated sad', false, 0),
 ('marseygiygas', 'Marsey', 2, 'halloween earthbound horror alien boss vidya game video', false, 1666512009),
