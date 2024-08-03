@@ -813,16 +813,16 @@ class User(Base):
 				Comment.deleted_utc == 0,
 			)
 
-		return notifs.count() + self.chat_mentions_notifications_count + self.chats_notifications_count + self.modmail_notifications_count + self.post_notifications_count + self.modaction_notifications_count + self.offsite_notifications_count
+		return notifs.count() + self.modmail_notifications_count + self.chat_mentions_notifications_count + self.chats_notifications_count + self.post_notifications_count + self.modaction_notifications_count + self.offsite_notifications_count
 
 	@property
 	@lazy
 	def normal_notifications_count(self):
 		return self.notifications_count \
 			- self.message_notifications_count \
+			- self.modmail_notifications_count \
 			- self.chat_mentions_notifications_count \
 			- self.chats_notifications_count \
-			- self.modmail_notifications_count \
 			- self.post_notifications_count \
 			- self.modaction_notifications_count \
 			- self.offsite_notifications_count
@@ -845,16 +845,6 @@ class User(Base):
 
 	@property
 	@lazy
-	def chat_mentions_notifications_count(self):
-		return g.db.query(func.sum(ChatMembership.mentions)).filter_by(user_id=self.id).one()[0] or 0
-
-	@property
-	@lazy
-	def chats_notifications_count(self):
-		return g.db.query(ChatMembership).filter_by(user_id=self.id, notification=True, muted=False, mentions=0).count()
-
-	@property
-	@lazy
 	def modmail_notifications_count(self):
 		if self.admin_level < PERMS['NOTIFICATIONS_MODMAIL']:
 			return 0
@@ -867,6 +857,16 @@ class User(Base):
 				Comment.sentto == MODMAIL_ID,
 				Comment.created_utc > self.last_viewed_modmail_notifs,
 			).count()
+
+	@property
+	@lazy
+	def chat_mentions_notifications_count(self):
+		return g.db.query(func.sum(ChatMembership.mentions)).filter_by(user_id=self.id).one()[0] or 0
+
+	@property
+	@lazy
+	def chats_notifications_count(self):
+		return g.db.query(ChatMembership).filter_by(user_id=self.id, notification=True, muted=False, mentions=0).count()
 
 	@property
 	@lazy
@@ -941,12 +941,12 @@ class User(Base):
 			return ''
 		elif self.message_notifications_count > 0:
 			return 'messages'
+		elif self.modmail_notifications_count > 0:
+			return 'modmail'
 		elif self.chat_mentions_notifications_count > 0:
 			return 'chats/'
 		elif self.chats_notifications_count > 0:
 			return 'chats'
-		elif self.modmail_notifications_count > 0:
-			return 'modmail'
 		elif self.post_notifications_count > 0:
 			return 'posts'
 		elif self.modaction_notifications_count > 0:

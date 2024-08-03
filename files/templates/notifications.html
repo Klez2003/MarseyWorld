@@ -19,11 +19,6 @@
 					Messages {% if v.message_notifications_count %}<span class="font-weight-bold" style="color:#d8910d">({{v.message_notifications_count}})</span>{% endif %}
 					</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link py-3{% if request.path == '/notifications/chats' %} active{% endif %}" href="/notifications/chats">
-					Chats {% if v.chat_mentions_notifications_count %}<span class="font-weight-bold" style="color:#dd1ae0">({{v.chat_mentions_notifications_count}})</span>{% endif %} {% if v.chats_notifications_count %}<span class="font-weight-bold" style="color:#008080">({{v.chats_notifications_count}})</span>{% endif %}
-					</a>
-				</li>
 				{% if v.admin_level >= PERMS['VIEW_MODMAIL'] %}
 					<li class="nav-item">
 						<a class="nav-link py-3{% if request.path == '/notifications/modmail' %} active{% endif %}" href="/notifications/modmail">
@@ -31,6 +26,11 @@
 						</a>
 					</li>
 				{% endif %}
+				<li class="nav-item">
+					<a class="nav-link py-3{% if request.path == '/notifications/chats' %} active{% endif %}" href="/notifications/chats">
+					Chats {% if v.chat_mentions_notifications_count %}<span class="font-weight-bold" style="color:#dd1ae0">({{v.chat_mentions_notifications_count}})</span>{% endif %} {% if v.chats_notifications_count %}<span class="font-weight-bold" style="color:#008080">({{v.chats_notifications_count}})</span>{% endif %}
+					</a>
+				</li>
 				<li class="nav-item">
 					<a class="nav-link py-3{% if request.path == '/notifications/posts' %} active{% endif %}" href="/notifications/posts">
 					Posts {% if v.post_notifications_count %}<span class="font-weight-bold" style="color:#0000ff">({{v.post_notifications_count}})</span>{% endif %}
