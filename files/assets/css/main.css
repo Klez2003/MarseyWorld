@@ -4427,6 +4427,8 @@ small, .small {
 }
 .comment .comment-body .user-name {
 	color: var(--black);
+    z-index: 1;
+    position: relative;
 }
 .comment .comment-body .comment-text {
 	margin-bottom: 1rem;
