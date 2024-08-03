@@ -363,19 +363,32 @@ function send_hearbeat() {
 send_hearbeat()
 setInterval(send_hearbeat, 20000);
 
+const chatBox = document.getElementById('chat')
 box.scrollTo(0, box.scrollHeight)
+if (innerWidth <= 768)
+	chatBox.style.height = "calc(100dvh - 83.15px)"
 setTimeout(function() {
 	box.scrollTo(0, box.scrollHeight)
+	if (innerWidth <= 768)
+		chatBox.style.height = "calc(100dvh - 83.15px)"
 }, 200);
 setTimeout(function() {
 	box.scrollTo(0, box.scrollHeight)
+	if (innerWidth <= 768)
+		chatBox.style.height = "calc(100dvh - 83.15px)"
 }, 500);
 setTimeout(function() {
 	box.scrollTo(0, box.scrollHeight)
+	if (innerWidth <= 768)
+		chatBox.style.height = "calc(100dvh - 83.15px)"
 }, 1000);
 setTimeout(function() {
 	box.scrollTo(0, box.scrollHeight)
+	if (innerWidth <= 768)
+		chatBox.style.height = "calc(100dvh - 83.15px)"
 }, 1500);
 document.addEventListener('DOMContentLoaded', function() {
 	box.scrollTo(0, box.scrollHeight)
+	if (innerWidth <= 768)
+		chatBox.style.height = "calc(100dvh - 83.15px)"
 });
