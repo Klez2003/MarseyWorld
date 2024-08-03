@@ -336,7 +336,7 @@ def alert_everyone(cid):
 	t = int(time.time())
 	_everyone_query = text(f"""
 	insert into notifications
-	select id, {cid}, false, {t} from users
+	select id, {cid}, false, {t} from users where id != {g.v.id}
 	on conflict do nothing;""")
 	g.db.execute(_everyone_query)
 
