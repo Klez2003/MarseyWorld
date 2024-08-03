@@ -41,7 +41,7 @@
 						</div>
 					{% endif %}
 
-					<div class="footer mt-5">
+					<div class="footer mt-5 mb-4">
 						<div class="d-flex">
 							<input id="submit-btn" disabled type="submit" class="btn btn-primary ml-auto" value="Submit {{kind}} {% if kind == 'Sidebar' %}Image{% endif %}">
 						</div>
@@ -50,6 +50,10 @@
 			</div>
 		</div>
 	</div>
+
+	{% set verbiage = 'Banners' if kind == 'Banner' else 'Sidebar Images' %}
+	{% set link = verbiage.lower().replace(' ', '_') %}
+	<a href="/{{link}}"><h4>View Current {{verbiage}}</h4></a>
 
 	<h2 class="mt-5 mx-1">Pending Approval</h2>
 	<div class="mt-5">
