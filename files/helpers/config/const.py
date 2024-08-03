@@ -648,6 +648,7 @@ LONGPOSTBOT_REPLIES = (
 	":#marseydoit:",
 	"I don't care, sorry boo",
 	":#marseywords:",
+	"https://i.rdrama.net/images/17227070857606635.webp",
 )
 
 CHUD_MSGS = (
