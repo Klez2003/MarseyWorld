@@ -5626,7 +5626,7 @@ lite-youtube > .lty-playbtn {
 	left: 50%;
 	z-index: 1;
 	background-color: transparent;
-	background-image: url('/i/youtube.webp?x=9');
+	background-image: url('/i/youtube.webp?x=11');
 	border: none;
 }
 
@@ -7198,35 +7198,35 @@ button, .btn {
 }
 
 .chud-0:after {
-	background: url("/i/chud/0.webp?x=9");
+	background: url("/i/chud/0.webp?x=11");
 }
 .chud-1:after {
-	background: url("/i/chud/1.webp?x=9");
+	background: url("/i/chud/1.webp?x=11");
 }
 .chud-2:after {
-	background: url("/i/chud/2.webp?x=9");
+	background: url("/i/chud/2.webp?x=11");
 }
 .chud-3:after {
-	background: url("/i/chud/3.webp?x=9");
+	background: url("/i/chud/3.webp?x=11");
 }
 .chud-4:after {
-	background: url("/i/chud/4.webp?x=9");
+	background: url("/i/chud/4.webp?x=11");
 }
 .chud-5:after {
-	background: url("/i/chud/5.webp?x=9");
+	background: url("/i/chud/5.webp?x=11");
 	height: 100px;
 }
 .chud-6:after {
-	background: url("/i/chud/6.webp?x=9");
+	background: url("/i/chud/6.webp?x=11");
 }
 .chud-7:after {
-	background: url("/i/chud/7.webp?x=9");
+	background: url("/i/chud/7.webp?x=11");
 }
 .chud-8:after {
-	background: url("/i/chud/8.webp?x=9");
+	background: url("/i/chud/8.webp?x=11");
 }
 .chud-9:after {
-	background: url("/i/chud/9.webp?x=9");
+	background: url("/i/chud/9.webp?x=11");
 }
 
 
@@ -7246,7 +7246,7 @@ button, .btn {
 	width: 32px;
 	height: 32px;
 	position: fixed;
-	background-image: url('/i/cursormarsey.webp?x=9');
+	background-image: url('/i/cursormarsey.webp?x=11');
 	image-rendering: pixelated;
 	background-position: -64px -32px;
 }
@@ -7256,7 +7256,7 @@ button, .btn {
 	height: 24px;
 	position: fixed;
 	pointer-events: none;
-	background-image: url('/i/cursormarsey-heart.webp?x=9');
+	background-image: url('/i/cursormarsey-heart.webp?x=11');
 	background-size: cover;
 	left: 24px;
 	top: 0px;

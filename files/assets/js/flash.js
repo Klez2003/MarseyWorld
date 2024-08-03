@@ -22,13 +22,13 @@ function flash() {
 			alert = false
 		}
 		else {
-			icon.href = `${SITE_FULL_IMAGES}/i/${SITE_NAME}/icon.webp?x=9`
+			icon.href = `${SITE_FULL_IMAGES}/i/${SITE_NAME}/icon.webp?x=11`
 			alert = true
 		}
 		setTimeout(flash, 500)
 	}
 	else {
-		icon.href = `${SITE_FULL_IMAGES}/i/${SITE_NAME}/icon.webp?x=9`
+		icon.href = `${SITE_FULL_IMAGES}/i/${SITE_NAME}/icon.webp?x=11`
 		notifs = 0
 		title.innerHTML = page_title
 	}
