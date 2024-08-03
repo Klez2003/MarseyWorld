@@ -7067,7 +7067,7 @@ input[type=number] {
 		padding-top: calc(var(--safe-area-inset-top) + 67.8px) !important
 	}
 	#chat {
-		height: calc(100dvh - var(--safe-area-inset-top) - 81.55px - 0.1rem)
+		height: calc(100dvh - 83.15px)
 	}
 }
 
