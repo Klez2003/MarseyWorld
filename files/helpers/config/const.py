@@ -464,7 +464,6 @@ if SITE_NAME == 'rDrama':
 		'femaledatingstrategy',
 		'meta',
 		'lit',
-		'highrollerclub',
 		'love4fatpeople',
 		'redscarepod',
 		'gaybros',
