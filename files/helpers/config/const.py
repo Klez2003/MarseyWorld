@@ -580,7 +580,7 @@ LONGPOSTBOT_REPLIES = (
 	"You can type 10,000 characters and you decided that these were the one's that you wanted.",
 	"Have you owned the libs yet?",
 	"I don't know what you said, because I've seen another human naked.",
-	"Impressive. Normally people with such severe developmental disabilities struggle to write much more than a sentence or two. He really has exceded our expectations for the writing portion. Sadly the coherency of his writing, along with his abilities in the social skills and reading portions, are far behind his peers with similar disabilities.",
+	"Impressive. Normally people with such severe developmental disabilities struggle to write much more than a sentence or two. You really have exceeded our expectations for the writing portion. Sadly the coherency of your writing, along with your abilities in the social skills and reading portions, are far behind your peers with similar disabilities.",
 	"This is a really long way of saying you don't fuck.",
 	"Sorry ma'am, looks like his delusions have gotten worse. We'll have to admit him.",
 	"If only you could put that energy into your relationships",
