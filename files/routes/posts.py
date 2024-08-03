@@ -1222,8 +1222,10 @@ def distinguish_post(post_id, v):
 
 	g.db.add(post)
 
-	if v.mods_hole(post.hole): cls = HoleAction
-	else: cls = ModAction
+	if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH']:
+		cls = ModAction
+	else:
+		cls = HoleAction
 
 	ma = cls(
 		kind=kind,

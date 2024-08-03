@@ -782,10 +782,10 @@ def admin_distinguish_comment(c_id, v):
 
 	g.db.add(comment)
 
-	if comment.parent_post and v.mods_hole(comment.post.hole):
-		cls = HoleAction
-	else:
+	if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH']:
 		cls = ModAction
+	else:
+		cls = HoleAction
 
 	ma = cls(
 		kind=kind,
