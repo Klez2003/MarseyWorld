@@ -12,28 +12,28 @@
 		<div class="row justify-content-around" id="main-content-row">
 			<div id="chat" class="col {% block customPadding %}custom-gutters{% endblock %}">
 				<span>
+					<h5 class="mt-2 mb-3 ml-1 toggleable d-mob-none" style="display:inline-block">{{chat.name}}</h5> 
+					<b class="mt-2 mb-2 ml-1 text-small toggleable d-md-none" style="display:inline-block">{{chat.name}}</b> 
+
+					{% if v.id == chat.owner_id %}
+						<button class="px-2 toggleable" type="button" data-nonce="{{g.nonce}}" data-onclick="toggleElement('chat-name-form', 'chat-name')">
+							<i class="fas fa-pen text-small text-muted"></i>
+						</button>
+
+						<form id="chat-name-form" class="d-none mt-2" action="/chat/{{chat.id}}/name" method="post">
+							<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
+							<input id="chat-name" autocomplete="off" class="form-control d-inline-block" name="new_name" value="{{chat.name}}" style="max-width:300px">
+							<button type="submit" class="btn btn-primary" style="margin-top:-5px">Save</button>
+						</form>
+
+						<a href="/chat/{{chat.id}}/orgies" class="orgy-control fas fa-tv text-muted ml-2"></a>
+					{% else %}
+						<button class="px-2" type="button" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" title="{% if muting_chat %}Unmute (do it){% else %}Mute (don't do it){% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this, '/chat/{{chat.id}}/toggle_mute')">
+							<i class="fas fa-bell-slash {% if muting_chat %}text-danger{% else %}text-muted{% endif %}"></i>
+						</button>
+					{% endif %}
+
 					{% if chat.id != 1 %}
-						<h5 class="mt-2 mb-3 ml-1 toggleable d-mob-none" style="display:inline-block">{{chat.name}}</h5> 
-						<b class="mt-2 mb-2 ml-1 text-small toggleable d-md-none" style="display:inline-block">{{chat.name}}</b> 
-
-						{% if v.id == chat.owner_id %}
-							<button class="px-2 toggleable" type="button" data-nonce="{{g.nonce}}" data-onclick="toggleElement('chat-name-form', 'chat-name')">
-								<i class="fas fa-pen text-small text-muted"></i>
-							</button>
-
-							<form id="chat-name-form" class="d-none mt-2" action="/chat/{{chat.id}}/name" method="post">
-								<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
-								<input id="chat-name" autocomplete="off" class="form-control d-inline-block" name="new_name" value="{{chat.name}}" style="max-width:300px">
-								<button type="submit" class="btn btn-primary" style="margin-top:-5px">Save</button>
-							</form>
-
-							<a href="/chat/{{chat.id}}/orgies" class="orgy-control fas fa-tv text-muted ml-2"></a>
-						{% else %}
-							<button class="px-2" type="button" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" title="{% if muting_chat %}Unmute (do it){% else %}Mute (don't do it){% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this, '/chat/{{chat.id}}/toggle_mute')">
-								<i class="fas fa-bell-slash {% if muting_chat %}text-danger{% else %}text-muted{% endif %}"></i>
-							</button>
-						{% endif %}
-
 						<button id="leave-private-chat" type="submit" class="btn btn-danger fl-r mt-1 mt-md-2 pt-0 px-2 text-small-sm" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/chat/{{chat.id}}/leave')">Leave</button>
 					{% endif %}
 				</span>
