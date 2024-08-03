@@ -37,6 +37,10 @@
 {% endblock %}
 
 {% block content %}
+	{% if FEATURES['HAT_SUBMISSIONS'] %}
+		<a href="/submit/hats" class="btn btn-primary btn-block mt-4 mb-5">Submit Hats</a>
+	{% endif %}
+
 	<script defer src="{{'js/hats.js' | asset}}"></script>
 
 	<div class="overflow-x-auto mt-3 mb-5">
