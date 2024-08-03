@@ -109,6 +109,7 @@ function toggleEdit(id) {
 };
 
 
+const deleteCommentModal = document.getElementById('deleteCommentModal');
 const deleteCommentButton = document.getElementById("deleteCommentButton");
 
 function delete_commentModal(id) {
@@ -136,6 +137,11 @@ deleteCommentButton.onclick = () => {
 		}
 	);
 };
+
+deleteCommentModal.addEventListener('keydown', (e) => {
+	if (e.key === "Enter" && deleteCommentModal.classList.value == 'modal fade show')
+		deleteCommentButton.click()
+})
 
 function post_reply(id) {
 	close_inline_emoji_modal();

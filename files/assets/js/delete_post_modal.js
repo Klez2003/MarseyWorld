@@ -1,3 +1,4 @@
+const deletePostModal = document.getElementById('deletePostModal');
 const deletePostButton = document.getElementById("deletePostButton");
 
 function delete_postModal(id) {
@@ -25,3 +26,8 @@ deletePostButton.onclick = () => {
 		}
 	);
 };
+
+deletePostModal.addEventListener('keydown', (e) => {
+	if (e.key === "Enter" && deletePostModal.classList.value == 'modal fade show')
+		deletePostButton.click()
+})
