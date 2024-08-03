@@ -156,6 +156,15 @@ def users_csv(v):
 def sidebar(v):
 	return render_template('sidebar.html', v=v)
 
+@app.get('/rules')
+@app.get('/h/<hole>/rules')
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@auth_desired
+def rules(v, hole=None):
+	hole_sidebar = None
+	if hole:
+		hole_sidebar = g.db.query(Hole.sidebar_html).filter_by(name=hole.lower()).one_or_none()
+	return render_template('rules.html', v=v, hole_sidebar=hole_sidebar)
 
 @app.get("/stats")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)

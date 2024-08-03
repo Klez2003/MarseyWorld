@@ -1,0 +1,14 @@
+{% extends "default.html" %}
+{% block pagetitle %}Rules{% endblock %}
+{% block content %}
+	<div class="mx-4 mt-4 mb-6">
+		<div id="rules" class="my-3">
+			{% if hole_sidebar %}
+				{{hole_sidebar[0] | safe}}
+			{% else %}
+				{% set rules = "rules_" ~ SITE_NAME ~ ".html" %}
+				{% include rules %}
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
