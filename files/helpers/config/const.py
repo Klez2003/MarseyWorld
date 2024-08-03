@@ -646,6 +646,8 @@ LONGPOSTBOT_REPLIES = (
 	"ok",
 	"no way",
 	":#marseydoit:",
+	"I don't care, sorry boo",
+	":#marseywords:",
 )
 
 CHUD_MSGS = (
