@@ -27,6 +27,96 @@ def delete_unnecessary_tags(tags, name):
 
 	return ' '.join(new_tags)
 
+def finishing_approving_emoji(emoji, author, old_name, comment):
+	v = g.v
+
+	if emoji.kind == "Marsey":
+		all_by_author = g.db.query(Emoji).filter_by(kind="Marsey", author_id=author.id).count()
+
+		if all_by_author >= 99:
+			badge_grant(badge_id=143, user=author)
+		elif all_by_author >= 9:
+			badge_grant(badge_id=16, user=author)
+		else:
+			badge_grant(badge_id=17, user=author)
+	elif emoji.kind == "Capy":
+		all_by_author = g.db.query(Emoji).filter_by(kind="Capy", author_id=author.id).count()
+		if all_by_author >= 9:
+			badge_grant(badge_id=115, user=author)
+		badge_grant(badge_id=114, user=author)
+	elif emoji.kind == "Carp":
+		all_by_author = g.db.query(Emoji).filter_by(kind="Carp", author_id=author.id).count()
+		if all_by_author >= 9:
+			badge_grant(badge_id=288, user=author)
+		badge_grant(badge_id=287, user=author)
+	elif emoji.kind == "Wolf":
+		all_by_author = g.db.query(Emoji).filter_by(kind="Wolf", author_id=author.id).count()
+		if all_by_author >= 9:
+			badge_grant(badge_id=111, user=author)
+		badge_grant(badge_id=110, user=author)
+	elif emoji.kind == "Platy":
+		all_by_author = g.db.query(Emoji).filter_by(kind="Platy", author_id=author.id).count()
+		if all_by_author >= 9:
+			badge_grant(badge_id=113, user=author)
+		badge_grant(badge_id=112, user=author)
+
+	move(f"/asset_submissions/emojis/{old_name}.webp", f"files/assets/images/emojis/{emoji.name}.webp")
+
+	highquality = f"/asset_submissions/emojis/{old_name}"
+	with Image.open(highquality) as i:
+		new_path = f'/asset_submissions/emojis/original/{emoji.name}.{i.format.lower()}'
+	rename(highquality, new_path)
+
+	pay_reason = f'Reward for making <img loading="lazy" data-bs-toggle="tooltip" alt=":{emoji.name}:" title=":{emoji.name}:" src="{SITE_FULL_IMAGES}/e/{emoji.name}.webp">'
+	author.pay_account('coins', 250, pay_reason)
+	g.db.add(author)
+
+	if v.id != author.id:
+		msg = f"@{v.username} (a site admin) has approved an emoji you made: :{emoji.name}:\n\nYou have received 250 coins as a reward!"
+
+		if comment:
+			msg += f"\nComment: `{comment}`"
+
+		send_repeatable_notification(author.id, msg)
+
+	if v.id != emoji.submitter_id and author.id != emoji.submitter_id:
+		msg = f"@{v.username} (a site admin) has approved an emoji you submitted: :{emoji.name}:"
+		
+		if comment:
+			msg += f"\nComment: `{comment}`"
+
+		send_repeatable_notification(emoji.submitter_id, msg)
+
+	emoji.submitter_id = None
+
+	note = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{emoji.name}:" title=":{emoji.name}:" src="{SITE_FULL_IMAGES}/e/{emoji.name}.webp">'
+	if comment:
+		note += f' - Comment: "{comment}"'
+
+	ma = ModAction(
+		kind="approve_emoji",
+		user_id=v.id,
+		target_user_id=emoji.author_id,
+		_note=note
+	)
+	g.db.add(ma)
+
+	if emoji.nsfw:
+		NSFW_EMOJIS.append(emoji.name)
+
+	g.db.commit()
+
+	cache.delete("emojis_True")
+	cache.delete(f"emoji_list_{emoji.kind}_True")
+	if not emoji.nsfw:
+		cache.delete("emojis_False")
+		cache.delete(f"emoji_list_{emoji.kind}_False")
+
+	cache.delete("emoji_count")
+
+	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}.webp")
+
+
 @app.get("/submit/marseys")
 @feature_required('EMOJI_SUBMISSIONS')
 def submit_marseys_redirect():
@@ -125,6 +215,9 @@ def submit_emoji(v):
 			)
 	g.db.add(emoji)
 
+	if SITE == 'rdrama.net' and v.id == 8239:
+		finishing_approving_emoji(emoji, author, emoji.name, None)
+
 	return {"message": f"'{name}' submitted successfully!"}
 
 
@@ -189,92 +282,7 @@ def approve_emoji(v, name):
 	emoji.author_id = author.id
 	g.db.add(emoji)
 
-	if emoji.kind == "Marsey":
-		all_by_author = g.db.query(Emoji).filter_by(kind="Marsey", author_id=author.id).count()
-
-		if all_by_author >= 99:
-			badge_grant(badge_id=143, user=author)
-		elif all_by_author >= 9:
-			badge_grant(badge_id=16, user=author)
-		else:
-			badge_grant(badge_id=17, user=author)
-	elif emoji.kind == "Capy":
-		all_by_author = g.db.query(Emoji).filter_by(kind="Capy", author_id=author.id).count()
-		if all_by_author >= 9:
-			badge_grant(badge_id=115, user=author)
-		badge_grant(badge_id=114, user=author)
-	elif emoji.kind == "Carp":
-		all_by_author = g.db.query(Emoji).filter_by(kind="Carp", author_id=author.id).count()
-		if all_by_author >= 9:
-			badge_grant(badge_id=288, user=author)
-		badge_grant(badge_id=287, user=author)
-	elif emoji.kind == "Wolf":
-		all_by_author = g.db.query(Emoji).filter_by(kind="Wolf", author_id=author.id).count()
-		if all_by_author >= 9:
-			badge_grant(badge_id=111, user=author)
-		badge_grant(badge_id=110, user=author)
-	elif emoji.kind == "Platy":
-		all_by_author = g.db.query(Emoji).filter_by(kind="Platy", author_id=author.id).count()
-		if all_by_author >= 9:
-			badge_grant(badge_id=113, user=author)
-		badge_grant(badge_id=112, user=author)
-
-	move(f"/asset_submissions/emojis/{old_name}.webp", f"files/assets/images/emojis/{emoji.name}.webp")
-
-	highquality = f"/asset_submissions/emojis/{old_name}"
-	with Image.open(highquality) as i:
-		new_path = f'/asset_submissions/emojis/original/{emoji.name}.{i.format.lower()}'
-	rename(highquality, new_path)
-
-	pay_reason = f'Reward for making <img loading="lazy" data-bs-toggle="tooltip" alt=":{emoji.name}:" title=":{emoji.name}:" src="{SITE_FULL_IMAGES}/e/{emoji.name}.webp">'
-	author.pay_account('coins', 250, pay_reason)
-	g.db.add(author)
-
-	if v.id != author.id:
-		msg = f"@{v.username} (a site admin) has approved an emoji you made: :{emoji.name}:\n\nYou have received 250 coins as a reward!"
-
-		if comment:
-			msg += f"\nComment: `{comment}`"
-
-		send_repeatable_notification(author.id, msg)
-
-	if v.id != emoji.submitter_id and author.id != emoji.submitter_id:
-		msg = f"@{v.username} (a site admin) has approved an emoji you submitted: :{emoji.name}:"
-		
-		if comment:
-			msg += f"\nComment: `{comment}`"
-
-		send_repeatable_notification(emoji.submitter_id, msg)
-
-	emoji.submitter_id = None
-
-	note = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{emoji.name}:" title=":{emoji.name}:" src="{SITE_FULL_IMAGES}/e/{emoji.name}.webp">'
-	if comment:
-		note += f' - Comment: "{comment}"'
-
-	ma = ModAction(
-		kind="approve_emoji",
-		user_id=v.id,
-		target_user_id=emoji.author_id,
-		_note=note
-	)
-	g.db.add(ma)
-
-	if emoji.nsfw:
-		NSFW_EMOJIS.append(emoji.name)
-
-	g.db.commit()
-
-	cache.delete("emojis_True")
-	cache.delete(f"emoji_list_{emoji.kind}_True")
-	if not emoji.nsfw:
-		cache.delete("emojis_False")
-		cache.delete(f"emoji_list_{emoji.kind}_False")
-
-
-	cache.delete("emoji_count")
-
-	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}.webp")
+	finishing_approving_emoji(emoji, author, old_name, comment)
 
 	return {"message": f"'{emoji.name}' approved!"}
 
