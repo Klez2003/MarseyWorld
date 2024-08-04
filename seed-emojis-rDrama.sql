@@ -3573,6 +3573,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyjwby', 'Marsey', 2, 'jewish merchant rwby ruby rose anime weeb', false, 1712810260),
 ('marseykaiser', 'Marsey', 2, 'prussian history wwi rifle reich wilhelm germany soldier', false, 0),
 ('marseykakuna', 'Marsey', 2, 'pkmn pokemon 014', false, 1700178600),
+('marseykamakama', 'Marsey', 2, 'animated black cop dance democrat harris indian kamala madam president', false, 1722723511),
 ('marseykamala', 'Marsey', 2, 'candidate coconut debate election harris politics president speech states unburdened united', false, 1721957368),
 ('marseykamalarentfree', 'Marsey', 2, 'biden biwoc black chud democrat indian politician president vice', false, 1722048734),
 ('marseykamikaze', 'Marsey', 2, 'japanese nip pilot ww2 wwii world war', false, 0),
