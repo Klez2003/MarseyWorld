@@ -49,6 +49,7 @@ INSERT INTO public.badge_defs VALUES (345, 'Cucked', 'This user has watched the 
 INSERT INTO public.badge_defs VALUES (346, 'Marsey Tattoo', 'This user permanently supports Marsey, and the Zune. 😉', 1719132081);
 INSERT INTO public.badge_defs VALUES (347, 'Anti-Hate Assassin Survivor', 'WITNESSED', 1720962152);
 INSERT INTO public.badge_defs VALUES (348, 'MasterMime', '...', 1721917829);
+INSERT INTO public.badge_defs VALUES (349, 'KHive Queen Bee', 'Contributed material support to rDrama''s 2024 election super PAC', 1722732287);
 INSERT INTO public.badge_defs VALUES (176, 'Fish Of The Year', 'Awarded for outstanding achievement in the field of achievement. Well done!', 1663340894);
 INSERT INTO public.badge_defs VALUES (177, 'Sweatshop Laborer', 'lmao thanks retard', 1663616592);
 INSERT INTO public.badge_defs VALUES (178, 'Marseyhypebeast', 'This user owns OFFICIAL MARSEY MERCH and has waaaaay more sex than you.', 1663616913);
@@ -311,7 +312,7 @@ INSERT INTO public.badge_defs VALUES (73, 'Le Rich Gentlesir', 'Spent a fucking 
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 348, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 349, true);
 
 
 --
