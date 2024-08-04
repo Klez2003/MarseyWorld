@@ -1171,12 +1171,9 @@ INSERT INTO public.hat_defs VALUES (1528, 'Swirl Splash Effect', 'Swploosh', 2, 
 INSERT INTO public.hat_defs VALUES (1535, 'Miku Frame', 'Show your love for the only thing that will out live roaches in the apocalypse, Hatsune Miku !!', 2, 500, NULL, 1712893209);
 INSERT INTO public.hat_defs VALUES (1536, 'Sleeping Konata Hat', 'All the way from the anime series Lucky Star to the top of your head!', 2, 500, NULL, 1712895608);
 INSERT INTO public.hat_defs VALUES (1539, 'MLG Hat', 'I am an epic pro gamer.', 2, 500, NULL, 1713490731);
-
-
-
-
-
-
+INSERT INTO public.hat_defs VALUES (1622, 'Cheese', 'Wisconsin’s finest!', 2, 500, NULL, 1719819280);
+INSERT INTO public.hat_defs VALUES (1617, 'Taco', 'gracias', 2, 500, NULL, 1719818912);
+INSERT INTO public.hat_defs VALUES (1613, 'Frost', 'Feel the chills', 2, 500, NULL, 1719818291);
 INSERT INTO public.hat_defs VALUES (1450, 'Red Eminent Horns', 'Queen of the devils, leader of the chuds.', 2, 500, NULL, 1708367282);
 INSERT INTO public.hat_defs VALUES (1544, 'Sweden Flag', 'Över Norden jag härskar, med det arv som jag gavs, gång på gång, sjung Carolus sång!', 2, 1000, NULL, 1714318091);
 INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokémon. A Ghost and Poison type. Gengar can pass through dimensions and appear almost anywhere. Since Gengar absorbs any warmth around it, the temperature suddenly drops wherever it appears.', 2, 500, NULL, 1698658745);
@@ -1198,7 +1195,6 @@ INSERT INTO public.hat_defs VALUES (1474, 'Bowtie (red)', 'Dressed to impress th
 INSERT INTO public.hat_defs VALUES (1477, 'Zombie Hand', 'Even in death it won''t let go of me.', 2, 500, NULL, 1708648456);
 INSERT INTO public.hat_defs VALUES (1478, 'Cone', 'Watch out, this user is a hazard.', 2, 500, NULL, 1708648482);
 INSERT INTO public.hat_defs VALUES (1485, 'Cute Army Cap', 'You''ll address me as Weeb Sergeant.', 2, 500, NULL, 1708648770);
-
 INSERT INTO public.hat_defs VALUES (1490, 'Red Hearts', 'I love you all!', 2, 500, NULL, 1708648948);
 INSERT INTO public.hat_defs VALUES (1495, 'Hi', 'Hello! How are you?', 2, 500, NULL, 1708649083);
 INSERT INTO public.hat_defs VALUES (1496, 'Pink Heart Halo', 'I''m falling for you my dear.', 2, 500, NULL, 1708649109);
@@ -1211,18 +1207,15 @@ INSERT INTO public.hat_defs VALUES (1526, 'Fire II', 'HOT HOT HOT!', 2, 1000, NU
 INSERT INTO public.hat_defs VALUES (1537, 'greeble', ':greeble:', 2, 500, NULL, 1713150123);
 INSERT INTO public.hat_defs VALUES (1538, 'NIKO Hat', 'When two shots aren''t needed go with one.', 2, 500, NULL, 1713490420);
 INSERT INTO public.hat_defs VALUES (1540, 'Mood Hat', 'Real time mood.', 2, 500, NULL, 1713531474);
-
-
-
-
-
 INSERT INTO public.hat_defs VALUES (1056, 'Argentina Flag', 'LAS MALVINAS SON ARGENTINAS', 2, 1000, NULL, 1668711374);
-
-
-
 INSERT INTO public.hat_defs VALUES (1642, 'kamalaharris2024', 'Show your support for America''s first cop president. 👮‍♀️', 2, 500, NULL, 1721601346);
 INSERT INTO public.hat_defs VALUES (1576, 'Sri Lanka Flag', 'Ayubowan, appachchi apita hikuwo', 2, 1000, NULL, 1718431346);
-
+INSERT INTO public.hat_defs VALUES (1643, 'Illuminati', 'You are being watched', 2, 1000, NULL, 1721753474);
+INSERT INTO public.hat_defs VALUES (1639, 'Steel Crown of Romania', 'Nihil Sine Deo', 2, 500, NULL, 1720396438);
+INSERT INTO public.hat_defs VALUES (1632, 'Potato', 'America’s favorite cash crop', 2, 500, NULL, 1719820927);
+INSERT INTO public.hat_defs VALUES (1631, 'Japanese Fan', 'Time to cool down', 2, 500, NULL, 1719820793);
+INSERT INTO public.hat_defs VALUES (1615, 'Tomato', 'Booo!', 2, 500, NULL, 1719818638);
+INSERT INTO public.hat_defs VALUES (1575, 'Milk Party', 'It''s only REAL milk if it comes without a cap', 2, 500, NULL, 1718330935);
 INSERT INTO public.hat_defs VALUES (1396, 'Click Me', 'Come on, you know you want to see my profile.', 2, 500, NULL, 1704921421);
 INSERT INTO public.hat_defs VALUES (1408, 'Kadio Stance', '*thwack* YEEEEEEEEOUCHHHHHHHHHH', 2, 500, NULL, 1705616850);
 INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
@@ -1249,7 +1242,6 @@ INSERT INTO public.hat_defs VALUES (1389, 'Catushanka', 'Ushanka with cat ears!'
 INSERT INTO public.hat_defs VALUES (1390, 'Catushankapink', 'Usanka with cat ears! (But pink)', 2, 500, NULL, 1703206340);
 INSERT INTO public.hat_defs VALUES (1418, 'Camo Cap', 'Today we be hunting salt water puppies.', 2, 500, NULL, 1705794721);
 INSERT INTO public.hat_defs VALUES (1387, 'Stupid Sexy Flanders', 'It''s like you''re wearing nothing at all. Nothing at all. Nothing at all.', 2, 1000, NULL, 1701104112);
-
 INSERT INTO public.hat_defs VALUES (1419, 'Cowboy Hat (pink)', 'This user is a cowgirl, or a gay cowboy.', 2, 500, NULL, 1705794752);
 INSERT INTO public.hat_defs VALUES (1420, 'CuddlyBear2', 'Grab the lashes and face slashes.', 2, 500, NULL, 1705794785);
 INSERT INTO public.hat_defs VALUES (1421, 'Fancy Cowboy Hat (blue)', 'It''s a boy!', 2, 500, NULL, 1705794807);

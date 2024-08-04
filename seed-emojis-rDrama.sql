@@ -6203,6 +6203,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('starecat', 'Misc', 2, 'staring', false, 1679161894),
 ('steamhappy', 'Misc', 2, 'valve game gamer discord', false, 1684999779),
 ('stfu', 'Classic', 2, 'animated emoticon shut up quiet angry enraged sign', false, 0),
+('stfupussy', 'Misc', 2, 'labia porn pussylips shutup stoptalking vagina', true, 1722785043),
 ('stoning', 'Misc', 2, 'muslim animated', false, 0),
 ('stoningbans', 'Misc', 2, 'muslim throw animated', false, 0),
 ('stoningbibles', 'Misc', 2, 'holy religion throw', false, 1695702672),
