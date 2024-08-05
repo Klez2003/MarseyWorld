@@ -6059,7 +6059,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('sharkythink', 'Misc', 2, 'shark think', false, 0),
 ('sher', 'Misc', 2, 'pat patting animated', false, 0),
 ('shinzoabe', 'Misc', 2, 'havesexincel japanese birthrates', false, 1698427587),
-('shmleep', 'Misc', 2, 'cat dance gif animated', false, 1709771728),
+('shmleep', 'Misc', 2, 'animated arms bouncing cat celebrate celebration congrats congratulations cute dance gif hands happy jumping kitten party paws waving yayyyyy', false, 1709771728),
 ('shmoopy', 'Classic', 2, 'eyebrows animated emoticon raise', false, 0),
 ('shocked2', 'Misc', 2, 'realize despair 3d', false, 1710250655),
 ('shorthairasiangirl', 'Wojak', 2, 'woman', false, 0),
