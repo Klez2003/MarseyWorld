@@ -155,6 +155,7 @@ BOOSTED_SITES = {
 	'instagram.com',
 	'facebook.com',
 	'twitch.tv',
+	'kick.com'
 	'tiktok.com',
 	'vm.tiktok.com',
 	'github.com',
