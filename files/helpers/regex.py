@@ -127,7 +127,7 @@ imgur_regex = re.compile(f'^(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.({image_regex_
 
 rumble_regex = re.compile('https://rumble\.com/embed/([a-zA-Z0-9]*)(/\?pub=([a-zA-Z0-9]*))?', flags=re.I|re.A)
 
-twitch_regex = re.compile('(https:\/\/)?(www\.)?twitch.tv\/(.*)', flags=re.I|re.A)
+twitch_regex = re.compile('(https:\/\/)?(www\.)?twitch.tv\/(\w*)', flags=re.I|re.A)
 
 link_fix_regex = re.compile("(\[.*?\]\()(?!http|\/)(.*?\))" + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
