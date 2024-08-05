@@ -269,7 +269,9 @@ def revert_actions(v, username):
 			u.shadowban_reason = None
 			if u.is_banned:
 				u.is_banned = None
-				send_repeatable_notification(u.id, f"@{v.username} (a site admin) has unbanned you!")
+				one_month_ago = time.time() - 2592000
+				if u.last_active > one_month_ago:
+					send_repeatable_notification(u.id, f"@{v.username} (a site admin) has unbanned you!")
 			g.db.add(u)
 
 	return {"message": f"@{revertee.username}'s admin actions have been reverted!"}
@@ -1056,7 +1058,9 @@ def ban_user(fullname, v):
 			if x.admin_level > v.admin_level:
 				continue
 			x.ban(admin=v, reason=reason, days=days)
-			send_repeatable_notification(x.id, text)
+			one_month_ago = time.time() - 2592000
+			if x.last_active > one_month_ago:
+				send_repeatable_notification(x.id, text)
 
 	note = f'duration: {duration}, reason: "{reason}"'
 	ma = ModAction(
@@ -1222,7 +1226,10 @@ def unban_user(fullname, v):
 	g.db.add(user)
 
 	for x in get_alt_graph(user.id):
-		if x.is_banned: send_repeatable_notification(x.id, f"@{v.username} (a site admin) has unbanned you!")
+		if x.is_banned:
+			one_month_ago = time.time() - 2592000
+			if x.last_active > one_month_ago:
+				send_repeatable_notification(x.id, f"@{v.username} (a site admin) has unbanned you!")
 		x.is_banned = None
 		x.unban_utc = None
 		x.ban_reason = None
