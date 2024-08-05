@@ -131,18 +131,8 @@ socket.on('speak', function(json) {
 	if (scrolled_down() && document.getElementsByClassName('chat-message').length > 250)
 		document.getElementById('chat-window').firstElementChild.remove()
 
-	if (scrolled_down() || json.user_id == vid) {	
+	if (scrolled_down() || json.user_id == vid)
 		box.scrollTo(0, box.scrollHeight)
-		setTimeout(function() {
-			box.scrollTo(0, box.scrollHeight)
-		}, 200);
-		setTimeout(function() {
-			box.scrollTo(0, box.scrollHeight)
-		}, 500);
-		setTimeout(function() {
-			box.scrollTo(0, box.scrollHeight)
-		}, 1000);		
-	}
 })
 
 function send() {
