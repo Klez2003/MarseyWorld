@@ -185,10 +185,9 @@ def approve_art(v, id):
 	all_by_author = g.db.query(ArtSubmission).filter_by(kind=entry.kind, author_id=author.id, approved=True).count()
 	if all_by_author >= 99:
 		badge_grant(badge_id=entry.badge_id_100, user=author)
-	elif all_by_author >= 9:
+	if all_by_author >= 9:
 		badge_grant(badge_id=entry.badge_id_10, user=author)
-	else:
-		badge_grant(badge_id=entry.badge_id_1, user=author)
+	badge_grant(badge_id=entry.badge_id_1, user=author)
 
 	return {"message": f"{entry.msg_kind} approved!"}
 
