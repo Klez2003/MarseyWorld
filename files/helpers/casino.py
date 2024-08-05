@@ -18,7 +18,7 @@ def get_game_feed(game):
 		return {
 			"user": user.username,
 			"won_or_lost": wonlost,
-			"amount": abs(game.winnings),
+			"amount": commas(abs(game.winnings)),
 			"currency": relevant_currency
 		}
 
@@ -65,24 +65,24 @@ def get_game_leaderboard(game):
 			"biggest_win": {
 				"user": biggest_win_all_time[1],
 				"currency": biggest_win_all_time[2],
-				"amount": biggest_win_all_time[3]
+				"amount": commas(biggest_win_all_time[3])
 			},
 			"biggest_loss": {
 				"user": biggest_loss_all_time[1],
 				"currency": biggest_loss_all_time[2],
-				"amount": abs(biggest_loss_all_time[3])
+				"amount": commas(abs(biggest_loss_all_time[3]))
 			}
 		},
 		"last_24h": {
 			"biggest_win": {
 				"user": biggest_win_last_24h[1],
 				"currency": biggest_win_last_24h[2],
-				"amount": biggest_win_last_24h[3]
+				"amount": commas(biggest_win_last_24h[3])
 			},
 			"biggest_loss": {
 				"user": biggest_loss_last_24h[1],
 				"currency": biggest_loss_last_24h[2],
-				"amount": abs(biggest_loss_last_24h[3])
+				"amount": commas(abs(biggest_loss_last_24h[3]))
 			}
 		}
 	}
