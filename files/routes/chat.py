@@ -142,6 +142,21 @@ def speak(data, v):
 		"created_utc": chat_message.created_utc,
 	}
 
+	if chat.id != 1:
+		if chat.membership_count == 2:
+			notify_users = set(g.db.query(ChatMembership.user_id).filter(
+				ChatMembership.chat_id == chat.id,
+				ChatMembership.user_id != v.id,
+			).one())
+		else:
+			notify_users = NOTIFY_USERS(chat_message.text, v, chat=chat)
+			if notify_users == 'everyone':
+				notify_users = set()
+			if chat_message.quotes:
+				quoted_user = g.db.get(User, chat_message.quoted_message.user_id)
+				if not quoted_user.has_muted(v) and not quoted_user.has_blocked(v):
+					notify_users.add(quoted_user.id)
+
 	if v.shadowbanned:
 		emit('speak', data)
 	else:
@@ -187,20 +202,6 @@ def speak(data, v):
 		body = ''
 		url = f'{SITE_FULL}/chat/{chat.id}'
 		push_notif(uids, title, body, url, chat_id=chat.id)
-
-		if chat.membership_count == 2:
-			notify_users = set(g.db.query(ChatMembership.user_id).filter(
-				ChatMembership.chat_id == chat.id,
-				ChatMembership.user_id != v.id,
-			).one())
-		else:
-			notify_users = NOTIFY_USERS(chat_message.text, v, chat=chat)
-			if notify_users == 'everyone':
-				notify_users = set()
-			if chat_message.quotes:
-				quoted_user = g.db.get(User, chat_message.quoted_message.user_id)
-				if not quoted_user.has_muted(v) and not quoted_user.has_blocked(v):
-					notify_users.add(quoted_user.id)
 
 		notify_users -= alrdy_here
 
