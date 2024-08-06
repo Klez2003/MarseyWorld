@@ -90,8 +90,10 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, hole=None):
 
 	if v and v.client: return comment.json
 	else:
-		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "post_banned.html"
-		else: template = "post.html"
+		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)):
+			template = "post_banned.html"
+		else:
+			template = "post.html"
 		return render_template(template, v=v, p=post, sort=sort, focused_comment=focused_comment, render_replies=True, hole=post.hole_obj)
 
 @app.post("/comment")
