@@ -1385,7 +1385,7 @@ homoween_begin_day = 18 if SITE_NAME == 'rDrama' else 26
 homoween_begin = datetime.datetime.strptime(f'{homoween_begin_day}/10/{t.year}', '%d/%m/%Y')
 homoween_end = datetime.datetime.strptime(f'1/11/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
 def IS_HOMOWEEN():
-	return homoween_begin < datetime.datetime.now() < homoween_end
+	return SITE == 'devrama.net' or homoween_begin < datetime.datetime.now() < homoween_end
 
 dkd_begin = datetime.datetime.strptime(f'2/4/{t.year}', '%d/%m/%Y')
 dkd_end = datetime.datetime.strptime(f'10/4/{t.year}', '%d/%m/%Y')
