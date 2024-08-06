@@ -170,7 +170,6 @@ PERMS = { # Minimum admin_level to perform action.
 
 	'POST_BETS': 2,
 	'POST_BETS_DISTRIBUTE': 2,
-	'POST_COMMENT_EDITING': 2,
 	'IGNORE_EDITING_LIMIT': 2,
 
 	'POST_IN_GHOST_THREADS': 3,
@@ -214,6 +213,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'UPDATE_ASSETS': 3,
 	'MARK_EFFORTPOST': 3,
 
+	'POST_COMMENT_EDITING': 4,
 	'PROGSTACK': 4,
 	'UNDO_AWARD_PINS': 4,
 	'USER_BLACKLIST': 4,
