@@ -147,7 +147,7 @@ def comment(v):
 	else:
 		commenters_ping_post_id = None
 
-	if not isinstance(parent, User) and parent.deleted_utc != 0:
+	if not isinstance(parent, User) and parent.deleted_utc != 0 and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		if isinstance(parent, Post):
 			abort(403, "You can't reply to deleted posts!")
 		else:
