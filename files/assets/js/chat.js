@@ -144,7 +144,7 @@ socket.on('speak', function(json) {
 		for (img of line2.getElementsByClassName('img')) {
 			img.addEventListener("load", () => {
 				box.scrollTo(0, box.scrollHeight)
-			})
+			}, {once : true});
 		}
 
 		if (chat && innerWidth <= 768)
@@ -366,9 +366,9 @@ addEventListener("load", () => {
 	if (last_img) {
 		last_img.addEventListener("load", () => {
 			box.scrollTo(0, box.scrollHeight)
-		})
+		}, {once : true});
 	}
 
 	if (chat && innerWidth <= 768)
 		chat.style.height = "calc(100dvh - 83.15px)"
-})
+}, {once : true});

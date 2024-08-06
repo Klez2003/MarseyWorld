@@ -3,7 +3,7 @@ const break_file = document.getElementById('break-file');
 
 addEventListener("load", () => {
 	orgy_file.play()
-});
+}, {once : true});
 
 document.addEventListener('click', () => {
 	if (orgy_file.paused) orgy_file.play();

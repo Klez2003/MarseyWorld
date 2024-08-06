@@ -9,4 +9,4 @@ addEventListener("load", () => {
 	const el = document.getElementById("desktopUserBanner")
 	const style = el.getAttribute("data-style")
 	el.setAttribute("style", style)
-});
+}, {once : true});
