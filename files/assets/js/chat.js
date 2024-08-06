@@ -24,6 +24,13 @@ const blocked_user_ids = document.getElementById('blocked_user_ids').value.split
 const group_names = document.getElementById('group_names').value.replaceAll(', ', '|').replaceAll("'", "")
 const group_names_pattern = String.raw`(\s|^)!(` + group_names + String.raw`)(\s|$)`
 
+let keyword_notifs_li = document.getElementById('keyword_notifs_li')
+let keyword_notifs_pattern
+if (keyword_notifs_li) {
+	keyword_notifs_li = keyword_notifs_li.value.replaceAll(', ', '|').replaceAll("'", "")
+	keyword_notifs_pattern = String.raw`(\s|^)(` + keyword_notifs_li + String.raw`)(\s|$)`
+}
+
 function scrolled_down() {
 	return box.scrollHeight - box.scrollTop <= innerHeight
 }
@@ -46,7 +53,7 @@ socket.on('speak', function(json) {
 	}
 
 	chatline.classList.remove('chat-mention');
-	if (json.user_id != vid && (text_html.includes(`<a href="/id/${vid}"`) || text.match(group_names_pattern))) {
+	if (json.user_id != vid && (text_html.includes(`<a href="/id/${vid}"`) || text.match(group_names_pattern) || (keyword_notifs_pattern && text.match(keyword_notifs_pattern)))) {
 		chatline.classList.add('chat-mention');
 	}
 

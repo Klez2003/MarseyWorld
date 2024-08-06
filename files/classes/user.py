@@ -999,6 +999,11 @@ class User(Base):
 
 		return names
 
+	@property
+	@lazy
+	def keyword_notifs_li(self):
+		return [x for x in self.keyword_notifs.lower().split('\n') if x]
+
 	@lazy
 	def has_follower(self, user):
 		if not user or self.id == user.id: return False # users can't follow themselves

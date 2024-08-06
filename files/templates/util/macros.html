@@ -289,21 +289,26 @@
 		<input hidden class="user_id" {% if m %}value="{{m.user_id}}"{% endif %}>
 {% endmacro %}
 
-{% macro chat_line_template(id, m, vlink, group_memberships_names) %}
+{% macro chat_line_template(id, m, vlink, group_memberships_names, keyword_notifs_li) %}
 	{% set ns = namespace() %}
 
 	{% if m and m.user_id != v.id %}
-		{% set ns.mentioned = m and vlink in m.text_html or (m and m.quoted_message and m.quoted_message.user_id == v.id) %}
-		{% if not ns.mentioned %}
+		{% set ns.name_mentioned = m and vlink in m.text_html or (m and m.quoted_message and m.quoted_message.user_id == v.id) %}
+		{% if not ns.name_mentioned %}
 			{% for group_name in group_memberships_names %}
 				{% if (group_name == 'everyone' and '<a href="/users"' in m.text_html) or (group_name == 'jannies' and '<a href="/admins"' in m.text_html) or '<a href="/!' ~ group_name ~ '"' in m.text_html %}
 					{% set ns.group_mentioned = True %}
 				{% endif %}
 			{% endfor %}
+			{% for keyword_notif in keyword_notifs_li %}
+				{% if keyword_notif in m.text %}
+					{% set ns.keyword_mentioned = True %}
+				{% endif %}
+			{% endfor %}
 		{% endif %}
 	{% endif %}
 
-	<div class="chat-line {% if mentioned or ns.group_mentioned %}chat-mention{% endif %}" {% if m %}id="{{id}}"{% endif %}>
+	<div class="chat-line {% if ns.name_mentioned or ns.group_mentioned or ns.keyword_mentioned %}chat-mention{% endif %}" {% if m %}id="{{id}}"{% endif %}>
 		<div class="d-flex align-items-center">
 			<div class="text-muted chat-line-content">
 				<div class="{% if not (m and m.quotes) %}d-none{% endif %} quotes" style="font-size:12px">
@@ -356,7 +361,7 @@
 	</div>
 {% endmacro %}
 
-{% macro chat_window(vlink, group_memberships_names)%}
+{% macro chat_window(vlink, group_memberships_names, keyword_notifs_li)%}
 	<div id="chat-window" class="container p-0">
 		{% set messages_list = messages.items()|list %}
 		{% for id, m in messages_list %}
@@ -367,7 +372,7 @@
 				{% endif %}
 				{{chat_group_template(id, m)}}
 			{% endif %}
-			{{chat_line_template(id, m, vlink, group_memberships_names)}}
+			{{chat_line_template(id, m, vlink, group_memberships_names, keyword_notifs_li)}}
 		{% endfor %}
 		{% if messages_list %}
 			</div>
