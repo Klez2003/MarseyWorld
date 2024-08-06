@@ -984,8 +984,8 @@ def change_hole(pid, v):
 	hole_from = post.hole
 
 	hole_to = request.values.get("hole_to", "").strip()
-	hole_to = get_hole(hole_to)
-	hole_to = hole_to.name if hole_to else None
+	if hole_to:
+		hole_to = get_hole(hole_to).name
 
 	if not post.hole_changable(v):
 		abort(403, "You can't change the hole of this post!")
