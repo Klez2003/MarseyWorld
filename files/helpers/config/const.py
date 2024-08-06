@@ -340,7 +340,7 @@ FEATURES = {
 	'USERS_PROFILE_BANNER': True,
 	'USERS_PROFILE_BODYTEXT': True,
 	'USERS_PROFILE_SONG': True,
-	'USERS_PERMANENT_WORD_FILTERS': False,
+	'USERS_PERMANENT_WORD_FILTERS': True,
 	'USERS_SUICIDE': True,
 	'MARKUP_COMMANDS': True,
 	'REPOST_DETECTION': True,
@@ -357,9 +357,9 @@ FEATURES = {
 DEFAULT_PRONOUNS = None
 
 if SITE_NAME == 'rDrama':
-	DEFAULT_PRONOUNS = 'they/them'
-
 	FEATURES['BLOCK_MUTE_EXILE_EXPIRY'] = True
+
+	DEFAULT_PRONOUNS = 'they/them'
 
 	CURSORMARSEY_DEFAULT = True
 	DEFAULT_THEME = "dramblr"
@@ -562,6 +562,12 @@ if SITE_NAME == 'rDrama':
 	OFFSITE_NOTIF_QUERIES.update({'marsey', 'r/drama', 'justice4darrell', 'cringetopia.org'})
 
 elif SITE_NAME == 'WPD':
+	FEATURES['PATRON_ICONS'] = True
+	FEATURES['IP_LOGGING'] = True
+	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = False
+	FEATURES['NSFW_MARKING'] = False
+	FEATURES['HAT_SUBMISSIONS'] = False
+
 	TAGLINES = (
 		"people dying and cartoon cats <3",
 		"The Antisocial Network",
@@ -1018,8 +1024,6 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	TWITTER_ID = "rdramanet"
 	DEFAULT_TIME_FILTER = "day"
 
-	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
-
 	BUG_THREAD = 18459
 
 	BADGE_THREAD = 37833
@@ -1086,10 +1090,6 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 
 	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.tv, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\n\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](/settings/personal) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\n\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\n\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! Our codebase lives at https://fsdfsd.net/rDrama/rDrama\n\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\n\nHave fun!"""
 
-	FEATURES['PATRON_ICONS'] = True
-	FEATURES['NSFW_MARKING'] = False
-	FEATURES['HAT_SUBMISSIONS'] = False
-	FEATURES['IP_LOGGING'] = True
 	HOUSES = ["Furry","Femboy","Vampire","Edgy"]
 
 	HOLE_BANNER_LIMIT = 69420
@@ -1178,12 +1178,10 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 	}
 elif SITE == 'devrama.net':
 	AEVANN_ID = 7
-	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 	PERMS["ORGIES"] = 4
 	PERMS["SITE_SETTINGS"] = 4
 	PERMS["SITE_CACHE_PURGE_CDN"] = 4
 else: # localhost or testing environment implied
-	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 	HOLE_BANNER_LIMIT = 69420
 
 BOT_IDs = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID}
