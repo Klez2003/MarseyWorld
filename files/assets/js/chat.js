@@ -58,9 +58,11 @@ socket.on('speak', function(json) {
 		chatline.classList.add('chat-mention');
 	}
 
-	notifs = notifs + 1;
-	if (notifs == 1) {
-		flash();
+	if (json.user_id != vid) {
+		notifs += 1;
+		if (notifs == 1) {
+			flash();
+		}
 	}
 
 	const users = document.getElementsByClassName('user_id');
