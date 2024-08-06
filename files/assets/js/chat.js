@@ -10,6 +10,7 @@ const ua = window.navigator.userAgent
 
 const socket = io()
 
+const chat = document.getElementById('chat')
 const chatline = document.getElementsByClassName('chat-line')[0]
 const box = document.getElementById('chat-window')
 const ta = document.getElementById('input-text-chat')
@@ -137,8 +138,18 @@ socket.on('speak', function(json) {
 	if (scrolled_down() && document.getElementsByClassName('chat-message').length > 250)
 		document.getElementById('chat-window').firstElementChild.remove()
 
-	if (scrolled_down() || json.user_id == vid)
+	if (scrolled_down() || json.user_id == vid) {
 		box.scrollTo(0, box.scrollHeight)
+
+		for (img of line2.getElementsByClassName('img')) {
+			img.addEventListener('load', () => {
+				box.scrollTo(0, box.scrollHeight)
+			})
+		}
+
+		if (chat && innerWidth <= 768)
+			chat.style.height = "calc(100dvh - 83.15px)"
+	}
 })
 
 function send() {
@@ -167,17 +178,6 @@ function send() {
 
 		input.previousElementSibling.className  = "fas fa-image";
 		input.previousElementSibling.textContent = "";
-	
-		box.scrollTo(0, box.scrollHeight);
-		setTimeout(function() {
-			box.scrollTo(0, box.scrollHeight)
-		}, 200);
-		setTimeout(function() {
-			box.scrollTo(0, box.scrollHeight)
-		}, 500);
-		setTimeout(function() {
-			box.scrollTo(0, box.scrollHeight)
-		}, 1000);		
 	}
 }
 
@@ -359,32 +359,16 @@ function send_hearbeat() {
 send_hearbeat()
 setInterval(send_hearbeat, 20000);
 
-const chatBox = document.getElementById('chat')
-box.scrollTo(0, box.scrollHeight)
-if (innerWidth <= 768)
-	chatBox.style.height = "calc(100dvh - 83.15px)"
-setTimeout(function() {
+addEventListener('load', () => {
 	box.scrollTo(0, box.scrollHeight)
-	if (innerWidth <= 768)
-		chatBox.style.height = "calc(100dvh - 83.15px)"
-}, 200);
-setTimeout(function() {
-	box.scrollTo(0, box.scrollHeight)
-	if (innerWidth <= 768)
-		chatBox.style.height = "calc(100dvh - 83.15px)"
-}, 500);
-setTimeout(function() {
-	box.scrollTo(0, box.scrollHeight)
-	if (innerWidth <= 768)
-		chatBox.style.height = "calc(100dvh - 83.15px)"
-}, 1000);
-setTimeout(function() {
-	box.scrollTo(0, box.scrollHeight)
-	if (innerWidth <= 768)
-		chatBox.style.height = "calc(100dvh - 83.15px)"
-}, 1500);
-document.addEventListener('DOMContentLoaded', function() {
-	box.scrollTo(0, box.scrollHeight)
-	if (innerWidth <= 768)
-		chatBox.style.height = "calc(100dvh - 83.15px)"
-});
+	
+	const last_img = Array.from(document.getElementsByClassName('img')).pop()
+	if (last_img) {
+		last_img.addEventListener('load', () => {
+			box.scrollTo(0, box.scrollHeight)
+		})
+	}
+
+	if (chat && innerWidth <= 768)
+		chat.style.height = "calc(100dvh - 83.15px)"
+})
