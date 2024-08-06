@@ -142,7 +142,7 @@ socket.on('speak', function(json) {
 		box.scrollTo(0, box.scrollHeight)
 
 		for (img of line2.getElementsByClassName('img')) {
-			img.addEventListener('load', () => {
+			img.addEventListener("load", () => {
 				box.scrollTo(0, box.scrollHeight)
 			})
 		}
@@ -359,12 +359,12 @@ function send_hearbeat() {
 send_hearbeat()
 setInterval(send_hearbeat, 20000);
 
-addEventListener('load', () => {
+addEventListener("load", () => {
 	box.scrollTo(0, box.scrollHeight)
 	
 	const last_img = Array.from(document.getElementsByClassName('img')).pop()
 	if (last_img) {
-		last_img.addEventListener('load', () => {
+		last_img.addEventListener("load", () => {
 			box.scrollTo(0, box.scrollHeight)
 		})
 	}
