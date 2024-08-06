@@ -26,10 +26,10 @@ def chat_user(v, username):
 	if hasattr(user, 'is_blocking') and user.is_blocking:
 		abort(403, f"You're blocking @{user.username}")
 
-	if v.admin_level <= PERMS['MESSAGE_BLOCKED_USERS'] and hasattr(user, 'is_blocked') and user.is_blocked:
+	if v.admin_level < PERMS['MESSAGE_BLOCKED_USERS'] and hasattr(user, 'is_blocked') and user.is_blocked:
 		abort(403, f"@{user.username} is blocking you!")
 
-	if user.has_muted(v):
+	if v.admin_level < PERMS['MESSAGE_BLOCKED_USERS'] and user.has_muted(v):
 		abort(403, f"@{user.username} is muting notifications from you, so you can't chat with them!")
 
 

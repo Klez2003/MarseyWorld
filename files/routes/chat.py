@@ -372,11 +372,11 @@ def messagereply(v):
 		user = get_account(user_id, v=v, include_blocks=True)
 		if hasattr(user, 'is_blocking') and user.is_blocking:
 			abort(403, f"You're blocking @{user.username}")
-		elif (v.admin_level <= PERMS['MESSAGE_BLOCKED_USERS']
+		elif (v.admin_level < PERMS['MESSAGE_BLOCKED_USERS']
 				and hasattr(user, 'is_blocked') and user.is_blocked):
 			abort(403, f"You're blocked by @{user.username}")
 
-		if user.has_muted(v):
+		if v.admin_level < PERMS['MESSAGE_BLOCKED_USERS'] and user.has_muted(v):
 			abort(403, f"@{user.username} is muting notifications from you, so messaging them is pointless!")
 
 	if not g.is_tor and get_setting("dm_media"):
