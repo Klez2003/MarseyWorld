@@ -301,7 +301,7 @@
 				{% endif %}
 			{% endfor %}
 			{% for keyword_notif in keyword_notifs_li %}
-				{% if keyword_notif in m.text %}
+				{% if keyword_notif in m.text.lower() %}
 					{% set ns.keyword_mentioned = True %}
 				{% endif %}
 			{% endfor %}
