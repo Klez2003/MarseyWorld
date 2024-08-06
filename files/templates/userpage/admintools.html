@@ -27,7 +27,7 @@
 {% endmacro %}
 
 {% macro userAdminTools(deviceType) %}
-	{% if v and v.id != u.id and v.admin_level >= PERMS['USER_MODERATION_TOOLS_VISIBLE'] %}
+	{% if v and v.id != u.id %}
 		<div class="admintools-user-lower-{{deviceType}}">
 			{% if v.admin_level >= PERMS['USER_CHANGE_FLAIR'] %}
 				<div class="body d-lg-flex border-bottom mt-4 mb-2">

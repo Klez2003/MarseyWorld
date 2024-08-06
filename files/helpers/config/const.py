@@ -182,7 +182,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_BAN': 3,
 	'USER_SHADOWBAN': 3,
 	'USER_CHUD': 3,
-	'USER_MODERATION_TOOLS_VISIBLE': 3,
 	'VIEW_MODMAIL': 3,
 	'NOTIFICATIONS_MODMAIL': 3,
 	'VIEW_ACTIVE_USERS': 3,
