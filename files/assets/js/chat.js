@@ -23,7 +23,6 @@ const blocked_user_ids = document.getElementById('blocked_user_ids').value.split
 
 const group_names = document.getElementById('group_names').value.replaceAll(', ', '|').replaceAll("'", "")
 const group_names_pattern = String.raw`(\s|^)!(` + group_names + String.raw`)(\s|$)`
-const group_names_regex = new RegExp(group_names_pattern, "g");
 
 function scrolled_down() {
 	return box.scrollHeight - box.scrollTop <= innerHeight
