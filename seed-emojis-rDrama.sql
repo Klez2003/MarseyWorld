@@ -1499,7 +1499,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('kiss', 'Classic', 2, 'animated emoticon love', false, 0),
 ('kitty', 'Classic', 2, 'animated cat kitten', false, 0),
 ('kittygurl', 'Misc', 2, 'mlp wpd', false, 1698360715),
-('kiwitrooncrush', 'Misc', 2, 'kiwifarms tranny trans kill die death genocide stomp', false, 1710937873),
 ('klanjak', 'Wojak', 2, 'kkk seethe', false, 0),
 ('klaptrap', 'Donkey Kong', 2, 'dk donkeykong', false, 1679419718),
 ('klennywave', 'Marsey', 2, 'animated dog hi hello', false, 1690692333),
