@@ -28,7 +28,7 @@
 						<button type="button" id="undistinguish2-{{p.id}}" class="{% if not p.distinguished %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish/{{p.id}}','distinguish2-{{p.id}}','undistinguish2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-crown text-center text-primary mr-2"></i>Undistinguish</button>
 					{% endif %}
 
-					{% if v.admin_level >= PERMS['PINNING'] %}
+					{% if v.admin_level >= PERMS['PINNING_POSTS'] %}
 						<button type="button" id="pin2-{{p.id}}" class="{% if p.pinned and not p.pinned_utc %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" data-nonce="{{g.nonce}}" data-onclick="pinPost(this,'{{p.id}}')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center text-primary mr-2"></i>Pin {% if p.pinned_utc %}permanently{% else %}for 1 hour{% endif %}</button>
 						<button type="button" id="unpin2-{{p.id}}" class="{% if not p.pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" data-nonce="{{g.nonce}}" data-onclick="unpinPost(this,'{{p.id}}')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center text-primary mr-2"></i>Unpin</button>
 					{% endif %}
