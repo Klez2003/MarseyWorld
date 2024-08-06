@@ -1179,9 +1179,8 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 elif SITE == 'devrama.net':
 	AEVANN_ID = 7
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
-	PERMS["SITE_SETTINGS"] = 4
 	PERMS["ORGIES"] = 4
-	PERMS["CHANGE_UNDER_SIEGE"] = 4
+	PERMS["SITE_SETTINGS"] = 4
 	PERMS["SITE_CACHE_PURGE_CDN"] = 4
 else: # localhost or testing environment implied
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
