@@ -198,7 +198,10 @@ function update_inline_emoji_modal(event)
 
 			const found = globalGroups.filter(i => resultSet.has(i));
 
-			populate_inline_group_modal(found, event.target);
+			if (found.length == 1 && found[0].toLowerCase() == current_word.substring(1))
+				populate_inline_user_modal([], event.target);
+			else
+				populate_inline_user_modal(found, event.target);
 		});
 	}
 	else if (current_word && curr_word_is_user() && current_word != "@")
@@ -217,7 +220,10 @@ function update_inline_emoji_modal(event)
 
 			const found = globalUsers.filter(i => resultSet.has(i));
 
-			populate_inline_user_modal(found, event.target);
+			if (found.length == 1 && found[0].toLowerCase() == current_word.substring(1))
+				populate_inline_user_modal([], event.target);
+			else
+				populate_inline_user_modal(found, event.target);
 		});
 	}
 	else {
