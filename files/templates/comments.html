@@ -332,7 +332,7 @@
 									<div class="post-actions">
 										<ul class="list-inline text-right d-flex">
 											<li class="list-inline-item mr-auto">
-												{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+												{% if v and v.admin_level %}
 													<button type="button" data-bs-toggle="modal" data-bs-target="#adminModal-{{c.id}}">
 														<i class="fas fa-broom"></i>
 													</button>
