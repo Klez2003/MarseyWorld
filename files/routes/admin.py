@@ -1455,7 +1455,7 @@ def approve_post(post_id, v):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS['PINNING'])
 def pin_post(post_id, v):
 	post = get_post(post_id)
 
@@ -1506,7 +1506,7 @@ def pin_post(post_id, v):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS['PINNING'])
 def unpin_post(post_id, v):
 	post = get_post(post_id)
 	if post.pinned:
@@ -1535,7 +1535,7 @@ def unpin_post(post_id, v):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS['PINNING'])
 def pin_comment_admin(cid, v):
 	comment = get_comment(cid, v=v)
 
@@ -1570,7 +1570,7 @@ def pin_comment_admin(cid, v):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS['PINNING'])
 def unpin_comment_admin(cid, v):
 	comment = get_comment(cid, v=v)
 

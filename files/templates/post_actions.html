@@ -63,7 +63,7 @@
 			<button type="button" id="undistinguish-{{p.id}}" class="dropdown-item {% if not p.distinguished %}d-none{% endif %} list-inline-item text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish/{{p.id}}','distinguish-{{p.id}}','undistinguish-{{p.id}}','d-none')"><i class="fas fa-crown"></i>Undistinguish</button>
 		{% endif %}
 
-		{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+		{% if v.admin_level >= PERMS['PINNING'] %}
 			<button type="button" id="pin-{{p.id}}" class="dropdown-item {% if p.pinned and not p.pinned_utc %}d-none{% endif %} list-inline-item text-info" data-nonce="{{g.nonce}}" data-onclick="pinPost(this, '{{p.id}}')"><i class="fas fa-thumbtack fa-rotate--45"></i>Pin {% if p.pinned_utc %}permanently{% else %}for 1 hour{% endif %}</button>
 			<button type="button" id="unpin-{{p.id}}" class="dropdown-item {% if not p.pinned %}d-none{% endif %} list-inline-item text-info" data-nonce="{{g.nonce}}" data-onclick="unpinPost(this, '{{p.id}}')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin</button>
 		{% endif %}

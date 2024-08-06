@@ -449,7 +449,7 @@
 
 											{% set url = "" %}
 
-											{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+											{% if v.admin_level >= PERMS['PINNING'] %}
 												{% set url = "pin_comment_admin" %}
 											{% elif c.parent_post and v.id == c.post.author_id %}
 												{% set url = "pin_comment_op" %}
@@ -664,7 +664,7 @@
 										<button type="button" id="undistinguish2-{{c.id}}" class="list-group-item {% if not c.distinguished %}d-none{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish2-{{c.id}}','undistinguish2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-id-badge text-info mr-2"></i>Undistinguish</button>
 									{% endif %}
 
-									{% if v.admin_level < PERMS['POST_COMMENT_MODERATION'] %}
+									{% if v.admin_level < PERMS['PINNING'] %}
 										{% if c.parent_post and v.id == c.post.author_id %}
 											<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.pinned %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin_comment_op/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
 											<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.pinned %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unpin_comment_op/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
@@ -688,7 +688,7 @@
 				</div>
 			</div>
 
-			{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+			{% if v and v.admin_level %}
 				<div class="modal fade d-md-none" id="adminModal-{{c.id}}" tabindex="-1">
 					<div class="modal-dialog modal-dialog-centered">
 						<div class="modal-content">
@@ -700,8 +700,13 @@
 							</div>
 							<div class="modal-body">
 								<ul class="list-group comment-actions">
+									{% if v.admin_level >= PERMS['PINNING'] %}
+										<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.pinned %}d-none{% endif %} text-info" data-bs-target="#adminModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin_comment_admin/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
+										<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.pinned %}d-none{% endif %} text-info" data-bs-target="#adminModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unpin_comment_admin/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
+									{% endif %}
+
 									{% if c.parent_post or c.wall_user_id %}
-										{% if v.admin_level >= PERMS['APPS_MODERATION'] and c.oauth_app %}
+										{% if c.oauth_app and v.admin_level >= PERMS['APPS_MODERATION'] %}
 											<a href="{{c.oauth_app.permalink}}/comments" class="list-group-item text-info"><i class="fas fa-code text-info mr-2"></i>API App</a>
 										{% endif %}
 
@@ -716,10 +721,7 @@
 											<button type="button" id="undistinguish2-{{c.id}}" class="list-group-item {% if not c.distinguished %}d-none{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish2-{{c.id}}','undistinguish2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-id-badge text-info mr-2"></i>Undistinguish</button>
 										{% endif %}
 
-										<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.pinned %}d-none{% endif %} text-info" data-bs-target="#adminModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin_comment_admin/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
-										<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.pinned %}d-none{% endif %} text-info" data-bs-target="#adminModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unpin_comment_admin/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
-
-										{% if FEATURES['NSFW_MARKING'] %}
+										{% if FEATURES['NSFW_MARKING'] and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 											<button type="button" id="mark2-{{c.id}}" class="{% if c.nsfw %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-danger mr-2"></i>Mark NSFW</button>
 											<button type="button" id="unmark2-{{c.id}}" class="{% if not c.nsfw %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-success mr-2"></i>Unmark NSFW</button>
 										{% endif %}
