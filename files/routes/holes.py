@@ -984,7 +984,7 @@ def change_hole(pid, v):
 	hole_from = post.hole
 
 	hole_to = request.values.get("hole_to", "").strip()
-	hole_to = get_hole(hole_to, graceful=True)
+	hole_to = get_hole(hole_to)
 	hole_to = hole_to.name if hole_to else None
 
 	if not post.hole_changable(v):
