@@ -40,6 +40,8 @@ from .userblock import *
 from .usermute import *
 from .art_submissions import *
 
+from math import ceil
+
 if SITE == 'devrama.net':
 	DEFAULT_ADMIN_LEVEL = 3
 	DEFAULT_COINS = 100000000
