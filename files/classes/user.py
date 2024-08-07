@@ -1344,18 +1344,14 @@ class User(Base):
 	@lazy
 	def user_name(self):
 		if self.earlylife:
-			expiry = int(self.earlylife - time.time())
-			if expiry > 86400:
-				name = self.username
-				for i in range(int(expiry / 86400 + 1)):
-					if i < 5:
-						name = f'((({name})))'
-					elif i < 10:
-						name = f'(({name}))'
-					else:
-						name = f'({name})'
-				return name
-			return f'((({self.username})))'
+			expiry_days = ceil((self.earlylife - time.time()) / 86400)
+			if expiry_days < 5:
+				earlylife_mult = 3 * expiry_days
+			elif expiry_days < 10:
+				earlylife_mult = 15 + (expiry_days - 5) * 2
+			else:
+				earlylife_mult = 25 + (expiry_days - 10)
+			return ('(' * earlylife_mult) + self.username + (')' * earlylife_mult)
 		return self.username
 
 	@property
