@@ -1348,7 +1348,12 @@ class User(Base):
 			if expiry > 86400:
 				name = self.username
 				for i in range(int(expiry / 86400 + 1)):
-					name = f'((({name})))'
+					if i > 10:
+						name = f'({name})'
+					elif i > 5:
+						name = f'(({name}))'
+					else:
+						name = f'((({name})))'
 				return name
 			return f'((({self.username})))'
 		return self.username
