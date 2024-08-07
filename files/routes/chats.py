@@ -11,7 +11,10 @@ from files.__main__ import app, limiter
 
 @app.get("/chat")
 @app.get("/orgy")
-def chat_redirect():
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def chat_redirect(v):
 	return redirect("/chat/1")
 
 @app.post("/@<username>/chat")
@@ -186,6 +189,8 @@ def mute_chat(v, chat_id):
 	return {"message": msg}
 
 @app.get("/chat/<int:chat_id>/orgies")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def orgy_control(v, chat_id):
 	chat = g.db.get(Chat, chat_id)
@@ -202,6 +207,10 @@ def orgy_control(v, chat_id):
 	return render_template("orgy_control.html", v=v, orgies=orgies, chat=chat)
 
 @app.post("/chat/<int:chat_id>/schedule_orgy")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def schedule_orgy(v, chat_id):
 	chat = g.db.get(Chat, chat_id)
@@ -295,6 +304,10 @@ def schedule_orgy(v, chat_id):
 	return redirect(f"/chat/{chat_id}/orgies")
 
 @app.post("/chat/<int:chat_id>/remove_orgy/<int:created_utc>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def remove_orgy(v, created_utc, chat_id):
 	chat = g.db.get(Chat, chat_id)
