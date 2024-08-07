@@ -435,14 +435,6 @@ def award_thing(v, thing_type, id):
 		if author.earlylife: author.earlylife += 86400 * quantity
 		else: author.earlylife = int(time.time()) + 86400 * quantity
 		badge_grant(user=author, badge_id=169)
-	elif kind == "shutitdown":
-		if not author.earlylife:
-			abort(400, f"{safe_username} is not under the effect of an Early Life award!")
-		author.earlylife -= 86400 * quantity
-		if author.earlylife <= time.time():
-			author.earlylife = 0
-			badge = author.has_badge(169)
-			if badge: g.db.delete(badge)
 	elif kind == "owoify":
 		if author.owoify: author.owoify += 21600 * quantity
 		else: author.owoify = int(time.time()) + 21600 * quantity
