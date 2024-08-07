@@ -72,6 +72,7 @@ def chat(v, chat_id):
 	if chat.id == 1:
 		if not v.allowed_in_chat:
 			abort(403, f"To prevent spam, you'll need {TRUESCORE_MINIMUM} truescore (this is {TRUESCORE_MINIMUM} votes, either up or down, on any threads or comments you've made) in order to access chat. Sorry! I love you 💖")
+		membership = True
 	else:
 		membership = g.db.query(ChatMembership).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
 		if v.admin_level < PERMS['VIEW_CHATS'] and not membership:
@@ -108,9 +109,9 @@ def chat(v, chat_id):
 	orgy = get_running_orgy(v, chat_id)
 	if orgy:
 		orgies = g.db.query(Orgy).filter_by(chat_id=chat_id).order_by(Orgy.start_utc).all()
-		return render_template("orgy.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships, muting_chat=muting_chat, orgy=orgy, orgies=orgies)
+		return render_template("orgy.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships, muting_chat=muting_chat, orgy=orgy, orgies=orgies, membership=membership)
 
-	return render_template("chat.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships, muting_chat=muting_chat)
+	return render_template("chat.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships, muting_chat=muting_chat, membership=membership)
 
 
 @app.post("/chat/<int:chat_id>/name")
