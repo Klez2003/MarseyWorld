@@ -1,7 +1,7 @@
 {% extends "login/authforms.html" %}
 {% block pagetitle %}{{SITE_NAME}} Two-Factor Removal{% endblock %}
 {% block authtitle %}Remove the two-factor authentication from your account.{% endblock %}
-{% block authtext %}If all information is correct, you will be able to remove 2-factor authentication from your account in 24 hours.{% endblock %}
+{% block authtext %}If all information is correct, you will receive an email allowing you to remove 2-factor authentication from your account.{% endblock %}
 {% block content %}
 	<div id="login-form">
 		<form action="/lost_2fa" method="post" class="mt-3">
