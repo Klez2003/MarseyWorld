@@ -254,7 +254,7 @@ function markdown(t) {
 			const modifierHtml = isTalkingFirst ? `${talkingHtml}${patHtml}${loveHtml}${typingHtml}` : `${patHtml}${talkingHtml}${loveHtml}${typingHtml}`;
 			input = input.replace(old, `<span alt="${alt}" class="${patClass} ${genocideClass}" data-bs-toggle="tooltip">${modifierHtml}<img alt="${alt}" loading="lazy" class="${emojiClass} ${lovedClass}" src="${url}"></span>`);
 		} else {
-			input = input.replace(old, `<img alt="${alt}" loading="lazy" class="${emojiClass}}" src="${SITE_FULL_IMAGES}/e/${emoji}.webp">`);
+			input = input.replace(old, `<img alt="${alt}" loading="lazy" class="${emojiClass}" src="${SITE_FULL_IMAGES}/e/${emoji}.webp">`);
 		}
 	}
 
