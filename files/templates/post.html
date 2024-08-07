@@ -382,7 +382,7 @@
 		{% if v.can_edit(p) %}
 			<script defer src="{{'js/edit_post.js' | asset}}"></script>
 		{% endif %}
-		{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+		{% if v.admin_level >= PERMS['PINNING_POSTS'] %}
 			<script defer src="{{'js/admin/pinpost.js' | asset}}"></script>
 		{% endif %}
 	{% endif %}
