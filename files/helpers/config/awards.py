@@ -20,6 +20,20 @@ AWARDS = {
 	},
 
 	### Deprecated
+	"shutitdown" : {
+		"kind": "shutitdown",
+		"title": "Shut It Down",
+		"description": "The goyim know.",
+		"icon": "fas fa-walkie-talkie",
+		"color": "text-blue",
+		"price": 500,
+		"deflectable": True,
+		"cosmetic": False,
+		"ghost": False,
+		"enabled": lambda v:v.house and v.house.startswith('Racist'),
+		"negative": False,
+		"included_in_lootbox": False,
+	},
 	"king": {
 		"kind": "king",
 		"title": "King",
