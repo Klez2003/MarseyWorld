@@ -50,15 +50,20 @@ def end_lottery_session():
 	winning_user.pay_account('coins', active_lottery.prize, "Lottery winnings")
 	winning_user.total_lottery_winnings += active_lottery.prize
 
+	winner_chance_to_win = winning_user.currently_held_lottery_tickets / len(raffle) * 100
+	winner_chance_to_win = str(winner_chance_to_win)[:5]
+
 	for user in participating_users:
-		chance_to_win = user.currently_held_lottery_tickets / len(raffle) * 100
-		chance_to_win = str(chance_to_win)[:5]
 		if user.id == winner:
 			notification_text = f'You won {commas(active_lottery.prize)} coins in the lottershe! ' \
-				+ f'Congratulations!\n\nYour odds of winning were: {chance_to_win}%'
+				+ f'Congratulations!\n\nYour odds of winning were: {winner_chance_to_win}%'
 		else:
+			chance_to_win = user.currently_held_lottery_tickets / len(raffle) * 100
+			chance_to_win = str(chance_to_win)[:5]
+
 			notification_text = 'You did not win the lottershe. Better luck next time!\n\n' \
-				+ f'Your odds of winning were: {chance_to_win}%\n\nWinner: @{winning_user.username} (won {commas(active_lottery.prize)} coins)'
+				+ f'Your odds of winning were: {chance_to_win}%\n\nWinner: @{winning_user.username} (won {commas(active_lottery.prize)} coins)\n\nTheir odds of winning were: {winner_chance_to_win}%'
+
 		send_repeatable_notification(user.id, notification_text)
 		user.currently_held_lottery_tickets = 0
 
