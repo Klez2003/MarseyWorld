@@ -191,7 +191,6 @@
 .fa-hat-cowboy:before{content:"\f8c0"}
 .fa-cloud-rainbow:before{content:"\f73e"}
 .fa-telegram:before{content:"\f2c6"}
-.fa-css3-alt:before{content:"\f38b"}
 .fa-landscape:before{content:"\e1b5"}
 .fa-user-ninja:before{content:"\f504"}
 .fa-trees:before{content:"\f724"}
@@ -3635,7 +3634,7 @@ ol > li::before {
 	background-color: rgba(0, 0, 0, 0.15);
 	border-radius: 0.35rem;
 }
-.navbar-light .navbar-nav .nav-link:active .fa, .navbar-light .navbar-nav .nav-link:active .fas, .navbar-light .navbar-nav .nav-link:active .far, .navbar-light .navbar-nav .nav-link:active .fab, .mobile-nav-icon:active .fas, .sidebar-link:active .fas, .orgy-control:active {
+.navbar-light .navbar-nav .nav-link:active .fa, .navbar-light .navbar-nav .nav-link:active .fas, .navbar-light .navbar-nav .nav-link:active .far, .navbar-light .navbar-nav .nav-link:active .fab, .mobile-nav-icon:active .fas, .sidebar-link:active .fas, .chat-control:hover {
 	color: var(--primary) !important;
 	text-align: center;
 	font-size: 1rem;

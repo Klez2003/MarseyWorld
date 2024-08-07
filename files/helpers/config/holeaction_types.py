@@ -41,7 +41,7 @@ HOLEACTION_TYPES = {
 	},
 	'edit_css': {
 		"str": 'edited the css',
-		"icon": 'fa-css3-alt',
+		"icon": 'fa-palette',
 		"color": 'bg-primary'
 	},
 	'upload_banner': {
