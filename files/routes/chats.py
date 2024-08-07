@@ -112,9 +112,9 @@ def chat(v, chat_id):
 	orgy = get_running_orgy(v, chat_id)
 	if orgy:
 		orgies = g.db.query(Orgy).filter_by(chat_id=chat_id).order_by(Orgy.start_utc).all()
-		return render_template("orgy.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships, muting_chat=muting_chat, orgy=orgy, orgies=orgies, membership=membership)
+		return render_template("orgy.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships, muting_chat=muting_chat, orgy=orgy, orgies=orgies, membership=membership, chat_css=chat.css)
 
-	return render_template("chat.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships, muting_chat=muting_chat, membership=membership)
+	return render_template("chat.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships, muting_chat=muting_chat, membership=membership, chat_css=chat.css)
 
 
 @app.post("/chat/<int:chat_id>/name")
@@ -187,6 +187,63 @@ def mute_chat(v, chat_id):
 	g.db.add(membership)
 
 	return {"message": msg}
+
+@app.get("/chat/<int:chat_id>/custom_css")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def chat_custom_css_get(v, chat_id):
+	chat = g.db.get(Chat, chat_id)
+	if not chat:
+		abort(404, "Chat not found!")
+
+	if v.id != chat.owner_id:
+		abort(403, "Only the chat owner can change its custom css!")
+
+	return render_template("chat_css.html", v=v, chat=chat)
+
+@app.post("/chat/<int:chat_id>/custom_css")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def chat_custom_css_post(v, chat_id):
+	chat = g.db.get(Chat, chat_id)
+	if not chat:
+		abort(404, "Chat not found!")
+
+	if v.id != chat.owner_id:
+		abort(403, "Only the chat owner can change its custom css!")
+
+	if v.shadowbanned: abort(400)
+
+	css = request.values.get('css', '').strip()
+
+	if len(css) > CSS_LENGTH_LIMIT:
+		abort(400, f"Chat CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
+
+	valid, error = validate_css(css)
+	if not valid:
+		abort(400, error)
+
+	chat.css = css
+	g.db.add(chat)
+
+	return {"message": "Chat Custom CSS successfully updated!"}
+
+
+@app.get("/chat/<int:chat_id>/css")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def chat_css(v, chat_id):
+	chat = g.db.query(Chat.css).filter_by(id=chat_id).one_or_none()
+	if not chat:
+		abort(404, "Chat not found!")
+	resp = make_response(chat.css or "")
+	resp.headers.add("Content-Type", "text/css")
+	return resp
 
 @app.get("/chat/<int:chat_id>/orgies")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)

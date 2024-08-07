@@ -151,6 +151,10 @@
 	{% if v and (v.css or v.background) and not request.path.startswith('/settings') %}
 		<link rel="stylesheet" href="/@{{v.username}}/css">
 	{% endif %}
+
+	{% if chat_css %}
+		<link rel="stylesheet" href="/chat/{{chat.id}}/css">
+	{% endif %}
 {% endmacro %}
 
 {% macro seo() %}

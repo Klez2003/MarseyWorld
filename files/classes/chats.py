@@ -2,7 +2,7 @@ import time
 from flask import g
 
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import deferred, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -14,6 +14,7 @@ class Chat(Base):
 	id = Column(Integer, primary_key=True)
 	name = Column(String)
 	created_utc = Column(Integer)
+	css = deferred(Column(String))
 
 	@property
 	@lazy

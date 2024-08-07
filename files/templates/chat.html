@@ -17,8 +17,7 @@
 						<b class="mt-2 mb-2 ml-1 text-small toggleable d-md-none" style="display:inline-block">{{chat.name}}</b> 
 
 						{% if v.id == chat.owner_id %}
-							<button class="px-2 toggleable" type="button" data-nonce="{{g.nonce}}" data-onclick="toggleElement('chat-name-form', 'chat-name')">
-								<i class="fas fa-pen text-small text-muted"></i>
+							<button class="chat-control fas fa-pen text-small text-muted px-2 toggleable" type="button" data-nonce="{{g.nonce}}" data-onclick="toggleElement('chat-name-form', 'chat-name')">
 							</button>
 
 							<form id="chat-name-form" class="d-none mt-2" action="/chat/{{chat.id}}/name" method="post">
@@ -27,7 +26,9 @@
 								<button type="submit" class="btn btn-primary" style="margin-top:-5px">Save</button>
 							</form>
 
-							<a href="/chat/{{chat.id}}/orgies" class="orgy-control fas fa-tv text-muted ml-2"></a>
+							<a href="/chat/{{chat.id}}/orgies" class="chat-control fas fa-tv text-muted mx-2"></a>
+
+							<a href="/chat/{{chat.id}}/custom_css" class="chat-control fas fa-palette text-muted ml-2"></a>
 						{% else %}
 							<button class="px-2" type="button" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" title="{% if muting_chat %}Unmute (do it){% else %}Mute (don't do it){% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this, '/chat/{{chat.id}}/toggle_mute')">
 								<i class="fas fa-bell-slash {% if muting_chat %}text-danger{% else %}text-muted{% endif %}"></i>
