@@ -304,7 +304,8 @@ ALTER SEQUENCE public.chat_messages_id_seq OWNED BY public.chat_messages.id;
 CREATE TABLE public.chats (
     id integer NOT NULL,
     name character varying(54) NOT NULL,
-    created_utc integer NOT NULL
+    created_utc integer NOT NULL,
+    css character varying(20000)
 );
 
 
