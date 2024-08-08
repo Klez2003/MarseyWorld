@@ -840,7 +840,7 @@ def validate_css(css):
 
 	for i in css_url_regex.finditer(css):
 		url = i.group(1)
-		if not is_safe_url(url):
+		if not url.startswith('https://fonts.gstatic.com/s/') and not is_safe_url(url):
 			domain = tldextract.extract(url).registered_domain
 			return False, f"The domain '{domain}' is not allowed here!"
 
