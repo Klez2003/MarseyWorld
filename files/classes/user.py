@@ -1347,12 +1347,7 @@ class User(Base):
 	def user_name(self):
 		if self.earlylife:
 			expiry_days = ceil((self.earlylife - time.time()) / 86400)
-			if expiry_days < 5:
-				earlylife_mult = 3 * expiry_days
-			elif expiry_days < 10:
-				earlylife_mult = 15 + (expiry_days - 5) * 2
-			else:
-				earlylife_mult = 25 + (expiry_days - 10)
+			earlylife_mult = min(5, expiry_days) + min(10, expiry_days) + expiry_days
 			return ('(' * earlylife_mult) + self.username + (')' * earlylife_mult)
 		return self.username
 
