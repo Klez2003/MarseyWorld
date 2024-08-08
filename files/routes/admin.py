@@ -178,18 +178,6 @@ def distribute(v, kind, option_id):
 
 	votes = option.votes
 
-	if not votes:
-		abort(400, "Nobody voted on that, it can't be the winner!")
-
-	coinsperperson = int(pool / len(votes))
-
-	text = f"You won {commas(coinsperperson)} coins betting on {parent.textlink} :marseyparty:"
-	cid = notif_comment(text)
-	for vote in votes:
-		u = vote.user
-		u.pay_account('coins', coinsperperson, f"Bet winnings on {parent.textlink}")
-		add_notif(cid, u.id, text, pushnotif_url=parent.permalink)
-
 	text = f"You lost the {POLL_BET_COINS} coins you bet on {parent.textlink} :marseylaugh:"
 	cid = notif_comment(text)
 	losing_voters = []
@@ -213,6 +201,18 @@ def distribute(v, kind, option_id):
 		)
 
 	g.db.add(ma)
+
+	if not votes:
+		return {"message": "Nobody won lmao"}
+
+	coinsperperson = int(pool / len(votes))
+
+	text = f"You won {commas(coinsperperson)} coins betting on {parent.textlink} :marseyparty:"
+	cid = notif_comment(text)
+	for vote in votes:
+		u = vote.user
+		u.pay_account('coins', coinsperperson, f"Bet winnings on {parent.textlink}")
+		add_notif(cid, u.id, text, pushnotif_url=parent.permalink)
 
 	return {"message": f"Each winner has received {coinsperperson} coins!"}
 
