@@ -30,7 +30,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": lambda v:v.house and v.house.startswith('Racist'),
+		"enabled": lambda v:False,
 		"negative": False,
 		"included_in_lootbox": False,
 	},
