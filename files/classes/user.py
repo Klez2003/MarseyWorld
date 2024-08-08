@@ -575,10 +575,7 @@ class User(Base):
 		elif self.patron == 8: after_discount = 0.60
 		else: after_discount = 1
 
-		if SITE_NAME == 'WPD':
-			after_discount -= 0.1 * self.admin_level
-		else:
-			after_discount -= 0.05 * self.admin_level
+		after_discount -= 0.1 * self.admin_level
 
 		if self.id < 1000:
 			after_discount -= 0.03
