@@ -2735,6 +2735,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyemperor', 'Marsey', 2, 'gold', false, 0),
 ('marseyemptybowl', 'Marsey', 2, 'hungry food dish', false, 1690334544),
 ('marseyenderclutch', 'Marsey', 2, 'pearl enderpearl pearlclutch', false, 1693859051),
+('marseyenterpipe', 'Marsey', 2, 'disappear exit go inside leave mario out', false, 1723225382),
 ('marseyequius', 'Marsey', 2, 'zahhak troll homestuck', false, 1688217615),
 ('marseyerasure', 'Marsey', 2, 'erase ignore block', false, 0),
 ('marseyeren', 'Marsey', 2, 'anime manga aot attack on titan shingeki no kyojin snk yeagerist racist hitler genocide hajime isayama twink hot eldian mappa unamused hoodie jacket', false, 1675197900),
