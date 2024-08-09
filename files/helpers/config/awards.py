@@ -407,20 +407,6 @@ AWARDS = {
 	},
 
 	### Standard
-	"earlylife": {
-		"kind": "earlylife",
-		"title": "Early Life",
-		"description": "Checks the recipient's Early Life section on Wikipedia. Notices.",
-		"icon": "fas fa-star-of-david",
-		"color": "text-yellow",
-		"price": 100,
-		"deflectable": True,
-		"cosmetic": False,
-		"ghost": False,
-		"enabled": lambda v:v.house and v.house.startswith('Racist'),
-		"negative": True,
-		"included_in_lootbox": False,
-	},
 	"beano": {
 		"kind": "beano",
 		"title": "Beano",
@@ -475,6 +461,20 @@ AWARDS = {
 		"ghost": True,
 		"enabled": lambda v:False,
 		"negative": False,
+		"included_in_lootbox": False,
+	},
+	"earlylife": {
+		"kind": "earlylife",
+		"title": "Early Life",
+		"description": "Checks the recipient's Early Life section on Wikipedia. Notices.",
+		"icon": "fas fa-star-of-david",
+		"color": "text-yellow",
+		"price": 200,
+		"deflectable": True,
+		"cosmetic": False,
+		"ghost": False,
+		"enabled": lambda v:v.house and v.house.startswith('Racist'),
+		"negative": True,
 		"included_in_lootbox": False,
 	},
 	"rainbow": {
