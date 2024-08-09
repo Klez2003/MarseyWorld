@@ -151,9 +151,6 @@ socket.on('speak', function(json) {
 
 	if (scrolled_down() || json.user_id == vid) {
 		box.scrollTo(0, box.scrollHeight)
-
-		if (chat && innerWidth <= 768)
-			chat.style.height = "calc(100dvh - 83.15px)"
 	}
 })
 
