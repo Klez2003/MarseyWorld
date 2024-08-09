@@ -588,10 +588,14 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			del link["href"]
 
 		if not snappy and link["href"].startswith('https://twitter.com/') and link.string == link["href"] and '/status/' in link["href"]:
-			embed = requests.get("https://publish.twitter.com/oembed", params={"url":link["href"], "omit_script":"t"}, headers=HEADERS, timeout=5).json()["html"]
-			embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
-			embed = BeautifulSoup(embed, 'lxml')
-			link.replaceWith(embed)
+			try:
+				embed = requests.get("https://publish.twitter.com/oembed", params={"url":link["href"], "omit_script":"t"}, headers=HEADERS, timeout=5).json()["html"]
+			except:
+				pass
+			else:
+				embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
+				embed = BeautifulSoup(embed, 'lxml')
+				link.replaceWith(embed)
 
 	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','').replace('/>','>')
 
