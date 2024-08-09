@@ -376,3 +376,8 @@ addEventListener("load", () => {
 		}, {once : true});
 	}
 }, {once : true});
+
+visualViewport.addEventListener('resize', () => {
+	if (scrolled_down())
+		box.scrollTo(0, box.scrollHeight)
+});
