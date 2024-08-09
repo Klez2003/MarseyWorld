@@ -68,6 +68,9 @@ def allowed_attributes(tag, name, value):
 	if tag == 'table':
 		if name == 'class' and value == 'table': return True
 
+	if tag == 'blockquote':
+		if name == 'class' and value == 'twitter-tweet': return True
+
 	if tag in allowed_tags_runtime:
 		return True
 

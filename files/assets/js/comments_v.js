@@ -350,6 +350,8 @@ function post_comment(fullname, hide) {
 				if (viewbtn)
 					viewbtn.dataset.ids = viewbtn.dataset.ids.slice(0, -1) + `, ${data['id']}]`
 			}
+
+			embed_twitter()
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
