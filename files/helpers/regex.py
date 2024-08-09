@@ -15,6 +15,8 @@ group_mention_regex = re.compile('(?<![:/\w])!([\w-]{3,25})' + NOT_IN_CODE_OR_LI
 
 chat_adding_regex = re.compile('\+@([\w-]{1,30})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 chat_kicking_regex = re.compile('\-@([\w-]{1,30})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+chat_jannying_regex = re.compile('\*@([\w-]{1,30})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+chat_dejannying_regex = re.compile(r'(^|\s)/@([\w-]{1,30})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 everyone_regex = re.compile('(^|\s|>)!(everyone)' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 

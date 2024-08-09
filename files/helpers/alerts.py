@@ -136,7 +136,7 @@ def add_notif(cid, uid, text, pushnotif_url='', check_existing=True):
 	push_notif({uid}, 'New notification', text, pushnotif_url)
 
 
-def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=True, commenters_ping_post_id=None, charge=True, chat=None):
+def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=True, commenters_ping_post_id=None, charge=True, chat=None, membership=None):
 	# Restrict young accounts from generating notifications
 	if v.age < NOTIFICATION_SPAM_AGE_THRESHOLD:
 		return set()
@@ -194,8 +194,8 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 
 			if i.group(1) == 'everyone':
 				if chat:
-					if not v.id == chat.owner_id:
-						abort(403, "You need to be the chat owner to do that!")
+					if not membership.is_mod:
+						abort(403, "You need to be the chat owner or a mod to do that!")
 					group = None
 					member_ids = set(x[0] for x in g.db.query(ChatMembership.user_id).filter_by(chat_id=chat.id).all()) - {v.id}
 				else:

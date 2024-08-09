@@ -48,6 +48,7 @@ def chat_user(v, username):
 	chat_membership = ChatMembership(
 		user_id=v.id,
 		chat_id=chat.id,
+		is_mod=True,
 	)
 	g.db.add(chat_membership)
 
@@ -128,8 +129,8 @@ def change_chat_name(v, chat_id):
 	if not chat:
 		abort(404, "Chat not found!")
 
-	if v.id != chat.owner_id:
-		abort(403, "Only the chat owner can change its name!")
+	if v.id not in chat.mod_ids:
+		abort(403, "You need to be the chat owner or a mod to do that!")
 
 	new_name = request.values.get("new_name").strip()
 
@@ -157,6 +158,12 @@ def leave_chat(v, chat_id):
 		abort(400, "You're not a member of this chat!")
 
 	g.db.delete(membership)
+
+	g.db.flush()
+	if not chat.mod_ids:
+		oldest_membership = g.db.query(ChatMembership).filter_by(chat_id=chat.id).order_by(ChatMembership.created_utc, ChatMembership.user_id).first()
+		oldest_membership.is_mod = True
+		g.db.add(oldest_membership)
 
 	return {"message": "Chat left successfully!"}
 
@@ -197,8 +204,8 @@ def chat_custom_css_get(v, chat_id):
 	if not chat:
 		abort(404, "Chat not found!")
 
-	if v.id != chat.owner_id:
-		abort(403, "Only the chat owner can change its custom css!")
+	if v.id not in chat.mod_ids:
+		abort(403, "You need to be the chat owner or a mod to do that!")
 
 	return render_template("chat_css.html", v=v, chat=chat)
 
@@ -213,8 +220,8 @@ def chat_custom_css_post(v, chat_id):
 	if not chat:
 		abort(404, "Chat not found!")
 
-	if v.id != chat.owner_id:
-		abort(403, "Only the chat owner can change its custom css!")
+	if v.id not in chat.mod_ids:
+		abort(403, "You need to be the chat owner or a mod to do that!")
 
 	if v.shadowbanned: abort(400)
 
@@ -257,8 +264,8 @@ def orgy_control(v, chat_id):
 	if chat.id == 1:
 		if v.admin_level < PERMS["ORGIES"]:
 			abort(403, "Your admin-level is not sufficient enough for this action!")
-	elif v.id != chat.owner_id:
-		abort(403, "Only the chat owner can manage its orgies!")
+	elif v.id not in chat.mod_ids:
+		abort(403, "You need to be the chat owner or a mod to do that!")
 
 	orgies = g.db.query(Orgy).filter_by(chat_id=chat_id).order_by(Orgy.start_utc).all()
 	return render_template("orgy_control.html", v=v, orgies=orgies, chat=chat)
@@ -277,8 +284,8 @@ def schedule_orgy(v, chat_id):
 	if chat.id == 1:
 		if v.admin_level < PERMS["ORGIES"]:
 			abort(403, "Your admin-level is not sufficient enough for this action!")
-	elif v.id != chat.owner_id:
-		abort(403, "Only the chat owner can manage its orgies!")
+	elif v.id not in chat.mod_ids:
+		abort(403, "You need to be the chat owner or a mod to do that!")
 
 	link = request.values.get("link", "").strip()
 	title = request.values.get("title", "").strip()
@@ -374,8 +381,8 @@ def remove_orgy(v, created_utc, chat_id):
 	if chat.id == 1:
 		if v.admin_level < PERMS["ORGIES"]:
 			abort(403, "Your admin-level is not sufficient enough for this action!")
-	elif v.id != chat.owner_id:
-		abort(403, "Only the chat owner can manage its orgies!")
+	elif v.id not in chat.mod_ids:
+		abort(403, "You need to be the chat owner or a mod to do that!")
 
 	orgy = g.db.query(Orgy).filter_by(created_utc=created_utc).one_or_none()
 

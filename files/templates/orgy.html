@@ -14,7 +14,7 @@
 			<h5 class="mt-2 mb-3 ml-1 d-mob-none" style="display:inline-block">{{orgy.title}}</h5> 
 			<b class="mt-2 mb-2 ml-1 text-small d-md-none" style="display:inline-block">{{orgy.title}}</b> 
 
-			{% if v.id == chat.owner_id %}
+			{% if v.id in chat.mod_ids %}
 				<a href="/chat/{{chat.id}}/orgies" class="chat-control fas fa-tv text-muted mx-2"></a>
 
 				<a href="/chat/{{chat.id}}/custom_css" class="chat-control fas fa-palette text-muted ml-2"></a>
@@ -95,11 +95,13 @@
 								</a>
 
 								{% if user.id == chat.owner_id %}
-									<img class="ml-1 chat-owner" data-bs-toggle="tooltip" alt="Owner" title="Owner" src="{{SITE_FULL_IMAGES}}/e/marseykingretard.webp">
+									<img class="ml-1 chat-mod" data-bs-toggle="tooltip" alt="Owner" title="Owner" src="{{SITE_FULL_IMAGES}}/e/marseykingretard.webp">
+								{% elif user.id in chat.mod_ids %}
+									<img class="ml-1 chat-mod" data-bs-toggle="tooltip" alt="Mod" title="Mod" src="{{SITE_FULL_IMAGES}}/e/marseyjanny.webp">
 								{% endif %}
 
 								{% if membership.muted %}
-									<i class="fas fa-bell-slash text-danger" data-bs-toggle="tooltip" title="Muted chat ({% if v.id == membership.user_id %}kys{% elif v.id == chat.owner_id %}kick him{% else %}kill him{% endif %})"></i>
+									<i class="fas fa-bell-slash text-danger" data-bs-toggle="tooltip" title="Muted chat ({% if v.id == membership.user_id %}kys{% elif v.id in chat.mod_ids %}kick him{% else %}kill him{% endif %})"></i>
 								{% endif %}
 
 								<i class="d-none ml-1 text-smaller text-success online-marker online-marker-{{user.id}} fas fa-circle"></i>

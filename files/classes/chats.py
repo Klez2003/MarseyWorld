@@ -18,11 +18,13 @@ class Chat(Base):
 
 	@property
 	@lazy
+	def mod_ids(self):
+		return [x[0] for x in g.db.query(ChatMembership.user_id).filter_by(chat_id=self.id, is_mod=True).order_by(ChatMembership.created_utc, ChatMembership.user_id).all()]
+
+	@property
+	@lazy
 	def owner_id(self):
-		owner_id = g.db.query(ChatMembership.user_id).filter_by(chat_id=self.id).order_by(ChatMembership.created_utc, ChatMembership.user_id).first()
-		if not owner_id:
-			return AUTOJANNY_ID
-		return owner_id[0]
+		return self.mod_ids[0] or AUTOJANNY_ID
 
 	@property
 	@lazy
@@ -45,6 +47,7 @@ class ChatMembership(Base):
 	muted = Column(Boolean, default=False)
 	mentions = Column(Integer, default=0)
 	created_utc = Column(Integer)
+	is_mod = Column(Boolean, default=False)
 
 	user = relationship("User")
 

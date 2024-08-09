@@ -69,9 +69,10 @@ def speak(data, v):
 
 	if chat.id == 1:
 		if not v.allowed_in_chat: return ''
+		membership = None
 	else:
-		is_member = g.db.query(ChatMembership.user_id).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
-		if not is_member: return ''
+		membership = g.db.query(ChatMembership.is_mod).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
+		if not membership: return ''
 
 	image = None
 	if data['file']:
@@ -149,7 +150,7 @@ def speak(data, v):
 				ChatMembership.user_id != v.id,
 			).one())
 		else:
-			notify_users = NOTIFY_USERS(chat_message.text, v, chat=chat)
+			notify_users = NOTIFY_USERS(chat_message.text, v, chat=chat, membership=membership)
 			if notify_users == 'everyone':
 				notify_users = set()
 			if chat_message.quotes:
@@ -164,7 +165,7 @@ def speak(data, v):
 
 	typing[request.referrer] = []
 
-	if v.id == chat.owner_id:
+	if membership.is_mod:
 		for i in chat_adding_regex.finditer(text):
 			user = get_user(i.group(1), graceful=True, attributes=[User.id])
 			if user and not user.has_muted(v) and not user.has_blocked(v):
@@ -185,6 +186,23 @@ def speak(data, v):
 					g.db.delete(existing)
 					g.db.flush()
 					send_notification(user.id, f"@{v.username} kicked you from their chat [{chat.name}](/chat/{chat.id})")
+
+	if v.id == chat.owner_id:
+		for i in chat_jannying_regex.finditer(text):
+			user = get_user(i.group(1), graceful=True, attributes=[User.id])
+			if user:
+				existing = g.db.query(ChatMembership).filter_by(user_id=user.id, chat_id=chat_id, is_mod=False).one_or_none()
+				if existing:
+					existing.is_mod = True
+					send_notification(user.id, f"@{v.username} has added you as a mod of their chat [{chat.name}](/chat/{chat.id})")
+
+		for i in chat_dejannying_regex.finditer(text):
+			user = get_user(i.group(2), graceful=True, attributes=[User.id])
+			if user:
+				existing = g.db.query(ChatMembership).filter_by(user_id=user.id, chat_id=chat_id, is_mod=True).one_or_none()
+				if existing:
+					existing.is_mod = False
+					send_notification(user.id, f"@{v.username} has removed you as a mod of their chat [{chat.name}](/chat/{chat.id})")
 
 	if chat.id != 1:
 		alrdy_here = set(online[request.referrer].keys())
