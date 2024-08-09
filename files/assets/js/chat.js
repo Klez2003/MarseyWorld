@@ -363,8 +363,6 @@ function send_hearbeat() {
 send_hearbeat()
 setInterval(send_hearbeat, 20000);
 
-document.getElementById('chat').click()
-
 box.scrollTo(0, box.scrollHeight)
 
 const last_img = Array.from(document.getElementsByClassName('img')).pop()
