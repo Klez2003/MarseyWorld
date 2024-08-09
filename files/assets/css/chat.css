@@ -130,7 +130,7 @@ lite-youtube {
 }
 
 .chat-message {
-	max-height: 120dvh;
+	max-height: 140dvh;
 	overflow: hidden;
 	display: inline-block;
 }
