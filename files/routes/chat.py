@@ -165,7 +165,7 @@ def speak(data, v):
 
 	typing[request.referrer] = []
 
-	if membership.is_mod:
+	if membership and membership.is_mod:
 		for i in chat_adding_regex.finditer(text):
 			user = get_user(i.group(1), graceful=True, attributes=[User.id])
 			if user and not user.has_muted(v) and not user.has_blocked(v):
