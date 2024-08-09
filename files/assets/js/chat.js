@@ -125,7 +125,7 @@ socket.on('speak', function(json) {
 	register_new_elements(line);
 	bs_trigger(line)
 
-	if (scrolled_down() || json.user_id == vid) {
+	if (scrolled_down()) {
 		for (img of line.getElementsByClassName('img')) {
 			img.addEventListener("load", () => {
 				box.scrollTo(0, box.scrollHeight)
@@ -149,7 +149,7 @@ socket.on('speak', function(json) {
 	if (scrolled_down() && document.getElementsByClassName('chat-message').length > 250)
 		document.getElementById('chat-window').firstElementChild.remove()
 
-	if (scrolled_down() || json.user_id == vid) {
+	if (scrolled_down()) {
 		box.scrollTo(0, box.scrollHeight)
 	}
 })
