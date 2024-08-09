@@ -604,6 +604,6 @@ def process_options(v, target):
 					body_html=body,
 					exclusive=exclusive,
 				)
-				option_objects.append(option) #shitty hack to bypass autoflush
+				option_objects.append(option)
 
 	g.db.add_all(option_objects)
