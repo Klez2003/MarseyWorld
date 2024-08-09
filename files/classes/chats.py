@@ -24,7 +24,7 @@ class Chat(Base):
 	@property
 	@lazy
 	def owner_id(self):
-		return self.mod_ids[0] or AUTOJANNY_ID
+		return self.mod_ids if self.mod_ids else AUTOJANNY_ID
 
 	@property
 	@lazy
