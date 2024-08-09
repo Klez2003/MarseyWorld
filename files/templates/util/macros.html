@@ -361,10 +361,15 @@
 	</div>
 {% endmacro %}
 
+{% set ns = namespace() %}
+
 {% macro chat_window(vlink, group_memberships_names, keyword_notifs_li)%}
 	<div id="chat-window" class="container p-0">
 		{% set messages_list = messages.items()|list %}
 		{% for id, m in messages_list %}
+			{% if '<blockquote class="twitter-tweet">' in m.text_html %}
+				{% set ns.has_twitter_embed = True %}
+			{% endif %}
 			{% set same = loop.index > 1 and m.user_id == messages_list[loop.index-2][1].user_id %}
 			{% if not same %}
 				{% if loop.index > 1 %}
@@ -402,6 +407,14 @@
 		<i id="chatsend" data-nonce="{{g.nonce}}" data-onclick="send()" class="btn btn-secondary fas fa-reply ml-1 my-auto" style="transform:rotateY(180deg)"></i>
 	</div>
 	<div id="ghostdiv-chat" class="ghostdiv" style="display: none"><span></span></div>
+
+	{% if ns.has_twitter_embed %}
+		{% if v and v.theme in LIGHT_THEMES %}
+			<script id="twitter-embed-script" defer src="{{'js/vendor/twitterlight.js' | asset}}"></script>
+		{% else %}
+			<script id="twitter-embed-script" defer src="{{'js/vendor/twitter.js' | asset}}"></script>
+		{% endif %}
+	{% endif %}
 {% endmacro %}
 
 {% macro time_filter_buttons() %}

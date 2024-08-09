@@ -127,6 +127,17 @@ socket.on('speak', function(json) {
 	register_new_elements(line);
 	bs_trigger(line)
 
+	if (text_html.includes('<blockquote class="twitter-tweet">')) {
+		if (!document.getElementById('twitter-embed-script')) {
+			const script = document.createElement('script');
+			script.id = 'twitter-embed-script'
+			script.src = '/assets/js/vendor/twitter.js?x=11';
+			script.defer = true;
+			document.body.appendChild(script);
+		}
+		embed_twitter()
+	}
+
 	if (scrolled_down()) {
 		for (img of line.getElementsByClassName('img')) {
 			img.addEventListener("load", () => {
