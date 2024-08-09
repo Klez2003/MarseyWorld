@@ -4312,6 +4312,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseypinochet', 'Marsey', 2, 'fascist fash ugarte augusto chopper helicopter chile', false, 0),
 ('marseypipe', 'Marsey', 2, 'smoke smart mhm yes smoking tobacco intelligent', false, 0),
 ('marseypipebomb', 'Marsey', 2, 'explosion explosive terrorist boom', false, 0),
+('marseypipehorror', 'Marsey', 2, 'emerge help horrifying mario scary terrifying trapped', false, 1723233053),
 ('marseypirate', 'Marsey', 2, 'argh eyepatch bandana uraniumdonger', false, 0),
 ('marseypirate2', 'Marsey', 2, 'party parrot eyepatch partyparrot', false, 0),
 ('marseypiss', 'Marsey', 2, 'pee potty yellow liquid', false, 1705591422),
