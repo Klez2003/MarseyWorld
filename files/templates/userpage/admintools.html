@@ -107,7 +107,8 @@
 					<button type="button" id="mute-user-{{deviceType}}" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mute_user/{{u.id}}','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Mute</button>
 					<button type="button" id="unmute-user-{{deviceType}}" class="mb-1 {% if not u.is_muted %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_user/{{u.id}}','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Unmute</button>
 				{% endif %}
-				{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+
+				{% if v.admin_level >= PERMS['NUKE_USER'] %}
 					<form action="/admin/unnuke_user" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 						<input hidden name="formkey", value="{{v|formkey}}" class="notranslate" translate="no">
 						<input hidden name="user" value="{{u.username}}">
