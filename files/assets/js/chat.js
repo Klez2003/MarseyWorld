@@ -363,18 +363,16 @@ function send_hearbeat() {
 send_hearbeat()
 setInterval(send_hearbeat, 20000);
 
-addEventListener("load", () => {
-	document.getElementById('chat').click()
+document.getElementById('chat').click()
 
-	box.scrollTo(0, box.scrollHeight)
+box.scrollTo(0, box.scrollHeight)
 
-	const last_img = Array.from(document.getElementsByClassName('img')).pop()
-	if (last_img) {
-		last_img.addEventListener("load", () => {
-			box.scrollTo(0, box.scrollHeight)
-		}, {once : true});
-	}
-}, {once : true});
+const last_img = Array.from(document.getElementsByClassName('img')).pop()
+if (last_img) {
+	last_img.addEventListener("load", () => {
+		box.scrollTo(0, box.scrollHeight)
+	}, {once : true});
+}
 
 visualViewport.addEventListener('resize', () => {
 	if (scrolled_down_var)
