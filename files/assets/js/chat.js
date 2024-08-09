@@ -368,14 +368,11 @@ addEventListener("load", () => {
 	document.getElementById('chat').click()
 
 	box.scrollTo(0, box.scrollHeight)
-	
+
 	const last_img = Array.from(document.getElementsByClassName('img')).pop()
 	if (last_img) {
 		last_img.addEventListener("load", () => {
 			box.scrollTo(0, box.scrollHeight)
 		}, {once : true});
 	}
-
-	if (chat && innerWidth <= 768)
-		chat.style.height = "calc(100dvh - 83.15px)"
 }, {once : true});
