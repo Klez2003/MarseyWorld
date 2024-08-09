@@ -375,6 +375,7 @@ addEventListener("load", () => {
 }, {once : true});
 
 visualViewport.addEventListener('resize', () => {
+	console.log(scrolled_down())
 	if (scrolled_down()) {
 		box.scrollTo(0, box.scrollHeight)
 		setTimeout(function() {
