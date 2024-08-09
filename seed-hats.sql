@@ -1218,6 +1218,7 @@ INSERT INTO public.hat_defs VALUES (1631, 'Japanese Fan', 'Time to cool down', 2
 INSERT INTO public.hat_defs VALUES (1615, 'Tomato', 'Booo!', 2, 500, NULL, 1719818638);
 INSERT INTO public.hat_defs VALUES (1575, 'Milk Party', 'It''s only REAL milk if it comes without a cap', 2, 500, NULL, 1718330935);
 
+
 INSERT INTO public.hat_defs VALUES (1396, 'Click Me', 'Come on, you know you want to see my profile.', 2, 500, NULL, 1704921421);
 INSERT INTO public.hat_defs VALUES (1408, 'Kadio Stance', '*thwack* YEEEEEEEEOUCHHHHHHHHHH', 2, 500, NULL, 1705616850);
 INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
@@ -1298,7 +1299,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1647, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1648, true);
 
 
 --
