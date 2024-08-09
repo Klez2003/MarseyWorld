@@ -351,7 +351,7 @@ function post_comment(fullname, hide) {
 					viewbtn.dataset.ids = viewbtn.dataset.ids.slice(0, -1) + `, ${data['id']}]`
 			}
 
-			if (!document.getElementById('twitter-embed-script')) {
+			if (comment.includes('<blockquote class="twitter-tweet">') && !document.getElementById('twitter-embed-script')) {
 				const script = document.createElement('script');
 				script.id = 'twitter-embed-script'
 				script.src = '/assets/js/vendor/twitter.js?x=11';
