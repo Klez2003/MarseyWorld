@@ -32,8 +32,10 @@ if (keyword_notifs_li) {
 	keyword_notifs_pattern = String.raw`(\s|^)(` + keyword_notifs_li + String.raw`)(\s|$)`
 }
 
+let scrolled_down_var = true;
 function scrolled_down() {
-	return box.scrollHeight - box.scrollTop <= innerHeight
+	scrolled_down_var = box.scrollHeight - box.scrollTop <= innerHeight
+	return scrolled_down_var
 }
 
 socket.on('speak', function(json) {
@@ -375,11 +377,6 @@ addEventListener("load", () => {
 }, {once : true});
 
 visualViewport.addEventListener('resize', () => {
-	console.log(scrolled_down())
-	if (scrolled_down()) {
+	if (scrolled_down_var)
 		box.scrollTo(0, box.scrollHeight)
-		setTimeout(function() {
-			box.scrollTo(0, box.scrollHeight)
-		}, 200);
-	}
 });
