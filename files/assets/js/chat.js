@@ -363,14 +363,16 @@ function send_hearbeat() {
 send_hearbeat()
 setInterval(send_hearbeat, 20000);
 
-box.scrollTo(0, box.scrollHeight)
+addEventListener("DOMContentLoaded", () => {
+	box.scrollTo(0, box.scrollHeight)
 
-const last_img = Array.from(document.getElementsByClassName('img')).pop()
-if (last_img) {
-	last_img.addEventListener("load", () => {
-		box.scrollTo(0, box.scrollHeight)
-	}, {once : true});
-}
+	const last_img = Array.from(document.getElementsByClassName('img')).pop()
+	if (last_img) {
+		last_img.addEventListener("load", () => {
+			box.scrollTo(0, box.scrollHeight)
+		}, {once : true});
+	}
+})
 
 visualViewport.addEventListener('resize', () => {
 	if (scrolled_down_var)
