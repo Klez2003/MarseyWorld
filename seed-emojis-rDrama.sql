@@ -4034,6 +4034,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseymuttbrasil', 'Marsey', 2, 'brazilian mixed nonwhite brown mulatto', false, 1697637586),
 ('marseymyeisha', 'Marsey', 2, 'kween black fds', false, 0),
 ('marseymyers', 'Marsey', 2, 'knife halloween killer mask scary michael stab horror', false, 1666654966),
+('marseymyeyes', 'Marsey', 2, 'awful blinding bright burning disgusting hideous horrific nasty spongebob terrible', false, 1723186007),
 ('marseymymy', 'Marsey', 2, 'ongezellig weeb anime catgirl japanese', false, 1700958659),
 ('marseyn8', 'Marsey', 2, 'nate redditor powermod powerjannie moderator', false, 0),
 ('marseynails', 'Marsey', 2, 'manicure emoji pedicure', false, 0),
