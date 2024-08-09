@@ -16,7 +16,7 @@
 {% set ns = namespace() %}
 
 {% macro single_comment(c, level=1, collapse=False) %}
-	{% if not ns.has_twitter_embed %}
+	{% if not request.headers.get("xhr") and not ns.has_twitter_embed %}
 		{% if 
 			('<blockquote class="twitter-tweet">' in c.body_html) or
 			(p and p.embed and '<blockquote class="twitter-tweet">' in p.embed) or
@@ -864,9 +864,9 @@
 
 {% if ns.has_twitter_embed %}
 	{% if v and v.theme in LIGHT_THEMES %}
-		<script defer src="{{'js/vendor/twitterlight.js' | asset}}"></script>
+		<script id="twitter-embed-script" defer src="{{'js/vendor/twitterlight.js' | asset}}"></script>
 	{% else %}
-		<script defer src="{{'js/vendor/twitter.js' | asset}}"></script>
+		<script id="twitter-embed-script" defer src="{{'js/vendor/twitter.js' | asset}}"></script>
 	{% endif %}
 {% endif %}
 
