@@ -34,7 +34,7 @@
 		{% block head_final %}{% endblock %}
 	{% endblock %}
 	</head>
-	<body {% block body_attributes %}id="{% block pagetype %}{% endblock %}"{% endblock %} {% if v.theme in DARK_THEMES %}data-dark="true"{% endif %}>
+	<body {% block body_attributes %}id="{% block pagetype %}{% endblock %}"{% endblock %} {% if not v or v.theme in DARK_THEMES %}data-dark="true"{% endif %}>
 		{% if IS_HOMOWEEN() and ((v and v.jumpscare) or request.path.startswith('/shop/')) %}
 			{% set image_src = SITE_FULL_IMAGES ~ "/assets/events/homoween/images/jumpscares/" ~ listdir("files/assets/events/homoween/images/jumpscares")|random ~ "?x=45" %}
 			<img src="{{image_src}}" id="jumpscare-img" style="display: none">
