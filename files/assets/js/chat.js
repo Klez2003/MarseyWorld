@@ -123,6 +123,8 @@ socket.on('speak', function(json) {
 		}
 	}
 
+	scrolled_down()
+
 	let line = document.getElementsByClassName('chat-line')[0].cloneNode(true)
 	register_new_elements(line);
 	bs_trigger(line)
@@ -144,6 +146,8 @@ socket.on('speak', function(json) {
 
 	if (scrolled_down() && document.getElementsByClassName('chat-message').length > 250)
 		document.getElementById('chat-window').firstElementChild.remove()
+
+	embed_reddit()
 })
 
 function send() {
