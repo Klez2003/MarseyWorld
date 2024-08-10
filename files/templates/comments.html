@@ -13,19 +13,7 @@
 
 {% set disable_votes = (request.path.startswith('/@') and not wall and u != v) and v and v.admin_level < PERMS['ENABLE_VOTE_BUTTONS_ON_USER_PAGE'] %}
 
-{% set ns = namespace() %}
-
 {% macro single_comment(c, level=1, collapse=False) %}
-	{% if not request.headers.get("xhr") and not ns.has_twitter_embed %}
-		{% if 
-			('<blockquote class="twitter-tweet">' in c.body_html) or
-			(p and p.embed and '<blockquote class="twitter-tweet">' in p.embed) or
-			(p and '<blockquote class="twitter-tweet">' in p.body_html)
-		%}
-			{% set ns.has_twitter_embed = True %}
-		{% endif %}
-	{% endif %}
-
 	{% if can_see(v, c) %}
 		{% set ups=c.upvotes %}
 		{% set downs=c.downvotes %}
@@ -863,12 +851,10 @@
 	</div>
 {% endif %}
 
-{% if ns.has_twitter_embed %}
-	{% if v and v.theme in LIGHT_THEMES %}
-		<script id="twitter-embed-script" defer src="{{'js/vendor/twitterlight.js' | asset}}"></script>
-	{% else %}
-		<script id="twitter-embed-script" defer src="{{'js/vendor/twitter.js' | asset}}"></script>
-	{% endif %}
+{% if v and v.theme in LIGHT_THEMES %}
+	<script id="twitter-embed-script" defer src="{{'js/vendor/twitterlight.js' | asset}}"></script>
+{% else %}
+	<script id="twitter-embed-script" defer src="{{'js/vendor/twitter.js' | asset}}"></script>
 {% endif %}
 
 </body>

@@ -118,4 +118,9 @@
 	{% if not session.get("GLOBAL") %}
 		<script defer src="{{'js/chat.js' | asset}}"></script>
 	{% endif %}
+	{% if v and v.theme in LIGHT_THEMES %}
+		<script id="twitter-embed-script" defer src="{{'js/vendor/twitterlight.js' | asset}}"></script>
+	{% else %}
+		<script id="twitter-embed-script" defer src="{{'js/vendor/twitter.js' | asset}}"></script>
+	{% endif %}
 {% endblock %}

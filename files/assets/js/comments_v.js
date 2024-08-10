@@ -351,16 +351,7 @@ function post_comment(fullname, hide) {
 					viewbtn.dataset.ids = viewbtn.dataset.ids.slice(0, -1) + `, ${data['id']}]`
 			}
 
-			if (comment.includes('<blockquote class="twitter-tweet">')) {
-				if (!document.getElementById('twitter-embed-script')) {
-					const script = document.createElement('script');
-					script.id = 'twitter-embed-script'
-					script.src = '/assets/js/vendor/twitter.js?x=11';
-					script.defer = true;
-					comments.insertAdjacentElement('beforeEnd', script);
-				}
-				embed_twitter()
-			}
+			embed_twitter()
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
