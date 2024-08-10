@@ -1,4 +1,6 @@
 function embed_reddit() {
+	if (navigator.donottrack) return
+
 	const reddit_embeds = document.getElementsByClassName('reddit-embed-bq')
 	if (!reddit_embeds) return
 
