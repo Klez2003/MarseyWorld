@@ -1437,6 +1437,7 @@ CHUD_PHRASES = ( #if you add a phrase, remove one in turn
 	"Vaccines work",
 	"Trans women are women",
 	"Furry rights are human rights",
+	"Trans furry lives matter",
 	"Trump for prison",
 	"Kamala will win",
 	"Jewish lives matter",
@@ -1447,7 +1448,6 @@ CHUD_PHRASES = ( #if you add a phrase, remove one in turn
 	"I love sucking cock",
 	"This post rests on native land",
 	"Communism will win",
-	"Blue lives matter",
 )
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"}
