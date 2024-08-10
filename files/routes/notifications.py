@@ -147,7 +147,7 @@ def notifications_chats(v):
 	chats = g.db.query(Chat, ChatMembership.notification, ChatMembership.muted, ChatMembership.mentions) \
 	.join(ChatMembership, and_(Chat.id == ChatMembership.chat_id, ChatMembership.user_id == v.id)) \
 	.join(sq, Chat.id == sq.c.chat_id) \
-	.order_by(sq.c.mentions.desc(), sq.c.notification.desc(), sq.c.created_utc.desc()).all()
+	.order_by(ChatMembership.mentions.desc(), ChatMembership.notification.desc(), sq.c.created_utc.desc()).all()
 
 	return render_template("notifications.html", v=v, notifications=chats)
 
