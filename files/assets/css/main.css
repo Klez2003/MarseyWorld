@@ -7759,7 +7759,7 @@ img[src$="/e/speechbubble.webp"] {
 		height: 430px
 	}
 }
-iframe[src*='https://embed.reddit.com/r/'] {
+iframe[src^='https://embed.reddit.com/r/'] {
 	display: inline !important;
 	width: 552px;
 }
