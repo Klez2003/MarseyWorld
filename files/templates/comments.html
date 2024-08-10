@@ -197,7 +197,7 @@
 
 								<a class="user-name text-decoration-none {% if not c.author.switched.earlylife %}unbreakable{% endif %}" href="{{c.author.switched.url}}" data-pop-info='{{c.author.switched.json_popover(v) | tojson}}'' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="manual" data-content-id="popover" tabindex="0" style="color:#{{c.author.switched.name_color}}; font-size:12px; font-weight:bold">
 									<div class="profile-pic-30-wrapper">
-										<img loading="lazy" alt="@{{c.author.switched.username}}'s profile picture" src="{{c.author.switched.profile_url}}" class="profile-pic-30 mr-2">
+										<img loading="lazy" src="{{c.author.switched.profile_url}}" class="profile-pic-30 mr-2">
 										{% if c.author.switched.hat_active(v)[0] -%}
 											<img class="profile-pic-30-hat hat" loading="lazy" src="{{c.author.switched.hat_active(v)[0]}}?x=11" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.switched.hat_active(v)[1]}}" alt="@{{c.author.switched.username}}'s hat">
 										{%- endif %}
