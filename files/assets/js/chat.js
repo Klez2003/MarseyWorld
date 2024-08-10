@@ -138,6 +138,14 @@ socket.on('speak', function(json) {
 		embed_twitter()
 	}
 
+	if (scrolled_down()) {
+		for (img of line.getElementsByClassName('img')) {
+			img.addEventListener("load", () => {
+				box.scrollTo(0, box.scrollHeight)
+			}, {once : true});
+		}
+	}
+
 	if (last_user == json.user_id) {
 		box.querySelector('.chat-group:last-child').append(line)
 	}
@@ -153,6 +161,10 @@ socket.on('speak', function(json) {
 
 	if (scrolled_down() && document.getElementsByClassName('chat-message').length > 250)
 		document.getElementById('chat-window').firstElementChild.remove()
+
+	if (scrolled_down()) {
+		box.scrollTo(0, box.scrollHeight)
+	}
 })
 
 function send() {
@@ -199,6 +211,13 @@ function quote(t) {
 	document.getElementById('QuotedMessageLink').href = `#${id}`
 
 	ta.focus()
+
+	if (scrolled_down()) {
+		box.scrollTo(0, box.scrollHeight)
+		setTimeout(function() {
+			box.scrollTo(0, box.scrollHeight)
+		}, 40);
+	}
 }
 
 ta.addEventListener("keydown", function(e) {
@@ -357,7 +376,19 @@ setInterval(send_hearbeat, 20000);
 
 addEventListener("DOMContentLoaded", () => {
 	box.scrollTo(0, box.scrollHeight)
+
+	const last_img = Array.from(document.getElementsByClassName('img')).pop()
+	if (last_img) {
+		last_img.addEventListener("load", () => {
+			box.scrollTo(0, box.scrollHeight)
+		}, {once : true});
+	}
 })
+
+visualViewport.addEventListener('resize', () => {
+	if (scrolled_down_var)
+		box.scrollTo(0, box.scrollHeight)
+});
 
 const observer = new ResizeObserver(function() {
 	if (scrolled_down()) {
