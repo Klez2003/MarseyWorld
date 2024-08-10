@@ -14,6 +14,7 @@ from files.__main__ import app
 valid_params = [
 	'author',
 	'domain',
+	'site',
 	'nsfw',
 	'post',
 	'before',
