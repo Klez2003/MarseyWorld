@@ -71,13 +71,10 @@
 								</button>
 								<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px">
 									{% for category, icon in CATEGORIES_ICONS.items() %}
-										{% set color = "primary" if session.get(category, True) else "muted" %}
-										<form action="/toggle_category/{{category}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
-											<button type="submit" class="category-btn btn text-{{color}} border-0">
-												<i type="submit" class="fas fa-{{icon}} text-{{color}} mr-2"></i>
-												{{category}}
-											</button>
-										</form>
+										<div class="custom-control custom-checkbox pt-2">
+											<input autocomplete="off" type="checkbox" class="custom-control-input" id="category-{{category}}" data-nonce="{{g.nonce}}" data-onchange="postToastReload(this, '/toggle_category/{{category}}')" {% if session.get(category, True) %}checked{% endif %}>
+											<label class="custom-control-label" for="category-{{category}}">{{category}}</label>
+										</div>
 									{% endfor %}
 								</div>
 							</div>
