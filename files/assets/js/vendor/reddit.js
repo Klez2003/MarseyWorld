@@ -1,5 +1,5 @@
 function embed_reddit() {
-	if (navigator.doNotTrack) return
+	if (navigator.doNotTrack == "1") return
 
 	const reddit_embeds = document.getElementsByClassName('reddit-embed-bq')
 	if (!reddit_embeds) return
