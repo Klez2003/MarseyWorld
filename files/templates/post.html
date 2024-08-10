@@ -143,8 +143,9 @@
 
 								{% if p.url %}
 									{% if p.url.startswith('https://old.reddit.com/r/') and not p.url.endswith('/new/') %}
-										<iframe id="external-embed" src="{{p.url.replace('https://old.reddit.com/', 'https://embed.reddit.com/').split('?')[0]}}?context=1&showtitle=true{% if v.theme in DARK_THEMES %}&theme=dark{% endif %}" height="317" width="100%" allow="clipboard-read; clipboard-write" scrolling="no"></iframe>
-										<script defer src="{{'js/reddit_embed.js' | asset}}"></script>
+										<blockquote class="reddit-embed-bq" data-embed-height="500">
+											<a href="{{p.url}}">{{p.url}}</a>
+										</blockquote>
 									{% elif p.url.startswith('https://tiktok.com/@') %}
 										{% set id = p.url.split('/video/')[1] %}
 										{% if id %}

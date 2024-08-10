@@ -352,6 +352,7 @@ function post_comment(fullname, hide) {
 			}
 
 			embed_twitter()
+			embed_reddit()
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));

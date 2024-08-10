@@ -587,13 +587,18 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		if has_transform:
 			del link["href"]
 
-		if not snappy and link["href"].startswith('https://twitter.com/') and link.string == link["href"] and '/status/' in link["href"]:
-			try:
-				embed = requests.get("https://publish.twitter.com/oembed", params={"url":link["href"], "omit_script":"t"}, headers=HEADERS, timeout=5).json()["html"]
-			except:
-				pass
-			else:
-				embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
+		if not snappy and link.string == link["href"]:
+			if link["href"].startswith('https://twitter.com/') and '/status/' in link["href"]:
+				try:
+					embed = requests.get("https://publish.twitter.com/oembed", params={"url":link["href"], "omit_script":"t"}, headers=HEADERS, timeout=5).json()["html"]
+				except:
+					pass
+				else:
+					embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
+					embed = BeautifulSoup(embed, 'lxml')
+					link.replaceWith(embed)
+			elif link["href"].startswith('https://old.reddit.com/r/') and not link["href"].endswith('/new/'):
+				embed = f'<blockquote class="reddit-embed-bq"><a href="{link["href"]}">{link["href"]}</a></blockquote>'
 				embed = BeautifulSoup(embed, 'lxml')
 				link.replaceWith(embed)
 

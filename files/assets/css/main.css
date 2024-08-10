@@ -7759,6 +7759,9 @@ img[src$="/e/speechbubble.webp"] {
 		height: 430px
 	}
 }
+iframe[src*='https://embed.reddit.com/r/'] {
+	width: 100%
+}
 
 #view-art-sidebar img {
 	max-height: 300px !important;
