@@ -7760,7 +7760,8 @@ img[src$="/e/speechbubble.webp"] {
 	}
 }
 iframe[src*='https://embed.reddit.com/r/'] {
-	width: 100%
+    display: inline !important;
+	width: 550px;
 }
 
 #view-art-sidebar img {
