@@ -432,8 +432,8 @@ def award_thing(v, thing_type, id):
 
 		badge_grant(user=author, badge_id=168)
 	elif kind == "earlylife":
-		if author.earlylife: author.earlylife += 86400 * quantity
-		else: author.earlylife = int(time.time()) + 86400 * quantity
+		if author.earlylife: author.earlylife += 21600 * quantity
+		else: author.earlylife = int(time.time()) + 21600 * quantity
 		badge_grant(user=author, badge_id=169)
 	elif kind == "owoify":
 		if author.owoify: author.owoify += 21600 * quantity
