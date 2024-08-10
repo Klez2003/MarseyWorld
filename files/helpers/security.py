@@ -11,7 +11,8 @@ def generate_hash(string):
 
 
 def validate_hash(string, hashstr):
-	return hmac.compare_digest(hashstr, generate_hash(string))
+	try: return hmac.compare_digest(hashstr, generate_hash(string))
+	except: abort(400, "Formkey error. Please make a bug report in the bug thread and include your device and browser!")
 
 def hash_password(password):
 	return generate_password_hash(
