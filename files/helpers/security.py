@@ -1,5 +1,5 @@
 from werkzeug.security import *
-
+from flask import abort
 from .config.const import *
 
 def generate_hash(string):
