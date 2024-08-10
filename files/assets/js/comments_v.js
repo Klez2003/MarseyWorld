@@ -195,6 +195,9 @@ function post_reply(id) {
 
 			remove_dialog();
 			restore_reply_buttons(`c_${id}`)
+
+			embed_twitter()
+			embed_reddit()
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
 		}
@@ -262,6 +265,9 @@ function comment_edit(id) {
 			oldfiles[ta.id] = new DataTransfer();
 
 			remove_dialog();
+
+			embed_twitter()
+			embed_reddit()
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
