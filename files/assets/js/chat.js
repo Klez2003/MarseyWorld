@@ -360,7 +360,7 @@ addEventListener("DOMContentLoaded", () => {
 })
 
 const observer = new ResizeObserver(function() {
-	if (scrolled_down_var) {
+	if (scrolled_down()) {
 		box.scrollTo(0, box.scrollHeight)
 	}
 });
