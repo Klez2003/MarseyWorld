@@ -375,7 +375,7 @@ const observer = new ResizeObserver(function() {
 	}
 });
 for (const child of box.children) {
-    observer.observe(child);
+	observer.observe(child);
 }
 
 box.addEventListener("scroll", () => {
