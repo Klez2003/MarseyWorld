@@ -111,8 +111,11 @@ def searchposts(v):
 		effortpost = criteria['effortpost'].lower().strip() == 'true'
 		posts = posts.filter(Post.effortpost == effortpost)
 
-	if 'domain' in criteria:
-		domain = criteria['domain']
+	if 'domain' in criteria or 'site' in criteria:
+		if 'domain' in criteria:
+			domain = criteria['domain']
+		else:
+			domain = criteria['site']
 
 		domain = escape_for_search(domain)
 
