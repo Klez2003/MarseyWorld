@@ -123,13 +123,17 @@ socket.on('speak', function(json) {
 		}
 	}
 
-	scrolled_down()
-
 	let line = document.getElementsByClassName('chat-line')[0].cloneNode(true)
 	register_new_elements(line);
 	bs_trigger(line)
 
-	embed_twitter()
+	if (scrolled_down()) {
+		for (img of line.getElementsByClassName('img')) {
+			img.addEventListener("load", () => {
+				box.scrollTo(0, box.scrollHeight)
+			}, {once : true});
+		}
+	}
 
 	if (last_user == json.user_id) {
 		box.querySelector('.chat-group:last-child').append(line)
@@ -147,6 +151,10 @@ socket.on('speak', function(json) {
 	if (scrolled_down() && document.getElementsByClassName('chat-message').length > 250)
 		document.getElementById('chat-window').firstElementChild.remove()
 
+	if (scrolled_down())
+		box.scrollTo(0, box.scrollHeight)
+
+	embed_twitter()
 	embed_reddit()
 })
 
