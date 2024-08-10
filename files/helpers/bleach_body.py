@@ -29,6 +29,7 @@ def allowed_attributes(tag, name, value):
 			return True
 		if name == 'rel' and value == 'nofollow noopener': return True
 		if name == 'target' and value == '_blank': return True
+		if name == 'class' and value == 'reddit-embed-bq': return True
 
 	if tag == 'img':
 		if name in {'src','data-src'}: return is_safe_url(value)
@@ -69,7 +70,7 @@ def allowed_attributes(tag, name, value):
 		if name == 'class' and value == 'table': return True
 
 	if tag == 'blockquote':
-		if name == 'class' and value in {'twitter-tweet','reddit-embed-bq'}: return True
+		if name == 'class' and value == 'twitter-tweet': return True
 
 	if tag in allowed_tags_runtime:
 		return True
