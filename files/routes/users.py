@@ -138,12 +138,12 @@ def transfer_currency(v, username, currency_name, apply_tax):
 	MIN_CURRENCY_TRANSFER = 100
 	TAX_PCT = 0.03
 	receiver = get_user(username, v=v)
-	if receiver.id == v.id: abort(400, f"You can't transfer {currency_name} to yourself!")
+	if receiver.id == v.id: stop(400, f"You can't transfer {currency_name} to yourself!")
 	amount = request.values.get("amount", "").strip()
 	amount = int(amount) if amount.isdigit() else None
 
-	if amount is None or amount <= 0: abort(400, f"Invalid number of {currency_name}")
-	if amount < MIN_CURRENCY_TRANSFER: abort(400, f"You have to gift at least {MIN_CURRENCY_TRANSFER} {currency_name}")
+	if amount is None or amount <= 0: stop(400, f"Invalid number of {currency_name}")
+	if amount < MIN_CURRENCY_TRANSFER: stop(400, f"You have to gift at least {MIN_CURRENCY_TRANSFER} {currency_name}")
 	tax = 0
 	if apply_tax and not v.patron and not receiver.patron:
 		tax = math.ceil(amount*TAX_PCT)
@@ -157,13 +157,13 @@ def transfer_currency(v, username, currency_name, apply_tax):
 
 	if reason:
 		if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT:
-			abort(400, f"Reason is too long (max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters)")
+			stop(400, f"Reason is too long (max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters)")
 		notif_text += '\n\n> ' + '\n\n> '.join(reason.splitlines())
 		log_message += '\n\n> ' + '\n\n> '.join(reason.splitlines())
 
 	charge_reason = f'Gift to <a href="/id/{receiver.id}">@{username}</a>'
 	if not v.charge_account(currency_name, amount, charge_reason):
-		abort(400, f"You don't have enough {currency_name}")
+		stop(400, f"You don't have enough {currency_name}")
 
 	if currency_name in {'marseybux', 'coins'}:
 		pay_reason = f'Gift from <a href="/id/{v.id}">@{v.username}</a>'
@@ -180,7 +180,7 @@ def transfer_currency(v, username, currency_name, apply_tax):
 
 def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v)
-	if not u.is_visible_to(v, 0): abort(403)
+	if not u.is_visible_to(v, 0): stop(403)
 	id = u.id
 
 	uid = get_user(username2, attributes=[User.id]).id
@@ -246,7 +246,7 @@ def downvoters_comments(v, username, username2):
 
 def upvoting_downvoting(v, username, username2, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v)
-	if not u.is_visible_to(v, 0): abort(403)
+	if not u.is_visible_to(v, 0): stop(403)
 	id = u.id
 
 	uid = get_user(username2, attributes=[User.id]).id
@@ -312,7 +312,7 @@ def downvoting_comments(v, username, username2):
 
 def user_voted(v, username, cls, vote_cls, template, standalone):
 	u = get_user(username, v=v)
-	if not u.is_visible_to(v, 0): abort(403)
+	if not u.is_visible_to(v, 0): stop(403)
 
 	page = get_page()
 
@@ -414,7 +414,7 @@ def chuds(v):
 
 def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 	if username == 'Snappy':
-		abort(403, "For performance reasons, you can't see Snappy's statistics!")
+		stop(403, "For performance reasons, you can't see Snappy's statistics!")
 	vote_str = 'votes'
 	simps_haters = 'voters'
 	vote_name = 'Neutral'
@@ -545,7 +545,7 @@ def get_css(username):
 		if 'anime/' not in bg and not bg.startswith('/images/'):
 			css += 'body {background-size: cover}'
 
-	if not css: abort(404)
+	if not css: stop(404)
 
 	resp = make_response(css)
 	resp.headers["Content-Type"] = "text/css"
@@ -562,7 +562,7 @@ def get_profilecss(username):
 	if bg:
 		if not css: css = ''
 		css += f'\n\nbody {{background: url("{bg}") center center fixed;background-size: auto;}}'
-	if not css: abort(404)
+	if not css: stop(404)
 
 	resp = make_response(css)
 	resp.headers["Content-Type"] = "text/css"
@@ -577,7 +577,7 @@ def get_profilecss(username):
 def subscribe(v, post_id):
 	p = get_post(post_id)
 	if v.id == p.author_id:
-		abort(403, "You can't subscribe to your own posts!")
+		stop(403, "You can't subscribe to your own posts!")
 
 	existing = g.db.query(Subscription).filter_by(user_id=v.id, post_id=post_id).one_or_none()
 	if not existing:
@@ -613,32 +613,32 @@ def message(v, username=None, id=None):
 		user = get_user(username, v=v, include_blocks=True)
 
 	if user.id == MODMAIL_ID:
-		abort(403, "Please use /contact to contact the admins")
+		stop(403, "Please use /contact to contact the admins")
 
 	if hasattr(user, 'is_blocking') and user.is_blocking:
-		abort(403, f"You're blocking @{user.username}")
+		stop(403, f"You're blocking @{user.username}")
 
 	if v.admin_level < PERMS['MESSAGE_BLOCKED_USERS'] and hasattr(user, 'is_blocked') and user.is_blocked:
-		abort(403, f"@{user.username} is blocking you!")
+		stop(403, f"@{user.username} is blocking you!")
 
 	if v.admin_level < PERMS['MESSAGE_BLOCKED_USERS'] and user.has_muted(v):
-		abort(403, f"@{user.username} is muting notifications from you, so messaging them is pointless!")
+		stop(403, f"@{user.username} is muting notifications from you, so messaging them is pointless!")
 
 	body = request.values.get("message", "").strip()
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-		abort(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
+		stop(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	if not g.is_tor and get_setting("dm_media"):
 		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
 		if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-			abort(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
+			stop(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
-	if not body: abort(400, "Message is empty!")
+	if not body: stop(400, "Message is empty!")
 
 	body_html = sanitize(body)
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
-		abort(400, "Rendered message is too long!")
+		stop(400, "Rendered message is too long!")
 
 	existing = g.db.query(Comment.id).filter(
 		Comment.author_id == v.id,
@@ -646,7 +646,7 @@ def message(v, username=None, id=None):
 		Comment.body_html == body_html
 	).first()
 
-	if existing: abort(403, "Message already exists!")
+	if existing: stop(403, "Message already exists!")
 
 	c = Comment(author_id=v.id,
 						parent_post=None,
@@ -877,7 +877,7 @@ def u_username_wall(v, username):
 
 	if v and v.has_blocked(u):
 		if g.is_api_or_xhr:
-			abort(403, f"You are blocking @{u.username}.")
+			stop(403, f"You are blocking @{u.username}.")
 		return render_template("userpage/blocked.html", u=u, v=v), 403
 
 	is_following = v and u.has_follower(v)
@@ -924,8 +924,8 @@ def u_username_wall(v, username):
 @auth_required
 def u_username_wall_comment(v, username, cid):
 	comment = get_comment(cid, v=v)
-	if not comment.wall_user_id: abort(400)
-	if not can_see(v, comment): abort(403)
+	if not comment.wall_user_id: stop(400)
+	if not can_see(v, comment): stop(403)
 
 	u = comment.wall_user
 
@@ -934,7 +934,7 @@ def u_username_wall_comment(v, username, cid):
 
 	if v and v.has_blocked(u):
 		if g.is_api_or_xhr:
-			abort(403, f"You are blocking @{u.username}.")
+			stop(403, f"You are blocking @{u.username}.")
 		return render_template("userpage/blocked.html", u=u, v=v), 403
 
 	is_following = v and u.has_follower(v)
@@ -973,7 +973,7 @@ def u_username(v, username):
 
 	if v and v.has_blocked(u):
 		if g.is_api_or_xhr:
-			abort(403, f"You are blocking @{u.username}.")
+			stop(403, f"You are blocking @{u.username}.")
 		return render_template("userpage/blocked.html", u=u, v=v), 403
 
 	is_following = v and u.has_follower(v)
@@ -982,7 +982,7 @@ def u_username(v, username):
 
 	if not u.is_visible_to(v, page):
 		if g.is_api_or_xhr:
-			abort(403, f"@{u.username}'s userpage is private")
+			stop(403, f"@{u.username}'s userpage is private")
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
 	sort = request.values.get("sort", "new")
@@ -1061,7 +1061,7 @@ def u_username_comments(username, v):
 
 	if v and v.has_blocked(u):
 		if g.is_api_or_xhr:
-			abort(403, f"You are blocking @{u.username}.")
+			stop(403, f"You are blocking @{u.username}.")
 		return render_template("userpage/blocked.html", u=u, v=v), 403
 
 	is_following = v and u.has_follower(v)
@@ -1070,7 +1070,7 @@ def u_username_comments(username, v):
 
 	if not u.is_visible_to(v, page):
 		if g.is_api_or_xhr:
-			abort(403, f"@{u.username}'s userpage is private")
+			stop(403, f"@{u.username}'s userpage is private")
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
 	sort = request.values.get("sort","new")
@@ -1122,9 +1122,9 @@ def u_username_info(username, v):
 	user = get_user(username, v=v, include_blocks=True)
 
 	if hasattr(user, 'is_blocking') and user.is_blocking:
-		abort(401, f"You're blocking @{user.username}")
+		stop(401, f"You're blocking @{user.username}")
 	elif hasattr(user, 'is_blocked') and user.is_blocked:
-		abort(403, f"@{user.username} is blocking you!")
+		stop(403, f"@{user.username} is blocking you!")
 
 	return user.json
 
@@ -1137,9 +1137,9 @@ def u_user_id_info(id, v):
 	user = get_account(id, v=v, include_blocks=True)
 
 	if hasattr(user, 'is_blocking') and user.is_blocking:
-		abort(403, f"You're blocking @{user.username}")
+		stop(403, f"You're blocking @{user.username}")
 	elif hasattr(user, 'is_blocked') and user.is_blocked:
-		abort(403, f"@{user.username} is blocking you!")
+		stop(403, f"@{user.username} is blocking you!")
 
 	return user.json
 
@@ -1154,7 +1154,7 @@ def follow_user(username, v):
 	target = get_user(username, v=v)
 
 	if target.id==v.id:
-		abort(400, "You can't follow yourself!")
+		stop(400, "You can't follow yourself!")
 
 	if g.db.query(Follow).filter_by(user_id=v.id, target_id=target.id).one_or_none():
 		return {"message": f"@{target.username} has been followed!"}
@@ -1191,7 +1191,7 @@ def unfollow_user(username, v):
 		send_notification(target.id, f"@{v.username} has unfollowed you!")
 
 	else:
-		abort(400, f"You're not even following @{target.username} to begin with!")
+		stop(400, f"You're not even following @{target.username} to begin with!")
 
 
 	return {"message": f"@{target.username} has been unfollowed!"}
@@ -1313,7 +1313,7 @@ def toggle_pins(hole, sort):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def toggle_category(category):
 	if category not in CATEGORIES_ICONS:
-		abort(400, "Invalid category!")
+		stop(400, "Invalid category!")
 
 	session[category] = not session.get(category, True)
 
@@ -1326,12 +1326,12 @@ def toggle_category(category):
 @auth_required
 def bid_list(v, bid):
 	if bid in PATRON_BADGES and v.admin_level < PERMS['VIEW_PATRONS']:
-		abort(404)
+		stop(404)
 
 	name = g.db.query(BadgeDef.name).filter_by(id=bid).one_or_none()
 
 	if not name:
-		abort(404, "Badge not found")
+		stop(404, "Badge not found")
 	
 	name = name[0]
 
@@ -1359,7 +1359,7 @@ if KOFI_TOKEN:
 			print(STARS, flush=True)
 			print(f'/exempt fail: {verification_token}')
 			print(STARS, flush=True)
-			abort(400)
+			stop(400)
 
 		id = data['kofi_transaction_id']
 		created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
@@ -1368,7 +1368,7 @@ if KOFI_TOKEN:
 		try:
 			amount = int(float(data['amount']))
 		except:
-			abort(400, 'invalid amount')
+			stop(400, 'invalid amount')
 		email = data['email'].strip().lower()
 
 		transaction = Transaction(
@@ -1395,7 +1395,7 @@ def gumroad():
 		print(STARS, flush=True)
 		print(f'/gumroad fail: {ip}')
 		print(STARS, flush=True)
-		abort(400)
+		stop(400)
 
 	id = data['sale_id']
 
@@ -1438,7 +1438,7 @@ def bm():
 		print(STARS, flush=True)
 		print(f'/bm fail: {ip}')
 		print(STARS, flush=True)
-		abort(400)
+		stop(400)
 
 	data = data['data']['object']
 
@@ -1486,15 +1486,15 @@ def bm():
 @auth_required
 def settings_claim_rewards(v):
 	if not (v.email and v.email_verified):
-		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
+		stop(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
 
 	transactions = g.db.query(Transaction).filter_by(email=v.email).all()
 	if not transactions:
-		abort(400, f"No matching email found. Please ensure you're using the same email here that you used on {DONATE_SERVICE}.")
+		stop(400, f"No matching email found. Please ensure you're using the same email here that you used on {DONATE_SERVICE}.")
 
 	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
 	if not transactions:
-		abort(400, f"{patron} rewards already claimed!")
+		stop(400, f"{patron} rewards already claimed!")
 
 	claim_rewards_all_users()
 
@@ -1532,11 +1532,11 @@ def mute_notifs(v, uid):
 	user = get_account(uid)
 
 	if user.id == v.id:
-		abort(400, "You can't mute notifications from yourself!")
+		stop(400, "You can't mute notifications from yourself!")
 	if user.id == AUTOJANNY_ID:
-		abort(403, f"You can't mute notifications from @{user.username}")
+		stop(403, f"You can't mute notifications from @{user.username}")
 	if v.has_muted(user):
-		abort(409, f"You have already muted notifications from @{user.username}")
+		stop(409, f"You have already muted notifications from @{user.username}")
 
 	new_mute = UserMute(user_id=v.id, target_id=user.id)
 	g.db.add(new_mute)
@@ -1558,7 +1558,7 @@ def unmute_notifs(v, uid):
 	x = v.has_muted(user)
 
 	if not x:
-		abort(409, "You can't unmute notifications from someone you haven't muted notifications from!")
+		stop(409, "You can't unmute notifications from someone you haven't muted notifications from!")
 
 	g.db.delete(x)
 
@@ -1572,7 +1572,7 @@ def usersong(username):
 	user = get_user(username)
 
 	if not user.song:
-		abort(404, f"@{user.username} hasn't set a profile anthem!")
+		stop(404, f"@{user.username} hasn't set a profile anthem!")
 
 	if len(user.song) == 11:
 		return redirect(f'https://youtube.com/watch?v={user.song}')

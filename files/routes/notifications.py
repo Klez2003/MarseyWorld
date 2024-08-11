@@ -261,7 +261,7 @@ def notifications_modactions(v):
 	elif v.moderated_holes:
 		cls = HoleAction
 	else:
-		abort(403)
+		stop(403)
 
 	listing = g.db.query(cls).filter(cls.user_id != v.id)
 
@@ -304,7 +304,7 @@ def notifications_offsite(v):
 	page = get_page()
 
 	if v.offsite_mentions == None:
-		abort(403)
+		stop(403)
 
 	listing = g.db.query(Comment).filter(
 		Comment.body_html.like('<p>New site mention%'),
@@ -473,7 +473,7 @@ def notifications(v):
 def notification(v, cid):
 	comment = get_comment(cid, v=v)
 
-	if not can_see(v, comment): abort(403)
+	if not can_see(v, comment): stop(403)
 
 	comment.unread = True
 

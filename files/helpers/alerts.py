@@ -190,12 +190,12 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 				continue
 
 			if i.group(1) == 'focusgroup' and not v.admin_level:
-				abort(403, "Only admins can mention !focusgroup")
+				stop(403, "Only admins can mention !focusgroup")
 
 			if i.group(1) == 'everyone':
 				if chat:
 					if not membership.is_mod:
-						abort(403, "You need to be the chat owner or a mod to do that!")
+						stop(403, "You need to be the chat owner or a mod to do that!")
 					group = None
 					member_ids = set(x[0] for x in g.db.query(ChatMembership.user_id).filter_by(chat_id=chat.id).all()) - {v.id}
 				else:
@@ -203,7 +203,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 						cost = g.db.query(User).count() * 5
 
 						if cost > v.coins + v.marseybux:
-							abort(403, f"You need {cost} currency to mention these ping groups!")
+							stop(403, f"You need {cost} currency to mention these ping groups!")
 						
 						reason = "Group pinging cost (<code>!everyone</code>)"
 						if obj:
@@ -219,17 +219,17 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 					member_ids.remove(AEVANN_ID)
 			elif i.group(1) == 'holejannies':
 				if not get_obj_hole(obj):
-					abort(403, "!holejannies can only be used inside holes!")
+					stop(403, "!holejannies can only be used inside holes!")
 				group = None
 				member_ids = set(x[0] for x in g.db.query(Mod.user_id).filter_by(hole=obj.hole))
 			elif i.group(1) == 'followers':
 				if not followers_ping:
-					abort(403, f"You can't use !followers in posts!")
+					stop(403, f"You can't use !followers in posts!")
 				group = None
 				member_ids = set(x[0] for x in g.db.query(Follow.user_id).filter_by(target_id=v.id))
 			elif i.group(1) == 'commenters':
 				if not commenters_ping_post_id:
-					abort(403, "You can only use !commenters in comments made under posts!")
+					stop(403, "You can only use !commenters in comments made under posts!")
 				group = None
 				member_ids = set(x[0] for x in g.db.query(User.id).join(Comment, Comment.author_id == User.id).filter(Comment.parent_post == commenters_ping_post_id)) - {v.id}
 			else:
@@ -245,11 +245,11 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 				realghost = ghost and i.group(1) != 'ghosts'
 				if (realghost or v.id not in member_ids) and i.group(1) != 'followers':
 					if group and group.name == 'verifiedrich':
-						abort(403, f"Only !verifiedrich members can mention it!")
+						stop(403, f"Only !verifiedrich members can mention it!")
 					cost += len(members) * 5
 					cost_groups.append(i.group(1))
 					if cost > v.coins + v.marseybux:
-						abort(403, f"You need {cost} currency to mention these ping groups!")
+						stop(403, f"You need {cost} currency to mention these ping groups!")
 
 					if i.group(1) in {'biofoids','neofoids','jannies'}:
 						coin_receivers.update(member_ids)
@@ -271,7 +271,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 	else: largest_ping_group_count = 0
 	max_ping_count = max(1000, largest_ping_group_count)
 	if len(notify_users) > max_ping_count and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
-		abort(403, f"You can only notify a maximum of {max_ping_count} users.")
+		stop(403, f"You can only notify a maximum of {max_ping_count} users.")
 
 	if v.shadowbanned or (obj and obj.is_banned):
 		notify_users = set(x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all())

@@ -76,7 +76,7 @@ def searchposts(v):
 			posts = posts.filter(Post.ghost == False)
 		if not author.is_visible_to(v, 0):
 			if v.client:
-				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
+				stop(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 			return render_template("search.html",
 								v=v,
 								query=query,
@@ -135,7 +135,7 @@ def searchposts(v):
 		subreddit = criteria['subreddit']
 
 		if not subreddit_name_regex.fullmatch(subreddit):
-			abort(400, "Invalid subreddit name.")
+			stop(400, "Invalid subreddit name.")
 
 		posts = posts.filter(Post.url.ilike(f"https://old.reddit.com/r/{subreddit}/%"))
 
@@ -148,7 +148,7 @@ def searchposts(v):
 		try: after = int(after)
 		except:
 			try: after = timegm(time.strptime(after, "%Y-%m-%d"))
-			except: abort(400)
+			except: stop(400)
 		posts = posts.filter(Post.created_utc > after)
 
 	if 'before' in criteria:
@@ -156,7 +156,7 @@ def searchposts(v):
 		try: before = int(before)
 		except:
 			try: before = timegm(time.strptime(before, "%Y-%m-%d"))
-			except: abort(400)
+			except: stop(400)
 		posts = posts.filter(Post.created_utc < before)
 
 	posts = apply_time_filter(t, posts, Post)
@@ -209,7 +209,7 @@ def searchcomments(v):
 
 	if 'post' in criteria:
 		try: post = int(criteria['post'])
-		except: abort(404)
+		except: stop(404)
 		comments = comments.filter(Comment.parent_post == post)
 
 
@@ -219,7 +219,7 @@ def searchcomments(v):
 			comments = comments.filter(Comment.ghost == False)
 		if not author.is_visible_to(v, 0):
 			if v.client:
-				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
+				stop(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 
 			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them!"), 403
 
@@ -259,7 +259,7 @@ def searchcomments(v):
 		try: after = int(after)
 		except:
 			try: after = timegm(time.strptime(after, "%Y-%m-%d"))
-			except: abort(400)
+			except: stop(400)
 		comments = comments.filter(Comment.created_utc > after)
 
 	if 'before' in criteria:
@@ -267,7 +267,7 @@ def searchcomments(v):
 		try: before = int(before)
 		except:
 			try: before = timegm(time.strptime(before, "%Y-%m-%d"))
-			except: abort(400)
+			except: stop(400)
 		comments = comments.filter(Comment.created_utc < before)
 
 	if v.admin_level < PERMS['USER_SHADOWBAN']:
@@ -317,7 +317,7 @@ def searchmessages(v):
 		author = get_user(criteria['author'], v=v)
 		if not author.is_visible_to(v, 0):
 			if v.client:
-				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
+				stop(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 
 			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them!"), 403
 
@@ -338,7 +338,7 @@ def searchmessages(v):
 		try: after = int(after)
 		except:
 			try: after = timegm(time.strptime(after, "%Y-%m-%d"))
-			except: abort(400)
+			except: stop(400)
 		comments = comments.filter(Comment.created_utc > after)
 
 	if 'before' in criteria:
@@ -346,7 +346,7 @@ def searchmessages(v):
 		try: before = int(before)
 		except:
 			try: before = timegm(time.strptime(before, "%Y-%m-%d"))
-			except: abort(400)
+			except: stop(400)
 		comments = comments.filter(Comment.created_utc < before)
 
 	if 'sentto' in criteria:
@@ -354,7 +354,7 @@ def searchmessages(v):
 		sentto = get_user(sentto, graceful=True)
 
 		if not sentto:
-			abort(400, "The `sentto` field must contain an existing user's username!")
+			stop(400, "The `sentto` field must contain an existing user's username!")
 
 		comments = comments.filter(Comment.sentto == sentto.id)
 
@@ -392,7 +392,7 @@ def searchusers(v):
 		try: after = int(after)
 		except:
 			try: after = timegm(time.strptime(after, "%Y-%m-%d"))
-			except: abort(400)
+			except: stop(400)
 		users = users.filter(User.created_utc > after)
 
 	if 'before' in criteria:
@@ -400,7 +400,7 @@ def searchusers(v):
 		try: before = int(before)
 		except:
 			try: before = timegm(time.strptime(before, "%Y-%m-%d"))
-			except: abort(400)
+			except: stop(400)
 		users = users.filter(User.created_utc < before)
 
 	if 'q' in criteria:

@@ -43,7 +43,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, hole=None):
 
 	comment = get_comment(cid, v=v)
 
-	if not can_see(v, comment): abort(403)
+	if not can_see(v, comment): stop(403)
 
 	if comment.parent_post:
 		post = comment.parent_post
@@ -104,7 +104,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, hole=None):
 @is_not_banned
 def comment(v):
 	parent_fullname = request.values.get("parent_fullname").strip()
-	if len(parent_fullname) < 3: abort(400)
+	if len(parent_fullname) < 3: stop(400)
 	id = parent_fullname[2:]
 	parent_comment_id = None
 	rts = False
@@ -122,7 +122,7 @@ def comment(v):
 		parent = get_post(id, v=v)
 		post_target = parent
 		if parent.id in ADMIGGER_THREADS and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
-			abort(403, "You can't post top-level comments in this thread!")
+			stop(403, "You can't post top-level comments in this thread!")
 
 		ghost = parent.ghost
 	elif parent_fullname.startswith("c_"):
@@ -131,16 +131,16 @@ def comment(v):
 		parent_comment_id = parent.id
 		if parent.author_id == v.id: rts = True
 		if not v.can_post_in_ghost_threads and isinstance(post_target, Post) and post_target.ghost:
-			abort(403, f"You need {TRUESCORE_MINIMUM} truescore to post in ghost threads")
+			stop(403, f"You need {TRUESCORE_MINIMUM} truescore to post in ghost threads")
 		ghost = parent.ghost
-	else: abort(404)
+	else: stop(404)
 
 	level = 1 if isinstance(parent, (Post, User)) else int(parent.level) + 1
 	parent_user = parent if isinstance(parent, User) else parent.author
 	posting_to_post = isinstance(post_target, Post)
 
 	if posting_to_post and not can_see(v, parent):
-		abort(403)
+		stop(403)
 
 	if posting_to_post:
 		commenters_ping_post_id = post_target.id
@@ -149,32 +149,32 @@ def comment(v):
 
 	if not isinstance(parent, User) and parent.deleted_utc != 0 and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		if isinstance(parent, Post):
-			abort(403, "You can't reply to deleted posts!")
+			stop(403, "You can't reply to deleted posts!")
 		else:
-			abort(403, "You can't reply to deleted comments!")
+			stop(403, "You can't reply to deleted comments!")
 
 	if posting_to_post:
 		hole = post_target.hole
-		if hole and v.exiler_username(hole): abort(403, f"You're exiled from /h/{hole}")
+		if hole and v.exiler_username(hole): stop(403, f"You're exiled from /h/{hole}")
 		if hole in {'furry','vampire','racist','femboy','edgy'} and not v.client and not v.house.lower().startswith(hole):
-			abort(403, f"You need to be a member of House {hole.capitalize()} to comment in /h/{hole}")
+			stop(403, f"You need to be a member of House {hole.capitalize()} to comment in /h/{hole}")
 
-	if level > COMMENT_MAX_DEPTH: abort(400, f"Max comment level is {COMMENT_MAX_DEPTH}")
+	if level > COMMENT_MAX_DEPTH: stop(400, f"Max comment level is {COMMENT_MAX_DEPTH}")
 
 	body = request.values.get("body", "").strip()
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
+		stop(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	body = body.replace('@jannies', '!jannies')
 
 	if not posting_to_post or post_target.id not in ADMIGGER_THREADS:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			abort(403, "You have to type more than 280 characters!")
+			stop(403, "You have to type more than 280 characters!")
 		elif v.bird and len(body) > 140:
-			abort(403, "You have to type less than 140 characters!")
+			stop(403, "You have to type less than 140 characters!")
 
 	if not body and not request.files.get('file'):
-		abort(400, "You need to actually write something!")
+		stop(400, "You need to actually write something!")
 
 	if parent_user.has_blocked(v) or parent_user.has_muted(v):
 		notify_op = False
@@ -188,7 +188,7 @@ def comment(v):
 
 	body = process_files(request.files, v, body, is_badge_thread=is_badge_thread, comment_body=comment_body)
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
+		stop(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	body = remove_cuniform(body)
 	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and posting_to_post and post_target.id == SNAPPY_THREAD and level == 1:
@@ -197,7 +197,7 @@ def comment(v):
 		with open(f"snappy_{SITE_NAME}.txt", "r+") as f:
 			body_for_checking = '\n[para]\n' + body.lower() + '\n[para]\n'
 			if body_for_checking in f.read().lower() + '[para]\n':
-				abort(400, "Snappy quote already exists!")
+				stop(400, "Snappy quote already exists!")
 			f.write('[para]\n' + body + '\n')
 			SNAPPY_QUOTES.append(body)
 
@@ -237,16 +237,16 @@ def comment(v):
 			Comment.wall_user_id == post_target.id if not posting_to_post else None,
 			Comment.body_html == body_html
 		).first()
-		if existing: abort(409, f"You already made that comment: /comment/{existing.id}#context")
+		if existing: stop(409, f"You already made that comment: /comment/{existing.id}#context")
 
 	execute_antispam_comment_check(body, v)
 	execute_antispam_duplicate_comment_check(v, body_html)
 
 	if v.hieroglyphs and marseyaward_body_regex.search(body_html) and not (posting_to_post and post_target.id in ADMIGGER_THREADS):
-		abort(403, "You can only type marseys!")
+		stop(403, "You can only type marseys!")
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
-		abort(400, "Rendered comment is too long!")
+		stop(400, "Rendered comment is too long!")
 
 	c.body_html = body_html
 
@@ -393,7 +393,7 @@ def comment(v):
 def delete_comment(cid, v):
 	c = get_comment(cid, v=v)
 	if not c.deleted_utc:
-		if c.author_id != v.id: abort(403)
+		if c.author_id != v.id: stop(403)
 
 		c.deleted_utc = int(time.time())
 		g.db.add(c)
@@ -433,7 +433,7 @@ def delete_comment(cid, v):
 def undelete_comment(cid, v):
 	c = get_comment(cid, v=v)
 	if c.deleted_utc:
-		if c.author_id != v.id: abort(403)
+		if c.author_id != v.id: stop(403)
 		c.deleted_utc = 0
 		g.db.add(c)
 
@@ -464,7 +464,7 @@ def pin_comment_op(cid, v):
 	comment = get_comment(cid, v=v)
 
 	if not comment.pinned:
-		if v.id != comment.post.author_id: abort(403)
+		if v.id != comment.post.author_id: stop(403)
 
 		if comment.post.ghost: comment.pinned = "(OP)"
 		else: comment.pinned = v.username + " (OP)"
@@ -492,10 +492,10 @@ def unpin_comment_op(cid, v):
 	comment = get_comment(cid, v=v)
 
 	if comment.pinned:
-		if v.id != comment.post.author_id: abort(403)
+		if v.id != comment.post.author_id: stop(403)
 
 		if not comment.pinned.endswith(" (OP)"):
-			abort(403, "You can only unpin comments you have pinned!")
+			stop(403, "You can only unpin comments you have pinned!")
 
 		comment.pinned = None
 		comment.pinned_utc = None
@@ -577,7 +577,7 @@ def toggle_comment_nsfw(cid, v):
 	comment = get_comment(cid)
 
 	if comment.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (comment.post and v.mods_hole(comment.post.hole)) and comment.wall_user_id != v.id:
-		abort(403)
+		stop(403)
 
 	comment.nsfw = not comment.nsfw
 	g.db.add(comment)
@@ -612,42 +612,42 @@ def edit_comment(cid, v):
 	c = get_comment(cid, v=v)
 
 	if time.time() - c.created_utc > 3*24*60*60 and not (c.post and c.post.draft) and v.admin_level < PERMS["IGNORE_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_EDITING_LIMIT:
-		abort(403, "You can't edit comments older than 3 days!")
+		stop(403, "You can't edit comments older than 3 days!")
 
 	if c.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_EDITING']:
-		abort(403)
+		stop(403)
 
 	if not c.parent_post and not c.wall_user_id:
-		abort(403)
+		stop(403)
 
 	body = request.values.get("body", "").strip()
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
+		stop(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	if len(body) < 1 and not (request.files.get("file") and not g.is_tor):
-		abort(400, "You have to actually type something!")
+		stop(400, "You have to actually type something!")
 
 	body = body.replace('@jannies', '!jannies')
 
 	if body != c.body or request.files.get("file") and not g.is_tor:
 		if c.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			abort(403, "You have to type more than 280 characters!")
+			stop(403, "You have to type more than 280 characters!")
 		elif c.author.bird and len(body) > 140:
-			abort(403, "You have to type less than 140 characters!")
+			stop(403, "You have to type less than 140 characters!")
 
 		execute_antispam_comment_check(body, v)
 
 		body = process_files(request.files, v, body)
 		if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-			abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
+			stop(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 		body_html = sanitize(body, golden=False, limit_pings=5, showmore=(not v.hieroglyphs), commenters_ping_post_id=c.parent_post, obj=c, author=c.author)
 
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
-			abort(400, "Rendered comment is too long!")
+			stop(400, "Rendered comment is too long!")
 
 		if c.author.hieroglyphs and marseyaward_body_regex.search(body_html):
-			abort(403, "You can only type marseys!")
+			stop(403, "You can only type marseys!")
 
 		if int(time.time()) - c.created_utc > 60 * 3:
 			edit_log = CommentEdit(
@@ -666,7 +666,7 @@ def edit_comment(cid, v):
 		execute_blackjack(v, c, c.body, "comment")
 
 		if not complies_with_chud(c):
-			abort(403, f'You have to include "{c.author.chud_phrase}" in your comment!')
+			stop(403, f'You have to include "{c.author.chud_phrase}" in your comment!')
 
 		process_options(v, c)
 
@@ -704,7 +704,7 @@ def edit_comment(cid, v):
 
 		gevent.spawn(postprocess_comment, c.body, c.body_html, c.id)
 	else:
-		abort(400, "You need to change something!")
+		stop(400, "You need to change something!")
 
 
 	return {
@@ -722,7 +722,7 @@ def commenters(v, pid, time):
 	p = get_post(pid)
 
 	if p.ghost:
-		abort(403, "You can't see commenters on ghost threads!")
+		stop(403, "You can't see commenters on ghost threads!")
 
 	users = g.db.query(User, Comment.id, Comment.created_utc).distinct(User.id).join(
 		Comment, Comment.author_id == User.id
@@ -773,7 +773,7 @@ def admin_distinguish_comment(c_id, v):
 	comment = get_comment(c_id, v=v)
 
 	if v.admin_level < PERMS['POST_COMMENT_DISTINGUISH'] and not (comment.parent_post and v.mods_hole(comment.post.hole)):
-		abort(403, "You can't distinguish this comment")
+		stop(403, "You can't distinguish this comment")
 
 	if comment.distinguished:
 		comment.distinguished = False

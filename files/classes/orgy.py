@@ -1,5 +1,5 @@
 import time
-from flask import g, abort
+from flask import g
 import requests
 
 from sqlalchemy import Column, or_, ForeignKey

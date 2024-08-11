@@ -158,6 +158,10 @@ socket.on('speak', function(json) {
 	embed_reddit()
 })
 
+socket.on('error', function(message) {
+	showToast(false, message);
+})
+
 function send() {
 	const text = ta.value.trim();
 	const input = document.getElementById('file');

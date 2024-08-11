@@ -7,7 +7,7 @@ import json
 import requests
 import ffmpeg
 import gevent
-from flask import abort, g, has_request_context, request
+from flask import g, has_request_context, request
 from mimetypes import guess_extension
 from PIL import Image
 from PIL import UnidentifiedImageError
@@ -44,7 +44,7 @@ def media_ratelimit(v):
 		print(STARS, flush=True)
 		print(f'@{v.username} hit the {limit} file daily limit!')
 		print(STARS, flush=True)
-		abort(500)
+		stop(500)
 
 def process_files(files, v, body, is_dm=False, dm_user=None, is_badge_thread=False, comment_body=None):
 	if g.is_tor or not files.get("file"): return body
@@ -70,7 +70,7 @@ def process_files(files, v, body, is_dm=False, dm_user=None, is_badge_thread=Fal
 		elif file.content_type.startswith('audio/'):
 			url = f'{SITE_FULL}{process_audio(file, v)}'
 		elif has_request_context():
-			abort(415)
+			stop(415)
 		else:
 			return None
 
@@ -97,7 +97,7 @@ def process_audio(file, v, old=None):
 	size = os.stat(old).st_size
 	if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not v.patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
 		os.remove(old)
-		abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for {patron}s)")
+		stop(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for {patron}s)")
 
 	if isinstance(file, str):
 		extension = '.mp3'
@@ -105,7 +105,7 @@ def process_audio(file, v, old=None):
 		extension = guess_extension(file.content_type)
 		if not extension:
 			os.remove(old)
-			abort(400, "Unsupported audio format.")
+			stop(400, "Unsupported audio format.")
 
 	new = old + extension
 
@@ -115,7 +115,7 @@ def process_audio(file, v, old=None):
 		os.remove(old)
 		if os.path.isfile(new):
 			os.remove(new)
-		abort(400, "Something went wrong processing your audio on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
+		stop(400, "Something went wrong processing your audio on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
 	os.remove(old)
 
@@ -173,7 +173,7 @@ def process_video(file, v):
 	size = os.stat(old).st_size
 	if size > MAX_VIDEO_SIZE_MB_PATRON * 1024 * 1024 or (not v.patron and size > MAX_VIDEO_SIZE_MB * 1024 * 1024):
 		os.remove(old)
-		abort(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for {patron}s)")
+		stop(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for {patron}s)")
 
 	new = f'{old}.mp4'
 
@@ -187,11 +187,11 @@ def process_video(file, v):
 				break
 	except:
 		os.remove(old)
-		abort(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
+		stop(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
 	if not codec:
 		os.remove(old)
-		abort(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
+		stop(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
 	is_reencoding = False
 	if codec != 'h264':
@@ -209,7 +209,7 @@ def process_video(file, v):
 			os.remove(old)
 			if os.path.isfile(new):
 				os.remove(new)
-			abort(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
+			stop(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
 		os.remove(old)
 
@@ -263,7 +263,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 	except:
 		os.remove(filename)
 		if has_request and not filename.startswith('/chat_images/'):
-			abort(400, "Something went wrong processing your image on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
+			stop(400, "Something went wrong processing your image on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 		return None
 
 	params.append(filename)
@@ -272,7 +272,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 	except:
 		os.remove(filename)
 		if has_request:
-			abort(400, "An uploaded image couldn't be converted to WEBP. Please convert it to WEBP elsewhere then upload it again.")
+			stop(400, "An uploaded image couldn't be converted to WEBP. Please convert it to WEBP elsewhere then upload it again.")
 		return None
 
 	size_after_conversion = os.stat(filename).st_size
@@ -281,7 +281,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 		if size_after_conversion > MAX_IMAGE_SIZE_BANNER_RESIZED_MB * 1024 * 1024:
 			os.remove(filename)
 			if has_request:
-				abort(413, f"Max size for site assets is {MAX_IMAGE_SIZE_BANNER_RESIZED_MB} MB")
+				stop(413, f"Max size for site assets is {MAX_IMAGE_SIZE_BANNER_RESIZED_MB} MB")
 			return None
 
 	media = g.db.query(Media).filter_by(filename=filename, kind='image').one_or_none()
@@ -305,13 +305,13 @@ def process_badge_entry(oldname, v, comment_body):
 		name = badge_def["name"]
 
 		if len(name) > 50:
-			abort(400, "Badge name is too long (max 50 characters)")
+			stop(400, "Badge name is too long (max 50 characters)")
 
 		if not badge_name_regex.fullmatch(name):
-			abort(400, "Invalid badge name!")
+			stop(400, "Invalid badge name!")
 
 		existing = g.db.query(BadgeDef).filter_by(name=name).one_or_none()
-		if existing: abort(409, "A badge with this name already exists!")
+		if existing: stop(409, "A badge with this name already exists!")
 
 		badge = BadgeDef(name=name, description=badge_def["description"])
 		g.db.add(badge)
@@ -321,7 +321,7 @@ def process_badge_entry(oldname, v, comment_body):
 		process_image(filename, v, resize=300, trim=True)
 		purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{badge.id}.webp")
 	except Exception as e:
-		abort(400, str(e))
+		stop(400, str(e))
 
 
 if SITE == 'watchpeopledie.tv':

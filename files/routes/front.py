@@ -20,10 +20,10 @@ def front_all(v, hole=None):
 	if hole:
 		hole = get_hole(hole, graceful=True)
 		if hole and not can_see(v, hole):
-			abort(403)
+			stop(403)
 
 	if request.path.startswith('/h/') and not hole:
-		abort(404)
+		stop(404)
 
 	page = get_page()
 
@@ -228,7 +228,7 @@ def random_post(v):
 		).order_by(func.random()).first()
 
 	if p: p = p[0]
-	else: abort(404)
+	else: stop(404)
 
 	return redirect(f"/post/{p}")
 
@@ -244,7 +244,7 @@ def random_user(v):
 	).order_by(func.random()).first()
 
 	if u: u = u[0]
-	else: abort(404, "No users have set a profile anthem so far!")
+	else: stop(404, "No users have set a profile anthem so far!")
 
 	return redirect(f"/@{u}")
 

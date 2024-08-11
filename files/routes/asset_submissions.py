@@ -21,7 +21,7 @@ def delete_unnecessary_tags(tags, name):
 		if tag not in name and tag not in new_tags:
 			new_tags.append(tag)
 
-	if not new_tags: abort(400, "Invalid tags!")
+	if not new_tags: stop(400, "Invalid tags!")
 
 	new_tags.sort()
 
@@ -150,7 +150,7 @@ emoji_modifiers = ('pat', 'talking', 'genocide', 'love', 'typing')
 @auth_required
 def submit_emoji(v):
 	if SITE_NAME == 'WPD' and v.blacklisted_by:
-		abort(403)
+		stop(403)
 
 	file = request.files["image"]
 	name = request.values.get('name', '').lower().strip()
@@ -164,35 +164,35 @@ def submit_emoji(v):
 
 	for modifier in emoji_modifiers:
 		if name.endswith(modifier):
-			abort(400, f'Submitted emoji names should NOT end with the word "{modifier}"')
+			stop(400, f'Submitted emoji names should NOT end with the word "{modifier}"')
 
 	if kind not in EMOJI_KINDS:
-		abort(400, "Invalid emoji kind!")
+		stop(400, "Invalid emoji kind!")
 
 	if kind in {"Tay", "Platy", "Wolf", "Carp", "Capy"} and not name.startswith(kind.lower()):
-		abort(400, f'The name of this emoji should start with the word "{kind.lower()}"')
+		stop(400, f'The name of this emoji should start with the word "{kind.lower()}"')
 
 	if kind == "Marsey" and not name.startswith("marsey") and not name.startswith("marcus"):
-		abort(400, 'The name of this emoji should start with the word "Marsey" or "Marcus"')
+		stop(400, 'The name of this emoji should start with the word "Marsey" or "Marcus"')
 
 	if kind == "Marsey Flags" and not name.startswith("marseyflag"):
-		abort(400, 'The name of this emoji should start with the word "marseyflag"')
+		stop(400, 'The name of this emoji should start with the word "marseyflag"')
 
 	if g.is_tor:
-		abort(400, "File uploads are not allowed through TOR!")
+		stop(400, "File uploads are not allowed through TOR!")
 
 	if not file or not file.content_type.startswith('image/'):
-		abort(400, "You need to submit an image!")
+		stop(400, "You need to submit an image!")
 
 	if not emoji_name_regex.fullmatch(name):
-		abort(400, "Invalid name!")
+		stop(400, "Invalid name!")
 
 	existing = g.db.query(Emoji.name).filter_by(name=name).one_or_none()
 	if existing:
-		abort(400, "Someone already submitted an emoji with this name!")
+		stop(400, "Someone already submitted an emoji with this name!")
 
 	if not tags_regex.fullmatch(tags):
-		abort(400, "Invalid tags!")
+		stop(400, "Invalid tags!")
 
 	author = get_user(username, v=v)
 
@@ -231,7 +231,7 @@ def verify_permissions_and_get_asset(cls, asset_type, v, name, make_lower=False)
 	else:
 		asset = g.db.get(cls, name)
 	if not asset:
-		abort(404, f"This {asset} '{name}' doesn't exist!")
+		stop(404, f"This {asset} '{name}' doesn't exist!")
 	return asset
 
 @app.post("/admin/approve/emoji/<name>")
@@ -247,26 +247,26 @@ def approve_emoji(v, name):
 	emoji = verify_permissions_and_get_asset(Emoji, "emoji", v, name, True)
 	tags = request.values.get('tags').lower().strip().replace('  ', ' ')
 	if not tags:
-		abort(400, "You need to include tags!")
+		stop(400, "You need to include tags!")
 
 	new_name = request.values.get('name').lower().strip()
 	if not new_name:
-		abort(400, "You need to include name!")
+		stop(400, "You need to include name!")
 
 	tags = delete_unnecessary_tags(tags, new_name)
 
 	new_kind = request.values.get('kind').strip()
 	if not new_kind:
-		abort(400, "You need to include kind!")
+		stop(400, "You need to include kind!")
 
 	if not emoji_name_regex.fullmatch(new_name):
-		abort(400, "Invalid name!")
+		stop(400, "Invalid name!")
 
 	if not tags_regex.fullmatch(tags):
-		abort(400, "Invalid tags!")
+		stop(400, "Invalid tags!")
 
 	if new_kind not in EMOJI_KINDS:
-		abort(400, "Invalid kind!")
+		stop(400, "Invalid kind!")
 
 	nsfw = request.values.get("nsfw") == 'true'
 
@@ -294,16 +294,16 @@ def remove_asset(cls, type_name, v, name):
 	if should_make_lower: name = name.lower()
 	name = name.strip()
 	if not name:
-		abort(400, f"You need to specify a {type_name}!")
+		stop(400, f"You need to specify a {type_name}!")
 	asset = None
 	if cls == HatDef:
 		asset = g.db.query(cls).filter_by(name=name).one_or_none()
 	else:
 		asset = g.db.get(cls, name)
 	if not asset:
-		abort(404, f"This {type_name} '{name}' doesn't exist!")
+		stop(404, f"This {type_name} '{name}' doesn't exist!")
 	if v.id != asset.submitter_id and v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS']:
-		abort(403)
+		stop(403)
 	name = asset.name
 
 	if v.id != asset.submitter_id:
@@ -367,21 +367,21 @@ def submit_hat(v):
 	username = request.values.get('author', '').strip()
 
 	if g.is_tor:
-		abort(400, "File uploads are not allowed through TOR!")
+		stop(400, "File uploads are not allowed through TOR!")
 
 	file = request.files["image"]
 	if not file or not file.content_type.startswith('image/'):
-		abort(400, "You need to submit an image!")
+		stop(400, "You need to submit an image!")
 
 	if not hat_name_regex.fullmatch(name):
-		abort(400, "Invalid name!")
+		stop(400, "Invalid name!")
 
 	existing = g.db.query(HatDef.name).filter_by(name=name).one_or_none()
 	if existing:
-		abort(400, "A hat with this name already exists!")
+		stop(400, "A hat with this name already exists!")
 
 	if not description_regex.fullmatch(description):
-		abort(400, "Invalid description!")
+		stop(400, "Invalid description!")
 
 	author = get_user(username, v=v)
 
@@ -392,7 +392,7 @@ def submit_hat(v):
 	with Image.open(highquality) as i:
 		if i.width != 100 or i.height != 130:
 			os.remove(highquality)
-			abort(400, "Images must be 100x130")
+			stop(400, "Images must be 100x130")
 
 		if len(list(Iterator(i))) > 1: price = 1000
 		else: price = 500
@@ -419,18 +419,18 @@ def approve_hat(v, name):
 
 	hat = verify_permissions_and_get_asset(HatDef, "hat", v, name, False)
 	description = request.values.get('description').strip()
-	if not description: abort(400, "You need to include a description!")
+	if not description: stop(400, "You need to include a description!")
 
 	new_name = request.values.get('name').strip()
-	if not new_name: abort(400, "You need to include a name!")
-	if not hat_name_regex.fullmatch(new_name): abort(400, "Invalid name!")
-	if not description_regex.fullmatch(description): abort(400, "Invalid description!")
+	if not new_name: stop(400, "You need to include a name!")
+	if not hat_name_regex.fullmatch(new_name): stop(400, "Invalid name!")
+	if not description_regex.fullmatch(description): stop(400, "Invalid description!")
 
 	try:
 		hat.price = int(request.values.get('price'))
 		if hat.price < 0: raise ValueError("Invalid hat price")
 	except:
-		abort(400, "Invalid hat price")
+		stop(400, "Invalid hat price")
 
 	old_name = hat.name
 
@@ -533,13 +533,13 @@ def update_emoji(v):
 
 	existing = g.db.get(Emoji, name)
 	if not existing:
-		abort(400, "An emoji with this name doesn't exist!")
+		stop(400, "An emoji with this name doesn't exist!")
 
 	updated = False
 
 	if new_name and existing.name != new_name:
 		if not emoji_name_regex.fullmatch(new_name):
-			abort(400, "Invalid new name!")
+			stop(400, "Invalid new name!")
 
 		old_path = f"files/assets/images/emojis/{existing.name}.webp"
 		new_path = f"files/assets/images/emojis/{new_name}.webp"
@@ -557,9 +557,9 @@ def update_emoji(v):
 
 	if file:
 		if g.is_tor:
-			abort(400, "File uploads are not allowed through TOR!")
+			stop(400, "File uploads are not allowed through TOR!")
 		if not file.content_type.startswith('image/'):
-			abort(400, "You need to submit an image!")
+			stop(400, "You need to submit an image!")
 
 		for x in IMAGE_FORMATS:
 			if path.isfile(f'/asset_submissions/emojis/original/{name}.{x}'):
@@ -581,7 +581,7 @@ def update_emoji(v):
 
 	if kind and existing.kind != kind:
 		if kind not in EMOJI_KINDS:
-			abort(400, "Invalid kind!")
+			stop(400, "Invalid kind!")
 		existing.kind = kind
 		updated = True
 
@@ -589,7 +589,7 @@ def update_emoji(v):
 		existing.tags += f" {tags}"
 		existing.tags = delete_unnecessary_tags(existing.tags, existing.name)
 		if not tags_regex.fullmatch(tags):
-			abort(400, "Invalid tags!")
+			stop(400, "Invalid tags!")
 		updated = True
 
 	if nsfw:
@@ -599,7 +599,7 @@ def update_emoji(v):
 			updated = True
 
 	if not updated:
-		abort(400, "You need to actually update something!")
+		stop(400, "You need to actually update something!")
 
 	g.db.add(existing)
 
@@ -626,7 +626,7 @@ def update_emoji(v):
 @admin_level_required(PERMS['UPDATE_ASSETS'])
 def update_hats(v):
 	if SITE == 'watchpeopledie.tv':
-		abort(403, "You can only update hats on rdrama.net (the changes will propagate to WPD automatically)")
+		stop(403, "You can only update hats on rdrama.net (the changes will propagate to WPD automatically)")
 	return render_template("admin/update_assets.html", v=v, type="Hat")
 
 
@@ -644,13 +644,13 @@ def update_hat(v):
 
 	existing = g.db.query(HatDef).filter_by(name=name).one_or_none()
 	if not existing:
-		abort(400, "A hat with this name doesn't exist!")
+		stop(400, "A hat with this name doesn't exist!")
 
 	updated = False
 
 	if new_name and existing.name != new_name:
 		if not hat_name_regex.fullmatch(new_name):
-			abort(400, "Invalid new name!")
+			stop(400, "Invalid new name!")
 
 		old_path = f"files/assets/images/hats/{existing.name}.webp"
 		new_path = f"files/assets/images/hats/{new_name}.webp"
@@ -668,9 +668,9 @@ def update_hat(v):
 	
 	if file:
 		if g.is_tor:
-			abort(400, "File uploads are not allowed through TOR!")
+			stop(400, "File uploads are not allowed through TOR!")
 		if not file.content_type.startswith('image/'):
-			abort(400, "You need to submit an image!")
+			stop(400, "You need to submit an image!")
 
 		highquality = f"/asset_submissions/hats/{name}"
 		file.save(highquality)
@@ -679,7 +679,7 @@ def update_hat(v):
 		with Image.open(highquality) as i:
 			if i.width > 100 or i.height > 130:
 				os.remove(highquality)
-				abort(400, "Images must be 100x130")
+				stop(400, "Images must be 100x130")
 			format = i.format.lower()
 
 		new_path = f'/asset_submissions/hats/original/{name}.{format}'
@@ -698,7 +698,7 @@ def update_hat(v):
 
 
 	if not updated:
-		abort(400, "You need to actually update something!")
+		stop(400, "You need to actually update something!")
 
 	g.db.add(existing)
 

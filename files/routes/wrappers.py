@@ -104,20 +104,20 @@ def get_logged_in_user():
 				session.pop("lo_user")
 
 	if request.path not in {'/contact', '/reply', '/socket.io/'} and v and v.is_underage:
-		abort(406)
+		stop(406)
 
 	if request.method != "GET" and get_setting('read_only_mode') and not (v and v.admin_level >= PERMS['BYPASS_SITE_READ_ONLY_MODE']):
-		abort(403, "Site is in read-only mode right now. It will be back shortly!")
+		stop(403, "Site is in read-only mode right now. It will be back shortly!")
 
 	if get_setting('offline_mode') and not (v and v.admin_level >= PERMS['SITE_OFFLINE_MODE']):
-		abort(403, "Site is in offline mode right now. It will be back shortly!")
+		stop(403, "Site is in offline mode right now. It will be back shortly!")
 
 	g.v = v
 	if v:
 		g.username = v.username
 
 	if not v and SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG':
-		abort(403, "rdrama.net is only available to visitors from the United States and Europe!")
+		stop(403, "rdrama.net is only available to visitors from the United States and Europe!")
 
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
 
@@ -141,7 +141,7 @@ def auth_desired_with_logingate(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
 		if not v and get_setting('login_required'):
-			abort(401, "You need to login to perform this action!")
+			stop(401, "You need to login to perform this action!")
 
 		if request.path.startswith('/logged_out'):
 			redir = request.full_path.replace('/logged_out','')
@@ -156,9 +156,9 @@ def auth_required(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
 		if not v:
-			abort(401, "You need to login to perform this action!")
+			stop(401, "You need to login to perform this action!")
 		if v.is_permabanned and request.method == "POST" and request.path not in {'/contact','/reply','/logout'} and not request.path.startswith('/delete/'):
-			abort(403, "You can't perform this action while permabanned!")
+			stop(403, "You can't perform this action while permabanned!")
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
@@ -167,9 +167,9 @@ def is_not_banned(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
 		if not v:
-			abort(401, "You need to login to perform this action!")
+			stop(401, "You need to login to perform this action!")
 		if v.is_suspended:
-			abort(403, "You can't perform this action while banned!")
+			stop(403, "You can't perform this action while banned!")
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
@@ -179,11 +179,11 @@ def admin_level_required(x):
 		def wrapper(*args, **kwargs):
 			v = get_logged_in_user()
 			if not v:
-				abort(401, "You need to login to perform this action!")
+				stop(401, "You need to login to perform this action!")
 			if v.admin_level < x:
-				abort(403, "Your admin-level is not sufficient enough for this action!")
+				stop(403, "Your admin-level is not sufficient enough for this action!")
 			if x and SITE != 'devrama.net' and not IS_LOCALHOST and not v.mfa_secret:
-				abort(403, "You need to enable two-factor authentication to use admin features!")
+				stop(403, "You need to enable two-factor authentication to use admin features!")
 			return make_response(f(*args, v=v, **kwargs))
 
 		wrapper.__name__ = f.__name__
@@ -193,7 +193,7 @@ def admin_level_required(x):
 def feature_required(x):
 	def wrapper_maker(f):
 		def wrapper(*args, **kwargs):
-			if not FEATURES[x]: abort(404)
+			if not FEATURES[x]: stop(404)
 			return make_response(f(*args, **kwargs))
 		wrapper.__name__ = f.__name__
 		return wrapper

@@ -23,24 +23,24 @@ def ping_groups(v):
 @auth_required
 def create_group(v):
 	name = request.values.get('name')
-	if not name: abort(400)
+	if not name: stop(400)
 	name = name.strip().lower()
 
 	if name.startswith('slots') or name.startswith('remindme'):
-		abort(400, "You can't make a group with that name!")
+		stop(400, "You can't make a group with that name!")
 
 	if not hole_group_name_regex.fullmatch(name):
-		abort(400, "Name does not match the required format!")
+		stop(400, "Name does not match the required format!")
 
 	if name in {'everyone', 'jannies', 'holejannies', 'followers', 'commenters'} or g.db.get(Group, name):
-		abort(400, "This group already exists!")
+		stop(400, "This group already exists!")
 
 	charge_reason = f'Cost of creating <a href="/!{name}">!{name}</a>'
 	if not v.charge_account('coins/marseybux', GROUP_COST, charge_reason):
-		abort(403, "You don't have enough coins or marseybux!")
+		stop(403, "You don't have enough coins or marseybux!")
 
 	g.db.add(v)
-	if v.shadowbanned: abort(500)
+	if v.shadowbanned: stop(500)
 
 	group = Group(
 			name=name,
@@ -75,7 +75,7 @@ def join_group(v, group_name):
 	group_name = group_name.strip().lower()
 
 	if group_name == 'verifiedrich' and not v.patron:
-		abort(403, f"Only {patron}s can join !verifiedrich")
+		stop(403, f"Only {patron}s can join !verifiedrich")
 
 	if group_name in {'verifiedrich', 'focusgroup'}:
 		join = GroupMembership(
@@ -87,7 +87,7 @@ def join_group(v, group_name):
 		return {"message": f"You have joined !{group_name} successfully!"}
 
 	group = g.db.get(Group, group_name)
-	if not group: abort(404)
+	if not group: stop(404)
 
 	existing = g.db.query(GroupMembership).filter_by(user_id=v.id, group_name=group_name).one_or_none()
 	if not existing:
@@ -118,7 +118,7 @@ def leave_group(v, group_name):
 	group_name = group_name.strip().lower()
 
 	group = g.db.get(Group, group_name)
-	if not group: abort(404)
+	if not group: stop(404)
 	existing = g.db.query(GroupMembership).filter_by(user_id=v.id, group_name=group_name).one_or_none()
 	if existing:
 		if existing.approved_utc:
@@ -144,7 +144,7 @@ def memberships(v, group_name):
 	group_name = group_name.strip().lower()
 
 	group = g.db.get(Group, group_name)
-	if not group: abort(404)
+	if not group: stop(404)
 
 	members = \
 		[g.db.query(GroupMembership).filter(
@@ -175,14 +175,14 @@ def group_approve(v, group_name, user_id):
 	group_name = group_name.strip().lower()
 
 	group = g.db.get(Group, group_name)
-	if not group: abort(404)
+	if not group: stop(404)
 
 	if not v.mods_group(group):
-		abort(403, f"Only the group owner and its mods can approve applications!")
+		stop(403, f"Only the group owner and its mods can approve applications!")
 
 	application = g.db.query(GroupMembership).filter_by(user_id=user_id, group_name=group.name).one_or_none()
 	if not application:
-		abort(404, "There is no application to approve!")
+		stop(404, "There is no application to approve!")
 
 	if not application.approved_utc:
 		application.approved_utc = time.time()
@@ -202,21 +202,21 @@ def group_reject(v, group_name, user_id):
 	group_name = group_name.strip().lower()
 
 	group = g.db.get(Group, group_name)
-	if not group: abort(404)
+	if not group: stop(404)
 
 	if not v.mods_group(group):
-		abort(403, f"Only the group owner and its mods can reject memberships!")
+		stop(403, f"Only the group owner and its mods can reject memberships!")
 
 	membership = g.db.query(GroupMembership).filter_by(user_id=user_id, group_name=group.name).one_or_none()
 	if not membership:
-		abort(404, "There is no membership to reject!")
+		stop(404, "There is no membership to reject!")
 
 	if v.id != membership.user_id: #implies kicking and not leaving
 		if membership.user_id == group.owner_id:
-			abort(403, "You can't kick the group owner!")
+			stop(403, "You can't kick the group owner!")
 
 		if v.id != group.owner_id and membership.is_mod:
-			abort(403, "Only the group owner can kick mods!")
+			stop(403, "Only the group owner can kick mods!")
 
 	if v.id == membership.user_id:
 		msg = f"You have left !{group} successfully!"
@@ -261,14 +261,14 @@ def group_add_mod(v, group_name, user_id):
 	group_name = group_name.strip().lower()
 
 	group = g.db.get(Group, group_name)
-	if not group: abort(404)
+	if not group: stop(404)
 
 	if v.id != group.owner_id:
-		abort(403, f"Only the group owner (@{group.owner.username}) can add mods!")
+		stop(403, f"Only the group owner (@{group.owner.username}) can add mods!")
 
 	membership = g.db.query(GroupMembership).filter_by(user_id=user_id, group_name=group.name).one_or_none()
 	if not membership:
-		abort(404, "The user is not a member of the group!")
+		stop(404, "The user is not a member of the group!")
 
 	membership.is_mod = True
 	g.db.add(membership)
@@ -287,14 +287,14 @@ def group_remove_mod(v, group_name, user_id):
 	group_name = group_name.strip().lower()
 
 	group = g.db.get(Group, group_name)
-	if not group: abort(404)
+	if not group: stop(404)
 
 	if v.id != group.owner_id:
-		abort(403, f"Only the group owner (@{group.owner.username}) can remove mods!")
+		stop(403, f"Only the group owner (@{group.owner.username}) can remove mods!")
 
 	membership = g.db.query(GroupMembership).filter_by(user_id=user_id, group_name=group.name).one_or_none()
 	if not membership:
-		abort(404, "The user is not a member of the group!")
+		stop(404, "The user is not a member of the group!")
 
 	membership.is_mod = False
 	g.db.add(membership)
@@ -314,13 +314,13 @@ def group_usurp(v, group_name):
 	group_name = group_name.strip().lower()
 
 	group = g.db.get(Group, group_name)
-	if not group: abort(404)
+	if not group: stop(404)
 
 	if v.mods_group(group):
-		abort(403, f"You're a mod of !{group.name} can't usurp it!")
+		stop(403, f"You're a mod of !{group.name} can't usurp it!")
 
 	if not v.is_member_of_group(group):
-		abort(403, "Only members of groups can usurp them!")
+		stop(403, "Only members of groups can usurp them!")
 
 	search_html = f'''%</a> has % your application to <a href="/!{group.name}" rel="nofollow">!{group.name}</a></p>'''
 	two_mo_ago = time.time() - 86400 * 60
@@ -341,7 +341,7 @@ def group_usurp(v, group_name):
 	if is_active or not two_mo_old_applications:
 		send_notification(group.owner_id, f"@{v.username} has tried to usurp control of !{group.name} from you and failed because you reviewed a membership application in the past 2 months!")
 		g.db.commit()
-		abort(403, "The current regime has reviewed a membership application in the past 2 months, so you can't usurp them!")
+		stop(403, "The current regime has reviewed a membership application in the past 2 months, so you can't usurp them!")
 
 	send_repeatable_notification(group.owner_id, f"@{v.username} has usurped control of !{group.name} from you. This was possible because you (and your mods) have spent more than 2 months not reviewing membership applications. Be active next time sweaty :!marseycheeky:")
 
@@ -360,21 +360,21 @@ def group_change_description(v, group_name):
 	group_name = group_name.strip().lower()
 
 	group = g.db.get(Group, group_name)
-	if not group: abort(404)
+	if not group: stop(404)
 
 	if v.id != group.owner_id:
-		abort(403, f"Only the group owner (@{group.owner.username}) can change the description!")
+		stop(403, f"Only the group owner (@{group.owner.username}) can change the description!")
 
 	description = request.values.get('description')
 
 	if description:
 		description = description.strip()
 		if len(description) > 100:
-			abort(400, "New description is too long (max 100 characters)")
+			stop(400, "New description is too long (max 100 characters)")
 
 		description_html = filter_emojis_only(description, link=True)
 		if len(description_html) > 1000:
-			abort(400, "Rendered description is too long!")
+			stop(400, "Rendered description is too long!")
 	else:
 		description = None
 		description_html = None

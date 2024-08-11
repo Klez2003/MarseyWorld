@@ -14,11 +14,11 @@ from math import floor
 from datetime import datetime
 
 def vote_post_comment(target_id, new, v, cls, vote_cls):
-	if new == "-1" and DISABLE_DOWNVOTES: abort(403)
-	if new not in {"-1", "0", "1"}: abort(400)
+	if new == "-1" and DISABLE_DOWNVOTES: stop(403)
+	if new not in {"-1", "0", "1"}: stop(400)
 
 	if request.headers.get("Authorization"):
-		abort(403, "Bots aren't allowed to vote right now!")
+		stop(403, "Bots aren't allowed to vote right now!")
 
 	new = int(new)
 	target = None
@@ -26,11 +26,11 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		target = get_post(target_id)
 	elif cls == Comment:
 		target = get_comment(target_id)
-		if not target.parent_post and not target.wall_user_id: abort(404)
+		if not target.parent_post and not target.wall_user_id: stop(404)
 	else:
-		abort(404)
+		stop(404)
 
-	if not can_see(v, target): abort(403)
+	if not can_see(v, target): stop(403)
 
 	coin_delta = 1
 	if v.id == target.author.id:
@@ -51,7 +51,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	elif vote_cls == CommentVote:
 		existing = existing.filter_by(comment_id=target.id)
 	else:
-		abort(400)
+		stop(400)
 	existing = existing.one_or_none()
 
 
@@ -118,14 +118,14 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	def get_vote_count(dir, real_instead_of_dir):
 		try: g.db.flush()
 		except StaleDataError:
-			abort(500, "You already cancelled your vote on this!")
+			stop(500, "You already cancelled your vote on this!")
 		except IntegrityError as e:
 			if str(e).startswith('(psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "'):
-				abort(400, "You already voted on this!")
+				stop(400, "You already voted on this!")
 			raise
 		except OperationalError as e:
 			if str(e).startswith('(psycopg2.errors.QueryCanceled) canceling statement due to statement timeout'):
-				abort(409, f"Statement timeout while trying to register your vote!")
+				stop(409, f"Statement timeout while trying to register your vote!")
 			raise
 
 		votes = g.db.query(vote_cls)
@@ -206,14 +206,14 @@ def vote_info_get(v, link):
 	try:
 		if "p_" in link: obj = get_post(int(link.split("p_")[1]), v=v)
 		elif "c_" in link: obj = get_comment(int(link.split("c_")[1]), v=v)
-		else: abort(400)
-	except: abort(400)
+		else: stop(400)
+	except: stop(400)
 
 	if obj.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
-		abort(403)
+		stop(403)
 
 	if obj.author.shadowbanned and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
-		abort(500)
+		stop(500)
 
 	if isinstance(obj, Post):
 		query = g.db.query(Vote).join(Vote.user).filter(
@@ -231,7 +231,7 @@ def vote_info_get(v, link):
 		ups = query.filter(CommentVote.vote_type == 1).all()
 		downs = query.filter(CommentVote.vote_type == -1).all()
 
-	else: abort(400)
+	else: stop(400)
 
 	return render_template("votes.html",
 						v=v,

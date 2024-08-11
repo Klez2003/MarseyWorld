@@ -14,7 +14,7 @@ from files.__main__ import app, limiter
 @auth_required
 def lottery_buy(v):
 	try: quantity = int(request.values.get("quantity"))
-	except: abort(400, "Invalid ticket quantity!")
+	except: stop(400, "Invalid ticket quantity!")
 
 	success, message = purchase_lottery_tickets(v, quantity)
 	lottery, participants = get_active_lottery_stats()

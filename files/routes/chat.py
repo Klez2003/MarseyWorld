@@ -40,7 +40,8 @@ def auth_required_socketio(f):
 	def wrapper(*args, **kwargs):
 		if not hasattr(g, 'db'): g.db = db_session()
 		v = get_logged_in_user()
-		if not v or v.is_permabanned: return ''
+		if not v or v.is_permabanned:
+			stop(403, "You can't perform this action while permabanned!")
 		x = make_response(f(*args, v=v, **kwargs))
 		try: g.db.commit()
 		except: g.db.rollback()
@@ -59,20 +60,20 @@ def refresh_chat(chat_id):
 @auth_required_socketio
 def speak(data, v):
 	if SITE_NAME == 'WPD' and v.is_suspended:
-		return ''
+		stop(403, "You can't send chat messages while banned!")
 
 	try: chat_id = int(data['chat_id'])
-	except: return ''
+	except: stop(403, "Invalid chat ID.")
 
 	chat = g.db.get(Chat, chat_id)
-	if not chat: return ''
+	if not chat: stop(404, "Chat not found!")
 
 	if chat.id == 1:
-		if not v.allowed_in_chat: return ''
+		if not v.allowed_in_chat: stop(403, "You don't have enough truescore to use this chat!")
 		membership = None
 	else:
 		membership = g.db.query(ChatMembership.is_mod).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
-		if not membership: return ''
+		if not membership: stop(403, "You're not a member of this chat!")
 
 	file = None
 	if data['file']:
@@ -94,13 +95,15 @@ def speak(data, v):
 
 	text = data['message'].strip()[:1000]
 	if file: text += f'\n\n{file}'
-	if not text: return ''
+	if not text:
+		stop(400, "You need to send something!")
 
 	if chat.id == 1:
 		vname = v.username.lower()
 		if vname in muted:
 			if time.time() < muted[vname]:
-				return ''
+				minutes = (muted[vname] - time.time()) / 60
+				stop(403, f"You're muted for the next {int(minutes)} minutes and can't send messages right now. Reflect on what you've done and be better!")
 			else:
 				del muted[vname]
 				refresh_online(f'{SITE_FULL}/chat/1')
@@ -116,8 +119,8 @@ def speak(data, v):
 				refresh_online(f'{SITE_FULL}/chat/1')
 
 	text_html = sanitize(text, count_emojis=True, chat=True)
-	if isinstance(text_html , tuple): return ''
-	if len(text_html) > 5000: return ''
+	if len(text_html) > 5000:
+		stop(400, "Rendered message is too long!")
 
 	quotes = data['quotes']
 	if quotes: quotes = int(quotes)
@@ -266,7 +269,7 @@ def refresh_online(room):
 @socketio.on('connect')
 @auth_required_socketio
 def connect(v):
-	if not request.referrer: return ''
+	if not request.referrer: stop(400, "Invalid referrer!")
 	room = request.referrer
 
 	if room.startswith(f'{SITE_FULL}/notifications/messages'):
@@ -292,7 +295,7 @@ def connect(v):
 @socketio.on('disconnect')
 @auth_required_socketio
 def disconnect(v):
-	if not request.referrer: return ''
+	if not request.referrer: stop(400, "Invalid referrer!")
 	room = request.referrer
 
 	if room.startswith(f'{SITE_FULL}/notifications/messages'):
@@ -316,7 +319,7 @@ def disconnect(v):
 @socketio.on('heartbeat')
 @auth_required_socketio
 def heartbeat(v):
-	if not request.referrer: return ''
+	if not request.referrer: stop(400, "Invalid referrer!")
 	room = request.referrer
 
 	if not online.get(room):
@@ -335,7 +338,7 @@ def heartbeat(v):
 def typing_indicator(data, v):
 	if v.is_suspended or v.shadowbanned: return ''
 	
-	if not request.referrer: return ''
+	if not request.referrer: stop(400, "Invalid referrer!")
 	room = request.referrer
 
 	if not typing.get(room):
@@ -355,7 +358,7 @@ def typing_indicator(data, v):
 @auth_required_socketio
 def delete(id, v):
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
-		return ''
+		stop(400, "Your admin-level is not sufficient enough for this action!")
 
 	for msg in g.db.query(ChatMessage).filter_by(quotes=id):
 		msg.quotes = None
@@ -377,20 +380,20 @@ def delete(id, v):
 def messagereply(v):
 	body = request.values.get("body", "").strip()
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-		abort(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
+		stop(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	id = request.values.get("parent_id")
 	parent = get_comment(id, v=v)
 
 	if parent.parent_post or parent.wall_user_id:
-		abort(403, "You can only reply to messages!")
+		stop(403, "You can only reply to messages!")
 
 	user_id = parent.author.id
 
 	if v.is_permabanned and parent.sentto != MODMAIL_ID:
-		abort(403, "You are permabanned and may not reply to messages!")
+		stop(403, "You are permabanned and may not reply to messages!")
 	elif v.is_muted and parent.sentto == MODMAIL_ID:
-		abort(403, "You are muted!")
+		stop(403, "You are muted!")
 
 	if parent.sentto == MODMAIL_ID: user_id = None
 	elif v.id == user_id: user_id = parent.sentto
@@ -400,25 +403,25 @@ def messagereply(v):
 	if user_id:
 		user = get_account(user_id, v=v, include_blocks=True)
 		if hasattr(user, 'is_blocking') and user.is_blocking:
-			abort(403, f"You're blocking @{user.username}")
+			stop(403, f"You're blocking @{user.username}")
 		elif (v.admin_level < PERMS['MESSAGE_BLOCKED_USERS']
 				and hasattr(user, 'is_blocked') and user.is_blocked):
-			abort(403, f"You're blocked by @{user.username}")
+			stop(403, f"You're blocked by @{user.username}")
 
 		if v.admin_level < PERMS['MESSAGE_BLOCKED_USERS'] and user.has_muted(v):
-			abort(403, f"@{user.username} is muting notifications from you, so messaging them is pointless!")
+			stop(403, f"@{user.username} is muting notifications from you, so messaging them is pointless!")
 
 	if not g.is_tor and get_setting("dm_media"):
 		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
 		if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-			abort(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
+			stop(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
-	if not body: abort(400, "Message is empty!")
+	if not body: stop(400, "Message is empty!")
 
 	body_html = sanitize(body)
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
-		abort(400, "Rendered message is too long!")
+		stop(400, "Rendered message is too long!")
 
 	if parent.sentto == MODMAIL_ID:
 		sentto = MODMAIL_ID

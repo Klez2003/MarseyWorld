@@ -15,19 +15,19 @@ def vote_option(option_id, v):
 	try:
 		option_id = int(option_id)
 	except:
-		abort(404)
+		stop(404)
 	option = g.db.get(PostOption, option_id)
-	if not option: abort(404)
+	if not option: stop(404)
 	hole = option.parent.hole
 
 	if hole in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(hole):
-		abort(403, f"You need to be a member of House {hole.capitalize()} to vote on polls in /h/{hole}")
+		stop(403, f"You need to be a member of House {hole.capitalize()} to vote on polls in /h/{hole}")
 
 	if option.exclusive == 2:
 		if option.parent.total_bet_voted(v):
-			abort(403, "You can't participate in a closed bet!")
+			stop(403, "You can't participate in a closed bet!")
 		if not v.charge_account('coins/marseybux', POLL_BET_COINS, f"Cost of bet on {option.parent.textlink}"):
-			abort(400, f"You don't have {POLL_BET_COINS} coins or marseybux!")
+			stop(400, f"You don't have {POLL_BET_COINS} coins or marseybux!")
 		g.db.add(v)
 
 	if option.exclusive:
@@ -36,7 +36,7 @@ def vote_option(option_id, v):
 			PostOptionVote.post_id==option.parent_id,
 			PostOption.exclusive==option.exclusive).all()
 		if vote:
-			if option.exclusive == 2: abort(400, "You already voted on this bet!")
+			if option.exclusive == 2: stop(400, "You already voted on this bet!")
 			for x in vote:
 				g.db.delete(x)
 
@@ -64,9 +64,9 @@ def vote_option_comment(option_id, v):
 	try:
 		option_id = int(option_id)
 	except:
-		abort(404)
+		stop(404)
 	option = g.db.get(CommentOption, option_id)
-	if not option: abort(404)
+	if not option: stop(404)
 
 	if option.parent.parent_post:
 		hole = option.parent.post.hole
@@ -74,13 +74,13 @@ def vote_option_comment(option_id, v):
 		hole = None
 
 	if hole in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(hole):
-		abort(403, f"You need to be a member of House {hole.capitalize()} to vote on polls in /h/{hole}")
+		stop(403, f"You need to be a member of House {hole.capitalize()} to vote on polls in /h/{hole}")
 
 	if option.exclusive == 2:
 		if option.parent.total_bet_voted(v):
-			abort(403, "You can't participate in a closed bet!")
+			stop(403, "You can't participate in a closed bet!")
 		if not v.charge_account('coins/marseybux', POLL_BET_COINS, f"Cost of bet on {option.parent.textlink}"):
-			abort(400, f"You don't have {POLL_BET_COINS} coins or marseybux!")
+			stop(400, f"You don't have {POLL_BET_COINS} coins or marseybux!")
 		g.db.add(v)
 
 	if option.exclusive:
@@ -89,7 +89,7 @@ def vote_option_comment(option_id, v):
 			CommentOptionVote.comment_id==option.parent_id,
 			CommentOption.exclusive==option.exclusive).all()
 		if vote:
-			if option.exclusive == 2: abort(400, "You already voted on this bet!")
+			if option.exclusive == 2: stop(400, "You already voted on this bet!")
 			for x in vote:
 				g.db.delete(x)
 
@@ -116,12 +116,12 @@ def option_votes(option_id, v):
 	try:
 		option_id = int(option_id)
 	except:
-		abort(404)
+		stop(404)
 	option = g.db.get(PostOption, option_id)
-	if not option: abort(404)
+	if not option: stop(404)
 
 	if option.parent.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
-		abort(403)
+		stop(403)
 
 	ups = g.db.query(PostOptionVote).filter_by(option_id=option_id).order_by(PostOptionVote.created_utc).all()
 
@@ -157,13 +157,13 @@ def option_votes_comment(option_id, v):
 	try:
 		option_id = int(option_id)
 	except:
-		abort(404)
+		stop(404)
 	option = g.db.get(CommentOption, option_id)
 
-	if not option: abort(404)
+	if not option: stop(404)
 
 	if option.parent.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
-		abort(403)
+		stop(403)
 
 	ups = g.db.query(CommentOptionVote).filter_by(option_id=option_id).order_by(CommentOptionVote.created_utc).all()
 

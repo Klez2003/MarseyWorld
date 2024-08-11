@@ -68,7 +68,7 @@ def buy_awards(v, kind, AWARDS, quantity):
 
 	charged = v.charge_account(currency, price*quantity, f"Cost of {quantity} {AWARDS[kind]['title']} award{s}")
 	if not charged:
-		abort(400, f"Not enough {currency}!")
+		stop(400, f"Not enough {currency}!")
 
 	v.currency_spent_on_awards += price*quantity
 	if v.currency_spent_on_awards >= 1000000:
@@ -127,7 +127,7 @@ def buy_awards(v, kind, AWARDS, quantity):
 def buy(v, kind):
 	AWARDS = deepcopy(AWARDS_ENABLED(v))
 
-	if kind not in AWARDS: abort(400)
+	if kind not in AWARDS: stop(400)
 
 	award_title = AWARDS[kind]['title']
 
@@ -156,19 +156,19 @@ def award_thing(v, thing_type, id):
 		obj = get_post(id)
 	elif thing_type == 'comment':
 		obj = get_comment(id)
-		if not obj.parent_post and not obj.wall_user_id: abort(404) # don't let users award messages
+		if not obj.parent_post and not obj.wall_user_id: stop(404) # don't let users award messages
 	else:
-		abort(400)
+		stop(400)
 
 	author = obj.author
 
 	AWARDS = deepcopy(AWARDS_ENABLED(v))
 
 	if kind not in AWARDS:
-		abort(404, "This award doesn't exist.")
+		stop(404, "This award doesn't exist.")
 
 	if kind == "grass" and v.id == author.id:
-		abort(403, "You can't grass yourself.")
+		stop(403, "You can't grass yourself.")
 
 	award_title = AWARDS[kind]['title']
 
@@ -191,39 +191,39 @@ def award_thing(v, thing_type, id):
 		return {"message": f"{quantity} {award_title} award{s} given to {thing_type} successfully!"}
 
 	if obj.is_longpost and kind in {"ectoplasm", "candycorn", "candycane", "stab", "glowie", "tilt", "queen", "chud", "marsify", "owoify", "sharpen", "rainbow"}:
-		abort(403, f'Long posts are protected from the {award_title} award!')
+		stop(403, f'Long posts are protected from the {award_title} award!')
 
 	note = request.values.get("note", "").strip()
 	if len(note) > 200:
-		abort(400, "Award note is too long (max 200 characters)")
+		stop(400, "Award note is too long (max 200 characters)")
 
 	safe_username = f"@{obj.author_name} is"
 
 	if AWARDS[kind]['negative'] and author.immune_to_negative_awards(v):
 		if author.new_user and not author.alts:
-			abort(403, "New users are immune to negative awards!")
-		abort(403, f"{safe_username} immune to negative awards!")
+			stop(403, "New users are immune to negative awards!")
+		stop(403, f"{safe_username} immune to negative awards!")
 
 	if isinstance(obj, Post) and obj.id == 210983:
-		abort(403, "You can't award this post!")
+		stop(403, "You can't award this post!")
 
 	if isinstance(obj, Post) and obj.distinguished and AWARDS[kind]['cosmetic']:
-		abort(403, "Distinguished posts are immune to cosmetic awards!")
+		stop(403, "Distinguished posts are immune to cosmetic awards!")
 
 	if kind == "benefactor":
 		if author.id == v.id:
-			abort(403, "You can't use this award on yourself!")
+			stop(403, "You can't use this award on yourself!")
 		if author.id in get_alt_graph_ids(v.id):
-			abort(403, "You can't use this award on your alts!")
+			stop(403, "You can't use this award on your alts!")
 
 	if obj.ghost and not AWARDS[kind]['ghost']:
-		abort(403, "This kind of award can't be used on ghost posts!")
+		stop(403, "This kind of award can't be used on ghost posts!")
 
 	if kind == 'marsify' and author.marsify == 1:
-		abort(409, f"{safe_username} already permanently marsified!")
+		stop(409, f"{safe_username} already permanently marsified!")
 
 	if kind == 'spider' and author.spider == 1:
-		abort(409, f"{safe_username} already best friends with a spider!")
+		stop(409, f"{safe_username} already best friends with a spider!")
 
 	awards = g.db.query(AwardRelationship).filter(
 		AwardRelationship.kind == kind,
@@ -286,7 +286,7 @@ def award_thing(v, thing_type, id):
 
 	if kind in {"ban", "grass"}:
 		if author.is_suspended and author.ban_reason.startswith('Grass award used by @'):
-			abort(400, f"You can't give a {kind} award to an already-grassed user!")
+			stop(400, f"You can't give a {kind} award to an already-grassed user!")
 
 		ban_reason_link = f"/{thing_type}/{obj.id}"
 		if isinstance(obj, Comment):
@@ -297,28 +297,28 @@ def award_thing(v, thing_type, id):
 
 	if kind == "pause":
 		if author.has_badge(68):
-			abort(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"{safe_username} already has this profile upgrade!")
 		badge_grant(badge_id=68, user=author)
 	elif kind == "unpausable":
 		if author.has_badge(67):
-			abort(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"{safe_username} already has this profile upgrade!")
 		badge_grant(badge_id=67, user=author)
 	elif kind == "eye":
 		if author.has_badge(83):
-			abort(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"{safe_username} already has this profile upgrade!")
 		badge_grant(badge_id=83, user=author)
 	elif kind == "offsitementions":
 		if author.has_badge(140):
-			abort(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"{safe_username} already has this profile upgrade!")
 		author.offsite_mentions = True
 		badge_grant(user=author, badge_id=140)
 	elif kind == "alt":
 		if author.has_badge(84):
-			abort(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"{safe_username} already has this profile upgrade!")
 		badge_grant(badge_id=84, user=author)
 	elif kind == "unblockable":
 		if author.has_badge(87):
-			abort(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"{safe_username} already has this profile upgrade!")
 		badge_grant(badge_id=87, user=author)
 		blocks = g.db.query(UserBlock).filter(
 				or_(
@@ -330,20 +330,20 @@ def award_thing(v, thing_type, id):
 			g.db.delete(block)
 	elif kind == "beano":
 		if author.has_badge(128):
-			abort(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"{safe_username} already has this profile upgrade!")
 		badge_grant(user=author, badge_id=128)
 	elif kind == "checkmark":
 		if author.has_badge(150):
-			abort(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"{safe_username} already has this profile upgrade!")
 		author.verified = "Verified"
 		badge_grant(user=author, badge_id=150)
 	elif kind == "pride":
 		if author.has_badge(303):
-			abort(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"{safe_username} already has this profile upgrade!")
 		badge_grant(user=author, badge_id=303)
 	elif kind == "grinch":
 		if author.grinch:
-			abort(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"{safe_username} already has this profile upgrade!")
 		author.grinch = True
 		if v.id == author.id:
 			session['event_music'] = False
@@ -357,7 +357,7 @@ def award_thing(v, thing_type, id):
 
 		emoji = g.db.query(Emoji).filter_by(name=award.note).one_or_none()
 		if not emoji:
-			abort(404, f'an Emoji with the name "{award.note}" was not found!')
+			stop(404, f'an Emoji with the name "{award.note}" was not found!')
 	elif kind == "ban":
 		if not author.is_suspended:
 			author.ban(reason=ban_reason, days=quantity)
@@ -366,10 +366,10 @@ def award_thing(v, thing_type, id):
 		send_repeatable_notification(author.id, f"Your account has been banned for **{quantity} day{s}** for {obj.textlink}. It sucked and you should feel bad.")
 	elif kind == "unban":
 		if not author.is_suspended or not author.unban_utc:
-			abort(403)
+			stop(403)
 
 		if not author.ban_reason.startswith('Ban award'):
-			abort(400, "You can only use unban awards to undo the effect of ban awards!")
+			stop(400, "You can only use unban awards to undo the effect of ban awards!")
 
 		if author.unban_utc - time.time() > 86400 * quantity:
 			author.unban_utc -= 86400 * quantity
@@ -382,7 +382,7 @@ def award_thing(v, thing_type, id):
 	elif kind == "grass":
 		new_unban_utc = int(time.time()) + 30 * 86400 * quantity
 		if author.is_banned and (not author.unban_utc or author.unban_utc > new_unban_utc):
-			abort(403, f"{safe_username} already banned for more than 30 days!")
+			stop(403, f"{safe_username} already banned for more than 30 days!")
 		author.is_banned = AUTOJANNY_ID
 		author.unban_utc = new_unban_utc
 		send_repeatable_notification(author.id, f"@{v.username} gave you {quantity} grass award{s} on {obj.textlink} and as a result you have been banned! You must [send the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
@@ -392,7 +392,7 @@ def award_thing(v, thing_type, id):
 		badge_grant(user=author, badge_id=98)
 	elif kind == "progressivestack":
 		if not FEATURES['PINS']:
-			abort(403)
+			stop(403)
 
 		if author.progressivestack != 1:
 			if author.progressivestack: author.progressivestack += 21600 * quantity
@@ -424,7 +424,7 @@ def award_thing(v, thing_type, id):
 		if author.bite: author.bite += 86400 * quantity
 		else:
 			if author.house.startswith("Vampire"):
-				abort(400, f"{safe_username} already a permanent vampire!")
+				stop(400, f"{safe_username} already a permanent vampire!")
 
 			author.bite = int(time.time()) + 86400 * quantity
 			author.old_house = author.house
@@ -458,20 +458,20 @@ def award_thing(v, thing_type, id):
 			obj.rainbowed = True
 	elif kind == "gold":
 		if obj.award_count('glowie', v):
-			abort(409, f"This {thing_type} is under the effect of a conflicting award: Glowie award!")
+			stop(409, f"This {thing_type} is under the effect of a conflicting award: Glowie award!")
 	elif kind == "glowie":
 		if obj.award_count('gold', v):
-			abort(409, f"This {thing_type} is under the effect of a conflicting award: Gold award!")
+			stop(409, f"This {thing_type} is under the effect of a conflicting award: Gold award!")
 	elif kind == "spider":
 		if author.spider: author.spider += 86400 * quantity
 		else: author.spider = int(time.time()) + 86400 * quantity
 		badge_grant(user=author, badge_id=179, notify=False)
 	elif kind == "pin":
-		if not FEATURES['PINS']: abort(403)
-		if obj.is_banned: abort(403)
+		if not FEATURES['PINS']: stop(403)
+		if obj.is_banned: stop(403)
 
 		if obj.pinned and not obj.pinned_utc:
-			abort(400, f"This {thing_type} is already pinned permanently!")
+			stop(400, f"This {thing_type} is already pinned permanently!")
 
 		if isinstance(obj, Comment): add = 3600*6 * quantity
 		else: add = 3600 * quantity
@@ -488,7 +488,7 @@ def award_thing(v, thing_type, id):
 		if isinstance(obj, Post):
 			cache.delete_memoized(frontlist)
 	elif kind == "unpin":
-		if not obj.pinned_utc: abort(400)
+		if not obj.pinned_utc: stop(400)
 		if not obj.author.deflector or v == obj.author:
 			if isinstance(obj, Comment):
 				t = obj.pinned_utc - 3600*6 * quantity
@@ -541,18 +541,18 @@ def award_thing(v, thing_type, id):
 	elif kind == "chud":
 		if isinstance(obj, Post) and obj.hole == 'chudrama' \
 			or isinstance(obj, Comment) and obj.post and obj.post.hole == 'chudrama':
-			abort(403, "You can't give the chud award in /h/chudrama")
+			stop(403, "You can't give the chud award in /h/chudrama")
 
 		if author.chud == 1:
-			abort(409, f"{safe_username} already permanently chudded!")
+			stop(409, f"{safe_username} already permanently chudded!")
 
 		if author.chud and time.time() < author.chud: author.chud += 86400 * quantity
 		else: author.chud = int(time.time()) + 86400 * quantity
 
-		if not note: abort(400, "Missing phrase!")
+		if not note: stop(400, "Missing phrase!")
 
 		if note not in CHUD_PHRASES:
-			abort(400, "Invalid phrase!")
+			stop(400, "Invalid phrase!")
 
 		author.chud_phrase = note
 
@@ -565,7 +565,7 @@ def award_thing(v, thing_type, id):
 		new_flair = note
 
 		if len(new_flair) > 100:
-			abort(400, "New flair is too long (max 100 characters)")
+			stop(400, "New flair is too long (max 100 characters)")
 
 		if not new_flair and author.flairchanged:
 			author.flairchanged += 86400 * quantity
@@ -573,7 +573,7 @@ def award_thing(v, thing_type, id):
 			author.flair = new_flair
 			new_flair = filter_emojis_only(new_flair, link=True)
 			new_flair = censor_slurs_profanities(new_flair, None)
-			if len(new_flair) > 1000: abort(403)
+			if len(new_flair) > 1000: stop(403)
 			author.flair_html = new_flair
 			author.flairchanged = int(time.time()) + 86400 * quantity
 			badge_grant(user=author, badge_id=96)
@@ -583,12 +583,12 @@ def award_thing(v, thing_type, id):
 			author.namechanged += 86400 * quantity
 		else:
 			if not valid_username_regex.fullmatch(new_name):
-				abort(400, "You need to enter a valid username to change the recipient to.")
+				stop(400, "You need to enter a valid username to change the recipient to.")
 
 			if not execute_blackjack(v, None, new_name, f'namelock award attempt on @{author.username}'):
 				existing = get_user(new_name, graceful=True)
 				if existing and existing.id != author.id:
-					abort(400, f"@{new_name} is already taken!")
+					stop(400, f"@{new_name} is already taken!")
 
 				if not author.prelock_username:
 					author.prelock_username = author.username
@@ -697,9 +697,9 @@ def award_thing(v, thing_type, id):
 @auth_required
 def trick_or_treat(v):
 	if v.client:
-		abort(403, "Not allowed from the API")
+		stop(403, "Not allowed from the API")
 	if not IS_HOMOWEEN():
-		abort(403)
+		stop(403)
 
 	result = random.choice([0,1])
 
@@ -721,9 +721,9 @@ def trick_or_treat(v):
 @auth_required
 def execute_jumpscare(v):
 	if v.client:
-		abort(403, "Not allowed from the API")
+		stop(403, "Not allowed from the API")
 	if not IS_HOMOWEEN():
-		abort(403)
+		stop(403)
 
 	if v.jumpscare > 0:
 		v.jumpscare -= 1

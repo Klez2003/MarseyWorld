@@ -1,5 +1,4 @@
 from werkzeug.security import *
-from flask import abort
 from .config.const import *
 
 def generate_hash(string):
@@ -12,7 +11,7 @@ def generate_hash(string):
 
 def validate_hash(string, hashstr):
 	try: return hmac.compare_digest(hashstr, generate_hash(string))
-	except: abort(400, "Formkey error. Please install another browser and use it make a bug report in the bug thread!")
+	except: stop(400, "Formkey error. Please install another browser and use it make a bug report in the bug thread!")
 
 def hash_password(password):
 	return generate_password_hash(

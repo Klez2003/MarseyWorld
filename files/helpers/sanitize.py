@@ -321,7 +321,7 @@ def handle_youtube_links(url):
 		html = f'<lite-youtube videoid="{id}"'
 		if t and int(t) > 0:
 			try: html += f' params="start={int(t)}"'
-			except: abort(400, f"Something is wrong with the url you submitted ({url}) and it couldn't be parsed.")
+			except: stop(400, f"Something is wrong with the url you submitted ({url}) and it couldn't be parsed.")
 		html += '></lite-youtube>'
 	return html
 
@@ -333,12 +333,6 @@ def reddit_mention_replacer(match):
 
 @with_sigalrm_timeout(10)
 def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None, commenters_ping_post_id=None, obj=None, author=None):
-	def error(error):
-		if chat:
-			return error, 403
-		else:
-			abort(403, error)
-
 	sanitized = html_comment_regex.sub('', sanitized)
 	sanitized = remove_cuniform(sanitized)
 
@@ -389,7 +383,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
 
 	if limit_pings and len(names) > limit_pings and author and author.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
-		return error("Max ping limit is 5 for comments and 50 for posts!")
+		return stop(400, "Max ping limit is 5 for comments and 50 for posts!")
 
 	users_list = get_users(names, graceful=True)
 	users_dict = {}
@@ -640,7 +634,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	if "style" in sanitized and "filter" in sanitized:
 		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > allowed_count:
-			return error("Max 5 usages of 'blur' and 'drop-shadow'!")
+			return stop(400, "Max 5 usages of 'blur' and 'drop-shadow'!")
 
 	sanitized = bleach_body_html(sanitized, runtime=True)
 
@@ -723,7 +717,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 	title = title.replace('\n','')
 
 	if len(title) > POST_TITLE_HTML_LENGTH_LIMIT:
-		abort(400, "Rendered title is too long!")
+		stop(400, "Rendered title is too long!")
 
 	title = title.strip()
 
@@ -805,7 +799,7 @@ def normalize_url(url):
 	if not url.startswith('/') and not url.startswith('https://rdrama.net') and not url.startswith('https://watchpeopledie.tv'):
 		try: parsed_url = urlparse(url)
 		except:
-			abort(400, f"Something is wrong with the url you submitted ({url}) and it couldn't be parsed.")
+			stop(400, f"Something is wrong with the url you submitted ({url}) and it couldn't be parsed.")
 
 		netloc = parsed_url.netloc
 		path = parsed_url.path

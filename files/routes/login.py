@@ -35,19 +35,19 @@ def login_get(v):
 @limiter.limit("6/minute;20/hour;100/day", deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def login_post(v):
-	if v: abort(400)
+	if v: stop(400)
 
 	username = request.values.get("username")
 
-	if not username: abort(400)
+	if not username: stop(400)
 	username = sanitize_username(username)
 
-	if not username: abort(400)
+	if not username: stop(400)
 	if username.startswith('@'): username = username[1:]
 
 	if "@" in username:
 		try: account = g.db.query(User).filter(User.email.ilike(username)).one_or_none()
-		except: abort(400, "Multiple accounts have this email attached.<br>Please login using a username instead of an email!")
+		except: stop(400, "Multiple accounts have this email attached.<br>Please login using a username instead of an email!")
 	else: account = get_user(username, graceful=True)
 
 	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
@@ -79,7 +79,7 @@ def login_post(v):
 			if now - int(request.values.get("time")) > 600:
 				return render_template("login/login.html", failed=True, redirect=redir)
 		except:
-			abort(400)
+			stop(400)
 
 		formhash = request.values.get("hash")
 		if not validate_hash(f"{account.id}+{request.values.get('time')}+2fachallenge", formhash):
@@ -96,7 +96,7 @@ def login_post(v):
 								redirect=redir,
 								), 400
 	else:
-		abort(400)
+		stop(400)
 
 	on_login(account)
 
@@ -147,7 +147,7 @@ def logout(v):
 @auth_desired
 def sign_up_get(v):
 	if not get_setting('signups'):
-		abort(403, "New account registration is currently closed. Please come back later!")
+		stop(403, "New account registration is currently closed. Please come back later!")
 
 	if v: return redirect(SITE_FULL)
 
@@ -193,15 +193,15 @@ def sign_up_get(v):
 @auth_desired
 def sign_up_post(v):
 	if not get_setting('signups'):
-		abort(403, "New account registration is currently closed. Please come back later!")
+		stop(403, "New account registration is currently closed. Please come back later!")
 
-	if v: abort(403)
+	if v: stop(403)
 
 	form_timestamp = request.values.get("now", '0')
 	form_formkey = request.values.get("formkey", "none")
 
 	username = request.values.get("username", "").strip()
-	if not username: abort(400)
+	if not username: stop(400)
 
 	email = request.values.get("email", "").strip().lower()
 
@@ -428,12 +428,12 @@ def get_reset():
 	now = int(time.time())
 
 	if now - timestamp > 600:
-		abort(410, "This password reset link has expired!")
+		stop(410, "This password reset link has expired!")
 
 	user = get_account(user_id)
 
 	if not validate_hash(f"{user_id}+{timestamp}+forgot+{user.login_nonce}", token):
-		abort(400)
+		stop(400)
 
 	reset_token = generate_hash(f"{user.id}+{timestamp}+reset+{user.login_nonce}")
 
@@ -455,7 +455,7 @@ def post_reset(v):
 	try:
 		timestamp = int(request.values.get("time"))
 	except:
-		abort(400)
+		stop(400)
 	token = request.values.get("token")
 	password = request.values.get("password")
 	confirm_password = request.values.get("confirm_password")
@@ -463,11 +463,11 @@ def post_reset(v):
 	now = int(time.time())
 
 	if now - timestamp > 600:
-		abort(410, "This password reset link has expired!")
+		stop(410, "This password reset link has expired!")
 
 	user = get_account(user_id)
 	if not validate_hash(f"{user_id}+{timestamp}+reset+{user.login_nonce}", token):
-		abort(400)
+		stop(400)
 
 	if password != confirm_password:
 		return render_template("login/reset_password.html",
@@ -495,7 +495,7 @@ def post_reset(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def lost_2fa(v):
-	if v and not v.mfa_secret: abort(400, "You don't have two-factor authentication enabled")
+	if v and not v.mfa_secret: stop(400, "You don't have two-factor authentication enabled")
 	return render_template("login/lost_2fa.html", v=v)
 
 @app.post("/lost_2fa")
@@ -515,7 +515,7 @@ def lost_2fa_post(v):
 	email = request.values.get("email").strip().lower()
 
 	if not email_regex.fullmatch(email):
-		abort(400, "Invalid email")
+		stop(400, "Invalid email")
 
 	password = request.values.get("password")
 	if not user.verifyPass(password):
@@ -546,14 +546,14 @@ def lost_2fa_post(v):
 def reset_2fa():
 	now = int(time.time())
 	t = request.values.get("t")
-	if not t: abort(400)
+	if not t: stop(400)
 	try:
 		t = int(t)
 	except:
-		abort(400)
+		stop(400)
 
 	if now > t+3600*24:
-		abort(410, "This two-factor authentication reset link has expired!")
+		stop(410, "This two-factor authentication reset link has expired!")
 
 	token = request.values.get("token")
 	uid = request.values.get("id")
@@ -561,7 +561,7 @@ def reset_2fa():
 	user = get_account(uid)
 
 	if not validate_hash(f"{user.id}+{user.username}+disable2fa+{t}+{user.mfa_secret}+{user.login_nonce}", token):
-		abort(403)
+		stop(403)
 
 	user.mfa_secret=None
 	g.db.add(user)

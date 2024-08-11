@@ -38,15 +38,15 @@ def submit_art(v):
 @auth_required
 def submit_art_post(v):
 	if g.is_tor:
-		abort(400, "File uploads are not allowed through TOR!")
+		stop(400, "File uploads are not allowed through TOR!")
 
 	file = request.files["image"]
 	if not file or not file.content_type.startswith('image/'):
-		abort(400, "You need to submit an image!")
+		stop(400, "You need to submit an image!")
 
 	kind = request.values.get('kind', '').strip()
 	if kind not in {"sidebar", "banner"}:
-		abort(400, "Invalid kind!")
+		stop(400, "Invalid kind!")
 
 	username = request.values.get('author', '').lower().strip()
 	author = get_user(username, v=v)
@@ -54,7 +54,7 @@ def submit_art_post(v):
 	hole = request.values.get('hole', '').lower().strip()
 	if hole:
 		if not g.db.get(Hole, hole):
-			abort(404, "Hole not found!")
+			stop(404, "Hole not found!")
 	else:
 		hole = None
 
@@ -77,14 +77,14 @@ def submit_art_post(v):
 	try: process_image(temp, v, resize=entry.resize)
 	except: 
 		os.remove(highquality)
-		abort(413, f"Max size for site assets is {MAX_IMAGE_SIZE_BANNER_RESIZED_MB} MB")
+		stop(413, f"Max size for site assets is {MAX_IMAGE_SIZE_BANNER_RESIZED_MB} MB")
 	os.remove(temp)
 
 	if kind == "banner" and v.id != AEVANN_ID:
 		with Image.open(highquality) as i:
 			if i.width != 2000 or i.height != 200:
 				os.remove(highquality)
-				abort(400, "Banners must be 2000x200 px")
+				stop(400, "Banners must be 2000x200 px")
 
 	path = f"files/assets/images/{SITE_NAME}/{entry.location_kind}"
 	if not entry.hashes:
@@ -99,7 +99,7 @@ def submit_art_post(v):
 		i_hash = str(imagehash.phash(i))
 	if i_hash in entry.hashes.keys():
 		os.remove(highquality)
-		abort(400, f"Image already exists as a {entry.formatted_kind}!")
+		stop(400, f"Image already exists as a {entry.formatted_kind}!")
 
 
 	return {"message": f"{entry.msg_kind} submitted successfully!"}
@@ -117,7 +117,7 @@ def approve_art(v, id):
 
 	entry = g.db.get(ArtSubmission, id)
 	if not entry:
-		abort(404, "Art submission not found!")
+		stop(404, "Art submission not found!")
 
 	old = f'/asset_submissions/art/{entry.id}.webp'
 	copyfile(old, f"/asset_submissions/art/original/{entry.id}.webp")
@@ -126,7 +126,7 @@ def approve_art(v, id):
 	if hole:
 		hole = g.db.get(Hole, hole)
 		if not hole:
-			abort(404, "Hole not found!")
+			stop(404, "Hole not found!")
 
 		filename = f'/images/{time.time()}'.replace('.','') + '.webp'
 		entry_url = SITE_FULL_IMAGES + filename
@@ -203,10 +203,10 @@ def remove_art(v, id):
 
 	entry = g.db.get(ArtSubmission, id)
 	if not entry:
-		abort(404, "Art submission not found!")
+		stop(404, "Art submission not found!")
 
 	if v.id != entry.submitter_id and v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS']:
-		abort(403)
+		stop(403)
 	
 	if v.id != entry.submitter_id:
 		entry_url = f'{SITE_FULL_IMAGES}/asset_submissions/art/{entry.id}.webp'

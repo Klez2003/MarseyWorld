@@ -45,7 +45,7 @@ def authorize(v):
 def rescind(v, aid):
 
 	auth = g.db.query(ClientAuth).filter_by(oauth_client = aid, user_id = v.id).one_or_none()
-	if not auth: abort(400)
+	if not auth: stop(400)
 	g.db.delete(auth)
 	return {"message": "Authorization revoked!"}
 
@@ -59,7 +59,7 @@ def rescind(v, aid):
 def request_api_keys(v):
 	description = request.values.get("description", "").strip()
 	if len(description) > 256:
-		abort(400, 'App description is too long (max 256 characters)')
+		stop(400, 'App description is too long (max 256 characters)')
 
 	new_app = OauthApp(
 		app_name=request.values.get('name').replace('<','').replace('>',''),
@@ -87,11 +87,11 @@ def delete_oauth_app(v, aid):
 	try:
 		aid = int(aid)
 	except:
-		abort(404)
+		stop(404)
 	app = g.db.get(OauthApp, aid)
-	if not app: abort(404)
+	if not app: stop(404)
 
-	if app.author_id != v.id: abort(403)
+	if app.author_id != v.id: stop(403)
 
 	for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id):
 		g.db.delete(auth)
@@ -112,18 +112,18 @@ def edit_oauth_app(v, aid):
 	try:
 		aid = int(aid)
 	except:
-		abort(404)
+		stop(404)
 	app = g.db.get(OauthApp, aid)
-	if not app: abort(404)
+	if not app: stop(404)
 
-	if app.author_id != v.id: abort(403)
+	if app.author_id != v.id: stop(403)
 
 	app.redirect_uri = request.values.get('redirect_uri')
 	app.app_name = request.values.get('name')
 
 	description = request.values.get("description", "").strip()
 	if len(description) > 256:
-		abort(400, 'App description is too long (max 256 characters)')
+		stop(400, 'App description is too long (max 256 characters)')
 
 	app.description = description
 
@@ -141,7 +141,7 @@ def edit_oauth_app(v, aid):
 def admin_app_approve(v, aid):
 
 	app = g.db.get(OauthApp, aid)
-	if not app: abort(404)
+	if not app: stop(404)
 
 	user = app.author
 
@@ -234,7 +234,7 @@ def admin_app_reject(v, aid):
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_id_posts(v, aid):
 	oauth = g.db.get(OauthApp, aid)
-	if not oauth: abort(404)
+	if not oauth: stop(404)
 
 	page = get_page()
 
@@ -256,7 +256,7 @@ def admin_app_id_posts(v, aid):
 def admin_app_id_comments(v, aid):
 
 	oauth = g.db.get(OauthApp, aid)
-	if not oauth: abort(404)
+	if not oauth: stop(404)
 
 	page = get_page()
 
@@ -300,9 +300,9 @@ def reroll_oauth_tokens(aid, v):
 	aid = aid
 
 	a = g.db.get(OauthApp, aid)
-	if not a: abort(404)
+	if not a: stop(404)
 
-	if a.author_id != v.id: abort(403)
+	if a.author_id != v.id: stop(403)
 
 	a.client_id = secrets.token_urlsafe(64)[:64]
 	g.db.add(a)

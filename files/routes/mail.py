@@ -17,7 +17,7 @@ from files.__main__ import app, limiter
 @auth_required
 def verify_email(v):
 	if v.email_verified:
-		abort(400, "Email already verified!")
+		stop(400, "Email already verified!")
 
 	send_verification_email(v)
 	return {"message": "Email has been sent. Please check your spam folder if you can't find it!"}
@@ -31,22 +31,22 @@ def activate(v):
 	email = request.values.get("email", "").strip().lower()
 
 	if not email_regex.fullmatch(email):
-		abort(400, "Invalid email")
+		stop(400, "Invalid email")
 
 	id = request.values.get("id", "").strip()
 	timestamp = int(request.values.get("time", "0"))
 	token = request.values.get("token", "").strip()
 
 	if int(time.time()) - timestamp > 3600:
-		abort(410, "This email verification link has expired. Visit your settings to send yourself a new one!")
+		stop(410, "This email verification link has expired. Visit your settings to send yourself a new one!")
 
 	user = get_account(id)
 
 	if not validate_hash(f"{email}+{id}+{timestamp}", token):
-		abort(403)
+		stop(403)
 
 	if user.email_verified and user.email == email:
-		abort(400, "Email already verified!")
+		stop(400, "Email already verified!")
 
 	user.email = email
 	user.email_verified = True

@@ -129,12 +129,12 @@ def make_admin(v, username):
 @admin_level_required(PERMS['ADMIN_REMOVE'])
 def remove_admin(v, username):
 	if SITE == 'devrama.net':
-		abort(403, "You can't remove admins on devrama!")
+		stop(403, "You can't remove admins on devrama!")
 
 	user = get_user(username)
 
 	if user.admin_level > v.admin_level:
-		abort(403, "You can't remove an admin with higher level than you.")
+		stop(403, "You can't remove an admin with higher level than you.")
 
 	if user.admin_level:
 		user.admin_level = 0
@@ -164,7 +164,7 @@ def distribute(v, kind, option_id):
 	option = g.db.get(cls, option_id)
 
 	if option.exclusive != 2:
-		abort(400, "This is not a bet.")
+		stop(400, "This is not a bet.")
 
 	option.exclusive = 3
 	g.db.add(option)
@@ -226,7 +226,7 @@ def revert_actions(v, username):
 	revertee = get_user(username)
 
 	if revertee.admin_level > v.admin_level:
-		abort(403, "You can't revert the actions of an admin with higher level that you.")
+		stop(403, "You can't revert the actions of an admin with higher level that you.")
 
 	ma = ModAction(
 		kind="revert",
@@ -403,13 +403,13 @@ def admin_home(v):
 @admin_level_required(PERMS['SITE_SETTINGS'])
 def change_settings(v, setting):
 	if setting not in get_settings().keys():
-		abort(404, f"Setting '{setting}' not found")
+		stop(404, f"Setting '{setting}' not found")
 
 	if setting == "offline_mode" and v.admin_level < PERMS["SITE_OFFLINE_MODE"]:
-		abort(403, "You can't change this setting!")
+		stop(403, "You can't change this setting!")
 
 	if setting == "login_required" and SITE == 'watchpeopledie.tv' and v.id != AEVANN_ID:
-		abort(403, "You can't change this setting!")
+		stop(403, "You can't change this setting!")
 
 	val = toggle_setting(setting)
 	if val: word = 'enable'
@@ -418,7 +418,7 @@ def change_settings(v, setting):
 	if setting == "under_attack":
 		new_security_level = 'under_attack' if val else 'high'
 		if not set_security_level(new_security_level):
-			abort(400, f'Failed to {word} under attack mode')
+			stop(400, f'Failed to {word} under attack mode')
 
 	ma = ModAction(
 		kind=f"{word}_{setting}",
@@ -436,7 +436,7 @@ def change_settings(v, setting):
 @admin_level_required(PERMS['SITE_CACHE_PURGE_CDN'])
 def clear_cloudflare_cache(v):
 	if not clear_entire_cache():
-		abort(400, 'Failed to clear cloudflare cache!')
+		stop(400, 'Failed to clear cloudflare cache!')
 	ma = ModAction(
 		kind="clear_cloudflare_cache",
 		user_id=v.id
@@ -488,25 +488,25 @@ def badge_grant_post(v):
 
 	usernames = request.values.get("usernames", "").strip()
 	if not usernames:
-		abort(400, "You must enter usernames!")
+		stop(400, "You must enter usernames!")
 
 	for username in usernames.split():
 		user = get_user(username)
 
 		try: badge_id = int(request.values.get("badge_id"))
-		except: abort(400, "Invalid badge id.")
+		except: stop(400, "Invalid badge id.")
 
 		if badge_id not in [b.id for b in badges]:
-			abort(403, "You can't grant this badge!")
+			stop(403, "You can't grant this badge!")
 
 		description = request.values.get("description")
 		url = request.values.get("url", "").strip()
 
 		if badge_id in {63,74,149,178,180,240,241,242,248,286,291,293,335} and not url:
-			abort(400, "This badge requires a url!")
+			stop(400, "This badge requires a url!")
 
 		if url:
-			if '\\' in url: abort(400, "Nice try nigger.")
+			if '\\' in url: stop(400, "Nice try nigger.")
 		else:
 			url = None
 
@@ -564,16 +564,16 @@ def badge_remove_post(v):
 
 	usernames = request.values.get("usernames", "").strip()
 	if not usernames:
-		abort(400, "You must enter usernames!")
+		stop(400, "You must enter usernames!")
 
 	for username in usernames.split():
 		user = get_user(username)
 
 		try: badge_id = int(request.values.get("badge_id"))
-		except: abort(400, "Invalid badge id.")
+		except: stop(400, "Invalid badge id.")
 
 		if badge_id not in [b.id for b in badges]:
-			abort(403, "You're not allowed to remove this badge.")
+			stop(403, "You're not allowed to remove this badge.")
 
 		badge = user.has_badge(badge_id)
 		if not badge: continue
@@ -718,11 +718,11 @@ def admin_view_alts(v, username=None):
 def admin_add_alt(v, username):
 	user1 = get_user(username)
 	user2 = get_user(request.values.get('other_username'))
-	if user1.id == user2.id: abort(400, "Can't add the same account as alts of each other")
+	if user1.id == user2.id: stop(400, "Can't add the same account as alts of each other")
 
 	ids = [user1.id, user2.id]
 	a = g.db.query(Alt).filter(Alt.user1.in_(ids), Alt.user2.in_(ids)).one_or_none()
-	if a: abort(409, f"@{user1.username} and @{user2.username} are already known alts!")
+	if a: stop(409, f"@{user1.username} and @{user2.username} are already known alts!")
 	a = Alt(
 		user1=user1.id,
 		user2=user2.id,
@@ -756,7 +756,7 @@ def admin_delink_relink_alt(v, username, other):
 	user2 = get_account(other)
 	ids = [user1.id, user2.id]
 	a = g.db.query(Alt).filter(Alt.user1.in_(ids), Alt.user2.in_(ids)).one_or_none()
-	if not a: abort(404, "Alt doesn't exist.")
+	if not a: stop(404, "Alt doesn't exist.")
 	g.db.delete(a)
 
 	cache.delete_memoized(get_alt_graph_ids, user1.id)
@@ -844,7 +844,7 @@ def unchud(fullname, v):
 		user = get_account(fullname)
 
 	if not user.chudded_by:
-		abort(403, "Jannies can't undo chud awards!")
+		stop(403, "Jannies can't undo chud awards!")
 
 	user.chud = 0
 	user.chud_phrase = None
@@ -876,20 +876,20 @@ def unchud(fullname, v):
 def shadowban(user_id, v):
 	user = get_account(user_id)
 	if user.admin_level > v.admin_level:
-		abort(403, "You can't shadowban an admin with higher level than you.")
+		stop(403, "You can't shadowban an admin with higher level than you.")
 	user.shadowbanned = v.id
 	reason = request.values.get("reason", "").strip()
 
 	if not reason:
-		abort(400, "You need to submit a reason for shadowbanning!")
+		stop(400, "You need to submit a reason for shadowbanning!")
 
 	if len(reason) > 256:
-		abort(400, "Shadowban reason is too long (max 256 characters)")
+		stop(400, "Shadowban reason is too long (max 256 characters)")
 
 	reason = filter_emojis_only(reason)
 
 	if len(reason) > 256:
-		abort(400, "Rendered shadowban reason is too long!")
+		stop(400, "Rendered shadowban reason is too long!")
 
 	user.shadowban_reason = reason
 	g.db.add(user)
@@ -949,7 +949,7 @@ def admin_change_flair(user_id, v):
 	new_flair = request.values.get("flair", "").strip()
 
 	if len(new_flair) > 256:
-		abort(400, "New flair is too long (max 256 characters)")
+		stop(400, "New flair is too long (max 256 characters)")
 
 	user.flair = new_flair
 	new_flair = filter_emojis_only(new_flair, link=True)
@@ -1010,10 +1010,10 @@ def ban_user(fullname, v):
 		user = get_account(fullname)
 
 	if user.admin_level > v.admin_level:
-		abort(403, "You can't ban an admin with higher level than you.")
+		stop(403, "You can't ban an admin with higher level than you.")
 
 	if user.is_permabanned:
-		abort(403, f"@{user.username} is already banned permanently!")
+		stop(403, f"@{user.username} is already banned permanently!")
 
 	days = 0.0
 	try:
@@ -1022,20 +1022,20 @@ def ban_user(fullname, v):
 		pass
 
 	if days < 0:
-		abort(400, "You can't bans people for negative days!")
+		stop(400, "You can't bans people for negative days!")
 
 	reason = request.values.get("reason", "").strip()
 
 	if not reason:
-		abort(400, "You need to submit a reason for banning!")
+		stop(400, "You need to submit a reason for banning!")
 
 	if len(reason) > 256:
-		abort(400, "Ban reason is too long (max 256 characters)")
+		stop(400, "Ban reason is too long (max 256 characters)")
 
 	reason = filter_emojis_only(reason)
 
 	if len(reason) > 256:
-		abort(400, "Rendered ban reason is too long!")
+		stop(400, "Rendered ban reason is too long!")
 
 	reason = reason_regex_post.sub(r'<a href="\1">\1</a>', reason)
 	reason = reason_regex_comment.sub(r'<a href="\1#context">\1</a>', reason)
@@ -1112,10 +1112,10 @@ def chud(fullname, v):
 		user = get_account(fullname)
 
 	if user.admin_level > v.admin_level:
-		abort(403)
+		stop(403)
 
 	if user.chud == 1:
-		abort(403, f"@{user.username} is already chudded permanently!")
+		stop(403, f"@{user.username} is already chudded permanently!")
 
 	days = 0.0
 	try:
@@ -1124,7 +1124,7 @@ def chud(fullname, v):
 		pass
 
 	if days < 0:
-		abort(400, "You can't chud people for negative days!")
+		stop(400, "You can't chud people for negative days!")
 
 	reason = request.values.get("reason", "").strip()
 
@@ -1176,18 +1176,18 @@ def chud(fullname, v):
 		reason = request.values["reason"]
 		if reason.startswith("/post/"):
 			try: post = int(reason.split("/post/")[1].split(None, 1)[0])
-			except: abort(400)
+			except: stop(400)
 			post = get_post(post)
 			if post.hole == 'chudrama':
-				abort(403, "You can't chud people in /h/chudrama")
+				stop(403, "You can't chud people in /h/chudrama")
 			post.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(post)
 		elif reason.startswith("/comment/"):
 			try: comment = int(reason.split("/comment/")[1].split(None, 1)[0])
-			except: abort(400)
+			except: stop(400)
 			comment = get_comment(comment)
 			if comment.parent_post and comment.post.hole == 'chudrama':
-				abort(403, "You can't chud people in /h/chudrama")
+				stop(403, "You can't chud people in /h/chudrama")
 			comment.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(comment)
 
@@ -1214,10 +1214,10 @@ def unban_user(fullname, v):
 		user = get_account(fullname)
 
 	if not user.is_banned:
-		abort(400)
+		stop(400)
 
 	if FEATURES['AWARDS'] and user.ban_reason and user.ban_reason.startswith('Ban award'):
-		abort(403, "You can't undo a ban award!")
+		stop(403, "You can't undo a ban award!")
 
 	user.is_banned = None
 	user.unban_utc = None
@@ -1425,7 +1425,7 @@ def approve_post(post_id, v):
 	post = get_post(post_id)
 
 	if post.chudded and post.author.chud and post.ban_reason == 'AutoJanny for lack of chud phrase':
-		abort(400, "You can't bypass the chud award!")
+		stop(400, "You can't bypass the chud award!")
 
 	if post.is_banned:
 		ma = ModAction(
@@ -1460,10 +1460,10 @@ def pin_post(post_id, v):
 	post = get_post(post_id)
 
 	if post.is_banned:
-		abort(403, "Can't pin removed posts!")
+		stop(403, "Can't pin removed posts!")
 
 	if FEATURES['AWARDS'] and post.pinned and post.pinned.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
-		abort(403, "Can't pin award pins!")
+		stop(403, "Can't pin award pins!")
 
 	permapinned = g.db.query(Post).filter(
 		Post.pinned != None,
@@ -1479,7 +1479,7 @@ def pin_post(post_id, v):
 			send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has pinned {post.textlink}")
 	else:
 		if permapinned >= PIN_LIMIT:
-			abort(403, f"Can't have more than {PIN_LIMIT} permapinned posts!")
+			stop(403, f"Can't have more than {PIN_LIMIT} permapinned posts!")
 		post.pinned_utc = None
 		pin_time = 'permanently'
 		code = 201
@@ -1511,7 +1511,7 @@ def unpin_post(post_id, v):
 	post = get_post(post_id)
 	if post.pinned:
 		if FEATURES['AWARDS'] and post.pinned.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
-			abort(403, "Can't unpin award pins!")
+			stop(403, "Can't unpin award pins!")
 
 		post.pinned = None
 		post.pinned_utc = None
@@ -1540,10 +1540,10 @@ def pin_comment_admin(cid, v):
 	comment = get_comment(cid, v=v)
 
 	if comment.is_banned:
-		abort(403, "Can't pin removed comments!")
+		stop(403, "Can't pin removed comments!")
 
 	if FEATURES['AWARDS'] and comment.pinned and comment.pinned.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
-		abort(403, "Can't pin award pins!")
+		stop(403, "Can't pin award pins!")
 
 	if not comment.pinned:
 		comment.pinned = v.username
@@ -1576,7 +1576,7 @@ def unpin_comment_admin(cid, v):
 
 	if comment.pinned:
 		if FEATURES['AWARDS'] and comment.pinned.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
-			abort(403, "Can't unpin award pins!")
+			stop(403, "Can't unpin award pins!")
 
 		comment.pinned = None
 		comment.pinned_utc = None
@@ -1635,7 +1635,7 @@ def approve_comment(c_id, v):
 	comment = get_comment(c_id)
 
 	if comment.chudded and comment.author.chud and comment.ban_reason == 'AutoJanny for lack of chud phrase':
-		abort(400, "You can't bypass the chud award!")
+		stop(400, "You can't bypass the chud award!")
 
 	if comment.is_banned:
 		ma = ModAction(
@@ -1675,13 +1675,13 @@ def admin_banned_domains(v):
 def ban_domain(v):
 
 	domain = request.values.get("domain", "").strip().lower()
-	if not domain: abort(400)
+	if not domain: stop(400)
 
 	reason = request.values.get("reason", "").strip()
-	if not reason: abort(400, 'Reason is required!')
+	if not reason: stop(400, 'Reason is required!')
 
 	if len(reason) > 100:
-		abort(400, 'Reason is too long (max 100 characters)')
+		stop(400, 'Reason is too long (max 100 characters)')
 
 	existing = g.db.get(BannedDomain, domain)
 	if not existing:
@@ -1705,7 +1705,7 @@ def ban_domain(v):
 @admin_level_required(PERMS['DOMAINS_BAN'])
 def unban_domain(v, domain):
 	existing = g.db.get(BannedDomain, domain)
-	if not existing: abort(400, 'Domain is not banned!')
+	if not existing: stop(400, 'Domain is not banned!')
 
 	g.db.delete(existing)
 	ma = ModAction(
@@ -1801,7 +1801,7 @@ def admin_nunuke_user(v):
 def blacklist_user(user_id, v):
 	user = get_account(user_id)
 	if user.admin_level > v.admin_level:
-		abort(403)
+		stop(403)
 	user.blacklisted_by = v.id
 	g.db.add(user)
 	check_for_alts(user)
@@ -1855,12 +1855,12 @@ def delete_media_get(v):
 def delete_media_post(v):
 	url = request.values.get("url")
 	if not url:
-		abort(400, "No url provided!")
+		stop(400, "No url provided!")
 
 	url = url.replace('https://videos2.watchpeopledie.tv/', 'https://videos.watchpeopledie.tv/')
 
 	if not image_link_regex.fullmatch(url) and not video_link_regex.fullmatch(url) and not asset_image_link_regex.fullmatch(url):
-		abort(400, "Invalid url")
+		stop(400, "Invalid url")
 
 	path = url.split(SITE)[1]
 
@@ -1948,30 +1948,30 @@ def insert_transaction_post(v):
 	username = request.values.get("username", "").strip()
 
 	if type not in {'Kofi', 'BTC', 'ETH', 'XMR', 'SOL', 'DOGE', 'LTC'}:
-		abort(400, "Invalid transaction currency!")
+		stop(400, "Invalid transaction currency!")
 
 	if type == 'Kofi':
 		id = 'Kofi-' + str(int(time.time()))
 
 	if not id:
-		abort(400, "A transaction ID is required!")
+		stop(400, "A transaction ID is required!")
 
 	if not amount:
-		abort(400, "A transaction amount is required!")
+		stop(400, "A transaction amount is required!")
 
 	if not username:
-		abort(400, "A username is required!")
+		stop(400, "A username is required!")
 
 	amount = int(amount)
 
 	existing = g.db.get(Transaction, id)
 	if existing:
-		abort(400, "This transaction is already registered!")
+		stop(400, "This transaction is already registered!")
 
 	user = get_user(username)
 
 	if not user.email:
-		abort(400, f"@{user.username} doesn't have an email tied to their account!")
+		stop(400, f"@{user.username} doesn't have an email tied to their account!")
 
 	transaction = Transaction(
 		id=id,
@@ -2055,10 +2055,10 @@ def mark_effortpost(pid, v):
 	p = get_post(pid)
 
 	if p.effortpost:
-		abort(400, "Post is already marked as an effortpost!")
+		stop(400, "Post is already marked as an effortpost!")
 
 	if not p.can_be_effortpost:
-		abort(403, "Post is too short!")
+		stop(403, "Post is too short!")
 
 	p.effortpost = True
 	g.db.add(p)
@@ -2102,7 +2102,7 @@ def unmark_effortpost(pid, v):
 	p = get_post(pid)
 
 	if not p.effortpost:
-		abort(400, "Post is already not marked as an effortpost!")
+		stop(400, "Post is already not marked as an effortpost!")
 
 	p.effortpost = False
 	g.db.add(p)
@@ -2136,10 +2136,10 @@ def VIEW_VERSIONs(v, link):
 	try:
 		if "p_" in link: obj = get_post(int(link.split("p_")[1]), v=v)
 		elif "c_" in link: obj = get_comment(int(link.split("c_")[1]), v=v)
-		else: abort(400)
-	except: abort(400)
+		else: stop(400)
+	except: stop(400)
 
 	if v.id != obj.author_id and v.admin_level < PERMS['VIEW_VERSIONS']:
-		abort(403, "You can't view other people's edits!")
+		stop(403, "You can't view other people's edits!")
 
 	return render_template("versions.html", v=v, obj=obj)

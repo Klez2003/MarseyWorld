@@ -233,7 +233,7 @@ class User(Base):
 					user_query.update({ User.coins: User.coins + amount })
 				except OperationalError as e:
 					if str(e).startswith('(psycopg2.errors.QueryCanceled) canceling statement due to statement timeout'):
-						abort(409, f"Statement timeout while trying to pay @{self.username} {amount} coins!")
+						stop(409, f"Statement timeout while trying to pay @{self.username} {amount} coins!")
 					raise
 			else:
 				user_query.update({ User.marseybux: User.marseybux + amount })

@@ -478,7 +478,7 @@ def execute_antispam_duplicate_comment_check(v, body_html):
 	tempban_for_spam(v)
 
 	g.db.commit()
-	abort(403, "Too much spam!")
+	stop(403, "Too much spam!")
 
 def execute_antispam_comment_check(body, v):
 	if v.admin_level >= PERMS['BYPASS_ANTISPAM_CHECKS']:
@@ -517,7 +517,7 @@ def execute_antispam_comment_check(body, v):
 		)
 		g.db.add(ma)
 	g.db.commit()
-	abort(403, "Too much spam!")
+	stop(403, "Too much spam!")
 
 def execute_under_siege(v, target, body, kind):
 	if v.shadowbanned: return
@@ -580,12 +580,12 @@ def process_options(v, target):
 			option_count += 1
 
 			if option_count > POLL_MAX_OPTIONS:
-				abort(400, f"Max number of poll options is {POLL_MAX_OPTIONS}")
+				stop(400, f"Max number of poll options is {POLL_MAX_OPTIONS}")
 
 			body = i.group(2)
 
 			if len(body) > 500:
-				abort(400, f"Poll option body is too long (Max 500 characters)")
+				stop(400, f"Poll option body is too long (Max 500 characters)")
 
 			if isinstance(target, Post):
 				cls = PostOption

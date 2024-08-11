@@ -252,10 +252,10 @@ def log(v):
 def log_item(id, v):
 	action = g.db.get(ModAction, id)
 
-	if not action: abort(404)
+	if not action: stop(404)
 
 	if action.kind in MODACTION_PRIVILEGED_TYPES and v.admin_level < PERMS['USER_SHADOWBAN']:
-		abort(404)
+		stop(404)
 
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE'])]
 
@@ -312,10 +312,10 @@ def contact(v):
 @auth_required
 def submit_contact(v):
 	body = request.values.get("message")
-	if not body: abort(400)
+	if not body: stop(400)
 
 	if v.is_muted:
-		abort(403, "You are muted!")
+		stop(403, "You are muted!")
 
 	body = process_files(request.files, v, body)
 	body = body.strip()
@@ -428,7 +428,7 @@ def transfers_id(id, v):
 
 	transfer = g.db.get(Comment, id)
 
-	if not transfer: abort(404)
+	if not transfer: stop(404)
 
 	return render_template("transfers.html", v=v, page=1, comments=[transfer], standalone=True, total=1)
 

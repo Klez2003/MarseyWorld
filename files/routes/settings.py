@@ -61,10 +61,10 @@ def remove_background(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def upload_custom_background(v):
-	if g.is_tor: abort(403, "File uploads are not allowed through TOR!")
+	if g.is_tor: stop(403, "File uploads are not allowed through TOR!")
 
 	if not v.patron:
-		abort(403, f"Custom site backgrounds are only available to {patron}s!")
+		stop(403, f"Custom site backgrounds are only available to {patron}s!")
 
 	file = request.files["file"]
 
@@ -109,10 +109,10 @@ def settings_personal_post(v):
 		if not request.values.get(request_name): return False
 		current_value = getattr(v, column_name)
 		if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and current_value > 1:
-			abort(403, f"Cannot change the {friendly_name} setting after you've already set it permanently!")
+			stop(403, f"Cannot change the {friendly_name} setting after you've already set it permanently!")
 		request_flag = int(request.values.get(request_name, '') == 'true')
 		if current_value and request_flag and request.values.get("permanent", '') == 'true' and request.values.get("username") == v.username:
-			if v.client: abort(403, f"Cannot set {friendly_name} permanently from the API")
+			if v.client: stop(403, f"Cannot set {friendly_name} permanently from the API")
 			request_flag = int(time.time())
 			setattr(v, column_name, request_flag)
 			if badge_id: badge_grant(v, badge_id)
@@ -129,7 +129,7 @@ def settings_personal_post(v):
 		if opt in valid_values.keys():
 			setattr(v, column_name, opt)
 			return True
-		abort(400, f"'{opt}' is not a valid {error_msg}")
+		stop(400, f"'{opt}' is not a valid {error_msg}")
 
 	# end common selectors #
 
@@ -203,13 +203,13 @@ def settings_personal_post(v):
 
 	elif not updated and IS_MUSICAL_EVENT() and request.values.get("event_music", v.event_music) != v.event_music:
 		if not v.grinch:
-			abort(403, "You need to award yourself the grinch award to be able to disable event music!")
+			stop(403, "You need to award yourself the grinch award to be able to disable event music!")
 		updated = True
 		session['event_music'] = request.values.get("event_music", v.event_music) == 'true'
 
 	elif not updated and request.values.get("marsify", v.marsify) != v.marsify and v.marsify <= 1:
 		if not v.patron and v.marsify != 1:
-			abort(403, f"Perma-marsify is only available to {patron}s!")
+			stop(403, f"Perma-marsify is only available to {patron}s!")
 		updated = True
 		v.marsify = int(request.values.get("marsify") == 'true')
 		if v.marsify: badge_grant(user=v, badge_id=170)
@@ -247,18 +247,18 @@ def settings_personal_post(v):
 
 	elif not updated and request.values.get("sig"):
 		if v.patron < 3:
-			abort(403, f"Signatures are only available to {patron}s donating $10/month or higher!")
+			stop(403, f"Signatures are only available to {patron}s donating $10/month or higher!")
 
 		sig = request.values.get("sig").replace('\n','').replace('\r','').strip()
 		sig = process_files(request.files, v, sig)
 		sig = sig.strip()
 
 		if len(sig) > 200:
-			abort(400, "New signature is too long (max 200 characters)")
+			stop(400, "New signature is too long (max 200 characters)")
 
 		sig_html = sanitize(sig, blackjack="signature")
 		if len(sig_html) > 1000:
-			abort(400, "Your rendered sig is too long!")
+			stop(400, "Your rendered sig is too long!")
 
 		v.sig = sig
 		v.sig_html = sig_html
@@ -268,11 +268,11 @@ def settings_personal_post(v):
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("friends"):
 		friends = request.values.get("friends", "").strip()
 		if len(friends) > BIO_FRIENDS_ENEMIES_LENGTH_LIMIT:
-			abort(400, f'Ypur friend list is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)')
+			stop(400, f'Ypur friend list is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)')
 
 		friends_html = sanitize(friends, blackjack="friends")
 		if len(friends_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
-			abort(400, "Your rendered friend list is too long!")
+			stop(400, "Your rendered friend list is too long!")
 
 		notify_users = NOTIFY_USERS(friends, v, oldtext=v.friends)
 		if notify_users:
@@ -301,11 +301,11 @@ def settings_personal_post(v):
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("enemies"):
 		enemies = request.values.get("enemies", "").strip()
 		if len(enemies) > BIO_FRIENDS_ENEMIES_LENGTH_LIMIT:
-			abort(400, f'You enemy list is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)')
+			stop(400, f'You enemy list is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)')
 
 		enemies_html = sanitize(enemies, blackjack="enemies")
 		if len(enemies_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
-			abort(400, "Your rendered enemy list is too long!")
+			stop(400, "Your rendered enemy list is too long!")
 
 		notify_users = NOTIFY_USERS(enemies, v, oldtext=v.enemies)
 		if notify_users:
@@ -335,11 +335,11 @@ def settings_personal_post(v):
 		bio = request.values.get("bio", "").strip()
 		bio = process_files(request.files, v, bio)
 		if len(bio) > BIO_FRIENDS_ENEMIES_LENGTH_LIMIT:
-			abort(400, f'Your bio is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)')
+			stop(400, f'Your bio is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)')
 
 		bio_html = sanitize(bio, blackjack="bio")
 		if len(bio_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
-			abort(400, "Your rendered bio is too long!")
+			stop(400, "Your rendered bio is too long!")
 
 		v.bio = bio
 		v.bio_html = bio_html
@@ -354,7 +354,7 @@ def settings_personal_post(v):
 			v.frontsize = frontsize
 			updated = True
 			cache.delete_memoized(frontlist)
-		else: abort(400)
+		else: stop(400)
 
 	updated = updated or set_selector_option("defaultsortingcomments", "defaultsortingcomments", COMMENT_SORTS, "comment sort")
 	updated = updated or set_selector_option("defaultsorting", "defaultsorting", POST_SORTS, "post sort")
@@ -367,19 +367,19 @@ def settings_personal_post(v):
 			v.theme = theme
 			if theme == "win98": v.themecolor = "30409f"
 			updated = True
-		else: abort(400, f"{theme} is not a valid theme")
+		else: stop(400, f"{theme} is not a valid theme")
 
 	house = request.values.get("house")
 	if not updated and house and house in ["None"]+HOUSES and FEATURES['HOUSES']:
-		if v.bite: abort(403)
+		if v.bite: stop(403)
 		if v.house:
-			if v.house.replace(' Founder', '') == house: abort(409, f"You're already in House {house}")
+			if v.house.replace(' Founder', '') == house: stop(409, f"You're already in House {house}")
 			cost = HOUSE_SWITCH_COST
 		else:
 			cost = HOUSE_JOIN_COST
 
 		success = v.charge_account('coins/marseybux', cost, "Cost of changing houses")
-		if not success: abort(403)
+		if not success: stop(403)
 
 		if house == "None":
 			house = ''
@@ -392,7 +392,7 @@ def settings_personal_post(v):
 		g.db.add(v)
 		return {"message": "Your settings have been updated!"}
 	else:
-		abort(400, "You didn't change anything!")
+		stop(400, "You didn't change anything!")
 
 
 @app.post("/settings/filters")
@@ -405,13 +405,13 @@ def filters(v):
 	filters = request.values.get("filters", "").strip()
 
 	if len(filters) > 1000:
-		abort(400, "Filters are too long (max 1000 characters)")
+		stop(400, "Filters are too long (max 1000 characters)")
 
 	if filters in {"", "None"}:
 		filters = None
 
 	if filters == v.custom_filter_list:
-		abort(400, "You didn't change anything!")
+		stop(400, "You didn't change anything!")
 
 	v.custom_filter_list = filters
 	g.db.add(v)
@@ -425,15 +425,15 @@ def filters(v):
 @auth_required
 def keyword_notifs(v):
 	if v.patron < 5:
-		abort(403, f"Keyword notifications are only available to {patron}s donating $50/month or higher!")
+		stop(403, f"Keyword notifications are only available to {patron}s donating $50/month or higher!")
 
 	keyword_notifs = request.values.get("keyword_notifs", "").replace('\r','').strip('\n')
 
 	if keyword_notifs == v.keyword_notifs:
-		abort(400, "You didn't change anything!")
+		stop(400, "You didn't change anything!")
 
 	if len(keyword_notifs) > 1000:
-		abort(400, "Keywords are too long (max 1000 characters)")
+		stop(400, "Keywords are too long (max 1000 characters)")
 
 	if not keyword_notifs:
 		keywords_notifs = None
@@ -450,7 +450,7 @@ def keyword_notifs(v):
 @auth_required
 def snappy_quotes(v):
 	if v.patron < 5:
-		abort(403, f"Custom Snappy quotes are only available to {patron}s donating $50/month or higher!")
+		stop(403, f"Custom Snappy quotes are only available to {patron}s donating $50/month or higher!")
 
 	snappy_quotes = request.values.get("snappy_quotes", "").replace('\r','').strip()
 
@@ -458,10 +458,10 @@ def snappy_quotes(v):
 		snappy_quotes = snappy_quotes[:-6].strip()
 
 	if snappy_quotes == v.snappy_quotes:
-		abort(400, "You didn't change anything!")
+		stop(400, "You didn't change anything!")
 
 	if len(snappy_quotes) > USER_SNAPPY_QUOTES_LENGTH:
-		abort(400, f"Quotes are too long (max {USER_SNAPPY_QUOTES_LENGTH} characters)")
+		stop(400, f"Quotes are too long (max {USER_SNAPPY_QUOTES_LENGTH} characters)")
 
 	if not snappy_quotes:
 		snappy_quotes = None
@@ -520,7 +520,7 @@ def flaircolor(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def verifiedcolor(v):
-	if not v.verified: abort(403, "You don't have a checkmark to edit its color!")
+	if not v.verified: stop(403, "You don't have a checkmark to edit its color!")
 	return set_color(v, "verifiedcolor")
 
 @app.post("/settings/security")
@@ -532,13 +532,13 @@ def verifiedcolor(v):
 def settings_security_post(v):
 	if request.values.get("new_password"):
 		if request.values.get("new_password") != request.values.get("cnf_password"):
-			abort(400, "Passwords do not match!")
+			stop(400, "Passwords do not match!")
 
 		if not valid_password_regex.fullmatch(request.values.get("new_password")):
-			abort(400, "Password must be between 8 and 100 characters!")
+			stop(400, "Password must be between 8 and 100 characters!")
 
 		if not v.verifyPass(request.values.get("old_password")):
-			abort(400, "Incorrect password")
+			stop(400, "Incorrect password")
 
 		v.passhash = hash_password(request.values.get("new_password"))
 
@@ -572,12 +572,12 @@ def settings_security_post(v):
 
 	if request.values.get("2fa_token"):
 		if not v.verifyPass(request.values.get('password')):
-			abort(400, "Invalid password!")
+			stop(400, "Invalid password!")
 
 		secret = request.values.get("2fa_secret")
 		x = pyotp.TOTP(secret)
 		if not x.verify(request.values.get("2fa_token"), valid_window=1):
-			abort(400, "Invalid token!")
+			stop(400, "Invalid token!")
 
 		v.mfa_secret = secret
 		g.db.add(v)
@@ -585,12 +585,12 @@ def settings_security_post(v):
 
 	if request.values.get("2fa_remove"):
 		if not v.verifyPass(request.values.get('password')):
-			abort(400, "Invalid password!")
+			stop(400, "Invalid password!")
 
 		if v.mfa_secret:
 			token = request.values.get("2fa_remove")
 			if not token or not v.validate_2fa(token):
-				abort(400, "Invalid token!")
+				stop(400, "Invalid token!")
 			v.mfa_secret = None
 			g.db.add(v)
 
@@ -605,7 +605,7 @@ def settings_security_post(v):
 def settings_log_out_others(v):
 	submitted_password = request.values.get("password", "").strip()
 	if not v.verifyPass(submitted_password):
-		abort(400, "Incorrect password!")
+		stop(400, "Incorrect password!")
 
 	v.login_nonce += 1
 	session["login_nonce"] = v.login_nonce
@@ -621,7 +621,7 @@ def settings_log_out_others(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_images_profile(v):
-	if g.is_tor: abort(403, "File uploads are not allowed through TOR!")
+	if g.is_tor: stop(403, "File uploads are not allowed through TOR!")
 
 	file = request.files["profile"]
 
@@ -629,13 +629,13 @@ def settings_images_profile(v):
 	file.save(name)
 	highres = process_image(name, v)
 
-	if not highres: abort(400)
+	if not highres: stop(400)
 
 	name2 = name.replace('.webp', 'r.webp')
 	copyfile(name, name2)
 	imageurl = process_image(name2, v, resize=100)
 
-	if not imageurl: abort(400)
+	if not imageurl: stop(400)
 
 	remove_image_using_link(v.highres)
 	remove_image_using_link(v.profileurl)
@@ -661,7 +661,7 @@ def settings_images_profile(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_images_banner(v):
-	if g.is_tor: abort(403, "File uploads are not allowed through TOR!")
+	if g.is_tor: stop(403, "File uploads are not allowed through TOR!")
 
 	file = request.files["banner"]
 
@@ -684,7 +684,7 @@ def settings_images_banner(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_images_profile_background(v):
-	if g.is_tor: abort(403, "File uploads are not allowed through TOR!")
+	if g.is_tor: stop(403, "File uploads are not allowed through TOR!")
 
 	file = request.files["profile_background"]
 
@@ -715,12 +715,12 @@ def settings_css_get(v):
 @auth_required
 def settings_css(v):
 	if v.chud:
-		abort(400, "Chudded users can't edit CSS!")
+		stop(400, "Chudded users can't edit CSS!")
 
 	css = request.values.get("css", v.css).strip().replace('\\', '')
 
 	if len(css) > CSS_LENGTH_LIMIT:
-		abort(400, f"CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
+		stop(400, f"CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
 
 	v.css = css
 	g.db.add(v)
@@ -736,11 +736,11 @@ def settings_profilecss(v):
 	profilecss = request.values.get("profilecss", v.profilecss).strip().replace('\\', '')
 
 	if len(profilecss) > CSS_LENGTH_LIMIT:
-		abort(400, f"Profile CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
+		stop(400, f"Profile CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
 
 	valid, error = validate_css(profilecss)
 	if not valid:
-		abort(400, error)
+		stop(400, error)
 	v.profilecss = profilecss
 	g.db.add(v)
 	return {"message": "Profile CSS successfully updated!"}
@@ -769,18 +769,18 @@ def settings_blocks(v):
 @auth_required
 def settings_block_user(v):
 	if v.unblockable:
-		abort(403, "You're unblockable so you can't block others!")
+		stop(403, "You're unblockable so you can't block others!")
 
 	user = get_user(request.values.get("username"))
 
 	if user.unblockable:
 		send_notification(user.id, f"@{v.username} has tried to block you and failed because of your unblockable status!")
 		g.db.commit()
-		abort(403, f"@{user.username} is unblockable!")
+		stop(403, f"@{user.username} is unblockable!")
 
-	if user.id == v.id: abort(400, "You can't block yourself")
-	if user.id == AUTOJANNY_ID: abort(403, f"You can't block @{user.username}")
-	if v.has_blocked(user): abort(409, f"You have already blocked @{user.username}")
+	if user.id == v.id: stop(400, "You can't block yourself")
+	if user.id == AUTOJANNY_ID: stop(403, f"You can't block @{user.username}")
+	if v.has_blocked(user): stop(409, f"You have already blocked @{user.username}")
 
 	new_block = UserBlock(user_id=v.id, target_id=user.id)
 	g.db.add(new_block)
@@ -800,7 +800,7 @@ def settings_block_user(v):
 def settings_unblock_user(v):
 	user = get_user(request.values.get("username"))
 	x = v.has_blocked(user)
-	if not x: abort(409, "You can't unblock someone you haven't blocked")
+	if not x: stop(409, "You can't unblock someone you haven't blocked")
 	g.db.delete(x)
 
 	send_notification(user.id, f"@{v.username} has unblocked you!")
@@ -830,14 +830,14 @@ def settings_advanced_get(v):
 @auth_required
 def settings_name_change(v):
 	if SITE == 'rdrama.net' and v.id == 10489:
-		abort(403)
+		stop(403)
 
-	if v.namechanged: abort(403)
+	if v.namechanged: stop(403)
 
 	new_name = request.values.get("name", "").strip()
 
 	if new_name == v.username:
-		abort(400, "You didn't change anything")
+		stop(400, "You didn't change anything")
 
 	if v.patron >= 4:
 		used_regex = valid_username_patron_regex
@@ -845,15 +845,15 @@ def settings_name_change(v):
 		used_regex = valid_username_regex
 
 	if not used_regex.fullmatch(new_name):
-		abort(400, "This isn't a valid username.")
+		stop(400, "This isn't a valid username.")
 
 	if new_name.title() in GIRL_NAMES_TOTAL:
-		abort(400, "This name is reserved for a site award.")
+		stop(400, "This name is reserved for a site award.")
 
 	existing = get_user(new_name, graceful=True)
 
 	if existing and existing.id != v.id:
-		abort(400, f"Username `{new_name}` is already in use.")
+		stop(400, f"Username `{new_name}` is already in use.")
 
 	if v.patron >= 4 and v.username != v.original_username:
 		v.extra_username = v.username
@@ -996,10 +996,10 @@ def process_settings_plaintext(value, current, length, default_value):
 		return default_value
 
 	if len(value) > length:
-		abort(400, f"The value you entered exceeds the character limit ({length} characters)")
+		stop(400, f"The value you entered exceeds the character limit ({length} characters)")
 
 	if value == current:
-		abort(400, "You didn't change anything!")
+		stop(400, "You didn't change anything!")
 
 	return value
 
@@ -1011,7 +1011,7 @@ def process_settings_plaintext(value, current, length, default_value):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_change_flair(v):
-	if v.flairchanged: abort(403)
+	if v.flairchanged: stop(403)
 
 	flair = process_settings_plaintext("flair", v.flair, 100, None)
 
@@ -1020,7 +1020,7 @@ def settings_change_flair(v):
 		flair_html = censor_slurs_profanities(flair_html, None)
 
 		if len(flair_html) > 1000:
-			abort(400, "Your rendered flair is too long!")
+			stop(400, "Your rendered flair is too long!")
 
 		execute_blackjack(v, None, flair, "flair")
 	else:
@@ -1044,7 +1044,7 @@ def settings_pronouns_change(v):
 	pronouns = process_settings_plaintext("pronouns", v.pronouns, 15, DEFAULT_PRONOUNS)
 
 	if pronouns and not pronouns_regex.fullmatch(pronouns):
-		abort(400, "The pronouns you entered don't match the required format!")
+		stop(400, "The pronouns you entered don't match the required format!")
 
 	if pronouns:
 		bare_pronouns = pronouns.lower().replace('/', '')
@@ -1082,7 +1082,7 @@ def settings_twitter(v):
 @auth_required
 def settings_checkmark_text(v):
 	if not v.verified:
-		abort(403, "You don't have a checkmark to edit its hover text!")
+		stop(403, "You don't have a checkmark to edit its hover text!")
 
 	v.verified = process_settings_plaintext("checkmark-text", v.verified, 100, "Verified")
 	g.db.add(v)

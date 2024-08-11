@@ -24,12 +24,12 @@ def report_post(pid, v):
 	execute_blackjack(v, post, reason, 'report')
 
 	if len(reason) > 100:
-		abort(400, "Report reason is too long (max 100 characters)")
+		stop(400, "Report reason is too long (max 100 characters)")
 
 	og_flair = reason[1:]
 	reason_html = filter_emojis_only(reason, link=True)
 	if len(reason_html) > 350:
-		abort(400, "Rendered report reason is too long!")
+		stop(400, "Rendered report reason is too long!")
 
 	if reason.startswith('!') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.mods_hole(post.hole)):
 		post.flair = reason_html[1:]
@@ -60,10 +60,10 @@ def report_post(pid, v):
 
 		return {"message": "Post flaired successfully!"}
 
-	if v.is_muted: abort(403, "You are forbidden from making reports!")
+	if v.is_muted: stop(403, "You are forbidden from making reports!")
 
 	existing = g.db.query(Report.post_id).filter_by(user_id=v.id, post_id=post.id).one_or_none()
-	if existing: abort(409, "You already reported this post!")
+	if existing: stop(409, "You already reported this post!")
 	report = Report(post_id=post.id, user_id=v.id, reason=reason_html)
 	g.db.add(report)
 
@@ -81,23 +81,23 @@ def report_post(pid, v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def report_comment(cid, v):
-	if v.is_muted: abort(403, "You are forbidden from making reports!")
+	if v.is_muted: stop(403, "You are forbidden from making reports!")
 
 	comment = get_comment(cid)
 
 	existing = g.db.query(CommentReport.comment_id).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
-	if existing: abort(409, "You already reported this comment!")
+	if existing: stop(409, "You already reported this comment!")
 
 	reason = request.values.get("reason", "").strip()
 	execute_under_siege(v, comment, reason, 'report')
 	execute_blackjack(v, comment, reason, 'report')
 
 	if len(reason) > 100:
-		abort(400, "Report reason is too long (max 100 characters)")
+		stop(400, "Report reason is too long (max 100 characters)")
 
 	reason_html = filter_emojis_only(reason, link=True)
 	if len(reason_html) > 350:
-		abort(400, "Rendered report reason is too long!")
+		stop(400, "Rendered report reason is too long!")
 
 	report = CommentReport(comment_id=comment.id, user_id=v.id, reason=reason_html)
 	g.db.add(report)
@@ -120,7 +120,7 @@ def remove_report_post(v, pid, uid):
 
 	if report:
 		if v.id != report.user_id and v.admin_level < PERMS['REPORTS_REMOVE']:
-			abort(403, "You can't remove this report!")
+			stop(403, "You can't remove this report!")
 
 		g.db.delete(report)
 
@@ -146,7 +146,7 @@ def remove_report_comment(v, cid, uid):
 
 	if report:
 		if v.id != report.user_id and v.admin_level < PERMS['REPORTS_REMOVE']:
-			abort(403, "You can't remove this report!")
+			stop(403, "You can't remove this report!")
 
 		g.db.delete(report)
 

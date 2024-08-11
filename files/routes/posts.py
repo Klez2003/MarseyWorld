@@ -56,7 +56,7 @@ def publish(pid, v):
 	if not p.draft:
 		return {"message": "Post published!"}
 
-	if p.author_id != v.id: abort(403)
+	if p.author_id != v.id: stop(403)
 
 	p.draft = False
 	p.created_utc = int(time.time())
@@ -71,7 +71,7 @@ def publish(pid, v):
 	p.body_html = sanitize(p.body, golden=False, limit_pings=100, obj=p, author=p.author)
 
 	if p.draft or not complies_with_chud(p):
-		abort(403, f'You have to include "{p.author.chud_phrase}" in your post!')
+		stop(403, f'You have to include "{p.author.chud_phrase}" in your post!')
 
 	notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v, ghost=p.ghost, obj=p, followers_ping=False)
 
@@ -108,7 +108,7 @@ def publish(pid, v):
 def submit_get(v, hole=None):
 	hole = get_hole(hole, graceful=True)
 
-	if request.path.startswith('/h/') and not hole: abort(404)
+	if request.path.startswith('/h/') and not hole: stop(404)
 
 	hole_objs = g.db.query(Hole) if SITE_NAME == 'WPD' else None
 
@@ -122,7 +122,7 @@ def submit_get(v, hole=None):
 @auth_desired_with_logingate
 def post_id(pid, v, anything=None, hole=None):
 	p = get_post(pid, v=v)
-	if not can_see(v, p): abort(403)
+	if not can_see(v, p): stop(403)
 
 	if not g.is_api_or_xhr and p.nsfw  and not g.show_nsfw:
 		return render_template("errors/nsfw.html", v=v)
@@ -230,7 +230,7 @@ def view_more(v, pid, sort, offset):
 	p = get_post(pid, v=v)
 
 	try: ids = set(int(x) for x in request.values.get("ids").split(','))
-	except: abort(400)
+	except: stop(400)
 
 	if v:
 		# output is needed: see comments.py
@@ -437,7 +437,7 @@ def is_repost(v):
 
 	url = request.values.get('url')
 	if not url or len(url) < MIN_REPOST_CHECK_URL_LENGTH or not url.startswith('http'):
-		abort(400)
+		stop(400)
 
 	if reddit_s_url_regex.fullmatch(url) or tiktok_t_url_regex.fullmatch(url):
 		url = normalize_url_gevent(url)
@@ -466,24 +466,24 @@ def submit_post(v, hole=None):
 	flag_draft = request.values.get("draft", False, bool)
 
 	if v.is_permabanned or (v.is_suspended and not flag_draft):
-		abort(403, "You can't perform this action while banned!")
+		stop(403, "You can't perform this action while banned!")
 
 	url = request.values.get("url", "").strip()
 
-	if '\\' in url: abort(400)
+	if '\\' in url: stop(400)
 
 	title = request.values.get("title", "").strip()
 	if len(title) > POST_TITLE_LENGTH_LIMIT:
-		abort(400, f'Post title is too long (max {POST_TITLE_LENGTH_LIMIT} characters)')
+		stop(400, f'Post title is too long (max {POST_TITLE_LENGTH_LIMIT} characters)')
 
 	body = request.values.get("body", "").strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
-		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
+		stop(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
 
 	body = body.replace('@jannies', '!jannies')
 
 	if not title:
-		abort(400, "Please enter a better title!")
+		stop(400, "Please enter a better title!")
 
 	hole = request.values.get("hole", "").lower().replace('/h/','').strip()
 
@@ -497,35 +497,35 @@ def submit_post(v, hole=None):
 		hole = 'mnn'
 
 	if hole == 'changelog':
-		abort(400, "/h/changelog is archived")
+		stop(400, "/h/changelog is archived")
 
 	if hole == 'announcements' and v.admin_level < PERMS["POST_IN_H_ANNOUNCEMENTS"]:
-		abort(400, "Your admin level isn't high enough to post in /h/announcement")
+		stop(400, "Your admin-level is not sufficient enough for this action!")
 
 	if hole in {'furry','vampire','racist','femboy','edgy'} and not v.client and not v.house.lower().startswith(hole):
-		abort(400, f"You need to be a member of House {hole.capitalize()} to post in /h/{hole}")
+		stop(400, f"You need to be a member of House {hole.capitalize()} to post in /h/{hole}")
 
 	if hole and hole != 'none':
 		hole_name = hole.strip().lower()
 		hole = g.db.query(Hole).options(load_only(Hole.name)).filter_by(name=hole_name).one_or_none()
-		if not hole: abort(400, f"/h/{hole_name} not found!")
+		if not hole: stop(400, f"/h/{hole_name} not found!")
 
 		if not can_see(v, hole):
 			if hole.name == 'highrollerclub':
-				abort(403, f"Only {patron}s can post in /h/{hole}")
-			abort(403, f"You're not allowed to post in /h/{hole}")
+				stop(403, f"Only {patron}s can post in /h/{hole}")
+			stop(403, f"You're not allowed to post in /h/{hole}")
 
 		hole = hole.name
-		if v.exiler_username(hole): abort(400, f"You're exiled from /h/{hole}")
+		if v.exiler_username(hole): stop(400, f"You're exiled from /h/{hole}")
 	else: hole = None
 
 	if not hole and HOLE_REQUIRED:
-		abort(400, f"You must choose a hole for your post!")
+		stop(400, f"You must choose a hole for your post!")
 
 	if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-		abort(400, "You have to type more than 280 characters!")
+		stop(400, "You have to type more than 280 characters!")
 	elif v.bird and len(body) > 140:
-		abort(400, "You have to type less than 140 characters!")
+		stop(400, "You have to type less than 140 characters!")
 
 
 	embed = None
@@ -539,7 +539,7 @@ def submit_post(v, hole=None):
 			combined = (domain + urlparse(url).path).lower()
 			for x in g.db.query(BannedDomain):
 				if combined.startswith(x.domain):
-					abort(400, f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
+					stop(400, f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
 		if domain == "twitter.com" and '/status/' in url:
 			try:
@@ -555,7 +555,7 @@ def submit_post(v, hole=None):
 
 
 	if not url and not body and not request.files.get("file") and not request.files.get("file-url"):
-		abort(400, "Please enter a url or some text!")
+		stop(400, "Please enter a url or some text!")
 
 	if not IS_LOCALHOST:
 		dup = g.db.query(Post).filter(
@@ -569,14 +569,14 @@ def submit_post(v, hole=None):
 			return {"post_id": dup.id, "success": False}
 
 	if not execute_antispam_post_check(title, v, url):
-		abort(403, "You have been banned for 1 day for spamming!")
+		stop(403, "You have been banned for 1 day for spamming!")
 
 	if len(url) > 2048:
-		abort(400, "There's a 2048 character limit for URLs!")
+		stop(400, "There's a 2048 character limit for URLs!")
 
 	body = process_files(request.files, v, body).strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
-		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
+		stop(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
 
 	flag_notify = (request.values.get("notify", "on") == "on")
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
@@ -625,17 +625,17 @@ def submit_post(v, hole=None):
 	title_html = filter_emojis_only(title, count_emojis=True, obj=p, author=v)
 
 	if v.hieroglyphs and not marseyaward_title_regex.fullmatch(title_html):
-		abort(400, "You can only type marseys!")
+		stop(400, "You can only type marseys!")
 
 	p.title_html = title_html
 
 	body_html = sanitize(body, count_emojis=True, limit_pings=100, obj=p, author=v)
 
 	if v.hieroglyphs and marseyaward_body_regex.search(body_html):
-		abort(400, "You can only type marseys!")
+		stop(400, "You can only type marseys!")
 
 	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
-		abort(400, "Rendered post body is too long!")
+		stop(400, "Rendered post body is too long!")
 
 	p.body_html = body_html
 
@@ -680,7 +680,7 @@ def submit_post(v, hole=None):
 		elif file.content_type.startswith('audio/'):
 			p.url = process_audio(file, v)
 		else:
-			abort(415)
+			stop(415)
 
 	if not p.draft and not complies_with_chud(p):
 		p.is_banned = True
@@ -763,7 +763,7 @@ def submit_post(v, hole=None):
 @auth_required
 def delete_post_pid(pid, v):
 	p = get_post(pid)
-	if p.author_id != v.id: abort(403)
+	if p.author_id != v.id: stop(403)
 
 	if not p.deleted_utc:
 		p.deleted_utc = int(time.time())
@@ -795,7 +795,7 @@ def delete_post_pid(pid, v):
 @auth_required
 def undelete_post_pid(pid, v):
 	p = get_post(pid)
-	if p.author_id != v.id: abort(403)
+	if p.author_id != v.id: stop(403)
 
 	if p.deleted_utc:
 		p.deleted_utc = 0
@@ -827,7 +827,7 @@ def mark_post_nsfw(pid, v):
 	p = get_post(pid)
 
 	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not v.mods_hole(p.hole):
-		abort(403)
+		stop(403)
 
 	p.nsfw = True
 	g.db.add(p)
@@ -866,10 +866,10 @@ def unmark_post_nsfw(pid, v):
 	p = get_post(pid)
 
 	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not v.mods_hole(p.hole):
-		abort(403)
+		stop(403)
 
 	if p.nsfw and v.is_permabanned:
-		abort(403)
+		stop(403)
 
 	p.nsfw = False
 	g.db.add(p)
@@ -943,13 +943,13 @@ def unsave_post(pid, v):
 def profile_pin(post_id, v):
 	p = get_post(post_id)
 	if p:
-		if v.id != p.author_id: abort(403, "Only the post author can do that!")
+		if v.id != p.author_id: stop(403, "Only the post author can do that!")
 		p.profile_pinned = not p.profile_pinned
 		g.db.add(p)
 		cache.delete_memoized(userpagelisting)
 		if p.profile_pinned: return {"message": "Post pinned!"}
 		else: return {"message": "Post unpinned!"}
-	return abort(404, "Post not found!")
+	return stop(404, "Post not found!")
 
 @app.post("/post/<int:post_id>/new")
 @limiter.limit('1/second', scope=rpath)
@@ -959,7 +959,7 @@ def profile_pin(post_id, v):
 @auth_required
 def set_new_sort(post_id, v):
 	p = get_post(post_id)
-	if not v.can_edit(p): abort(403, "Only the post author can do that!")
+	if not v.can_edit(p): stop(403, "Only the post author can do that!")
 	p.new = True
 	g.db.add(p)
 
@@ -983,7 +983,7 @@ def set_new_sort(post_id, v):
 @auth_required
 def unset_new_sort(post_id, v):
 	p = get_post(post_id)
-	if not v.can_edit(p): abort(403, "Only the post author can do that!")
+	if not v.can_edit(p): stop(403, "Only the post author can do that!")
 	p.new = None
 	g.db.add(p)
 
@@ -1008,26 +1008,26 @@ extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
 def get_post_title(v):
 	POST_TITLE_TIMEOUT = 5
 	url = request.values.get("url")
-	if not url or '\\' in url: abort(400)
+	if not url or '\\' in url: stop(400)
 	url = url.strip()
-	if not url.startswith('http'): abort(400)
+	if not url.startswith('http'): stop(400)
 
 	checking_url = url.lower().split('?')[0].split('%3F')[0]
 	if any((checking_url.endswith(f'.{x}') for x in extensions)):
-		abort(400)
+		stop(400)
 
 	try:
 		x = gevent.with_timeout(POST_TITLE_TIMEOUT, requests.get, url, headers=HEADERS, timeout=POST_TITLE_TIMEOUT, proxies=proxies)
-	except: abort(400)
+	except: stop(400)
 
 	content_type = x.headers.get("Content-Type")
-	if not content_type or "text/html" not in content_type: abort(400)
+	if not content_type or "text/html" not in content_type: stop(400)
 
 	# no you can't just parse html with reeeeeeeegex
 	match = html_title_regex.search(x.text)
 	if match and match.lastindex >= 1:
 		title = match.group(1)
-	else: abort(400)
+	else: stop(400)
 
 	title = html.unescape(title)
 
@@ -1041,30 +1041,30 @@ def get_post_title(v):
 @auth_required
 def edit_post(pid, v):
 	p = get_post(pid)
-	if not v.can_edit(p): abort(403)
+	if not v.can_edit(p): stop(403)
 
 	if SITE_NAME == 'rDrama': days = 7
 	else: days = 30
 	if time.time() - p.created_utc > days*24*60*60 and not p.draft and v.admin_level < PERMS["IGNORE_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_EDITING_LIMIT:
-		abort(403, f"You can't edit posts older than {days} days!")
+		stop(403, f"You can't edit posts older than {days} days!")
 
 	title = request.values.get("title", "").strip()
 	if len(title) > POST_TITLE_LENGTH_LIMIT:
-		abort(400, f'Post title is too long (max {POST_TITLE_LENGTH_LIMIT} characters)')
+		stop(400, f'Post title is too long (max {POST_TITLE_LENGTH_LIMIT} characters)')
 
 	body = request.values.get("body", "").strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
-		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
+		stop(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
 
 	body = body.replace('@jannies', '!jannies')
 
 	if p.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-		abort(403, "You have to type more than 280 characters!")
+		stop(403, "You have to type more than 280 characters!")
 	elif p.author.bird and len(body) > 140:
-		abort(403, "You have to type less than 140 characters!")
+		stop(403, "You have to type less than 140 characters!")
 
 	if not title:
-		abort(400, "Please enter a better title!")
+		stop(400, "Please enter a better title!")
 
 
 	if not p.draft:
@@ -1093,7 +1093,7 @@ def edit_post(pid, v):
 		title_html = filter_emojis_only(title, golden=False, obj=p, author=p.author)
 
 		if p.author.hieroglyphs and not marseyaward_title_regex.fullmatch(title_html):
-			abort(403, "You can only type marseys!")
+			stop(403, "You can only type marseys!")
 
 		if 'megathread' in title.lower() and 'megathread' not in p.title.lower():
 			p.new = True
@@ -1105,13 +1105,13 @@ def edit_post(pid, v):
 
 	body = process_files(request.files, v, body).strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
-		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
+		stop(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
 
 	if body != p.body or p.chudded:
 		body_html = sanitize(body, golden=False, limit_pings=100, obj=p, author=p.author)
 
 		if p.author.hieroglyphs and marseyaward_body_regex.search(body_html):
-			abort(403, "You can only type marseys!")
+			stop(403, "You can only type marseys!")
 
 
 		p.body = body
@@ -1120,7 +1120,7 @@ def edit_post(pid, v):
 			if execute_blackjack(v, p, text, 'post'): break
 
 		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
-			abort(400, "Rendered post body is too long!")
+			stop(400, "Rendered post body is too long!")
 
 		p.body_html = body_html
 
@@ -1131,10 +1131,10 @@ def edit_post(pid, v):
 		changed = True
 
 	if not changed:
-		abort(400, "You need to change something!")
+		stop(400, "You need to change something!")
 
 	if not p.draft and not complies_with_chud(p):
-		abort(403, f'You have to include "{p.author.chud_phrase}" in your post!')
+		stop(403, f'You have to include "{p.author.chud_phrase}" in your post!')
 
 
 	if v.id == p.author_id:
@@ -1161,7 +1161,7 @@ if SITE_NAME == 'WPD':
 		p = get_post(pid)
 
 		if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
-			abort(403)
+			stop(403)
 
 		p.cw = True
 		g.db.add(p)
@@ -1187,7 +1187,7 @@ if SITE_NAME == 'WPD':
 		p = get_post(pid)
 
 		if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
-			abort(403)
+			stop(403)
 
 		p.cw = False
 		g.db.add(p)
@@ -1214,7 +1214,7 @@ def distinguish_post(post_id, v):
 	post = get_post(post_id)
 
 	if v.admin_level < PERMS['POST_COMMENT_DISTINGUISH'] and not v.mods_hole(post.hole):
-		abort(403, "You can't distinguish this post")
+		stop(403, "You can't distinguish this post")
 
 	if post.distinguished:
 		post.distinguished = False

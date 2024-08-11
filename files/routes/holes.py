@@ -17,18 +17,18 @@ from files.__main__ import app, cache, limiter
 def exile_post(v, pid):
 	p = get_post(pid)
 	hole = p.hole_obj
-	if not hole: abort(400)
+	if not hole: stop(400)
 
 	if hole.public_use:
-		abort(403, "You can't exile users while Public Use mode is enabled!")
+		stop(403, "You can't exile users while Public Use mode is enabled!")
 
 	hole = hole.name
 
-	if not v.mods_hole(hole): abort(403)
+	if not v.mods_hole(hole): stop(403)
 
 	u = p.author
 
-	if u.mods_hole(hole): abort(403)
+	if u.mods_hole(hole): stop(403)
 
 	if not u.exiler_username(hole):
 		exile = Exile(user_id=u.id, hole=hole, exiler_id=v.id)
@@ -56,18 +56,18 @@ def exile_post(v, pid):
 def exile_comment(v, cid):
 	c = get_comment(cid)
 	hole = c.post.hole_obj
-	if not hole: abort(400)
+	if not hole: stop(400)
 
 	if hole.public_use:
-		abort(403, "You can't exile users while Public Use mode is enabled!")
+		stop(403, "You can't exile users while Public Use mode is enabled!")
 
 	hole = hole.name
 
-	if not v.mods_hole(hole): abort(403)
+	if not v.mods_hole(hole): stop(403)
 
 	u = c.author
 
-	if u.mods_hole(hole): abort(403)
+	if u.mods_hole(hole): stop(403)
 
 	if not u.exiler_username(hole):
 		exile = Exile(user_id=u.id, hole=hole, exiler_id=v.id)
@@ -95,7 +95,7 @@ def exile_comment(v, cid):
 def unexile(v, hole, uid):
 	u = get_account(uid)
 
-	if not v.mods_hole(hole): abort(403)
+	if not v.mods_hole(hole): stop(403)
 
 	if u.exiler_username(hole):
 		exile = g.db.query(Exile).filter_by(user_id=u.id, hole=hole).one_or_none()
@@ -123,7 +123,7 @@ def block_sub(v, hole):
 	hole = get_hole(hole)
 
 	if hole.public_use:
-		abort(403, f"/h/{hole} has Public Use mode enabled and is unblockable!")
+		stop(403, f"/h/{hole} has Public Use mode enabled and is unblockable!")
 
 	hole = hole.name
 
@@ -143,7 +143,7 @@ def block_sub(v, hole):
 def unblock_sub(v, hole):
 	hole = get_hole(hole)
 	if not can_see(v, hole):
-		abort(403)
+		stop(403)
 
 	block = g.db.query(HoleBlock).filter_by(user_id=v.id, hole=hole.name).one_or_none()
 
@@ -191,7 +191,7 @@ def unsubscribe_sub(v, hole):
 def follow_sub(v, hole):
 	hole = get_hole(hole)
 	if not can_see(v, hole):
-		abort(403)
+		stop(403)
 	existing = g.db.query(HoleFollow).filter_by(user_id=v.id, hole=hole.name).one_or_none()
 	if not existing:
 		subscription = HoleFollow(user_id=v.id, hole=hole.name)
@@ -223,7 +223,7 @@ def mods_hole(v, hole):
 
 	hole = get_hole(hole)
 	if not can_see(v, hole):
-		abort(403)
+		stop(403)
 	users = g.db.query(User, Mod).join(Mod).filter_by(hole=hole.name).order_by(Mod.created_utc).all()
 
 	return render_template("hole/mods.html", v=v, hole=hole, users=users)
@@ -236,7 +236,7 @@ def mods_hole(v, hole):
 def hole_exilees(v, hole):
 	hole = get_hole(hole)
 	if not can_see(v, hole):
-		abort(403)
+		stop(403)
 	users = g.db.query(User, Exile).join(Exile, Exile.user_id==User.id) \
 				.filter_by(hole=hole.name) \
 				.order_by(Exile.created_utc.desc(), User.username).all()
@@ -252,7 +252,7 @@ def hole_blockers(v, hole):
 	hole = get_hole(hole)
 
 	if not can_see(v, hole):
-		abort(403)
+		stop(403)
 
 	if hole.public_use:
 		users = []
@@ -272,7 +272,7 @@ def hole_blockers(v, hole):
 def hole_followers(v, hole):
 	hole = get_hole(hole)
 	if not can_see(v, hole):
-		abort(403)
+		stop(403)
 	users = g.db.query(User, HoleFollow).join(HoleFollow) \
 			.filter_by(hole=hole.name) \
 			.order_by(HoleFollow.created_utc.desc(), User.username).all()
@@ -288,22 +288,22 @@ def hole_followers(v, hole):
 @limiter.limit("30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def add_mod(v, hole):
-	if SITE_NAME == 'WPD': abort(403)
+	if SITE_NAME == 'WPD': stop(403)
 
 	if hole == 'test':
-		abort(403, "Everyone is already a mod of this hole!")
+		stop(403, "Everyone is already a mod of this hole!")
 
 	hole = get_hole(hole).name
-	if not v.mods_hole(hole): abort(403)
+	if not v.mods_hole(hole): stop(403)
 
 	user = request.values.get('user')
 
-	if not user: abort(400)
+	if not user: stop(400)
 
 	user = get_user(user, v=v)
 
 	if hole in {'furry','vampire','racist','femboy','edgy'} and not v.client and not user.house.lower().startswith(hole):
-		abort(403, f"@{user.username} needs to be a member of House {hole.capitalize()} to be added as a mod there!")
+		stop(403, f"@{user.username} needs to be a member of House {hole.capitalize()} to be added as a mod there!")
 
 	existing = g.db.query(Mod).filter_by(user_id=user.id, hole=hole).one_or_none()
 
@@ -333,23 +333,23 @@ def add_mod(v, hole):
 def remove_mod(v, hole):
 	hole = get_hole(hole).name
 
-	if not v.mods_hole(hole): abort(403)
+	if not v.mods_hole(hole): stop(403)
 
 	uid = request.values.get('uid')
 
-	if not uid: abort(400)
+	if not uid: stop(400)
 
 	try: uid = int(uid)
-	except: abort(400)
+	except: stop(400)
 
 	user = get_account(uid)
 
-	if not user: abort(404)
+	if not user: stop(404)
 
 	mod = g.db.query(Mod).filter_by(user_id=user.id, hole=hole).one_or_none()
-	if not mod: abort(400)
+	if not mod: stop(400)
 
-	if not (v.id == user.id or v.mod_date(hole) and v.mod_date(hole) < mod.created_utc): abort(403)
+	if not (v.id == user.id or v.mod_date(hole) and v.mod_date(hole) < mod.created_utc): stop(403)
 
 	g.db.delete(mod)
 
@@ -374,26 +374,26 @@ def remove_mod(v, hole):
 @auth_required
 def create_sub2(v):
 	if not v.can_create_hole:
-		abort(403)
+		stop(403)
 
 	name = request.values.get('name')
-	if not name: abort(400)
+	if not name: stop(400)
 	name = name.strip().lower()
 
 	if not hole_group_name_regex.fullmatch(name):
-		abort(400, "Name does not match the required format!")
+		stop(400, "Name does not match the required format!")
 
 	charge_reason = f'Cost of creating <a href="/h/{name}">/h/{name}</a>'
 	if not v.charge_account('coins/marseybux', HOLE_COST, charge_reason):
-		abort(400, "You don't have enough coins or marseybux!")
+		stop(400, "You don't have enough coins or marseybux!")
 
 	hole = get_hole(name, graceful=True)
 
 	if hole:
-		abort(400, f"/h/{hole} already exists!")
+		stop(400, f"/h/{hole} already exists!")
 
 	g.db.add(v)
-	if v.shadowbanned: abort(500)
+	if v.shadowbanned: stop(500)
 
 	hole = Hole(name=name)
 	g.db.add(hole)
@@ -423,18 +423,18 @@ def hole_settings(v, hole):
 @auth_required
 def post_hole_sidebar(v, hole):
 	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
-	if v.shadowbanned: abort(400)
+	if not v.mods_hole(hole.name): stop(403)
+	if v.shadowbanned: stop(400)
 
 	sidebar = request.values.get('sidebar', '').strip()
 
 	if len(sidebar) > 10000:
-		abort(400, "New sidebar is too long (max 10000 characters)")
+		stop(400, "New sidebar is too long (max 10000 characters)")
 
 	sidebar_html = sanitize(sidebar, blackjack=f"/h/{hole} sidebar")
 
 	if len(sidebar_html) > 20000:
-		abort(400, "New rendered sidebar is too long!")
+		stop(400, "New rendered sidebar is too long!")
 
 	hole.sidebar = sidebar
 	hole.sidebar_html = sidebar_html
@@ -460,16 +460,16 @@ def post_hole_css(v, hole):
 	hole = get_hole(hole)
 	css = request.values.get('css', '').strip()
 
-	if not hole: abort(404)
-	if not v.mods_hole(hole.name): abort(403)
-	if v.shadowbanned: abort(400)
+	if not hole: stop(404)
+	if not v.mods_hole(hole.name): stop(403)
+	if v.shadowbanned: stop(400)
 
 	if len(css) > CSS_LENGTH_LIMIT:
-		abort(400, f"Hole CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
+		stop(400, f"Hole CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
 
 	valid, error = validate_css(css)
 	if not valid:
-		abort(400, error)
+		stop(400, error)
 
 	hole.css = css
 	g.db.add(hole)
@@ -487,7 +487,7 @@ def post_hole_css(v, hole):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def get_hole_css(hole):
 	hole = g.db.query(Hole.css).filter_by(name=hole.strip().lower()).one_or_none()
-	if not hole: abort(404)
+	if not hole: stop(404)
 	resp = make_response(hole.css or "")
 	resp.headers.add("Content-Type", "text/css")
 	return resp
@@ -499,11 +499,11 @@ def get_hole_css(hole):
 @limiter.limit("50/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def upload_hole_sidebar(v, hole):
-	if g.is_tor: abort(403, "File uploads are not allowed through TOR")
+	if g.is_tor: stop(403, "File uploads are not allowed through TOR")
 
 	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
-	if v.shadowbanned: abort(500)
+	if not v.mods_hole(hole.name): stop(403)
+	if v.shadowbanned: stop(500)
 
 	file = request.files["image"]
 
@@ -531,15 +531,15 @@ def upload_hole_sidebar(v, hole):
 @auth_required
 def delete_hole_sidebar(v, hole):
 	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
+	if not v.mods_hole(hole.name): stop(403)
 
 	if not hole.sidebarurls:
-		abort(404, f"Sidebar image not found (/h/{hole.name} has no sidebar images)")
+		stop(404, f"Sidebar image not found (/h/{hole.name} has no sidebar images)")
 
 	sidebar = request.values["url"]
 	
 	if sidebar not in hole.sidebarurls:
-		abort(404, "Sidebar image not found!")
+		stop(404, "Sidebar image not found!")
 
 	remove_image_using_link(sidebar)
 
@@ -563,11 +563,11 @@ def delete_hole_sidebar(v, hole):
 @limiter.limit("50/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def upload_hole_banner(v, hole):
-	if g.is_tor: abort(403, "File uploads are not allowed through TOR")
+	if g.is_tor: stop(403, "File uploads are not allowed through TOR")
 
 	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
-	if v.shadowbanned: abort(500)
+	if not v.mods_hole(hole.name): stop(403)
+	if v.shadowbanned: stop(500)
 
 	file = request.files["image"]
 
@@ -595,15 +595,15 @@ def upload_hole_banner(v, hole):
 @auth_required
 def delete_hole_banner(v, hole):
 	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
+	if not v.mods_hole(hole.name): stop(403)
 
 	if not hole.bannerurls:
-		abort(404, f"Banner not found (/h/{hole.name} has no banner images)")
+		stop(404, f"Banner not found (/h/{hole.name} has no banner images)")
 
 	banner = request.values["url"]
 	
 	if banner not in hole.bannerurls:
-		abort(404, "Banner not found!")
+		stop(404, "Banner not found!")
 
 	remove_image_using_link(banner)
 
@@ -627,11 +627,11 @@ def delete_hole_banner(v, hole):
 @limiter.limit("5/minute;50/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def hole_marsey(v, hole):
-	if g.is_tor: abort(403, "File uploads are not allowed through TOR!")
+	if g.is_tor: stop(403, "File uploads are not allowed through TOR!")
 
 	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
-	if v.shadowbanned: abort(500)
+	if not v.mods_hole(hole.name): stop(403)
+	if v.shadowbanned: stop(500)
 
 	file = request.files["marsey"]
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
@@ -671,13 +671,13 @@ def subs(v):
 def hole_pin(v, pid):
 	p = get_post(pid)
 
-	if not p.hole: abort(403)
+	if not p.hole: stop(403)
 
-	if not v.mods_hole(p.hole): abort(403)
+	if not v.mods_hole(p.hole): stop(403)
 
 	num = g.db.query(Post).filter(Post.hole == p.hole, Post.hole_pinned != None).count()
 	if num >= 2:
-		abort(403, f"You can only pin 2 posts to /h/{p.hole}")
+		stop(403, f"You can only pin 2 posts to /h/{p.hole}")
 
 	p.hole_pinned = v.username
 	g.db.add(p)
@@ -707,9 +707,9 @@ def hole_pin(v, pid):
 def hole_unpin(v, pid):
 	p = get_post(pid)
 
-	if not p.hole: abort(403)
+	if not p.hole: stop(403)
 
-	if not v.mods_hole(p.hole): abort(403)
+	if not v.mods_hole(p.hole): stop(403)
 
 	p.hole_pinned = None
 	g.db.add(p)
@@ -740,8 +740,8 @@ def hole_unpin(v, pid):
 def hole_stealth(v, hole):
 	hole = get_hole(hole)
 	if hole.name in {'mnn','glory','racist'} and v.admin_level < PERMS["MODS_EVERY_HOLE"]:
-		abort(403)
-	if not v.mods_hole(hole.name): abort(403)
+		stop(403)
+	if not v.mods_hole(hole.name): stop(403)
 
 	hole.stealth = not hole.stealth
 	g.db.add(hole)
@@ -774,10 +774,10 @@ def hole_stealth(v, hole):
 def hole_public_use(v, hole):
 	hole = get_hole(hole)
 
-	if not v.mods_hole(hole.name): abort(403)
+	if not v.mods_hole(hole.name): stop(403)
 
 	if hole in {'furry','vampire','racist','femboy','edgy'}:
-		abort(400, "House holes can't have Public Use mode enabled.")
+		stop(400, "House holes can't have Public Use mode enabled.")
 
 	hole.public_use = not hole.public_use
 	g.db.add(hole)
@@ -816,7 +816,7 @@ def pin_comment_mod(cid, v):
 	comment = get_comment(cid, v=v)
 
 	if not comment.pinned:
-		if not v.mods_hole(comment.post.hole): abort(403)
+		if not v.mods_hole(comment.post.hole): stop(403)
 
 		comment.pinned = v.username + " (Mod)"
 
@@ -849,7 +849,7 @@ def unpin_comment_mod(cid, v):
 	comment = get_comment(cid, v=v)
 
 	if comment.pinned:
-		if not v.mods_hole(comment.post.hole): abort(403)
+		if not v.mods_hole(comment.post.hole): stop(403)
 
 		comment.pinned = None
 		comment.pinned_utc = None
@@ -879,7 +879,7 @@ def unpin_comment_mod(cid, v):
 def hole_log(v, hole):
 	hole = get_hole(hole)
 	if not can_see(v, hole):
-		abort(403)
+		stop(403)
 	page = get_page()
 
 	mod = request.values.get("mod")
@@ -921,11 +921,11 @@ def hole_log(v, hole):
 def hole_log_item(id, v, hole):
 	hole = get_hole(hole)
 	if not can_see(v, hole):
-		abort(403)
+		stop(403)
 
 	action = g.db.get(HoleAction, id)
 
-	if not action: abort(404)
+	if not action: stop(404)
 
 	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(hole=hole.name)]
 	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username)]
@@ -944,15 +944,15 @@ def post_hole_snappy_quotes(v, hole):
 	hole = get_hole(hole)
 	snappy_quotes = request.values.get('snappy_quotes', '').strip()
 
-	if not hole: abort(404)
-	if not v.mods_hole(hole.name): abort(403)
-	if v.shadowbanned: abort(400)
+	if not hole: stop(404)
+	if not v.mods_hole(hole.name): stop(403)
+	if v.shadowbanned: stop(400)
 
 	if snappy_quotes.endswith('[para]'):
 		snappy_quotes = snappy_quotes[:-6].strip()
 
 	if len(snappy_quotes) > HOLE_SNAPPY_QUOTES_LENGTH:
-		abort(400, f"Quotes are too long (max {HOLE_SNAPPY_QUOTES_LENGTH} characters)")
+		stop(400, f"Quotes are too long (max {HOLE_SNAPPY_QUOTES_LENGTH} characters)")
 
 	hole.snappy_quotes = snappy_quotes
 	g.db.add(hole)
@@ -977,7 +977,7 @@ def change_hole(pid, v):
 	post = get_post(pid)
 
 	if post.ghost:
-		abort(403, "You can't move ghost posts into holes!")
+		stop(403, "You can't move ghost posts into holes!")
 
 	hole_from = post.hole
 
@@ -988,29 +988,29 @@ def change_hole(pid, v):
 		hole_to = None
 
 	if not post.hole_changable(v):
-		abort(403, "You can't change the hole of this post!")
+		stop(403, "You can't change the hole of this post!")
 
 	if hole_to == None:
 		if HOLE_REQUIRED:
-			abort(403, "All posts are required to be in holes!")
+			stop(403, "All posts are required to be in holes!")
 		hole_to_in_notif = 'the main feed'
 	else:
 		hole_to_in_notif = f'/h/{hole_to}'
 
 	if hole_from == hole_to:
-		abort(409, f"Post is already in {hole_to_in_notif}")
+		stop(409, f"Post is already in {hole_to_in_notif}")
 
 	if post.author.exiler_username(hole_to):
-		abort(403, f"User is exiled from this hole!")
+		stop(403, f"User is exiled from this hole!")
 
 	if hole_to == 'changelog':
-		abort(403, "/h/changelog is archived!")
+		stop(403, "/h/changelog is archived!")
 
 	if hole_to in {'furry','vampire','racist','femboy','edgy'} and not v.client and not post.author.house.lower().startswith(hole_to):
 		if v.id == post.author_id:
-			abort(403, f"You need to be a member of House {hole_to.capitalize()} to post in /h/{hole_to}")
+			stop(403, f"You need to be a member of House {hole_to.capitalize()} to post in /h/{hole_to}")
 		else:
-			abort(403, f"@{post.author_name} needs to be a member of House {hole_to.capitalize()} for their post to be moved to /h/{hole_to}")
+			stop(403, f"@{post.author_name} needs to be a member of House {hole_to.capitalize()} for their post to be moved to /h/{hole_to}")
 
 	post.hole = hole_to
 	post.hole_pinned = None

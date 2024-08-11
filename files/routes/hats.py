@@ -36,17 +36,17 @@ def hats(v):
 @auth_required
 def buy_hat(v, hat_id):
 	hat = g.db.query(HatDef).filter_by(submitter_id=None, id=hat_id).one_or_none()
-	if not hat: abort(404, "Hat not found!")
+	if not hat: stop(404, "Hat not found!")
 
 	existing = g.db.query(Hat).filter_by(user_id=v.id, hat_id=hat.id).one_or_none()
-	if existing: abort(409, "You already own this hat!")
+	if existing: stop(409, "You already own this hat!")
 
 	if not hat.is_purchasable:
-		abort(403, "This hat is not for sale!")
+		stop(403, "This hat is not for sale!")
 
 	charged = v.charge_account('coins/marseybux', hat.price, f"<code>{hat.name}</code> hat cost")
 	if not charged:
-		abort(400, "Not enough coins/marseybux!")
+		stop(400, "Not enough coins/marseybux!")
 
 	v.currency_spent_on_hats += hat.price
 	hat.author.pay_account('coins', hat.price * 0.1, f"Royalties for <code>{hat.name}</code> hat")
@@ -80,7 +80,7 @@ def buy_hat(v, hat_id):
 @auth_required
 def equip_hat(v, hat_id):
 	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
-	if not hat: abort(403, "You don't own this hat!")
+	if not hat: stop(403, "You don't own this hat!")
 
 	hat.equipped = True
 	g.db.add(hat)
@@ -95,7 +95,7 @@ def equip_hat(v, hat_id):
 @auth_required
 def unequip_hat(v, hat_id):
 	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
-	if not hat: abort(403, "You don't own this hat!")
+	if not hat: stop(403, "You don't own this hat!")
 
 	hat.equipped = False
 	g.db.add(hat)

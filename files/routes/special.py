@@ -87,7 +87,7 @@
 # @auth_required
 # def get_leaderboard(v):
 #	if SITE_NAME != 'rDrama':
-#		abort(404)
+#		stop(404)
 
 #	result = _special_leaderboard_get()
 #	if g.is_api_or_xhr: return result

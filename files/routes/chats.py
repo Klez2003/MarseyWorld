@@ -27,13 +27,13 @@ def chat_user(v, username):
 	user = get_user(username, v=v, include_blocks=True)
 
 	if hasattr(user, 'is_blocking') and user.is_blocking:
-		abort(403, f"You're blocking @{user.username}")
+		stop(403, f"You're blocking @{user.username}")
 
 	if v.admin_level < PERMS['MESSAGE_BLOCKED_USERS'] and hasattr(user, 'is_blocked') and user.is_blocked:
-		abort(403, f"@{user.username} is blocking you!")
+		stop(403, f"@{user.username} is blocking you!")
 
 	if v.admin_level < PERMS['MESSAGE_BLOCKED_USERS'] and user.has_muted(v):
-		abort(403, f"@{user.username} is muting notifications from you, so you can't chat with them!")
+		stop(403, f"@{user.username} is muting notifications from you, so you can't chat with them!")
 
 
 	sq = g.db.query(Chat.id).join(ChatMembership, ChatMembership.chat_id == Chat.id).filter(ChatMembership.user_id.in_((v.id, user.id))).group_by(Chat.id).having(func.count(Chat.id) == 2).subquery()
@@ -69,18 +69,18 @@ def chat_user(v, username):
 def chat(v, chat_id):
 	chat = g.db.get(Chat, chat_id)
 	if not chat:
-		abort(404, "Chat not found!")
+		stop(404, "Chat not found!")
 
 	muting_chat = False
 
 	if chat.id == 1:
 		if not v.allowed_in_chat:
-			abort(403, f"To prevent spam, you'll need {TRUESCORE_MINIMUM} truescore (this is {TRUESCORE_MINIMUM} votes, either up or down, on any threads or comments you've made) in order to access chat. Sorry! I love you 💖")
+			stop(403, f"To prevent spam, you'll need {TRUESCORE_MINIMUM} truescore (this is {TRUESCORE_MINIMUM} votes, either up or down, on any threads or comments you've made) in order to access chat. Sorry! I love you 💖")
 		membership = True
 	else:
 		membership = g.db.query(ChatMembership).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
 		if v.admin_level < PERMS['VIEW_CHATS'] and not membership:
-			abort(403, "You're not a member of this chat!")
+			stop(403, "You're not a member of this chat!")
 		if membership:
 			muting_chat = membership.muted
 
@@ -127,15 +127,15 @@ def chat(v, chat_id):
 def change_chat_name(v, chat_id):
 	chat = g.db.get(Chat, chat_id)
 	if not chat:
-		abort(404, "Chat not found!")
+		stop(404, "Chat not found!")
 
 	if v.id not in chat.mod_ids:
-		abort(403, "You need to be the chat owner or a mod to do that!")
+		stop(403, "You need to be the chat owner or a mod to do that!")
 
 	new_name = request.values.get("new_name").strip()
 
 	if len(new_name) > 40:
-		abort(400, "New name is too long (max 40 characters)")
+		stop(400, "New name is too long (max 40 characters)")
 
 	chat.name = new_name
 	g.db.add(chat)
@@ -151,11 +151,11 @@ def change_chat_name(v, chat_id):
 def leave_chat(v, chat_id):
 	chat = g.db.get(Chat, chat_id)
 	if not chat:
-		abort(404, "Chat not found!")
+		stop(404, "Chat not found!")
 
 	membership = g.db.query(ChatMembership).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
 	if not membership:
-		abort(400, "You're not a member of this chat!")
+		stop(400, "You're not a member of this chat!")
 
 	g.db.delete(membership)
 
@@ -176,11 +176,11 @@ def leave_chat(v, chat_id):
 def mute_chat(v, chat_id):
 	chat = g.db.get(Chat, chat_id)
 	if not chat:
-		abort(404, "Chat not found!")
+		stop(404, "Chat not found!")
 
 	membership = g.db.query(ChatMembership).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
 	if not membership:
-		abort(400, "You're not a member of this chat!")
+		stop(400, "You're not a member of this chat!")
 
 	if membership.muted:
 		membership.muted = False
@@ -202,10 +202,10 @@ def mute_chat(v, chat_id):
 def chat_custom_css_get(v, chat_id):
 	chat = g.db.get(Chat, chat_id)
 	if not chat:
-		abort(404, "Chat not found!")
+		stop(404, "Chat not found!")
 
 	if v.id not in chat.mod_ids:
-		abort(403, "You need to be the chat owner or a mod to do that!")
+		stop(403, "You need to be the chat owner or a mod to do that!")
 
 	return render_template("chat_css.html", v=v, chat=chat)
 
@@ -218,21 +218,21 @@ def chat_custom_css_get(v, chat_id):
 def chat_custom_css_post(v, chat_id):
 	chat = g.db.get(Chat, chat_id)
 	if not chat:
-		abort(404, "Chat not found!")
+		stop(404, "Chat not found!")
 
 	if v.id not in chat.mod_ids:
-		abort(403, "You need to be the chat owner or a mod to do that!")
+		stop(403, "You need to be the chat owner or a mod to do that!")
 
-	if v.shadowbanned: abort(400)
+	if v.shadowbanned: stop(400)
 
 	css = request.values.get('css', '').strip()
 
 	if len(css) > CSS_LENGTH_LIMIT:
-		abort(400, f"Chat CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
+		stop(400, f"Chat CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
 
 	valid, error = validate_css(css)
 	if not valid:
-		abort(400, error)
+		stop(400, error)
 
 	chat.css = css
 	g.db.add(chat)
@@ -247,7 +247,7 @@ def chat_custom_css_post(v, chat_id):
 def chat_css(v, chat_id):
 	chat = g.db.query(Chat.css).filter_by(id=chat_id).one_or_none()
 	if not chat:
-		abort(404, "Chat not found!")
+		stop(404, "Chat not found!")
 	resp = make_response(chat.css or "")
 	resp.headers.add("Content-Type", "text/css")
 	return resp
@@ -259,13 +259,13 @@ def chat_css(v, chat_id):
 def orgy_control(v, chat_id):
 	chat = g.db.get(Chat, chat_id)
 	if not chat:
-		abort(404, "Chat not found!")
+		stop(404, "Chat not found!")
 
 	if chat.id == 1:
 		if v.admin_level < PERMS["ORGIES"]:
-			abort(403, "Your admin-level is not sufficient enough for this action!")
+			stop(403, "Your admin-level is not sufficient enough for this action!")
 	elif v.id not in chat.mod_ids:
-		abort(403, "You need to be the chat owner or a mod to do that!")
+		stop(403, "You need to be the chat owner or a mod to do that!")
 
 	orgies = g.db.query(Orgy).filter_by(chat_id=chat_id).order_by(Orgy.start_utc).all()
 	return render_template("orgy_control.html", v=v, orgies=orgies, chat=chat)
@@ -279,26 +279,26 @@ def orgy_control(v, chat_id):
 def schedule_orgy(v, chat_id):
 	chat = g.db.get(Chat, chat_id)
 	if not chat:
-		abort(404, "Chat not found!")
+		stop(404, "Chat not found!")
 
 	if chat.id == 1:
 		if v.admin_level < PERMS["ORGIES"]:
-			abort(403, "Your admin-level is not sufficient enough for this action!")
+			stop(403, "Your admin-level is not sufficient enough for this action!")
 	elif v.id not in chat.mod_ids:
-		abort(403, "You need to be the chat owner or a mod to do that!")
+		stop(403, "You need to be the chat owner or a mod to do that!")
 
 	link = request.values.get("link", "").strip()
 	title = request.values.get("title", "").strip()
 	start_utc = request.values.get("start_utc", "").strip()
 
 	if not link:
-		abort(400, "A link is required!")
+		stop(400, "A link is required!")
 
 	if not title:
-		abort(400, "A title is required!")
+		stop(400, "A title is required!")
 
 	if len(title) > 50:
-		abort(400, 'Title is too long (max 50 characters)')
+		stop(400, 'Title is too long (max 50 characters)')
 
 	normalized_link = normalize_url(link)
 
@@ -333,7 +333,7 @@ def schedule_orgy(v, chat_id):
 	elif any((normalized_link.lower().endswith(f'.{x}') for x in VIDEO_FORMATS)):
 		domain = tldextract.extract(normalized_link).registered_domain
 		if domain != 'archive.org' and not is_safe_url(normalized_link):
-			abort(400, "For linking an mp4 file, you can only use archive.org or one of the approved media hosts outlined in https://rdrama.net/formatting#approved")
+			stop(400, "For linking an mp4 file, you can only use archive.org or one of the approved media hosts outlined in https://rdrama.net/formatting#approved")
 		orgy_type = 'file'
 		data = normalized_link
 		video_info = ffmpeg.probe(data)
@@ -343,7 +343,7 @@ def schedule_orgy(v, chat_id):
 			duration += 300 #account for break
 		end_utc = int(start_utc + duration)
 	else:
-		abort(400)
+		stop(400)
 
 	data = data.strip()
 
@@ -376,13 +376,13 @@ def schedule_orgy(v, chat_id):
 def remove_orgy(v, created_utc, chat_id):
 	chat = g.db.get(Chat, chat_id)
 	if not chat:
-		abort(404, "Chat not found!")
+		stop(404, "Chat not found!")
 
 	if chat.id == 1:
 		if v.admin_level < PERMS["ORGIES"]:
-			abort(403, "Your admin-level is not sufficient enough for this action!")
+			stop(403, "Your admin-level is not sufficient enough for this action!")
 	elif v.id not in chat.mod_ids:
-		abort(403, "You need to be the chat owner or a mod to do that!")
+		stop(403, "You need to be the chat owner or a mod to do that!")
 
 	orgy = g.db.query(Orgy).filter_by(created_utc=created_utc).one_or_none()
 

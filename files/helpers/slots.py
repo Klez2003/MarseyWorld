@@ -2,7 +2,7 @@ import json
 import random
 from json.encoder import INFINITY
 
-from flask import abort, g
+from flask import g
 
 from files.classes.casino_game import CasinoGame
 from files.classes.comment import Comment
@@ -148,7 +148,7 @@ def check_slots_command(c, v, u):
 
 	if u.rehab:
 		if v.id == u.id:
-			abort(403, "You are under Rehab award effect!")
+			stop(403, "You are under Rehab award effect!")
 		return
 
 	try:
@@ -156,17 +156,17 @@ def check_slots_command(c, v, u):
 		wager = int(wager)
 	except:
 		if v.id == u.id:
-			abort(400, "Invalid wager!")
+			stop(400, "Invalid wager!")
 		return
 
 	if wager < 100:
 		if v.id == u.id:
-			abort(400, f"Wager must be 100 {currency} or more")
+			stop(400, f"Wager must be 100 {currency} or more")
 		return
 
 	if (currency == "coins" and wager > u.coins) or (currency == "marseybux" and wager > u.marseybux):
 		if v.id == u.id:
-			abort(400, f"You don't have enough {currency} to make that bet!")
+			stop(400, f"You don't have enough {currency} to make that bet!")
 		return
 
 	game_id, game_state = casino_slot_pull(u, wager, currency)
