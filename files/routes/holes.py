@@ -653,7 +653,6 @@ def hole_marsey(v, hole):
 
 	return redirect(f'/h/{hole}/settings')
 
-@app.get("/flairs")
 @app.get("/holes")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
