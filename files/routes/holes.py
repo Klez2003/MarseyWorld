@@ -412,7 +412,6 @@ def create_sub2(v):
 @auth_required
 def hole_settings(v, hole):
 	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
 	return render_template('hole/settings.html', v=v, sidebar=hole.sidebar, hole=hole, css=hole.css, snappy_quotes=hole.snappy_quotes)
 
 
