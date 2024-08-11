@@ -238,6 +238,11 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 				group = g.db.get(Group, i.group(1))
 				if not group: continue
 				member_ids = group.member_ids
+				if chat:
+					member_ids = {x[0] for x in g.db.query(ChatMembership.user_id).filter(
+						ChatMembership.chat_id == chat.id,
+						ChatMembership.user_id.in_(member_ids)
+					).all()} - {v.id}
 
 			members = member_ids - notify_users - BOT_IDs - v.all_twoway_blocks - v.muters
 
