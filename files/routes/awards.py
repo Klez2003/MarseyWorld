@@ -681,6 +681,8 @@ def award_thing(v, thing_type, id):
 				if kind == "chud":
 					msg += f"\n\n**You now have to say this phrase in all posts and comments you make for {24*quantity} hours:**"
 				msg += f"\n\n`{note}`"
+				if SITE_NAME == 'rDrama' and kind == "chud":
+					msg += f"\n\nPlease keep your chud behavior to /h/chudrama in the future!"
 			n = send_repeatable_notification(author.id, msg)
 			if n: n.created_utc -= 2
 
