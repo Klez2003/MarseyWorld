@@ -27,7 +27,7 @@ Payload.max_decode_packets = 50
 socketio = SocketIO(
 	app,
 	async_mode='gevent',
-	max_http_buffer_size=8388608, #for images
+	max_http_buffer_size=16777216, #for images, audio, and video
 )
 
 muted = cache.get(f'muted') or {}

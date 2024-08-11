@@ -488,8 +488,14 @@ let vpatron
 if (document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB")) {
 	MAX_IMAGE_AUDIO_SIZE_MB = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB").value)
 	MAX_IMAGE_AUDIO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB_PATRON").value)
-	MAX_VIDEO_SIZE_MB = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB").value)
-	MAX_VIDEO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB_PATRON").value)
+	if (location.pathname.startsWith('/chat/')) {
+		MAX_VIDEO_SIZE_MB = 16
+		MAX_VIDEO_SIZE_MB_PATRON = 16
+}
+	else {
+		MAX_VIDEO_SIZE_MB = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB").value)
+		MAX_VIDEO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB_PATRON").value)
+	}
 	vpatron = parseInt(document.getElementById("vpatron").value)
 }
 
