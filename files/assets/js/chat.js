@@ -355,6 +355,7 @@ function handle_files() {
 		input.previousElementSibling.className  = "";
 		input.previousElementSibling.textContent = input.files[0].name.substr(0, char_limit);
 	}
+	ta.focus()
 }
 
 input.onchange = handle_files
