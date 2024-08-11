@@ -882,25 +882,25 @@ ERROR_MARSEYS = {
 EMOJI_SRCS = ['files/assets/emojis.csv']
 
 PIN_LIMIT = 10
-POST_TITLE_LENGTH_LIMIT = 500 # do not make larger than 500 without altering the table
-POST_TITLE_HTML_LENGTH_LIMIT = 5000 # do not make larger than 5000 without altering the table
+POST_TITLE_LENGTH_LIMIT = 500 # do not make larger without altering the table
+POST_TITLE_HTML_LENGTH_LIMIT = 5000 # do not make larger without altering the table
 
 def POST_BODY_LENGTH_LIMIT(v):
 	if v.patron: return 100000
 	return 50000
 
-POST_BODY_HTML_LENGTH_LIMIT = 200000 # do not make larger than 200000 without altering the table
+POST_BODY_HTML_LENGTH_LIMIT = 200000 # do not make larger without altering the table
 
-COMMENT_BODY_LENGTH_LIMIT = 10000 # do not make larger than 10000 characters without altering the table
-COMMENT_BODY_HTML_LENGTH_LIMIT = 40000 # do not make larger than 20000 characters without altering the table
-CSS_LENGTH_LIMIT = 20000 # do not make larger than 20000 characters without altering the tables
+COMMENT_BODY_LENGTH_LIMIT = 10000 # do not make larger without altering the table
+COMMENT_BODY_HTML_LENGTH_LIMIT = 40000 # do not make larger without altering the table
+CSS_LENGTH_LIMIT = 20000 # do not make larger without altering the tables
 COMMENT_MAX_DEPTH = 200
-TRANSFER_MESSAGE_LENGTH_LIMIT = 200 # do not make larger than 10000 characters (comment limit) without altering the table
+TRANSFER_MESSAGE_LENGTH_LIMIT = 200 # do not make larger than COMMENT_BODY_LENGTH_LIMIT
 MIN_REPOST_CHECK_URL_LENGTH = 9 # also change the constant in checkRepost() of submit.js
 HOLE_BANNER_LIMIT = 10
 
-BIO_FRIENDS_ENEMIES_LENGTH_LIMIT = 5000 # do not make larger than 5000 characters without altering the table
-BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT = 20000 # do not make larger than 20000 characters without altering the table
+BIO_FRIENDS_ENEMIES_LENGTH_LIMIT = 5000 # do not make larger without altering the table
+BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT = 20000 # do not make larger without altering the table
 
 COSMETIC_AWARD_COIN_AWARD_PCT = 0.50
 
