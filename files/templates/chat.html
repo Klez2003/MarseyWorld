@@ -68,7 +68,7 @@
 					<div id="online" class="mt-2 {% if SITE_NAME == 'WPD' %}online-wpd{% endif %}"></div>
 				{% else %}
 					<h5>Members ({{sorted_memberships|length}})</h5>
-					<div class="members mt-2">
+					<div id="members" class="members mt-2">
 						{% for membership in sorted_memberships %}
 							{% set user = membership.user %}
 							{% set patron = '' %}
