@@ -269,6 +269,33 @@ socket.on('online', function(data) {
 	bs_trigger(document.getElementById('online3'))
 })
 
+socket.on('add', function(added_li) {
+	let added_html = ''
+	for (const u of added_li)
+	{
+		let patron = ''
+		if (u[3])
+			patron += ` class="patron chat-patron" style="background-color:#${u[1]}"`
+		if (u[5])
+			patron += " pride_username"
+
+		added_html += `<li class="user-${u[3]}"><a class="font-weight-bold" target="_blank" href="/@${u[0]}" style="color:#${u[1]}"><img loading="lazy" class="mr-1" src="/pp/${u[3]}"> <span${patron}>${u[0]}</span></a></li>`
+	}
+
+	for (const el of document.getElementsByClassName('members')) {
+		el.insertAdjacentHTML('beforeend', added_html);
+	}
+})
+
+socket.on('kick', function(kicked_li) {
+	for (const uid of kicked_li)
+	{
+		for (const el of document.querySelectorAll(`.user-${uid}`)) {
+			el.remove()
+		}
+	}
+})
+
 
 let timer_id;
 function remove_typing() {

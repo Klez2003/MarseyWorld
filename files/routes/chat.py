@@ -180,6 +180,7 @@ def speak(data, v):
 	typing[request.referrer] = []
 
 	if membership and membership.is_mod:
+		added_users = []
 		for i in chat_adding_regex.finditer(text):
 			user = get_user(i.group(1), graceful=True, attributes=[User.id])
 			if user and not user.has_muted(v) and not user.has_blocked(v):
@@ -191,7 +192,11 @@ def speak(data, v):
 					)
 					g.db.add(chat_membership)
 					g.db.flush()
+					added_users.append((user.username, user.name_color, user.patron, user.id, bool(user.has_badge(303))))
+		if added_users:
+			emit("add", added_users, room=request.referrer)
 
+		kicked_users = []
 		for i in chat_kicking_regex.finditer(text):
 			user = get_user(i.group(1), graceful=True, attributes=[User.id])
 			if user:
@@ -200,6 +205,9 @@ def speak(data, v):
 					g.db.delete(existing)
 					g.db.flush()
 					send_notification(user.id, f"@{v.username} kicked you from their chat [{chat.name}](/chat/{chat.id})")
+					kicked_users.append(user.id)
+		if kicked_users:
+			emit("kick", kicked_users, room=request.referrer)
 
 	if v.id == chat.owner_id:
 		for i in chat_jannying_regex.finditer(text):

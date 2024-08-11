@@ -68,7 +68,7 @@
 					<div id="online" class="mt-2 {% if SITE_NAME == 'WPD' %}online-wpd{% endif %}"></div>
 				{% else %}
 					<h5>Members ({{sorted_memberships|length}})</h5>
-					<div id="members" class="mt-2">
+					<div class="members mt-2">
 						{% for membership in sorted_memberships %}
 							{% set user = membership.user %}
 							{% set patron = '' %}
@@ -78,7 +78,7 @@
 							{% if user.pride_username(None) %}
 								{% set patron = patron + ' pride_username' %}
 							{% endif %}
-							<li class="member">
+							<li class="user-{{user.id}}">
 								<a class="font-weight-bold" target="_blank" href="/@{{user.username}}" style="color:#{{user.name_color}}">
 									<img loading="lazy" class="mr-1" src="/pp/{{user.id}}">
 									<span {{patron | safe}}>{{user.username}}</span>
