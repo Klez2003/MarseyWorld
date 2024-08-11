@@ -4076,7 +4076,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyneutered', 'Marsey', 2, 'balls sad', true, 1707933026),
 ('marseynew', 'Marsey', 2, 'fresh rare soy', false, 1684018510),
 ('marseynewyorker', 'Marsey', 2, 'rat nyc hustle bustle yankees', false, 1666250525),
-('marseynicka', 'Marsey', 2, 'breaking dancing durag lithuania olympics wigger', false, 1723322687),
+('marseynicka', 'Marsey', 2, 'breakdance breaking dancing durag lithuania olympics wigger', false, 1723322687),
 ('marseynietzsche', 'Marsey', 2, 'philosophy history', false, 0),
 ('marseynietzscheretard', 'Marsey', 2, 'zarathustra ubermensch untermensch philosophy philosopher german polish good evil beyond willpower', false, 1684554102),
 ('marseyniggy', 'Marsey', 2, 'idolmaster sachiko 4chan smug anime', false, 1664383012),
