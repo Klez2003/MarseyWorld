@@ -33,7 +33,7 @@
 	{% if request.path != '/sidebar' %}
 		{% if SITE_NAME == 'WPD' and hole == 'selfharm' and range(1,10)|random == 1 %}
 			<video class="mb-4" poster="https://i.watchpeopledie.tv/images/17233922718609142.webp" controls loop preload="none" src="https://videos.watchpeopledie.tv/17233922716448271.mp4"></video>
-		{% if IS_HOMOWEEN() %}
+		{% elif IS_HOMOWEEN() %}
 			{% include "events/homoween/eye_tracking.html" %}
 		{% else %}
 			{% if not expanded_image %}
