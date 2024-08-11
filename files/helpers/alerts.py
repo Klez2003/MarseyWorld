@@ -206,6 +206,8 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 							stop(403, f"You need {cost} currency to mention these ping groups!")
 						
 						reason = "Group pinging cost (<code>!everyone</code>)"
+						if chat:
+							reason += f' in <a href="/chat/{chat.id}">{chat.name}'
 						if obj:
 							reason += f" on {obj.textlink}"
 						v.charge_account('coins/marseybux', cost, reason)
@@ -257,6 +259,8 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 		if charge:
 			if cost:
 				reason = f"Group pinging cost (<code>!" + "</code>, <code>!".join(cost_groups) + "</code>)"
+				if chat:
+					reason += f' in <a href="/chat/{chat.id}">{chat.name}'
 				if obj:
 					reason += f" on {obj.textlink}"
 				v.charge_account('coins/marseybux', cost, reason)
