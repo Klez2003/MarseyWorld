@@ -767,7 +767,8 @@ CREATE TABLE public.media (
     user_id integer NOT NULL,
     created_utc integer NOT NULL,
     size integer NOT NULL,
-    posterurl character varying(65)
+    posterurl character varying(65),
+    referrer character varying(120)
 );
 
 
@@ -889,7 +890,7 @@ CREATE TABLE public.post_edits (
     id integer NOT NULL,
     post_id integer NOT NULL,
     old_title character varying(500),
-    old_title_html character varying(1500),
+    old_title_html character varying(5000),
     old_body character varying(100000),
     old_body_html character varying(200000),
     created_utc integer NOT NULL
@@ -946,7 +947,7 @@ CREATE TABLE public.posts (
     body_html character varying(200000),
     embed character varying(1500),
     ban_reason character varying(50),
-    title_html character varying(1500) NOT NULL,
+    title_html character varying(5000) NOT NULL,
     realupvotes integer,
     flair character varying(350),
     pinned_utc integer,
@@ -2038,6 +2039,13 @@ CREATE INDEX comments_author_id_created_utc_idx ON public.comments USING btree (
 --
 
 CREATE INDEX comments_author_id_id_idx ON public.comments USING btree (author_id, id);
+
+
+--
+-- Name: comments_body_ts_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comments_body_ts_idx ON public.comments USING gin (body_ts);
 
 
 --
