@@ -23,7 +23,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('adore', 'Misc', 2, 'cat love heart cute', false, 1679163119),
 ('ae', 'Marsey Alphabet', 2, 'norwegian letter', false, 1686332299),
 ('aevastergann', 'Misc', 2, 'corgi dog klenny aevann capybara', false, 1695756050),
-('afc', 'Rage', 2, 'furrie hate', false, 1716310268),
 ('afroblackjak', 'Wojak', 2, 'BIPOC', false, 0),
 ('aidanhaleunamused', 'Misc', 2, 'trans shooter tranifesto mass murder lgbt', false, 1687193607),
 ('ale8blackberry', 'Misc', 2, 'kentucky', false, 1684013566),
