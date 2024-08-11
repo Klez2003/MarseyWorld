@@ -883,7 +883,7 @@ EMOJI_SRCS = ['files/assets/emojis.csv']
 
 PIN_LIMIT = 10
 POST_TITLE_LENGTH_LIMIT = 500 # do not make larger than 500 without altering the table
-POST_TITLE_HTML_LENGTH_LIMIT = 1500 # do not make larger than 1500 without altering the table
+POST_TITLE_HTML_LENGTH_LIMIT = 5000 # do not make larger than 5000 without altering the table
 
 def POST_BODY_LENGTH_LIMIT(v):
 	if v.patron: return 100000
