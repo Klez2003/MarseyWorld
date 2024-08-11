@@ -1175,6 +1175,7 @@ INSERT INTO public.hat_defs VALUES (1622, 'Cheese', 'Wisconsin’s finest!', 2, 
 INSERT INTO public.hat_defs VALUES (1617, 'Taco', 'gracias', 2, 500, NULL, 1719818912);
 INSERT INTO public.hat_defs VALUES (1613, 'Frost', 'Feel the chills', 2, 500, NULL, 1719818291);
 
+
 INSERT INTO public.hat_defs VALUES (1450, 'Red Eminent Horns', 'Queen of the devils, leader of the chuds.', 2, 500, NULL, 1708367282);
 INSERT INTO public.hat_defs VALUES (1544, 'Sweden Flag', 'Över Norden jag härskar, med det arv som jag gavs, gång på gång, sjung Carolus sång!', 2, 1000, NULL, 1714318091);
 INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokémon. A Ghost and Poison type. Gengar can pass through dimensions and appear almost anywhere. Since Gengar absorbs any warmth around it, the temperature suddenly drops wherever it appears.', 2, 500, NULL, 1698658745);
@@ -1217,6 +1218,7 @@ INSERT INTO public.hat_defs VALUES (1632, 'Potato', 'America’s favorite cash c
 INSERT INTO public.hat_defs VALUES (1631, 'Japanese Fan', 'Time to cool down', 2, 500, NULL, 1719820793);
 INSERT INTO public.hat_defs VALUES (1615, 'Tomato', 'Booo!', 2, 500, NULL, 1719818638);
 INSERT INTO public.hat_defs VALUES (1575, 'Milk Party', 'It''s only REAL milk if it comes without a cap', 2, 500, NULL, 1718330935);
+
 
 
 INSERT INTO public.hat_defs VALUES (1396, 'Click Me', 'Come on, you know you want to see my profile.', 2, 500, NULL, 1704921421);
@@ -1299,7 +1301,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1648, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1650, true);
 
 
 --
