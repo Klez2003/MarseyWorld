@@ -148,7 +148,7 @@ lite-youtube {
 }
 
 #chat-window .resizable {
-	height: 28dvh;
+	height: 40dvh;
 }
 .resizable > video {
 	margin: 14px 0 0 0 !important;
