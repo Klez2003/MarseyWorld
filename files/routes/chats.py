@@ -162,8 +162,9 @@ def leave_chat(v, chat_id):
 	g.db.flush()
 	if not chat.mod_ids:
 		oldest_membership = g.db.query(ChatMembership).filter_by(chat_id=chat.id).order_by(ChatMembership.created_utc, ChatMembership.user_id).first()
-		oldest_membership.is_mod = True
-		g.db.add(oldest_membership)
+		if oldest_membership:
+			oldest_membership.is_mod = True
+			g.db.add(oldest_membership)
 
 	return {"message": "Chat left successfully!"}
 
