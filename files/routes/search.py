@@ -247,7 +247,6 @@ def searchcomments(v):
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		comments = comments.filter(
 			Comment.is_banned==False,
-			Comment.deleted_utc == 0,
 			or_(
 				Post.draft == False,
 				Comment.wall_user_id != None
