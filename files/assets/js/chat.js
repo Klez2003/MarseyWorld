@@ -369,6 +369,11 @@ addEventListener("DOMContentLoaded", () => {
 	box.scrollTo(0, box.scrollHeight)
 })
 
+visualViewport.addEventListener('resize', () => {
+	if (scrolled_down_var)
+		box.scrollTo(0, box.scrollHeight)
+});
+
 const observer = new ResizeObserver(function() {
 	if (scrolled_down_var) {
 		box.scrollTo(0, box.scrollHeight)
