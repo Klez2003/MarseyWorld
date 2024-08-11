@@ -1,1 +1,1 @@
-alter table media add column referrer varchar(120);
+alter table media add column referrer varchar(200);
