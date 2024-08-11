@@ -4374,7 +4374,7 @@ small, .small {
 }
 .post-img {
 	width: 100px;
-	height: 70px;
+	height: 90px;
 	object-fit: cover;
 	border: 0.1px solid var(--primary);
 	border-radius: 0.35rem;
@@ -4384,7 +4384,7 @@ small, .small {
 @media (max-width: 768px) {
 	.post-img {
 		width: 80px;
-		height: 60px;
+		height: 72px;
 }
 }
 .post-actions .comments, .post-actions .share, .post-actions .report {
