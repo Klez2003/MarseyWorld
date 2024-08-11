@@ -1513,10 +1513,10 @@ import sys
 if "load_chat" in sys.argv:
 	sys.tracebacklimit = 0
 	from flask_socketio import emit
-	def stop(code, message):
+	def stop(code, message=None):
 		emit('error', message)
 		raise Exception(message)
 else:
 	from flask import abort
-	def stop(code, message):
+	def stop(code, message=None):
 		abort(code, message)
