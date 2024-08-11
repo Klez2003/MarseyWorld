@@ -272,7 +272,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 	except:
 		os.remove(filename)
 		if has_request:
-			stop(400, "An uploaded image couldn't be converted to WEBP. Please convert it to WEBP elsewhere then upload it again.")
+			stop(400, "Something went wrong processing your image on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 		return None
 
 	size_after_conversion = os.stat(filename).st_size
