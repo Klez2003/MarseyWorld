@@ -66,8 +66,9 @@ def front_all(v, hole=None):
 		pins = session.get(f'{hole}_{sort}', default)
 
 	categories = {}
-	for category in CATEGORIES_ICONS.keys():
-		categories[category] = session.get(category, True)
+	if not hole:
+		for category in CATEGORIES_ICONS.keys():
+			categories[category] = session.get(category, True)
 
 	if not v:
 		result = cache.get(f'frontpage_{sort}_{t}_{page}_{hole}_{pins}_{effortposts_only}_{categories}')
