@@ -244,7 +244,6 @@ socket.on('online', function(data) {
 		el.innerHTML = online_li.length
 	}
 	document.getElementById('chat-count-header-bar').innerHTML = online_li.length
-	const admin_level = parseInt(document.getElementById('admin_level').value)
 	let online = ''
 	for (const u of online_li)
 	{
@@ -255,7 +254,7 @@ socket.on('online', function(data) {
 			patron += " pride_username"
 
 		online += `<li>`
-		if (admin_level && muted_li.includes(u[1].toLowerCase()))
+		if (muted_li.includes(u[1].toLowerCase()))
 			online += '<b class="text-danger muted" data-bs-toggle="tooltip" title="Muted">X</b> '
 		online += `<a class="font-weight-bold" target="_blank" href="/@${u[1]}" style="color:#${u[2]}"><img loading="lazy" class="mr-1" src="/pp/${u[4]}"> <span${patron}>${u[1]}</span></a><i class="ml-2 text-smaller text-success fas fa-circle"></i></li>`
 	}
