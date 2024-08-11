@@ -34,7 +34,7 @@
 
 
 	{% if request.path != '/sidebar' %}
-		{% if SITE_NAME == 'rDrama' and range(1,10)|random == 1 %}
+		{% if SITE_NAME == 'rDrama' and range(10)|random == 0 %}
 			<video class="mb-4" poster="https://i.rdrama.net/images/17227894841514528.webp" controls loop preload="none" src="https://rdrama.net/videos/17227894838397655.mp4"></video>
 		{% elif IS_HOMOWEEN() and not (hole and hole.sidebarurls) %}
 			{% include "events/homoween/eye_tracking.html" %}
