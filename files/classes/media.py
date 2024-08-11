@@ -1,7 +1,7 @@
 import time
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import *
-from flask import request
+from flask import request, has_request_context
 from files.classes import Base
 
 class Media(Base):
@@ -15,8 +15,10 @@ class Media(Base):
 	referrer = Column(String)
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
-		kwargs["referrer"] = request.referrer
+		if "created_utc" not in kwargs:
+			kwargs["created_utc"] = int(time.time())
+		if has_request_context():
+			kwargs["referrer"] = request.referrer
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
