@@ -110,6 +110,9 @@ def commas_filter(number):
 def current_registered_users():
 	return "{:,}".format(g.db.query(User).count())
 
+def kamala_art(kind):
+	return (x for x in listdir(f'files/assets/images/rDrama/{kind}') if int(x[:-5]) >= 3624)
+
 def git_head():
 	# Note: doing zero sanitization. Git branch names are extremely permissive.
 	# However, they forbid '..', so I don't see an obvious dir traversal attack.
@@ -207,5 +210,5 @@ def inject_constants():
 			"bar_position":bar_position, "datetime":datetime, "CSS_LENGTH_LIMIT":CSS_LENGTH_LIMIT, "cache":cache,
 			"emoji_count":emoji_count, "group_count":group_count, "user_count":user_count,
 			"HOLE_SIDEBAR_COLUMN_LENGTH":HOLE_SIDEBAR_COLUMN_LENGTH, "HOLE_SNAPPY_QUOTES_LENGTH":HOLE_SNAPPY_QUOTES_LENGTH, "USER_SNAPPY_QUOTES_LENGTH":USER_SNAPPY_QUOTES_LENGTH, "top_poster_of_the_day":top_poster_of_the_day,
-			"CATEGORIES_ICONS":CATEGORIES_ICONS, "CATEGORIES_HOLES":CATEGORIES_HOLES,
+			"CATEGORIES_ICONS":CATEGORIES_ICONS, "CATEGORIES_HOLES":CATEGORIES_HOLES, "kamala_art":kamala_art,
 		}
