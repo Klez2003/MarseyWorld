@@ -262,7 +262,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 				params.extend(["-resize", f"{resize}>"])
 	except:
 		os.remove(filename)
-		if has_request and not filename.startswith('/chat_images/'):
+		if has_request:
 			stop(400, "Something went wrong processing your image on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 		return None
 
