@@ -87,20 +87,26 @@ def process_files(files, v, body, is_dm=False, dm_user=None, is_badge_thread=Fal
 
 
 def process_audio(file, v, old=None):
-	if not old:
-		old = f'/audio/{time.time()}'.replace('.','')
-
-	file.save(old)
+	if isinstance(file, str):
+		old = file
+	else:
+		if not old:
+			old = f'/audio/{time.time()}'.replace('.','')
+		file.save(old)
 
 	size = os.stat(old).st_size
 	if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not v.patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
 		os.remove(old)
 		abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for {patron}s)")
 
-	extension = guess_extension(file.content_type)
-	if not extension:
-		os.remove(old)
-		abort(400, "Unsupported audio format.")
+	if isinstance(file, str):
+		extension = '.mp3'
+	else:
+		extension = guess_extension(file.content_type)
+		if not extension:
+			os.remove(old)
+			abort(400, "Unsupported audio format.")
+
 	new = old + extension
 
 	try:
@@ -158,8 +164,11 @@ def reencode_video(old, new, check_sizes=False):
 
 
 def process_video(file, v):
-	old = f'/videos/{time.time()}'.replace('.','')
-	file.save(old)
+	if isinstance(file, str):
+		old = file
+	else:
+		old = f'/videos/{time.time()}'.replace('.','')
+		file.save(old)
 
 	size = os.stat(old).st_size
 	if size > MAX_VIDEO_SIZE_MB_PATRON * 1024 * 1024 or (not v.patron and size > MAX_VIDEO_SIZE_MB * 1024 * 1024):

@@ -171,6 +171,7 @@ function send() {
 			"message": text,
 			"quotes": document.getElementById('quotes_id').value,
 			"file": sending,
+			"file_type": sending ? sending.type : '',
 			"chat_id": document.getElementById('chat_id').value,
 		});
 		ta.value = ''
@@ -182,7 +183,7 @@ function send() {
 		oldfiles[ta.id] = new DataTransfer();
 		input.value = null;
 
-		input.previousElementSibling.className  = "fas fa-image";
+		input.previousElementSibling.className  = "fas fa-file";
 		input.previousElementSibling.textContent = "";
 	}
 }

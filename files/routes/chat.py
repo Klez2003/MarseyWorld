@@ -74,15 +74,26 @@ def speak(data, v):
 		membership = g.db.query(ChatMembership.is_mod).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
 		if not membership: return ''
 
-	image = None
+	file = None
 	if data['file']:
-		name = f'/chat_images/{time.time()}'.replace('.','') + '.webp'
-		with open(name, 'wb') as f:
-			f.write(data['file'])
-		image = process_image(name, v)
+		if data['file_type'].startswith('image/'):
+			name = f'/chat_images/{time.time()}'.replace('.','') + '.webp'
+			with open(name, 'wb') as f:
+				f.write(data['file'])
+			file = process_image(name, v)
+		elif data['file_type'].startswith('video/'):
+			name = f'/videos/{time.time()}'.replace('.','')
+			with open(name, 'wb') as f:
+				f.write(data['file'])
+			file = process_video(name, v)[0]
+		elif data['file_type'].startswith('audio/'):
+			name = f'/audio/{time.time()}'.replace('.','')
+			with open(name, 'wb') as f:
+				f.write(data['file'])
+			file = f'{SITE_FULL}{process_audio(name, v)}'
 
 	text = data['message'].strip()[:1000]
-	if image: text += f'\n\n{image}'
+	if file: text += f'\n\n{file}'
 	if not text: return ''
 
 	if chat.id == 1:
