@@ -77,7 +77,7 @@
 							{% if user.pride_username(None) %}
 								{% set patron = patron + ' pride_username' %}
 							{% endif %}
-							<li style="margin-top: 0.35rem">
+							<li class="member">
 								<a class="font-weight-bold" target="_blank" href="/@{{user.username}}" style="color:#{{user.name_color}}">
 									<img loading="lazy" class="mr-1" src="/pp/{{user.id}}">
 									<span {{patron | safe}}>{{user.username}}</span>

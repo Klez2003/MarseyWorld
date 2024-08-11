@@ -165,8 +165,9 @@ img[alt^="![]("], .img {
 	cursor: default;
 }
 
-#online > li, #online3 > li {
+#online > li, #online3 > li, li.member {
 	margin-top: 0.35rem;
+	width: fit-content;
 }
 
 @media (min-width: 768px) {
