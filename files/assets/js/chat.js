@@ -283,7 +283,7 @@ socket.on('add', function(added_li) {
 	}
 
 	for (const el of document.getElementsByClassName('members')) {
-		el.insertAdjacentHTML('beforeend', added_html);
+		el.insertAdjacentHTML('afterbegin', added_html);
 	}
 })
 
