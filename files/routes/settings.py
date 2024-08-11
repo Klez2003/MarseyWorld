@@ -885,7 +885,7 @@ def settings_song_change_mp3(v):
 
 	process_audio(file, v, f'/songs/{song}') #to ensure not malware
 
-	if path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
+	if g.db.query(User).filter_by(song=v.song).count() == 1 and path.isfile(f"/songs/{v.song}.mp3") :
 		os.remove(f"/songs/{v.song}.mp3")
 
 	v.song = song
@@ -918,7 +918,7 @@ def _change_song_youtube(vid, id):
 
 	v = db.query(User).filter_by(id=vid).options(load_only(User.song)).one()
 
-	if v.song and path.isfile(f"/songs/{v.song}.mp3") and db.query(User).filter_by(song=v.song).count() == 1:
+	if v.song and db.query(User).filter_by(song=v.song).count() == 1 and path.isfile(f"/songs/{v.song}.mp3") :
 		os.remove(f"/songs/{v.song}.mp3")
 
 	v.song = id
@@ -939,7 +939,7 @@ def settings_song_change(v):
 	song = request.values.get("song").strip()
 
 	if song == "" and v.song:
-		if path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
+		if g.db.query(User).filter_by(song=v.song).count() == 1 and path.isfile(f"/songs/{v.song}.mp3") :
 			os.remove(f"/songs/{v.song}.mp3")
 		v.song = None
 		g.db.add(v)
