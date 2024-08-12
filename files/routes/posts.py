@@ -472,7 +472,7 @@ def submit_post(v, hole=None):
 
 	if '\\' in url: stop(400)
 
-	title = '\x00' + request.values.get("title", "").replace('\x00', '').strip()
+	title = request.values.get("title", "").replace('\x00', '').strip()
 	if len(title) > POST_TITLE_LENGTH_LIMIT:
 		stop(400, f'Post title is too long (max {POST_TITLE_LENGTH_LIMIT} characters)')
 
