@@ -258,7 +258,7 @@ MODACTION_TYPES = {
 	},
 	'clear_cloudflare_cache': {
 		"str": 'cleared cloudflare cache',
-		"icon": 'fab fa-cloudflare',
+		"icon": 'fa-cloudflare',
 		"color": 'bg-muted'
 	},
 	'reject_app': {
