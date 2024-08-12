@@ -167,6 +167,7 @@ img[alt^="![]("], .img {
 
 #online > li, #online3 > li, .members > li {
 	margin-top: 0.35rem;
+	width: fit-content;
 }
 
 @media (min-width: 768px) {
