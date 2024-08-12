@@ -215,7 +215,7 @@ def group_reject(v, group_name, user_id):
 		stop(404, "There is no membership to reject!")
 
 	if v.id != membership.user_id: #implies kicking and not leaving
-		if membership.user_id == group.owner_id:
+		if membership.user_id == group.owner_id and v.admin_level < PERMS["MODS_EVERY_GROUP"]:
 			stop(403, "You can't kick the group owner!")
 
 		if v.id != group.owner_id and membership.is_mod and v.admin_level < PERMS["MODS_EVERY_GROUP"]:
