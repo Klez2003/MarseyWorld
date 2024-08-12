@@ -613,7 +613,7 @@ def submit_post(v, hole=None):
 	if SITE == 'watchpeopledie.tv':
 		p.cw = request.values.get("cw", False, bool)
 
-	if SITE == 'rdrama.net' and v.id == 7015:
+	if SITE == 'rdrama.net':
 		p.ghost = True
 
 	if not p.draft:

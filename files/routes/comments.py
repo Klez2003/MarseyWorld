@@ -221,7 +221,7 @@ def comment(v):
 				sharpened=bool(v.sharpen),
 			)
 
-	if SITE == 'rdrama.net' and v.id == 7015:
+	if SITE == 'rdrama.net':
 		c.ghost = True
 
 	c.upvotes = 1
