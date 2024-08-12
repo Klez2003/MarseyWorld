@@ -42,3 +42,8 @@ class Group(Base):
 	@lazy
 	def applied_ids(self):
 		return [x.user_id for x in self.memberships if not x.approved_utc]
+
+	@property
+	@lazy
+	def permalink(self):
+		return f"{SITE_FULL}/!{self.name}"

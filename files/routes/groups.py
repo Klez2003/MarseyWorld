@@ -2,6 +2,7 @@ from files.classes import *
 from files.helpers.alerts import *
 from files.helpers.regex import *
 from files.helpers.get import *
+from files.helpers.actions import execute_under_siege
 
 from files.routes.wrappers import *
 
@@ -88,6 +89,8 @@ def join_group(v, group_name):
 
 	group = g.db.get(Group, group_name)
 	if not group: stop(404)
+
+	execute_under_siege(v, group, "ping group application")
 
 	existing = g.db.query(GroupMembership).filter_by(user_id=v.id, group_name=group_name).one_or_none()
 	if not existing:
