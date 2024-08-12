@@ -139,7 +139,7 @@ def speak(data, v):
 	g.db.flush()
 
 	execute_blackjack(v, chat_message, text, "chat")
-	execute_under_siege(v, chat_message, text, "chat")
+	execute_under_siege(v, chat_message, "chat")
 
 	data = {
 		"id": chat_message.id,
@@ -448,7 +448,7 @@ def messagereply(v):
 	g.db.add(c)
 	g.db.flush()
 	execute_blackjack(v, c, c.body_html, 'message')
-	execute_under_siege(v, c, c.body_html, 'message')
+	execute_under_siege(v, c, 'message')
 
 	if user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs and user_id not in online["messages"] and can_see(user, v):
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()

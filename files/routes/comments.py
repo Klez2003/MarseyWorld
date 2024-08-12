@@ -261,7 +261,7 @@ def comment(v):
 	execute_blackjack(v, c, c.body, "comment")
 
 	kind = "normal comment" if posting_to_post else "wall comment"
-	execute_under_siege(v, c, c.body, kind)
+	execute_under_siege(v, c, kind)
 
 	if c.level == 1: c.top_comment_id = c.id
 	else: c.top_comment_id = parent.top_comment_id

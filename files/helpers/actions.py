@@ -519,7 +519,7 @@ def execute_antispam_comment_check(body, v):
 	g.db.commit()
 	stop(403, "Too much spam!")
 
-def execute_under_siege(v, target, body, kind):
+def execute_under_siege(v, target, kind):
 	if v.shadowbanned: return
 
 	if v.admin_level >= PERMS['BYPASS_UNDER_SIEGE_MODE']: return

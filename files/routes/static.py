@@ -333,7 +333,7 @@ def submit_contact(v):
 	g.db.add(new_comment)
 	g.db.flush()
 	execute_blackjack(v, new_comment, new_comment.body_html, 'modmail')
-	execute_under_siege(v, new_comment, new_comment.body_html, 'modmail')
+	execute_under_siege(v, new_comment, 'modmail')
 	new_comment.top_comment_id = new_comment.id
 
 	return {"message": "Your message has been sent to the admins!"}

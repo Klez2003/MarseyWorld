@@ -658,7 +658,7 @@ def message(v, username=None, id=None):
 	g.db.add(c)
 	g.db.flush()
 	execute_blackjack(v, c, c.body_html, 'message')
-	execute_under_siege(v, c, c.body_html, 'message')
+	execute_under_siege(v, c, 'message')
 	c.top_comment_id = c.id
 
 	if user.id not in BOT_IDs and can_see(user, v):

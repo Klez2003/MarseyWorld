@@ -20,7 +20,7 @@ from files.__main__ import app, limiter, cache
 def report_post(pid, v):
 	post = get_post(pid)
 	reason = request.values.get("reason", "").strip()
-	execute_under_siege(v, post, reason, 'report')
+	execute_under_siege(v, post, 'report')
 	execute_blackjack(v, post, reason, 'report')
 
 	if len(reason) > 100:
@@ -89,7 +89,7 @@ def report_comment(cid, v):
 	if existing: stop(409, "You already reported this comment!")
 
 	reason = request.values.get("reason", "").strip()
-	execute_under_siege(v, comment, reason, 'report')
+	execute_under_siege(v, comment, 'report')
 	execute_blackjack(v, comment, reason, 'report')
 
 	if len(reason) > 100:

@@ -643,7 +643,7 @@ def submit_post(v, hole=None):
 		text = f"ALERT: @{v.username} has added a child warning to {p.textlink} despite the post being in /h/selfharm"
 		alert_admins(text)
 
-	execute_under_siege(v, p, p.body, 'post')
+	execute_under_siege(v, p, 'post')
 
 	process_options(v, p)
 
