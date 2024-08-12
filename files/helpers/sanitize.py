@@ -580,6 +580,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 		if has_transform:
 			del link["href"]
+			continue
 
 		if not snappy and link.string == link["href"]:
 			if link["href"].startswith('https://twitter.com/') and '/status/' in link["href"]:
