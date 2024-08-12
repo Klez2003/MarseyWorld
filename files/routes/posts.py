@@ -468,15 +468,15 @@ def submit_post(v, hole=None):
 	if v.is_permabanned or (v.is_suspended and not flag_draft):
 		stop(403, "You can't perform this action while banned!")
 
-	url = request.values.get("url", "").strip()
+	url = request.values.get("url", "").replace('\x00', '').strip()
 
 	if '\\' in url: stop(400)
 
-	title = request.values.get("title", "").strip()
+	title = '\x00' + request.values.get("title", "").replace('\x00', '').strip()
 	if len(title) > POST_TITLE_LENGTH_LIMIT:
 		stop(400, f'Post title is too long (max {POST_TITLE_LENGTH_LIMIT} characters)')
 
-	body = request.values.get("body", "").strip()
+	body = request.values.get("body", "").replace('\x00', '').strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
 		stop(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
 
@@ -485,7 +485,7 @@ def submit_post(v, hole=None):
 	if not title:
 		stop(400, "Please enter a better title!")
 
-	hole = request.values.get("hole", "").lower().replace('/h/','').strip()
+	hole = request.values.get("hole", "").lower().replace('/h/','').replace('\x00', '').strip()
 
 	if SITE == 'rdrama.net' and v.chud == 1:
 		hole = 'chudrama'
