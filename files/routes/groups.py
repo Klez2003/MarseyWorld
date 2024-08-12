@@ -218,7 +218,7 @@ def group_reject(v, group_name, user_id):
 		if membership.user_id == group.owner_id:
 			stop(403, "You can't kick the group owner!")
 
-		if v.id != group.owner_id and membership.is_mod:
+		if v.id != group.owner_id and membership.is_mod and v.admin_level < PERMS["MODS_EVERY_GROUP"]:
 			stop(403, "Only the group owner can kick mods!")
 
 	if v.id == membership.user_id:
