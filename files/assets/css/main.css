@@ -6372,7 +6372,7 @@ g {
 	font-style: normal;
 	font-weight: 900;
 	font-display: block;
-	src: url(/assets/fonts/fa-solid-900.woff2?x=1) format("woff2");
+	src: url(/assets/fonts/fa-solid-900.woff2?x=2) format("woff2");
 }
 :root {
 	--fa-font-solid: normal 900 1em/1 "Font Awesome 6 Pro";
