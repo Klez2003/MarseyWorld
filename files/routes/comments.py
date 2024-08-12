@@ -221,9 +221,6 @@ def comment(v):
 				sharpened=bool(v.sharpen),
 			)
 
-	if SITE == 'rdrama.net':
-		c.ghost = True
-
 	c.upvotes = 1
 
 	body_html = sanitize(body, limit_pings=5, showmore=(not v.hieroglyphs), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id, obj=c, author=v)

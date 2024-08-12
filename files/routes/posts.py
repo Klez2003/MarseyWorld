@@ -613,9 +613,6 @@ def submit_post(v, hole=None):
 	if SITE == 'watchpeopledie.tv':
 		p.cw = request.values.get("cw", False, bool)
 
-	if SITE == 'rdrama.net':
-		p.ghost = True
-
 	if not p.draft:
 		p.chudded = v.chud and hole != 'chudrama' and not (p.is_longpost and not v.chudded_by)
 		p.queened = v.queen and not p.is_longpost
