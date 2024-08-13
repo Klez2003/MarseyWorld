@@ -7662,12 +7662,12 @@ img[alpha]:not([alt*="#"]) {
 }
 
 .hole-banner-update-section img {
-	max-height: 300px;
-	max-width: 80%;
+	max-height: 300px !important;
+	max-width: 80% !important;
 }
 
 .hole-sidebar-update-section img {
-	max-width: 300px;
+	max-width: 300px!important;
 }
 
 .hole-settings-section h4 {
