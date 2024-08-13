@@ -7783,3 +7783,11 @@ tr:has(hideme) {
 	margin-bottom: 4rem !important;
 	border-top: 2px solid;
 }
+
+#versions .showmore {
+	display: none;
+}
+
+#versions d {
+    display: initial !important;
+}
