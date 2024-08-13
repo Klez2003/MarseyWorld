@@ -153,7 +153,7 @@ function update_inline_emoji_modal(event)
 
 	text = text.substring(begin, end);
 
-	current_word = /(^|\s|\+|-)([:!@][!#\w-]{2,}(?=\n|$))/.exec(text);
+	current_word = /(^|\s|\+|-|:)([:!@][!#\w-]{2,}(?=\n|$))/.exec(text);
 
 	if (current_word) {
 		current_word = current_word[2].toLowerCase();
