@@ -61,6 +61,7 @@ def calc_users():
 		else:
 			ddos_threshold = 2000
 
+		#not always on cuz in some cases it requires u to fill captcha on every page (reported by carp and others)
 		if g.loggedin_counter + g.loggedout_counter > ddos_threshold or (SITE == 'watchpeopledie.tv' and get_setting('login_required')):
 			if not get_setting('under_attack'):
 				set_setting('under_attack', True)
