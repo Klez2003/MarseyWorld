@@ -813,3 +813,9 @@ const formatter = new Intl.NumberFormat('en-US');
 function commas(number) {
 	return formatter.format(number)
 }
+
+for (const video of document.getElementsByTagName('video')) {
+	video.addEventListener('play', () => {
+		video.focus()
+	})
+}
