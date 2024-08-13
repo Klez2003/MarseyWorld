@@ -22,6 +22,8 @@ def can_see(user, obj):
 			if hasattr(obj, 'is_blocking') and obj.is_blocking and not request.path.endswith(f'/{obj.id}'):
 				return False
 			if obj.parent_post:
+				if request.path == '/comments' and obj.post.draft:
+					return False
 				return can_see(user, obj.post)
 			else:
 				if not user and not obj.wall_user_id: return False
