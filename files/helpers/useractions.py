@@ -1,9 +1,9 @@
 from flask import g
 
 from files.classes.badges import Badge
-from files.helpers.alerts import send_repeatable_notification
+from files.helpers.alerts import *
 
-def badge_grant(user, badge_id, description=None, url=None, notify=True):
+def badge_grant(user, badge_id, description=None, url=None, notify=True, repeat_notify=True):
 	g.db.flush()
 	existing = g.db.query(Badge).filter_by(user_id=user.id, badge_id=badge_id).one_or_none()
 	if existing: return
@@ -25,7 +25,12 @@ def badge_grant(user, badge_id, description=None, url=None, notify=True):
 	g.db.flush()
 
 	if notify:
-		notif = send_repeatable_notification(user.id,
+		if repeat_notify:
+			function = send_repeatable_notification
+		else:
+			function = send_notification
+
+		notif = function(user.id,
 			"@AutoJanny has given you the following profile badge:\n\n" +
 			f"{badge.path}\n\n**{badge.name}**\n\n{badge.badge.description}")
 		if notif:

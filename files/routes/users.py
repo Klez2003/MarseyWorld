@@ -131,8 +131,14 @@ def claim_rewards_all_users():
 
 			print(f'@{user.username} rewards claimed successfully!', flush=True)
 
-	for user in g.db.query(User).options(load_only(User.id)).order_by(User.lifetimedonated.desc()).limit(10):
-		badge_grant(badge_id=294, user=user)
+
+	top_10_patrons = g.db.query(User).options(load_only(User.id)).order_by(User.lifetimedonated.desc()).limit(10)
+
+	if set(users) & set(top_10_patrons):
+		for badge in g.db.query(Badge).filter_by(badge_id=294).all():
+			g.db.delete(badge)
+		for user in top_10_patrons:
+			badge_grant(badge_id=294, user=user, repeat_notify=False)
 
 def transfer_currency(v, username, currency_name, apply_tax):
 	MIN_CURRENCY_TRANSFER = 100
