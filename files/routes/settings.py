@@ -733,7 +733,7 @@ def settings_css(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_profilecss(v):
-	profilecss = request.values.get("profilecss", v.profilecss).strip().replace('\\', '')
+	profilecss = request.values.get("profilecss", v.profilecss).strip()
 
 	if len(profilecss) > CSS_LENGTH_LIMIT:
 		stop(400, f"Profile CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
