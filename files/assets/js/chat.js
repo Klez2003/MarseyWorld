@@ -127,7 +127,7 @@ socket.on('speak', function(json) {
 	register_new_elements(line);
 	bs_trigger(line)
 
-	if (scrolled_down()) {
+	if (scrolled_down_var) {
 		for (img of line.getElementsByClassName('img')) {
 			img.addEventListener("load", () => {
 				box.scrollTo(0, box.scrollHeight)
@@ -148,10 +148,10 @@ socket.on('speak', function(json) {
 	register_new_elements(line2);
 	bs_trigger(line2)
 
-	if (scrolled_down() && document.getElementsByClassName('chat-message').length > 250)
+	if (scrolled_down_var && document.getElementsByClassName('chat-message').length > 250)
 		document.getElementById('chat-window').firstElementChild.remove()
 
-	if (scrolled_down())
+	if (scrolled_down_var)
 		box.scrollTo(0, box.scrollHeight)
 
 	embed_twitter()
@@ -208,7 +208,7 @@ function quote(t) {
 
 	ta.focus()
 
-	if (scrolled_down()) {
+	if (scrolled_down_var) {
 		box.scrollTo(0, box.scrollHeight)
 		setTimeout(function() {
 			box.scrollTo(0, box.scrollHeight)
