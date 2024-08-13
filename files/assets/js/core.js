@@ -813,8 +813,10 @@ function commas(number) {
 	return formatter.format(number)
 }
 
-for (const video of document.getElementsByTagName('video')) {
-	video.addEventListener('play', () => {
-		video.focus()
-	})
+if (innerWidth >= 768) {
+	for (const video of document.getElementsByTagName('video')) {
+		video.addEventListener('play', () => {
+			video.focus()
+		})
+	}
 }
