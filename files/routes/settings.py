@@ -717,7 +717,7 @@ def settings_css(v):
 	if v.chud:
 		stop(400, "Chudded users can't edit CSS!")
 
-	css = request.values.get("css", v.css).strip().replace('\\', '')
+	css = request.values.get("css", v.css).strip()
 
 	if len(css) > CSS_LENGTH_LIMIT:
 		stop(400, f"CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
