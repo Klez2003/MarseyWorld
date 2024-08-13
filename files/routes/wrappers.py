@@ -143,6 +143,9 @@ def auth_desired_with_logingate(f):
 		if not v and get_setting('login_required'):
 			stop(401, "You need to login to perform this action!")
 
+		if not v and get_setting('under_attack'):
+			stop(403, "Website is under DDOS right now, please signup or login to continue to use it!")
+
 		if request.path.startswith('/logged_out'):
 			redir = request.full_path.replace('/logged_out','')
 			if not redir: redir = '/'
