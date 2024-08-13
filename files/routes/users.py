@@ -134,7 +134,7 @@ def claim_rewards_all_users():
 
 	top_10_patrons = g.db.query(User).options(load_only(User.id)).order_by(User.lifetimedonated.desc()).limit(10)
 
-	if set(users) & set(top_10_patrons):
+	if set(users) & set(top_10_patrons) or True:
 		for badge in g.db.query(Badge).filter(
 			Badge.badge_id == 294,
 			Badge.user_id.notin_({x.id for x in top_10_patrons}),
