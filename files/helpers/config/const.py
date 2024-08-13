@@ -842,7 +842,7 @@ ERROR_TITLES = {
 	410: "Gone... and Forgotten",
 	413: "Gayload Too Large",
 	415: "Weird Media Type",
-	418: "I'm a teapot",
+	418: "We need you to login",
 	429: "Too Many Requests",
 	500: "Balls-Deep Server Error",
 }
@@ -858,7 +858,7 @@ ERROR_MSGS = {
 	410: "You were too slow. The link FUCKING DIED. Request a new one and be more efficient.",
 	413: "That's a heckin' chonker of a file! Please make it smaller or maybe like upload it somewhere else idk<br>jc wrote this one hi jc!<br>- carp",
 	415: "Please upload only Image, Video, or Audio files!",
-	418: "this really shouldn't happen now that we autoconvert webm files but if it does there's a cool teapot marsey so there's that",
+	418: f'''{SITE} is currently being DDOSed. Who is behind it? The Russians? The deep state? The communists? <i>You?</i><br>We have no idea, but you'll need to either <a href="/login">log in</a> or <a href="/signup">create an account</a> to see anything while this is ongoing.<br>Sorry!''',
 	429: "go spam somewhere else nerd",
 	500: "Hiiiii it's carp! I think this error means that there's a timeout error. And I think that means something took too long to load so it decided not to work at all. If you keep seeing this on the same page <i>but not other pages</i>, then something is probably wrong with that specific function. It may not be called a function, but that sounds right to me. Anyway, <s>ping me and I'll whine to someone smarter to fix it. Don't bother them.</s> <b>After a year and a half of infuriating pings, the new instructions are to quit whining and just wait until it works again oh my god shut UP.</b><br><br> Thanks ily &lt;3",
 }
@@ -874,7 +874,7 @@ ERROR_MARSEYS = {
 	410: "marseyrave",
 	413: "marseychonker2",
 	415: "marseydetective",
-	418: "marseytea",
+	418: "marseyhacker",
 	429: "marseyrentfree",
 	500: "marseycarp3",
 }
@@ -1125,7 +1125,7 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 		410: "This link is dead. Request a new one to try again.",
 		413: "You need to upload a smaller file please.",
 		415: "Please upload only Image, Video, or Audio files!",
-		418: "this really shouldn't happen now that we autoconvert webm files but if it does there's a cool teapot marsey so there's that",
+		418: f'''{SITE} is currently being DDOSed. Who is behind it? The Russians? The deep state? The communists? <i>You?</i><br>We have no idea, but you'll need to either <a href="/login">log in</a> or <a href="/signup">create an account</a> to see anything while this is ongoing.<br>Sorry!''',
 		429: "Please wait a bit before doing that.",
 		500: "Internal Server Error. Something went very wrong when trying to fulfill your request. Try refreshing the page. If it still doesn't work, shoot <a href='/@CLiTPEELER'>@CLiTPEELER</a> a message.",
 	}

@@ -3,7 +3,7 @@
 {% block pagetype %}error{% endblock %}
 {% block content %}
 	<div class="row justify-content-center">
-		<div class="col-10 col-md-5">
+		<div class="col-10 col-md-7">
 			<div class="text-center px-3 my-5">
 				{% if img -%}
 					<img alt=":#{{img}}:" loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{img}}.webp">
@@ -13,10 +13,10 @@
 				{% if details -%}
 					<blockquote class="error-details mb-4 py-2">{{details|safe}}</blockquote>
 				{%- endif %}
-				{% if title == 'THIS IS AN 18+ WEBSITE' %}
+				{% if code == 406 %}
 					<div><a href="/contact" class="btn btn-primary mt-1">Contact Admins</a></div>
 					<script defer src="{{'js/underage.js' | asset}}"></script>
-				{% else %}
+				{% elif code != 418 %}
 					<div><a href="/" class="btn btn-primary mt-3">Go to frontpage</a></div>
 				{% endif %}
 			</div>
