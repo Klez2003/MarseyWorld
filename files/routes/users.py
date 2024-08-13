@@ -135,7 +135,10 @@ def claim_rewards_all_users():
 	top_10_patrons = g.db.query(User).options(load_only(User.id)).order_by(User.lifetimedonated.desc()).limit(10)
 
 	if set(users) & set(top_10_patrons):
-		for badge in g.db.query(Badge).filter_by(badge_id=294).all():
+		for badge in g.db.query(Badge).filter(
+			Badge.badge_id == 294,
+			Badge.user_id.notin_({x.id for x in top_10_patrons}),
+		).all():
 			g.db.delete(badge)
 		for user in top_10_patrons:
 			badge_grant(badge_id=294, user=user, repeat_notify=False)
