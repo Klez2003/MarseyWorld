@@ -3679,6 +3679,7 @@ ol > li::before {
 	color: var(--gray-200);
 	font-weight: 400;
 	padding: 0.75rem 1rem;
+	border-bottom: 3px solid transparent;
 }
 .settings-nav .nav-item {
 	font-size: 1rem;
