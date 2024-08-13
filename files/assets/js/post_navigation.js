@@ -25,6 +25,9 @@ if (post_permalinks) {
 					!(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) &&
 					!expandImageModal.classList.contains('show')
 				) {
+					for (const video of document.getElementsByTagName('video'))
+						if (!video.paused) return
+
 					if (["ArrowRight", "d"].includes(e.key))
 						location.href = permalink_after.slice(1, -1)
 					if (["ArrowLeft", "a"].includes(e.key))
