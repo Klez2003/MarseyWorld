@@ -237,13 +237,13 @@ def speak(data, v):
 			membership.notification = True
 			g.db.add(membership)
 
-		uids = set(x.user_id for x in memberships)
+		notify_users -= alrdy_here
+
+		uids = set(x.user_id for x in memberships if x.user_id not in notify_users)
 		title = f'New messages in "{chat.name}"'
 		body = ''
 		url = f'{SITE_FULL}/chat/{chat.id}'
 		push_notif(uids, title, body, url, chat_id=chat.id)
-
-		notify_users -= alrdy_here
 
 		if notify_users:
 			memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
