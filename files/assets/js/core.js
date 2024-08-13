@@ -421,9 +421,8 @@ if (!location.pathname.startsWith('/chat/') && (gbrowser == 'iphone' || gbrowser
 
 function focusSearchBar(element)
 {
-	if (innerWidth >= 768) {
+	if (innerWidth >= 768)
 		element.focus();
-	}
 }
 
 let MINFLIES;
