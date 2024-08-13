@@ -74,7 +74,7 @@ socket.on('speak', function(json) {
 		document.getElementsByClassName('avatar-pic')[0].src = '/pp/' + json.user_id
 
 		if (json.hat)
-			document.getElementsByClassName('avatar-hat')[0].src = json.hat + "?h=7"
+			document.getElementsByClassName('avatar-hat')[0].src = json.hat + "?h=8"
 		else
 			document.getElementsByClassName('avatar-hat')[0].removeAttribute("src")
 

@@ -110,7 +110,7 @@ document.addEventListener("click", function(e) {
 		popover.getElementsByClassName('pop-banner')[0].src = author["bannerurl"]
 		popover.getElementsByClassName('pop-picture')[0].src = author["profile_url"]
 		if (author["hat"]) {
-			popover.getElementsByClassName('pop-hat')[0].src = author['hat'] + "?h=7"
+			popover.getElementsByClassName('pop-hat')[0].src = author['hat'] + "?h=8"
 		}
 		else {
 			popover.getElementsByClassName('pop-hat')[0].removeAttribute('src');
