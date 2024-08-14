@@ -233,7 +233,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 				if not commenters_ping_post_id:
 					stop(403, "You can only use !commenters in comments made under posts!")
 				group = None
-				member_ids = {x[0] for x in g.db.query(User.id).join(Comment, Comment.author_id == User.id).filter(Comment.parent_post == commenters_ping_post_id)} - {v.id}
+				member_ids = {x[0] for x in g.db.query(User.id).join(Comment, Comment.author_id == User.id).filter(Comment.parent_post == commenters_ping_post_id)} - {v.id} #to force it to charge
 			else:
 				group = g.db.get(Group, i.group(1))
 				if not group: continue
