@@ -239,7 +239,7 @@ def speak(data, v):
 
 		notify_users -= alrdy_here
 
-		uids = set(x.user_id for x in memberships if x.user_id not in notify_users)
+		uids = {x.user_id for x in memberships if x.user_id not in notify_users}
 		title = f'New messages in "{chat.name}"'
 		body = ''
 		url = f'{SITE_FULL}/chat/{chat.id}'
@@ -254,7 +254,7 @@ def speak(data, v):
 				membership.mentions += 1
 				g.db.add(membership)
 
-			uids = set(x.user_id for x in memberships)
+			uids = {x.user_id for x in memberships}
 			title = f'New mention of you in "{chat.name}"'
 			body = chat_message.text
 			url = f'{SITE_FULL}/chat/{chat.id}#{chat_message.id}'
