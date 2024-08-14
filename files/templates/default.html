@@ -55,8 +55,6 @@
 							{% set banner_url = 'cached.webp' | asset_siteimg %}
 						{%- elif SITE_NAME == 'rDrama' and v and v.chud %}
 							{% set banner_url = '/banners/1802.webp' | asset_siteimg %}
-						{% elif SITE_NAME == 'rDrama' %}
-							{% set banner_url = "https://i.rdrama.net/assets/images/rDrama/banners/" ~ kamala_art('banners')|seeded_random(p) ~ '?x=11' %}
 						{%- else -%}
 							{% set banner_url = macros.random_image("assets/images/" ~ SITE_NAME ~ "/banners") %}
 						{%- endif -%}

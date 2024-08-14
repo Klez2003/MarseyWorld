@@ -24,9 +24,6 @@
 	{% elif v and v.chud %}
 		{% set image = SITE_FULL_IMAGES + "/i/rDrama/sidebar/2317.webp?x=11" %}
 		{% set expanded_image = image|expand_art %}
-	{% elif SITE_NAME == 'rDrama' %}
-		{% set image = "https://i.rdrama.net/assets/images/rDrama/sidebar/" ~ kamala_art('sidebar')|seeded_random(p) ~ '?x=11' %}
-		{% set expanded_image = image|expand_art %}
 	{% else %}
 		{% set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") %}
 		{% set expanded_image = image|expand_art %}
@@ -34,9 +31,7 @@
 
 
 	{% if request.path != '/sidebar' %}
-		{% if SITE_NAME == 'rDrama' and range(10)|random == 0 %}
-			<video class="mb-4" poster="https://i.rdrama.net/images/17227894841514528.webp" controls loop preload="none" src="https://rdrama.net/videos/17227894838397655.mp4"></video>
-		{% elif IS_HOMOWEEN() and not (hole and hole.sidebarurls) %}
+		{% if IS_HOMOWEEN() and not (hole and hole.sidebarurls) %}
 			{% include "events/homoween/eye_tracking.html" %}
 		{% elif not (hole and hole.name == 'chudrama' and v and not v.can_see_chudrama) %}
 			{% if not expanded_image %}
