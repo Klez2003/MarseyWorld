@@ -402,10 +402,10 @@ def execute_longpostbot(c, level, body, body_html, post, v):
 	push_notif({v.id}, f'New reply by @{c2.author_name}', c2.body, c2)
 
 
-def tempban_for_spam(v):
+def tempban_for_spam(v, num):
 	text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
 	send_repeatable_notification(v.id, text)
-	v.ban(reason="Spam", days=1)
+	v.ban(reason=f"Spam-{num}", days=1)
 
 	ma = ModAction(
 		kind="ban_user",
@@ -442,7 +442,7 @@ def execute_antispam_post_check(title, v, url):
 	elif v.age >= (60 * 60 * 24): threshold *= 2
 
 	if max(len(similar_urls), len(similar_posts)) >= threshold:
-		tempban_for_spam(v)
+		tempban_for_spam(v, 1)
 
 		for post in similar_posts + similar_urls:
 			post.is_banned = True
@@ -475,7 +475,7 @@ def execute_antispam_duplicate_comment_check(v, body_html):
 										  Comment.created_utc >= compare_time).count()
 	if count <= ANTISPAM_DUPLICATE_THRESHOLD: return
 
-	tempban_for_spam(v)
+	tempban_for_spam(v, 2)
 
 	g.db.commit()
 	stop(403, "Too much spam!")
@@ -503,7 +503,7 @@ def execute_antispam_comment_check(body, v):
 
 	if len(similar_comments) <= threshold: return
 
-	tempban_for_spam(v)
+	tempban_for_spam(v, 3)
 
 	for comment in similar_comments:
 		comment.is_banned = True
