@@ -35,10 +35,10 @@ def lottery_active(v):
 
 	return {"message": "", "stats": {"user": v.lottery_stats, "lottery": lottery, "participants": participants}}
 
-@app.get("/admin/lottery/participants")
+@app.get("/lottery/participants")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['LOTTERY_VIEW_PARTICIPANTS'])
-def lottery_admin(v):
+@auth_required
+def lottery_participants(v):
 	participants = get_users_participating_in_lottery()
-	return render_template("admin/lottery.html", v=v, participants=participants)
+	return render_template("lottery_participants.html", v=v, participants=participants)

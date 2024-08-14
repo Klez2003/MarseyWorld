@@ -109,13 +109,6 @@
 		</ul>
 	{%- endif %}
 
-	{% if FEATURES['GAMBLING'] and v.admin_level >= PERMS['LOTTERY_VIEW_PARTICIPANTS'] -%}
-		<h4>Casino</h4>
-		<ul>
-			<li><a href="/admin/lottery/participants">Participants</a></li>
-		</ul>
-	{%- endif %}
-
 	<h4>Statistics</h4>
 	<ul>
 		<li><a href="/stats">Statistics</a></li>
