@@ -21,7 +21,7 @@
 												<a class="nav-link{% if request.path == '/admins' %} active{% endif %}" href="/admins"><i class="fas fa-crown pr-2"></i>Admins</a>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link{% if request.path == '/log' %} active{% endif %}" href="/log"><i class="fas fa-scroll-old pr-2"></i>Moderation Log</a>
+												<a class="nav-link{% if request.path.startswith('/log') %} active{% endif %}" href="/log"><i class="fas fa-scroll-old pr-2"></i>Moderation Log</a>
 											</li>
 											<li class="nav-item">
 												<a class="nav-link{% if request.path == '/banned' %} active{% endif %}" href="/banned"><i class="fas fa-user-slash pr-2"></i>Banned Users</a>
@@ -52,7 +52,7 @@
 									<a style="padding: 0.75rem 1rem" class="nav-link{% if request.path == '/admins' %} active{% endif %}" href="/admins"><i class="fas fa-crown text-lg mr-0"></i></a>
 								</li>
 								<li class="nav-item">
-									<a style="padding: 0.75rem 1rem" class="nav-link{% if request.path == '/log' %} active{% endif %}" href="/log"><i class="fas fa-scroll-old text-lg mr-0"></i></a>
+									<a style="padding: 0.75rem 1rem" class="nav-link{% if request.path.startswith('/log') %} active{% endif %}" href="/log"><i class="fas fa-scroll-old text-lg mr-0"></i></a>
 								</li>
 								<li class="nav-item">
 									<a style="padding: 0.75rem 1rem" class="nav-link{% if request.path == '/banned' %} active{% endif %}" href="/banned"><i class="fas fa-user-slash text-lg mr-0"></i></a>
