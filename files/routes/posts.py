@@ -412,7 +412,7 @@ def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, e
 
 		p = g.db.query(Post).filter_by(id=pid).options(load_only(Post.author_id)).one_or_none()
 
-		thumburl = process_image(name, None, resize=200, uploader_id=p.author_id)
+		thumburl = process_image(name, None, resize=199, uploader_id=p.author_id)
 
 		if thumburl:
 			p.thumburl = thumburl
@@ -667,13 +667,13 @@ def submit_post(v, hole=None):
 
 			name2 = name.replace('.webp', 'r.webp')
 			copyfile(name, name2)
-			p.thumburl = process_image(name2, v, resize=200)
+			p.thumburl = process_image(name2, v, resize=199)
 		elif file.content_type.startswith('video/'):
 			p.url, p.posterurl, name = process_video(file, v)
 			if p.posterurl:
 				name2 = name.replace('.webp', 'r.webp')
 				copyfile(name, name2)
-				p.thumburl = process_image(name2, v, resize=200)
+				p.thumburl = process_image(name2, v, resize=199)
 		elif file.content_type.startswith('audio/'):
 			p.url = process_audio(file, v)
 		else:

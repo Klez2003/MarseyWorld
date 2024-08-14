@@ -253,7 +253,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 
 			oldformat = i.format
 			params = ["magick"]
-			if resize == 99: params.append(f"{filename}[0]")
+			if resize == 199: params.append(f"{filename}[0]")
 			else: params.append(filename)
 			params.extend(["-coalesce", "-quality", "88", "-strip", "-auto-orient"])
 			if trim and len(list(Iterator(i))) == 1:
