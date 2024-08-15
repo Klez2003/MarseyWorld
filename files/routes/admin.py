@@ -408,12 +408,12 @@ def change_settings(v, setting):
 	if setting == "offline_mode" and v.admin_level < PERMS["SITE_OFFLINE_MODE"]:
 		stop(403, "You can't change this setting!")
 
-	if setting == "login_required" and SITE == 'watchpeopledie.tv' and v.id != AEVANN_ID:
-		stop(403, "You can't change this setting!")
-
 	val = toggle_setting(setting)
 	if val: word = 'enable'
 	else: word = 'disable'
+
+	if setting == "login_required" and word == "enable" and SITE == 'watchpeopledie.tv' and v.id != AEVANN_ID:
+		stop(403, "You can't enable this setting!")
 
 	if setting == "under_attack":
 		new_security_level = 'under_attack' if val else 'high'
