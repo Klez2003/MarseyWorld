@@ -742,6 +742,7 @@ LONGPOSTBOT_REPLIES = (
 	":#marseywords:",
 	"https://i.rdrama.net/images/17227070857606635.webp",
 	"https://i.rdrama.net/images/1722961672231166.webp",
+	"https://rdrama.net/videos/17237300317466774.mp4",
 )
 
 CHUD_MSGS = (
