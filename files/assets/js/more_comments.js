@@ -16,6 +16,8 @@ function more_comments(cid, sort) {
 			bs_trigger(e)
 
 			highlight_unread("old-comment-counts")
+
+			embed_twitter()
 		}
 		btn.disabled = false;
 	}

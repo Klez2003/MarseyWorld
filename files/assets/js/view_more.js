@@ -15,6 +15,8 @@ function view_more(t, pid, sort, offset) {
 			bs_trigger(e)
 
 			highlight_unread("old-comment-counts")
+
+			embed_twitter()
 		}
 		btn.disabled = false;
 	}
