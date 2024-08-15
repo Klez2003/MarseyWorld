@@ -7786,3 +7786,12 @@ tr:has(hideme) {
 .text-coconut {
 	color: #965a3e;
 }
+
+audio {
+	width: 500px;
+}
+@media (max-width: 768px) {
+	audio {
+		width: 100%;
+	}
+}
