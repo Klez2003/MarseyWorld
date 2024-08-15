@@ -155,6 +155,7 @@
 										{% if id %}
 											<iframe id="external-embed" src="https://www.teamblind.com/embed/{{id}}" height="500" width="500" style="max-width:100%"></iframe>
 										{% endif %}
+										<script defer src="{{'js/blind_embed.js' | asset}}"></script>
 									{% elif p.url.startswith('https://instagram.com/') %}
 										{% set path = p.url.split('https://instagram.com/')[1].rstrip('/') %}
 										{% if '/' in path %}
