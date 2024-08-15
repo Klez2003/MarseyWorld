@@ -585,7 +585,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		if not snappy and link.string == link["href"]:
 			if link["href"].startswith('https://twitter.com/') and '/status/' in link["href"]:
 				try:
-					embed = requests.get("https://publish.twitter.com/oembed", params={"url":link["href"], "omit_script":"t"}, headers=HEADERS, timeout=5).json()["html"]
+					embed = requests.get("https://publish.twitter.com/oembed", params={"url":link["href"], "omit_script":"t", "dnt":"t"}, headers=HEADERS, timeout=5).json()["html"]
 				except:
 					pass
 				else:

@@ -543,7 +543,7 @@ def submit_post(v, hole=None):
 
 		if domain == "twitter.com" and '/status/' in url:
 			try:
-				embed = requests.get("https://publish.twitter.com/oembed", params={"url":url, "omit_script":"t"}, headers=HEADERS, timeout=5).json()["html"]
+				embed = requests.get("https://publish.twitter.com/oembed", params={"url":url, "omit_script":"t", "dnt":"t"}, headers=HEADERS, timeout=5).json()["html"]
 				embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
 			except: pass
 		elif url.startswith('https://youtube.com/watch?'):
