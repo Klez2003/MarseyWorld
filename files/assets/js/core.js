@@ -1,3 +1,4 @@
+const SITE_NAME = document.querySelector("[name='application-name']").content
 const SITE_FULL_IMAGES = document.getElementById('SITE_FULL_IMAGES').value
 
 function getMessageFromJsonData(success, json) {

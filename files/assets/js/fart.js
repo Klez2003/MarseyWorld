@@ -1,5 +1,5 @@
 fart = Math.floor(Math.random() * 5) + 1
-let audio = new Audio(`/i/${fart}.webp`);
+let audio = new Audio(`/i/${SITE_NAME}/${fart}.webp`);
 
 audio.play();
 if (audio.paused) {
