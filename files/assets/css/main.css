@@ -7791,3 +7791,7 @@ tr:has(hideme) {
 #versions d {
     display: initial !important;
 }
+
+#category-filter * {
+	cursor: pointer;
+}
