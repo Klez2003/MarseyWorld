@@ -1249,6 +1249,8 @@ approved_embed_hosts = [
 	# 3) #2 but pre-stored, ex: s.lain.la 302 with jannie DM attack.
 	# 4) Use the exact subdomain.
 
+	### dont allow external-content.duckduckgo.com, it gets wiped after 18 months
+
 	### First-Party
 	'rdrama.net',
 	'i.rdrama.net',
