@@ -69,7 +69,7 @@
 									<i class="fas fa-filter mr-1"></i>
 									Category Filter
 								</button>
-								<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px">
+								<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; cursor: pointer">
 									{% for category, icon in CATEGORIES_ICONS.items() %}
 										<div class="custom-control custom-checkbox pl-4 dropdown-item">
 											<input autocomplete="off" type="checkbox" class="custom-control-input" id="category-{{category}}" data-nonce="{{g.nonce}}" data-onchange="postToastReload(this, '/toggle_category/{{category}}')" {% if session.get(category, True) %}checked{% endif %}>
