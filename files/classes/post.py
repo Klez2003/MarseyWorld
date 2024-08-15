@@ -450,6 +450,7 @@ class Post(Base):
 			min_lines = 20
 
 		if self.body_html.count('<p>') < min_lines:
+			print(1, self.body_html.count('<p>'), flush=True)
 			return False
 
 		soup = BeautifulSoup(self.body_html, 'lxml')
@@ -459,6 +460,7 @@ class Post(Base):
 			post_char_count += len(tag.text)
 
 		if post_char_count < min_chars:
+			print(2, post_char_count, flush=True)
 			return False
 
 		return True
