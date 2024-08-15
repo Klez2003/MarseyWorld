@@ -148,7 +148,7 @@
 									{% elif p.url.startswith('https://tiktok.com/@') %}
 										{% set id = p.url.split('/video/')[1] %}
 										{% if id %}
-											<iframe id="external-embed" src="https://www.tiktok.com/embed/{{id}}" height="756" width="325"></iframe>
+											<iframe id="external-embed" scrolling="no" src="https://www.tiktok.com/embed/{{id}}" height="756" width="325"></iframe>
 										{% endif %}
 									{% elif p.url.startswith('https://www.teamblind.com/') %}
 										{% set id = p.url.split('-')[-1] %}
@@ -160,12 +160,11 @@
 										{% set path = p.url.split('https://instagram.com/')[1].rstrip('/') %}
 										{% if '/' in path %}
 											{% set path = path + '/embed/captioned' %}
-											{% set class = "instagram-post-embed" %}
 										{% else %}
 											{% set path = path + '/embed' %}
-											{% set class = "instagram-profile-embed" %}
 										{% endif %}
-										<iframe id="external-embed" class="{{class}}" src="https://www.instagram.com/{{path}}" style="width:calc(100% - 2px);min-width:326px;max-width:540px"></iframe>
+										<iframe id="external-embed" scrolling="no" src="https://www.instagram.com/{{path}}" style="width:calc(100% - 2px);min-width:326px;max-width:540px"></iframe>
+										<script defer src="{{'js/instagram_embed.js' | asset}}"></script>
 									{% elif p.domain.endswith('substack.com') %}
 										{% if 'substack.com/p/' in p.url and p.url.count('/') == 4 %}
 											<iframe id="external-embed" scrolling="no" src="{{p.url.replace('substack.com/p/', 'substack.com/embed/p/')}}?origin={{SITE_FULL}}" height="500" width="500" style="max-width:100%"></iframe>
