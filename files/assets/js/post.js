@@ -1,3 +1,18 @@
+const autoresizable = document.querySelector('#external-embed.autoresizable')
+if (autoresizable) {
+	addEventListener('message', function (e) {
+		if (e.origin == "https://www.teamblind.com" && e.data.height)
+			autoresizable.height = e.data.height;
+		if (e.origin == "https://www.instagram.com") {
+			const height = JSON.parse(e.data).details.height
+			if (height)
+				autoresizable.height = height;
+		}
+		if (e.origin.endsWith('.substack.com') && e.data.iframeHeight)
+			autoresizable.height = e.data.iframeHeight;
+	});
+}
+
 function highlight_unread(localstoragevar) {
 	const comments = JSON.parse(localStorage.getItem(localstoragevar)) || {}
 
