@@ -154,6 +154,7 @@ socket.on('speak', function(json) {
 	if (scrolled_down_var)
 		box.scrollTo(0, box.scrollHeight)
 
+	embed_twitter()
 	embed_reddit()
 })
 
