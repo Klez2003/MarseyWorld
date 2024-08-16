@@ -7735,7 +7735,7 @@ img[src$="/e/speechbubble.webp"] {
 	margin-bottom: 10px;
 }
 
-.reddit-embed {
+.twitter-embed, .reddit-embed {
 	border: none;
 	display: inline !important;
 	width: 552px;

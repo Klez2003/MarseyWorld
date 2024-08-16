@@ -541,12 +541,7 @@ def submit_post(v, hole=None):
 				if combined.startswith(x.domain):
 					stop(400, f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
-		if domain == "x.com" and '/status/' in url:
-			try:
-				embed = requests.get("https://publish.x.com/oembed", params={"url":url, "omit_script":"t", "dnt":"t"}, headers=HEADERS, timeout=5).json()["html"]
-				embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
-			except: pass
-		elif url.startswith('https://youtube.com/watch?'):
+		if url.startswith('https://youtube.com/watch?'):
 			embed = handle_youtube_links(url)
 		elif SITE in domain and "/post/" in url and "context" not in url and url.count('/') < 6:
 			id = url.split("/post/")[1]

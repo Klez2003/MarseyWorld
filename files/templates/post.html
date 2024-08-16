@@ -122,9 +122,7 @@
 								{% endif %}
 
 								{% if p.embed %}
-									{% if p.domain == "x.com" %}
-										{{p.embed | safe}}
-									{% elif p.domain in ['youtu.be','youtube.com'] and p.embed.startswith('<lite-youtube') %}
+									{% if p.domain in ['youtu.be','youtube.com'] and p.embed.startswith('<lite-youtube') %}
 										<p class="resizable yt" style="width:100%">
 											{{p.embed | safe}}
 										</p>
@@ -142,7 +140,7 @@
 								{% endif %}
 
 								{% if p.url %}
-									{% if p.url.startswith('https://old.reddit.com/r/') and not p.url.endswith('/new/') %}
+									{% if (p.url.startswith('https://old.reddit.com/r/') and not p.url.endswith('/new/')) or (p.url.startswith('https://x.com/') and '/status/' in p.url) %}
 										<a rel="nofollow noopener" href="{{p.url}}"></a>
 										<pre></pre>
 									{% elif p.url.startswith('https://tiktok.com/@') %}
