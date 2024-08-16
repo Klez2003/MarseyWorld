@@ -452,7 +452,7 @@ def execute_antispam_post_check(title, v, url):
 			ma = ModAction(
 					user_id=AUTOJANNY_ID,
 					target_post_id=post.id,
-					kind="ban_post",
+					kind="remove_post",
 					_note="Spam"
 					)
 			g.db.add(ma)
@@ -512,7 +512,7 @@ def execute_antispam_comment_check(body, v):
 		ma = ModAction(
 			user_id=AUTOJANNY_ID,
 			target_comment_id=comment.id,
-			kind="ban_comment",
+			kind="remove_comment",
 			_note="Spam"
 		)
 		g.db.add(ma)

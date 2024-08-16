@@ -237,10 +237,10 @@ def revert_actions(v, username):
 
 	cutoff = int(time.time()) - 86400
 
-	posts = [x[0] for x in g.db.query(ModAction.target_post_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_post')]
+	posts = [x[0] for x in g.db.query(ModAction.target_post_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'remove_post')]
 	posts = g.db.query(Post).filter(Post.id.in_(posts)).all()
 
-	comments = [x[0] for x in g.db.query(ModAction.target_comment_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_comment')]
+	comments = [x[0] for x in g.db.query(ModAction.target_comment_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'remove_comment')]
 	comments = g.db.query(Comment).filter(Comment.id.in_(comments)).all()
 
 	for item in posts + comments:
@@ -1403,7 +1403,7 @@ def remove_post(post_id, v):
 	g.db.add(post)
 
 	ma = ModAction(
-		kind="ban_post",
+		kind="remove_post",
 		user_id=v.id,
 		target_post_id=post.id,
 		)
@@ -1431,7 +1431,7 @@ def approve_post(post_id, v):
 
 	if post.is_banned:
 		ma = ModAction(
-			kind="unban_post",
+			kind="approve_post",
 			user_id=v.id,
 			target_post_id=post.id,
 		)
@@ -1614,7 +1614,7 @@ def remove_comment(c_id, v):
 	comment.ban_reason = v.username
 	g.db.add(comment)
 	ma = ModAction(
-		kind="ban_comment",
+		kind="remove_comment",
 		user_id=v.id,
 		target_comment_id=comment.id,
 		)
@@ -1641,7 +1641,7 @@ def approve_comment(c_id, v):
 
 	if comment.is_banned:
 		ma = ModAction(
-			kind="unban_comment",
+			kind="approve_comment",
 			user_id=v.id,
 			target_comment_id=comment.id,
 			)

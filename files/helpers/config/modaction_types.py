@@ -21,7 +21,7 @@ MODACTION_TYPES = {
 		"icon": 'fa-badge',
 		"color": 'bg-danger'
 	},
-	'ban_comment': {
+	'remove_comment': {
 		"str": 'removed {self.target_link}',
 		"icon": 'fa-comment',
 		"color": 'bg-danger'
@@ -31,7 +31,7 @@ MODACTION_TYPES = {
 		"icon": 'fa-globe',
 		"color": 'bg-danger'
 	},
-	'ban_post': {
+	'remove_post': {
 		"str": 'removed post {self.target_link}',
 		"icon": 'fa-feather-alt',
 		"color": 'bg-danger'
@@ -341,7 +341,7 @@ MODACTION_TYPES = {
 		"icon": 'fa-snooze',
 		"color": 'bg-success'
 	},
-	'unban_comment': {
+	'approve_comment': {
 		"str": 'reinstated {self.target_link}',
 		"icon": 'fa-comment',
 		"color": 'bg-success'
@@ -351,7 +351,7 @@ MODACTION_TYPES = {
 		"icon": 'fa-globe',
 		"color": 'bg-success'
 	},
-	'unban_post': {
+	'approve_post': {
 		"str": 'reinstated post {self.target_link}',
 		"icon": 'fa-feather-alt',
 		"color": 'bg-success'
