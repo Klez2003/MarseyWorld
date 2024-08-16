@@ -36,7 +36,10 @@ def sort_objects(sort, objects, cls):
 		ti = int(time.time()) + 3600
 		metric = cls.realupvotes + 1
 		if cls.__name__ == "Post": metric += cls.comment_count/5
-		return objects.order_by(-1000000*(metric / func.power(((ti - cls.created_utc)/1000), 1.4)), cls.created_utc.desc())
+		else:
+			if SITE_NAME == 'rDrama': comment_churn_rate = 1.5
+			else: comment_churn_rate = 1.3
+		return objects.order_by(-1000000*(metric / func.power(((ti - cls.created_utc)/1000), comment_churn_rate)), cls.created_utc.desc())
 	elif sort == "views" and cls.__name__ == "Post":
 		return objects.order_by(cls.views.desc(), cls.created_utc.desc())
 	elif sort == "bump" and cls.__name__ == "Post":
