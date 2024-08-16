@@ -99,7 +99,7 @@ def lemmy_mentions_task():
 				if 'erdrama' in text.lower(): continue
 
 				permalink = thing['ap_id']
-				text =  f'New site mention by {author_string}\n\n{permalink}\n\n{text}'
+				text =  f'New site mention by {author_string}\n\n**{permalink}**\n\n{text}'
 				try: created_utc = int(time.mktime(time.strptime(thing['published'].split('.')[0], "%Y-%m-%dT%H:%M:%S")))
 				except: created_utc = int(time.mktime(time.strptime(thing['published'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
 				if notify(text, created_utc) == 1: break
@@ -127,7 +127,7 @@ def fourchan_mentions_task():
 				text = f'<blockquote><p>{thing["title"]}</p></blockquote><br><blockquote><p>{thing["comment"]}</p></blockquote>'
 				permalink = f'https://archived.moe/{board}/thread/{thread_num}'
 
-			text = f'New site mention by {author_string}\n\n{permalink}\n\n{text}'
+			text = f'New site mention by {author_string}\n\n**{permalink}**\n\n{text}'
 			created_utc = thing["timestamp"]
 			if notify(text, created_utc) == 1: break
 
@@ -145,6 +145,6 @@ def soyjak_mentions_task():
 			if 'erdrama' in text.lower(): continue
 			if 'rdrama won' in text.lower(): continue
 			permalink = thing['url']
-			text =  f'New site mention\n\n{permalink}\n\n{text}'
+			text =  f'New site mention\n\n**{permalink}**\n\n{text}'
 			created_utc = int(time.mktime(time.strptime(thing['date'].split('.')[0], "%Y-%m-%dT%H:%M:%S")))
 			if notify(text, created_utc) == 1: break
