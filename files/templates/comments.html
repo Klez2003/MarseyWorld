@@ -851,11 +851,7 @@
 	</div>
 {% endif %}
 
-{% if v and v.theme in LIGHT_THEMES %}
-	<script defer src="{{'js/vendor/twitterlight.js' | asset}}"></script>
-{% else %}
-	<script defer src="{{'js/vendor/twitter.js' | asset}}"></script>
-{% endif %}
+<script defer src="{{'js/vendor/twitter.js' | asset}}"></script>
 <script defer src="{{'js/reddit_embed.js' | asset}}"></script>
 
 </body>
