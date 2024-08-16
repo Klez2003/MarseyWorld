@@ -29,7 +29,6 @@ def allowed_attributes(tag, name, value):
 			return True
 		if name == 'rel' and value == 'nofollow noopener': return True
 		if name == 'target' and value == '_blank': return True
-		if name == 'class' and value == 'reddit-embed-bq': return True
 
 	if tag == 'img':
 		if name in {'src','data-src'}: return is_safe_url(value)
