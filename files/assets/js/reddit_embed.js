@@ -10,7 +10,7 @@ function embed_reddit() {
 		iframe_src += "?context=1&showtitle=true"
 		if (document.body.dataset.dark)
 			iframe_src += "&theme=dark"
-		a.innerHTML = `<iframe class="reddit-embed" loading="lazy" height="500" src="${iframe_src}" credentialless="true" scrolling="no" sandbox="allow-scripts allow-popups"></iframe>`
+		a.innerHTML = `<iframe class="reddit-embed" loading="lazy" height="240" src="${iframe_src}" credentialless="true" scrolling="no" sandbox="allow-scripts allow-popups"></iframe>`
 	}
 }
 embed_reddit()
