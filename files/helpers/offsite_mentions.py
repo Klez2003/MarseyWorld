@@ -67,7 +67,7 @@ def reddit_mentions_task():
 
 			author_string = f"/u/{thing['author']}"
 			permalink = 'https://old.reddit.com' + thing['permalink']
-			text =  f'New site mention by {author_string}\n\n{permalink}\n\n{text}'
+			text =  f'New site mention by {author_string}\n\n**{permalink}**\n\n{text}'
 			created_utc = thing['created_utc']
 			if notify(text, created_utc) == 1: break
 
