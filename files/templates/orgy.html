@@ -14,17 +14,19 @@
 			<h5 class="mt-2 mb-3 ml-1 d-mob-none" style="display:inline-block">{{orgy.title}}</h5> 
 			<b class="mt-2 mb-2 ml-1 text-small d-md-none" style="display:inline-block">{{orgy.title}}</b> 
 
-			{% if v.id in chat.mod_ids %}
-				<a href="/chat/{{chat.id}}/orgies" class="chat-control fas fa-tv text-muted mx-2"></a>
+			{% if chat.id != 1 %}
+				{% if v.id in chat.mod_ids %}
+					<a href="/chat/{{chat.id}}/orgies" class="chat-control fas fa-tv text-muted mx-2"></a>
 
-				<a href="/chat/{{chat.id}}/custom_css" class="chat-control fas fa-palette text-muted ml-2"></a>
-			{% else %}
-				<button class="px-2" type="button" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" title="{% if muting_chat %}Unmute (do it){% else %}Mute (don't do it){% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this, '/chat/{{chat.id}}/toggle_mute')">
-					<i class="fas fa-bell-slash {% if muting_chat %}text-danger{% else %}text-muted{% endif %}"></i>
-				</button>
+					<a href="/chat/{{chat.id}}/custom_css" class="chat-control fas fa-palette text-muted ml-2"></a>
+				{% else %}
+					<button class="px-2" type="button" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" title="{% if muting_chat %}Unmute (do it){% else %}Mute (don't do it){% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this, '/chat/{{chat.id}}/toggle_mute')">
+						<i class="fas fa-bell-slash {% if muting_chat %}text-danger{% else %}text-muted{% endif %}"></i>
+					</button>
+				{% endif %}
+
+				<button id="leave-private-chat" type="submit" class="btn btn-danger fl-r mt-1 mt-md-2 pt-0 px-2 mr-1 text-small-sm" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/chat/{{chat.id}}/leave')">Leave</button>
 			{% endif %}
-
-			<button id="leave-private-chat" type="submit" class="btn btn-danger fl-r mt-1 mt-md-2 pt-0 px-2 mr-1 text-small-sm" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/chat/{{chat.id}}/leave')">Leave</button>
 
 			<div>
 				<p id="orgy-file-container" class="resizable">
