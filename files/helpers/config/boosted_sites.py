@@ -78,6 +78,7 @@ BOOSTED_SITES = {
 	'redscare.cafe',
 	'chimpout.com',
 	'xoxohth.com',
+	'fakeologist.com',
 
 	#nested-comments
 	#'all sites with .win TLD',
