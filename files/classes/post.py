@@ -202,7 +202,7 @@ class Post(Base):
 			return f"{SITE_FULL_IMAGES}/i/default_thumb_audio.webp?x=11"
 		elif self.domain == SITE:
 			return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?x=11"
-		elif self.domain == 'twitter.com':
+		elif self.domain == 'x.com':
 			if SITE == 'rdrama.net':
 				return "https://i.rdrama.net/images/17104844257987864.webp"
 			elif SITE == 'watchpeopledie.tv':

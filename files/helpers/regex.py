@@ -141,7 +141,7 @@ greentext_regex = re.compile("(\n|^)>([^ >][^\n]*)", flags=re.A)
 
 allowed_domain_regex = re.compile("[a-z0-9\-.]+", flags=re.I|re.A)
 
-twitter_domain_regex = re.compile('(^|>|")https:\/\/twitter.com\/(?!i\/)', flags=re.A)
+twitter_domain_regex = re.compile('(^|>|")https:\/\/x.com\/(?!i\/)', flags=re.A)
 
 instagram_to_imgsed_regex = re.compile('(^|>|")https:\/\/instagram.com\/(?!reel\/)', flags=re.A)
 

@@ -583,9 +583,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			continue
 
 		if not snappy and link.string == link["href"]:
-			if link["href"].startswith('https://twitter.com/') and '/status/' in link["href"]:
+			if link["href"].startswith('https://x.com/') and '/status/' in link["href"]:
 				try:
-					embed = requests.get("https://publish.twitter.com/oembed", params={"url":link["href"], "omit_script":"t", "dnt":"t"}, headers=HEADERS, timeout=5).json()["html"]
+					embed = requests.get("https://publish.x.com/oembed", params={"url":link["href"], "omit_script":"t", "dnt":"t"}, headers=HEADERS, timeout=5).json()["html"]
 				except:
 					pass
 				else:
@@ -724,7 +724,7 @@ def is_whitelisted(domain, k):
 	if k.lower().startswith('utm_'):
 		return False
 
-	if domain not in {'youtube.com','reddit.com','twitter.com','msn.com','wsj.com','tiktok.com','forbes.com','dailymail.co.uk','facebook.com','spotify.com','nytimes.com','businessinsider.com','instagram.com','yahoo.com','thedailybeast.com','nypost.com','newsweek.com','bloomberg.com','quora.com','nbcnews.com','reuters.com','tmz.com','cnbc.com','marketwatch.com','thetimes.co.uk','sfchronicle.com','washingtonpost.com','cbsnews.com','foxnews.com','bbc.com','bbc.co.uk','ifunny.co','independent.co.uk','wikipedia.org','substack.com'}:
+	if domain not in {'youtube.com','reddit.com','x.com','msn.com','wsj.com','tiktok.com','forbes.com','dailymail.co.uk','facebook.com','spotify.com','nytimes.com','businessinsider.com','instagram.com','yahoo.com','thedailybeast.com','nypost.com','newsweek.com','bloomberg.com','quora.com','nbcnews.com','reuters.com','tmz.com','cnbc.com','marketwatch.com','thetimes.co.uk','sfchronicle.com','washingtonpost.com','cbsnews.com','foxnews.com','bbc.com','bbc.co.uk','ifunny.co','independent.co.uk','wikipedia.org','substack.com'}:
 		return True
 
 	if domain == 'wikipedia.org' and k != 'wprov':
@@ -737,14 +737,14 @@ def is_whitelisted(domain, k):
 		'q', #generic
 		'timestamp', #substack.com
 		'after','context','page','token','url', #reddit.com
-		'f', #twitter.com
+		'f', #x.com
 		'fbid','story_fbid','u', #facebook.com
 		'id', #facebook.com, #msn.com
 		'v','lb','list','start','time_continue', #youtube.com
 	}:
 		return True
 
-	if k == 't' and domain != 'twitter.com':
+	if k == 't' and domain != 'x.com':
 		return True
 
 	return False
@@ -753,10 +753,14 @@ domain_replacements = {
 	"https://music.youtube.com": "https://youtube.com",
 	"https://www.youtube.com": "https://youtube.com",
 	"https://m.youtube.com": "https://youtube.com",
-	"https://mobile.twitter.com": "https://twitter.com",
-	"https://x.com": "https://twitter.com",
-	"https://www.twitter.com": "https://twitter.com",
-	"https://fxtwitter.com": "https://twitter.com",
+
+	"https://mobile.twitter.com": "https://x.com",
+	"https://twitter.com": "https://x.com",
+	"https://www.twitter.com": "https://x.com",
+	"https://fxtwitter.com": "https://x.com",
+	"https://mobile.x.com": "https://x.com",
+	"https://www.x.com": "https://x.com",
+	"https://fixupx.com": "https://x.com",
 	"https://m.facebook.com": "https://facebook.com",
 	"https://en.m.wikipedia.org": "https://en.wikipedia.org",
 	"https://m.imdb.com": "https://imdb.com",
@@ -827,7 +831,7 @@ def normalize_url(url):
 
 	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=grand', url)
 
-	if url.startswith('https://twitter.com/'):
+	if url.startswith('https://x.com/'):
 		url = url.split('/mediaviewer')[0]
 		url = url.split('/mediaViewer')[0]
 

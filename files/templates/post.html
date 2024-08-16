@@ -122,7 +122,7 @@
 								{% endif %}
 
 								{% if p.embed %}
-									{% if p.domain == "twitter.com" %}
+									{% if p.domain == "x.com" %}
 										{{p.embed | safe}}
 									{% elif p.domain in ['youtu.be','youtube.com'] and p.embed.startswith('<lite-youtube') %}
 										<p class="resizable yt" style="width:100%">

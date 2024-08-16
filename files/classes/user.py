@@ -160,7 +160,7 @@ class User(Base):
 	pronouns = Column(String, default=DEFAULT_PRONOUNS)
 
 	if SITE_NAME == 'WPD' and not IS_LOCALHOST:
-		twitter = 'twitter.com'
+		twitter = 'x.com'
 		imgsed = False
 		controversial = False
 		reddit = 'old.reddit.com'
@@ -169,7 +169,7 @@ class User(Base):
 		hidevotedon = Column(Boolean, default=False)
 		hide_cw = Column(Boolean, default=False)
 	else:
-		twitter = Column(String, default='twitter.com')
+		twitter = Column(String, default='x.com')
 		imgsed = Column(Boolean, default=False)
 		controversial = Column(Boolean, default=False)
 		reddit = Column(String, default='old.reddit.com')

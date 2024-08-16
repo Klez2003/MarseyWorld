@@ -83,7 +83,7 @@ def normalize_urls_runtime(body, v):
 	if v and v.reddit != 'old.reddit.com':
 		body = reddit_to_vreddit_regex.sub(rf'\1https://{v.reddit}/\2/', body)
 
-	if v and v.twitter != 'twitter.com':
+	if v and v.twitter != 'x.com':
 		body = twitter_domain_regex.sub(rf'\1https://{v.twitter}/', body)
 
 	if v and v.imgsed:

@@ -1065,7 +1065,7 @@ def settings_pronouns_change(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_twitter(v):
-	twitter = process_settings_plaintext("twitter", v.twitter, 50, "twitter.com")
+	twitter = process_settings_plaintext("twitter", v.twitter, 50, "x.com")
 
 	twitter = twitter.replace('https://', '').rstrip('/')
 	v.twitter = twitter
