@@ -95,6 +95,7 @@
 				{% block desktopBanner %}{% endblock %}
 				{% block PseudoSubmitForm %}{% endblock %}
 				{% block searchText %}{% endblock %}
+				<script defer src="{{'js/vendor/lozad.js' | asset}}"></script>
 				{% block content %}{% endblock %}
 				{% block pagenav %}{% endblock %}
 			</div>
@@ -118,7 +119,6 @@
 			<i class="fas fa-check-circle text-success mr-2"></i>Link copied to clipboard
 		</div>
 	</div>
-	<script defer src="{{'js/vendor/lozad.js' | asset}}"></script>
 	<script defer src="{{'js/vendor/lite-youtube.js' | asset}}"></script>
 
 	{% if (v and v.spider) or (p and p.award_count("shit", v)) or (p and p.award_count("fireflies", v)) %}
