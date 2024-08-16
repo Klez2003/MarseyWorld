@@ -148,7 +148,7 @@
 									{% elif p.url.startswith('https://tiktok.com/@') %}
 										{% set id = p.url.split('/video/')[1] %}
 										{% if id %}
-											<iframe id="external-embed" credentialless="true" scrolling="no" src="https://www.tiktok.com/embed/{{id}}" height="756" width="325"></iframe>
+											<iframe id="external-embed" scrolling="no" src="https://www.tiktok.com/embed/{{id}}" height="756" width="325"></iframe>
 										{% endif %}
 									{% elif p.url.startswith('https://www.teamblind.com/') %}
 										{% set id = p.url.split('-')[-1] %}
