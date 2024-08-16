@@ -28,7 +28,9 @@
 
 							<a href="/chat/{{chat.id}}/orgies" class="chat-control fas fa-tv text-muted mx-2"></a>
 
-							<a href="/chat/{{chat.id}}/custom_css" class="chat-control fas fa-palette text-muted ml-2"></a>
+							<a href="/chat/{{chat.id}}/custom_css" class="chat-control fas fa-palette text-muted mx-2"></a>
+
+							<i data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="<h5>Chat Commands</h5><p><code>+@grue</code> adds @grue to the chat</p><p><code>-@grue</code> removes @grue from the chat</p>{% if v.id == chat.owner_id %}<p><code>*@grue</code> makes @grue a chat mod</p><p><code>/@grue</code> removes @grue as a chat mod</p>{% endif %}" class="chat-control fas fa-terminal text-muted ml-2"></i>
 						{% else %}
 							<button class="px-2" type="button" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" title="{% if muting_chat %}Unmute (do it){% else %}Mute (don't do it){% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this, '/chat/{{chat.id}}/toggle_mute')">
 								<i class="fas fa-bell-slash {% if muting_chat %}text-danger{% else %}text-muted{% endif %}"></i>
