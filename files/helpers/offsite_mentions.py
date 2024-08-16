@@ -7,24 +7,25 @@ from files.helpers.sanitize import *
 from files.helpers.alerts import push_notif
 from files.classes.notifications import Notification
 
-def notify(text, created_utc):
-	if len(text) > 1000:
-		text = text[:1000] + "..."
-
-	text = sanitize(text, blackjack="offsite mention", golden=False)
+def notify(body, created_utc):
+	if len(body) > 1000:
+		body = body[:1000] + "..."
 
 	existing_comment = g.db.query(Comment.id).filter_by(
 		author_id=AUTOJANNY_ID,
 		parent_post=None,
-		body_html=text).one_or_none()
+		body=body).one_or_none()
 
 	if existing_comment:
 		return 1
 
+	body_html = sanitize(body, blackjack="offsite mention", golden=False)
+
 	new_comment = Comment(
 						author_id=AUTOJANNY_ID,
 						parent_post=None,
-						body_html=text,
+						body=body,
+						body_html=body_html,
 						distinguished=True,
 						created_utc=created_utc,
 					)
