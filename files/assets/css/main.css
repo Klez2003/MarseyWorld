@@ -5556,6 +5556,7 @@ div[id^="form-preview-"] li > p:first-child {
 .twitter-tweet-rdy {
 	margin-bottom: 9.8px;
 	padding-bottom: 7px;
+    overflow-y: hidden;
 }
 .controversial {
 	color: #f27d0c !important;
