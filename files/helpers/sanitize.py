@@ -592,10 +592,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 					embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
 					embed = BeautifulSoup(embed, 'lxml')
 					link.replaceWith(embed)
-			elif link["href"].startswith('https://old.reddit.com/r/') and not link["href"].endswith('/new/'):
-				embed = f'<a rel="nofollow noopener" class="reddit-embed-bq" data-embed-height="500" href="{link["href"]}">{link["href"]}</a>'
-				embed = BeautifulSoup(embed, 'lxml')
-				link.replaceWith(embed)
 
 	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','').replace('/>','>')
 

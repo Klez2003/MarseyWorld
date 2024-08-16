@@ -7735,7 +7735,8 @@ img[src$="/e/speechbubble.webp"] {
 	margin-bottom: 10px;
 }
 
-iframe[src^='https://embed.reddit.com/r/'] {
+.reddit-embed {
+	border: none;
 	display: inline !important;
 	width: 552px;
     vertical-align: middle;
