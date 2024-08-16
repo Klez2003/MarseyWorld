@@ -148,7 +148,7 @@
 		<link rel="stylesheet" href="/h/{{hole}}/css">
 	{% endif %}
 
-	{% if v and (v.css or v.background) and not request.path.startswith('/settings') %}
+	{% if v and (v.css or v.background) and not request.path.startswith('/settings') and not (request.path.startswith('/@') and u and u.profilecss) %}
 		<link rel="stylesheet" href="/@{{v.username}}/css">
 	{% endif %}
 
