@@ -744,6 +744,8 @@ LONGPOSTBOT_REPLIES = (
 	"https://i.rdrama.net/images/17227070857606635.webp",
 	"https://i.rdrama.net/images/1722961672231166.webp",
 	"https://rdrama.net/videos/17237461971773005.mp4",
+	"I don't get it :marseyconfused:",
+	"I have zero intentions of reading all of that crap",
 )
 
 CHUD_MSGS = (
