@@ -126,7 +126,7 @@
 										<p class="resizable yt" style="width:100%">
 											{{p.embed | safe}}
 										</p>
-									{% else %}
+									{% elif 'twitter-tweet' not in p.embed %}
 										<div id="crosspost-embed" class="mb-3" style="border: 1px solid var(--primary)">
 											<div class="row no-gutters">
 												<div id="frontpage" class="col-12 pt-0">
