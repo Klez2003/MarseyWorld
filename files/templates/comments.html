@@ -453,6 +453,8 @@
 												{% set url = "pin_comment_op" %}
 											{% elif c.parent_post and v.mods_hole(c.post.hole) %}
 												{% set url = "pin_comment_mod" %}
+											{% elif v.id == c.wall_user_id %}
+												{% set url = "pin_comment_wall_owner" %}
 											{% endif %}
 
 											{% if url != "" %}
@@ -669,6 +671,9 @@
 										{% elif v.mods_hole(c.post.hole) %}
 											<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.pinned %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin_comment_mod/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
 											<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.pinned %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unpin_comment_mod/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
+										{% elif v.id == c.wall_user_id %}
+											<button type="button" id="pin3-{{c.id}}" class="list-group-item {% if c.pinned %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin_comment_wall_owner/{{c.id}}','pin3-{{c.id}}','unpin3-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
+											<button type="button" id="unpin3-{{c.id}}" class="list-group-item {% if not c.pinned %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unpin_comment_wall_owner/{{c.id}}','pin3-{{c.id}}','unpin3-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
 										{% endif %}
 									{% endif %}
 

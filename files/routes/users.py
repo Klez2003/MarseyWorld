@@ -911,12 +911,14 @@ def u_username_wall(v, username):
 
 	total = comments.count()
 
+	pinned = []
+
 	if v.admin_level >= PERMS['ADMIN_NOTES']:
-		pinned = [c[0] for c in comments.filter(Comment.pinned != None).order_by(Comment.created_utc.desc())]
-		for c in pinned:
-			c.admin_note = True
-	else:
-		pinned = []
+		pinned += [c[0] for c in comments.filter(Comment.pinned == 'Admin Note').order_by(Comment.created_utc.desc())]
+	
+	pinned += [c[0] for c in comments.filter(Comment.pinned.like('% (Wall Owner)')).order_by(Comment.created_utc.desc())]
+	for c in pinned:
+		c.admin_note = True
 
 	comments = comments.filter(Comment.pinned == None).order_by(Comment.created_utc.desc()) .offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	comments = [c[0] for c in comments]

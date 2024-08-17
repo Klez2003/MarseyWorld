@@ -506,6 +506,62 @@ def unpin_comment_op(cid, v):
 	return {"message": "Comment unpinned!"}
 
 
+@app.post("/pin_comment_wall_owner/<int:cid>")
+@feature_required('PINS')
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def pin_comment_wall_owner(cid, v):
+	comment = get_comment(cid, v=v)
+
+	if not comment.pinned:
+		if v.id != comment.wall_user_id:
+			stop(403, "You can't pin comments on the walls of other users!")
+
+		existing = g.db.query(Comment.id).filter(
+			Comment.wall_user_id == v.id,
+			Comment.pinned.like('% (Wall Owner)'),
+		).one_or_none()
+
+		if existing:
+			abort(403, "You can only pin one comment on your wall!")
+
+		comment.pinned = v.username + " (Wall Owner)"
+
+		g.db.add(comment)
+
+		comment.pin_parents()
+
+	return {"message": "Comment pinned!"}
+
+
+@app.post("/unpin_comment_wall_owner/<int:cid>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def unpin_comment_wall_owner(cid, v):
+	comment = get_comment(cid, v=v)
+
+	if comment.pinned:
+		if v.id != comment.wall_user_id:
+			stop(403, "You can't unpin comments on the walls of other users!")
+
+		if not comment.pinned.endswith(" (Wall Owner)"):
+			stop(403, "You can only unpin comments you have pinned!")
+
+		comment.pinned = None
+		comment.pinned_utc = None
+		g.db.add(comment)
+
+		comment.unpin_parents()
+
+	return {"message": "Comment unpinned!"}
+
+
 @app.post("/save_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
