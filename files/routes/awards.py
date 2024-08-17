@@ -225,6 +225,9 @@ def award_thing(v, thing_type, id):
 	if kind == 'spider' and author.spider == 1:
 		stop(409, f"{safe_username} already best friends with a spider!")
 
+	if kind == 'genius' and author.genius:
+		stop(409, f"{safe_usename} is already a genius!")
+
 	awards = g.db.query(AwardRelationship).filter(
 		AwardRelationship.kind == kind,
 		AwardRelationship.user_id == v.id,
