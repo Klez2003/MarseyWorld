@@ -1,6 +1,7 @@
 import os
 import zlib
 from collections import defaultdict
+from sys import argv
 
 import gevent
 import gevent_inotifyx as inotify
@@ -60,4 +61,6 @@ def assetcache_watch_directories(asset_dir, subdirs):
 		os.close(fd)
 
 assetcache_build(ASSET_DIR, ASSET_SUBDIRS)
-gevent.spawn(assetcache_watch_directories, ASSET_DIR, ASSET_SUBDIRS)
+
+if "cron" not in argv:
+	gevent.spawn(assetcache_watch_directories, ASSET_DIR, ASSET_SUBDIRS)

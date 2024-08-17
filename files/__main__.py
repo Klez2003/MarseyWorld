@@ -76,7 +76,9 @@ limiter = Limiter(
 const_initialize()
 
 reload_settings()
-start_watching_settings()
+
+if "cron" not in argv:
+	start_watching_settings()
 
 cache = Cache(app)
 Compress(app)
