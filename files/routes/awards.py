@@ -473,7 +473,7 @@ def award_thing(v, thing_type, id):
 		if obj.pinned and not obj.pinned_utc:
 			stop(400, f"This {thing_type} is already pinned permanently!")
 
-		if isinstance(obj, Comment) and not obj.parent_post:
+		if SITE_NAME == 'WPD' and isinstance(obj, Comment) and not obj.parent_post:
 			stop(400, "You can't pin wall comments!")
 
 		if isinstance(obj, Comment): add = 3600*6 * quantity
