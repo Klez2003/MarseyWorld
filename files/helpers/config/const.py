@@ -746,6 +746,8 @@ LONGPOSTBOT_REPLIES = (
 	"https://rdrama.net/videos/17237461971773005.mp4",
 	"I don't get it :marseyconfused:",
 	"I have zero intentions of reading all of that crap",
+	"Ok retard",
+	"https://i.rdrama.net/images/17238973634696946.webp",
 )
 
 CHUD_MSGS = (
