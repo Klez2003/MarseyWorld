@@ -94,6 +94,9 @@ class Badge(Base):
 		elif self.badge_id in {101, 333, 334}:
 			s = 's' if self.user.banner_num > 1 else ''
 			text += f' ({self.user.banner_num} banner{s})'
+		elif self.badge_id in {10, 11, 12}:
+			s = 's' if self.user.referral_count > 1 else ''
+			text += f' ({self.user.referral_count} friend{s})'
 
 		return text
 
