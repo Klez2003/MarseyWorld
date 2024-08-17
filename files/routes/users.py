@@ -916,7 +916,7 @@ def u_username_wall(v, username):
 	if v.admin_level >= PERMS['ADMIN_NOTES']:
 		pinned += [c[0] for c in comments.filter(Comment.pinned == 'Admin Note').order_by(Comment.created_utc.desc())]
 	
-	pinned += [c[0] for c in comments.filter(Comment.pinned.like('% (Wall Owner)')).order_by(Comment.created_utc.desc())]
+	pinned += [c[0] for c in comments.filter(Comment.pinned != 'Admin Note').order_by(Comment.created_utc.desc())]
 	for c in pinned:
 		c.admin_note = True
 
