@@ -93,6 +93,7 @@ class User(Base):
 	lootboxes_bought = Column(Integer, default=0)
 	chud = Column(Integer, default=0)
 	queen = Column(Integer, default=0)
+	genius = Column(Boolean, default=False)
 	chud_phrase = Column(String)
 	email_verified = Column(Boolean, default=False)
 	shadowbanned = Column(Integer, ForeignKey("users.id"))
