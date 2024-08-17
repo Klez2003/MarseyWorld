@@ -77,7 +77,6 @@
 		<meta property="og:image" content="{{image | default('site_preview.webp' | asset_siteimg)}}">
 		{% if video %}<meta property="og:video" content="{{video}}">{% endif %}
 		{% if audio %}<meta property="og:audio" content="{{audio}}">{% endif %}
-		<meta name="twitter:image" content="{{image | default('site_preview.webp' | asset_siteimg)}}">
 	{% endif %}
 
 	<meta property="og:article:author" content="{{a_author}}">
@@ -85,13 +84,7 @@
 	<meta property="og:article:modified_time" content="{{modified}}">
 	<meta property="og:article:section" content="{{section}}">
 
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:site" content="{{SITE_FULL}}">
 
-	<meta name="twitter:title" content="{{title}}">
-	<meta name="twitter:creator" content="{{author | default(SITE_FULL)}}">
-	<meta name="twitter:description" content="{{description | default(SITE_NAME ~ ' - ' ~ DESCRIPTION)}}">
-	<meta name="twitter:url" content="{{request.full_path}}">
 {% endmacro %}
 
 {% macro stylesheets() %}
