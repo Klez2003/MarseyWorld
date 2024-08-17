@@ -7738,7 +7738,7 @@ img[src$="/e/speechbubble.webp"] {
 .reddit-embed {
 	border: none;
 	display: inline !important;
-	width: 552px;
+	width: min(100%, 552px);
     vertical-align: middle;
 }
 
