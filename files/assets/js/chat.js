@@ -70,7 +70,12 @@ socket.on('speak', function(json) {
 	const users = document.getElementsByClassName('user_id');
 	const last_user = users[users.length-1].value;
 
-	if (last_user != json.user_id) {
+	const msgs = document.getElementsByClassName('chat-line')
+	const last_timestamp = msgs[msgs.length-1].dataset.msgTime;
+
+	const make_new_chatgroup = (last_user != json.user_id || json.created_utc - last_timestamp > 600)
+
+	if (make_new_chatgroup) {
 		document.getElementsByClassName('avatar-pic')[0].src = '/pp/' + json.user_id
 
 		if (json.hat)
@@ -105,6 +110,7 @@ socket.on('speak', function(json) {
 	}
 
 	document.getElementsByClassName('chat-line')[0].id = json.id
+	document.getElementsByClassName('chat-line')[0].dataset.msgTime = json.created_utc
 	document.getElementsByClassName('text')[0].innerHTML = escapeHTML(text)
 	document.getElementsByClassName('chat-message')[0].innerHTML = text_html.replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/ loading="lazy"/g, '')
 
@@ -135,7 +141,7 @@ socket.on('speak', function(json) {
 		}
 	}
 
-	if (last_user == json.user_id) {
+	if (!make_new_chatgroup) {
 		box.querySelector('.chat-group:last-child').append(line)
 	}
 	else {
