@@ -8,6 +8,7 @@ from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 from files.helpers.lazy import lazy
 from files.helpers.config.const import *
+from files.helpers.sorting_and_time import make_age_string
 
 class Chat(Base):
 	__tablename__ = "chats"
@@ -110,3 +111,8 @@ class ChatMessage(Base):
 	@lazy
 	def permalink(self):
 		return f"{SITE_FULL}/chat/{self.chat_id}#{self.id}"
+
+	@property
+	@lazy
+	def age_string(self):
+		return make_age_string(self.created_utc)

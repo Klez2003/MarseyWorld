@@ -285,7 +285,14 @@
 			</div>
 			<span {% if m and m.patron %}class="username patron" style="background-color:#{{m.namecolor}}"{% else %}class="username"{% endif %} {% if m and m.pride_username %}pride_username{% endif %}>{% if m %}{{m.username}}{% endif %}</span>
 		</a>
-		<span class="text-black time ml-1 text-center" {% if m %}data-time="{{m.created_utc}}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{m.created_utc}}')"{% endif %}></span>
+
+		{% set under_24h = m and time.time() - m.created_utc < 86400 %}
+		<span class="text-black time ml-1 text-center" {% if m %}data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{m.created_utc}}')"  {% if under_24h %}data-time="{{m.created_utc}}"{% endif %} {% endif %}>
+			{%- if m and not under_24h -%}
+				{{m.age_string}}
+			{%- endif -%}
+		</span>
+
 		<input hidden class="user_id" {% if m %}value="{{m.user_id}}"{% endif %}>
 {% endmacro %}
 
