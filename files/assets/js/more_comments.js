@@ -17,7 +17,8 @@ function more_comments(cid, sort) {
 
 			highlight_unread("old-comment-counts")
 
-			embed_twitter_reddit()
+			embed_twitter()
+			embed_reddit()
 		}
 		btn.disabled = false;
 	}

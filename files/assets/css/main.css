@@ -7735,10 +7735,10 @@ img[src$="/e/speechbubble.webp"] {
 	margin-bottom: 10px;
 }
 
-.twitter-embed, .reddit-embed {
+.reddit-embed {
 	border: none;
 	display: inline !important;
-	width: min(100%, 552px);
+	width: 552px;
     vertical-align: middle;
 }
 

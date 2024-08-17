@@ -582,6 +582,17 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			del link["href"]
 			continue
 
+		if not snappy and link.string == link["href"]:
+			if link["href"].startswith('https://x.com/') and '/status/' in link["href"]:
+				try:
+					embed = requests.get("https://publish.x.com/oembed", params={"url":link["href"], "omit_script":"t", "dnt":"t"}, headers=HEADERS, timeout=5).json()["html"]
+				except:
+					pass
+				else:
+					embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
+					embed = BeautifulSoup(embed, 'lxml')
+					link.replaceWith(embed)
+
 	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','').replace('/>','>')
 
 	captured = []
