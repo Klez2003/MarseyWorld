@@ -53,7 +53,8 @@ def create_group(v):
 		user_id=v.id,
 		group_name=group.name,
 		created_utc=time.time(),
-		approved_utc=time.time()
+		approved_utc=time.time(),
+		is_mod=True,
 		)
 	g.db.add(group_membership)
 
