@@ -2,6 +2,8 @@
 {% block pagetype %}userpage{% endblock %}
 {% block pagetitle %}@{{u.username}}'s profile{% endblock %}
 
+{% set userpage = True %}
+
 {% block head_final %}
 	{% if u and u.profile_background %}
 		<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
