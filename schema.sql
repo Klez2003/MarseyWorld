@@ -1241,6 +1241,7 @@ CREATE TABLE public.users (
     prelock_username character varying(30),
     namechanged integer,
     queen integer,
+    genius boolean DEFAULT FALSE NOT NULL ,
     sharpen integer,
     lifetimedonated integer NOT NULL,
     lifetimedonated_visible boolean NOT NULL,
