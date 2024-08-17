@@ -3,7 +3,7 @@ function embed_twitter_reddit() {
 
 	for (const a of document.querySelectorAll('a[href^="https://x.com/"][href*="/status/"]')) {
 		if (a.innerHTML && a.innerHTML !== a.href) continue
-		if (a.parentElement.tagName == "STRONG") continue
+		if (["STRONG", "LI", "BLOCKQUOTE"].includes(a.parentElement.tagName)) continue
 
 		const id = a.href.split('/status/')[1].split('?')[0]
 		let iframe_src = `https://platform.twitter.com/embed/Tweet.html?dnt=true&id=${id}`
@@ -15,7 +15,7 @@ function embed_twitter_reddit() {
 
 	for (const a of document.querySelectorAll('a[href^="https://old.reddit.com/r/"]:not(a[href$="/new"])')) {
 		if (a.innerHTML && a.innerHTML !== a.href) continue
-		if (a.parentElement.tagName == "STRONG") continue
+		if (["STRONG", "LI", "BLOCKQUOTE"].includes(a.parentElement.tagName)) continue
 
 		let iframe_src = a.href.replace('https://old.reddit.com/', 'https://embed.reddit.com/')
 		iframe_src = iframe_src.split('?')[0]
