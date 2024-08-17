@@ -302,8 +302,6 @@ def more_comments(v, cid):
 def expand_url(post_url, fragment_url):
 	if fragment_url.startswith("https://"):
 		return fragment_url
-	elif fragment_url.startswith("https://"):
-		return f"https://{fragment_url.split('https://')[1]}"
 	elif fragment_url.startswith('//'):
 		return f"https:{fragment_url}"
 	elif fragment_url.startswith('/') and '\\' not in fragment_url:
