@@ -699,7 +699,7 @@ def edit_comment(cid, v):
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
 			stop(400, "Rendered comment is too long!")
 
-		if c.author.hieroglyphs and marseyaward_body_regex.search(body_html):
+		if c.author.hieroglyphs and c.parent_post not in ADMIGGER_THREADS and marseyaward_body_regex.search(body_html):
 			stop(403, "You can only type emojis!")
 
 		if int(time.time()) - c.created_utc > 60 * 3:
