@@ -231,9 +231,11 @@ function formatDate(d) {
 
 const timestamps = document.querySelectorAll('[data-time]');
 
-for (const e of timestamps) {
-	e.innerHTML = formatDate(new Date(e.dataset.time*1000));
-};
+if (!location.pathname.startsWith('/chat/')) {
+	for (const e of timestamps) {
+		e.innerHTML = formatDate(new Date(e.dataset.time*1000));
+	};
+}
 
 function timestamp(t, ti) {
 	const date = formatDate(new Date(ti*1000));
