@@ -622,14 +622,14 @@ def submit_post(v, hole=None):
 	title_html = filter_emojis_only(title, count_emojis=True, obj=p, author=v)
 
 	if v.hieroglyphs and not marseyaward_title_regex.fullmatch(title_html):
-		stop(400, "You can only type marseys!")
+		stop(400, "You can only type emojis!")
 
 	p.title_html = title_html
 
 	body_html = sanitize(body, count_emojis=True, limit_pings=100, obj=p, author=v)
 
 	if v.hieroglyphs and marseyaward_body_regex.search(body_html):
-		stop(400, "You can only type marseys!")
+		stop(400, "You can only type emojis!")
 
 	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
 		stop(400, "Rendered post body is too long!")
@@ -1090,7 +1090,7 @@ def edit_post(pid, v):
 		title_html = filter_emojis_only(title, golden=False, obj=p, author=p.author)
 
 		if p.author.hieroglyphs and not marseyaward_title_regex.fullmatch(title_html):
-			stop(403, "You can only type marseys!")
+			stop(403, "You can only type emojis!")
 
 		if 'megathread' in title.lower() and 'megathread' not in p.title.lower():
 			p.new = True
@@ -1108,7 +1108,7 @@ def edit_post(pid, v):
 		body_html = sanitize(body, golden=False, limit_pings=100, obj=p, author=p.author)
 
 		if p.author.hieroglyphs and marseyaward_body_regex.search(body_html):
-			stop(403, "You can only type marseys!")
+			stop(403, "You can only type emojis!")
 
 
 		p.body = body
