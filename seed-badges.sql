@@ -50,11 +50,13 @@ INSERT INTO public.badge_defs VALUES (346, 'Marsey Tattoo', 'This user permanent
 INSERT INTO public.badge_defs VALUES (347, 'Anti-Hate Assassin Survivor', 'WITNESSED', 1720962152);
 INSERT INTO public.badge_defs VALUES (348, 'MasterMime', '...', 1721917829);
 INSERT INTO public.badge_defs VALUES (349, 'KHive Queen Bee', 'Contributed material support to rDrama''s 2024 election super PAC', 1722732287);
+INSERT INTO public.badge_defs VALUES (11, 'Silver Recruiter', 'Recruited at least 10 friends to join the site', 0);
 INSERT INTO public.badge_defs VALUES (176, 'Fish Of The Year', 'Awarded for outstanding achievement in the field of achievement. Well done!', 1663340894);
 INSERT INTO public.badge_defs VALUES (177, 'Sweatshop Laborer', 'lmao thanks retard', 1663616592);
 INSERT INTO public.badge_defs VALUES (178, 'Marseyhypebeast', 'This user owns OFFICIAL MARSEY MERCH and has waaaaay more sex than you.', 1663616913);
 INSERT INTO public.badge_defs VALUES (179, 'Spider!', 'This user is currently best friends with a spider', 1663696289);
 INSERT INTO public.badge_defs VALUES (184, 'Homoween 2022 Survivor', 'Awarded for surviving Homoween 2022', 1666225785);
+INSERT INTO public.badge_defs VALUES (12, 'Gold Recruiter', 'Recruited at least 100 friends to join the site', 0);
 INSERT INTO public.badge_defs VALUES (185, 'Hallowgrinch', 'TP this Halloween-hating loser''s house.', 1666226224);
 INSERT INTO public.badge_defs VALUES (181, 'INFECTED', 'This user is a mindless zombie.', 1666073382);
 INSERT INTO public.badge_defs VALUES (182, 'VAXXMAXXED', 'This user is a mindless zombie.', 1666074754);
@@ -189,7 +191,6 @@ INSERT INTO public.badge_defs VALUES (155, 'Ride Or Die Dramalo/Dramalette', 'Wh
 INSERT INTO public.badge_defs VALUES (163, 'Marsey Jacobs', 'Designed 10 hats!', 0);
 INSERT INTO public.badge_defs VALUES (166, 'Giorgio Armarsey', 'Designed 250 hats 😲', 0);
 INSERT INTO public.badge_defs VALUES (164, 'Marsey de Givenchy', 'Designed 50 hats, holy cap.', 0);
-INSERT INTO public.badge_defs VALUES (12, 'Gold Recruiter', 'Recruited 100 friends to join the site', 0);
 INSERT INTO public.badge_defs VALUES (168, 'BITTEN!', 'This user has been forcibly recruited to House Vampire', 0);
 INSERT INTO public.badge_defs VALUES (170, 'Marsified', 'This user''s comments get Marsified automatically', 0);
 INSERT INTO public.badge_defs VALUES (167, 'OwOified', 'This user''s comments get OwOified automatically', 0);
@@ -206,7 +207,6 @@ INSERT INTO public.badge_defs VALUES (16, 'Marsey Master', 'Contributed 10 (or m
 INSERT INTO public.badge_defs VALUES (17, 'Marsey Artisan', 'Contributed a Marsey emoji ✨', 0);
 INSERT INTO public.badge_defs VALUES (18, 'Artisan', 'Contributed to site artwork', 0);
 INSERT INTO public.badge_defs VALUES (85, 'Sigma User', '', 0);
-INSERT INTO public.badge_defs VALUES (10, 'Bronze Recruiter', 'Recruited 1 friend to join the site', 0);
 INSERT INTO public.badge_defs VALUES (145, 'Amphetamine Aficionado', 'Totally not addicted™', 0);
 INSERT INTO public.badge_defs VALUES (146, 'Coffee Consoomer', 'Don''t talk to me until I''ve had my soy latte.', 0);
 INSERT INTO public.badge_defs VALUES (60, 'Unironically Retarded', 'Demonstrated a wholesale inability to read the room', 0);
@@ -220,7 +220,6 @@ INSERT INTO public.badge_defs VALUES (67, 'Unpausable', 'Spent 40,000 coins on a
 INSERT INTO public.badge_defs VALUES (68, 'Pause Button', 'Spent 20,000 coins on a profile anthem pause button', 0);
 INSERT INTO public.badge_defs VALUES (74, 'Grass Toucher', 'Awarded for molesting plant life', 0);
 INSERT INTO public.badge_defs VALUES (76, 'Low Roller', 'Bought 10 lootboxes', 0);
-INSERT INTO public.badge_defs VALUES (11, 'Silver Recruiter', 'Recruited 10 friends to join the site', 0);
 INSERT INTO public.badge_defs VALUES (293, 'Normal Person', 'This user shops at Walmart', 1690470720);
 INSERT INTO public.badge_defs VALUES (7, 'Bug Chaser', 'Found and reported a bug', 0);
 INSERT INTO public.badge_defs VALUES (77, 'Middle Roller', 'Bought 50 lootboxes', 0);
@@ -229,6 +228,7 @@ INSERT INTO public.badge_defs VALUES (79, 'Merchant', 'Contributed a new line of
 INSERT INTO public.badge_defs VALUES (80, 'Artist Laureate', '', 0);
 INSERT INTO public.badge_defs VALUES (334, 'Banner God', 'Contributed 100 (or more!!!!) banners 🖼🎨', 1709696097);
 INSERT INTO public.badge_defs VALUES (70, 'Big Spender', 'Spent 100,000 currency on awards', 0);
+INSERT INTO public.badge_defs VALUES (10, 'Bronze Recruiter', 'Recruited at least 1 friend to join the site', 0);
 INSERT INTO public.badge_defs VALUES (81, 'Patron of the Arts', 'Sponsored the creation of an approved Marsey', 0);
 INSERT INTO public.badge_defs VALUES (83, 'All-Seeing Eye', 'Can view private profiles', 0);
 INSERT INTO public.badge_defs VALUES (84, 'Alt-Seeing Eye', 'Can see alts', 0);

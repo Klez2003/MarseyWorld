@@ -306,7 +306,7 @@ CREATE TABLE public.chats (
     id integer NOT NULL,
     name character varying(54) NOT NULL,
     created_utc integer NOT NULL,
-    css character varying(20000)
+    css character varying(50000)
 );
 
 
@@ -712,7 +712,7 @@ CREATE TABLE public.holes (
     sidebar character varying(10000),
     sidebar_html character varying(20000),
     bannerurls character varying(60)[] DEFAULT '{}'::character varying[] NOT NULL,
-    css character varying(20000),
+    css character varying(50000),
     stealth boolean NOT NULL,
     marseyurl character varying(60),
     created_utc integer,
@@ -1181,8 +1181,8 @@ CREATE TABLE public.users (
     newtabexternal boolean DEFAULT true NOT NULL,
     flair character varying(100),
     themecolor character varying(6) NOT NULL,
-    css character varying(20000),
-    profilecss character varying(20000),
+    css character varying(50000),
+    profilecss character varying(50000),
     coins integer DEFAULT 0 NOT NULL,
     chud integer DEFAULT 0 NOT NULL,
     post_count integer DEFAULT 0 NOT NULL,
