@@ -10,7 +10,7 @@ function embed_twitter_reddit() {
 		if (document.body.dataset.dark)
 			iframe_src += "&theme=dark"
 
-		a.innerHTML = `<iframe class="twitter-embed" credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" loading="lazy" height="240" src="${iframe_src}" scrolling="no"></iframe>`
+		a.innerHTML = `<iframe class="twitter-embed" credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" allowfullscreen="true" loading="lazy" height="240" src="${iframe_src}" scrolling="no"></iframe>`
 	}
 
 	for (const a of document.querySelectorAll('a[href^="https://old.reddit.com/r/"]:not(a[href$="/new"])')) {
