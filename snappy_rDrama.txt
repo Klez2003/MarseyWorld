@@ -5055,3 +5055,8 @@ I was about to say the quickness with which some people jump straight to accusin
 And then this fucko turns up.
 [para]
 Mayocide now!
+[para]
+<p style="color: transparent">=</p>
+<p style="color: transparent">=</p>
+<p style="color: transparent">=</p>
+<p style="transform: scaleX(150%) perspective(30px) translateX(35%) rotateX(-25deg)">:#!marseyinsane:</p>
