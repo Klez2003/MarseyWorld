@@ -1,5 +1,5 @@
 function formatHourMinute(d) {
-	return d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+	return d.toLocaleTimeString([], {timeStyle: 'short'})
 }
 for (const e of document.querySelectorAll('[data-time]')) {
 	e.innerHTML = formatHourMinute(new Date(e.dataset.time*1000));
