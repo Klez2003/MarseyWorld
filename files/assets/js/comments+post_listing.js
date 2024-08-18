@@ -3,7 +3,7 @@ function pinned_timestamp(id) {
 	const pintooltip = el.getAttribute("data-bs-original-title")
 	if (!pintooltip.includes('until'))
 		{
-			const time = formatDate(new Date(parseInt(el.dataset.timestamp)*1000))
+			const time = formatTime(new Date(parseInt(el.dataset.timestamp)*1000))
 			el.setAttribute("data-bs-original-title", `${pintooltip} until ${time}`)
 		}
 }
@@ -149,7 +149,7 @@ document.addEventListener("click", function(e) {
 			badge_el.setAttribute("data-bs-toggle", "tooltip");
 			badge_el.setAttribute("data-bs-placement", "bottom");
 			if (badge_el.alt) {
-				const date = formatDate(new Date(badge_el.alt*1000));
+				const date = formatTime(new Date(badge_el.alt*1000));
 				badge_el.title = badge_el.title + ' ' + date.toString();
 				badge_el.removeAttribute('alt');
 			}

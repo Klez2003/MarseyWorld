@@ -1,9 +1,8 @@
-function formatSmallerDate(d) {
+function formatHourMinute(d) {
 	return d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
 }
-
-for (const e of timestamps) {
-	e.innerHTML = formatSmallerDate(new Date(e.dataset.time*1000));
+for (const e of document.querySelectorAll('[data-time]')) {
+	e.innerHTML = formatHourMinute(new Date(e.dataset.time*1000));
 };
 
 const ua = window.navigator.userAgent
@@ -106,7 +105,7 @@ socket.on('speak', function(json) {
 
 		document.getElementsByClassName('user_id')[0].value = json.user_id
 
-		document.getElementsByClassName('time')[0].innerHTML = formatSmallerDate(new Date(json.created_utc*1000))
+		document.getElementsByClassName('time')[0].innerHTML = formatHourMinute(new Date(json.created_utc*1000))
 	}
 
 	document.getElementsByClassName('chat-line')[0].id = json.id

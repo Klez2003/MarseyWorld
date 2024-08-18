@@ -224,7 +224,7 @@ function showmore(t) {
 	t.remove()
 }
 
-function formatDate(d) {
+function formatTime(d) {
 	const options = {year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short'};
 	return d.toLocaleTimeString([], options)
 }
@@ -233,12 +233,12 @@ const timestamps = document.querySelectorAll('[data-time]');
 
 if (!location.pathname.startsWith('/chat/')) {
 	for (const e of timestamps) {
-		e.innerHTML = formatDate(new Date(e.dataset.time*1000));
+		e.innerHTML = formatTime(new Date(e.dataset.time*1000));
 	};
 }
 
 function timestamp(t, ti) {
-	const date = formatDate(new Date(ti*1000));
+	const date = formatTime(new Date(ti*1000));
 	t.setAttribute("data-bs-original-title", date);
 };
 

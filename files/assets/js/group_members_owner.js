@@ -9,7 +9,7 @@ function approve_membership(t, group, uid) {
 			const mod = document.getElementById(`mod-${uid}`)
 			if (mod) mod.classList.remove('d-none')
 			document.getElementById(`kick-${uid}`).classList.remove('d-none')
-			document.getElementById(`time-${uid}`).innerHTML = formatDate(new Date());
+			document.getElementById(`time-${uid}`).innerHTML = formatTime(new Date());
 			document.getElementById(`counter-${uid}`).innerHTML = parseInt(members_tbody.lastElementChild.firstElementChild.innerHTML) + 1
 
 			members_tbody.append(document.getElementById(uid));
