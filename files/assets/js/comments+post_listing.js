@@ -142,7 +142,7 @@ document.addEventListener("click", function(e) {
 		is_popover_visible = true
 
 		const generated_popovers = document.getElementsByClassName("popover")
-		generated_popover = generated_popovers[generated_popovers.length-1]
+		const generated_popover = generated_popovers[generated_popovers.length-1]
 
 		const badge_els = generated_popover.getElementsByClassName('pop-badge');
 		for (badge_el of badge_els) {
