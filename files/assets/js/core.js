@@ -224,15 +224,21 @@ function showmore(t) {
 	t.remove()
 }
 
+function formatDate(d) {
+	return d.toLocaleTimeString([], {year: 'numeric', month: 'short', day: 'numeric'}).split(',').slice(0, -1)
+}
+if (!location.pathname.startsWith('/chat/')) {
+	for (const e of document.querySelectorAll('[data-date]')) {
+		e.innerHTML = formatDate(new Date(e.dataset.date*1000));
+	};
+}
+
 function formatTime(d) {
 	const options = {year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short'};
 	return d.toLocaleTimeString([], options)
 }
-
-const timestamps = document.querySelectorAll('[data-time]');
-
 if (!location.pathname.startsWith('/chat/')) {
-	for (const e of timestamps) {
+	for (const e of document.querySelectorAll('[data-time]')) {
 		e.innerHTML = formatTime(new Date(e.dataset.time*1000));
 	};
 }

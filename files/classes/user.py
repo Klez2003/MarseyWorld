@@ -548,13 +548,6 @@ class User(Base):
 
 	@property
 	@lazy
-	def last_active_date(self):
-		if self.last_active == 0:
-			return "never"
-		return time.strftime("%d %b %Y", time.gmtime(self.last_active))
-
-	@property
-	@lazy
 	def is_cakeday(self):
 		if time.time() - self.created_utc > 363 * 86400:
 			date = time.strftime("%d %b", time.gmtime(self.created_utc))
@@ -1100,7 +1093,7 @@ class User(Base):
 				'post_count': commas(self.real_post_count(v)),
 				'comment_count': commas(self.real_comment_count(v)),
 				'badges': [[x.path, x.text, x.until] for x in self.ordered_badges(v)],
-				'created_date': self.created_date,
+				'created_utc': self.created_utc,
 				'original_usernames': self.original_usernames_popover,
 				}
 
