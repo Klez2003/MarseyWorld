@@ -438,7 +438,8 @@ def is_repost(v):
 		stop(400)
 
 	if reddit_s_url_regex.fullmatch(url) or tiktok_t_url_regex.fullmatch(url):
-		url = normalize_url_gevent(url)
+		try: url = normalize_url_gevent(url)
+		except: stop(400)
 
 	url = normalize_url(url)
 
