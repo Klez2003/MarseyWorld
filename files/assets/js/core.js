@@ -225,7 +225,7 @@ function showmore(t) {
 }
 
 function formatDate(d) {
-	return d.toLocaleTimeString([], {year: 'numeric', month: 'short', day: 'numeric'})
+	return d.toLocaleTimeString([], {year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short'}).split(',').slice(0, -1)
 }
 if (!location.pathname.startsWith('/chat/')) {
 	for (const e of document.querySelectorAll('[data-date]')) {
