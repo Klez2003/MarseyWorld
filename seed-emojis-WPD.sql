@@ -164,7 +164,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('dancing9', 'Misc', 2, 'numbers', false, 1723926230),
 ('dancinga', 'Misc', 2, 'alphabet', false, 1723484369),
 ('dancingand', 'Misc', 2, 'alphabet', false, 1723927713),
-('dancingatsing', 'Misc', 2, 'alphabet', false, 1723927899),
+('dancingatsign', 'Misc', 2, 'alphabet', false, 1723927899),
 ('dancingb', 'Misc', 2, 'alphabet', false, 1723484394),
 ('dancingc', 'Misc', 2, 'alphabet', false, 1723484425),
 ('dancingd', 'Misc', 2, 'alphabet', false, 1723484469),
