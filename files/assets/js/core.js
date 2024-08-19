@@ -225,7 +225,9 @@ function showmore(t) {
 }
 
 function formatDate(d) {
-	return d.toLocaleTimeString([], {year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short'}).split(',').slice(0, -1)
+	const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+	const month = months[d.getMonth()]
+	return `${month} ${d.getDate()}, ${d.getFullYear()}`
 }
 if (!location.pathname.startsWith('/chat/')) {
 	for (const e of document.querySelectorAll('[data-date]')) {
