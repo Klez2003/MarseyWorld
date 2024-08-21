@@ -39,7 +39,7 @@ def sort_objects(sort, objects, cls):
 			metric += cls.comment_count/5
 			churn_rate = 1.4
 		else:
-			if SITE_NAME == 'rDrama': churn_rate = 1.5
+			if SITE_NAME == 'rDrama': churn_rate = 1.6
 			else: churn_rate = 1.3
 		return objects.order_by(-1000000*(metric / func.power(((ti - cls.created_utc)/1000), churn_rate)), cls.created_utc.desc())
 	elif sort == "views" and cls.__name__ == "Post":
