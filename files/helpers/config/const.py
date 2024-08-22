@@ -748,6 +748,8 @@ LONGPOSTBOT_REPLIES = (
 	"I have zero intentions of reading all of that crap",
 	"Ok retard",
 	"https://i.rdrama.net/images/17238973634696946.webp",
+	":#bidenshocked:",
+	"https://i.rdrama.net/images/17243457519662082.webp",
 )
 
 CHUD_MSGS = (
