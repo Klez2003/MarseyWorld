@@ -178,7 +178,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		elif target.hole in BOOSTED_HOLES:
 			mul = 1.25
 
-	if target.body_html and target.author.id != SNAPPY_ID:
+	if target.body_html and target.author.id != SNAPPY_ID and not (cls == Post and target.hole == 'mnn'):
 		x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
 		x += target.body_html.count('" rel="nofollow noopener" target="_blank">')
 		target.realupvotes += min(x*2, 20)
