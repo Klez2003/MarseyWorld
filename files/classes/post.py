@@ -344,6 +344,9 @@ class Post(Base):
 		if self.hole != 'chudrama':
 			body = censor_slurs_profanities(body, v)
 
+		if self.embed and self.domain == "x.com":
+			body = self.embed + body
+
 		body = normalize_urls_runtime(body, v)
 
 		if self.created_utc > 1706137534:
