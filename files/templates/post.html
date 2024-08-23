@@ -140,7 +140,7 @@
 								{% endif %}
 
 								{% if p.url %}
-									{% if p.url.startswith('https://old.reddit.com/r/') and not p.url.endswith('/new/') %}
+									{% if p.url.startswith('https://old.reddit.com/r/') and not p.url.endswith('/new/') and not (v and v.reddit == "undelete.pullpush.io") %}
 										<a rel="nofollow noopener" href="{{p.url}}"></a>
 										<pre></pre>
 									{% elif p.url.startswith('https://tiktok.com/@') %}
