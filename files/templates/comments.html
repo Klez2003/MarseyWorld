@@ -249,7 +249,8 @@
 								{% if c.treasure_amount.startswith('l') %}
 									<span class="d-inline-block">
 										<img class="treasure" loading="lazy" alt="treasure" src="{{SITE_FULL_IMAGES}}/i/treasure_tickets.webp" width="20" height="20">
-										<em>Found {{c.treasure_amount.replace('l', '')}} Lottershe Tickets!</em>
+										{% set ticket_num = c.treasure_amount.replace('l', '') %}
+										<em>Found {{ticket_num}} Lottershe Ticket{{macros.plural(ticket_num|length)}}!</em>
 									</span>
 								{% elif '-' in c.treasure_amount %}
 									<span class="d-inline-block">
