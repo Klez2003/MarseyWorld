@@ -857,6 +857,7 @@
 {% endif %}
 
 <script defer src="{{'js/vendor/twitter.js' | asset}}"></script>
+<input id="reddit" hidden value="{{v.reddit if v else 'old.reddit.com'}}">
 <script defer src="{{'js/reddit_embed.js' | asset}}"></script>
 
 </body>
