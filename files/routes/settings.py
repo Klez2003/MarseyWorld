@@ -989,11 +989,14 @@ def settings_song_change(v):
 	return redirect("/settings/personal?msg=Profile Anthem successfully updated. Please wait 5 minutes for the change to take effect.")
 
 
-def process_settings_plaintext(value, current, length, default_value):
-	value = request.values.get(value, "").strip()
+def process_settings_plaintext(kind, current, length, default_value):
+	value = request.values.get(kind, "").strip()
 
 	if not value:
 		return default_value
+
+	if kind == "twitter":
+		value = value.lower()
 
 	if len(value) > length:
 		stop(400, f"The value you entered exceeds the character limit ({length} characters)")
