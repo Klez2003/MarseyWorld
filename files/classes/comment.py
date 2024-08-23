@@ -35,7 +35,7 @@ def get_award_classes(obj, v, title=False):
 		if not title: classes.append(f"chud-img chud-{obj.id_last_num}")
 
 	if not (v and v.poor):
-		if not obj.is_longpost and obj.author.bite:
+		if not obj.is_longpost and not obj.ghost and obj.author.bite:
 			classes.append('author-bitten')
 		if obj.award_count('glowie', v):
 			classes.append("glow")
