@@ -688,7 +688,7 @@ LONGPOSTBOT_REPLIES = (
 	"I don't have enough spoons to read this shit",
 	"All those words won't bring daddy back.",
 	"OUT!",
-	"Damn, you're really mad over this, but thanks for the effort you put into typing that all out! Sadly I won't read it all.",
+	"Damn, you're really mad over this, but thanks for the effort you put into typing that all out! Sadly I won't read it at all.",
 	"Jesse what the fuck are you talking about??",
 	"Are you feeling okay bud?",
 	":#marseywoah:",
