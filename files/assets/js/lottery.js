@@ -30,8 +30,8 @@ const lotteryOnReady = function() {
 	ticketPurchaseQuantityInput.addEventListener("change", (event) => {
 	const value = Math.max(1, parseInt(event.target.value))
 	purchaseQuantity = value
-	purchaseQuantityField.textContent = value
-	purchaseTotalCostField.textContent = value * 12
+	purchaseQuantityField.textContent = commas(value)
+	purchaseTotalCostField.textContent = commas(value * 12)
 	});
 };
 
@@ -121,15 +121,15 @@ function handleLotteryResponse(xhr, method, callback) {
 
 	if (lottery) {
 		prizeImage.style.display = "inline";
-		prizeField.textContent = lottery.prize;
+		prizeField.textContent = commas(lottery.prize);
 		timeLeftField.textContent = formatTimeLeft(lottery.timeLeft);
 
 		if (participants) {
-		participantsThisSessionField.textContent = participants;
+		participantsThisSessionField.textContent = commas(participants);
 		}
 
-		ticketsSoldThisSessionField.textContent = lottery.ticketsSoldThisSession;
-		ticketsHeldCurrentField.textContent = user.ticketsHeld.current;
+		ticketsSoldThisSessionField.textContent = commas(lottery.ticketsSoldThisSession);
+		ticketsHeldCurrentField.textContent = commas(user.ticketsHeld.current);
 	} else {
 		prizeImage.style.display = "none";
 		[
@@ -142,8 +142,8 @@ function handleLotteryResponse(xhr, method, callback) {
 		purchaseTicketButton.disabled = true;
 	}
 
-	ticketsHeldTotalField.textContent = user.ticketsHeld.total;
-	winningsField.textContent = user.winnings;
+	ticketsHeldTotalField.textContent = commas(user.ticketsHeld.total);
+	winningsField.textContent = commas(user.winnings);
 	}
 }
 
