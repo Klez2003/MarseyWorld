@@ -410,6 +410,8 @@ def award_thing(v, thing_type, id):
 		else: author.rehab = int(time.time()) + 86400 * quantity
 		badge_grant(user=author, badge_id=109)
 	elif kind == "deflector":
+		if author.id in IMMUNE_TO_NEGATIVE_AWARDS:
+			stop(400, f"{safe_username} immune to negative awards!")
 		if author.deflector: author.deflector += 36000 * quantity
 		else: author.deflector = int(time.time()) + 36000 * quantity
 	elif kind == 'marsify':
