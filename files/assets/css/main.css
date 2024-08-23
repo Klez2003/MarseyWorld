@@ -7519,12 +7519,14 @@ blink {
 	vertical-align: middle;
 }
 
-.pinned-to-profile + div + input + :not(.pinned-to-profile) {
+.pinned-to-profile + div + input + .actual-post:not(.pinned-to-profile),
+.pinned-to-profile + div + input + .reports + .actual-post:not(.pinned-to-profile) {
 	border-top: 2px solid var(--primary) !important;
 	margin-top: 3rem;
 }
 
-.pinned-to-profile + div + input + :not(.pinned-to-profile) > div.d-flex {
+.pinned-to-profile + div + input + .actual-post:not(.pinned-to-profile) > div.d-flex,
+.pinned-to-profile + div + input + .reports + .actual-post:not(.pinned-to-profile) > div.d-flex {
 	margin-top: 3rem;
 }
 
