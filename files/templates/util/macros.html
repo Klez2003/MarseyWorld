@@ -111,7 +111,7 @@
 			</div>
 			<span {% if p.author.switched.patron and not p.distinguished %}class="patron" style="background-color:#{{p.author.switched.name_color}}"{% elif p.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if p.author.switched.pride_username(v) %}pride_username{% endif %}>{{p.author_name}}</span>
 		</a>
-		{% if FEATURES['PRONOUNS'] and p.author.pronouns %}
+		{% if FEATURES['PRONOUNS'] and p.author.switched.pronouns %}
 			<span class="pronouns" style="color:#{{p.author.switched.flaircolor}} !important;border-color:#{{p.author.switched.flaircolor}} !important">{{p.author.switched.pronouns_display}}</span>
 		{% endif %}
 		{% if p.author.switched.flair_html %}
