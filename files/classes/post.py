@@ -392,17 +392,17 @@ class Post(Base):
 	@property
 	@lazy
 	def is_video(self):
-		return self.url and any((str(self.url).lower().split('?')[0].endswith(f'.{x}') for x in VIDEO_FORMATS)) and is_safe_url(self.url)
+		return self.url and any(str(self.url).lower().split('?')[0].endswith(f'.{x}') for x in VIDEO_FORMATS) and is_safe_url(self.url)
 
 	@property
 	@lazy
 	def is_audio(self):
-		return self.url and any((str(self.url).lower().split('?')[0].endswith(f'.{x}') for x in AUDIO_FORMATS)) and is_safe_url(self.url)
+		return self.url and any(str(self.url).lower().split('?')[0].endswith(f'.{x}') for x in AUDIO_FORMATS) and is_safe_url(self.url)
 
 	@property
 	@lazy
 	def is_image(self):
-		return self.url and any((str(self.url).lower().split('?')[0].endswith(f'.{x}') for x in IMAGE_FORMATS)) and is_safe_url(self.url)
+		return self.url and any(str(self.url).lower().split('?')[0].endswith(f'.{x}') for x in IMAGE_FORMATS) and is_safe_url(self.url)
 
 	@lazy
 	def filtered_reports(self, v):

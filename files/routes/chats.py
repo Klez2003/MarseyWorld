@@ -331,7 +331,7 @@ def schedule_orgy(v, chat_id):
 		orgy_type = 'twitch'
 		data = twitch_regex.search(normalized_link).group(3)
 		data = f'https://player.twitch.tv/?channel={data}&parent={SITE}'
-	elif any((normalized_link.lower().endswith(f'.{x}') for x in VIDEO_FORMATS)):
+	elif any(normalized_link.lower().endswith(f'.{x}') for x in VIDEO_FORMATS):
 		domain = tldextract.extract(normalized_link).registered_domain
 		if domain != 'archive.org' and not is_safe_url(normalized_link):
 			stop(400, "For linking an mp4 file, you can only use archive.org or one of the approved media hosts outlined in https://rdrama.net/formatting#approved")

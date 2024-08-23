@@ -474,7 +474,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 			old = i.group(0)
 			emojis_with_no_bottom_margin = ('marseylong1', 'marseylong2', 'marseyllama1', 'marseyllama2', 'carplong1', 'carplong2', 'marseylongcockandballs', 'marseylonggigatitty')
-			if any((x in old for x in emojis_with_no_bottom_margin)):
+			if any(x in old for x in emojis_with_no_bottom_margin):
 				new = old.lower().replace(">", " class='mb-0'>")
 			else: new = old.lower()
 
@@ -551,7 +551,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 		#check for banned domain
 		combined = (domain + urlparse(href).path).lower()
-		if any((combined.startswith(x) for x in banned_domains)):
+		if any(combined.startswith(x) for x in banned_domains):
 			unlinkfy()
 			continue
 

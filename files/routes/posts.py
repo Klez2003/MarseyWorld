@@ -1009,7 +1009,7 @@ def get_post_title(v):
 	if not url.startswith('http'): stop(400)
 
 	checking_url = url.lower().split('?')[0].split('%3F')[0]
-	if any((checking_url.endswith(f'.{x}') for x in extensions)):
+	if any(checking_url.endswith(f'.{x}') for x in extensions):
 		stop(400)
 
 	try:
