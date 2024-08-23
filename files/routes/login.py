@@ -360,6 +360,7 @@ def sign_up_post(v):
 		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
 
 	execute_blackjack(new_user, None, new_user.username, 'username')
+	check_name(new_user)
 
 	cache.delete("user_count")
 

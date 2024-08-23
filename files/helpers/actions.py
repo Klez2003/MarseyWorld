@@ -563,6 +563,21 @@ def execute_under_siege(v, target, kind):
 	)
 	g.db.add(ma)
 
+def check_name(v):
+	if v.shadowbanned: return
+	words = ('nigger', 'faggot', 'allah', 'jew', 'muslim', 'terrorist', 'kike', 'gasthe', 'tranny')
+
+	if any(x in v.username.lower() for x in words):
+		v.shadowbanned = AUTOJANNY_ID
+		v.shadowban_reason = "Name"
+		ma = ModAction(
+			kind="shadowban",
+			user_id=AUTOJANNY_ID,
+			target_user_id=v.id,
+			_note=f'reason: "Name ({v.username})"'
+		)
+		g.db.add(ma)
+
 def process_options(v, target):
 
 	patterns = [(poll_regex, 0), (choice_regex, 1)]

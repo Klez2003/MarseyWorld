@@ -866,6 +866,7 @@ def settings_name_change(v):
 	g.db.add(v)
 
 	execute_blackjack(v, None, v.username, 'username')
+	check_name(v)
 
 	return {"message": "Name successfully changed!"}
 
