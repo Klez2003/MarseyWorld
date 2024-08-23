@@ -19,6 +19,7 @@ function submitAddAlt(element, username) {
 			showToast(false, getMessageFromJsonData(false, data));
 			element.disabled = false;
 			element.classList.remove('disabled');
+			element.blur();
 		}
 	}
 	xhr[0].send(xhr[1]);

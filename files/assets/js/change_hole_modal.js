@@ -14,6 +14,7 @@ hole_to.addEventListener('keydown', (e) => {
 function change_holeModal(id) {
 	changeHoleButton.disabled = false;
 	changeHoleButton.classList.remove('disabled');
+	changeHoleButton.blur();
 	changeHoleButton.innerHTML='Change Hole';
 	changeHoleButton.dataset.id = id
 

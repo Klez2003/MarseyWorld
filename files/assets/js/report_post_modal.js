@@ -14,6 +14,7 @@ reason_post.addEventListener('keydown', (e) => {
 function report_postModal(id) {
 	reportPostButton.disabled = false;
 	reportPostButton.classList.remove('disabled');
+	reportPostButton.blur();
 	reportPostButton.innerHTML='Report Post';
 	reportPostButton.dataset.id = id
 

@@ -63,6 +63,7 @@ function postToast(t, url, data, extraActionsOnSuccess, extraActionsOnFailure) {
 		if (!(extraActionsOnSuccess == reload && success && !is_shop)) {
 			t.disabled = false;
 			t.classList.remove("disabled");
+			t.blur();
 		}
 
 		let result
@@ -86,6 +87,7 @@ function handle_disabled(t) {
 	if (t.value) {
 		btn.disabled = false;
 		btn.classList.remove('disabled')
+		btn.blur();
 	}
 	else {
 		btn.disabled = true;
@@ -333,6 +335,7 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 		if (!(extraActionsOnSuccess == reload && success)) {
 			t.disabled = false;
 			t.classList.remove("disabled");
+			t.blur();
 		}
 
 		try {

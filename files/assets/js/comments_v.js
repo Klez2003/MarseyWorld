@@ -18,6 +18,7 @@ function report_commentModal(id, author) {
 	reportCommentButton.innerHTML='Report comment';
 	reportCommentButton.disabled = false;
 	reportCommentButton.classList.remove('disabled');
+	reportCommentButton.blur();
 	reportCommentButton.dataset.id = id
 
 	reason_comment.value = ""
@@ -184,6 +185,7 @@ function post_reply(id) {
 
 			btn.disabled = false;
 			btn.classList.remove('disabled');
+			btn.blur();
 
 			ta.value = ''
 			document.getElementById('message-reply-'+id).innerHTML = ''
@@ -204,6 +206,7 @@ function post_reply(id) {
 		}
 		btn.disabled = false;
 		btn.classList.remove('disabled');
+		btn.blur();
 	}
 	xhr[0].send(xhr[1]);
 }
@@ -275,6 +278,7 @@ function comment_edit(id) {
 		}
 		btn.disabled = false;
 		btn.classList.remove('disabled');
+		btn.blur();
 	}
 	xhr[0].send(xhr[1]);
 }
@@ -333,6 +337,7 @@ function post_comment(fullname, hide) {
 
 			btn.disabled = false;
 			btn.classList.remove('disabled');
+			btn.blur();
 
 			ta.value = ''
 			autoExpand(ta);
@@ -365,6 +370,7 @@ function post_comment(fullname, hide) {
 			showToast(false, getMessageFromJsonData(false, data));
 			btn.disabled = false;
 			btn.classList.remove('disabled');
+			btn.blur();
 		}
 	}
 	xhr.send(form)
