@@ -7772,3 +7772,7 @@ audio {
 		width: 100%;
 	}
 }
+
+#twitter-body {
+	text-transform: lowercase;
+}
