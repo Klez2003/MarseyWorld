@@ -148,12 +148,17 @@ function handleLotteryResponse(xhr, method, callback) {
 }
 
 function formatTimeLeft(secondsLeft) {
-	const minutesLeft = Math.floor(secondsLeft / 60);
 	const seconds = secondsLeft % 60;
+	
+	const minutesLeft = Math.floor(secondsLeft / 60);
 	const minutes = minutesLeft % 60;
-	const hours = Math.floor(minutesLeft / 60);
 
-	return `${hours}h, ${minutes}m, ${seconds}s`;
+	const hoursLeft = Math.floor(minutesLeft / 60);
+	const hours = hoursLeft % 24;
+
+	const days = Math.floor(hoursLeft / 24);
+
+	return `${days}d, ${hours}h, ${minutes}m, ${seconds}s`;
 }
 
 lotteryOnReady();
