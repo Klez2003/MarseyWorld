@@ -49,7 +49,7 @@ def _add_post_view(pid):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@is_not_banned
+@auth_required
 def publish(pid, v):
 	p = get_post(pid)
 
@@ -57,6 +57,11 @@ def publish(pid, v):
 		return {"message": "Post published!"}
 
 	if p.author_id != v.id: stop(403)
+
+	if v.is_suspended and p.hole != 'chudrama':
+		if SITE_NAME == 'rDrama':
+			stop(403, "You can only post in /h/chudrama when you're tempbanned!")
+		stop(403, "You can't perform this action while banned!")
 
 	p.draft = False
 	p.created_utc = int(time.time())
@@ -464,7 +469,9 @@ def is_repost(v):
 def submit_post(v, hole=None):
 	flag_draft = request.values.get("draft", False, bool)
 
-	if v.is_suspended and not flag_draft:
+	if v.is_suspended and hole != 'chudrama' and not flag_draft:
+		if SITE_NAME == 'rDrama':
+			stop(403, "You can only post in /h/chudrama when you're tempbanned!")
 		stop(403, "You can't perform this action while banned!")
 
 	url = request.values.get("url", "").replace('\x00', '').strip()

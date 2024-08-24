@@ -101,7 +101,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, hole=None):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("20/minute;400/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("20/minute;400/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@is_not_banned
+@auth_required
 def comment(v):
 	parent_fullname = request.values.get("parent_fullname").strip()
 	if len(parent_fullname) < 3: stop(400)
@@ -158,6 +158,11 @@ def comment(v):
 		if hole and v.exiler_username(hole): stop(403, f"You're exiled from /h/{hole}")
 		if hole in {'furry','vampire','racist','femboy','edgy'} and not v.client and not v.house.lower().startswith(hole):
 			stop(403, f"You need to be a member of House {hole.capitalize()} to comment in /h/{hole}")
+
+	if v.is_suspended and not (posting_to_post and hole == 'chudrama'):
+		if SITE_NAME == 'rDrama':
+			stop(403, "You can only comment in /h/chudrama when you're tempbanned!")
+		stop(403, "You can't perform this action while banned!")
 
 	if level > COMMENT_MAX_DEPTH:
 		stop(400, f"Max comment level is {COMMENT_MAX_DEPTH}")
