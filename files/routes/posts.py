@@ -469,11 +469,6 @@ def is_repost(v):
 def submit_post(v, hole=None):
 	flag_draft = request.values.get("draft", False, bool)
 
-	if v.is_suspended and hole != 'chudrama' and not flag_draft:
-		if SITE_NAME == 'rDrama':
-			stop(403, "You can only post in /h/chudrama when you're tempbanned!")
-		stop(403, "You can't perform this action while banned!")
-
 	url = request.values.get("url", "").replace('\x00', '').strip()
 
 	if '\\' in url: stop(400)
@@ -501,6 +496,11 @@ def submit_post(v, hole=None):
 
 	if SITE == 'rdrama.net' and v.id == 10947:
 		hole = 'mnn'
+
+	if v.is_suspended and hole != 'chudrama' and not flag_draft:
+		if SITE_NAME == 'rDrama':
+			stop(403, "You can only post in /h/chudrama when you're tempbanned!")
+		stop(403, "You can't perform this action while banned!")
 
 	if hole == 'changelog':
 		stop(400, "/h/changelog is archived")
