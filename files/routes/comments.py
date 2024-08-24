@@ -159,7 +159,8 @@ def comment(v):
 		if hole in {'furry','vampire','racist','femboy','edgy'} and not v.client and not v.house.lower().startswith(hole):
 			stop(403, f"You need to be a member of House {hole.capitalize()} to comment in /h/{hole}")
 
-	if level > COMMENT_MAX_DEPTH: stop(400, f"Max comment level is {COMMENT_MAX_DEPTH}")
+	if level > COMMENT_MAX_DEPTH:
+		stop(400, f"Max comment level is {COMMENT_MAX_DEPTH}")
 
 	body = request.values.get("body", "").strip()
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
