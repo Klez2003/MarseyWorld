@@ -222,7 +222,7 @@
 								" class="ml-2 {% if not c.parent_comment.author.switched.earlylife %}unbreakable{% endif %}">
 									<i class="fas fa-reply fa-sm fa-fw fa-flip-horizontal"></i>
 									<span {% if not c.ghost %}class="replying-to-{{c.parent_comment.author.switched.id}}"{% endif %}>
-										{{- c.parent_comment.author.switched.username -}}
+										{{- c.parent_comment.author_name -}}
 									</span>
 								</a>
 							{% endif %}
