@@ -1257,6 +1257,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('facepalm', 'Classic', 2, 'animated emoticon stupid seriously', false, 0),
 ('fakebanhammer', 'Misc', 2, 'banhammer', false, 1701640097),
 ('fakedeflector', 'Misc', 2, 'award', false, 1701639927),
+('fakedeflectortestpleaseignore', 'Misc', 2, 'sadkljfghnsdafkjghghdkjrf', false, 1724544320),
 ('fakejannieban', 'Misc', 2, 'banhanmer', false, 1701640174),
 ('fakeunbanhammer', 'Misc', 2, 'unbanhammer', false, 1701640129),
 ('fancywithwine', 'Rage', 2, 'sophisticated monocle alcohol', false, 0),
