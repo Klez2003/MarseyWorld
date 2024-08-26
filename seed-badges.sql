@@ -57,6 +57,7 @@ INSERT INTO public.badge_defs VALUES (178, 'Marseyhypebeast', 'This user owns OF
 INSERT INTO public.badge_defs VALUES (179, 'Spider!', 'This user is currently best friends with a spider', 1663696289);
 INSERT INTO public.badge_defs VALUES (184, 'Homoween 2022 Survivor', 'Awarded for surviving Homoween 2022', 1666225785);
 INSERT INTO public.badge_defs VALUES (12, 'Gold Recruiter', 'Recruited at least 100 friends to join the site', 0);
+INSERT INTO public.badge_defs VALUES (350, 'August''s 2nd August August', 'This user had a great August two years in a row!', 1724618329);
 INSERT INTO public.badge_defs VALUES (185, 'Hallowgrinch', 'TP this Halloween-hating loser''s house.', 1666226224);
 INSERT INTO public.badge_defs VALUES (181, 'INFECTED', 'This user is a mindless zombie.', 1666073382);
 INSERT INTO public.badge_defs VALUES (182, 'VAXXMAXXED', 'This user is a mindless zombie.', 1666074754);
@@ -312,7 +313,7 @@ INSERT INTO public.badge_defs VALUES (73, 'Le Rich Gentlesir', 'Spent a fucking 
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 349, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 350, true);
 
 
 --
