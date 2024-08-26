@@ -1503,7 +1503,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('kiddykongscared', 'Donkey Kong', 2, 'eyes dk donkeykong', false, 1679328822),
 ('killerjak', 'Wojak', 2, 'murder dead wojak', false, 1688678902),
 ('killherkillher', 'Rage', 2, 'troll crazy', false, 0),
-('killyourselfsign', 'Misc', 2, 'cat eevee kys sylveon', false, 1723764884),
+('killyourselfsign', 'Misc', 2, 'cat eevee kys pokemon sylveon', false, 1723764884),
 ('kimjojongjak', 'Wojak', 2, 'woman korean asian', false, 0),
 ('kimonogirl', 'Wojak', 2, 'woman asian japanese japan', false, 0),
 ('kingkrazythink', 'Misc', 2, 'consider oney', false, 1683985068),
