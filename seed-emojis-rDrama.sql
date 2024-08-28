@@ -2748,6 +2748,8 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyemo', 'Marsey', 2, 'girl goth scene woman foid', false, 0),
 ('marseyemojigrin', 'Marsey', 2, 'reaction', false, 0),
 ('marseyemojigrineyes', 'Marsey', 2, 'reaction', false, 0),
+('marseyemojilaugh', 'Marsey', 2, 'breathe cry funny haha hehe laughing lmao lol rofl', false, 1724823957),
+('marseyemojilaugh2', 'Marsey', 2, 'breathe cry funny haha hehe laughing lmao lol loweffort rofl scuffed', false, 1724824005),
 ('marseyemojirofl', 'Marsey', 2, 'reaction rotfl rolling laughing', false, 0),
 ('marseyemojismilemouth', 'Marsey', 2, 'reaction', false, 0),
 ('marseyemojismilemouthcoldsweat', 'Marsey', 2, 'reaction', false, 0),
