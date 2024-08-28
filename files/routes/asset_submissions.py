@@ -253,6 +253,11 @@ def approve_emoji(v, name):
 	if not new_name:
 		stop(400, "You need to include name!")
 
+	if new_name != emoji.name:
+		existing = g.db.query(Emoji.name).filter_by(name=new_name).one_or_none()
+		if existing:
+			stop(400, "Someone already submitted an emoji with this name!")
+
 	tags = delete_unnecessary_tags(tags, new_name)
 
 	new_kind = request.values.get('kind').strip()
