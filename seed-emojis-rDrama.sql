@@ -3981,7 +3981,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseymid', 'Marsey', 2, 'foid zendaya would mic ahem', false, 1687371195),
 ('marseymidsommarchristian', 'Marsey', 2, 'sweden movie film cult a24 scandinavia man cinema bear death kill fire murder torture drug', false, 1664220296),
 ('marseymidsommardani', 'Marsey', 2, 'sweden movie film cult a24 scandinavia flowers dress happy tears joy woman cinema', false, 1664220186),
-('marseymight', 'Marsey', 2, 'girl hmmm idk maybe microphone thinking undecided unsure would', false, 1724669219),
+('marseymight', 'Marsey', 2, 'myheroacademia anime weeb', false, 1724669219),
 ('marseymike', 'Marsey', 2, 'disney pixar monsters inc cyclops', false, 0),
 ('marseymiki', 'Marsey', 2, 'idolmaster anime animegirl kiss blowkiss', false, 1667211904),
 ('marseymiku', 'Marsey', 2, 'hatsune pop star concert rave weeaboo music animated singing microphone', false, 0),
