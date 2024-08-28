@@ -1277,6 +1277,7 @@ class User(Base):
 
 		if self.truescore >= TRUESCORE_MINIMUM: return True
 		if self.chud: return True
+		if self.unban_utc: return True
 		if self.patron: return True
 		if SITE == 'rdrama.net' and self.id == 5237: return True
 
