@@ -1179,6 +1179,7 @@ INSERT INTO public.hat_defs VALUES (1563, 'Top Hat (Medium)', 'A straight-forwar
 INSERT INTO public.hat_defs VALUES (1566, 'Princess Tiara', '"Happily ever after" not included', 2, 500, NULL, 1716864569);
 
 
+
 INSERT INTO public.hat_defs VALUES (1450, 'Red Eminent Horns', 'Queen of the devils, leader of the chuds.', 2, 500, NULL, 1708367282);
 INSERT INTO public.hat_defs VALUES (1544, 'Sweden Flag', 'Över Norden jag härskar, med det arv som jag gavs, gång på gång, sjung Carolus sång!', 2, 1000, NULL, 1714318091);
 INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokémon. A Ghost and Poison type. Gengar can pass through dimensions and appear almost anywhere. Since Gengar absorbs any warmth around it, the temperature suddenly drops wherever it appears.', 2, 500, NULL, 1698658745);
@@ -1223,6 +1224,7 @@ INSERT INTO public.hat_defs VALUES (1655, 'Peeking Headcat', 'I don’t know, th
 INSERT INTO public.hat_defs VALUES (1560, 'Cat Ears III', 'Mee-ow :3', 2, 500, NULL, 1716863583);
 INSERT INTO public.hat_defs VALUES (1562, 'Dahmer Cut', 'Show your support for necrophiliac cannibalism', 2, 500, NULL, 1716863716);
 INSERT INTO public.hat_defs VALUES (1564, 'Jessie Beanie', 'You can''t keep getting away with it', 2, 500, NULL, 1716864120);
+
 INSERT INTO public.hat_defs VALUES (1396, 'Click Me', 'Come on, you know you want to see my profile.', 2, 500, NULL, 1704921421);
 INSERT INTO public.hat_defs VALUES (1408, 'Kadio Stance', '*thwack* YEEEEEEEEOUCHHHHHHHHHH', 2, 500, NULL, 1705616850);
 INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
@@ -1303,7 +1305,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1674, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1676, true);
 
 
 --
