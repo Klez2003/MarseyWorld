@@ -105,8 +105,7 @@ def get_accounts_dict(ids, v=None, graceful=False):
 		if graceful: return None
 		stop(400, "User IDs need to be an integer.")
 
-	users = g.db.query(User).filter(User.id.in_(ids))
-	users = users.all()
+	users = g.db.query(User).filter(User.id.in_(ids)).all()
 	if len(users) != len(ids) and not graceful:
 		stop(404, "Users not found.")
 
