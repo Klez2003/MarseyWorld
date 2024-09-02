@@ -1180,6 +1180,8 @@ INSERT INTO public.hat_defs VALUES (1566, 'Princess Tiara', '"Happily ever after
 
 
 
+
+
 INSERT INTO public.hat_defs VALUES (1450, 'Red Eminent Horns', 'Queen of the devils, leader of the chuds.', 2, 500, NULL, 1708367282);
 INSERT INTO public.hat_defs VALUES (1544, 'Sweden Flag', 'Över Norden jag härskar, med det arv som jag gavs, gång på gång, sjung Carolus sång!', 2, 1000, NULL, 1714318091);
 INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokémon. A Ghost and Poison type. Gengar can pass through dimensions and appear almost anywhere. Since Gengar absorbs any warmth around it, the temperature suddenly drops wherever it appears.', 2, 500, NULL, 1698658745);
@@ -1305,7 +1307,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1676, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1680, true);
 
 
 --
