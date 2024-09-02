@@ -549,7 +549,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyhanging', 'Marsey', 2, 'suicide sad', false, 1712002057),
 ('marseyhappycat', 'Marsey', 2, 'lolcat icanhaz cheeseburger cheezburger', false, 1717560962),
 ('marseyhappyflareon', 'Marsey', 2, 'pokemon pkmn 136', false, 1700862813),
-('marseyhappyjump', 'Marsey', 2, 'jumping', false, 1725065818),
 ('marseyhatcute', 'Marsey', 2, 'costume', false, 1723416825),
 ('marseyhatsunemiku', 'Marsey', 2, 'vocal anime waifu', false, 1709355577),
 ('marseyhaunter2', 'Marsey', 2, 'pkmn pokemon 093', false, 1700287414),
