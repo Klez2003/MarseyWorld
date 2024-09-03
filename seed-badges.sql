@@ -33,7 +33,6 @@ INSERT INTO public.badge_defs VALUES (325, 'Best rdrama activist 2023', 'Went ou
 INSERT INTO public.badge_defs VALUES (326, 'Chud Hunter', 'Successfully reported wrongthink and got paid 🤑', 1707748016);
 INSERT INTO public.badge_defs VALUES (327, 'Top Poster of the Day', 'Has been Top Poster of the Day at least once', 1708092535);
 INSERT INTO public.badge_defs VALUES (336, 'Literary Genius', 'Wrote an original rDrama-themed Fanfiction', 1714262952);
-INSERT INTO public.badge_defs VALUES (337, 'INcel bronze', 'User invited two internet celebs to rDrama', 1715140233);
 INSERT INTO public.badge_defs VALUES (328, 'WORDS WORDS WORDS', 'Wrote an effortpost 📃', 1708278966);
 INSERT INTO public.badge_defs VALUES (331, 'Sidebar Master', 'Contributed 10 (or more!!!!) sidebar images 🖼', 1709691233);
 INSERT INTO public.badge_defs VALUES (69, 'Little Big Spender', 'Spent 10,000 currency on awards', 0);
@@ -58,6 +57,7 @@ INSERT INTO public.badge_defs VALUES (179, 'Spider!', 'This user is currently be
 INSERT INTO public.badge_defs VALUES (184, 'Homoween 2022 Survivor', 'Awarded for surviving Homoween 2022', 1666225785);
 INSERT INTO public.badge_defs VALUES (12, 'Gold Recruiter', 'Recruited at least 100 friends to join the site', 0);
 INSERT INTO public.badge_defs VALUES (350, 'August''s 2nd August August', 'This user had a great August two years in a row!', 1724618329);
+INSERT INTO public.badge_defs VALUES (337, 'INcel bronze', 'User invited an internet celeb to rDrama', 1715140233);
 INSERT INTO public.badge_defs VALUES (185, 'Hallowgrinch', 'TP this Halloween-hating loser''s house.', 1666226224);
 INSERT INTO public.badge_defs VALUES (181, 'INFECTED', 'This user is a mindless zombie.', 1666073382);
 INSERT INTO public.badge_defs VALUES (182, 'VAXXMAXXED', 'This user is a mindless zombie.', 1666074754);
