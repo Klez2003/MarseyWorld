@@ -435,6 +435,8 @@ if SITE_NAME == 'rDrama':
 		# "a global superpower by 2020",
 		# "all-natural homeopathic herpes treatment",
 		# "vegan dating",
+		# "Come for the cats. Stay for the empathy.",
+		# "gay cat dating site",
 		"Kamala 2024",
 		"Kamala 2024",
 		"Kamala 2024",
