@@ -2572,6 +2572,10 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 	padding-left: 1.5rem !important;
 }
 
+.pl-45, .px-45 {
+	padding-left: 2rem !important;
+}
+
 .p-5 {
 	padding: 3rem !important;
 }
