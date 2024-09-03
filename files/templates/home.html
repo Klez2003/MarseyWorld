@@ -73,7 +73,7 @@
 									{% for category, icon in CATEGORIES_ICONS.items() %}
 										<div class="custom-control custom-checkbox pl-45 dropdown-item">
 											<input autocomplete="off" type="checkbox" class="custom-control-input" id="category-{{category}}" data-nonce="{{g.nonce}}" data-onchange="postToastReload(this, '/toggle_category/{{category}}')" {% if session.get(category, True) %}checked{% endif %}>
-											<label class="custom-control-label" for="category-{{category}}">{{category}}</label>
+											<label class="custom-control-label d-flex" for="category-{{category}}">{{category}}</label>
 										</div>
 									{% endfor %}
 								</div>
