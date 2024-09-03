@@ -23,9 +23,8 @@ def ping_groups(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def create_group(v):
-	name = request.values.get('name')
+	name = request.values.get("name", "").strip().lstrip("!").strip().lower()
 	if not name: stop(400)
-	name = name.strip().lower()
 
 	if name.startswith('slots') or name.startswith('remindme'):
 		stop(400, "You can't make a group with that name!")
