@@ -1402,7 +1402,7 @@ if KOFI_TOKEN:
 def gumroad():
 	data = request.values
 	ip = request.headers.get('CF-Connecting-IP')
-	if ip != '34.193.146.117':
+	if ip not in {'34.193.146.117', '54.156.191.45'}:
 		print(STARS, flush=True)
 		print(f'/gumroad fail: {ip}')
 		print(STARS, flush=True)
