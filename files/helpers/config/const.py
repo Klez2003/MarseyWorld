@@ -565,6 +565,7 @@ if SITE_NAME == 'rDrama':
 		'kamala',
 		'countryclub',
 		'meowr',
+		'spongebob',
 	}
 
 	OFFSITE_NOTIF_QUERIES.update({'marsey', 'r/drama', 'justice4darrell', 'cringetopia.org'})
