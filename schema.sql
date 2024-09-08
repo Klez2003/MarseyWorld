@@ -1160,7 +1160,7 @@ CREATE TABLE public.users (
     reserved character varying(256),
     mfa_secret character varying(32),
     is_private boolean DEFAULT false NOT NULL,
-    unban_utc integer DEFAULT 0,
+    unban_utc bigint DEFAULT 0,
     custom_filter_list character varying(1000),
     stored_subscriber_count integer DEFAULT 0 NOT NULL,
     original_username character varying(30),
