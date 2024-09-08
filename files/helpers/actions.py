@@ -564,10 +564,7 @@ def execute_under_siege(v, target, kind):
 	g.db.add(ma)
 
 def check_name(v):
-	if v.shadowbanned: return
-	words = ('nigger', 'faggot', 'allah', 'jew', 'muslim', 'terrorist', 'kike', 'gasthe', 'tranny')
-
-	if any(x in v.username.lower() for x in words):
+	if not v.shadowbanned and any(x in v.username.lower() for x in ('gasthe', 'killall', '1488')):
 		v.shadowbanned = AUTOJANNY_ID
 		v.shadowban_reason = "Name"
 		ma = ModAction(
@@ -577,6 +574,21 @@ def check_name(v):
 			_note=f'reason: "Name ({v.username})"'
 		)
 		g.db.add(ma)
+	elif any(x in v.username.lower() for x in ('nigger', 'faggot', 'kike', 'trann')):
+		v.is_banned = AUTOJANNY_ID
+		v.unban_utc = 32500915200
+		v.ban_reason = "Name"
+		ma = ModAction(
+			kind="ban_user",
+			user_id=AUTOJANNY_ID,
+			target_user_id=v.id,
+			_note=f'reason: "Name ({v.username})"'
+		)
+		g.db.add(ma)
+
+		text = f"We're sorry, your username (`{v.username}`) contains a slur that we don't allow. Please change your username and [contact the admins](/contact) and we will unban you. Thank you!"
+		send_repeatable_notification(v.id, text)
+
 
 def process_options(v, target):
 
