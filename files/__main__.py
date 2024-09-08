@@ -43,7 +43,7 @@ app.config["SESSION_COOKIE_NAME"] = "session_" + environ.get("SITE_NAME").strip(
 app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024 if SITE == 'watchpeopledie.tv' else 100 * 1024 * 1024
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["PERMANENT_SESSION_LIFETIME"] = 60 * 60 * 24 * 999
-app.config['SESSION_REFRESH_EACH_REQUEST'] = False
+app.config['SESSION_REFRESH_EACH_REQUEST'] = True
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
