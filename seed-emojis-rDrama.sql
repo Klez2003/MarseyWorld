@@ -881,6 +881,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('changedaworld', 'Misc', 2, 'rat cigarette smoking advice', false, 1711866547),
 ('cheers', 'Classic', 2, 'emoticon animated toast beer alcohol celebration', false, 0),
 ('cheerup', 'Classic', 2, 'console sympathy sad', false, 1679327642),
+('chewy', 'Misc', 2, 'dog frozenchosen puppy shihtzu', false, 1726029594),
 ('chi', 'Marsey Alphabet', 2, 'χ', false, 0),
 ('chinesenobleman', 'Wojak', 2, 'asian china qin shang zhou han qing sui tang liao song yuan ming', false, 0),
 ('chinesepolitician', 'Wojak', 2, 'chinese politician', false, 0),
