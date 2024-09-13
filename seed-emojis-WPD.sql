@@ -908,7 +908,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('parrotpoop', 'Misc', 2, 'party rainbow shit', false, 1726099104),
 ('parrotturkey', 'Misc', 2, 'flag', false, 1725269541),
 ('partyblobcat', 'Misc', 2, 'rainbow', false, 1726098903),
-('pennjillette', 'Misc', 2, 'bullshit teller', false, 1726079627),
+('pennjillette', 'Misc', 2, 'bullshit discarded garbage opinion teller trash trashman', false, 1726079627),
 ('pepeautism', 'Misc', 2, 'frog autist autistic aspie sperg aspergers', false, 1718931073),
 ('pepebatman', 'Misc', 2, 'superhero gotham', false, 1707411163),
 ('pepedevil', 'Misc', 2, 'blushing boys club demon frog furie matt mischief mischievous rapscallion satan satanic tail the troublemaker troublemaking', false, 1723689625),
