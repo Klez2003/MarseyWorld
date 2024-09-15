@@ -6546,6 +6546,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('trollfaceball', 'Rage', 2, 'lol lmao lmfao trolling 3d spin balls spinning', false, 1686171851),
 ('trollfacedancing', 'Rage', 2, 'dance trolling trolled trolololo peanutbutterjellytime', false, 1715541120),
 ('trollinsane', 'Rage', 2, 'crazy gone laughing laughter mad teeth trollface wrinkles', false, 1725763857),
+('trollinsane2', 'Rage', 2, 'animated bulging crazy eyes her kill teeth trollface trolling', false, 1726352915),
 ('trollolol', 'Rage', 2, 'trollface', false, 0),
 ('trophy', 'Classic', 2, 'winner award', false, 1679282338),
 ('truestorybro', 'Rage', 2, 'wine alcohol toast', false, 0),
