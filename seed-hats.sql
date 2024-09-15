@@ -1183,6 +1183,7 @@ INSERT INTO public.hat_defs VALUES (1674, 'Jordan flag', 'Jordan first 🇯🇴'
 INSERT INTO public.hat_defs VALUES (1676, 'TheWarmthSociety', '"(Are..you..alright?)"', 2, 500, NULL, 1725207513);
 INSERT INTO public.hat_defs VALUES (1678, 'Stranger in the dark', 'I-is that...!?', 2, 500, NULL, 1725291391);
 INSERT INTO public.hat_defs VALUES (1685, 'JUUL', 'zoomercore non-acoustic vaping device.', 2, 500, NULL, 1725910305);
+
 INSERT INTO public.hat_defs VALUES (1450, 'Red Eminent Horns', 'Queen of the devils, leader of the chuds.', 2, 500, NULL, 1708367282);
 INSERT INTO public.hat_defs VALUES (1544, 'Sweden Flag', 'Över Norden jag härskar, med det arv som jag gavs, gång på gång, sjung Carolus sång!', 2, 1000, NULL, 1714318091);
 INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokémon. A Ghost and Poison type. Gengar can pass through dimensions and appear almost anywhere. Since Gengar absorbs any warmth around it, the temperature suddenly drops wherever it appears.', 2, 500, NULL, 1698658745);
@@ -1232,6 +1233,7 @@ INSERT INTO public.hat_defs VALUES (1688, 'mango JUUL pod crown', 'zoomercore no
 INSERT INTO public.hat_defs VALUES (1681, 'Mysterious Challenger', '...', 2, 500, NULL, 1725293216);
 INSERT INTO public.hat_defs VALUES (1683, 'Fathers no evil', '"A lot of splendid high profile court cases could trace it."', 2, 500, NULL, 1725809328);
 INSERT INTO public.hat_defs VALUES (1686, 'upright JUUL', 'zoomercore non-acoustic vaping device upright.', 2, 500, NULL, 1725910576);
+
 
 
 INSERT INTO public.hat_defs VALUES (1396, 'Click Me', 'Come on, you know you want to see my profile.', 2, 500, NULL, 1704921421);
@@ -1314,7 +1316,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1690, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1693, true);
 
 
 --
