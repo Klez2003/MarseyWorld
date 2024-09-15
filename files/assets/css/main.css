@@ -7781,6 +7781,6 @@ audio {
 	text-transform: lowercase;
 }
 
-#post-root .mx-auto.arrow-up::after, .post-actions:not(.comment-actions .post-actions) .arrow-up.upvote-button::after {
+#post-root .mx-auto.arrow-up::after, .post-actions:not(.comment-actions .post-actions) .arrow-up.upvote-button::after, .comment-actions .upvote-button::after {
 	display: none !important;
 }
