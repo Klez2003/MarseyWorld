@@ -225,7 +225,7 @@ def notifications_posts(v):
 
 	total = listing.count()
 
-	listing = listing.order_by(Post.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	listing = listing.order_by(Post.created_utc.desc()).offset(100 * (page - 1)).limit(100).all()
 	listing = [x.id for x in listing]
 
 	listing = get_posts(listing, v=v)
