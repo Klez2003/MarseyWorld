@@ -16,8 +16,13 @@ BOOSTED_SITES = {
 	'soyak.party',
 	'soyjaks.party',
 	'jakparty.soy',
+	'soygem.party',
+	'soyzellig.party',
+	'theribbitrally.org',
 	'crystal.cafe',
 	'leftypol.org',
+	'leftychan.net',
+	'chudpol.ru',
 
 	#twitter-like
 	'threads.net',
@@ -79,6 +84,8 @@ BOOSTED_SITES = {
 	'chimpout.com',
 	'xoxohth.com',
 	'fakeologist.com',
+	'soyjak.blog',
+	'chuds.life',
 
 	#nested-comments
 	#'all sites with .win TLD',
