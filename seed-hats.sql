@@ -1319,7 +1319,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1701, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1702, true);
 
 
 --
