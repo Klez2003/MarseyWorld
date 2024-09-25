@@ -5991,6 +5991,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('nooticer', 'Wojak', 2, 'beard coomer nooticing notice noticer noticing thinking thonk', false, 1723504277),
 ('nopics', 'Classic', 2, 'thread worthless without sign', false, 1712102034),
 ('normielarp', 'Misc', 2, 'shitlib pretend normal larping cope sjw', false, 1711991824),
+('norwaynice', 'Classic', 2, 'ball emoji man memeball nordic norse norwegian picardia scandinavian strawman sunglasses thumbs up', false, 1727283401),
 ('notbad', 'Rage', 2, 'obama president neutral frown suit tuxedo bowtie', false, 1708549117),
 ('nothingtodohere', 'Rage', 2, 'rage', false, 1690501053),
 ('notmyproblem', 'Misc', 2, 'oil rentoid', false, 1701740438),
