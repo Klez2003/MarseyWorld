@@ -378,7 +378,7 @@
 										</div>
 									</div>
 
-								<ul class="d-none d-md-flex list-inline text-right text-md-left"><li>
+								<ul class="d-none d-md-flex list-inline text-right text-md-left" style="line-height: 2"><li>
 									{% if v %}
 										<button type="button" tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment', '{{c.id}}', '1')" class="comment-{{c.id}}-up btn caction py-0 m-0 px-3 nobackground arrow-up upvote-button mx-0 comment-{{c.id}}-up {% if voted == 1 %}active{% endif %} {% if disable_votes and voted != 1 %}disabled {% endif %}"></button>
 									{% else %}
