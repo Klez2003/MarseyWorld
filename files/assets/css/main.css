@@ -7720,6 +7720,10 @@ img[src$="/e/speechbubble.webp"] {
     vertical-align: middle;
 }
 
+.twitter-embed {
+	margin-bottom: 0.8rem;
+}
+
 #view-art-sidebar img {
 	max-height: 300px !important;
 	width: 300px;
