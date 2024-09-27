@@ -50,18 +50,18 @@ def cron_fn(every_5m, every_1d, every_1mo):
 				_unpin_expired()
 				g.db.commit()
 
-				if not IS_LOCALHOST:
-					reddit_mentions_task()
-					g.db.commit()
+				# if not IS_LOCALHOST:
+				# 	reddit_mentions_task()
+				# 	g.db.commit()
 
-					lemmy_mentions_task()
-					g.db.commit()
+				# 	lemmy_mentions_task()
+				# 	g.db.commit()
 
-					fourchan_mentions_task()
-					g.db.commit()
+				# 	fourchan_mentions_task()
+				# 	g.db.commit()
 
-					soyjak_mentions_task()
-					g.db.commit()
+				# 	soyjak_mentions_task()
+				# 	g.db.commit()
 
 			if every_1d or (not cache.get('stats') and not IS_LOCALHOST):
 				if IS_HOMOWEEN():
