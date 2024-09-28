@@ -819,7 +819,7 @@ AWARDS = {
 		"description": "Makes the recipient unable to post/comment anything but emojis for 24 hours.",
 		"icon": "fas fa-ankh",
 		"color": "text-gold",
-		"price": 2000,
+		"price": 1500,
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
