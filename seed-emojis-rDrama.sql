@@ -4065,6 +4065,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseylongpost2', 'Marsey', 2, 'tldr reaction wall of text scrolling wordswordswords animated words judgment', false, 0),
 ('marseylongpostglow', 'Marsey', 2, 'animated pippy fedpost words mad angry rage wtf green chud fbi mossad fed atf police reaction scrolling', false, 0),
 ('marseylongsurfing', 'Marsey', 2, 'water ocean surfboard', false, 0),
+('marseylookingback', 'Marsey', 2, 'behind happy over shoulder sitting smile turning', false, 1727422180),
 ('marseyloona', 'Marsey', 2, 'hellhound dog hazbinhotel boss furry goth', false, 1696041454),
 ('marseyloopy', 'Marsey', 2, 'mentally ill psycho crazy mental illness', false, 1714608857),
 ('marseylopunny', 'Marsey', 2, 'pkmn pokemon 428', false, 1697944601),
