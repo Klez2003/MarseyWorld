@@ -1401,7 +1401,7 @@ fistmas_end = datetime.datetime.strptime(f'26/12/{t.year}', '%d/%m/%Y') + dateti
 def IS_FISTMAS():
 	return fistmas_begin < datetime.datetime.now() < fistmas_end
 
-homoween_begin_day = 1 if SITE_NAME == 'rDrama' else 26
+homoween_begin_day = 2 if SITE_NAME == 'rDrama' else 26
 homoween_begin = datetime.datetime.strptime(f'{homoween_begin_day}/10/{t.year}', '%d/%m/%Y')
 homoween_end = datetime.datetime.strptime(f'1/11/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
 def IS_HOMOWEEN():
