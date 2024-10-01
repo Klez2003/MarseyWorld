@@ -93,8 +93,8 @@ function draw() {
 	let stalker = stalkers[0];
 	let prevstalker = stalkers[0];
 	stalker.x = stalker.X += (mouse.x - stalker.X) * speed;
-	if (screen_width < 768) {
-		stalker.x = Math.min(stalker.x, screen_width * 0.5);
+	if (innerWidth < 768) {
+		stalker.x = Math.min(stalker.x, innerWidth * 0.5);
 	}
 	stalker.y = stalker.Y += (mouse.y - stalker.Y) * speed;
 	for (let i = count - 1; i > 0; --i) {

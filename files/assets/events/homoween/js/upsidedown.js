@@ -26,7 +26,7 @@ class firefly {
 let f = [];
 
 let num_fireflies = 10
-if (screen_width >= 768) {
+if (innerWidth >= 768) {
 	num_fireflies = 50
 }
 
