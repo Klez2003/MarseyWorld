@@ -18,7 +18,7 @@
 							<div class="d-flex">
 								<button type="submit" class="btn btn-primary ml-auto" {% if v.marseybux + v.coins < cost %}disabled{% endif %}>Create Group</button>
 							</div>
-							<p class="mt-2 mr-1 ml-3" style="float: right"><b>Cost</b>: {{cost}} coins or marseybux</p>
+							<p class="mt-2 mr-1 ml-3" style="float: right"><b>Cost</b>: {{cost | commas}} coins or marseybux</p>
 						</div>
 					</div>
 					
