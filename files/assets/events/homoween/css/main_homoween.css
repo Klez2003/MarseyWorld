@@ -734,15 +734,6 @@ body::after {
 	height: calc(100dvh - 79.54px - 2rem)
 }
 
-@media (max-width: 768px) {
-	.has_header {
-		padding-top: calc(var(--safe-area-inset-top) + 65.8px) !important
-	}
-	#chat {
-		height: calc(100dvh - var(--safe-area-inset-top) - 65.8px - 0.1rem)
-	}
-}
-
 #effigy {
 	position: absolute;
 	z-index: 1;
