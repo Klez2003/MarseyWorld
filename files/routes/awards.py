@@ -239,6 +239,9 @@ def award_thing(v, thing_type, id):
 			return bought
 		awards.extend(bought)
 
+	if v.id == author.id and kind == "zombiebite":
+		stop(403, "You can't bite yourself!")
+
 	if v.id != author.id:
 		if author.deflector and v.deflector and AWARDS[kind]['deflectable']:
 			msg = f"@{v.username} has tried to give {obj.textlink} {quantity} {award_title} award{s} but {it} {was} deflected on them, they also had a deflector up, so {it} bounced back and forth until {it} vaporized!"
