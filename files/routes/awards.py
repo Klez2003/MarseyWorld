@@ -621,6 +621,8 @@ def award_thing(v, thing_type, id):
 	elif kind == "jumpscare":
 		author.jumpscare += 1 * quantity
 	elif kind == "vax":
+		if v.zombie < 0:
+			stop(403, "Zombies can't vaccinate others!")
 		for award in awards:
 			g.db.flush()
 			if author.zombie < 0:
@@ -635,6 +637,8 @@ def award_thing(v, thing_type, id):
 
 				badge_grant(user=author, badge_id=182)
 	elif kind == "zombiebite":
+		if v.zombie >= 0:
+			stop(403, "Only zombies can bite others!")
 		for award in awards:
 			g.db.flush()
 			if author.zombie < 0:
