@@ -132,17 +132,14 @@ def max_days():
 def bar_position():
 	t = int(time.time()) - 86400
 
-	db = db_session()
-	vaxxed = db.execute(text("SELECT COUNT(*) FROM users WHERE zombie > 0")).one()[0]
-	zombie = db.execute(text("SELECT COUNT(*) FROM users WHERE zombie < 0")).one()[0]
-	total = db.execute(text("SELECT COUNT(*) FROM "
+	vaxxed = g.db.execute(text("SELECT COUNT(*) FROM users WHERE zombie > 0")).one()[0]
+	zombie = g.db.execute(text("SELECT COUNT(*) FROM users WHERE zombie < 0")).one()[0]
+	total = g.db.execute(text("SELECT COUNT(*) FROM "
 		"(SELECT DISTINCT ON (author_id) author_id AS uid FROM comments "
 			f"WHERE created_utc > {t}) AS q1 "
 		"FULL OUTER JOIN (SELECT id AS uid FROM users WHERE zombie != 0) as q2 "
 		"ON q1.uid = q2.uid")).one()[0]
 	total = max(total, 1)
-	db.rollback()
-	db.close()
 
 	return [int((vaxxed * 100) / total), int((zombie * 100) / total), vaxxed, zombie]
 
