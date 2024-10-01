@@ -262,8 +262,7 @@ def sign_up_post(v):
 		if IS_LOCALHOST: return signup_error("There was a problem. Please try again!")
 		return signup_error("There was a problem. Please try again!")
 
-	if not request.values.get(
-			"password") == request.values.get("password_confirm"):
+	if not request.values.get("password") == request.values.get("password_confirm"):
 		return signup_error("Passwords did not match. Please try again!")
 
 	if not valid_username_regex.fullmatch(username):
