@@ -320,7 +320,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('capymrfrog', 'Capy', 2, 'adultswim demon hello misterfrog smilingfriends', false, 1720931168),
 ('capymudbray', 'Capy', 2, 'pkmn pokemon 749', false, 1708929812),
 ('capymuhammadalipasha', 'Capy', 2, 'egyptian history islam muslim sultan', false, 1727174478),
-('capymummy', 'Capy', 2, 'egyptian curse evil monster undead wrapped tomb', false, 1691016561),
+('capymummy', 'Capy', 2, 'curse egyptian evil monster scary tomb undead wrapped', false, 1691016561),
 ('capynasser', 'Capy', 2, 'arab coldwar egyptian general history president', false, 1727080047),
 ('capynoelvermillion', 'Capy', 2, 'anime weeb videogame fighting blazblue', false, 1707729308),
 ('capynu13', 'Capy', 2, 'anime weeb videogame gaming blazblue robot mech', false, 1711647894),
