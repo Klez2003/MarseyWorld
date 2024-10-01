@@ -104,12 +104,14 @@
 	{% if IS_HOMOWEEN() %}
 		<link rel="stylesheet" href="{{('css/themes/midnight.css') | asset}}">
 		<link rel="stylesheet" href="{{'events/homoween/css/main_homoween.css' | asset}}">
+		<link rel="stylesheet" href="{{('css/dark_themes.css') | asset}}">
 	{% elif IS_FISTMAS() %}
 		<link rel="stylesheet" href="{{'events/fistmas/css/main_fistmas.css' | asset}}">
 
 		{% if v and v.theme in LIGHT_THEMES %}
 			<link rel="stylesheet" href="{{'events/fistmas/css/themes/light.css'| asset}}">
 		{% else %}
+			<link rel="stylesheet" href="{{('css/dark_themes.css') | asset}}">
 			<link rel="stylesheet" href="{{'events/fistmas/css/themes/dark.css'| asset}}">
 		{% endif %}
 	{% elif v %}
