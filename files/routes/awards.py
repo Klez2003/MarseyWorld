@@ -300,28 +300,28 @@ def award_thing(v, thing_type, id):
 
 	if kind == "pause":
 		if author.has_badge(68):
-			stop(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"@{obj.author_name} already has this profile upgrade!")
 		badge_grant(badge_id=68, user=author)
 	elif kind == "unpausable":
 		if author.has_badge(67):
-			stop(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"@{obj.author_name} already has this profile upgrade!")
 		badge_grant(badge_id=67, user=author)
 	elif kind == "eye":
 		if author.has_badge(83):
-			stop(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"@{obj.author_name} already has this profile upgrade!")
 		badge_grant(badge_id=83, user=author)
 	elif kind == "offsitementions":
 		if author.has_badge(140):
-			stop(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"@{obj.author_name} already has this profile upgrade!")
 		author.offsite_mentions = True
 		badge_grant(user=author, badge_id=140)
 	elif kind == "alt":
 		if author.has_badge(84):
-			stop(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"@{obj.author_name} already has this profile upgrade!")
 		badge_grant(badge_id=84, user=author)
 	elif kind == "unblockable":
 		if author.has_badge(87):
-			stop(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"@{obj.author_name} already has this profile upgrade!")
 		badge_grant(badge_id=87, user=author)
 		blocks = g.db.query(UserBlock).filter(
 				or_(
@@ -333,20 +333,20 @@ def award_thing(v, thing_type, id):
 			g.db.delete(block)
 	elif kind == "beano":
 		if author.has_badge(128):
-			stop(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"@{obj.author_name} already has this profile upgrade!")
 		badge_grant(user=author, badge_id=128)
 	elif kind == "checkmark":
 		if author.has_badge(150):
-			stop(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"@{obj.author_name} already has this profile upgrade!")
 		author.verified = "Verified"
 		badge_grant(user=author, badge_id=150)
 	elif kind == "pride":
 		if author.has_badge(303):
-			stop(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"@{obj.author_name} already has this profile upgrade!")
 		badge_grant(user=author, badge_id=303)
 	elif kind == "grinch":
 		if author.grinch:
-			stop(409, f"{safe_username} already has this profile upgrade!")
+			stop(409, f"@{obj.author_name} already has this profile upgrade!")
 		author.grinch = True
 		if v.id == author.id:
 			session['event_music'] = False
