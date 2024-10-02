@@ -754,3 +754,7 @@ body::after {
 		width: 70px;
 	}
 }
+
+blockquote {
+    background-color: #000000;
+}
