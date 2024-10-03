@@ -243,7 +243,7 @@ AWARDS = {
 		"description": "???",
 		"icon": "fas fa-syringe",
 		"color": "text-blue",
-		"price": 500,
+		"price": 100,
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
