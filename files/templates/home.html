@@ -7,7 +7,11 @@
 		{% if IS_DKD() %}
 			<title>Kongrama</title>
 		{% elif SITE_NAME == 'rDrama' %}
-			<title>{{TAGLINES|random}}</title>
+			{% if IS_HOMOWEEN() %}
+				<title>Boo! 👻</title>
+			{% else %}
+				<title>{{TAGLINES|random}}</title>
+			{% endif %}
 		{% else %}
 			<title>{{SITE_NAME}}{% if TAGLINES %}: {{TAGLINES|random}}{% endif %}</title>
 		{% endif %}
