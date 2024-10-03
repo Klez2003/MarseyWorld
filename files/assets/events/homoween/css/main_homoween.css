@@ -480,13 +480,7 @@ body::after {
 }
 
 .ectoplasm.candycorn {
-	background: repeating-linear-gradient(
-		45deg,
-		rgb(131, 255, 131),
-		rgb(0, 111, 0) 20px,
-		rgb(140, 255, 0) 60px
-	);
-	text-shadow: none;
+    color: transparent !important;
 }
 
 .ectoplasm.blood {
