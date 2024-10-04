@@ -7794,3 +7794,7 @@ audio {
 li {
     margin-top: 0.25rem;
 }
+
+video {
+	border: none !important;
+}
