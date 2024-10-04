@@ -1241,8 +1241,7 @@ INSERT INTO public.hat_defs VALUES (1686, 'upright JUUL', 'zoomercore non-acoust
 
 
 
-
-
+INSERT INTO public.hat_defs VALUES (1697, 'Award - Nigger', 'Best Nigger Award', 2, 500, NULL, 1726669692);
 INSERT INTO public.hat_defs VALUES (1396, 'Click Me', 'Come on, you know you want to see my profile.', 2, 500, NULL, 1704921421);
 INSERT INTO public.hat_defs VALUES (1408, 'Kadio Stance', '*thwack* YEEEEEEEEOUCHHHHHHHHHH', 2, 500, NULL, 1705616850);
 INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
