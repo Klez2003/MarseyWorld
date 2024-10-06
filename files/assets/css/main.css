@@ -7726,6 +7726,10 @@ img[src$="/e/speechbubble.webp"] {
 	margin-bottom: 0.8rem;
 }
 
+p:has(.reddit-embed) {
+	line-height: 2.5rem;
+}
+
 #view-art-sidebar img {
 	max-height: 300px !important;
 	width: 300px;
