@@ -91,7 +91,7 @@ def execute_blackjack(v, target, body, kind):
 	extra_info = kind
 
 	if target:
-		if kind == 'post':
+		if kind in {'post', 'chat'}:
 			extra_info = target.permalink
 		elif kind == 'report':
 			extra_info = f"reports on {target.permalink}"
