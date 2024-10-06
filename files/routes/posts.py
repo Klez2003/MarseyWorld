@@ -1151,6 +1151,12 @@ def edit_post(pid, v):
 		)
 		g.db.add(ma)
 
+	cache.delete_memoized(frontlist)
+	cache.delete_memoized(userpagelisting)
+
+	for sort in COMMENT_SORTS.keys():
+		cache.delete(f'post_{p.id}_{sort}')
+
 	return {"message": "Post edited successfully!"}
 
 if SITE_NAME == 'WPD':
