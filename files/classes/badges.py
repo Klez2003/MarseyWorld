@@ -26,7 +26,7 @@ class BadgeDef(Base):
 	@property
 	@lazy
 	def path(self):
-		return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{self.id}.webp?b=13"
+		return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{self.id}.webp?b=14"
 
 class Badge(Base):
 

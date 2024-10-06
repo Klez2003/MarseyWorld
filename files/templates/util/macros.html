@@ -93,7 +93,7 @@
 		<span {% if p.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
 	{% else %}
 		{% if FEATURES['PATRON_ICONS'] and p.author.switched.patron > 1 and p.author.switched.lifetimedonated_visible %}
-			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{p.author.switched.patron}}.webp?b=13" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.patron_tooltip}}" alt="{{p.author.switched.patron_tooltip}}">
+			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{p.author.switched.patron}}.webp?b=14" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.patron_tooltip}}" alt="{{p.author.switched.patron_tooltip}}">
 		{% endif %}
 
 		{% if FEATURES['HOUSES'] and p.author.switched.house %}
