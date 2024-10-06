@@ -718,7 +718,8 @@ CREATE TABLE public.holes (
     created_utc integer,
     sidebarurls character varying(60)[] DEFAULT '{}'::character varying[] NOT NULL,
     snappy_quotes character varying(50000),
-    public_use boolean NOT NULL
+    public_use boolean NOT NULL,
+    dead_utc integer
 );
 
 
