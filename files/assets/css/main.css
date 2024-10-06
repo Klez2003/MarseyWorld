@@ -7722,12 +7722,12 @@ img[src$="/e/speechbubble.webp"] {
     vertical-align: middle;
 }
 
-.twitter-embed {
-	margin-bottom: 0.8rem;
+p:has(.reddit-embed, .twitter-embed) {
+	line-height: 2.5rem;
 }
 
-p:has(.reddit-embed) {
-	line-height: 2.5rem;
+p:empty { /* shitty hack to fix the issue where bleach.Cleaner doesnt allow blockquote tags inside p tags and instead creates empty p tags (why?) */
+	margin: 0 !important;
 }
 
 #view-art-sidebar img {
