@@ -1098,6 +1098,9 @@ def resurrect_hole(v, hole):
 	)
 	g.db.add(ma)
 
+	mod = Mod(user_id=v.id, hole=hole.name)
+	g.db.add(mod)
+
 	badge_grant(badge_id=351, user=v, description=f'Resurrected a hole (/h/{hole})')
 
 	text = f':marseyrises: /h/{hole} has been resurrected by @{v.username}'
