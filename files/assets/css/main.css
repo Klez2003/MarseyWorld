@@ -7710,11 +7710,6 @@ img[src$="/e/speechbubble.webp"] {
 	height: auto !important;
 }
 
-#other-embed {
-	border: none;
-	margin-bottom: 10px;
-}
-
 .reddit-embed, .twitter-embed {
 	border: none;
 	display: inline !important;
@@ -7733,6 +7728,12 @@ p:empty { /* shitty hack to fix the issue where bleach.Cleaner doesnt allow bloc
 .twitter-embed {
 	margin-bottom: 1rem;
 }
+
+#other-embed {
+	border: none;
+	margin-bottom: 10px;
+}
+
 
 #view-art-sidebar img {
 	max-height: 300px !important;
