@@ -651,7 +651,7 @@ def award_thing(v, thing_type, id):
 				author.zombie = -1
 				badge_grant(user=author, badge_id=181)
 
-				award_object = AwardRelationship(user_id=author.id, kind='bite')
+				award_object = AwardRelationship(user_id=author.id, kind='zombiebite')
 				g.db.add(award_object)
 				send_repeatable_notification(author.id,
 					"As the zombie virus washes over your mind, you feel the urge "
