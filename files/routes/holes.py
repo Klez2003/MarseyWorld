@@ -1100,7 +1100,7 @@ def resurrect_hole(v, hole):
 
 	badge_grant(badge_id=351, user=v)
 
-	text = f':marseyrises: /h/{name} has been resurrected by @{v.username}'
+	text = f':marseyrises: /h/{hole} has been resurrected by @{v.username}'
 	alert_active_users(text, v.id, User.hole_creation_notifs == True)
 
 	return {"message": f"/h/{hole} resurrected successfully!"}
