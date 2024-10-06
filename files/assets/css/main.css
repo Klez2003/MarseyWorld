@@ -7730,6 +7730,10 @@ p:empty { /* shitty hack to fix the issue where bleach.Cleaner doesnt allow bloc
 	margin: 0 !important;
 }
 
+.twitter-embed {
+	margin-bottom: 1rem;
+}
+
 #view-art-sidebar img {
 	max-height: 300px !important;
 	width: 300px;
