@@ -488,4 +488,4 @@ MODACTION_TYPES__FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
 AEVANN_EXCLUDED_MODACTION_TYPES = {'pin_post', 'unpin_post',
 								'pin_comment', 'unpin_comment',
 								'approve_emoji', 'reject_emoji',
-								'distribute'}
+								'distribute', 'mark_effortpost'}
