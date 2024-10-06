@@ -120,7 +120,7 @@ def unexile(v, hole, uid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def block_sub(v, hole):
+def block_hole(v, hole):
 	hole = get_hole(hole)
 
 	if hole.public_use:
@@ -141,7 +141,7 @@ def block_sub(v, hole):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def unblock_sub(v, hole):
+def unblock_hole(v, hole):
 	hole = get_hole(hole)
 	if not can_see(v, hole):
 		stop(403)
@@ -160,7 +160,7 @@ def unblock_sub(v, hole):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def subscribe_sub(v, hole):
+def subscribe_hole(v, hole):
 	hole = get_hole(hole).name
 	existing = g.db.query(StealthHoleUnblock).filter_by(user_id=v.id, hole=hole).one_or_none()
 	if not existing:
@@ -175,7 +175,7 @@ def subscribe_sub(v, hole):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def unsubscribe_sub(v, hole):
+def unsubscribe_hole(v, hole):
 	hole = get_hole(hole).name
 	subscribe = g.db.query(StealthHoleUnblock).filter_by(user_id=v.id, hole=hole).one_or_none()
 	if subscribe:
@@ -189,7 +189,7 @@ def unsubscribe_sub(v, hole):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def follow_sub(v, hole):
+def follow_hole(v, hole):
 	hole = get_hole(hole)
 	if not can_see(v, hole):
 		stop(403)
@@ -206,7 +206,7 @@ def follow_sub(v, hole):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def unfollow_sub(v, hole):
+def unfollow_hole(v, hole):
 	hole = get_hole(hole)
 	subscription = g.db.query(HoleFollow).filter_by(user_id=v.id, hole=hole.name).one_or_none()
 	if subscription:
@@ -373,7 +373,7 @@ def remove_mod(v, hole):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def create_sub2(v):
+def create_hole(v):
 	if not v.can_create_hole:
 		stop(403)
 
@@ -658,7 +658,7 @@ def hole_marsey(v, hole):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def subs(v):
+def holes(v):
 	holes = g.db.query(Hole, func.count(Post.hole)).outerjoin(Post, Hole.name == Post.hole).group_by(Hole.name).order_by(Hole.created_utc)
 	alive = holes.filter(Hole.dead_utc == None).all()
 	dead = holes.filter(Hole.dead_utc != None).all()
