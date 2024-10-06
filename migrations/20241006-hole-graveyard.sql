@@ -1,0 +1,1 @@
+alter table holes add column dead_utc int;

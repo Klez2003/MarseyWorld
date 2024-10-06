@@ -187,15 +187,15 @@ def _grant_three_year_badges():
 	g.db.execute(_badge_query)
 
 def _hole_inactive_purge_task():
-	if not HOLE_INACTIVITY_DELETION:
+	if not HOLE_INACTIVITY_DEATH:
 		return False
 
-	two_weeks_ago = time.time() - 86400 * 14
+	one_week_ago = time.time() - 86400 * 7
 	active_holes = [x[0] for x in g.db.query(Post.hole).distinct() \
-		.filter(Post.hole != None, Post.created_utc > two_weeks_ago,
+		.filter(Post.hole != None, Post.created_utc > one_week_ago,
 			Post.draft == False, Post.is_banned == False,
 			Post.deleted_utc == 0)]
-	active_holes.extend(['changelog','countryclub','museumofrdrama','highrollerclub','test','truth','marsey','kappa']) # holes immune from deletion
+	active_holes.extend(['changelog','countryclub','museumofrdrama','highrollerclub','test','truth','marsey','kappa']) # holes immune from death
 
 	dead_holes = g.db.query(Hole).filter(Hole.name.notin_(active_holes)).all()
 	names = [x.name for x in dead_holes]
@@ -210,33 +210,17 @@ def _hole_inactive_purge_task():
 				description=f'Let a hole they owned die (/h/{name})'
 			)
 
-		text = f":marseyrave: /h/{name} has been deleted for inactivity after two weeks without new posts. All posts in it have been moved to the main feed :marseyrave:"
+		text = f':!marseydead: /h/{name} has died after 7 days without new posts. You can resurrect it at a cost if you wish :marseynecromancer:'
 		mod_ids = (x[0] for x in g.db.query(Mod.user_id).filter_by(hole=name))
 		extra_criteria = or_(User.hole_creation_notifs == True, User.id.in_(mod_ids))
 		alert_active_users(text, None, extra_criteria)
 
-	posts = g.db.query(Post).filter(Post.hole.in_(names)).all()
-	for post in posts:
-		if post.hole == 'programming':
-			post.hole = 'slackernews'
-		else:
-			post.hole = None
-
-		post.hole_pinned = None
-		g.db.add(post)
-
-	to_delete = g.db.query(Mod).filter(Mod.hole.in_(names)).all() \
-		+ g.db.query(Exile).filter(Exile.hole.in_(names)).all() \
-		+ g.db.query(HoleBlock).filter(HoleBlock.hole.in_(names)).all() \
-		+ g.db.query(StealthHoleUnblock).filter(StealthHoleUnblock.hole.in_(names)).all() \
-		+ g.db.query(HoleFollow).filter(HoleFollow.hole.in_(names)).all() \
-		+ g.db.query(HoleAction).filter(HoleAction.hole.in_(names)).all()
-
-	for x in to_delete:
-		g.db.delete(x)
-	g.db.flush() #Necessary, following deletion errors out otherwise
-
 	for x in dead_holes:
+		x.dead_utc = time.time()
+		g.db.add(x)
+
+	to_delete = g.db.query(Mod).filter(Mod.hole.in_(names)).all() + g.db.query(Exile).filter(Exile.hole.in_(names)).all()
+	for x in to_delete:
 		g.db.delete(x)
 
 	return True

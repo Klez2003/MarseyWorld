@@ -3,6 +3,7 @@ from files.helpers.alerts import *
 from files.helpers.get import *
 from files.helpers.regex import *
 from files.helpers.can_see import *
+from files.helpers.useractions import badge_grant
 from files.routes.wrappers import *
 
 from .front import frontlist
@@ -658,9 +659,11 @@ def hole_marsey(v, hole):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def subs(v):
-	holes = g.db.query(Hole, func.count(Post.hole)).outerjoin(Post, Hole.name == Post.hole).group_by(Hole.name).order_by(Hole.created_utc).all()
+	holes = g.db.query(Hole, func.count(Post.hole)).outerjoin(Post, Hole.name == Post.hole).group_by(Hole.name).order_by(Hole.created_utc)
+	alive = holes.filter(Hole.dead_utc == None).all()
+	dead = holes.filter(Hole.dead_utc != None).all()
 	total_users = g.db.query(User).count()
-	return render_template('hole/holes.html', v=v, cost=HOLE_COST, holes=holes, total_users=total_users)
+	return render_template('hole/holes.html', v=v, alive=alive, dead=dead, total_users=total_users)
 
 @app.post("/hole_pin/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
@@ -983,7 +986,12 @@ def change_hole(pid, v):
 
 	hole_to = request.values.get("hole_to", "").strip()
 	if hole_to:
-		hole_to = get_hole(hole_to).name
+		hole_to = get_hole(hole_to)
+
+		if hole_to.dead_utc:
+			stop(400, f'/h/{hole_to} is dead. You can resurrect it at a cost if you wish.')
+		
+		hole_to = hole_to.name
 	else:
 		hole_to = None
 
@@ -1062,3 +1070,37 @@ def change_hole(pid, v):
 	cache.delete_memoized(frontlist)
 
 	return {"message": f"Post moved to {hole_to_in_notif} successfully!"}
+
+@app.post('/h/<hole>/resurrect')
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def resurrect_hole(v, hole):
+	hole = get_hole(hole)
+
+	if not hole: stop(404)
+	if not hole.dead_utc: stop(400, "This hole is not dead!")
+	if v.shadowbanned: stop(400)
+
+	charge_reason = f'Cost of resurrecting <a href="/h/{hole}">/h/{hole}</a>'
+	if not v.charge_account('coins/marseybux', HOLE_COST, charge_reason):
+		stop(400, "You don't have enough coins or marseybux!")
+
+	hole.dead_utc = None
+	g.db.add(hole)
+
+	ma = HoleAction(
+		hole=hole.name,
+		kind='resurrect_hole',
+		user_id=v.id
+	)
+	g.db.add(ma)
+
+	badge_grant(badge_id=351, user=v)
+
+	text = f':marseyrises: /h/{name} has been resurrected by @{v.username}'
+	alert_active_users(text, v.id, User.hole_creation_notifs == True)
+
+	return {"message": f"/h/{hole} resurrected successfully!"}

@@ -234,6 +234,7 @@
 .fa-up:before{content:"\f357"}
 .fa-coconut:before{content:"\e2f6"}
 .fa-terminal:before{content:"\f120"}
+.fa-hand:before{content:"\f256"}
 
 /* do not remove - fixes hand, talking, marsey-love components
 	from breaking out of the comment box

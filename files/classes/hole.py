@@ -25,6 +25,7 @@ class Hole(Base):
 	stealth = Column(Boolean, default=False)
 	public_use = Column(Boolean, default=False)
 	created_utc = Column(Integer)
+	dead_utc = Column(Integer)
 
 	if SITE_NAME == 'WPD' and not IS_LOCALHOST:
 		snappy_quotes = None

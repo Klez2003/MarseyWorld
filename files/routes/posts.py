@@ -514,7 +514,12 @@ def submit_post(v, hole=None):
 	if hole and hole != 'none':
 		hole_name = hole.strip().lower()
 		hole = g.db.query(Hole).options(load_only(Hole.name)).filter_by(name=hole_name).one_or_none()
-		if not hole: stop(400, f"/h/{hole_name} not found!")
+
+		if not hole:
+			stop(400, f"/h/{hole_name} not found!")
+
+		if hole.dead_utc:
+			stop(400, f'/h/{hole_name} is dead. You can resurrect it at a cost if you wish.')
 
 		if not can_see(v, hole):
 			if hole.name == 'highrollerclub':

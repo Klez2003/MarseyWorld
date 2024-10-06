@@ -149,6 +149,11 @@ HOLEACTION_TYPES = {
 		"icon": 'fa-crown',
 		"color": 'bg-muted'
 	},
+	'resurrect_hole': {
+		"str": 'resurrected the hole',
+		"icon": 'fa-hand',
+		"color": 'bg-primary'
+	},
 }
 
 HOLEACTION_TYPES = dict(sorted(HOLEACTION_TYPES.items()))

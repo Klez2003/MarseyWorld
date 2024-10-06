@@ -162,7 +162,7 @@ def top_poster_of_the_day():
 
 
 def HOLES():
-	HOLES = [x[0] for x in g.db.query(Hole.name).order_by(Hole.name)]
+	HOLES = [x[0] for x in g.db.query(Hole.name).filter_by(dead_utc=None).order_by(Hole.name)]
 	if "other" in HOLES:
 		HOLES.remove("other")
 		HOLES.append("other")
@@ -196,7 +196,7 @@ def inject_constants():
 			"SITE_FULL_IMAGES": SITE_FULL_IMAGES,
 			"IS_EVENT":IS_EVENT, "IS_MUSICAL_EVENT":IS_MUSICAL_EVENT, "IS_FISTMAS":IS_FISTMAS, "IS_HOMOWEEN":IS_HOMOWEEN,
 			"IS_DKD":IS_DKD, "IS_BDAY":IS_BDAY, "IS_FOURTH":IS_FOURTH,
-			"CHUD_PHRASES":CHUD_PHRASES, "hasattr":hasattr, "calc_users":calc_users, "HOLE_INACTIVITY_DELETION":HOLE_INACTIVITY_DELETION,
+			"CHUD_PHRASES":CHUD_PHRASES, "hasattr":hasattr, "calc_users":calc_users, "HOLE_INACTIVITY_DEATH":HOLE_INACTIVITY_DEATH,
 			"LIGHT_THEMES":LIGHT_THEMES, "DARK_THEMES":DARK_THEMES, "NSFW_EMOJIS":NSFW_EMOJIS, "HOLES":HOLES,
 			"MAX_IMAGE_AUDIO_SIZE_MB":MAX_IMAGE_AUDIO_SIZE_MB, "MAX_IMAGE_AUDIO_SIZE_MB_PATRON":MAX_IMAGE_AUDIO_SIZE_MB_PATRON,
 			"MAX_VIDEO_SIZE_MB":MAX_VIDEO_SIZE_MB, "MAX_VIDEO_SIZE_MB_PATRON":MAX_VIDEO_SIZE_MB_PATRON,
@@ -205,4 +205,5 @@ def inject_constants():
 			"emoji_count":emoji_count, "group_count":group_count, "user_count":user_count,
 			"HOLE_SIDEBAR_COLUMN_LENGTH":HOLE_SIDEBAR_COLUMN_LENGTH, "HOLE_SNAPPY_QUOTES_LENGTH":HOLE_SNAPPY_QUOTES_LENGTH, "USER_SNAPPY_QUOTES_LENGTH":USER_SNAPPY_QUOTES_LENGTH, "top_poster_of_the_day":top_poster_of_the_day,
 			"CATEGORIES_ICONS":CATEGORIES_ICONS, "CATEGORIES_HOLES":CATEGORIES_HOLES,
+			"HOLE_COST":HOLE_COST,
 		}

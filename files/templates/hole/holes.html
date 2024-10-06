@@ -11,14 +11,14 @@
 						<label for="create-hole-name">Hole Name</label>
 						<input autocomplete="off" minlength="3" maxlength="25" pattern='[a-zA-Z0-9_\-]*' class="form-control" id="create-hole-name" type="text" name="name" required>
 						<small class="form-text text-muted">3-25 characters, including letters, numbers, _ , and -</small>
-						{% if HOLE_INACTIVITY_DELETION or True %}
-							<p class="text-danger mt-2">Warning: holes get automatically deleted if they spend 14 days with no new posts.</p>
+						{% if HOLE_INACTIVITY_DEATH %}
+							<p class="text-danger mt-2">Warning: holes die if they spend 7 days without new posts.</p>
 						{% endif %}
 						<div class="footer">
 							<div class="d-flex">
-								<button type="submit" class="btn btn-primary ml-auto" {% if cost > v.coins + v.marseybux %}disabled{% endif %}>Create Hole</button>
+								<button type="submit" class="btn btn-primary ml-auto" {% if HOLE_COST > v.coins + v.marseybux %}disabled{% endif %}>Create Hole</button>
 							</div>
-							<p class="mt-2 mr-1" style="float: right"><b>Cost</b>: {{cost | commas}} coins or marseybux</p>
+							<p class="mt-2 mr-1" style="float: right"><b>Cost</b>: {{HOLE_COST | commas}} coins or marseybux</p>
 						</div>
 					</div>
 				</div>
@@ -26,34 +26,49 @@
 		</div>
 	</form>
 
-	<h3 class="mb-3">Holes</h3>
-	<div class="overflow-x-auto">
-		<table>
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Name</th>
-					<th>Posts</th>
-					<th>Followers</th>
-					<th>Blockers</th>
-					<th>Created on</th>
-				</tr>
-			</thead>
+	{% macro hole_table(holes, type) %}
+		<div class="overflow-x-auto">
+			<table>
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						{% if type == "dead" %}
+							<th></th>
+						{% endif %}
+						<th>Posts</th>
+						<th>Followers</th>
+						<th>Blockers</th>
+						<th>Created on</th>
+					</tr>
+				</thead>
 
-			{% for hole, count in holes %}
-				<tr>
-					<td>{{loop.index}}</td>
-					<td><a href="/h/{{hole}}">{{hole}} {% if hole.name in v.hole_blocks %}<span class="text-danger">[blocked, visit it to unblock it]</span>{% endif %}</a></td>
-					<td><a href="/h/{{hole}}">{{count}}</a></td>
-					<td><a href="/h/{{hole}}/followers">{{hole.follow_num}}</a></td>
-					{% if hole.stealth %}
-						<td>{{total_users - hole.stealth_hole_unblock_num}}</td>
-					{% else %}
-						<td><a href="/h/{{hole}}/blockers">{{hole.block_num}}</a></td>
-					{% endif %}
-					<td data-time="{{hole.created_utc}}"></td>
-				</tr>
-			{% endfor %}
-		</table>
-	</div>
+				{% for hole, count in holes %}
+					<tr>
+						<td>{{loop.index}}</td>
+						<td><a href="/h/{{hole}}">{{hole}} {% if hole.name in v.hole_blocks %}<span class="text-danger">[blocked, visit it to unblock it]</span>{% endif %}</a></td>
+						{% if type == "dead" %}
+						<td>
+							<button type="button" class="btn btn-success" data-areyousure="postToastSwitch(this,'/h/{{hole}}/resurrect')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)"><img class="mr-2" height=40 loading="lazy" src="https://i.rdrama.net/e/marseynecromancer.webp" alt="marseynecromancer"> Resurrect ({{HOLE_COST | commas}} coins or marseybux)</button>
+						</td>
+						{% endif %}
+						<td><a href="/h/{{hole}}">{{count}}</a></td>
+						<td><a href="/h/{{hole}}/followers">{{hole.follow_num}}</a></td>
+						{% if hole.stealth %}
+							<td>{{total_users - hole.stealth_hole_unblock_num}}</td>
+						{% else %}
+							<td><a href="/h/{{hole}}/blockers">{{hole.block_num}}</a></td>
+						{% endif %}
+						<td data-time="{{hole.created_utc}}"></td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+	{% endmacro %}
+
+	<h3 class="mb-3">Holes</h3>
+	{{hole_table(alive, "alive")}}
+
+	<h3 class="mt-5 mb-3"><img height=40 loading="lazy" src="https://i.rdrama.net/e/marseyzombierising.webp" alt="marseyzombierising"> Graveyard</h3>
+	{{hole_table(dead, "dead")}}
 {% endblock %}
