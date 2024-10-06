@@ -1,4 +1,4 @@
-const autoresizable = document.querySelector('#external-embed.autoresizable')
+const autoresizable = document.querySelector('#other-embed.autoresizable')
 if (autoresizable) {
 	addEventListener('message', function (e) {
 		if (e.origin == "https://www.teamblind.com" && e.data.height)
