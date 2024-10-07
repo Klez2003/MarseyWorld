@@ -3,13 +3,13 @@ let TRANSFER_TAX = document.getElementById('tax').innerHTML
 function updateTax(mobile=false) {
 	let suf = mobile ? "-mobile" : "";
 	let amount = parseInt(document.getElementById("coin-transfer-amount" + suf).value);
-	if (amount > 0) document.getElementById("coins-transfer-taxed" + suf).textContent = amount - Math.ceil(amount*TRANSFER_TAX);
+	if (amount > 0) document.getElementById("coins-transfer-taxed" + suf).textContent = commas(amount - Math.ceil(amount*TRANSFER_TAX));
 }
 
 function updateBux(mobile=false) {
 	let suf = mobile ? "-mobile" : "";
 	let amount = parseInt(document.getElementById("bux-transfer-amount" + suf).value);
-	if (amount > 0) document.getElementById("bux-transfer-taxed" + suf).textContent = amount;
+	if (amount > 0) document.getElementById("bux-transfer-taxed" + suf).textContent = commas(amount);
 }
 
 function change_currency(id, amount) {

@@ -185,7 +185,7 @@ def transfer_currency(v, username, currency_name, apply_tax):
 
 	send_repeatable_notification(receiver.id, notif_text)
 
-	return {"message": f"{amount - tax} {currency_name} have been transferred to @{receiver.username}"}
+	return {"message": f"{commas(amount - tax)} {currency_name} have been transferred to @{receiver.username}"}
 
 def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v)
