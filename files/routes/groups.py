@@ -239,9 +239,10 @@ def group_reject(v, group_name, user_id):
 			GroupMembership.user_id != group.owner_id,
 			GroupMembership.group_name == group.name,
 			GroupMembership.approved_utc != None,
-		).order_by(GroupMembership.is_mod.desc(), GroupMembership.approved_utc).first()[0]
+		).order_by(GroupMembership.is_mod.desc(), GroupMembership.approved_utc).first()
 
 		if new_owner_id:
+			new_owner_id = new_owner_id[0]
 			send_repeatable_notification(new_owner_id, f"@{group.owner.username} (!{group}'s owner) has {verb}, You're now the new owner!")
 			group.owner_id = new_owner_id
 			g.db.add(group)
