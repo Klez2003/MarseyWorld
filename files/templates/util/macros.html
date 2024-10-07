@@ -52,13 +52,7 @@
 	{% endif %}
 
 	{% if p.distinguished %}
-		<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="
-		{%- if p.author.switched.mods_hole(p.hole) -%}
-			/h/{{p.hole}} mod
-		{%- else -%}
-			{{SITE_NAME}} admin
-		{%- endif -%}
-		, speaking officially"></i>
+		<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Distinguished post"></i>
 	{% endif %}
 
 	{% if p.profile_pinned and request.path != '/' %}

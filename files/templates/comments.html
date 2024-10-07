@@ -156,13 +156,7 @@
 							{% endif %}
 
 							{% if c.distinguished and not c.ghost %}
-								<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="
-									{%- if c.parent_post and c.author.switched.mods_hole(c.post.hole) -%}
-										/h/{{c.post.hole}} mod
-									{%- else -%}
-										{{SITE_NAME}} admin
-									{%- endif -%}
-									, speaking officially"></i>
+								<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Distinguished comment"></i>
 							{% endif %}
 
 							{% if c.is_op %}
