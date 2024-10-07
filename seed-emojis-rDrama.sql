@@ -5882,6 +5882,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyyinandyang', 'Marsey', 2, 'balance buddhist dark light monk yinyang', false, 1676073616),
 ('marseyyinzer', 'Marsey', 2, 'pittsburgh pennsylvania pens penguins steelers stillers pirates buccos buckos terrible towel pierogo yuengling beer city hat baseball football hockey nfl mlb nhl happy', false, 0),
 ('marseyyoda', 'Marsey', 2, 'starwars jedi', false, 1676185300),
+('marseyyokaiwatch2', 'Marsey', 2, 'baddinyan edgy gangster jibanyan yakuza', false, 1727806427),
 ('marseyyoogut', 'Marsey', 2, 'yogurt cup spoon food bowl', false, 1689875275),
 ('marseyyourmom', 'Marsey', 2, 'mama joke point reaction laugh comeback', false, 1691506126),
 ('marseyyoushouldkillyourselfnow', 'Marsey', 2, 'meme thunder', false, 1687464614),
