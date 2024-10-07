@@ -254,6 +254,10 @@ def group_reject(v, group_name, user_id):
 	if not count:
 		g.db.commit() #need it to fix "Dependency rule tried to blank-out primary key column 'group_memberships.group_name' on instance"
 		g.db.delete(group)
+		msg = f"You have deleted !{group} successfully!"
+
+		text = f':marseydisintegrate: !{group} has been deleted by @{v.username} :!marseydisintegrate:'
+		alert_active_users(text, None, User.group_creation_notifs == True)
 
 	return {"message": msg}
 
