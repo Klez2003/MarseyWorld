@@ -373,7 +373,7 @@ def _give_marseybux_salary():
 		if SITE_NAME == 'WPD':
 			marseybux_salary *= 2
 		u.pay_account('marseybux', marseybux_salary, "Janny salary")
-		send_repeatable_notification(u.id, f"You have received your monthly janny salary of {marseybux_salary} Marseybux!")
+		send_repeatable_notification(u.id, f"You have received your monthly janny salary of {commas(marseybux_salary)} Marseybux!")
 
 def _expire_blocks_mutes_exiles():
 	one_month_ago = time.time() - 2592000
