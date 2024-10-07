@@ -67,7 +67,7 @@ def cron_fn(every_5m, every_1d, every_1mo):
 				if IS_HOMOWEEN():
 					g.db.execute(text(
 						"INSERT INTO award_relationships (user_id, kind, created_utc) "
-						f"SELECT id, 'bite', {int(time.time())} FROM users "
+						f"SELECT id, 'zombiebite', {int(time.time())} FROM users "
 						"WHERE users.zombie < 0"))
 					g.db.commit()
 
