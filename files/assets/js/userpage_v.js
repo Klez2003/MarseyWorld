@@ -25,7 +25,6 @@ function transferCoins(t, mobile=false) {
 	}
 
 	let amount = parseInt(document.getElementById(mobile ? "coin-transfer-amount-mobile" : "coin-transfer-amount").value);
-	let transferred = amount - Math.ceil(amount*TRANSFER_TAX);
 	let username = document.getElementById('username').innerHTML;
 
 	postToast(t, `/@${username}/transfer_coins`,
