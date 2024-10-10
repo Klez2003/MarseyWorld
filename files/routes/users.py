@@ -1408,8 +1408,6 @@ def gumroad():
 		print(STARS, flush=True)
 		stop(400)
 
-	print(data, flush=True)
-
 	id = data['sale_id']
 
 	existing = g.db.get(Transaction, id)
