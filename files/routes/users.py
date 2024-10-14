@@ -48,11 +48,26 @@ def _add_profile_view(vid, uid):
 
 def claim_rewards_all_users():
 	g.db.flush()
+
 	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None)]
-	users = g.db.query(User).filter(User.email.in_(emails)).order_by(User.truescore.desc()).all()
+	user_ids = [x[0] for x in g.db.query(Transaction.user_id).filter_by(claimed=None)]
+
+	users = g.db.query(User).filter(
+		or_(
+			User.email.in_(emails),
+			User.id.in_(user_ids),
+		),
+	).order_by(User.truescore.desc()).all()
+
 	for user in users:
 		g.db.flush()
-		transactions = g.db.query(Transaction).filter_by(email=user.email, claimed=None).all()
+		transactions = g.db.query(Transaction).filter(
+			or_(
+				Transaction.email == user.email,
+				Transaction.user_id == user.id,
+			),
+			Transaction.claimed == None,
+		).all()
 
 		highest_tier = 0
 		marseybux = 0
@@ -112,7 +127,12 @@ def claim_rewards_all_users():
 				user.patron_utc = time.time() + val
 
 			g.db.flush()
-			user.lifetimedonated = g.db.query(func.sum(Transaction.amount)).filter_by(email=user.email).scalar()
+			user.lifetimedonated = g.db.query(func.sum(Transaction.amount)).filter(
+				or_(
+					Transaction.email == user.email,
+					Transaction.user_id == user.id,
+				)
+			).scalar()
 
 			if user.lifetimedonated >= 100:
 				badge_grant(badge_id=257, user=user)

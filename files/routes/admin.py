@@ -1972,15 +1972,12 @@ def insert_transaction_post(v):
 
 	user = get_user(username)
 
-	if not user.email:
-		stop(400, f"@{user.username} doesn't have an email tied to their account!")
-
 	transaction = Transaction(
 		id=id,
 		created_utc=time.time(),
 		type=type,
 		amount=amount,
-		email=user.email,
+		user_id=user.id,
 	)
 	g.db.add(transaction)
 
