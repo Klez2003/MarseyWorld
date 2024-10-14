@@ -275,12 +275,12 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 			if coin_receivers:
 				g.db.query(User).options(load_only(User.id)).filter(User.id.in_(coin_receivers)).update({ User.coins: User.coins + 5 })
 
-	largest_ping_group_count = g.db.query(func.count(GroupMembership.group_name)).group_by(GroupMembership.group_name).order_by(func.count(GroupMembership.group_name).desc()).first()
-	if largest_ping_group_count: largest_ping_group_count = largest_ping_group_count[0]
-	else: largest_ping_group_count = 0
-	max_ping_count = max(1000, largest_ping_group_count)
-	if len(notify_users) > max_ping_count and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
-		stop(403, f"You can only notify a maximum of {max_ping_count} users.")
+			largest_ping_group_count = g.db.query(func.count(GroupMembership.group_name)).group_by(GroupMembership.group_name).order_by(func.count(GroupMembership.group_name).desc()).first()
+			if largest_ping_group_count: largest_ping_group_count = largest_ping_group_count[0]
+			else: largest_ping_group_count = 0
+			max_ping_count = max(1000, largest_ping_group_count)
+			if len(notify_users) > max_ping_count and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
+				stop(403, f"You can only notify a maximum of {max_ping_count} users.")
 
 	if v.shadowbanned or (obj and obj.is_banned):
 		notify_users = {x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all()}
