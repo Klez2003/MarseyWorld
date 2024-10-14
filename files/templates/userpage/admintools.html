@@ -54,7 +54,7 @@
 			{%- endif %}
 
 			{% if v.admin_level >= PERMS['VIEW_CHATS'] %}
-				<div id="profile--chats">Member of <a href="/@{{u.username}}/chats">{{u.chat_count|commas}} chat{{'s' if u.chat_count != 1 else ''}}</a></div>
+				<div id="profile--chats" class="mb-2">Member of <a href="/@{{u.username}}/chats">{{u.chat_count|commas}} chat{{'s' if u.chat_count != 1 else ''}}</a></div>
 			{% endif %}
 
 			{% if v.admin_level >= PERMS['USER_BAN'] %}
