@@ -14,7 +14,7 @@ from files.classes import Base
 from files.classes.casino_game import CasinoGame
 from files.classes.group import *
 from files.classes.hole import Hole
-from files.classes.chats import *
+from files.classes.chats import ChatMembership
 from files.classes.currency_logs import CurrencyLog
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
@@ -989,13 +989,6 @@ class User(Base):
 				GroupMembership.user_id == self.id,
 				GroupMembership.approved_utc != None,
 			).order_by(GroupMembership.group_name).all()
-
-	@property
-	@lazy
-	def chat_memberships(self):
-		return g.db.query(ChatMembership.chat_id, Chat).join(Chat).filter(
-				ChatMembership.user_id == self.id,
-			).order_by(Chat.name).all()
 
 	@property
 	@lazy
