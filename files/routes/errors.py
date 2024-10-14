@@ -39,7 +39,7 @@ def error(e):
 	if request.headers.get("Authorization") or request.headers.get("xhr"):
 		return {"error": title, "code": e.code, "description": msg, "details": details}, e.code
 	img = ERROR_MARSEYS.get(e.code, 'marseyl')
-	return render_template('errors/error.html', err=True, title=title, msg=msg, details=details, img=img, code=e.code), e.code
+	return render_template('errors/error.html', err=e.code, title=title, msg=msg, details=details, img=img, code=e.code), e.code
 
 @app.errorhandler(401)
 def error_401(e):
