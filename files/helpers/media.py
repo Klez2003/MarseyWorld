@@ -268,7 +268,9 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 
 	params.append(filename)
 	try:
-		subprocess.run(params, check=True, timeout=30)
+		if v and v.id == FISHY_ID: timeout = 60
+		else: timeout = 30
+		subprocess.run(params, check=True, timeout=timeout)
 	except:
 		os.remove(filename)
 		if has_request:
