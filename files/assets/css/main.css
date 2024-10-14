@@ -455,6 +455,9 @@ summary {
 	display: list-item;
 	cursor: pointer;
 }
+summary::marker {
+	color: var(--black);
+}
 template {
 	display: none;
 }
