@@ -8,10 +8,10 @@
 			<thead>
 				<tr>
 					<th>Name</th>
-					<th>Joined on</th>
+					<th>Last Spoke On</th>
 				</tr>
 			</thead>
-			{% for created_utc, chat in chats %}
+			{% for obj, chat in chats %}
 				{% set is_owner = (u.id == chat.owner_id) %}
 				<tr>
 					<td>
@@ -19,7 +19,11 @@
 							<a href="/chat/{{chat.id}}" {% if is_owner %}style="color: #bbb !important"{% endif %}>{{chat.name if chat.name else 'Unnamed Chat'}}</a>
 						</span>
 					</td>
-					<td data-time="{{created_utc}}"></td>
+					{% if obj.id %} {# means its a message #}
+						<td data-time="{{obj.created_utc}}"></td>
+					{% else %}
+						<td>Never</td>
+					{% endif %}
 				</tr>
 			{% endfor %}
 		</table>

@@ -2150,9 +2150,18 @@ def VIEW_VERSIONs(v, link):
 def user_chats(v, username):
 	u = get_user(username, v=v)
 
-	chats = g.db.query(ChatMembership.created_utc, Chat).join(Chat).filter(
+	chats1 = g.db.query(ChatMessage, Chat).join(Chat).distinct(Chat.id).filter(
+			ChatMessage.user_id == u.id,
+		).order_by(Chat.id, ChatMessage.created_utc.desc()).all()
+	chats1_ids = {x[1].id for x in chats1}
+	chats2 = g.db.query(ChatMembership, Chat).join(Chat).filter(
 			ChatMembership.user_id == u.id,
-		).order_by(ChatMembership.created_utc.desc())
-	total = chats.count()
+			ChatMembership.chat_id.notin_(chats1_ids),
+		).all()
+
+	chats = chats1 + chats2
+	chats = sorted(chats, key=lambda x:x[0].created_utc, reverse=True)
+
+	total = len(chats)
 
 	return render_template("userpage/chats.html", v=v, u=u, chats=chats, total=total)
