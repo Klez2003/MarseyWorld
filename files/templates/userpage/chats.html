@@ -1,8 +1,8 @@
 {% extends "default.html" %}
-{% block pagetitle %}@{{u.username}}'s Chat Memberships{% endblock %}
+{% block pagetitle %}@{{u.username}}'s Chats{% endblock %}
 
 {% block content %}
-	<h5 class="pt-4 pl-2 pb-3">@{{u.username}}'s Chat Memberships ({{total}} chat{{macros.plural(total)}})</h5>
+	<h5 class="pt-4 pl-2 pb-3">@{{u.username}}'s Chats ({{total}} chat{{macros.plural(total)}})</h5>
 	<div class="overflow-x-auto">
 		<table>
 			<thead>

@@ -14,7 +14,7 @@ from files.classes import Base
 from files.classes.casino_game import CasinoGame
 from files.classes.group import *
 from files.classes.hole import Hole
-from files.classes.chats import ChatMembership
+from files.classes.chats import *
 from files.classes.currency_logs import CurrencyLog
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
@@ -691,7 +691,7 @@ class User(Base):
 	@property
 	@lazy
 	def chat_count(self):
-		return g.db.query(ChatMembership).filter_by(user_id=self.id).count()
+		return g.db.query(ChatMessage).distinct(ChatMessage.chat_id).filter_by(user_id=self.id).count()
 
 	@property
 	@lazy
