@@ -104,10 +104,6 @@
 								<a class="mx-1" href="/@{{u.username}}/muters" id="profile--muters">{{u.muting_count|commas}} muter{{'s' if u.muting_count != 1 else ''}}</a> |
 
 								<a class="mx-1" href="/@{{u.username}}/muting" id="profile--muting">mutes {{u.mute_count|commas}} user{{'s' if u.mute_count != 1 else ''}}</a>
-
-								{% if v.admin_level >= PERMS['VIEW_CHATS'] %}
-									| <a class="mx-1" href="/@{{u.username}}/chats" id="profile--chats">member of {{u.chat_count|commas}} chat{{'s' if u.chat_count != 1 else ''}}</a>
-								{% endif %}
 							</div>
 
 							<span id="profile-coins-amount">{{u.coins|commas}}</span>
@@ -420,12 +416,6 @@
 
 							<a class="mx-1" href="/@{{u.username}}/muting" id="profile-mobile--muting">mutes {{u.mute_count|commas}} user{{'s' if u.mute_count != 1 else ''}}</a>
 						</div>
-
-						{% if v.admin_level >= PERMS['VIEW_CHATS'] %}
-							<div>
-								<a href="/@{{u.username}}/chats" id="profile-mobile--chats">member of {{u.chat_count|commas}} chat{{'s' if u.chat_count != 1 else ''}}</a>
-							</div>
-						{% endif %}
 
 						<div class="mt-2 mb-0">
 							<span id="profile-coins-amount-mobile" class="font-weight-bold">{{u.coins|commas}}</span>

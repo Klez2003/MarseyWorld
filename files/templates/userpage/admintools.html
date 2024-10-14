@@ -53,6 +53,10 @@
 				<div id="profile--email" class="my-2">Email: {{u.email}}</div>
 			{%- endif %}
 
+			{% if v.admin_level >= PERMS['VIEW_CHATS'] %}
+				Member of <a id="profile--chats" href="/@{{u.username}}/chats">{{u.chat_count|commas}} chat{{'s' if u.chat_count != 1 else ''}}</a>
+			{% endif %}
+
 			{% if v.admin_level >= PERMS['USER_BAN'] %}
 				<form class="my-3 {% if u.is_permabanned %}d-none{% endif %}" action="/ban_user/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this)">
 					<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
