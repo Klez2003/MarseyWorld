@@ -16,7 +16,10 @@
 				<tr>
 					<td>
 						<span class="d-inline-block mx-1 {% if u.id == chat.owner_id %}font-weight-bolder{% endif %}" {% if is_owner %}data-bs-toggle="tooltip" data-bs-placement="bottom" title="Owner"{% endif %}>
-							<a href="/chat/{{chat.id}}" {% if is_owner %}style="color: #bbb !important"{% endif %}>{{chat.name if chat.name else 'Unnamed Chat'}}</a>
+							<a href="/chat/{{chat.id}}">{{chat.name if chat.name else 'Unnamed Chat'}}</a>
+							{% if is_owner %}
+								<img class="ml-1 chat-mod" data-bs-toggle="tooltip" alt="Owner" title="Owner" src="{{SITE_FULL_IMAGES}}/e/marseykingretard.webp">
+							{% endif %}
 						</span>
 					</td>
 					{% if obj.id %} {# means its a message #}
