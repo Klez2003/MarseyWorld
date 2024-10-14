@@ -91,36 +91,36 @@
 						<a class="mx-1" href="/@{{u.username}}/voted/posts">Voted</a> |
 						<a class="mx-1" href="/@{{u.username}}/bank_statement">Bank Statement</a>
 
-					<div class="font-weight-bolder mb-1">
-						<div class="my-2">
-							<a class="mr-1" href="/@{{u.username}}/followers" id="profile--followers">{{u.stored_subscriber_count|commas}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a> |
+						<div class="font-weight-bolder mb-1">
+							<div class="my-2">
+								<a class="mr-1" href="/@{{u.username}}/followers" id="profile--followers">{{u.stored_subscriber_count|commas}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a> |
 
-							<a class="mx-1" href="/@{{u.username}}/following" id="profile--following">follows {{u.follow_count|commas}} user{{'s' if u.follow_count != 1 else ''}}</a> |
+								<a class="mx-1" href="/@{{u.username}}/following" id="profile--following">follows {{u.follow_count|commas}} user{{'s' if u.follow_count != 1 else ''}}</a> |
 
-							<a class="mx-1" href="/@{{u.username}}/blockers" id="profile--blockers">{{u.blocking_count|commas}} blocker{{'s' if u.blocking_count != 1 else ''}}</a> |
+								<a class="mx-1" href="/@{{u.username}}/blockers" id="profile--blockers">{{u.blocking_count|commas}} blocker{{'s' if u.blocking_count != 1 else ''}}</a> |
 
-							<a class="mx-1" href="/@{{u.username}}/blocking" id="profile--blocking">blocks {{u.block_count|commas}} user{{'s' if u.block_count != 1 else ''}}</a> |
+								<a class="mx-1" href="/@{{u.username}}/blocking" id="profile--blocking">blocks {{u.block_count|commas}} user{{'s' if u.block_count != 1 else ''}}</a> |
 
-							<a class="mx-1" href="/@{{u.username}}/muters" id="profile--muters">{{u.muting_count|commas}} muter{{'s' if u.muting_count != 1 else ''}}</a> |
+								<a class="mx-1" href="/@{{u.username}}/muters" id="profile--muters">{{u.muting_count|commas}} muter{{'s' if u.muting_count != 1 else ''}}</a> |
 
-							<a class="mx-1" href="/@{{u.username}}/muting" id="profile--muting">mutes {{u.mute_count|commas}} user{{'s' if u.mute_count != 1 else ''}}</a>
+								<a class="mx-1" href="/@{{u.username}}/muting" id="profile--muting">mutes {{u.mute_count|commas}} user{{'s' if u.mute_count != 1 else ''}}</a>
+							</div>
+
+							<span id="profile-coins-amount">{{u.coins|commas}}</span>
+							<img loading="lazy" alt="coins" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coins" height="20" src="{{SITE_FULL_IMAGES}}/i/coins.webp?x=11">
+
+							{% if FEATURES['MARSEYBUX'] %}
+								<span id="profile-bux-amount">{{u.marseybux|commas}}</span>
+								<img loading="lazy" alt="marseybux" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="20" width="46" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=11">
+							{% endif %}
 						</div>
 
-						<span id="profile-coins-amount">{{u.coins|commas}}</span>
-						<img loading="lazy" alt="coins" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coins" height="20" src="{{SITE_FULL_IMAGES}}/i/coins.webp?x=11">
+						<span id="profile--joined">Joined <span id="profile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{u.created_utc}}')" data-date="{{u.created_utc}}"></span></span>
 
-						{% if FEATURES['MARSEYBUX'] %}
-							<span id="profile-bux-amount">{{u.marseybux|commas}}</span>
-							<img loading="lazy" alt="marseybux" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="20" width="46" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=11">
-						{% endif %}
+						{% if v and v.admin_level >= PERMS['VIEW_LAST_ACTIVE'] -%}
+							<span id="profile--lastactive" class="ml-2">last active <span id="profile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{u.last_active}}')" data-date="{{u.last_active}}"></span></span>
+						{%- endif %}
 					</div>
-
-					<span id="profile--joined">Joined <span id="profile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{u.created_utc}}')" data-date="{{u.created_utc}}"></span></span>
-
-					{% if v and v.admin_level >= PERMS['VIEW_LAST_ACTIVE'] -%}
-						<span id="profile--lastactive" class="ml-2">last active <span id="profile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{u.last_active}}')" data-date="{{u.last_active}}"></span></span>
-					{%- endif %}
-				</div>
 
 					{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
 						{% if u.bio_html and can_see(v, u) %}
