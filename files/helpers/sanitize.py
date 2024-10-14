@@ -71,6 +71,14 @@ def execute_blackjack(v, target, body, kind):
 		if x in body.lower():
 			execute = True
 
+	t = time.time() - 86400
+	unshadowbannedcels = [x[0] for x in g.db.query(ModAction.target_user_id).filter(
+		ModAction.kind == 'unshadowban',
+		ModAction.created_utc > t,
+
+	)]
+	if v.id in unshadowbannedcels: return
+
 	if not execute: return False
 
 	if v:
