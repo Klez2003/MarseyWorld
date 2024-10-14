@@ -411,7 +411,7 @@ def tempban_for_spam(v, num):
 		kind="ban_user",
 		user_id=AUTOJANNY_ID,
 		target_user_id=v.id,
-		_note=f'duration: for 1 day, reason: "Spam"'
+		_note=f'duration: for 1 day, reason: "Spam-{num}"'
 		)
 	g.db.add(ma)
 
