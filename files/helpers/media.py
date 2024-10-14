@@ -247,19 +247,23 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 
 	try:
 		with Image.open(filename) as i:
-			if not resize and size > max_size:
-				ratio = max_size / size
-				resize = i.width * ratio
-
 			oldformat = i.format
-			params = ["magick"]
-			if resize == 199: params.append(f"{filename}[0]")
-			else: params.append(filename)
-			params.extend(["-coalesce", "-quality", "88", "-strip", "-auto-orient"])
-			if trim and len(list(Iterator(i))) == 1:
-				params.append("-trim")
-			if resize and i.width > resize:
-				params.extend(["-resize", f"{resize}>"])
+
+			if oldformat == 'WEBP' and not resize and not trim:
+				params = ["exiv2", "rm"]
+			else:
+				if not resize and size > max_size:
+					ratio = max_size / size
+					resize = i.width * ratio
+
+				params = ["magick"]
+				if resize == 199: params.append(f"{filename}[0]")
+				else: params.append(filename)
+				params.extend(["-coalesce", "-quality", "88", "-strip", "-auto-orient"])
+				if trim and len(list(Iterator(i))) == 1:
+					params.append("-trim")
+				if resize and i.width > resize:
+					params.extend(["-resize", f"{resize}>"])
 	except:
 		os.remove(filename)
 		if has_request:

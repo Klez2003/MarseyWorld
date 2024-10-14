@@ -14,6 +14,7 @@ RUN apt install -y postgresql
 RUN apt install -y libpq-dev
 RUN apt install -y nano
 RUN apt install -y mailutils
+RUN apt install -y exiv2
 
 COPY requirements.txt /requirements.txt
 COPY scripts/startup_docker_chat.sh /s
