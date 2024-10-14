@@ -230,7 +230,7 @@ def settings_personal_post(v):
 		return {"message": "Your sig has been updated."}
 
 	elif not updated and request.values.get("friends") == "" and v.friends:
-		removed_users = NOTIFY_USERS(v.friends, v)
+		removed_users = NOTIFY_USERS(v.friends, v, charge=False)
 		notify_removed_users(removed_users, 'friends')
 		v.friends = None
 		v.friends_html = None
@@ -238,7 +238,7 @@ def settings_personal_post(v):
 		return {"message": "Your friends list has been updated."}
 
 	elif not updated and request.values.get("enemies") == "" and v.enemies:
-		removed_users = NOTIFY_USERS(v.enemies, v)
+		removed_users = NOTIFY_USERS(v.enemies, v, charge=False)
 		notify_removed_users(removed_users, 'enemies')
 		v.enemies = None
 		v.enemies_html = None
