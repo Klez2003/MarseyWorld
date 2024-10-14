@@ -1113,8 +1113,9 @@ CREATE TABLE public.transactions (
     created_utc integer NOT NULL,
     type character varying(12) NOT NULL,
     amount integer NOT NULL,
-    email character varying(255) NOT NULL,
-    claimed boolean
+    email character varying(255),
+    claimed boolean,
+    user_id integer
 );
 
 
@@ -2568,6 +2569,13 @@ CREATE INDEX transactions_email_idx ON public.transactions USING btree (email);
 
 
 --
+-- Name: transactions_user_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX transactions_user_idx ON public.transactions USING btree (user_id);
+
+
+--
 -- Name: user_private_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3424,6 +3432,14 @@ ALTER TABLE ONLY public.subscriptions
 
 ALTER TABLE ONLY public.subscriptions
     ADD CONSTRAINT subscription_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: transactions transactions_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transactions
+    ADD CONSTRAINT transactions_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
