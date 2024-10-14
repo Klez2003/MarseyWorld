@@ -51,6 +51,13 @@ else:
 	DEFAULT_COINS = 0
 	DEFAULT_MARSEYBUX = 0
 
+def is_underage_reason(reason):
+	reason = reason.lower()
+	if reason == 'underage': return True
+	if 'underage ' in reason: return True
+	if ' underage' in reason: return True
+	return False
+
 class User(Base):
 	__tablename__ = "users"
 
@@ -1165,7 +1172,8 @@ class User(Base):
 	@property
 	@lazy
 	def is_underage(self):
-		return (self.is_suspended and (' underage' in self.ban_reason.lower() or self.ban_reason.lower().startswith('underage'))) or (self.shadowbanned and (' underage' in self.shadowban_reason.lower() or self.shadowban_reason.lower().startswith('underage')))
+		return (self.is_suspended and is_underage_reason(self.ban_reason)) \
+		    or (self.shadowbanned and is_underage_reason(self.shadowban_reason))
 
 	@property
 	@lazy
