@@ -2142,3 +2142,17 @@ def VIEW_VERSIONs(v, link):
 		stop(403, "You can't view other people's edits!")
 
 	return render_template("versions.html", v=v, obj=obj)
+
+@app.get("/@<username>/chats")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@admin_level_required(PERMS['VIEW_CHATS'])
+def user_chats(v, username):
+	u = get_user(username, v=v)
+
+	chats = g.db.query(ChatMembership.created_utc, Chat).join(Chat).filter(
+			ChatMembership.user_id == u.id,
+		).order_by(ChatMembership.created_utc.desc())
+	total = chats.count()
+
+	return render_template("userpage/chats.html", v=v, u=u, chats=chats, total=total)

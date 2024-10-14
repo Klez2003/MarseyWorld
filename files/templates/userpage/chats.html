@@ -1,0 +1,27 @@
+{% extends "default.html" %}
+{% block pagetitle %}@{{u.username}}'s Chat Memberships{% endblock %}
+
+{% block content %}
+	<h5 class="pt-4 pl-2 pb-3">@{{u.username}}'s Chat Memberships ({{total}} chat{{macros.plural(total)}})</h5>
+	<div class="overflow-x-auto">
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Joined on</th>
+				</tr>
+			</thead>
+			{% for created_utc, chat in chats %}
+				{% set is_owner = (u.id == chat.owner_id) %}
+				<tr>
+					<td>
+						<span class="d-inline-block mx-1 {% if u.id == chat.owner_id %}font-weight-bolder{% endif %}" {% if is_owner %}data-bs-toggle="tooltip" data-bs-placement="bottom" title="Owner"{% endif %}>
+							<a href="/chat/{{chat.id}}" {% if is_owner %}style="color: #bbb !important"{% endif %}>{{chat.name}}</a>
+						</span>
+					</td>
+					<td data-time="{{created_utc}}"></td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+{% endblock %}

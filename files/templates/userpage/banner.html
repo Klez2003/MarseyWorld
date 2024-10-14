@@ -90,6 +90,9 @@
 						<a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> |
 						<a class="mx-1" href="/@{{u.username}}/voted/posts">Voted</a> |
 						<a class="mx-1" href="/@{{u.username}}/bank_statement">Bank Statement</a>
+						{% if v.admin_level >= PERMS['VIEW_CHATS'] %}
+							| <a class="mr-1" href="/@{{u.username}}/chats">Chats</a>
+						{% endif %}
 
 						<div class="font-weight-bolder mb-1">
 							<div class="my-2">
@@ -396,6 +399,9 @@
 						<a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> |
 						<a class="mx-1" href="/@{{u.username}}/voted/posts">Voted</a> |
 						<a class="mx-1" href="/@{{u.username}}/bank_statement">Bank Statement</a>
+						{% if v.admin_level >= PERMS['VIEW_CHATS'] %}
+							| <a class="mr-1" href="/@{{u.username}}/chats">Chats</a>
+						{% endif %}
 					</div>
 
 					<div class="font-weight-bolder">
