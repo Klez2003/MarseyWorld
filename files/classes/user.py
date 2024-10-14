@@ -690,6 +690,11 @@ class User(Base):
 
 	@property
 	@lazy
+	def chat_count(self):
+		return g.db.query(ChatMembership).filter_by(user_id=self.id).count()
+
+	@property
+	@lazy
 	def bio_html_eager(self):
 		if self.bio_html == None: return ''
 		return self.bio_html.replace('data-src', 'src') \

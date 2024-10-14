@@ -90,9 +90,6 @@
 						<a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> |
 						<a class="mx-1" href="/@{{u.username}}/voted/posts">Voted</a> |
 						<a class="mx-1" href="/@{{u.username}}/bank_statement">Bank Statement</a>
-						{% if v.admin_level >= PERMS['VIEW_CHATS'] %}
-							| <a class="mr-1" href="/@{{u.username}}/chats">Chats</a>
-						{% endif %}
 
 						<div class="font-weight-bolder mb-1">
 							<div class="my-2">
@@ -107,6 +104,10 @@
 								<a class="mx-1" href="/@{{u.username}}/muters" id="profile--muters">{{u.muting_count|commas}} muter{{'s' if u.muting_count != 1 else ''}}</a> |
 
 								<a class="mx-1" href="/@{{u.username}}/muting" id="profile--muting">mutes {{u.mute_count|commas}} user{{'s' if u.mute_count != 1 else ''}}</a>
+
+								{% if v.admin_level >= PERMS['VIEW_CHATS'] %}
+									| <a class="mx-1" href="/@{{u.username}}/chats" id="profile--chats">member of {{u.chat_count|commas}} chat{{'s' if u.chat_count != 1 else ''}}</a>
+								{% endif %}
 							</div>
 
 							<span id="profile-coins-amount">{{u.coins|commas}}</span>
@@ -399,9 +400,6 @@
 						<a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> |
 						<a class="mx-1" href="/@{{u.username}}/voted/posts">Voted</a> |
 						<a class="mx-1" href="/@{{u.username}}/bank_statement">Bank Statement</a>
-						{% if v.admin_level >= PERMS['VIEW_CHATS'] %}
-							| <a class="mr-1" href="/@{{u.username}}/chats">Chats</a>
-						{% endif %}
 					</div>
 
 					<div class="font-weight-bolder">
@@ -417,21 +415,29 @@
 							<a class="mx-1" href="/@{{u.username}}/blocking" id="profile-mobile--blocking">blocks {{u.block_count|commas}} user{{'s' if u.block_count != 1 else ''}}</a>
 						</div>
 
-						<div class="mb-2">
+						<div>
 							<a class="mr-1" href="/@{{u.username}}/muters" id="profile-mobile--muters">{{u.muting_count|commas}} muter{{'s' if u.muting_count != 1 else ''}}</a>
 
 							<a class="mx-1" href="/@{{u.username}}/muting" id="profile-mobile--muting">mutes {{u.mute_count|commas}} user{{'s' if u.mute_count != 1 else ''}}</a>
 						</div>
 
-						<span id="profile-coins-amount-mobile" class="font-weight-bold">{{u.coins|commas}}</span>
-						<img loading="lazy" alt="coins" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coins" height="15" src="{{SITE_FULL_IMAGES}}/i/coins.webp?x=11">
-
-						{% if FEATURES['MARSEYBUX'] %}
-							<span id="profile-bux-amount-mobile" class="font-weight-bold">{{u.marseybux|commas}}</span>
-							<img loading="lazy" alt="marseybux" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="15" width="35" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=11">
+						{% if v.admin_level >= PERMS['VIEW_CHATS'] %}
+							<div>
+								<a href="/@{{u.username}}/chats" id="profile-mobile--chats">member of {{u.chat_count|commas}} chat{{'s' if u.chat_count != 1 else ''}}</a>
+							</div>
 						{% endif %}
 
-						<br><span id="profile-mobile--joined">Joined <span id="profile-mobile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{u.created_utc}}')" class="font-weight-bold" data-date="{{u.created_utc}}"></span></span>
+						<div class="mt-2 mb-0">
+							<span id="profile-coins-amount-mobile" class="font-weight-bold">{{u.coins|commas}}</span>
+							<img loading="lazy" alt="coins" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coins" height="15" src="{{SITE_FULL_IMAGES}}/i/coins.webp?x=11">
+
+							{% if FEATURES['MARSEYBUX'] %}
+								<span id="profile-bux-amount-mobile" class="font-weight-bold">{{u.marseybux|commas}}</span>
+								<img loading="lazy" alt="marseybux" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="15" width="35" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=11">
+							{% endif %}
+						</div>
+
+						<span id="profile-mobile--joined">Joined <span id="profile-mobile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{u.created_utc}}')" class="font-weight-bold" data-date="{{u.created_utc}}"></span></span>
 
 						{% if v and v.admin_level >= PERMS['VIEW_LAST_ACTIVE'] -%}
 							<br><span id="profile-mobile--lastactive">last active <span id="profile-mobile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{u.last_active}}')" class="font-weight-bold" data-date="{{u.last_active}}"></span></span>
