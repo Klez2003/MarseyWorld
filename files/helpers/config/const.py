@@ -229,6 +229,7 @@ if SITE_NAME == 'rDrama':
 		'CHANGE_UNDER_SIEGE': 4,
 		'VIEW_EMAILS': 4,
 		'VIEW_CHATS': 4,
+		'VIEW_CHAT_LIST': 4,
 		'USER_LINK': 4,
 		'ADMIN_ADD': 4,
 		'ADMIN_REMOVE': 4,
@@ -324,8 +325,9 @@ else:
 		'ADMIN_ADD': 2,
 		'ADMIN_REMOVE': 2,
 		'POST_IN_H_ANNOUNCEMENTS': 2,
+		'VIEW_CHATS': 2,
 
-		'VIEW_CHATS': 3,
+		'VIEW_CHAT_LIST': 3,
 		'INFINITE_CURRENCY': 3,
 	}
 

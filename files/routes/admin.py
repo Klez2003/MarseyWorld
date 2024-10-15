@@ -2146,7 +2146,7 @@ def VIEW_VERSIONs(v, link):
 @app.get("/@<username>/chats")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['VIEW_CHATS'])
+@admin_level_required(PERMS['VIEW_CHAT_LIST'])
 def user_chats(v, username):
 	u = get_user(username, v=v)
 
