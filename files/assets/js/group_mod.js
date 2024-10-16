@@ -23,6 +23,17 @@ function approve_membership(t, group, uid) {
 	);
 }
 
+function leave_membership(t, group) {
+	url = `/!${group}/leave`
+	postToast(t, url,
+		{
+		},
+		() => {
+			t.parentElement.parentElement.parentElement.remove();
+		}
+	);
+
+}
 function reject_membership(t, group, uid) {
 	url = `/!${group}/${uid}/reject`
 	postToast(t, url,

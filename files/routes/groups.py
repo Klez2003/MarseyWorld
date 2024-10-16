@@ -131,7 +131,21 @@ def leave_group(v, group_name):
 			text = f"@{v.username} has cancelled their application to !{group}"
 			msg = f"You have cancelled your application to !{group} successfully!"
 
-		send_notification(group.owner_id, text)
+		if v.id == group.owner_id:
+			new_owner_id = g.db.query(GroupMembership.user_id).filter(
+				GroupMembership.user_id != group.owner_id,
+				GroupMembership.group_name == group.name,
+				GroupMembership.approved_utc != None,
+			).order_by(GroupMembership.is_mod.desc(), GroupMembership.approved_utc).first()
+
+			if new_owner_id:
+				new_owner_id = new_owner_id[0]
+				send_repeatable_notification(new_owner_id, f"@{group.owner.username} (!{group}'s owner) has left the group, You're now the new owner!")
+				group.owner_id = new_owner_id
+				g.db.add(group)
+		else:
+			send_notification(group.owner_id, text)
+
 		g.db.delete(existing)
 
 		return {"message": msg}
@@ -215,25 +229,19 @@ def group_reject(v, group_name, user_id):
 	if not membership:
 		stop(404, "There is no membership to reject!")
 
-	if v.id != membership.user_id: #implies kicking and not leaving
-		if membership.user_id == group.owner_id and v.admin_level < PERMS["MODS_EVERY_GROUP"]:
-			stop(403, "You can't kick the group owner!")
+	if membership.user_id == group.owner_id and v.admin_level < PERMS["MODS_EVERY_GROUP"]:
+		stop(403, "You can't kick the group owner!")
 
-		if v.id != group.owner_id and membership.is_mod and v.admin_level < PERMS["MODS_EVERY_GROUP"]:
-			stop(403, "Only the group owner can kick mods!")
+	if v.id != group.owner_id and membership.is_mod and v.admin_level < PERMS["MODS_EVERY_GROUP"]:
+		stop(403, "Only the group owner can kick mods!")
 
-	if v.id == membership.user_id:
-		verb = "left the group"
-		msg = f"You have left !{group} successfully!"
+	if membership.approved_utc:
+		text = f"@{v.username} has kicked you from !{group}"
+		msg = f"You have kicked @{membership.user.username} successfully!"
 	else:
-		verb = "been kicked from the group by site admins"
-		if membership.approved_utc:
-			text = f"@{v.username} has kicked you from !{group}"
-			msg = f"You have kicked @{membership.user.username} successfully!"
-		else:
-			text = f"@{v.username} has rejected your application to !{group}"
-			msg = f"You have rejected @{membership.user.username} successfully!"
-		send_repeatable_notification(membership.user_id, text)
+		text = f"@{v.username} has rejected your application to !{group}"
+		msg = f"You have rejected @{membership.user.username} successfully!"
+	send_repeatable_notification(membership.user_id, text)
 
 	if membership.user_id == group.owner_id:
 		new_owner_id = g.db.query(GroupMembership.user_id).filter(
@@ -244,7 +252,7 @@ def group_reject(v, group_name, user_id):
 
 		if new_owner_id:
 			new_owner_id = new_owner_id[0]
-			send_repeatable_notification(new_owner_id, f"@{group.owner.username} (!{group}'s owner) has {verb}, You're now the new owner!")
+			send_repeatable_notification(new_owner_id, f"@{group.owner.username} (!{group}'s owner) has been kicked from the group by site admins, You're now the new owner!")
 			group.owner_id = new_owner_id
 			g.db.add(group)
 
