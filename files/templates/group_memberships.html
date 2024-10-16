@@ -132,7 +132,7 @@
 		{% if v.mods_group(group) %}
 			{{process_memberships(applications, 'applications')}}
 			{{process_memberships(members, 'members')}}
-			<script defer src="{{'js/group_members_owner.js' | asset}}"></script>
+			<script defer src="{{'js/group_mod.js' | asset}}"></script>
 		{% else %}
 			{{process_memberships(members, 'members')}}
 			{{process_memberships(applications, 'applications')}}
