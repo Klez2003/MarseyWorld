@@ -592,6 +592,18 @@ CREATE TABLE public.follows (
 
 
 --
+-- Name: group_blacklists; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.group_blacklists (
+    user_id integer NOT NULL,
+    group_name character varying(25) NOT NULL,
+    created_utc integer NOT NULL,
+    blacklister_id integer NOT NULL
+);
+
+
+--
 -- Name: group_memberships; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -600,7 +612,8 @@ CREATE TABLE public.group_memberships (
     group_name character varying(25) NOT NULL,
     created_utc integer NOT NULL,
     approved_utc integer,
-    is_mod boolean NOT NULL
+    is_mod boolean NOT NULL,
+    approver_id integer
 );
 
 
@@ -1617,6 +1630,14 @@ ALTER TABLE ONLY public.exiles
 
 ALTER TABLE ONLY public.follows
     ADD CONSTRAINT follows_pkey PRIMARY KEY (target_id, user_id);
+
+
+--
+-- Name: group_blacklists group_blacklists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.group_blacklists
+    ADD CONSTRAINT group_blacklists_pkey PRIMARY KEY (user_id, group_name);
 
 
 --
@@ -3112,6 +3133,38 @@ ALTER TABLE ONLY public.follows
 
 ALTER TABLE ONLY public.follows
     ADD CONSTRAINT follow_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: group_blacklists group_blacklists_blacklister_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.group_blacklists
+    ADD CONSTRAINT group_blacklists_blacklister_fkey FOREIGN KEY (blacklister_id) REFERENCES public.users(id);
+
+
+--
+-- Name: group_blacklists group_blacklists_group_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.group_blacklists
+    ADD CONSTRAINT group_blacklists_group_fkey FOREIGN KEY (group_name) REFERENCES public.groups(name);
+
+
+--
+-- Name: group_blacklists group_blacklists_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.group_blacklists
+    ADD CONSTRAINT group_blacklists_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: group_memberships group_memberships_approver_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.group_memberships
+    ADD CONSTRAINT group_memberships_approver_fkey FOREIGN KEY (approver_id) REFERENCES public.users(id);
 
 
 --
