@@ -474,6 +474,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseydiglett', 'Marsey', 2, 'pkmn pokemon 050', false, 1699123774),
 ('marseydisguisedditto', 'Marsey', 2, 'pkmn pokemon 132', false, 1698900406),
 ('marseydisgusted', 'Marsey', 2, 'disgusting ew nasty yikes yuck', false, 1703610480),
+('marseydisgustingword', 'Marsey', 2, 'disapprove disgusted gross icky mad revulsion text yikes yuck', false, 1727229655),
 ('marseydittoo', 'Marsey', 2, 'pkmn pokemon 132', false, 1698868477),
 ('marseydizzy2', 'Marsey', 2, 'sick', false, 1716602401),
 ('marseydj', 'Marsey', 2, 'mlp pony', false, 1723561776),
