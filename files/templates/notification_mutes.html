@@ -11,6 +11,7 @@
 					<th>User</th>
 					<th>Target</th>
 					<th>Muted on</th>
+					<th>Expires on</th>
 				</tr>
 			</thead>
 			{% for mute in mutes %}
@@ -26,6 +27,7 @@
 						{% endwith %}
 					</td>
 					<td data-time="{{mute.created_utc}}"></td>
+					<td data-time="{{mute.created_utc+2592000}}"></td>
 				</tr>
 			{% endfor %}
 		</table>

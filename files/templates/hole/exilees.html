@@ -11,6 +11,7 @@
 					<th class="disable-sort-click"></th>
 					<th>Exiled by</th>
 					<th>Exiled since</th>
+					<th>Expires on</th>
 				</tr>
 			</thead>
 			{% for user, exile in users %}
@@ -30,7 +31,8 @@
 							{% include "user_in_table.html" %}
 						{% endwith %}
 					</td>
-					<td {% if exile.created_utc %}data-time="{{exile.created_utc}}"{% endif %}></td>
+					<td data-time="{{exile.created_utc}}"></td>
+					<td data-time="{{exile.created_utc+2592000}}"></td>
 				</tr>
 			{% endfor %}
 		</table>

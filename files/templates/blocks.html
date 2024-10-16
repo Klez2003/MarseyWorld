@@ -15,6 +15,9 @@
 					<th class="disable-sort-click" {% if sort=="time" %}disabled{% endif %}>
 						<a href="?sort=time">Blocked on</a>
 					</th>
+					<th class="disable-sort-click" {% if sort=="time" %}disabled{% endif %}>
+						<a href="?sort=time">Expires on</a>
+					</th>
 				</tr>
 			</thead>
 			{% for block in blocks %}
@@ -30,6 +33,7 @@
 						{% endwith %}
 					</td>
 					<td data-time="{{block.created_utc}}"></td>
+					<td data-time="{{block.created_utc+2592000}}"></td>
 				</tr>
 			{% endfor %}
 		</table>

@@ -8,22 +8,24 @@
 			<thead>
 				<tr>
 					<th>Name</th>
-					<th class="disable-sort-click">Blocking since</th>
 					{% if v.id == u.id %}
 						<th class="disable-sort-click"></th>
 					{% endif %}
+					<th class="disable-sort-click">Blocking since</th>
+					<th class="disable-sort-click">Expires on</td>
 				</tr>
 			</thead>
 			<tbody id="blockers-table">
 			{% for block, user in users %}
 				<tr>
 					<td>{% include "user_in_table.html" %}</td>
-					<td {% if block.created_utc > 1599343262 %}data-time="{{block.created_utc}}"{% endif %}></td>
 					{% if v.id == u.id %}
 						<td>
 							<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="unblock_user(this, '/unblock_user?username={{user.username}}&formkey={{v|formkey}}')">Unblock</button>
 						</td>
 					{% endif %}
+					<td data-time="{{block.created_utc}}"></td>
+					<td data-time="{{block.created_utc+2592000}}"></td>
 				</tr>
 			{% endfor %}
 			</tbody>
