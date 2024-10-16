@@ -7738,6 +7738,11 @@ p:empty { /* shitty hack to fix the issue where bleach.Cleaner doesnt allow bloc
 	margin-bottom: 10px;
 }
 
+@media (max-width: 768px) {
+	.reddit-embed, .twitter-embed {
+		margin-top: 0.5rem;
+	}
+}
 
 #view-art-sidebar img {
 	max-height: 300px !important;
