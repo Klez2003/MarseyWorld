@@ -189,6 +189,7 @@ def group_approve(v, group_name, user_id):
 
 	if not application.approved_utc:
 		application.approved_utc = time.time()
+		application.approver_id = v.id
 		g.db.add(application)
 		if v.id != application.user_id:
 			send_repeatable_notification(application.user_id, f"@{v.username} has approved your application to !{group}")

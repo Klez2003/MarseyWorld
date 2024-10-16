@@ -1,6 +1,14 @@
 {% extends "default.html" %}
 {% block pagetitle %}!{{group}}{% endblock %}
 {% block content %}
+	{% if v.mods_group(group) %}
+		<div id="myself-in-table" class="d-none">
+			{% with user=v %}
+				{% include "user_in_table.html" %}
+			{% endwith %}
+		</div>
+	{% endif %}
+
 	<div class="mx-2">
 		{% if v.id != group.owner_id %}
 			<button id="leave-{{group}}" type="button" class="mt-4 btn btn-danger btn-block {% if v.id not in group.membership_user_ids %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/leave','leave-{{group}}','apply-{{group}}','d-none')">
@@ -56,6 +64,7 @@
 
 							{% if name == 'members' %}
 								<th>Approved on</th>
+								<th>Approved by</th>
 							{% else %}
 								<th>Applied on</th>
 							{% endif %}
@@ -105,6 +114,11 @@
 
 								{% if name == 'members' %}
 									<td id="time-{{membership.user_id}}" data-time="{{membership.approved_utc}}"></td>
+									<td>
+										{% with user=membership.approver %}
+											{% include "user_in_table.html" %}
+										{% endwith %}
+									</td>
 								{% else %}
 									<td id="time-{{membership.user_id}}" data-time="{{membership.created_utc}}"></td>
 								{% endif %}

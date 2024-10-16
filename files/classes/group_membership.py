@@ -13,8 +13,10 @@ class GroupMembership(Base):
 	created_utc = Column(Integer)
 	approved_utc = Column(Integer)
 	is_mod = Column(Boolean, default=False)
+	approver_id = Column(Integer, ForeignKey("users.id"))
 
-	user = relationship("User", uselist=False)
+	user = relationship("User", primaryjoin="User.id==GroupMembership.user_id", uselist=False)
+	approver = relationship("User", primaryjoin="User.id==GroupMembership.approver_id", uselist=False)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
