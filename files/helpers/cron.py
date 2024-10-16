@@ -380,24 +380,24 @@ def _expire_restrictions():
 
 	blocks = g.db.query(UserBlock).filter(UserBlock.created_utc < one_month_ago)
 	for block in blocks:
-		send_repeatable_notification(block.user_id, f"Your block of @{block.target.username} has passed 1 month and expired!")
-		send_repeatable_notification(block.target_id, f"@{block.user.username}'s block of you has passed 1 month and expired!")
+		send_repeatable_notification(block.user_id, f"Your block of @{block.target.username} has passed 30 days and expired!")
+		send_repeatable_notification(block.target_id, f"@{block.user.username}'s block of you has passed 30 days and expired!")
 		g.db.delete(block)
 
 	mutes = g.db.query(UserMute).filter(UserMute.created_utc < one_month_ago)
 	for mute in mutes:
-		send_repeatable_notification(mute.user_id, f"Your mute of @{mute.target.username} has passed 1 month and expired!")
-		send_repeatable_notification(mute.target_id, f"@{mute.user.username}'s mute of you has passed 1 month and expired!")
+		send_repeatable_notification(mute.user_id, f"Your mute of @{mute.target.username} has passed 30 days and expired!")
+		send_repeatable_notification(mute.target_id, f"@{mute.user.username}'s mute of you has passed 30 days and expired!")
 		g.db.delete(mute)
 
 	exiles = g.db.query(Exile).filter(Exile.created_utc < one_month_ago)
 	for exile in exiles:
-		send_repeatable_notification(exile.user_id, f"Your exile from /h/{exile.hole} has passed 1 month and expired!")
+		send_repeatable_notification(exile.user_id, f"Your exile from /h/{exile.hole} has passed 30 days and expired!")
 		g.db.delete(exile)
 
 	blacklists = g.db.query(GroupBlacklist).filter(GroupBlacklist.created_utc < one_month_ago)
 	for blacklist in blacklists:
-		send_repeatable_notification(blacklist.user_id, f"Your blacklisting from !{blacklist.group_name} has passed 1 month and expired!")
+		send_repeatable_notification(blacklist.user_id, f"Your blacklisting from !{blacklist.group_name} has passed 30 days and expired!")
 		g.db.delete(blacklist)
 
 
