@@ -131,9 +131,11 @@ def leave_group(v, group_name):
 		if existing.approved_utc:
 			text = f"@{v.username} has left !{group}"
 			msg = f"You have left !{group} successfully!"
+			func = send_repeatable_notification
 		else:
 			text = f"@{v.username} has cancelled their application to !{group}"
 			msg = f"You have cancelled your application to !{group} successfully!"
+			func = send_notification
 
 		if v.id == group.owner_id:
 			new_owner_id = g.db.query(GroupMembership.user_id).filter(
@@ -148,7 +150,7 @@ def leave_group(v, group_name):
 				group.owner_id = new_owner_id
 				g.db.add(group)
 		else:
-			send_notification(group.owner_id, text)
+			func(group.owner_id, text)
 
 		g.db.delete(existing)
 
@@ -438,7 +440,7 @@ def group_unblacklist(v, group_name, user_id):
 
 	g.db.delete(blacklist)
 
-	send_notification(user_id, f"@{v.username} has unblacklisted you from !{group}")
+	send_repeatable_notification(user_id, f"@{v.username} has unblacklisted you from !{group}")
 
 	u = get_account(user_id)
 
