@@ -92,7 +92,7 @@ def cron_fn(every_5m, every_1d, every_1mo):
 				g.db.commit()
 
 				if FEATURES['BLOCK_MUTE_EXILE_EXPIRY']:
-					_expire_blocks_mutes_exiles()
+					_expire_restrictions()
 					g.db.commit()
 
 				_set_top_poster_of_the_day_id()
@@ -375,7 +375,7 @@ def _give_marseybux_salary():
 		u.pay_account('marseybux', marseybux_salary, "Janny salary")
 		send_repeatable_notification(u.id, f"You have received your monthly janny salary of {commas(marseybux_salary)} Marseybux!")
 
-def _expire_blocks_mutes_exiles():
+def _expire_restrictions():
 	one_month_ago = time.time() - 2592000
 
 	blocks = g.db.query(UserBlock).filter(UserBlock.created_utc < one_month_ago)
@@ -394,6 +394,11 @@ def _expire_blocks_mutes_exiles():
 	for exile in exiles:
 		send_repeatable_notification(exile.user_id, f"Your exile from /h/{exile.hole} has passed 1 month and expired!")
 		g.db.delete(exile)
+
+	blacklists = g.db.query(GroupBlacklist).filter(GroupBlacklist.created_utc < one_month_ago)
+	for blacklist in blacklists:
+		send_repeatable_notification(blacklist.user_id, f"Your blacklisting from !{blacklist.group_name} has passed 1 month and expired!")
+		g.db.delete(blacklist)
 
 
 def _set_top_poster_of_the_day_id():

@@ -105,6 +105,10 @@
 											</div>
 										{% endif %}
 
+										{% if v.mods_group(group) %}
+											<button id="unblacklist-{{membership.user_id}}" type="button" class="btn btn-success btn-block d-none" data-nonce="{{g.nonce}}" data-onclick="unblacklist(this,'{{group}}','{{membership.user_id}}')">Unblacklist</button>
+										{% endif %}
+
 										<div {% if name == 'members' %}class="d-none"{% endif %}>
 											<button type="button" class="btn btn-success btn-block" data-nonce="{{g.nonce}}" data-onclick="approve_membership(this,'{{group}}','{{membership.user_id}}')">Approve</button>
 											<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">Reject</button>
@@ -118,7 +122,7 @@
 
 								{% if name == 'members' %}
 									<td id="time-{{membership.user_id}}" data-time="{{membership.approved_utc}}"></td>
-									<td>
+									<td id="approver-{{membership.user_id}}">
 										{% with user=membership.approver %}
 											{% include "user_in_table.html" %}
 										{% endwith %}
@@ -141,5 +145,56 @@
 			{{process_memberships(members, 'members')}}
 			{{process_memberships(applications, 'applications')}}
 		{% endif %}
+
+
+		<h5 class="my-3">!{{group}} blacklist</h5>
+
+		<div class="overflow-x-auto mt-1">
+			<table class="ping-groups">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+
+						{% if v.mods_group(group) %}
+							<th class="disable-sort-click"></th>
+						{% endif %}
+
+						<th>Blacklisted on</th>
+						<th>Blacklisted by</th>
+						<th>Expires on</th>
+					</tr>
+				</thead>
+				<tbody id="blacklist_tbody">
+					{% for blacklist in group.blacklists %}
+						<tr>
+							<td>{{loop.index}}</td>
+
+							<td>
+								{% with user=blacklist.user %}
+									{% include "user_in_table.html" %}
+								{% endwith %}
+							</td>
+
+							{% if v.mods_group(group) %}
+								<td>
+									<button type="button" class="btn btn-success btn-block" data-nonce="{{g.nonce}}" data-onclick="unblacklist(this,'{{group}}','{{blacklist.user_id}}')">Unblacklist</button>
+								</td>
+							{% endif %}
+
+							<td data-time="{{blacklist.created_utc}}"></td>
+
+							<td>
+								{% with user=blacklist.blacklister %}
+									{% include "user_in_table.html" %}
+								{% endwith %}
+							</td>
+
+							<td data-time="{{blacklist.created_utc+2592000}}"></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 	</div>
 {% endblock %}

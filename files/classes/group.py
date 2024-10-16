@@ -19,6 +19,7 @@ class Group(Base):
 	description_html = Column(String)
 
 	memberships = relationship("GroupMembership", primaryjoin="GroupMembership.group_name==Group.name", order_by="GroupMembership.approved_utc")
+	blacklists = relationship("GroupBlacklist", primaryjoin="GroupBlacklist.group_name==Group.name", order_by="GroupBlacklist.created_utc")
 	owner = relationship("User", primaryjoin="Group.owner_id==User.id")
 
 	def __init__(self, *args, **kwargs):

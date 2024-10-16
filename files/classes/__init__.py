@@ -33,6 +33,7 @@ from .media import *
 from .push_subscriptions import *
 from .group import *
 from .group_membership import *
+from .group_blacklist import *
 from .orgy import *
 from .currency_logs import *
 

@@ -90,6 +90,10 @@ def join_group(v, group_name):
 	group = g.db.get(Group, group_name)
 	if not group: stop(404)
 
+	blacklist = g.db.query(GroupBlacklist.user_id).filter_by(user_id=v.id, group_name=group_name).one_or_none()
+	if blacklist:
+		stop(403, f"You're blacklisted from !{group_name}")
+
 	execute_under_siege(v, group, "ping group application")
 
 	existing = g.db.query(GroupMembership).filter_by(user_id=v.id, group_name=group_name).one_or_none()
@@ -228,6 +232,7 @@ def group_reject(v, group_name, user_id):
 	membership = g.db.query(GroupMembership).filter_by(user_id=user_id, group_name=group.name).one_or_none()
 	if not membership:
 		stop(404, "There is no membership to reject!")
+	uid = membership.user_id
 
 	if membership.user_id == group.owner_id and v.admin_level < PERMS["MODS_EVERY_GROUP"]:
 		stop(403, "You can't kick the group owner!")
@@ -267,6 +272,14 @@ def group_reject(v, group_name, user_id):
 
 		text = f':marseydisintegrate: !{group} has been deleted by @{v.username} :!marseydisintegrate:'
 		alert_active_users(text, None, User.group_creation_notifs == True)
+
+	if count and v.id != uid:
+		group_blacklist = GroupBlacklist(
+			user_id=uid,
+			group_name=group.name,
+			blacklister_id=v.id,
+			)
+		g.db.add(group_blacklist)
 
 	return {"message": msg}
 
@@ -403,3 +416,30 @@ def group_change_description(v, group_name):
 	g.db.add(group)
 
 	return {"message": 'Description changed successfully!'}
+
+@app.post("/!<group_name>/<user_id>/unblacklist")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def group_unblacklist(v, group_name, user_id):
+	group_name = group_name.strip().lower()
+
+	group = g.db.get(Group, group_name)
+	if not group: stop(404)
+
+	if not v.mods_group(group):
+		stop(403, "Only the group owner and its mods can unblacklist someone!")
+
+	blacklist = g.db.query(GroupBlacklist).filter_by(user_id=user_id, group_name=group.name).one_or_none()
+	if not blacklist:
+		stop(404, "This user is not blacklisted!")
+
+	g.db.delete(blacklist)
+
+	send_notification(user_id, f"@{v.username} has unblacklisted you from !{group}")
+
+	u = get_account(user_id)
+
+	return {"message": f"@{u.username} has been unblacklisted from !{group} successfully!"}
