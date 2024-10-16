@@ -7741,6 +7741,7 @@ p:empty { /* shitty hack to fix the issue where bleach.Cleaner doesnt allow bloc
 @media (max-width: 768px) {
 	.reddit-embed, .twitter-embed {
 		margin-top: 0.5rem;
+		margin-bottom: 0.5rem;
 	}
 }
 
