@@ -183,7 +183,7 @@ body::after {
 
 .blood {
 	position: relative;
-	color: red !important;
+	color: #d54e56 !important;
 	font-family: 'DoubleFeature';
 }
 
