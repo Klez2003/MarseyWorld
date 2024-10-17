@@ -255,7 +255,7 @@ def award_thing(v, thing_type, id):
 
 			return {"message": f"{quantity} {award_title} award{s} given to {thing_type} successfully!"}
 
-		if author.deflector and AWARDS[kind]['deflectable']:
+		if author.deflector and AWARDS[kind]['deflectable'] and v.admin_level < PERMS['IMMUNE_TO_DEFLECTIONS']:
 			author = v
 			safe_username = f"Your award{s} {has} been deflected but failed since you're"
 
