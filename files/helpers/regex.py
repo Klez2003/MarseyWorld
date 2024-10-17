@@ -203,8 +203,8 @@ search_regex_3 = re.compile(r'\s+', flags=re.A)
 
 ###OWOIFY
 
-owo_word_regex = re.compile(r'[^\s]+', flags=re.A)
-owo_space_regex = re.compile(r'\s+', flags=re.A)
+owo_word_regex = re.compile(r'[A-Za-z]+', flags=re.A)
+owo_space_regex = re.compile(r'[^A-Za-z]+', flags=re.A)
 owo_ignore_links_images_regex = re.compile(r'\]\(', flags=re.A)
 owo_ignore_emojis_regex = re.compile(r':[!#@a-z0-9_\-]+:', flags=re.I|re.A)
 owo_ignore_the_Regex = re.compile(r'\bthe\b', flags=re.I|re.A)
