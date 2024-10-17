@@ -243,7 +243,7 @@ def award_thing(v, thing_type, id):
 		stop(403, "You can't bite yourself!")
 
 	if v.id != author.id:
-		if author.deflector and v.deflector and AWARDS[kind]['deflectable']:
+		if author.deflector and v.deflector and AWARDS[kind]['deflectable'] and v.admin_level < PERMS['IMMUNE_TO_DEFLECTIONS']:
 			msg = f"@{v.username} has tried to give {obj.textlink} {quantity} {award_title} award{s} but {it} {was} deflected on them, they also had a deflector up, so {it} bounced back and forth until {it} vaporized!"
 			send_repeatable_notification(author.id, msg)
 
@@ -669,7 +669,7 @@ def award_thing(v, thing_type, id):
 
 	author = obj.author
 	if v.id != author.id:
-		if author.deflector and AWARDS[kind]['deflectable']:
+		if author.deflector and AWARDS[kind]['deflectable'] and v.admin_level < PERMS['IMMUNE_TO_DEFLECTIONS']:
 			msg = f"@{v.username} has tried to give {obj.textlink} {quantity} {award_title} award{s} but {it} {was} deflected and applied to them :marseytroll:"
 			n = send_repeatable_notification(author.id, msg)
 			if n: n.created_utc -= 2
