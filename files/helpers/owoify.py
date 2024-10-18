@@ -1,3 +1,5 @@
+import string
+
 from owoify.structures.word import Word
 from owoify.utility.interleave_arrays import interleave_arrays
 from owoify.utility.presets import *
@@ -45,7 +47,9 @@ def owoify(source, chud_phrase):
 	return ''.join(result_strings)
 
 def owoify_map_token_custom(token, ignored_words):
-	if token.word.lower() in ignored_words:
+	word_without_punc = token.word.lower().translate(str.maketrans('', '', string.punctuation))
+
+	if word_without_punc in ignored_words:
 		return token
 
 	for pattern in OWO_EXCLUDE_PATTERNS:
