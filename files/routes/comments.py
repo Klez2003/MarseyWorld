@@ -211,7 +211,7 @@ def comment(v):
 
 	chudded = v.chud and not (posting_to_post and post_target.hole == 'chudrama')
 
-	distinguished = request.values.get("distinguished", False, bool) and v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH']
+	distinguished = request.values.get('distinguished') == 'true' and v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH']
 
 	c = Comment(author_id=v.id,
 				parent_post=post_target.id if posting_to_post else None,
