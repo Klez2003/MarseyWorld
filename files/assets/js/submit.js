@@ -18,7 +18,7 @@ for (const key of save_checked) {
 	}
 }
 
-if (document.getElementById('post-distinguished').checked) {
+if (document.getElementById('post-distinguished') && document.getElementById('post-distinguished').checked) {
 	postText.minLength = 0;
 	postText.maxLength = document.getElementById('POST_BODY_LENGTH_LIMIT').value
 }
