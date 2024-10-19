@@ -874,8 +874,8 @@ def settings_name_change(v):
 @app.post("/settings/flag_change")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("3/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("3/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_flag_change(v):
 	new_flag = request.values.get("flag", "").strip(':').strip()
