@@ -52,12 +52,16 @@
 										{% endif %}
 									{% endif %}
 
+									{% if u.switched.flag %}
+										<img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{u.switched.flag}}.webp?e=1" class="ml-2 mt-2 patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.switched.flag}}">
+									{% endif %}
+
 									{% if FEATURES['PATRON_ICONS'] and u.patron > 1 and u.lifetimedonated_visible %}
-										<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{u.patron}}.webp?b=14" class="ml-3 patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.patron_tooltip}}" alt="{{u.patron_tooltip}}">
+										<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{u.patron}}.webp?b=14" class="ml-2 patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.patron_tooltip}}" alt="{{u.patron_tooltip}}">
 									{% endif %}
 
 									{% if FEATURES['HOUSES'] and u.house %}
-										<img loading="lazy" id="profile--house" src="{{SITE_FULL_IMAGES}}/i/houses/{{u.house}}.webp?x=11" class="ml-3 house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
+										<img loading="lazy" id="profile--house" src="{{SITE_FULL_IMAGES}}/i/houses/{{u.house}}.webp?x=11" class="ml-2 house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
 									{% endif %}
 
 									{% if u.verified %}
@@ -357,6 +361,10 @@
 						<span id="profile-mobile--origname">
 							<i class="fas fa-user-tag text-info align-middle ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="{{ns.og_usernames}}"></i>
 						</span>
+					{% endif %}
+
+					{% if u.switched.flag %}
+						<img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{u.switched.flag}}.webp?e=1" class="ml-2 mt-1 patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.switched.flag}}">
 					{% endif %}
 
 					{% if FEATURES['PATRON_ICONS'] and u.patron > 1 and u.lifetimedonated_visible %}

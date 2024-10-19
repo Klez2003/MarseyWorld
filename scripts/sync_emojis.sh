@@ -52,6 +52,8 @@ redis-cli del "${SITE}_flask_cache_emoji_list_Rage_True"
 redis-cli del "${SITE}_flask_cache_emoji_list_Wojak_True"
 redis-cli del "${SITE}_flask_cache_emoji_list_Misc_True"
 
+redis-cli del "${SITE}_flask_cache_flag_emojis"
+
 #sync original files
 rclone copy /asset_submissions/emojis/original yes:emojis-original
 rclone copy yes:emojis-original /asset_submissions/emojis/original

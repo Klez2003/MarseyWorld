@@ -870,6 +870,29 @@ def settings_name_change(v):
 
 	return {"message": "Name successfully changed!"}
 
+
+@app.post("/settings/flag_change")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def settings_flag_change(v):
+	new_flag = request.values.get("flag", "").strip(':').strip()
+
+	if new_flag == v.flag:
+		stop(400, "You didn't change anything")
+
+	emoji = g.db.query(Emoji).filter_by(kind='Marsey Flags', name=new_flag).one_or_none()
+	if not emoji:
+		stop(400, "This isn't a valid flag.")
+
+	v.flag = new_flag
+	g.db.add(v)
+
+	return {"message": "Your flag has been updated."}
+
+
 @app.post("/settings/song_change_mp3")
 @feature_required('USERS_PROFILE_SONG')
 @limiter.limit('1/second', scope=rpath)

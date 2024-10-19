@@ -98,3 +98,7 @@ function updatebgselection() {
 	}
 }
 updatebgselection();
+
+function submit(t) {
+	sendFormXHRReload(t.form)
+}

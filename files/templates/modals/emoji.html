@@ -18,7 +18,7 @@
 			<div class="px-3">
 				<input disabled autocomplete="off" class="form-control px-2" type="text" id="emoji_search" placeholder="Search.." data-nonce="{{g.nonce}}" data-onchange="start_search()" {% if not (v and v.poor) %}data-oninput="start_search()"{% endif %}>
 			</div>
-			<div class="px-3 d-flex flex-row">
+			<div id="emoji-modifiers" class="px-3 d-flex flex-row">
 				<fieldset class="pt-2 pr-2 pl-1">
 					<div class="mr-2 unbreakable" style="display: inline" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Makes the emoji larger">
 						<input type="checkbox" id="emoji-sel-0" value="#" class="emoji-suffix">

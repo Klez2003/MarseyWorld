@@ -97,10 +97,12 @@ let emojiSearcher = {
 };
 
 // get public emojis list
-function fetchEmojis() {
+function fetchEmojis(kind) {
 	const headers = new Headers({xhr: "xhr"})
-	const emoji_params = document.getElementById('emoji_params').value
-	return fetch(`/emojis.csv${emoji_params}`, {
+	let emoji_url = '/emojis.csv'
+	if (kind) emoji_url = '/flag_emojis.csv'
+	let emoji_params = document.getElementById('emoji_params').value
+	return fetch(`${emoji_url}${emoji_params}`, {
 		headers,
 	})
 		.then(res => res.json())
@@ -109,6 +111,8 @@ function fetchEmojis() {
 				throw new TypeError("[EMOJI DIALOG] rDrama's server should have sent a JSON-coded Array!");
 
 			let classes = ["Marsey", "Tay", "Platy", "Wolf", "Donkey Kong", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc"]
+
+			if (kind) classes = [kind]
 
 			const bussyDOM = document.createElement("div");
 
@@ -127,6 +131,8 @@ function fetchEmojis() {
 				emojiDOM.dataset.emojiName = emoji.name;
 				emojiDOM.onclick = emojiAddToInput;
 				emojiDOM.hidden = true;
+
+				if (kind) emojiDOM.dataset.bsDismiss = "modal"
 
 				const emojiIMGDOM = emojiDOM.children[0];
 				emojiIMGDOM.src = `${SITE_FULL_IMAGES}/e/${emoji.name}.webp`
@@ -161,7 +167,13 @@ function fetchEmojis() {
 			}
 
 			// Show favorite for start.
-			classesSelectorDOM.children[0].children[0].click();
+			if (kind) {
+				classesSelectorDOM.children[0].remove();
+				classesSelectorDOM.children[0].children[0].click();
+			}
+			else {
+				classesSelectorDOM.children[0].children[0].click();
+			}
 
 			// Send it to the render machine!
 			emojiResultsDOM.appendChild(bussyDOM);
@@ -251,8 +263,11 @@ function emojiAddToInput(event)
 const emojiModal = document.getElementById('emojiModal')
 let insertedAnEmoji
 
-function openEmojiModal(t, inputTargetIDName)
+function openEmojiModal(t, inputTargetIDName, kind)
 {
+	if (kind)
+		document.getElementById('emoji-modifiers').classList.add('d-none');
+
 	selecting = false;
 	insertedAnEmoji = false;
 
@@ -278,7 +293,7 @@ function openEmojiModal(t, inputTargetIDName)
 			emojiEngineState = "loading"
 			if (searchDictionaryState == "inactive")
 				makeEmojisSearchDictionary();
-			return fetchEmojis();
+			return fetchEmojis(kind);
 		case "loading":
 			// this works because once the fetch completes, the first keystroke callback will fire and use the current value
 			return Promise.reject();

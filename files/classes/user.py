@@ -165,6 +165,7 @@ class User(Base):
 	effortpost_notifs = Column(Boolean, default=False)
 	offsite_mentions = Column(Boolean)
 	pronouns = Column(String, default=DEFAULT_PRONOUNS)
+	flag = Column(String)
 
 	if SITE_NAME == 'WPD' and not IS_LOCALHOST:
 		twitter = 'x.com'

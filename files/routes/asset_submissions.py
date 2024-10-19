@@ -114,6 +114,9 @@ def finishing_approving_emoji(emoji, author, old_name, comment):
 
 	cache.delete("emoji_count")
 
+	if emoji.kind == 'Marsey Flags':
+		cache.delete("flag_emojis")
+
 	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}.webp")
 
 
@@ -622,6 +625,9 @@ def update_emoji(v):
 	if not existing.nsfw:
 		cache.delete("emojis_False")
 		cache.delete(f"emoji_list_{existing.kind}_False")
+
+	if emoji.kind == 'Marsey Flags':
+		cache.delete("flag_emojis")
 
 	return {"message": f"'{name}' updated successfully!"}
 

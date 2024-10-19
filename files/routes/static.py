@@ -127,6 +127,39 @@ def emojis_csv(v):
 	show_nsfw = request.values.get('show_nsfw') == 'True'
 	return get_emojis(show_nsfw)
 
+
+@cache.cached(make_cache_key=lambda :"flag_emojis", timeout=86400)
+def get_flag_emojis():
+	emojis = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).options(load_only(
+		User.id,
+		User.username,
+		User.original_username,
+		User.extra_username,
+		User.prelock_username,
+	)).filter(Emoji.submitter_id == None, Emoji.kind == 'Marsey Flags')
+
+	collected = []
+	for emoji, author in emojis:
+		if author.id == 2:
+			if SITE == 'rdrama.net':
+				emoji.author_username = 'a WPD user'
+			else:
+				emoji.author_username = 'an rDrama user'
+		else:
+			emoji.author_username = author.username
+			emoji.author_original_username = author.original_username
+			emoji.author_extra_username = author.extra_username
+			emoji.author_prelock_username = author.prelock_username
+		collected.append(emoji.json())
+	return collected
+
+@app.get("/flag_emojis.csv")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def flag_emojis_csv(v):
+	return get_flag_emojis()
+
 @app.get("/groups.csv")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
