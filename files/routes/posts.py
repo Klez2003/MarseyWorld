@@ -747,6 +747,14 @@ def submit_post(v, hole=None):
 		p.pinned_utc = time.time() + PINNED_POSTS_IDS[v.id] * 3600
 		p.pinned = "AutoJanny"
 
+	if p.distinguished:
+		ma = ModAction(
+			kind='distinguish_post',
+			user_id=v.id,
+			target_post_id=p.id
+		)
+		g.db.add(ma)
+
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
 

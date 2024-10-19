@@ -361,6 +361,15 @@ def comment(v):
 						 coins=0
 						 )
 	g.db.add(vote)
+
+	if c.distinguished:
+		ma = ModAction(
+			kind='distinguish_comment',
+			user_id=v.id,
+			target_post_id=c.id
+		)
+		g.db.add(ma)
+
 	cache.delete_memoized(comment_idlist)
 
 	if not (c.parent_post in ADMIGGER_THREADS and c.level == 1):
