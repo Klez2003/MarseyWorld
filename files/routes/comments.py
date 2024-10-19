@@ -366,7 +366,7 @@ def comment(v):
 		ma = ModAction(
 			kind='distinguish_comment',
 			user_id=v.id,
-			target_post_id=c.id
+			target_comment_id=c.id
 		)
 		g.db.add(ma)
 
