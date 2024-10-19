@@ -28,9 +28,6 @@ def get_emoji_awards_emojis(obj, v, kind, NSFW_EMOJIS):
 	return reversed(emojis[:20])
 
 def get_award_classes(obj, v, title=False):
-	if SITE_NAME == 'WPD' and obj.distinguished:
-		return ''
-
 	classes = []
 
 	if obj.chudded:
@@ -357,6 +354,9 @@ class Comment(Base):
 
 	@lazy
 	def award_count(self, kind, v):
+		if self.distinguished and SITE_NAME == 'WPD':
+			return 0
+
 		if v and v.poor:
 			return 0
 		return len([x for x in self.awards if x.kind == kind])
