@@ -690,7 +690,7 @@ def submit_post(v, hole=None):
 		else:
 			stop(415)
 
-	if not p.draft and not complies_with_chud(p):
+	if not p.distinguished and not p.draft and not complies_with_chud(p):
 		p.is_banned = True
 		p.ban_reason = "AutoJanny for lack of chud phrase"
 
