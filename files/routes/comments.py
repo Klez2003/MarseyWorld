@@ -173,7 +173,9 @@ def comment(v):
 
 	body = body.replace('@jannies', '!jannies')
 
-	if not posting_to_post or post_target.id not in ADMIGGER_THREADS:
+	distinguished = request.values.get('distinguished') == 'true' and v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH']
+
+	if not distinguished and not (posting_to_post and post_target.id in ADMIGGER_THREADS):
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
 			stop(403, "You have to type more than 280 characters!")
 		elif v.bird and len(body) > 140:
@@ -210,8 +212,6 @@ def comment(v):
 	is_bot = v.client is not None and v.id not in BOT_SYMBOL_HIDDEN
 
 	chudded = v.chud and not (posting_to_post and post_target.hole == 'chudrama')
-
-	distinguished = request.values.get('distinguished') == 'true' and v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH']
 
 	c = Comment(author_id=v.id,
 				parent_post=post_target.id if posting_to_post else None,

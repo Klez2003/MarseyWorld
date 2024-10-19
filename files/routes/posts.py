@@ -533,10 +533,13 @@ def submit_post(v, hole=None):
 	if not hole and HOLE_REQUIRED:
 		stop(400, f"You must choose a hole for your post!")
 
-	if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-		stop(400, "You have to type more than 280 characters!")
-	elif v.bird and len(body) > 140:
-		stop(400, "You have to type less than 140 characters!")
+	flag_distinguished = request.values.get("distinguished", False, bool) and v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH']
+
+	if not flag_distinguished:
+		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
+			stop(400, "You have to type more than 280 characters!")
+		elif v.bird and len(body) > 140:
+			stop(400, "You have to type less than 140 characters!")
 
 
 	embed = None
@@ -594,7 +597,6 @@ def submit_post(v, hole=None):
 	flag_nsfw = FEATURES['NSFW_MARKING'] and request.values.get("nsfw", False, bool)
 	flag_effortpost = request.values.get("effortpost", False, bool)
 	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
-	flag_distinguished = request.values.get("distinguished", False, bool) and v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH']
 
 	if flag_ghost: hole = None
 
