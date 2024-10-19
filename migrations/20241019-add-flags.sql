@@ -2,11 +2,9 @@ alter table users add column flag varchar(30);
 
 delete from emojis where name ilike '%thumbsup%' and kind='Marsey Flags';
 delete from emojis where name ilike '%ssr' and kind='Marsey Flags';
-delete from emojis where name='marseyflagabthumbsup';
 delete from emojis where name='marseyflagafghanistan2';
 delete from emojis where name='marseyflagafrica';
 delete from emojis where name='marseyflagafricanunion';
-delete from emojis where name='marseyflagakthumbsup';
 delete from emojis where name='marseyflaganarchist';
 delete from emojis where name='marseyflaganarchocapitalist';
 delete from emojis where name='marseyflagasean';
