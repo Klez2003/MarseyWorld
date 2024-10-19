@@ -1149,6 +1149,9 @@ class User(Base):
 
 
 	def ban(self, admin=None, reason=None, days=0.0):
+		if len(reason) > 256:
+			stop(400, "Rendered ban reason is too long!")
+
 		g.db.add(self)
 		if days:
 			if self.unban_utc:
@@ -1159,7 +1162,7 @@ class User(Base):
 			self.unban_utc = None
 
 		self.is_banned = admin.id if admin else AUTOJANNY_ID
-		if reason and len(reason) <= 256:
+		if reason:
 			self.ban_reason = reason
 
 
