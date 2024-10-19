@@ -136,7 +136,7 @@ def get_flag_emojis():
 		User.original_username,
 		User.extra_username,
 		User.prelock_username,
-	)).filter(Emoji.submitter_id == None, Emoji.kind == 'Marsey Flags')
+	)).filter(Emoji.submitter_id == None, Emoji.kind == 'Marsey Flags').order_by(Emoji.count.desc())
 
 	collected = []
 	for emoji, author in emojis:
