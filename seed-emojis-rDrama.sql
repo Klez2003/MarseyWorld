@@ -3139,8 +3139,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyflagromania', 'Marsey Flags', 2, 'europe eastern vampire pickpocket', false, 0),
 ('marseyflagrussia', 'Marsey Flags', 2, 'europe eastern vatnik', false, 0),
 ('marseyflagrwanda', 'Marsey Flags', 2, 'genocide', false, 1689809534),
-('marseyflagsingapore', 'Marsey Flags', 2, 'singaporean asian azn flag merlion chiobu', false, 0),
-('marseyflagsouthafrica', 'Marsey Flags', 2, 'black boers dutch effortposters electricity heat kaamrev sneedman steal torture', false, 1729333446),
 ('marseyflagtaiwan', 'Marsey Flags', 2, 'china asia', false, 0),
 ('marseyflagtajikistan', 'Marsey Flags', 2, 'central asia cool', false, 0),
 ('marseyflagtanzania', 'Marsey Flags', 2, 'tanzania', false, 1689803926),

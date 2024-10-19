@@ -1271,7 +1271,8 @@ CREATE TABLE public.users (
     keyword_notifs character varying(1000),
     offsite_mentions boolean,
     twitter character varying(50) NOT NULL,
-    snappy_quotes character varying(1000)
+    snappy_quotes character varying(1000),
+    flag character varying(30)
 );
 
 
