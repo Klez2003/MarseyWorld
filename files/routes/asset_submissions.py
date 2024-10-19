@@ -590,6 +590,7 @@ def update_emoji(v):
 	if kind and existing.kind != kind:
 		if kind not in EMOJI_KINDS:
 			stop(400, "Invalid kind!")
+		old_kind = existing.kind
 		existing.kind = kind
 		updated = True
 
@@ -626,7 +627,7 @@ def update_emoji(v):
 		cache.delete("emojis_False")
 		cache.delete(f"emoji_list_{existing.kind}_False")
 
-	if existing.kind == 'Marsey Flags':
+	if old_kind == 'Marsey Flags' or existing.kind == 'Marsey Flags':
 		cache.delete("flag_emojis")
 
 	return {"message": f"'{name}' updated successfully!"}
