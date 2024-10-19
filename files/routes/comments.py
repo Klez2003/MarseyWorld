@@ -275,7 +275,7 @@ def comment(v):
 	if c.level == 1: c.top_comment_id = c.id
 	else: c.top_comment_id = parent.top_comment_id
 
-	if not c.distinguished and not complies_with_chud(c):
+	if not complies_with_chud(c):
 		c.is_banned = True
 		c.ban_reason = "AutoJanny for lack of chud phrase"
 		g.db.add(c)
