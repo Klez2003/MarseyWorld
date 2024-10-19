@@ -28,6 +28,9 @@ def get_emoji_awards_emojis(obj, v, kind, NSFW_EMOJIS):
 	return reversed(emojis[:20])
 
 def get_award_classes(obj, v, title=False):
+	if SITE_NAME == 'WPD' and obj.distinguished:
+		return ''
+
 	classes = []
 
 	if obj.chudded:
