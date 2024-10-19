@@ -443,6 +443,7 @@ if SITE_NAME == 'rDrama':
 		# "vegan dating",
 		# "Come for the cats. Stay for the empathy.",
 		# "gay cat dating site",
+		# "you WILL be trans",
 		"Kamala 2024",
 		"Kamala 2024",
 		"Kamala 2024",
