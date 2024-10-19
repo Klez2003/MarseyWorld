@@ -1078,10 +1078,11 @@ def edit_post(pid, v):
 
 	body = body.replace('@jannies', '!jannies')
 
-	if p.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-		stop(403, "You have to type more than 280 characters!")
-	elif p.author.bird and len(body) > 140:
-		stop(403, "You have to type less than 140 characters!")
+	if not p.distinguished:
+		if p.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
+			stop(403, "You have to type more than 280 characters!")
+		elif p.author.bird and len(body) > 140:
+			stop(403, "You have to type less than 140 characters!")
 
 	if not title:
 		stop(400, "Please enter a better title!")

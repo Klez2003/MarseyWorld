@@ -701,10 +701,11 @@ def edit_comment(cid, v):
 	body = body.replace('@jannies', '!jannies')
 
 	if body != c.body or request.files.get("file") and not g.is_tor:
-		if c.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			stop(403, "You have to type more than 280 characters!")
-		elif c.author.bird and len(body) > 140:
-			stop(403, "You have to type less than 140 characters!")
+		if not c.distinguished:
+			if c.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
+				stop(403, "You have to type more than 280 characters!")
+			elif c.author.bird and len(body) > 140:
+				stop(403, "You have to type less than 140 characters!")
 
 		execute_antispam_comment_check(body, v)
 
