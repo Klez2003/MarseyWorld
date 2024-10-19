@@ -266,8 +266,8 @@ let insertedAnEmoji
 function openEmojiModal(t, inputTargetIDName, kind)
 {
 	if (kind) {
-		document.getElementById('emoji-modifiers').styler.remove('d-flex');
-		document.getElementById('emoji-modifiers').styler.add('d-none');
+		document.getElementById('emoji-modifiers').classList.remove('d-flex');
+		document.getElementById('emoji-modifiers').classList.add('d-none');
 	}
 
 	selecting = false;
