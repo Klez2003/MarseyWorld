@@ -521,6 +521,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyflaaffy', 'Marsey', 2, 'pkmn pokemon 180', false, 1698904434),
 ('marseyflagguam', 'Marsey Flags', 2, 'micronesia oceania island pacific territory usa', false, 1713406992),
 ('marseyflagmicronesia', 'Marsey Flags', 2, 'oceania', false, 1713315546),
+('marseyflagwales', 'Marsey Flags', 2, 'british cymru kingdom shagger sheep sheepshagger uk united welsh', false, 1729342176),
 ('marseyflamengo', 'Marsey', 2, 'soccer team brazil football', false, 1710217721),
 ('marseyforsakenangel', 'Marsey', 2, 'gore rainbow', false, 1706975761),
 ('marseyfourreasons', 'Marsey', 2, 'cat number silly', false, 1723601106),
