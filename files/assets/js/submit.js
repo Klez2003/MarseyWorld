@@ -18,6 +18,13 @@ for (const key of save_checked) {
 	}
 }
 
+if (document.getElementById('post-distinguished').checked) {
+	postText.minLength = 0;
+	postText.maxLength = document.getElementById('POST_BODY_LENGTH_LIMIT').value
+}
+
+charLimit('post-text','character-count-submit-text-form')
+
 function savetext() {
 	for (const id of save_value)
 	{
@@ -109,6 +116,14 @@ function ghost_toggle(t) {
 	} else {
 		followers.disabled = false;
 		hole.disabled = false;
+	}
+}
+
+function distinguished_toggle(t) {
+	if (t.checked == true) {
+		postText.minLength = 0;
+		postText.maxLength = document.getElementById('POST_BODY_LENGTH_LIMIT').value
+		charLimit('post-text','character-count-submit-text-form')
 	}
 }
 

@@ -108,14 +108,14 @@
 
 								{% if v.can_post_in_ghost_threads %}
 									<div class="custom-control custom-checkbox">
-										<input data-nonce="{{g.nonce}}" data-onchange='ghost_toggle(this)' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost">
+										<input data-nonce="{{g.nonce}}" data-onchange='savetext();ghost_toggle(this)' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost">
 										<label class="custom-control-label" for="post-ghost">Ghost thread</label>
 									</div>
 								{% endif %}
 
 								{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH']  %}
 									<div class="custom-control custom-checkbox">
-										<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-distinguished" name="distinguished" data-nonce="{{g.nonce}}" data-onchange="savetext()">
+										<input data-nonce="{{g.nonce}}" data-onchange='savetext();distinguished_toggle(this)' autocomplete="off" type="checkbox" class="custom-control-input" id="post-distinguished" name="distinguished">
 										<label class="custom-control-label" for="post-distinguished">Distinguished</label>
 									</div>
 								{% endif %}
@@ -145,6 +145,8 @@
 	<script defer src="{{'js/submit.js' | asset}}"></script>
 	{% include "modals/emoji.html" %}
 	{% include "modals/gif.html" %}
+
+	<input hidden id="POST_BODY_LENGTH_LIMIT" value="{{POST_BODY_LENGTH_LIMIT(v)}}">
 
 	{% if SITE_NAME == 'WPD' %}
 		{% for hole in hole_objs %}
