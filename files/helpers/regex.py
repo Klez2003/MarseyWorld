@@ -6,6 +6,7 @@ from files.classes.media import Media
 from .config.const import *
 
 NOT_IN_CODE_OR_LINKS = '(?!([^<]*<\/(code|pre|a)>|[^`\n]*`))'
+NOT_IN_CODE_OR_LINKS_OR_SPOILER = '(?!([^<]*<\/(code|pre|a|spoiler)>|[^`\n]*`))'
 
 valid_username_regex = re.compile("^[\w-]{3,25}$", flags=re.A)
 valid_username_patron_regex = re.compile("^[\w-]{1,25}$", flags=re.A)
@@ -106,7 +107,7 @@ exclamation_point_regex = re.compile('(?<!!|\?)(?<!, motherfucker)(!)(?!!|\?)(?=
 image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/({hosts})\/|\/)).*?)\)', flags=re.A)
 
 video_regex_extensions = '|'.join(VIDEO_FORMATS)
-video_sub_regex = re.compile(f'(?<!")(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({video_regex_extensions}))' + NOT_IN_CODE_OR_LINKS, flags=re.A|re.I)
+video_sub_regex = re.compile(f'(?<!")(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({video_regex_extensions}))' + NOT_IN_CODE_OR_LINKS_OR_SPOILER, flags=re.A|re.I)
 
 def video_sub_regex_matcher(match):
 	url = match.group(1)
