@@ -1120,7 +1120,7 @@ def u_username_comments(username, v):
 		comments = comments.filter(
 			Comment.is_banned == False,
 			Comment.ghost == False,
-			Post.draft == False,
+			or_(Post.draft == False, Comment.wall_user_id != None),
 		)
 
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (SITE_NAME == 'rDrama' and v.id == u.id):
