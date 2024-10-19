@@ -798,7 +798,7 @@ CREATE TABLE public.modactions (
     target_comment_id integer,
     created_utc integer NOT NULL,
     kind character varying(33) DEFAULT NULL::character varying,
-    _note character varying(2019) DEFAULT NULL::character varying
+    _note character varying(5050) DEFAULT NULL::character varying
 );
 
 
@@ -1170,7 +1170,7 @@ CREATE TABLE public.users (
     bio_html character varying(20000),
     referred_by integer,
     is_banned integer,
-    ban_reason character varying(256),
+    ban_reason character varying(5000),
     login_nonce integer DEFAULT 0 NOT NULL,
     reserved character varying(256),
     mfa_secret character varying(32),
@@ -1267,7 +1267,7 @@ CREATE TABLE public.users (
     hole_creation_notifs boolean NOT NULL,
     group_creation_notifs boolean NOT NULL,
     effortpost_notifs boolean NOT NULL,
-    shadowban_reason character varying(256),
+    shadowban_reason character varying(5000),
     keyword_notifs character varying(1000),
     offsite_mentions boolean,
     twitter character varying(50) NOT NULL,
