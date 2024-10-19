@@ -594,6 +594,7 @@ def submit_post(v, hole=None):
 	flag_nsfw = FEATURES['NSFW_MARKING'] and request.values.get("nsfw", False, bool)
 	flag_effortpost = request.values.get("effortpost", False, bool)
 	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
+	flag_distinguished = request.values.get("distinguished", False, bool) and v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH']
 
 	if flag_ghost: hole = None
 
@@ -619,6 +620,7 @@ def submit_post(v, hole=None):
 		title=title,
 		hole=hole,
 		ghost=flag_ghost,
+		distinguished=flag_distinguished,
 	)
 
 	if SITE == 'watchpeopledie.tv':

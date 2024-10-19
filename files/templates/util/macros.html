@@ -169,8 +169,15 @@
 				{{file_btn('file-upload-reply-' ~ target_fullname)}}
 			</div>
 
-			{% if v.admin_level >= PERMS['ADMIN_NOTES'] and target_fullname.startswith('u_') %}
+			{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] %}
 				<div class="custom-control custom-checkbox mt-3 d-inline-block">
+					<input data-nonce="{{g.nonce}}" autocomplete="off" type="checkbox" class="custom-control-input" id="distinguished-{{target_fullname}}">
+					<label class="custom-control-label" for="distinguished-{{target_fullname}}">Distinguished</label>
+				</div>
+			{% endif %}
+
+			{% if v.admin_level >= PERMS['ADMIN_NOTES'] and target_fullname.startswith('u_') %}
+				<div class="custom-control custom-checkbox mt-3 d-inline-block ml-3">
 					<input data-nonce="{{g.nonce}}" autocomplete="off" type="checkbox" class="custom-control-input" id="admin-note-{{target_fullname}}">
 					<label class="custom-control-label" for="admin-note-{{target_fullname}}">Admin Note</label>
 				</div>

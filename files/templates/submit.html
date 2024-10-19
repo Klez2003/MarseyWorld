@@ -112,6 +112,13 @@
 										<label class="custom-control-label" for="post-ghost">Ghost thread</label>
 									</div>
 								{% endif %}
+
+								{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH']  %}
+									<div class="custom-control custom-checkbox">
+										<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-distinguished" name="distinguished" data-nonce="{{g.nonce}}" data-onchange="savetext()">
+										<label class="custom-control-label" for="post-distinguished">Distinguished</label>
+									</div>
+								{% endif %}
 							</div>
 						</div>
 					</div>

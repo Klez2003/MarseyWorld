@@ -9,7 +9,7 @@ const postText = document.getElementById('post-text')
 autoExpand(postText)
 markdown(postText);
 
-const save_checked = ['post-notify', 'post-new', 'post-nsfw', 'post-draft', 'post-effortpost', 'post-ghost', 'post-cw']
+const save_checked = ['post-notify', 'post-new', 'post-nsfw', 'post-draft', 'post-effortpost', 'post-ghost', 'post-cw', 'post-distinguished']
 for (const key of save_checked) {
 	const value =  localStorage.getItem(key)
 	if (value) {

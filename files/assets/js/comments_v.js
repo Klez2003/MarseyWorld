@@ -307,6 +307,10 @@ function post_comment(fullname, hide) {
 	if (admin_note_el)
 		form.append('admin_note', admin_note_el.checked);
 
+	const distinguished_el = document.getElementById('distinguished-'+fullname)
+	if (distinguished_el)
+		form.append('distinguished', distinguished_el.checked);
+
 	const xhr = new XMLHttpRequest();
 	url = '/comment';
 	xhr.open("POST", url);
