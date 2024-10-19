@@ -1,4 +1,6 @@
-{%- if p -%}
+{%- if u -%}
+	{%- set search_placeholder = "Search (try 'author:" ~ u.id ~ "')" -%}
+{%- elif p -%}
 	{%- set search_placeholder = "Search (try 'post:" ~ p.id ~ "')" -%}
 {%- elif hole -%}
 	{%- set search_placeholder = "Search (try 'hole:" ~ hole.name ~ "')" -%}
