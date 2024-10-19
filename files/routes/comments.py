@@ -248,7 +248,7 @@ def comment(v):
 	execute_antispam_comment_check(body, v)
 	execute_antispam_duplicate_comment_check(v, body_html)
 
-	if v.hieroglyphs and marseyaward_body_regex.search(body_html) and not (posting_to_post and post_target.id in ADMIGGER_THREADS):
+	if v.hieroglyphs and not c.distinguished and marseyaward_body_regex.search(body_html) and not (posting_to_post and post_target.id in ADMIGGER_THREADS):
 		stop(403, "You can only type emojis!")
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
@@ -708,7 +708,7 @@ def edit_comment(cid, v):
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
 			stop(400, "Rendered comment is too long!")
 
-		if c.author.hieroglyphs and c.parent_post not in ADMIGGER_THREADS and marseyaward_body_regex.search(body_html):
+		if c.author.hieroglyphs and not c.distinguished and c.parent_post not in ADMIGGER_THREADS and marseyaward_body_regex.search(body_html):
 			stop(403, "You can only type emojis!")
 
 		if int(time.time()) - c.created_utc > 60 * 3:
