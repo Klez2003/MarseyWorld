@@ -883,12 +883,12 @@ def shadowban(user_id, v):
 	if not reason:
 		stop(400, "You need to submit a reason for shadowbanning!")
 
-	if len(reason) > 256:
-		stop(400, "Shadowban reason is too long (max 256 characters)")
+	if len(reason) > BAN_REASON_LENGTH_LIMIT:
+		stop(400, f"Shadowban reason is too long (max {BAN_REASON_LENGTH_LIMIT} characters)")
 
 	reason = filter_emojis_only(reason)
 
-	if len(reason) > 256:
+	if len(reason) > BAN_REASON_HTML_LENGTH_LIMIT:
 		stop(400, "Rendered shadowban reason is too long!")
 
 	user.shadowban_reason = reason
@@ -1029,12 +1029,12 @@ def ban_user(fullname, v):
 	if not reason:
 		stop(400, "You need to submit a reason for banning!")
 
-	if len(reason) > 256:
-		stop(400, "Ban reason is too long (max 256 characters)")
+	if len(reason) > BAN_REASON_LENGTH_LIMIT:
+		stop(400, f"Ban reason is too long (max {BAN_REASON_LENGTH_LIMIT} characters)")
 
 	reason = filter_emojis_only(reason)
 
-	if len(reason) > 256:
+	if len(reason) > BAN_REASON_HTML_LENGTH_LIMIT:
 		stop(400, "Rendered ban reason is too long!")
 
 	reason = reason_regex_post.sub(r'<a href="\1">\1</a>', reason)

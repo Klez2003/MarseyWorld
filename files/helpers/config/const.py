@@ -920,6 +920,9 @@ HOLE_BANNER_LIMIT = 10
 BIO_FRIENDS_ENEMIES_LENGTH_LIMIT = 5000 # do not make larger without altering the table
 BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT = 20000 # do not make larger without altering the table
 
+BAN_REASON_LENGTH_LIMIT = 500
+BAN_REASON_HTML_LENGTH_LIMIT = 5000 # do not make larger without altering the table
+
 COSMETIC_AWARD_COIN_AWARD_PCT = 0.50
 
 TRUESCORE_MINIMUM = 0
