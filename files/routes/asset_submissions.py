@@ -626,7 +626,7 @@ def update_emoji(v):
 		cache.delete("emojis_False")
 		cache.delete(f"emoji_list_{existing.kind}_False")
 
-	if emoji.kind == 'Marsey Flags':
+	if existing.kind == 'Marsey Flags':
 		cache.delete("flag_emojis")
 
 	return {"message": f"'{name}' updated successfully!"}
