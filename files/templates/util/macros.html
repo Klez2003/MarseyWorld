@@ -170,7 +170,7 @@
 
 			{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] %}
 				<div class="custom-control custom-checkbox mt-3 d-inline-block">
-					<input data-nonce="{{g.nonce}}" autocomplete="off" type="checkbox" class="custom-control-input" id="distinguished-{{target_fullname}}">
+					<input data-nonce="{{g.nonce}}" data-onchange="distinguished_toggle(this, '{{target_fullname}}')" autocomplete="off" type="checkbox" class="custom-control-input" id="distinguished-{{target_fullname}}">
 					<label class="custom-control-label" for="distinguished-{{target_fullname}}">Distinguished</label>
 				</div>
 			{% endif %}

@@ -283,6 +283,16 @@ function comment_edit(id) {
 	xhr[0].send(xhr[1]);
 }
 
+function distinguished_toggle(t, fullname) {
+	const ta = document.getElementById('reply-form-body-'+fullname)
+
+	if (t.checked == true) {
+		ta.minLength = 1;
+		ta.maxLength = 10000
+		charLimit(ta.id,`charcount-${fullname}`);
+	}
+}
+
 function post_comment(fullname, hide) {
 	close_inline_emoji_modal();
 
