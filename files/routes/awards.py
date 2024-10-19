@@ -210,9 +210,6 @@ def award_thing(v, thing_type, id):
 	if isinstance(obj, Post) and obj.id == 210983:
 		stop(403, "You can't award this post!")
 
-	if isinstance(obj, Post) and obj.distinguished and AWARDS[kind]['cosmetic']:
-		stop(403, "Distinguished posts are immune to cosmetic awards!")
-
 	if kind == "benefactor":
 		if author.id == v.id:
 			stop(403, "You can't use this award on yourself!")
