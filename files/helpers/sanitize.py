@@ -380,7 +380,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = markdown(sanitized)
 	sanitized = sanitized.replace('▔', '_').replace('%E2%96%94', '_')
 
-	if obj and obj.queened:
+	if obj and obj.queened and not obj.distinguished:
 		sanitized = queenify_html(sanitized)
 
 	sanitized = sanitized.replace('<a href="/%21', '<a href="/!')
