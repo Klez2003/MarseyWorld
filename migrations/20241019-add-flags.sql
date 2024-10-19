@@ -37,6 +37,7 @@ delete from emojis where name='marseyflagromani';
 delete from emojis where name='marseyflagromani2';
 delete from emojis where name='marseyflagrsfsr';
 delete from emojis where name='marseyflagsami';
+delete from emojis where name='marseyflagtrans';
 delete from emojis where name='marseyflagtroutman';
 delete from emojis where name='marseyflagunitednations';
 delete from emojis where name='marseyflagupa';
