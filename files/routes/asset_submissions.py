@@ -587,10 +587,10 @@ def update_emoji(v):
 		purge_files_in_cloudflare_cache([f"{SITE_FULL_IMAGES}/e/{name}.webp", f"{SITE_FULL_IMAGES}/asset_submissions/emojis/original/{name}.{format}"])
 		updated = True
 
+	old_kind = existing.kind
 	if kind and existing.kind != kind:
 		if kind not in EMOJI_KINDS:
 			stop(400, "Invalid kind!")
-		old_kind = existing.kind
 		existing.kind = kind
 		updated = True
 
