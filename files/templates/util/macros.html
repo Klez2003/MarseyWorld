@@ -52,7 +52,13 @@
 	{% endif %}
 
 	{% if p.distinguished %}
-		<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Distinguished post"></i>
+		<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="
+			{%- if SITE_NAME == 'rDrama' -%}
+				Distinguished comment
+			{%- else -%}
+				{{SITE_NAME}} admin, speaking officially
+			{%- endif -%}">
+		</i>
 	{% endif %}
 
 	{% if p.profile_pinned and request.path != '/' %}

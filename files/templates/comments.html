@@ -156,7 +156,13 @@
 							{% endif %}
 
 							{% if c.distinguished and not c.ghost %}
-								<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Distinguished comment"></i>
+								<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="
+									{%- if SITE_NAME == 'rDrama' -%}
+										Distinguished comment
+									{%- else -%}
+										{{SITE_NAME}} admin, speaking officially
+									{%- endif -%}">
+								</i>
 							{% endif %}
 
 							{% if c.is_op %}
