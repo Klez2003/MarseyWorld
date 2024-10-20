@@ -7519,6 +7519,7 @@ blink {
 	);
 	font-weight: 700 !important;
 	animation: 60s linear 0s infinite move-colors;
+	padding: 5px !important;
 }
 
 .active-hole {
