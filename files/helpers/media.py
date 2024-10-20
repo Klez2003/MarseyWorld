@@ -184,7 +184,9 @@ def process_video(file, v):
 			if stream["codec_type"] == "video":
 				codec = stream['codec_name']
 				bitrate = int(stream.get('bit_rate', 3000000))
-				break
+			elif stream["codec_type"] == "audio":
+				profile = stream['profile']
+
 	except:
 		os.remove(old)
 		stop(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
@@ -194,7 +196,7 @@ def process_video(file, v):
 		stop(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
 	is_reencoding = False
-	if codec != 'h264':
+	if codec != 'h264' or profile != 'LC':
 		is_reencoding = True
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new)
