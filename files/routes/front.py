@@ -225,7 +225,7 @@ def random_post(v):
 			Post.is_banned == False,
 			Post.draft == False,
 			or_(Post.hole == None, Post.hole.notin_(v.hole_blocks)),
-		).order_by(func.random()).first()
+		).join(Post.author).filter(User.shadowbanned == None).order_by(func.random()).first()
 
 	if p: p = p[0]
 	else: stop(404)
