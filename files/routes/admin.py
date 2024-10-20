@@ -891,6 +891,9 @@ def shadowban(user_id, v):
 	if len(reason) > BAN_REASON_HTML_LENGTH_LIMIT:
 		stop(400, "Rendered shadowban reason is too long!")
 
+	reason = reason_regex_post.sub(r'<a href="\1">\1</a>', reason)
+	reason = reason_regex_comment.sub(r'<a href="\1#context">\1</a>', reason)
+
 	user.shadowban_reason = reason
 	g.db.add(user)
 	check_for_alts(user)
