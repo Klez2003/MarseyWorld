@@ -538,10 +538,6 @@ def execute_under_siege(v, target, kind):
 	check_for_alts(v)
 	if v.shadowbanned: return
 
-	v.shadowbanned = AUTOJANNY_ID
-	v.shadowban_reason = "Under Siege"
-	g.db.add(v)
-
 	if kind == "report":
 		if isinstance(target, Post):
 			reason = f'report on <a href="{target.permalink}">post</a>'
@@ -554,6 +550,10 @@ def execute_under_siege(v, target, kind):
 	time_taken = f'{minutes} minute'
 	if minutes > 1:
 		time_taken += 's'
+
+	v.shadowbanned = AUTOJANNY_ID
+	v.shadowban_reason = f"Under Siege ({reason}, {time_taken})"
+	g.db.add(v)
 
 	ma = ModAction(
 		kind="shadowban",
@@ -575,9 +575,13 @@ def check_name(v):
 		)
 		g.db.add(ma)
 	elif any(x in v.username.lower() for x in ('nigger', 'faggot', 'kike', 'trann', '1488')):
-		v.is_banned = AUTOJANNY_ID
-		v.unban_utc = 32500915200
-		v.ban_reason = "Name"
+		userban = UserBan(
+			user_id=v.id,
+			original_user_id=v.id,
+			admin_id=AUTOJANNY_ID,
+			unban_utc=32500915200,
+			ban_reason="Name",
+		)
 		ma = ModAction(
 			kind="ban_user",
 			user_id=AUTOJANNY_ID,
