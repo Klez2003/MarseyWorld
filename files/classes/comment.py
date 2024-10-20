@@ -42,7 +42,7 @@ def get_award_classes(obj, v, title=False):
 			classes.append('author-bitten')
 		if obj.award_count('glowie', v):
 			classes.append("glow")
-		if obj.award_count('gold', v):
+		if obj.award_count('gold', v) and not (obj.is_longpost and not title):
 			classes.append("gold-text")
 		if obj.rainbowed:
 			classes.append("rainbow-text")
