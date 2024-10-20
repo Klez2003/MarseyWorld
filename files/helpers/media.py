@@ -185,7 +185,7 @@ def process_video(file, v):
 				codec = stream['codec_name']
 				bitrate = int(stream.get('bit_rate', 3000000))
 			elif stream["codec_type"] == "audio":
-				profile = stream['profile']
+				profile = stream.get('profile', 'LC')
 
 	except:
 		os.remove(old)
