@@ -1028,7 +1028,7 @@ def u_username(v, username):
 		if v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 			pinned = pinned.filter_by(is_banned=False)
 
-		pinned = pinned.all()
+		pinned = pinned.order_by(Post.created_utc.desc()).all()
 
 		for p in pinned:
 			ids = [p.id] + ids
