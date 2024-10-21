@@ -366,7 +366,7 @@ def submit_contact(v):
 	if v.is_muted:
 		stop(403, "You are muted!")
 
-	body = process_files(request.files, v, body)
+	body = process_files(request.files, v, body, is_dm=True)
 	body = body.strip()
 	body_html = sanitize(body)
 
