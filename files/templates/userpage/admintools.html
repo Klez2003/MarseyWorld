@@ -50,7 +50,7 @@
 			{% endif %}
 
 			{% if v.admin_level >= PERMS['VIEW_EMAILS'] -%}
-				<div id="profile--email" class="my-2">Email: {{u.email}}</div>
+				<div id="profile--email" class="my-2">Email: <spoiler>{{u.email}}</spoiler></div>
 			{%- endif %}
 
 			{% if v.admin_level >= PERMS['VIEW_CHAT_LIST'] %}
