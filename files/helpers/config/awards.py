@@ -791,7 +791,7 @@ AWARDS = {
 		"description": "Pins a post for 12 hour or a comment for 72 hours.",
 		"icon": "fas fa-thumbtack fa-rotate--45",
 		"color": "text-danger",
-		"price": 14000,
+		"price": 13500,
 		"deflectable": False,
 		"cosmetic": False,
 		"ghost": True,

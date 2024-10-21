@@ -624,12 +624,12 @@ class User(Base):
 	@property
 	@lazy
 	def awards_content_effect(self):
-		return [x for x in self.user_awards if x['cosmetic'] or x['kind'] in {"pin", "unpin"}]
+		return [x for x in self.user_awards if x['cosmetic'] or x['kind'] in {"pin", "gigapin", "unpin"}]
 
 	@property
 	@lazy
 	def awards_author_effect(self):
-		return [x for x in self.user_awards if not x['cosmetic'] and x['kind'] not in {"pin", "unpin"}]
+		return [x for x in self.user_awards if not x['cosmetic'] and x['kind'] not in {"pin", "gigapin", "unpin"}]
 
 	@property
 	@lazy
