@@ -385,8 +385,8 @@ def award_thing(v, thing_type, id):
 		new_unban_utc = int(time.time()) + 30 * 86400 * quantity
 		if author.is_banned and (not author.unban_utc or author.unban_utc > new_unban_utc):
 			stop(403, f"{safe_username} already banned for more than 30 days!")
-		author.is_banned = AUTOJANNY_ID
-		author.unban_utc = new_unban_utc
+
+		author.ban(reason=ban_reason, days=30, modlog=False)
 		send_repeatable_notification(author.id, f"@{v.username} gave you {quantity} grass award{s} on {obj.textlink} and as a result you have been banned! You must [send the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
 	elif kind == "hieroglyphs":
 		if author.hieroglyphs: author.hieroglyphs += 86400 * quantity
