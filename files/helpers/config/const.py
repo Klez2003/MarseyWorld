@@ -763,6 +763,7 @@ LONGPOSTBOT_REPLIES = (
 	"https://i.rdrama.net/images/17238973634696946.webp",
 	":#bidenshocked:",
 	"https://i.rdrama.net/images/17243457519662082.webp",
+	"omg nobody cares??",
 )
 
 CHUD_MSGS = (
