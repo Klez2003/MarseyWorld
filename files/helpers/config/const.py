@@ -1328,6 +1328,7 @@ approved_embed_hosts = [
 	'78.media.tumblr.com',
 	'i.ytimg.com/vi',
 	'cdn.bsky.app/img/feed_fullsize/plain',
+	'dragcave.net/image',
 ]
 
 for i in (SITE_VIDEOS, SITE_IMAGES, SITE):
