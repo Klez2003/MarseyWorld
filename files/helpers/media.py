@@ -180,6 +180,7 @@ def process_video(file, v):
 	try:
 		video_info = ffmpeg.probe(old)['streams']
 		codec = None
+		profile = 'LC'
 		for stream in video_info:
 			if stream["codec_type"] == "video":
 				codec = stream['codec_name']
