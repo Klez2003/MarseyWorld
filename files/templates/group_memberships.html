@@ -49,6 +49,9 @@
 			<p class="mb-2">{{group.description_html | safe}}</p>
 		{% endif %}
 
+		<h5 class="mt-5">!{{group}} post mentions: <a href="{{SITE_FULL}}/search/posts/?q=!{{group}}">{{SITE_FULL}}/search/posts/?q=!{{group}}</a></h5>
+		<h5>!{{group}} comment mentions: <a href="{{SITE_FULL}}/search/comments/?q=!{{group}}">{{SITE_FULL}}/search/comments/?q=!{{group}}</a></h5>
+
 		<br>
 		{% macro process_memberships(memberships, name) %}
 			<h5 class="my-3">!{{group}} {{name}}</h5>
