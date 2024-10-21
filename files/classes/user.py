@@ -1,5 +1,6 @@
 import random
 from operator import *
+import datetime
 
 import pyotp
 from sqlalchemy import Column, ForeignKey, FetchedValue
@@ -1164,8 +1165,9 @@ class User(Base):
 			self.unban_utc = None
 
 		self.is_banned = admin.id if admin else AUTOJANNY_ID
-		if reason:
-			self.ban_reason = reason
+
+		reason += f" (@{self.username} {datetime.date.today()})"
+		self.ban_reason = reason
 
 		if days:
 			days_txt = str(days)
