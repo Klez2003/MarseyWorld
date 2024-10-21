@@ -471,7 +471,7 @@ def award_thing(v, thing_type, id):
 		if author.spider: author.spider += 86400 * quantity
 		else: author.spider = int(time.time()) + 86400 * quantity
 		badge_grant(user=author, badge_id=179, notify=False)
-	elif kind == "pin":
+	elif kind in {"pin", "gigapin"}:
 		if not FEATURES['PINS']: stop(403)
 		if obj.is_banned: stop(403)
 
@@ -483,6 +483,9 @@ def award_thing(v, thing_type, id):
 
 		if isinstance(obj, Comment): add = 3600*6 * quantity
 		else: add = 3600 * quantity
+
+		if kind == "gigapin":
+			add *= 12
 
 		if obj.pinned_utc:
 			obj.pinned_utc += add
