@@ -336,6 +336,7 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 			t.disabled = false;
 			t.classList.remove("disabled");
 			t.blur();
+			window.onbeforeunload = null;
 		}
 
 		try {
