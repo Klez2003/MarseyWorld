@@ -29,6 +29,7 @@ SLURS = {
 	'dyke(?!\w)': 'cute butch',
 	'dykes': 'cute butches',
 	'sheboon': 'ebony cupcake',
+	'gaslight': 'gaslamp',
 }
 
 #DON'T ADD ANY FILTERS WITH ' OR ", VECTOR FOR HTML INJECTION
