@@ -336,7 +336,6 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 			t.disabled = false;
 			t.classList.remove("disabled");
 			t.blur();
-			window.onbeforeunload = null;
 		}
 
 		try {
@@ -344,7 +343,11 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 			showToast(success, getMessageFromJsonData(success, data));
 		}
 		catch {}
-		if (success && extraActionsOnSuccess) extraActionsOnSuccess(xhr);
+		if (success && extraActionsOnSuccess) {
+			if (extraActionsOnSuccess == reload)
+				window.onbeforeunload = null;
+			extraActionsOnSuccess(xhr);
+		}
 	};
 
 	xhr.send(formData);
