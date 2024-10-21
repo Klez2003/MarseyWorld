@@ -1,7 +1,7 @@
 import os
 from shutil import copyfile
 
-from sqlalchemy import func, text
+from sqlalchemy import func, text, or_
 from files.helpers.media import *
 
 import files.helpers.stats as statshelper
@@ -243,6 +243,8 @@ def log(v):
 	if admin: admin_id = get_user(admin, attributes=[User.id]).id
 	else: admin_id = 0
 
+	target_id = int(request.values.get("target_id", 0))
+
 	kind = request.values.get("kind")
 
 	if v.admin_level >= PERMS['USER_SHADOWBAN']:
@@ -264,6 +266,20 @@ def log(v):
 			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED__TYPES))
 		if admin_id:
 			actions = actions.filter_by(user_id=admin_id)
+			kinds = {x.kind for x in actions}
+			kinds.add(kind)
+			types2 = {}
+			for k,val in types.items():
+				if k in kinds: types2[k] = val
+			types = types2
+		if target_id:
+			target_post_ids = [x[0] for x in g.db.query(Post.id).filter_by(author_id=target_id)]
+			target_comment_ids = [x[0] for x in g.db.query(Comment.id).filter_by(author_id=target_id)]
+			actions = actions.filter(or_(
+				ModAction.target_user_id == target_id,
+				ModAction.target_post_id.in_(target_post_ids),
+				ModAction.target_comment_id.in_(target_comment_ids),
+			))
 			kinds = {x.kind for x in actions}
 			kinds.add(kind)
 			types2 = {}
