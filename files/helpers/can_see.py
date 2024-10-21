@@ -14,7 +14,7 @@ def can_see(user, obj):
 			if request.headers.get("Cf-Ipcountry") == 'NZ':
 				if 'christchurch' in obj.title.lower():
 					return False
-				if SITE == 'watchpeopledie.tv' and obj.id in {5, 17212, 22653, 23814}:
+				if SITE == 'watchpeopledie.tv' and obj.id in {5, 17212, 22653, 23814, 222321}:
 					return False
 		else:
 			if obj.pinned == "Admin Note":
