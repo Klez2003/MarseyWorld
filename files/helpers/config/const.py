@@ -1328,7 +1328,6 @@ approved_embed_hosts = [
 	'78.media.tumblr.com',
 	'i.ytimg.com/vi',
 	'cdn.bsky.app/img/feed_fullsize/plain',
-	's.dcave.net/cache/images/k',
 ]
 
 for i in (SITE_VIDEOS, SITE_IMAGES, SITE):
