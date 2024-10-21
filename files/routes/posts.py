@@ -1068,6 +1068,9 @@ def edit_post(pid, v):
 	if time.time() - p.created_utc > days*24*60*60 and not p.draft and v.admin_level < PERMS["IGNORE_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_EDITING_LIMIT:
 		stop(403, f"You can't edit posts older than {days} days!")
 
+	if p.is_banned:
+		stop(403, "You can't edit posts that were removed by admins!")
+
 	title = request.values.get("title", "").strip()
 	if len(title) > POST_TITLE_LENGTH_LIMIT:
 		stop(400, f'Post title is too long (max {POST_TITLE_LENGTH_LIMIT} characters)')

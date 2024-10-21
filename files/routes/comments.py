@@ -685,6 +685,9 @@ def edit_comment(cid, v):
 	if time.time() - c.created_utc > 3*24*60*60 and not (c.post and c.post.draft) and v.admin_level < PERMS["IGNORE_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_EDITING_LIMIT:
 		stop(403, "You can't edit comments older than 3 days!")
 
+	if c.is_banned:
+		stop(403, "You can't edit comments that were removed by admins!")
+
 	if c.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_EDITING']:
 		stop(403)
 
