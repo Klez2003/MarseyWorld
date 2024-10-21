@@ -406,7 +406,7 @@ class Post(Base):
 
 	@lazy
 	def filtered_reports(self, v):
-		return [r for r in self.reports if not r.user.shadowbanned or (v and v.id == r.user_id) or (v and v.admin_level)]
+		return [r for r in self.reports if not r.user.shadowbanned or (v and v.id == r.user_id) or (v and v.admin_level >= PERMS['USER_SHADOWBAN'])]
 
 	@lazy
 	def active_reports(self, v):
