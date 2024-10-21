@@ -575,13 +575,10 @@ def check_name(v):
 		)
 		g.db.add(ma)
 	elif any(x in v.username.lower() for x in ('nigger', 'faggot', 'kike', 'trann', '1488')):
-		userban = UserBan(
-			user_id=v.id,
-			original_user_id=v.id,
-			admin_id=AUTOJANNY_ID,
-			unban_utc=32500915200,
-			ban_reason="Name",
-		)
+		v.is_banned = AUTOJANNY_ID
+		v.unban_utc = 32500915200
+		v.ban_reason = "Name"
+
 		ma = ModAction(
 			kind="ban_user",
 			user_id=AUTOJANNY_ID,
