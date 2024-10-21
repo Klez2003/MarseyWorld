@@ -535,13 +535,13 @@ def execute_under_siege(v, target, kind):
 	if minutes > 1:
 		time_taken += 's'
 
-	v.shadowban(f"Under Siege ({reason}, {time_taken})")
+	v.shadowban(reason=f"Under Siege ({reason}, {time_taken})")
 
 def check_name(v):
 	if not v.shadowbanned and any(x in v.username.lower() for x in ('gasthe', 'killall')):
-		v.shadowban("Name")
+		v.shadowban(reason="Name")
 	elif any(x in v.username.lower() for x in ('nigger', 'faggot', 'kike', 'trann', '1488')):
-		v.ban("Name", days=356120)
+		v.ban(reason="Name", days=356120)
 
 		text = f"We're sorry, your username (`{v.username}`) contains a slur that we don't allow. Please change your username and [contact the admins](/contact) and we will unban you. Thank you!"
 		send_repeatable_notification(v.id, text)
