@@ -766,6 +766,7 @@ LONGPOSTBOT_REPLIES = (
 	"omg nobody cares??",
 	"have sex incel",
 	"https://i.rdrama.net/images/17295407689104028.webp",
+	"Seek help.",
 )
 
 CHUD_MSGS = (
