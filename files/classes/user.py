@@ -1186,6 +1186,25 @@ class User(Base):
 		g.db.add(ma)
 
 
+	def shadowban(self, admin=None, reason=None):
+		if len(reason) > BAN_REASON_HTML_LENGTH_LIMIT:
+			stop(400, "Rendered shadowban reason is too long!")
+
+		g.db.add(self)
+
+		self.shadowbanned = admin.id if admin else AUTOJANNY_ID
+
+		reason += f" (@{self.username} {datetime.date.today()})"
+		self.shadowban_reason = reason
+
+		ma = ModAction(
+			kind="shadowban",
+			user_id=self.shadowbanned,
+			target_user_id=self.id,
+			_note=f'reason: "{reason}"'
+		)
+		g.db.add(ma)
+
 	@property
 	@lazy
 	def is_suspended(self):

@@ -82,18 +82,7 @@ def execute_blackjack(v, target, body, kind):
 		)]
 		if v.id in unshadowbannedcels: return False
 
-		v.shadowbanned = AUTOJANNY_ID
-
-		ma = ModAction(
-			kind="shadowban",
-			user_id=AUTOJANNY_ID,
-			target_user_id=v.id,
-			_note=f'reason: "Blackjack: {kind}"'
-		)
-		g.db.add(ma)
-
-		v.shadowban_reason = f"Blackjack: {kind}"
-		g.db.add(v)
+		v.shadowban(reason=f"Blackjack: {kind}")
 
 	notified_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
 	extra_info = kind

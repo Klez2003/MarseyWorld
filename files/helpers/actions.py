@@ -535,29 +535,11 @@ def execute_under_siege(v, target, kind):
 	if minutes > 1:
 		time_taken += 's'
 
-	v.shadowbanned = AUTOJANNY_ID
-	v.shadowban_reason = f"Under Siege ({reason}, {time_taken})"
-	g.db.add(v)
-
-	ma = ModAction(
-		kind="shadowban",
-		user_id=AUTOJANNY_ID,
-		target_user_id=v.id,
-		_note=f'reason: "Under Siege ({reason}, {time_taken})"'
-	)
-	g.db.add(ma)
+	v.shadowban(f"Under Siege ({reason}, {time_taken})")
 
 def check_name(v):
 	if not v.shadowbanned and any(x in v.username.lower() for x in ('gasthe', 'killall')):
-		v.shadowbanned = AUTOJANNY_ID
-		v.shadowban_reason = "Name"
-		ma = ModAction(
-			kind="shadowban",
-			user_id=AUTOJANNY_ID,
-			target_user_id=v.id,
-			_note=f'reason: "Name ({v.username})"'
-		)
-		g.db.add(ma)
+		v.shadowban("Name")
 	elif any(x in v.username.lower() for x in ('nigger', 'faggot', 'kike', 'trann', '1488')):
 		v.ban("Name", days=356120)
 

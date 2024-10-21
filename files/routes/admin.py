@@ -877,7 +877,6 @@ def shadowban(user_id, v):
 	user = get_account(user_id)
 	if user.admin_level > v.admin_level:
 		stop(403, "You can't shadowban an admin with higher level than you.")
-	user.shadowbanned = v.id
 	reason = request.values.get("reason", "").strip()
 
 	if not reason:
@@ -894,17 +893,9 @@ def shadowban(user_id, v):
 	reason = reason_regex_post.sub(r'<a href="\1">\1</a>', reason)
 	reason = reason_regex_comment.sub(r'<a href="\1#context">\1</a>', reason)
 
-	user.shadowban_reason = reason
-	g.db.add(user)
+	v.shadowban(reason=reason)
 	check_for_alts(user)
 
-	ma = ModAction(
-		kind="shadowban",
-		user_id=v.id,
-		target_user_id=user.id,
-		_note=f'reason: "{reason}"'
-	)
-	g.db.add(ma)
 
 	cache.delete_memoized(frontlist)
 
