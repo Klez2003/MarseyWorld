@@ -1151,7 +1151,7 @@ class User(Base):
 
 
 
-	def ban(self, admin=None, reason=None, days=0.0):
+	def ban(self, admin=None, reason=None, days=0.0, modlog=True):
 		if len(reason) > BAN_REASON_HTML_LENGTH_LIMIT:
 			stop(400, "Rendered ban reason is too long!")
 
@@ -1177,13 +1177,14 @@ class User(Base):
 		else:
 			duration = "permanently"
 
-		ma = ModAction(
-			kind="ban_user",
-			user_id=self.is_banned,
-			target_user_id=self.id,
-			_note=f'duration: {duration}, reason: "{reason}"'
-		)
-		g.db.add(ma)
+		if modlog:
+			ma = ModAction(
+				kind="ban_user",
+				user_id=self.is_banned,
+				target_user_id=self.id,
+				_note=f'duration: {duration}, reason: "{reason}"'
+			)
+			g.db.add(ma)
 
 
 	def shadowban(self, admin=None, reason=None):
