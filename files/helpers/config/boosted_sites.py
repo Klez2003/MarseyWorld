@@ -182,4 +182,5 @@ BOOSTED_SITES = {
 	'fark.com',
 	'deviantart.com',
 	'imdb.com',
+	'radicalcentristtimes.com',
 }
