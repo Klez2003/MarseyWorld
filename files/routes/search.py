@@ -53,12 +53,16 @@ def searchparse(text):
 def searchposts(v):
 	query = request.values.get("q", '').strip()
 
+	criteria = searchparse(query)
+
+	if 'post' in criteria:
+		return redirect(request.full_path.replace('/search/posts', '/search/comments'))
+
 	page = get_page()
 
 	sort = request.values.get("sort", "new").lower()
 	t = request.values.get('t', 'all').lower()
 
-	criteria = searchparse(query)
 
 	posts = g.db.query(Post).options(load_only(Post.id)) \
 				.join(Post.author) \
