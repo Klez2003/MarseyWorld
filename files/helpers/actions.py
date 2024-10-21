@@ -254,15 +254,7 @@ def execute_snappy(post, v):
 			v.ban(admin=snappy, reason=reason, days=days)
 			text = f"@Snappy has banned you for **{days}** days for the following reason:\n\n> {reason}"
 			send_repeatable_notification(v.id, text)
-			duration = f"for {days} days"
-			ma = ModAction(
-				kind="ban_user",
-				user_id=snappy.id,
-				target_user_id=v.id,
-				_note=f'duration: {duration}, reason: "{reason}"'
-				)
-			g.db.add(ma)
-			post.bannedfor = f'{duration} by @Snappy'
+			post.bannedfor = f'for {days} days by @Snappy'
 
 		g.db.flush()
 
@@ -406,14 +398,6 @@ def tempban_for_spam(v, num):
 	text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
 	send_repeatable_notification(v.id, text)
 	v.ban(reason=f"Spam-{num}", days=1)
-
-	ma = ModAction(
-		kind="ban_user",
-		user_id=AUTOJANNY_ID,
-		target_user_id=v.id,
-		_note=f'duration: for 1 day, reason: "Spam-{num}"'
-		)
-	g.db.add(ma)
 
 
 def execute_antispam_post_check(title, v, url):
@@ -575,17 +559,7 @@ def check_name(v):
 		)
 		g.db.add(ma)
 	elif any(x in v.username.lower() for x in ('nigger', 'faggot', 'kike', 'trann', '1488')):
-		v.is_banned = AUTOJANNY_ID
-		v.unban_utc = 32500915200
-		v.ban_reason = "Name"
-
-		ma = ModAction(
-			kind="ban_user",
-			user_id=AUTOJANNY_ID,
-			target_user_id=v.id,
-			_note=f'reason: "Name ({v.username})"'
-		)
-		g.db.add(ma)
+		v.ban("Name", days=356120)
 
 		text = f"We're sorry, your username (`{v.username}`) contains a slur that we don't allow. Please change your username and [contact the admins](/contact) and we will unban you. Thank you!"
 		send_repeatable_notification(v.id, text)

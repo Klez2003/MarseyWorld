@@ -16,6 +16,7 @@ from files.classes.group import *
 from files.classes.hole import Hole
 from files.classes.chats import *
 from files.classes.currency_logs import CurrencyLog
+from files.classes.mod_logs import ModAction
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
 from files.helpers.config.awards import *
@@ -1166,6 +1167,21 @@ class User(Base):
 		if reason:
 			self.ban_reason = reason
 
+		if days:
+			days_txt = str(days)
+			if days_txt.endswith('.0'): days_txt = days_txt[:-2]
+			duration = f"for {days_txt} day"
+			if days != 1: duration += "s"
+		else:
+			duration = "permanently"
+
+		ma = ModAction(
+			kind="ban_user",
+			user_id=self.is_banned,
+			target_user_id=self.id,
+			_note=f'duration: {duration}, reason: "{reason}"'
+		)
+		g.db.add(ma)
 
 
 	@property

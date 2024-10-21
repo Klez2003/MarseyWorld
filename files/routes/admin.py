@@ -1065,15 +1065,6 @@ def ban_user(fullname, v):
 			if x.last_active > one_month_ago:
 				send_repeatable_notification(x.id, text)
 
-	note = f'duration: {duration}, reason: "{reason}"'
-	ma = ModAction(
-		kind="ban_user",
-		user_id=v.id,
-		target_user_id=user.id,
-		_note=note
-		)
-	g.db.add(ma)
-
 	if 'reason' in request.values:
 		reason = request.values["reason"]
 		if post:
