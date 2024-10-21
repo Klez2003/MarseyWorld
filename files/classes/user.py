@@ -1152,6 +1152,9 @@ class User(Base):
 
 
 	def ban(self, admin=None, reason=None, days=0.0, modlog=True):
+		if self.is_permabanned:
+			return
+
 		if len(reason) > BAN_REASON_HTML_LENGTH_LIMIT:
 			stop(400, "Rendered ban reason is too long!")
 
