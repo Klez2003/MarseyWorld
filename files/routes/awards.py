@@ -707,7 +707,8 @@ def award_thing(v, thing_type, id):
 	return {"message": f"{quantity} {award_title} award{s} given to {thing_type} successfully!"}
 
 @app.post("/trick_or_treat")
-@limiter.limit("1/hour", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@limiter.limit("1/hour", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("1/hour", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def trick_or_treat(v):
 	if v.client:
