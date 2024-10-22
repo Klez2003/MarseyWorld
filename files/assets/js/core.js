@@ -523,6 +523,8 @@ else patron = 'patron'
 function check_file_size(input, file) {
 	if (!file) return false
 
+	if (location.host == 'localhost') return true
+
 	let max_size
 	let max_size_patron
 	let type
