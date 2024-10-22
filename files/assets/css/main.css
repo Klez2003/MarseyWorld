@@ -7818,3 +7818,7 @@ li {
 video {
 	border: none !important;
 }
+
+p:empty + p { /* poll margin */
+    margin-top: 1rem;
+}
