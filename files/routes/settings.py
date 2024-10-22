@@ -860,7 +860,7 @@ def settings_name_change(v):
 
 	v.username = new_name
 
-	if new_name.lower() == v.original_username.lower() or (v.unban_utc and v.unban_utc >= 32500915200):
+	if new_name.lower() == v.original_username.lower() or (v.unban_utc and v.unban_utc >= 32400000000):
 		v.original_username = new_name
 
 	g.db.add(v)
