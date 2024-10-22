@@ -787,6 +787,41 @@ CREATE TABLE public.media (
 
 
 --
+-- Name: media_usages; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.media_usages (
+    id integer NOT NULL,
+    filename character varying(55) NOT NULL,
+    post_id integer,
+    comment_id integer,
+    created_utc integer NOT NULL,
+    deleted_utc integer,
+    removed_utc integer
+);
+
+
+--
+-- Name: media_usages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.media_usages_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: media_usages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.media_usages_id_seq OWNED BY public.media_usages.id;
+
+
+--
 -- Name: modactions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1407,6 +1442,13 @@ ALTER TABLE ONLY public.lotteries ALTER COLUMN id SET DEFAULT nextval('public.lo
 
 
 --
+-- Name: media_usages id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.media_usages ALTER COLUMN id SET DEFAULT nextval('public.media_usages_id_seq'::regclass);
+
+
+--
 -- Name: modactions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1695,6 +1737,14 @@ ALTER TABLE ONLY public.lotteries
 
 ALTER TABLE ONLY public.media
     ADD CONSTRAINT media_pkey PRIMARY KEY (filename);
+
+
+--
+-- Name: media_usages media_usages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.media_usages
+    ADD CONSTRAINT media_usages_pkey PRIMARY KEY (id);
 
 
 --
@@ -3222,6 +3272,22 @@ ALTER TABLE ONLY public.hats
 
 ALTER TABLE ONLY public.hats
     ADD CONSTRAINT hats_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: media_usages media_usages_comment_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.media_usages
+    ADD CONSTRAINT media_usages_comment_fkey FOREIGN KEY (comment_id) REFERENCES public.comments(id);
+
+
+--
+-- Name: media_usages media_usages_post_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.media_usages
+    ADD CONSTRAINT media_usages_post_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id);
 
 
 --
