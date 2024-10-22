@@ -239,6 +239,13 @@ def sign_up_post(v):
 							email=email,
 							), 400
 
+
+	if II_KEY:
+		data = requests.get(f'https://ipinfo.io/{get_IP()}?token={II_KEY}', headers=HEADERS, timeout=5).json()
+		print(data['region'], flush=True)
+		if data['region'] == 'Tennessee':
+			return signup_error("There was a problem. Please try again!")
+
 	if username.title() in GIRL_NAMES_TOTAL:
 		return signup_error("This name is reserved for a site award.")
 
