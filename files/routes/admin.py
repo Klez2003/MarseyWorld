@@ -1051,7 +1051,7 @@ def ban_user(fullname, v):
 		for x in get_alt_graph(user.id):
 			if x.admin_level > v.admin_level:
 				continue
-			x.ban(admin=v, reason=reason, days=days, modlog=False, username=user.username)
+			x.ban(admin=v, reason=reason, days=days, modlog=False, original_user=user)
 			one_month_ago = time.time() - 2592000
 			if x.last_active > one_month_ago:
 				send_repeatable_notification(x.id, text)
