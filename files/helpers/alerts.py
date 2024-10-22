@@ -297,10 +297,10 @@ def push_notif(uids, title, body, url_or_comment, chat_id=None):
 		if not uids:
 			return
 
-	uids = set(uids)
-	if SITE == 'rdrama.net' and chat_id != 182 and '!jannies' not in body:
-		uids.discard(147)
-		uids.discard(11031)
+	# uids = set(uids)
+	# if SITE == 'rdrama.net' and chat_id != 182 and '!jannies' not in body:
+	# 	uids.discard(147)
+	# 	uids.discard(11031)
 
 	if isinstance(url_or_comment, Comment):
 		c = url_or_comment
