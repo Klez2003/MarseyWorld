@@ -1151,12 +1151,15 @@ class User(Base):
 
 
 
-	def ban(self, admin=None, reason=None, days=0.0, modlog=True):
+	def ban(self, admin=None, reason=None, days=0.0, modlog=True, username=None):
 		if self.is_permabanned:
 			return
 
 		if len(reason) > BAN_REASON_HTML_LENGTH_LIMIT:
 			stop(400, "Rendered ban reason is too long!")
+
+		if not username:
+			username = self.username
 
 		g.db.add(self)
 		if days:
@@ -1169,7 +1172,7 @@ class User(Base):
 
 		self.is_banned = admin.id if admin else AUTOJANNY_ID
 
-		reason += f" (@{self.username} {datetime.date.today()})"
+		reason += f" (@{username} - {datetime.date.today()})"
 		self.ban_reason = reason
 
 		if days:
@@ -1198,7 +1201,7 @@ class User(Base):
 
 		self.shadowbanned = admin.id if admin else AUTOJANNY_ID
 
-		reason += f" (@{self.username} {datetime.date.today()})"
+		reason += f" (@{self.username} - {datetime.date.today()})"
 		self.shadowban_reason = reason
 
 		ma = ModAction(
