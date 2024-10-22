@@ -13,6 +13,7 @@ gevent-websocket
 gevent_inotifyx
 greenlet
 gunicorn
+humanize
 imagehash
 inotify
 isodate

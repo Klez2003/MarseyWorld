@@ -1,5 +1,6 @@
 import time
 from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import *
 from flask import request, has_request_context
 from files.classes import Base
@@ -23,3 +24,23 @@ class Media(Base):
 
 	def __repr__(self):
 		return f"<{self.__class__.__name__}(kind={self.kind}, filename={self.filename})>"
+
+class MediaUsage(Base):
+	__tablename__ = "media_usages"
+	id = Column(Integer, primary_key=True)
+	filename = Column(String, ForeignKey("media.filename"))
+	post_id = Column(Integer, ForeignKey("posts.id"))
+	comment_id = Column(Integer, ForeignKey("comments.id"))
+	created_utc = Column(Integer)
+	deleted_utc = Column(Integer)
+	removed_utc = Column(Integer)
+
+	media = relationship("Media")
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs:
+			kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
+
+	def __repr__(self):
+		return f"<{self.__class__.__name__}(id={self.id})>"

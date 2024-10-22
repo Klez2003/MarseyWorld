@@ -232,6 +232,7 @@ def comment(v):
 
 	c.upvotes = 1
 
+	g.db.add(c)
 	body_html = sanitize(body, limit_pings=5, showmore=(not v.hieroglyphs), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id, obj=c, author=v)
 
 	if post_target.id not in ADMIGGER_THREADS and not (v.chud and v.chud_phrase.lower() in body.lower()):
@@ -256,7 +257,6 @@ def comment(v):
 
 	c.body_html = body_html
 
-	g.db.add(c)
 	g.db.flush()
 
 	if not posting_to_post and v.admin_level >= PERMS['ADMIN_NOTES'] and request.values.get('admin_note') == 'true' :
@@ -277,6 +277,11 @@ def comment(v):
 
 	if not complies_with_chud(c):
 		c.is_banned = True
+
+		for media_usage in c.media_usages:
+			media_usage.removed_utc = time.time()
+			g.db.add(media_usage)
+
 		c.ban_reason = "AutoJanny for lack of chud phrase"
 		g.db.add(c)
 
@@ -425,6 +430,10 @@ def delete_comment(cid, v):
 			v.comment_count -= 1
 			g.db.add(v)
 
+		for media_usage in c.media_usages:
+			media_usage.deleted_utc = c.deleted_utc
+			g.db.add(media_usage)
+
 		cache.delete_memoized(comment_idlist)
 
 		if c.parent_post:
@@ -458,6 +467,10 @@ def undelete_comment(cid, v):
 		if not (c.parent_post in ADMIGGER_THREADS and c.level == 1):
 			v.comment_count += 1
 			g.db.add(v)
+
+		for media_usage in c.media_usages:
+			media_usage.deleted_utc = None
+			g.db.add(media_usage)
 
 		cache.delete_memoized(comment_idlist)
 

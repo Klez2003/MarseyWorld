@@ -12,6 +12,7 @@ from sqlalchemy import or_
 
 import click
 import requests
+import humanize
 
 from files.helpers.stats import *
 from files.routes.front import frontlist
@@ -422,3 +423,25 @@ def _set_top_poster_of_the_day_id():
 
 def _cleanup_videos():
 	subprocess.call("scripts/cleanup_videos.sh", timeout=3000)
+
+	db = db_session()
+
+	clean = [x[0] for x in db.query(MediaUsage.filename).filter_by(deleted_utc=None, removed_utc=None)]
+
+	one_month_ago = time.time() - 2592000
+
+	to_delete = db.query(MediaUsage.filename, Media.size).join(MediaUsage.media).filter(
+		MediaUsage.filename.notin_(clean),
+		or_(
+			MediaUsage.deleted_utc < one_month_ago,
+			MediaUsage.removed_utc < one_month_ago,
+		),
+	).order_by(Media.size.desc())
+
+	total_saved = 0
+	for filename, size in to_delete:
+		total_saved += size
+		print(filename, humanize.naturalsize(size, binary=True), flush=True)
+
+	total_saved = humanize.naturalsize(total_saved, binary=True)
+	print(f"Total saved: {total_saved}")

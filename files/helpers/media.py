@@ -163,7 +163,7 @@ def reencode_video(old, new, check_sizes=False):
 
 
 
-def process_video(file, v):
+def process_video(file, v, post=None):
 	if isinstance(file, str):
 		old = file
 	else:
@@ -223,6 +223,12 @@ def process_video(file, v):
 		size=os.stat(new).st_size
 	)
 	g.db.add(media)
+
+	if post:
+		media_usage = MediaUsage(filename=new)
+		media_usage.post_id = post.id
+		g.db.add(media_usage)
+
 
 	url = SITE_FULL_VIDEOS + new.split('/videos')[1]
 

@@ -245,6 +245,11 @@ def revert_actions(v, username):
 
 	for item in posts + comments:
 		item.is_banned = False
+
+		for media_usage in item.media_usages:
+			media_usage.removed_utc = None
+			g.db.add(media_usage)
+
 		item.ban_reason = None
 		item.is_approved = v.id
 		g.db.add(item)
@@ -1377,6 +1382,11 @@ def unprogstack_comment(comment_id, v):
 def remove_post(post_id, v):
 	post = get_post(post_id)
 	post.is_banned = True
+
+	for media_usage in post.media_usages:
+		media_usage.removed_utc = time.time()
+		g.db.add(media_usage)
+
 	post.is_approved = None
 
 	if not FEATURES['AWARDS'] or not post.pinned or not post.pinned.endswith(PIN_AWARD_TEXT):
@@ -1423,6 +1433,11 @@ def approve_post(post_id, v):
 		g.db.add(ma)
 
 	post.is_banned = False
+
+	for media_usage in post.media_usages:
+		media_usage.removed_utc = None
+		g.db.add(media_usage)
+
 	post.ban_reason = None
 	post.is_approved = v.id
 
@@ -1595,6 +1610,11 @@ def remove_comment(c_id, v):
 	comment = get_comment(c_id)
 
 	comment.is_banned = True
+
+	for media_usage in comment.media_usages:
+		media_usage.removed_utc = time.time()
+		g.db.add(media_usage)
+
 	comment.is_approved = None
 	comment.ban_reason = v.username
 	g.db.add(comment)
@@ -1633,6 +1653,11 @@ def approve_comment(c_id, v):
 		g.db.add(ma)
 
 	comment.is_banned = False
+
+	for media_usage in comment.media_usages:
+		media_usage.removed_utc = None
+		g.db.add(media_usage)
+
 	comment.ban_reason = None
 	comment.is_approved = v.id
 
@@ -1721,6 +1746,11 @@ def admin_nuke_user(v):
 			continue
 
 		post.is_banned = True
+
+		for media_usage in post.media_usages:
+			media_usage.removed_utc = time.time()
+			g.db.add(media_usage)
+
 		post.ban_reason = v.username
 		g.db.add(post)
 
@@ -1729,6 +1759,11 @@ def admin_nuke_user(v):
 			continue
 
 		comment.is_banned = True
+
+		for media_usage in comment.media_usages:
+			media_usage.removed_utc = time.time()
+			g.db.add(media_usage)
+
 		comment.ban_reason = v.username
 		g.db.add(comment)
 
@@ -1757,6 +1792,11 @@ def admin_nunuke_user(v):
 			continue
 
 		post.is_banned = False
+
+		for media_usage in post.media_usages:
+			media_usage.removed_utc = None
+			g.db.add(media_usage)
+
 		post.ban_reason = None
 		post.is_approved = v.id
 		g.db.add(post)
@@ -1766,6 +1806,11 @@ def admin_nunuke_user(v):
 			continue
 
 		comment.is_banned = False
+
+		for media_usage in comment.media_usages:
+			media_usage.removed_utc = None
+			g.db.add(media_usage)
+
 		comment.ban_reason = None
 		comment.is_approved = v.id
 		g.db.add(comment)

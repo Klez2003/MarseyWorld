@@ -641,6 +641,7 @@ def submit_post(v, hole=None):
 
 	p.title_html = title_html
 
+	g.db.add(p)
 	body_html = sanitize(body, count_emojis=True, limit_pings=100, obj=p, author=v)
 
 	if v.hieroglyphs and not p.distinguished and marseyaward_body_regex.search(body_html):
@@ -684,7 +685,7 @@ def submit_post(v, hole=None):
 			copyfile(name, name2)
 			p.thumburl = process_image(name2, v, resize=199)
 		elif file.content_type.startswith('video/'):
-			p.url, p.posterurl, name = process_video(file, v)
+			p.url, p.posterurl, name = process_video(file, v, post=p)
 			if p.posterurl:
 				name2 = name.replace('.webp', 'r.webp')
 				copyfile(name, name2)
@@ -693,9 +694,27 @@ def submit_post(v, hole=None):
 			p.url = process_audio(file, v)
 		else:
 			stop(415)
+	elif p.url and p.url.startswith(SITE_FULL_VIDEOS):
+		filename = p.url.split(SITE_FULL_VIDEOS)[0]
+		print(filename, flush=True)
+		media = g.db.get(Media, filename)
+		print(media, flush=True)
+		if media:
+			media_usage = MediaUsage(
+				filename=filename,
+				post_id=p.id,
+			)
+			g.db.add(media_usage)
+			if media.posterurl:
+				p.posterurl = media.posterurl
 
 	if not p.draft and not complies_with_chud(p):
 		p.is_banned = True
+
+		for media_usage in p.media_usages:
+			media_usage.removed_utc = time.time()
+			g.db.add(media_usage)
+
 		p.ban_reason = "AutoJanny for lack of chud phrase"
 
 		body = random.choice(CHUD_MSGS).format(username=v.username, type='post', CHUD_PHRASE=v.chud_phrase)
@@ -802,6 +821,10 @@ def delete_post_pid(pid, v):
 		v.post_count -= 1
 		g.db.add(v)
 
+		for media_usage in p.media_usages:
+			media_usage.deleted_utc = p.deleted_utc
+			g.db.add(media_usage)
+
 		for sort in COMMENT_SORTS.keys():
 			cache.delete(f'post_{p.id}_{sort}')
 
@@ -829,6 +852,10 @@ def undelete_post_pid(pid, v):
 
 		v.post_count += 1
 		g.db.add(v)
+
+		for media_usage in p.media_usages:
+			media_usage.deleted_utc = None
+			g.db.add(media_usage)
 
 		for sort in COMMENT_SORTS.keys():
 			cache.delete(f'post_{p.id}_{sort}')

@@ -2,7 +2,7 @@ import random
 import re
 from flask import g
 
-from files.classes.media import Media
+from files.classes.media import *
 from .config.const import *
 
 NOT_IN_CODE_OR_LINKS = '(?!([^<]*<\/(code|pre|a)>|[^`\n]*`))'
@@ -109,14 +109,30 @@ image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/({hosts})\/|\/)).*?)\)', 
 video_regex_extensions = '|'.join(VIDEO_FORMATS)
 video_sub_regex = re.compile(f'(?<!")(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({video_regex_extensions}))' + NOT_IN_CODE_OR_LINKS_OR_SPOILER, flags=re.A|re.I)
 
-def video_sub_regex_matcher(match):
+def video_sub_regex_matcher(match, obj):
 	url = match.group(1)
 	if url.startswith(SITE_FULL_VIDEOS):
 		filename = '/videos/' + url.split(f'{SITE_FULL_VIDEOS}/')[1]
 		g.db.flush()
-		posterurl = g.db.query(Media.posterurl).filter_by(filename=filename).one_or_none()
-		if posterurl:
-			return 	f'<p class="resizable"><video poster="{posterurl[0]}" controls preload="none" src="{url}"></video></p>'
+		media = g.db.get(Media, filename)
+		if media:
+			if obj:
+				if not obj.id: raise Exception("The thing that never happens happened again")
+				if str(obj.__class__) == "<class 'files.classes.post.Post'>":
+					existing = g.db.query(MediaUsage.id).filter_by(filename=filename, post_id=obj.id).one_or_none()
+					if not existing:
+						media_usage = MediaUsage(filename=filename)
+						media_usage.post_id = obj.id
+						g.db.add(media_usage)
+				else:			
+					existing = g.db.query(MediaUsage.id).filter_by(filename=filename, comment_id=obj.id).one_or_none()
+					if not existing:
+						media_usage = MediaUsage(filename=filename)
+						media_usage.comment_id = obj.id
+						g.db.add(media_usage)
+
+			if media.posterurl:
+				return 	f'<p class="resizable"><video poster="{media.posterurl[0]}" controls preload="none" src="{url}"></video></p>'
 	return f'<p class="resizable"><video controls preload="none" src="{url}"></video></p>'
 
 audio_regex_extensions = '|'.join(AUDIO_FORMATS)

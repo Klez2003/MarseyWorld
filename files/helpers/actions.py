@@ -430,6 +430,11 @@ def execute_antispam_post_check(title, v, url):
 
 		for post in similar_posts + similar_urls:
 			post.is_banned = True
+			
+			for media_usage in post.media_usages:
+				media_usage.removed_utc = time.time()
+				g.db.add(media_usage)
+
 			post.profile_pinned = False
 			post.ban_reason = "AutoJanny for spamming"
 			g.db.add(post)
@@ -491,6 +496,11 @@ def execute_antispam_comment_check(body, v):
 
 	for comment in similar_comments:
 		comment.is_banned = True
+
+		for media_usage in comment.media_usages:
+			media_usage.removed_utc = time.time()
+			g.db.add(media_usage)
+
 		comment.ban_reason = "AutoJanny for spamming"
 		g.db.add(comment)
 		ma = ModAction(

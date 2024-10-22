@@ -487,7 +487,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	sanitized = sanitized.replace('&amp;','&')
 
-	sanitized = video_sub_regex.sub(video_sub_regex_matcher, sanitized)
+	sanitized = video_sub_regex.sub(lambda match: video_sub_regex_matcher(match, obj), sanitized)
 	sanitized = audio_sub_regex.sub(r'<audio controls preload="none" src="\1"></audio>', sanitized)
 
 	if count_emojis:
