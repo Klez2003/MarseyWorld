@@ -109,6 +109,7 @@ def cron_fn(every_5m, every_1d, every_1mo):
 
 			if every_1mo:
 				_give_marseybux_salary()
+				_cleanup_videos()
 				g.db.commit()
 
 		except:
@@ -418,3 +419,6 @@ def _set_top_poster_of_the_day_id():
 	badge_grant(badge_id=327, user=user)
 
 	cache.set("top_poster_of_the_day_id", user.id, timeout=86400)
+
+def _cleanup_videos():
+	subprocess.call("scripts/cleanup_videos.sh", timeout=3000)
