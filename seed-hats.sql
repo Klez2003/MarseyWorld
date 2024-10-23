@@ -1185,7 +1185,7 @@ INSERT INTO public.hat_defs VALUES (1678, 'Stranger in the dark', 'I-is that...!
 INSERT INTO public.hat_defs VALUES (1685, 'JUUL', 'zoomercore non-acoustic vaping device.', 2, 500, NULL, 1725910305);
 INSERT INTO public.hat_defs VALUES (1708, 'Rebel', 'Fuck your rulez, gayvann', 2, 500, NULL, 1728189015);
 INSERT INTO public.hat_defs VALUES (1693, 'vintageframe', 'The good old days are now.', 2, 500, NULL, 1726372718);
-
+INSERT INTO public.hat_defs VALUES (1715, 'Open To Troll', 'Work experience? Yeah, I have some! I used to shitpost on this cat website? Pretty sweet, eh, eh!', 2, 500, NULL, 1729467510);
 INSERT INTO public.hat_defs VALUES (1450, 'Red Eminent Horns', 'Queen of the devils, leader of the chuds.', 2, 500, NULL, 1708367282);
 INSERT INTO public.hat_defs VALUES (1544, 'Sweden Flag', 'Över Norden jag härskar, med det arv som jag gavs, gång på gång, sjung Carolus sång!', 2, 1000, NULL, 1714318091);
 INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokémon. A Ghost and Poison type. Gengar can pass through dimensions and appear almost anywhere. Since Gengar absorbs any warmth around it, the temperature suddenly drops wherever it appears.', 2, 500, NULL, 1698658745);
@@ -1243,7 +1243,7 @@ INSERT INTO public.hat_defs VALUES (1703, 'Fedora Tip', 'for all the discord mod
 INSERT INTO public.hat_defs VALUES (1704, 'its not gay if its ricardo', 'U GOT THAT?', 2, 500, NULL, 1727214518);
 INSERT INTO public.hat_defs VALUES (1709, 'Arachnophobia', 'When Arachnophobia wind up with Responsibility OCD', 2, 500, NULL, 1728197294);
 INSERT INTO public.hat_defs VALUES (1710, 'Destination', 'Farewell my encounters', 2, 500, NULL, 1728198243);
-
+INSERT INTO public.hat_defs VALUES (1714, 'Open to Work', 'I''m open to work. Please. Can you hire me...Anyone?', 2, 500, NULL, 1729466093);
 INSERT INTO public.hat_defs VALUES (1396, 'Click Me', 'Come on, you know you want to see my profile.', 2, 500, NULL, 1704921421);
 INSERT INTO public.hat_defs VALUES (1408, 'Kadio Stance', '*thwack* YEEEEEEEEOUCHHHHHHHHHH', 2, 500, NULL, 1705616850);
 INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
