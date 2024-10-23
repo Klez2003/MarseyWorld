@@ -110,7 +110,7 @@ def cron_fn(every_5m, every_1d, every_1mo):
 				g.db.commit()
 
 			if every_1mo:
-				_give_marseybux_salary()
+				# _give_marseybux_salary()
 				_cleanup_videos()
 				g.db.commit()
 
