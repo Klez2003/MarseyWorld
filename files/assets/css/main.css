@@ -4157,7 +4157,8 @@ small, .small {
 }
 
 .ghost-post .post-meta {
-	min-height: 40px;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .post-meta-domain {
