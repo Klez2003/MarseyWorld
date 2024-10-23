@@ -16,9 +16,6 @@ CREATE SEQUENCE public.media_usages_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE ONLY public.media_usages
-    ADD CONSTRAINT group_media_usages_pkey PRIMARY KEY (filename, post_id, comment_id);
-
 ALTER SEQUENCE public.media_usages_id_seq OWNED BY public.media_usages.id;
 
 ALTER TABLE ONLY public.media_usages ALTER COLUMN id SET DEFAULT nextval('public.media_usages_id_seq'::regclass);

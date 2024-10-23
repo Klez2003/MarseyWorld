@@ -27,9 +27,10 @@ class Media(Base):
 
 class MediaUsage(Base):
 	__tablename__ = "media_usages"
-	filename = Column(String, ForeignKey("media.filename"), primary_key=True)
-	post_id = Column(Integer, ForeignKey("posts.id"), primary_key=True)
-	comment_id = Column(Integer, ForeignKey("comments.id"), primary_key=True)
+	id = Column(Integer, primary_key=True)
+	filename = Column(String, ForeignKey("media.filename"))
+	post_id = Column(Integer, ForeignKey("posts.id"))
+	comment_id = Column(Integer, ForeignKey("comments.id"))
 	created_utc = Column(Integer)
 	deleted_utc = Column(Integer)
 	removed_utc = Column(Integer)
