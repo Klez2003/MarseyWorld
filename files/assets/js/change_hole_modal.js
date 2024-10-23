@@ -21,7 +21,7 @@ function change_holeModal(id) {
 	hole_to.value = ""
 	setTimeout(() => {
 		hole_to.focus()
-	}, 500);
+	}, 200);
 };
 
 changeHoleButton.onclick = function() {
