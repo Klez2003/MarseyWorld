@@ -229,7 +229,7 @@ def chat_custom_css_post(v, chat_id):
 	css = request.values.get('css', '').strip()
 
 	if len(css) > CSS_LENGTH_LIMIT:
-		stop(400, f"Chat CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
+		stop(400, f"Chat CSS is too long (max {commas(CSS_LENGTH_LIMIT)} characters)")
 
 	valid, error = validate_css(css)
 	if not valid:

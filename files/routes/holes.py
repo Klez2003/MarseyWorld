@@ -430,7 +430,7 @@ def post_hole_sidebar(v, hole):
 	sidebar = request.values.get('sidebar', '').strip()
 
 	if len(sidebar) > 10000:
-		stop(400, "New sidebar is too long (max 10000 characters)")
+		stop(400, "New sidebar is too long (max 10,000 characters)")
 
 	sidebar_html = sanitize(sidebar, blackjack=f"/h/{hole} sidebar")
 
@@ -466,7 +466,7 @@ def post_hole_css(v, hole):
 	if v.shadowbanned: stop(400)
 
 	if len(css) > CSS_LENGTH_LIMIT:
-		stop(400, f"Hole CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
+		stop(400, f"Hole CSS is too long (max {commas(CSS_LENGTH_LIMIT)} characters)")
 
 	valid, error = validate_css(css)
 	if not valid:
@@ -955,7 +955,7 @@ def post_hole_snappy_quotes(v, hole):
 		snappy_quotes = snappy_quotes[:-6].strip()
 
 	if len(snappy_quotes) > HOLE_SNAPPY_QUOTES_LENGTH:
-		stop(400, f"Quotes are too long (max {HOLE_SNAPPY_QUOTES_LENGTH} characters)")
+		stop(400, f"Quotes are too long (max {commas(HOLE_SNAPPY_QUOTES_LENGTH)} characters)")
 
 	hole.snappy_quotes = snappy_quotes
 	g.db.add(hole)

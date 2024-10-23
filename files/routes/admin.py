@@ -888,7 +888,7 @@ def shadowban(user_id, v):
 		stop(400, "You need to submit a reason for shadowbanning!")
 
 	if len(reason) > BAN_REASON_LENGTH_LIMIT:
-		stop(400, f"Shadowban reason is too long (max {BAN_REASON_LENGTH_LIMIT} characters)")
+		stop(400, f"Shadowban reason is too long (max {commas(BAN_REASON_LENGTH_LIMIT)} characters)")
 
 	reason = filter_emojis_only(reason)
 
@@ -1029,7 +1029,7 @@ def ban_user(fullname, v):
 		stop(400, "You need to submit a reason for banning!")
 
 	if len(reason) > BAN_REASON_LENGTH_LIMIT:
-		stop(400, f"Ban reason is too long (max {BAN_REASON_LENGTH_LIMIT} characters)")
+		stop(400, f"Ban reason is too long (max {commas(BAN_REASON_LENGTH_LIMIT)} characters)")
 
 	reason = filter_emojis_only(reason)
 
