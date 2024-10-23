@@ -43,6 +43,8 @@ def shop(v):
 	for val in AWARDS.values():
 		val["baseprice"] = int(val["price"])
 		val["price"] = int(val["price"] * v.award_discount)
+		if v.house.endswith(' Founder') and val["kind"] in {"earlylife", "rainbow", "sharpen", "owoify", "bite"}:
+			val["price"] = int(val["price"] * 0.75)
 
 	sales = g.db.query(func.sum(User.currency_spent_on_awards)).scalar()
 	return render_template("shop.html", awards=list(AWARDS.values()), v=v, sales=sales)
@@ -51,6 +53,8 @@ def shop(v):
 def buy_awards(v, kind, AWARDS, quantity):
 	og_price = AWARDS[kind]["price"]
 	price = int(og_price * v.award_discount)
+	if v.house.endswith(' Founder') and kind in {"earlylife", "rainbow", "sharpen", "owoify", "bite"}:
+		price = int(price * 0.75)
 
 	if kind == "grass":
 		currency = 'coins'

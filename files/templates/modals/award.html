@@ -26,6 +26,10 @@
 						{% for award in awards %}
 							{% set price = (award.price*v.award_discount)|int %}
 
+							{% if v.house.endswith(' Founder') and award.kind in ("earlylife", "rainbow", "sharpen", "owoify", "bite") %}
+								{% set price = (price*0.75)|int %}
+							{% endif %}
+
 							{% if award.kind == 'grass' %}
 								{% set currency = 'coins' %}
 							{% elif award.kind == 'benefactor' %}
