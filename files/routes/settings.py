@@ -268,7 +268,7 @@ def settings_personal_post(v):
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("friends"):
 		friends = request.values.get("friends", "").strip()
 		if len(friends) > BIO_FRIENDS_ENEMIES_LENGTH_LIMIT:
-			stop(400, f'Ypur friend list is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)')
+			stop(400, f'Your friend list is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)')
 
 		friends_html = sanitize(friends, blackjack="friends")
 		if len(friends_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
