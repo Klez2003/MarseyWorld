@@ -32,7 +32,7 @@ from files.cli import app, db_session, g
 
 CRON_CACHE_TIMEOUT = 172800
 
-def cron_fn(every_5m, every_1d, every_1mo):
+def cron_fn(every_5m, every_1d, every_1mo, every_2mo):
 	with app.app_context():
 		g.db = db_session()
 		g.v = None
@@ -111,6 +111,9 @@ def cron_fn(every_5m, every_1d, every_1mo):
 
 			if every_1mo:
 				_give_marseybux_salary()
+				g.db.commit()
+
+			if every_2mo:
 				_cleanup_videos()
 				g.db.commit()
 
@@ -129,6 +132,7 @@ def cron_fn(every_5m, every_1d, every_1mo):
 @click.option('--every-5m', is_flag=True, help='Call every 5 minutes.')
 @click.option('--every-1d', is_flag=True, help='Call every 1 day.')
 @click.option('--every-1mo', is_flag=True, help='Call every 1 month.')
+@click.option('--every-2mo', is_flag=True, help='Call every 1 month.')
 def cron(**kwargs):
 	cron_fn(**kwargs)
 
