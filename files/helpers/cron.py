@@ -453,8 +453,8 @@ def _cleanup_videos():
 
 	for media_usage in shadowbanned_media_usages:
 		print(f'{media_usage.filename} - {media_usage.post_id} - {media_usage.comment_id}', flush=True)
-		# media_usage.removed_utc = media_usage.created_utc
-		# g.db.add(media_usage)
+		media_usage.removed_utc = media_usage.created_utc
+		g.db.add(media_usage)
 
 
 
