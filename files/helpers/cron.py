@@ -443,6 +443,7 @@ def _cleanup_videos():
 	for filename, size in to_delete:
 		total_saved += size
 		print(filename, humanize.naturalsize(size, binary=True), flush=True)
+		# finish backing up first before uncommenting
 		# os.remove(filename)
 		# gevent.spawn(rclone_delete, f'no:{filename}')
 
