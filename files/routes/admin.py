@@ -898,7 +898,7 @@ def shadowban(user_id, v):
 	reason = reason_regex_post.sub(r'<a href="\1">\1</a>', reason)
 	reason = reason_regex_comment.sub(r'<a href="\1#context">\1</a>', reason)
 
-	user.shadowban(reason=reason)
+	user.shadowban(admin=v, reason=reason)
 	check_for_alts(user)
 
 
