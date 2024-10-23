@@ -545,6 +545,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyflagnauru', 'Marsey Flags', 2, 'country island oceania', false, 1729386619),
 ('marseyflagnewjersey', 'Marsey Flags', 2, 'america nj northeast state states united us usa', false, 1729543852),
 ('marseyflagnewmexico', 'Marsey Flags', 2, 'america southwest state states united us usa', false, 1729416098),
+('marseyflagnewyork', 'Marsey Flags', 2, 'america northeast ny nyc state states united us usa', false, 1729619988),
 ('marseyflagnorthcarolina', 'Marsey Flags', 2, 'america charlotte dixie greensboro nc raleigh southern state states united us usa', false, 1729543673),
 ('marseyflagrhodeisland', 'Marsey Flags', 2, 'america england new newengland state states united us usa', false, 1729449893),
 ('marseyflagsealand', 'Marsey Flags', 2, 'bates britian country manmade micronation offshore platform small', false, 1729386722),
