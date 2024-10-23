@@ -475,11 +475,11 @@ def submit_post(v, hole=None):
 
 	title = request.values.get("title", "").replace('\x00', '').replace('\n', ' ').strip()
 	if len(title) > POST_TITLE_LENGTH_LIMIT:
-		stop(400, f'Post title is too long (max {commas(POST_TITLE_LENGTH_LIMIT)} characters)')
+		stop(400, f'Post title is too long (max {POST_TITLE_LENGTH_LIMIT} characters)')
 
 	body = request.values.get("body", "").replace('\x00', '').strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
-		stop(400, f'Post body is too long (max {commas(POST_BODY_LENGTH_LIMIT(g.v))} characters)')
+		stop(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
 
 	body = body.replace('@jannies', '!jannies')
 
@@ -590,7 +590,7 @@ def submit_post(v, hole=None):
 
 	body = process_files(request.files, v, body).strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
-		stop(400, f'Post body is too long (max {commas(POST_BODY_LENGTH_LIMIT(g.v))} characters)')
+		stop(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
 
 	flag_notify = (request.values.get("notify", "on") == "on")
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
@@ -1100,11 +1100,11 @@ def edit_post(pid, v):
 
 	title = request.values.get("title", "").strip()
 	if len(title) > POST_TITLE_LENGTH_LIMIT:
-		stop(400, f'Post title is too long (max {commas(POST_TITLE_LENGTH_LIMIT)} characters)')
+		stop(400, f'Post title is too long (max {POST_TITLE_LENGTH_LIMIT} characters)')
 
 	body = request.values.get("body", "").strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
-		stop(400, f'Post body is too long (max {commas(POST_BODY_LENGTH_LIMIT(g.v))} characters)')
+		stop(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
 
 	body = body.replace('@jannies', '!jannies')
 
@@ -1156,7 +1156,7 @@ def edit_post(pid, v):
 
 	body = process_files(request.files, v, body).strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
-		stop(400, f'Post body is too long (max {commas(POST_BODY_LENGTH_LIMIT(g.v))} characters)')
+		stop(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
 
 	if body != p.body or p.chudded:
 		body_html = sanitize(body, golden=False, limit_pings=100, obj=p, author=p.author)

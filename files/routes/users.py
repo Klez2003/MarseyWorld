@@ -186,7 +186,7 @@ def transfer_currency(v, username, currency_name, apply_tax):
 
 	if reason:
 		if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT:
-			stop(400, f"Reason is too long (max {commas(TRANSFER_MESSAGE_LENGTH_LIMIT)} characters)")
+			stop(400, f"Reason is too long (max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters)")
 		notif_text += '\n\n> ' + '\n\n> '.join(reason.splitlines())
 		log_message += '\n\n> ' + '\n\n> '.join(reason.splitlines())
 
@@ -655,12 +655,12 @@ def message(v, username=None, id=None):
 
 	body = request.values.get("message", "").strip()
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-		stop(400, f'Message is too long (max {commas(COMMENT_BODY_LENGTH_LIMIT)} characters)')
+		stop(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	if not g.is_tor and get_setting("dm_media"):
 		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
 		if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-			stop(400, f'Message is too long (max {commas(COMMENT_BODY_LENGTH_LIMIT)} characters)')
+			stop(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	if not body: stop(400, "Message is empty!")
 

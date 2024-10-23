@@ -268,7 +268,7 @@ def settings_personal_post(v):
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("friends"):
 		friends = request.values.get("friends", "").strip()
 		if len(friends) > BIO_FRIENDS_ENEMIES_LENGTH_LIMIT:
-			stop(400, f'Ypur friend list is too long (max {commas(BIO_FRIENDS_ENEMIES_LENGTH_LIMIT)} characters)')
+			stop(400, f'Ypur friend list is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)')
 
 		friends_html = sanitize(friends, blackjack="friends")
 		if len(friends_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
@@ -301,7 +301,7 @@ def settings_personal_post(v):
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("enemies"):
 		enemies = request.values.get("enemies", "").strip()
 		if len(enemies) > BIO_FRIENDS_ENEMIES_LENGTH_LIMIT:
-			stop(400, f'You enemy list is too long (max {commas(BIO_FRIENDS_ENEMIES_LENGTH_LIMIT)} characters)')
+			stop(400, f'You enemy list is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)')
 
 		enemies_html = sanitize(enemies, blackjack="enemies")
 		if len(enemies_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
@@ -335,7 +335,7 @@ def settings_personal_post(v):
 		bio = request.values.get("bio", "").strip()
 		bio = process_files(request.files, v, bio)
 		if len(bio) > BIO_FRIENDS_ENEMIES_LENGTH_LIMIT:
-			stop(400, f'Your bio is too long (max {commas(BIO_FRIENDS_ENEMIES_LENGTH_LIMIT)} characters)')
+			stop(400, f'Your bio is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)')
 
 		bio_html = sanitize(bio, blackjack="bio")
 		if len(bio_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
@@ -405,7 +405,7 @@ def filters(v):
 	filters = request.values.get("filters", "").strip()
 
 	if len(filters) > 1000:
-		stop(400, "Filters are too long (max 1,000 characters)")
+		stop(400, "Filters are too long (max 1000 characters)")
 
 	if filters in {"", "None"}:
 		filters = None
@@ -433,7 +433,7 @@ def keyword_notifs(v):
 		stop(400, "You didn't change anything!")
 
 	if len(keyword_notifs) > 1000:
-		stop(400, "Keywords are too long (max 1,000 characters)")
+		stop(400, "Keywords are too long (max 1000 characters)")
 
 	if not keyword_notifs:
 		keywords_notifs = None
@@ -461,7 +461,7 @@ def snappy_quotes(v):
 		stop(400, "You didn't change anything!")
 
 	if len(snappy_quotes) > USER_SNAPPY_QUOTES_LENGTH:
-		stop(400, f"Quotes are too long (max {commas(USER_SNAPPY_QUOTES_LENGTH)} characters)")
+		stop(400, f"Quotes are too long (max {USER_SNAPPY_QUOTES_LENGTH} characters)")
 
 	if not snappy_quotes:
 		snappy_quotes = None
@@ -720,7 +720,7 @@ def settings_css(v):
 	css = request.values.get("css", v.css).strip()
 
 	if len(css) > CSS_LENGTH_LIMIT:
-		stop(400, f"CSS is too long (max {commas(CSS_LENGTH_LIMIT)} characters)")
+		stop(400, f"CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
 
 	v.css = css
 	g.db.add(v)
@@ -736,7 +736,7 @@ def settings_profilecss(v):
 	profilecss = request.values.get("profilecss", v.profilecss).strip()
 
 	if len(profilecss) > CSS_LENGTH_LIMIT:
-		stop(400, f"Profile CSS is too long (max {commas(CSS_LENGTH_LIMIT)} characters)")
+		stop(400, f"Profile CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
 
 	valid, error = validate_css(profilecss)
 	if not valid:
@@ -1026,7 +1026,7 @@ def process_settings_plaintext(kind, current, length, default_value):
 		value = value.lower()
 
 	if len(value) > length:
-		stop(400, f"The value you entered exceeds the character limit ({commas(length)} characters)")
+		stop(400, f"The value you entered exceeds the character limit ({length} characters)")
 
 	if value == current:
 		stop(400, "You didn't change anything!")

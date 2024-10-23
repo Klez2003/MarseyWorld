@@ -169,7 +169,7 @@ def comment(v):
 
 	body = request.values.get("body", "").strip()
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-		stop(400, f'Comment body is too long (max {commas(COMMENT_BODY_LENGTH_LIMIT)} characters)')
+		stop(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	body = body.replace('@jannies', '!jannies')
 
@@ -196,7 +196,7 @@ def comment(v):
 
 	body = process_files(request.files, v, body, is_badge_thread=is_badge_thread, comment_body=comment_body)
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-		stop(400, f'Comment body is too long (max {commas(COMMENT_BODY_LENGTH_LIMIT)} characters)')
+		stop(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and posting_to_post and post_target.id == SNAPPY_THREAD and level == 1:
 		body = remove_cuniform(body)
@@ -709,7 +709,7 @@ def edit_comment(cid, v):
 
 	body = request.values.get("body", "").strip()
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-		stop(400, f'Comment body is too long (max {commas(COMMENT_BODY_LENGTH_LIMIT)} characters)')
+		stop(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	if len(body) < 1 and not (request.files.get("file") and not g.is_tor):
 		stop(400, "You have to actually type something!")
@@ -727,7 +727,7 @@ def edit_comment(cid, v):
 
 		body = process_files(request.files, v, body)
 		if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-			stop(400, f'Comment body is too long (max {commas(COMMENT_BODY_LENGTH_LIMIT)} characters)')
+			stop(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 		body_html = sanitize(body, golden=False, limit_pings=5, showmore=(not v.hieroglyphs), commenters_ping_post_id=c.parent_post, obj=c, author=c.author)
 

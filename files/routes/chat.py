@@ -388,7 +388,7 @@ def delete(id, v):
 def messagereply(v):
 	body = request.values.get("body", "").strip()
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-		stop(400, f'Message is too long (max {commas(COMMENT_BODY_LENGTH_LIMIT)} characters)')
+		stop(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	id = request.values.get("parent_id")
 	parent = get_comment(id, v=v)
@@ -422,7 +422,7 @@ def messagereply(v):
 	if not g.is_tor and get_setting("dm_media"):
 		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
 		if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-			stop(400, f'Message is too long (max {commas(COMMENT_BODY_LENGTH_LIMIT)} characters)')
+			stop(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	if not body: stop(400, "Message is empty!")
 

@@ -16,7 +16,7 @@
 						<form id="chat-custom-css" action="/chat/{{chat.id}}/custom_css" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 							<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 							<textarea autocomplete="off" class="form-control rounded" id="css-textarea" placeholder="Custom CSS" rows="3" name="css" form="chat-custom-css" maxlength="{{CSS_LENGTH_LIMIT}}">{% if chat.css %}{{chat.css}}{% endif %}</textarea>
-							<small>Limit of {{CSS_LENGTH_LIMIT | commas}} characters</small>
+							<small>Limit of {{CSS_LENGTH_LIMIT}} characters</small>
 							<div class="d-flex mt-2">
 								<input autocomplete="off" id="submit-btn" class="btn btn-primary ml-auto" type="submit" value="Save">
 							</div>
