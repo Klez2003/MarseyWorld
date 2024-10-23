@@ -26,6 +26,7 @@ from files.helpers.roulette import spin_roulette_wheel
 from files.helpers.sanitize import filter_emojis_only, sanitize
 from files.helpers.useractions import *
 from files.helpers.offsite_mentions import *
+from files.helpers.media import *
 
 from files.cli import app, db_session, g
 
@@ -442,6 +443,8 @@ def _cleanup_videos():
 	for filename, size in to_delete:
 		total_saved += size
 		print(filename, humanize.naturalsize(size, binary=True), flush=True)
+		# os.remove(filename)
+		# gevent.spawn(rclone_delete, f'no:{filename}')
 
 	total_saved = humanize.naturalsize(total_saved, binary=True)
 	print(f"Total saved: {total_saved}")
