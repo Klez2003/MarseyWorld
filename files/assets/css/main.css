@@ -6776,7 +6776,7 @@ div.markdown {
 	margin: 0 !important;
 	max-height: 65vh !important;
 	max-width: 85vw !important;
-    min-width: 200px !important;
+    min-width: 285px !important;
 }
 
 @media (max-width: 768px) {
