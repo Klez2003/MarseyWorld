@@ -132,7 +132,7 @@ def cron_fn(every_5m, every_1d, every_1mo, every_2mo):
 @click.option('--every-5m', is_flag=True, help='Call every 5 minutes.')
 @click.option('--every-1d', is_flag=True, help='Call every 1 day.')
 @click.option('--every-1mo', is_flag=True, help='Call every 1 month.')
-@click.option('--every-2mo', is_flag=True, help='Call every 1 month.')
+@click.option('--every-2mo', is_flag=True, help='Call every 2 months.')
 def cron(**kwargs):
 	cron_fn(**kwargs)
 
