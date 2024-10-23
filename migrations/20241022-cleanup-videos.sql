@@ -1,6 +1,6 @@
 create table media_usages (
 	id integer primary key,
-	filename character varying(55) NOT NULL,
+	filename character varying(200) NOT NULL,
 	post_id integer,
 	comment_id integer,
 	created_utc integer not null,
