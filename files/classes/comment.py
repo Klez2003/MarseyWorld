@@ -237,7 +237,7 @@ class Comment(Base):
 	casino_game = relationship("CasinoGame")
 	wall_user = relationship("User", primaryjoin="User.id==Comment.wall_user_id")
 	edits = relationship("CommentEdit", order_by="CommentEdit.id.desc()")
-	media_usages = relationship("MediaUsage")
+	media_usages = relationship("MediaUsage", back_populates="comment")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:

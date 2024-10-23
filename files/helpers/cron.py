@@ -433,9 +433,32 @@ def _cleanup_videos():
 
 	db = db_session()
 
+	one_month_ago = time.time() - 2592000
+
+	shadowbanned_media_usages_posts = db.query(MediaUsage).join(MediaUsage.post).join(Post.author).filter(
+		MediaUsage.post_id != None,
+		User.shadowbanned != None,
+		MediaUsage.created_utc < 9999999999,
+	).all()
+
+	shadowbanned_media_usages_comments = db.query(MediaUsage).join(MediaUsage.comment).join(Comment.author).filter(
+		MediaUsage.comment_id != None,
+		User.shadowbanned != None,
+		MediaUsage.created_utc < 9999999999,
+	).all()
+
+	shadowbanned_media_usages = shadowbanned_media_usages_posts + shadowbanned_media_usages_comments
+
+	for media_usage in shadowbanned_media_usages:
+		print(f'{media_usage.filename} - {media_usage.post_id} - {media_usage.comment_id}', flush=True)
+		# media_usage.removed_utc = media_usage.created_utc
+		# g.db.add(media_usage)
+
+
+
+
 	clean = [x[0] for x in db.query(MediaUsage.filename).filter_by(deleted_utc=None, removed_utc=None)]
 
-	one_month_ago = time.time() - 2592000
 
 	to_delete = db.query(MediaUsage.filename, Media.size).join(MediaUsage.media).filter(
 		MediaUsage.filename.notin_(clean),

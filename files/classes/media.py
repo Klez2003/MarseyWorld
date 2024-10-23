@@ -36,6 +36,8 @@ class MediaUsage(Base):
 	removed_utc = Column(Integer)
 
 	media = relationship("Media")
+	post = relationship("Post", back_populates="media_usages")
+	comment = relationship("Comment", back_populates="media_usages")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:

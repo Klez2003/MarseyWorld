@@ -87,7 +87,7 @@ class Post(Base):
 	hole_obj = relationship("Hole", primaryjoin="foreign(Post.hole)==remote(Hole.name)")
 	options = relationship("PostOption", order_by="PostOption.id")
 	edits = relationship("PostEdit", order_by="PostEdit.id.desc()")
-	media_usages = relationship("MediaUsage")
+	media_usages = relationship("MediaUsage", back_populates="post")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:
