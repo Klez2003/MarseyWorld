@@ -520,6 +520,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyeternatus', 'Marsey', 2, 'pokemon pkmn 890', false, 1698890146),
 ('marseyexciteddancevappy', 'Marsey', 2, 'pokemon poweruser vaporeon wpd', false, 1721662414),
 ('marseyeyeball', 'Marsey', 2, 'gore bloody', false, 1698332084),
+('marseyeyebrow', 'Marsey', 2, 'doubt interesting newspaper sus suspect zesty', false, 1729550987),
 ('marseyfatjelly', 'Marsey', 2, 'fatjellyslimeyellow', false, 1723823037),
 ('marseyfatty', 'Marsey', 2, 'fat', false, 1702335925),
 ('marseyfelix', 'Marsey', 2, 'argyle catboy femboy', false, 1706584681),
