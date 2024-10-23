@@ -635,6 +635,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyknife1', 'Marsey', 2, 'murderer papercraft', false, 1716288844),
 ('marseykokonahead', 'Marsey', 2, 'yanderesimulator beheading blood', false, 1712618153),
 ('marseykyogre', 'Marsey', 2, 'pkmn pokemon 382', false, 1718318502),
+('marseylain2', 'Marsey', 2, 'anime hacker hikikomori japan neet otaku weeb', false, 1729499736),
 ('marseylaugh2', 'Marsey', 2, 'laughing crack', false, 1708020167),
 ('marseylaysian', 'Marsey', 2, 'hawaiistyle nasilemak rafflesia', false, 1725973107),
 ('marseylegs', 'Marsey', 2, 'old wrinkled saggy', false, 1714169255),
