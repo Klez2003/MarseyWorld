@@ -468,7 +468,7 @@ def _cleanup_videos():
 			MediaUsage.deleted_utc < one_month_ago,
 			MediaUsage.removed_utc < one_month_ago,
 		),
-		Media.user_id != 380983,
+		# Media.user_id != 380983,
 	).order_by(Media.size.desc())
 
 	total_saved = 0
