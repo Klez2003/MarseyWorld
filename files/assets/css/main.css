@@ -7822,3 +7822,7 @@ video {
 p:empty + p { /* poll margin */
     margin-top: 1rem;
 }
+
+.post-preview p.resizable {
+    width: 285px;
+}
