@@ -438,14 +438,16 @@ def _cleanup_videos():
 	shadowbanned_media_usages_posts = db.query(MediaUsage).join(MediaUsage.post).join(Post.author).filter(
 		MediaUsage.post_id != None,
 		User.shadowbanned != None,
-		MediaUsage.created_utc < 9999999999,
-	).all()
+		MediaUsage.created_utc < one_month_ago,
+		MediaUsage.removed_utc == None,
+	).order_by(Post.id).all()
 
 	shadowbanned_media_usages_comments = db.query(MediaUsage).join(MediaUsage.comment).join(Comment.author).filter(
 		MediaUsage.comment_id != None,
 		User.shadowbanned != None,
-		MediaUsage.created_utc < 9999999999,
-	).all()
+		MediaUsage.created_utc < one_month_ago,
+		MediaUsage.removed_utc == None,
+	).order_by(Comment.id).all()
 
 	shadowbanned_media_usages = shadowbanned_media_usages_posts + shadowbanned_media_usages_comments
 
