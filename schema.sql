@@ -792,7 +792,7 @@ CREATE TABLE public.media (
 
 CREATE TABLE public.media_usages (
     id integer NOT NULL,
-    filename character varying(55) NOT NULL,
+    filename character varying(200) NOT NULL,
     post_id integer,
     comment_id integer,
     created_utc integer NOT NULL,
