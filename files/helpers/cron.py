@@ -439,6 +439,30 @@ def _cleanup_videos():
 
 	cutoff = time.time() - (2592000 * 6)
 
+
+	unpublished_drafts = g.db.query(Post).filter(
+		Post.draft == True,
+		Post.created_utc < cutoff,
+		Post.deleted_utc == 0,
+	)
+	for post in unpublished_drafts:
+		print(f'draft: {media_usage.filename} - {media_usage.post_id} - {media_usage.comment_id}', flush=True)
+		post.deleted_utc = time.time()
+		g.db.add(post)
+		for media_usage in post.media_usages:
+			media_usage.deleted_utc = post.deleted_utc
+			g.db.add(media_usage)
+
+		for comment in post.comments:
+			comment.deleted_utc = time.time()
+			g.db.add(comment)
+			for media_usage in comment.media_usages:
+				media_usage.deleted_utc = comment.deleted_utc
+				g.db.add(media_usage)
+
+
+
+
 	shadowbanned_media_usages_posts = db.query(MediaUsage).join(MediaUsage.post).join(Post.author).filter(
 		MediaUsage.post_id != None,
 		User.shadowbanned != None,
@@ -456,7 +480,7 @@ def _cleanup_videos():
 	shadowbanned_media_usages = shadowbanned_media_usages_posts + shadowbanned_media_usages_comments
 
 	for media_usage in shadowbanned_media_usages:
-		print(f'{media_usage.filename} - {media_usage.post_id} - {media_usage.comment_id}', flush=True)
+		print(f'shadowbanned: {media_usage.filename} - {media_usage.post_id} - {media_usage.comment_id}', flush=True)
 		media_usage.removed_utc = media_usage.created_utc
 		g.db.add(media_usage)
 
@@ -483,7 +507,7 @@ def _cleanup_videos():
 	total_saved = 0
 	for media in to_delete:
 		total_saved += media.size
-		print(media.filename, humanize.naturalsize(media.size, binary=True), flush=True)
+		print('deleted: ', media.filename, humanize.naturalsize(media.size, binary=True), flush=True)
 		# finish backing up first before uncommenting
 		# media.purged_utc = time.time()
 		# g.db.add(media)
