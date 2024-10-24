@@ -117,6 +117,10 @@ def cron_fn(every_5m, every_1d, every_1mo, every_2mo, manual):
 				_cleanup_videos()
 				g.db.commit()
 
+			if manual:
+				_get_real_sizes()
+				g.db.commit()
+
 		except:
 			g.db.rollback()
 			raise
@@ -491,3 +495,9 @@ def _cleanup_videos():
 
 	total_saved = humanize.naturalsize(total_saved, binary=True)
 	print(f"Total saved: {total_saved}")
+
+def _get_real_sizes():
+	size_1 = g.db.query(Media).filter_by(size=1)
+	for media in size_1:
+		media.size = os.stat(media.filename).st_size
+		g.db.add(media)
