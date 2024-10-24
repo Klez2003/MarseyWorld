@@ -1,0 +1,1 @@
+alter table media add column purged_utc int;

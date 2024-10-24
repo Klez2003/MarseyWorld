@@ -1912,8 +1912,12 @@ def delete_media_post(v):
 				remove_image_using_link(extra_url)
 				purge_files_in_cloudflare_cache(extra_url)
 
+	media = g.db.query(Media).filter_by(filename=path).one()
+	media.purged_utc = time.time()
+	g.db.add(media)
+
 	if url.startswith(SITE_FULL_VIDEOS):
-		posterurl = g.db.query(Media.posterurl).filter_by(filename=path).one_or_none()
+		posterurl = media.poster_url
 		if posterurl:
 			remove_image_using_link(posterurl[0])
 			purge_files_in_cloudflare_cache(posterurl[0])

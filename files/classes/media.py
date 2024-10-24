@@ -14,6 +14,7 @@ class Media(Base):
 	size = Column(Integer)
 	posterurl = Column(String)
 	referrer = Column(String)
+	purged_utc = Column(Integer)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:
