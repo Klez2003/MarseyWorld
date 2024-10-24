@@ -499,5 +499,8 @@ def _cleanup_videos():
 def _get_real_sizes():
 	size_1 = g.db.query(Media).filter_by(size=1)
 	for media in size_1:
-		media.size = os.stat(media.filename).st_size
-		g.db.add(media)
+		try:
+			media.size = os.stat(media.filename).st_size
+			g.db.add(media)
+		except FileNotFoundError:
+			g.db.delete(media)
