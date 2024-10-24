@@ -118,7 +118,7 @@ def cron_fn(every_5m, every_1d, every_1mo, every_2mo, manual):
 				g.db.commit()
 
 			if manual:
-				undo_video_migration()
+				_get_real_sizes()
 				g.db.commit()
 
 		except:
@@ -496,42 +496,13 @@ def _cleanup_videos():
 	total_saved = humanize.naturalsize(total_saved, binary=True)
 	print(f"Total saved: {total_saved}")
 
-def undo_video_migration():
-	body_archiveorg_link_regex = re.compile(r'\* \[archive.org\]\(https://web.archive.org/(.*?)\)', flags=re.A)
-	body_html_archiveorg_link_regex = re.compile(r'<li>\n?<p><a href="https:\/\/web.archive.org\/(.*?)" [\w ="]+>archive.org<\/a><\/p>\n?<\/li>', flags=re.A)
-	migrated = g.db.query(Media, Post).join(Media.usages).join(MediaUsage.post).filter(
-		Media.kind == 'video',
-		not_(Media.filename.like('/videos/16%')),
-		not_(Media.filename.like('/videos/17%')),
-		Media.purged_utc == None,
-		MediaUsage.post_id != None,
-		Post.url.like('https://videos.watchpeopledie.tv/%.mp4'),
-	).order_by(MediaUsage.post_id)
-
-	for media, post in migrated:
-		print('filename: ', media.filename, flush=True)
-		print('post id: ', post.id, flush=True)
-
-		snappy_comment = g.db.query(Comment).filter_by(parent_post=post.id, author_id=SNAPPY_ID).one_or_none()
-		if not snappy_comment:
-			print('\n')
-			continue
-
-		print('snappy comment id: ', snappy_comment.id, flush=True)
-		try: archiveorg_link = body_archiveorg_link_regex.search(snappy_comment.body).group(1)
-		except AttributeError: archiveorg_link = body_html_archiveorg_link_regex.search(snappy_comment.body_html).group(1)
-
-		print('original link: ', archiveorg_link, flush=True)
-
-		if not is_safe_url(archiveorg_link) or archiveorg_link.startswith('https://i.imgur.com/'):
-			print('\n')
-			continue
-
-		post.url = archiveorg_link
-		g.db.add(post)
-		for usage in post.media_usages:
-			if not usage.removed_utc:
-				usage.removed_utc = time.time()
-				g.db.add(usage)
-
-		print('replaced!\n', flush=True)
+def _get_real_sizes():
+	size_1 = g.db.query(Media).filter_by(size=1)
+	for media in size_1:
+		try:
+			media.size = os.stat(media.filename).st_size
+			g.db.add(media)
+		except FileNotFoundError:
+			for media_usage in media.usages:
+				g.db.delete(media_usage)
+			g.db.delete(media)
