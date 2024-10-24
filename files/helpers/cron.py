@@ -462,13 +462,17 @@ def _cleanup_videos():
 	clean = [x[0] for x in db.query(MediaUsage.filename).filter_by(deleted_utc=None, removed_utc=None)]
 
 
-	to_delete = db.query(Media).join(Media.usages).filter(
+	to_delete = db.query(Media).outerjoin(Media.usages).filter(
 		Media.filename.notin_(clean),
 		Media.purged_utc == None,
 		Media.user_id != 380983,
 		or_(
 			MediaUsage.deleted_utc < one_month_ago,
 			MediaUsage.removed_utc < one_month_ago,
+			and_(
+				Media.referrer == f'{SITE_FULL}/chat/1',
+				Media.created_utc < one_month_ago,
+			),
 		),
 	).order_by(Media.size.desc())
 
