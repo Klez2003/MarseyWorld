@@ -480,6 +480,8 @@ def _cleanup_videos():
 		# media.purged_utc = time.time()
 		# g.db.add(media)
 		# os.remove(media.filename)
+		# if media.posterurl:
+		# 	os.remove(media.posterurl)
 		# gevent.spawn(rclone_delete, f'no:{media.filename}')
 
 	total_saved = humanize.naturalsize(total_saved, binary=True)
