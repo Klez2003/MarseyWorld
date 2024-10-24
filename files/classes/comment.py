@@ -95,8 +95,8 @@ def normalize_urls_runtime(body, v):
 	if v and v.controversial:
 		body = controversial_regex.sub(controversial_link_matcher, body)
 
-	if request.headers.get("Cf-Ipcountry") in AMERICAS_CODES:
-		body = body.replace('https://videos.watchpeopledie.tv/', 'https://videos2.watchpeopledie.tv/')
+	# if request.headers.get("Cf-Ipcountry") in AMERICAS_CODES:
+	# 	body = body.replace('https://videos.watchpeopledie.tv/', 'https://videos2.watchpeopledie.tv/')
 
 	return body
 
