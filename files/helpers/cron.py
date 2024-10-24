@@ -440,6 +440,8 @@ def _cleanup_videos():
 	cutoff = time.time() - (2592000 * 6)
 
 
+
+
 	unpublished_drafts = g.db.query(Post).filter(
 		Post.draft == True,
 		Post.created_utc < cutoff,
