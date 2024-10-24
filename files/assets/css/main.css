@@ -7819,6 +7819,8 @@ p:empty + p { /* poll margin */
     width: 285px;
 }
 
-.modal .post-actions .list-group-item:focus, .modal .post-actions .list-group-item:hover, .modal .post-actions .list-group-item:active {
-	background-color: var(--gray-300);
+.nav-item:focus, .nav-item:hover, .nav-item:active,
+.modal .post-actions .btn-link:focus, .modal .post-actions .btn-link:hover, .modal .post-actions .btn-link:active {
+	opacity: 1 !important;
+	background-color: var(--gray-300) !important;
 }
