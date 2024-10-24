@@ -1314,6 +1314,7 @@ approved_embed_hosts = [
 	'i.redd.it',
 	'preview.redd.it',
 	'external-preview.redd.it',
+	'v.redd.it',
 	'pbs.twimg.com/media',
 	'i.pinimg.com',
 	'kiwifarms.net/attachments',
