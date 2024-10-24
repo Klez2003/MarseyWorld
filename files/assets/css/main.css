@@ -4208,9 +4208,6 @@ small, .small {
 	border-radius: 0.35rem;
 	background-color: var(--gray-400);
 }
-.modal .post-actions .list-group-item:focus, .modal .post-actions .list-group-item:hover {
-	background-color: var(--gray-300);
-}
 .modal .post-actions .fa, .modal .post-actions .fas, .modal .post-actions .far {
 	width: 1.25rem;
 	font-size: 1rem;
@@ -7820,4 +7817,8 @@ p:empty + p { /* poll margin */
 
 .post-preview p.resizable {
     width: 285px;
+}
+
+.modal .post-actions .list-group-item:focus, .modal .post-actions .list-group-item:hover {
+	background-color: var(--gray-300);
 }
