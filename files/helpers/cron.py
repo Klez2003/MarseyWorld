@@ -388,26 +388,26 @@ def _give_marseybux_salary():
 		send_repeatable_notification(u.id, f"You have received your monthly janny salary of {commas(marseybux_salary)} Marseybux!")
 
 def _expire_restrictions():
-	one_month_ago = time.time() - 2592000
+	cutoff = time.time() - 2592000
 
-	blocks = g.db.query(UserBlock).filter(UserBlock.created_utc < one_month_ago)
+	blocks = g.db.query(UserBlock).filter(UserBlock.created_utc < cutoff)
 	for block in blocks:
 		send_repeatable_notification(block.user_id, f"Your block of @{block.target.username} has passed 30 days and expired!")
 		send_repeatable_notification(block.target_id, f"@{block.user.username}'s block of you has passed 30 days and expired!")
 		g.db.delete(block)
 
-	mutes = g.db.query(UserMute).filter(UserMute.created_utc < one_month_ago)
+	mutes = g.db.query(UserMute).filter(UserMute.created_utc < cutoff)
 	for mute in mutes:
 		send_repeatable_notification(mute.user_id, f"Your mute of @{mute.target.username} has passed 30 days and expired!")
 		send_repeatable_notification(mute.target_id, f"@{mute.user.username}'s mute of you has passed 30 days and expired!")
 		g.db.delete(mute)
 
-	exiles = g.db.query(Exile).filter(Exile.created_utc < one_month_ago)
+	exiles = g.db.query(Exile).filter(Exile.created_utc < cutoff)
 	for exile in exiles:
 		send_repeatable_notification(exile.user_id, f"Your exile from /h/{exile.hole} has passed 30 days and expired!")
 		g.db.delete(exile)
 
-	blacklists = g.db.query(GroupBlacklist).filter(GroupBlacklist.created_utc < one_month_ago)
+	blacklists = g.db.query(GroupBlacklist).filter(GroupBlacklist.created_utc < cutoff)
 	for blacklist in blacklists:
 		send_repeatable_notification(blacklist.user_id, f"Your blacklisting from !{blacklist.group_name} has passed 30 days and expired!")
 		g.db.delete(blacklist)
@@ -438,19 +438,19 @@ def _cleanup_videos():
 
 	db = db_session()
 
-	one_month_ago = time.time() - 2592000
+	cutoff = time.time() - (2592000 * 6)
 
 	shadowbanned_media_usages_posts = db.query(MediaUsage).join(MediaUsage.post).join(Post.author).filter(
 		MediaUsage.post_id != None,
 		User.shadowbanned != None,
-		MediaUsage.created_utc < one_month_ago,
+		MediaUsage.created_utc < cutoff,
 		MediaUsage.removed_utc == None,
 	).order_by(Post.id).all()
 
 	shadowbanned_media_usages_comments = db.query(MediaUsage).join(MediaUsage.comment).join(Comment.author).filter(
 		MediaUsage.comment_id != None,
 		User.shadowbanned != None,
-		MediaUsage.created_utc < one_month_ago,
+		MediaUsage.created_utc < cutoff,
 		MediaUsage.removed_utc == None,
 	).order_by(Comment.id).all()
 
@@ -472,11 +472,11 @@ def _cleanup_videos():
 		Media.purged_utc == None,
 		Media.user_id != 380983,
 		or_(
-			MediaUsage.deleted_utc < one_month_ago,
-			MediaUsage.removed_utc < one_month_ago,
+			MediaUsage.deleted_utc < cutoff,
+			MediaUsage.removed_utc < cutoff,
 			and_(
 				Media.referrer == f'{SITE_FULL}/chat/1',
-				Media.created_utc < one_month_ago,
+				Media.created_utc < cutoff,
 			),
 		),
 	).order_by(Media.size.desc())
