@@ -475,12 +475,12 @@ def _cleanup_videos():
 	total_saved = 0
 	for filename, media in to_delete:
 		total_saved += media.size
-		print(filename, humanize.naturalsize(media.size, binary=True), flush=True)
+		print(media.filename, humanize.naturalsize(media.size, binary=True), flush=True)
 		# finish backing up first before uncommenting
 		# media.purged_utc = time.time()
 		# g.db.add(media)
-		# os.remove(filename)
-		# gevent.spawn(rclone_delete, f'no:{filename}')
+		# os.remove(media.filename)
+		# gevent.spawn(rclone_delete, f'no:{media.filename}')
 
 	total_saved = humanize.naturalsize(total_saved, binary=True)
 	print(f"Total saved: {total_saved}")
