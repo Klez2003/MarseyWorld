@@ -7819,6 +7819,12 @@ p:empty + p { /* poll margin */
     width: 285px;
 }
 
+.post-actions > .list-inline  > .list-inline-item:focus,
+.post-actions > .list-inline  > .list-inline-item:hover,
+.post-actions > .list-inline  > .list-inline-item:active {
+	opacity: 0.6;
+}
+
 .nav-item:focus, .nav-item:hover, .nav-item:active,
 .modal .post-actions .btn-link:focus, .modal .post-actions .btn-link:hover, .modal .post-actions .btn-link:active {
 	opacity: 1 !important;
