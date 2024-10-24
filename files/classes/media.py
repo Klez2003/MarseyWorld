@@ -16,6 +16,8 @@ class Media(Base):
 	referrer = Column(String)
 	purged_utc = Column(Integer)
 
+	usages = relationship("MediaUsage")
+
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:
 			kwargs["created_utc"] = int(time.time())
@@ -36,7 +38,6 @@ class MediaUsage(Base):
 	deleted_utc = Column(Integer)
 	removed_utc = Column(Integer)
 
-	media = relationship("Media")
 	post = relationship("Post", back_populates="media_usages")
 	comment = relationship("Comment", back_populates="media_usages")
 

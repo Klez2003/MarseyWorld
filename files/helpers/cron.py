@@ -462,18 +462,18 @@ def _cleanup_videos():
 	clean = [x[0] for x in db.query(MediaUsage.filename).filter_by(deleted_utc=None, removed_utc=None)]
 
 
-	to_delete = db.query(MediaUsage.filename, Media).join(MediaUsage.media).filter(
-		MediaUsage.filename.notin_(clean),
+	to_delete = db.query(Media).join(Media.usages).filter(
+		Media.filename.notin_(clean),
+		Media.purged_utc == None,
+		Media.user_id != 380983,
 		or_(
 			MediaUsage.deleted_utc < one_month_ago,
 			MediaUsage.removed_utc < one_month_ago,
 		),
-		Media.purged_utc == None,
-		Media.user_id != 380983,
 	).order_by(Media.size.desc())
 
 	total_saved = 0
-	for filename, media in to_delete:
+	for media in to_delete:
 		total_saved += media.size
 		print(media.filename, humanize.naturalsize(media.size, binary=True), flush=True)
 		# finish backing up first before uncommenting
