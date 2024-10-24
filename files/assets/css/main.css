@@ -3836,9 +3836,6 @@ label.terms {
 }
 
 
-.dropdown-item:hover .fas, .dropdown-item:focus .fas, .dropdown-item.active .fas, .dropdown-item:hover .far, .dropdown-item:focus .far, .dropdown-item.active .far .dropdown-item:hover .fa, .dropdown-item:focus .fa, .dropdown-item.active .fa {
-	color: var(--black);
-}
 small, .small {
 	font-size: 12px;
 }
@@ -4228,9 +4225,6 @@ small, .small {
 }
 .post-actions .dropdown-item:active .fa, .post-actions .dropdown-item:active .fas {
 	color: var(--black);
-}
-.post-actions .dropdown-item:hover .fa, .post-actions .dropdown-item:hover .fas {
-	color: var(--gray);
 }
 .post-actions:hover, .post-actions:focus {
 	z-index: 4;
