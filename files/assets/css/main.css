@@ -7819,6 +7819,6 @@ p:empty + p { /* poll margin */
     width: 285px;
 }
 
-.modal .post-actions .list-group-item:focus, .modal .post-actions .list-group-item:hover {
+.modal .post-actions .list-group-item:focus, .modal .post-actions .list-group-item:hover, .modal .post-actions .list-group-item:active {
 	background-color: var(--gray-300);
 }
