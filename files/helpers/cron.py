@@ -503,4 +503,6 @@ def _get_real_sizes():
 			media.size = os.stat(media.filename).st_size
 			g.db.add(media)
 		except FileNotFoundError:
+			for media_usage in media.usages:
+				g.db.delete(media_usage)
 			g.db.delete(media)
