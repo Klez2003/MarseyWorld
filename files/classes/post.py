@@ -83,7 +83,7 @@ class Post(Base):
 	approved_by = relationship("User", uselist=False, primaryjoin="Post.is_approved==User.id")
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="post")
 	reports = relationship("Report", order_by="Report.created_utc")
-	comments = relationship("Comment", primaryjoin="Comment.parent_post==Post.id", back_populates="post")
+	comments = relationship("Comment", primaryjoin="Comment.parent_post==Post.id", order_by="Comment.id", back_populates="post")
 	hole_obj = relationship("Hole", primaryjoin="foreign(Post.hole)==remote(Hole.name)")
 	options = relationship("PostOption", order_by="PostOption.id")
 	edits = relationship("PostEdit", order_by="PostEdit.id.desc()")
