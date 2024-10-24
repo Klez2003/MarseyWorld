@@ -118,7 +118,6 @@ def cron_fn(every_5m, every_1d, every_1mo, every_2mo, manual):
 				g.db.commit()
 
 			if manual:
-				_get_real_sizes()
 				g.db.commit()
 
 		except:
@@ -495,14 +494,3 @@ def _cleanup_videos():
 
 	total_saved = humanize.naturalsize(total_saved, binary=True)
 	print(f"Total saved: {total_saved}")
-
-def _get_real_sizes():
-	size_1 = g.db.query(Media).filter_by(size=1)
-	for media in size_1:
-		try:
-			media.size = os.stat(media.filename).st_size
-			g.db.add(media)
-		except FileNotFoundError:
-			for media_usage in media.usages:
-				g.db.delete(media_usage)
-			g.db.delete(media)
