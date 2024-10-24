@@ -7812,15 +7812,24 @@ p:empty + p { /* poll margin */
     width: 285px;
 }
 
-.btn:focus, .btn:hover, .btn:active,
+.btn:hover, .btn:active,
 .post-actions > .list-inline  > .list-inline-item:focus,
 .post-actions > .list-inline  > .list-inline-item:hover,
-.post-actions > .list-inline  > .list-inline-item:active {
-	opacity: 0.6;
+.post-actions > .list-inline  > .list-inline-item:active,
+.sidebar-link:focus, .sidebar-link:hover, .sidebar-link:active,
+.mx-1.nav-item:focus, .mx-1.nav-item:hover, .mx-1.nav-item:active,
+
+.btn:hover *, .btn:active *,
+.post-actions > .list-inline  > .list-inline-item:focus *,
+.post-actions > .list-inline  > .list-inline-item:hover *,
+.post-actions > .list-inline  > .list-inline-item:active *,
+.sidebar-link:focus *, .sidebar-link:hover *, .sidebar-link:active *,
+.mx-1.nav-item:focus *, .mx-1.nav-item:hover *, .mx-1.nav-item:active * 
+{
+	color: var(--primary) !important;
 }
 
-.nav-item:focus, .nav-item:hover, .nav-item:active,
+.d-md-none .nav-item:focus, .d-md-none .nav-item:hover, .d-md-none .nav-item:active,
 .modal .post-actions .btn-link:focus, .modal .post-actions .btn-link:hover, .modal .post-actions .btn-link:active {
-	opacity: 1 !important;
 	background-color: var(--gray-300) !important;
 }
