@@ -1748,6 +1748,14 @@ ALTER TABLE ONLY public.media_usages
 
 
 --
+-- Name: media_usages media_usages_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.media_usages
+    ADD CONSTRAINT media_usages_unique UNIQUE NULLS NOT DISTINCT (filename, post_id, comment_id);
+
+
+--
 -- Name: modactions modactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
