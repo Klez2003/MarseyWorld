@@ -487,6 +487,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	sanitized = sanitized.replace('&amp;','&')
 
+	sanitized = sanitized.replace('https://videos2.watchpeopledie.tv/', 'https://videos.watchpeopledie.tv/') #needed cuz the other replacement only works on <a> tags not <video> tags
+
 	sanitized = video_sub_regex.sub(lambda match: video_sub_regex_matcher(match, obj), sanitized)
 	sanitized = audio_sub_regex.sub(r'<audio controls preload="none" src="\1"></audio>', sanitized)
 
