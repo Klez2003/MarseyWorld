@@ -4151,8 +4151,8 @@ small, .small {
 }
 
 .ghost-post .post-meta {
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem !important;
 }
 
 .post-meta-domain {
