@@ -110,7 +110,7 @@ def process_audio(file, v, old=None):
 	new = old + extension
 
 	try:
-		ffmpeg.input(old).output(new, loglevel="quiet", map_metadata=-1).run()
+		ffmpeg.input(old).output(new, loglevel="quiet", map_metadata=-1, threads=5).run()
 	except:
 		os.remove(old)
 		if os.path.isfile(new):
@@ -133,7 +133,7 @@ def process_audio(file, v, old=None):
 def reencode_video(old, new, check_sizes=False):
 	tmp = new.replace('.mp4', '-t.mp4')
 	try:
-		ffmpeg.input(old).output(tmp, loglevel="quiet", map_metadata=-1).run()
+		ffmpeg.input(old).output(tmp, loglevel="quiet", map_metadata=-1, threads=5).run()
 	except:
 		os.remove(old)
 		if os.path.isfile(tmp):
@@ -207,7 +207,7 @@ def process_video(file, v, post=None):
 		gevent.spawn(reencode_video, old, new, True)
 	else:
 		try:
-			ffmpeg.input(old).output(new, loglevel="quiet", map_metadata=-1, acodec="copy", vcodec="copy").run()
+			ffmpeg.input(old).output(new, loglevel="quiet", map_metadata=-1, acodec="copy", vcodec="copy", threads=5).run()
 		except:
 			os.remove(old)
 			if os.path.isfile(new):
@@ -233,7 +233,7 @@ def process_video(file, v, post=None):
 	url = SITE_FULL_VIDEOS + new.split('/videos')[1]
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
-	ffmpeg.input(new).output(name, loglevel="quiet", map_metadata=-1, **{"vf":"scale='iw':-2", 'frames:v':1}).run()
+	ffmpeg.input(new).output(name, loglevel="quiet", map_metadata=-1, threads=5, **{"vf":"scale='iw':-2", 'frames:v':1}).run()
 	posterurl = SITE_FULL_IMAGES + name
 	media.posterurl = posterurl
 
