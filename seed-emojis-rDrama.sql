@@ -5464,6 +5464,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseytrumpss', 'Marsey', 2, 'assassinationattempt bleeding gunshotwound president raisedfist secretservice', false, 1720915894),
 ('marseytrumpssshoes', 'Marsey', 2, 'animated assassinationattempt bleeding gunshotwound letmegetmyshoes president raisedfist secretservice sneakers', false, 1720916773),
 ('marseytrumpwereback', 'Marsey', 2, 'republican conservative red orangemanpresident january election', false, 1679234653),
+('marseytrumpwrong', 'Marsey', 2, 'donald', false, 1729747330),
 ('marseytruthnuke', 'Marsey', 2, 'cobson explosion', false, 1726937554),
 ('marseytucker', 'Marsey', 2, 'carlsen fox rightoid conservative republican television tv', false, 0),
 ('marseytuckermilkers', 'Marsey', 2, 'tits titties trans teacher beachballs', false, 1663895672),
