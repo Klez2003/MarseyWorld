@@ -7824,7 +7824,7 @@ p:empty + p { /* poll margin */
 .post-actions > .list-inline  > .list-inline-item:hover *,
 .post-actions > .list-inline  > .list-inline-item:active *,
 .sidebar-link:focus *, .sidebar-link:hover *, .sidebar-link:active *,
-.mx-1.nav-item:focus *, .mx-1.nav-item:hover *, .mx-1.nav-item:active * 
+.mx-1.nav-item:not(#header--notifications--item):focus *, .mx-1.nav-item:not(#header--notifications--item):hover *, .mx-1.nav-item:not(#header--notifications--item):active * 
 {
 	color: var(--primary) !important;
 }
