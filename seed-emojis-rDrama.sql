@@ -2666,6 +2666,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseydealwithitsoy', 'Marsey', 2, 'soyjak crying sunglasses thumbsup', false, 1703024491),
 ('marseydeath', 'Marsey', 2, 'grimreaper halloween pointing ominous threatening robe hood scythe', false, 1697072348),
 ('marseydeathhillary', 'Misc', 2, 'hilary grim reaper pointing clinton grimreaper', false, 1719598276),
+('marseydeathoftheartist', 'Marsey', 2, 'author family guy man peter pose postmodern', false, 1729862368),
 ('marseydeathpose', 'Marsey', 2, 'griffin family dead broken', false, 0),
 ('marseydeathposeblack', 'Marsey', 2, 'african dead kill bipoc corpse', false, 1716736666),
 ('marseydeathposetrump', 'Marsey', 2, 'donald blond hair dead corpse', false, 1716825844),
