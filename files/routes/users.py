@@ -1519,7 +1519,7 @@ def av():
 	print(ip, flush=True)
 	# if ip not in {'54.187.174.169','54.187.205.235','54.187.216.72'}:
 	# 	print(STARS, flush=True)
-	# 	print(f'/bm fail: {ip}')
+	# 	print(f'/av fail: {ip}')
 	# 	print(STARS, flush=True)
 	# 	stop(400)
 
