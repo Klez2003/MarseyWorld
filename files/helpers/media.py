@@ -4,7 +4,6 @@ import time
 from shutil import copyfile
 import json
 
-import requests
 import ffmpeg
 import gevent
 from flask import g, has_request_context, request
