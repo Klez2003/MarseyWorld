@@ -1531,7 +1531,7 @@ def av():
 	existing = g.db.get(Transaction, id)
 	if existing: return ''
 
-	amount = data['amount']
+	amount = int(data['amount'])
 
 	email = data['donor']['email']
 	if not email: return ''
