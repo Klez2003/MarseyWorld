@@ -1916,10 +1916,9 @@ def delete_media_post(v):
 	media.purged_utc = time.time()
 	g.db.add(media)
 
-	if url.startswith(SITE_FULL_VIDEOS):
-		if media.posterurl:
-			remove_image_using_link(media.posterurl)
-			purge_files_in_cloudflare_cache(media.posterurl)
+	if media.posterurl:
+		remove_image_using_link(media.posterurl)
+		purge_files_in_cloudflare_cache(media.posterurl)
 
 	ma = ModAction(
 		kind="delete_media",
