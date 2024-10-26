@@ -1917,7 +1917,7 @@ def delete_media_post(v):
 	g.db.add(media)
 
 	if url.startswith(SITE_FULL_VIDEOS):
-		posterurl = media.poster_url
+		posterurl = media.posterurl
 		if posterurl:
 			remove_image_using_link(posterurl[0])
 			purge_files_in_cloudflare_cache(posterurl[0])
