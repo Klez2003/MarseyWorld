@@ -1554,8 +1554,6 @@ def av():
 
 	g.db.add(transaction)
 
-	g.db.commit()
-
 	claim_rewards_all_users()
 
 	return ''
