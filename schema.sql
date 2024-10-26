@@ -782,7 +782,7 @@ CREATE TABLE public.media (
     created_utc integer NOT NULL,
     size integer NOT NULL,
     posterurl character varying(65),
-    referrer character varying(200),
+    referrer character varying(550),
     purged_utc integer
 );
 
