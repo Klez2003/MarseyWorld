@@ -1517,47 +1517,44 @@ def av():
 
 	ip = request.headers.get('CF-Connecting-IP')
 	print(ip, flush=True)
-	# if ip not in {'173.0.81.65','173.0.81.140'}:
-	# 	print(STARS, flush=True)
-	# 	print(f'/av fail: {ip}')
-	# 	print(STARS, flush=True)
-	# 	stop(400)
+	if ip not in {'34.228.186.191','184.72.111.177'}:
+		print(STARS, flush=True)
+		print(f'/av fail: {ip}')
+		print(STARS, flush=True)
+		stop(400)
 
 	print(data, flush=True)
-	# data = data['data']['object']
+	data = data[0]
 
-	# if data['calculated_statement_descriptor'] != 'MARSEY':
-	# 	return ''
+	id = data['id']
 
-	# id = data['id']
+	existing = g.db.get(Transaction, id)
+	if existing: return ''
 
-	# existing = g.db.get(Transaction, id)
-	# if existing: return ''
+	amount = data['amount']
 
-	# amount = data['amount']/100
+	email = data['donor']['email']
+	if not email: return ''
+	email = email.strip().lower()
 
-	# email = data['billing_details']['email']
-	# if not email: return ''
-	# email = email.strip().lower()
+	created_utc = int(time.mktime(time.strptime(data['donation_date'].split('.')[0], "%Y-%m-%dT%H:%M:%S")))
 
-	# created_utc = data['created']
+	if data['recurring']:
+		type = "monthly"
+	else:
+		type = "one-time"
 
-	# if data['description'] == 'rdrama.net (@rdrama.net) - Support':
-	# 	type = "one-time"
-	# else:
-	# 	type = "monthly"
+	transaction = Transaction(
+		id=id,
+		created_utc=created_utc,
+		type=type,
+		amount=amount,
+		email=email
+	)
 
-	# transaction = Transaction(
-	# 	id=id,
-	# 	created_utc=created_utc,
-	# 	type=type,
-	# 	amount=amount,
-	# 	email=email
-	# )
+	g.db.add(transaction)
 
-	# g.db.add(transaction)
-
-	# claim_rewards_all_users()
+	claim_rewards_all_users()
 
 	return ''
 
