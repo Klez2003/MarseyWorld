@@ -3431,6 +3431,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyhal9000', 'Marsey', 2, '2001 space odyssey robot', false, 1690073811),
 ('marseyhaleye', 'Marsey', 2, 'evil malfunction artificialinteligence hal9000', false, 1696242165),
 ('marseyhalflife', 'Marsey', 2, 'gordon freeman crowbar burglar pcgaming valve wink vandalize carjack', false, 1678183254),
+('marseyhammer', 'Marsey', 2, 'banhammer banned mallet mariorpg', false, 1729921527),
 ('marseyhammerpinkies', 'Marsey', 2, 'hit hurt idiot dumb retard blood', false, 1677686390),
 ('marseyhammerpizza', 'Marsey', 2, 'animated beat bongo hammers pizzashill rdrama', false, 0),
 ('marseyhammersnoo', 'Marsey', 2, 'redditor spez beat powermod murder kill death animated blood', false, 0),
