@@ -1526,7 +1526,7 @@ def av():
 	print(data, flush=True)
 	data = data[0]
 
-	id = data['id']
+	id = str(data['id'])
 
 	existing = g.db.get(Transaction, id)
 	if existing: return ''
