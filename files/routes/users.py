@@ -1517,7 +1517,7 @@ def av():
 
 	ip = request.headers.get('CF-Connecting-IP')
 	print(ip, flush=True)
-	# if ip not in {'54.187.174.169','54.187.205.235','54.187.216.72'}:
+	# if ip not in {'173.0.81.65','173.0.81.140'}:
 	# 	print(STARS, flush=True)
 	# 	print(f'/av fail: {ip}')
 	# 	print(STARS, flush=True)
