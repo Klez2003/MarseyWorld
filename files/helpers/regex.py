@@ -132,7 +132,7 @@ def video_sub_regex_matcher(match, obj):
 						g.db.add(media_usage)
 
 			if media.posterurl:
-				return 	f'<p class="resizable"><video poster="{media.posterurl[0]}" controls preload="none" src="{url}"></video></p>'
+				return 	f'<p class="resizable"><video poster="{media.posterurl}" controls preload="none" src="{url}"></video></p>'
 	return f'<p class="resizable"><video controls preload="none" src="{url}"></video></p>'
 
 audio_regex_extensions = '|'.join(AUDIO_FORMATS)
