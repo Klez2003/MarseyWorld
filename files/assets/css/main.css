@@ -7812,14 +7812,14 @@ p:empty + p { /* poll margin */
     width: 285px;
 }
 
-.btn:hover, .btn:active,
+.btn:not(.score-btn):hover, .btn:not(.score-btn):active,
 .post-actions > .list-inline  > .list-inline-item:focus,
 .post-actions > .list-inline  > .list-inline-item:hover,
 .post-actions > .list-inline  > .list-inline-item:active,
 .sidebar-link:focus, .sidebar-link:hover, .sidebar-link:active,
 .mx-1.nav-item:focus, .mx-1.nav-item:hover, .mx-1.nav-item:active,
 
-.btn:hover *, .btn:active *,
+.btn:not(.score-btn):hover *, .btn:not(.score-btn):active *,
 .post-actions > .list-inline  > .list-inline-item:focus *,
 .post-actions > .list-inline  > .list-inline-item:hover *,
 .post-actions > .list-inline  > .list-inline-item:active *,
