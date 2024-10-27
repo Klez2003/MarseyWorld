@@ -7820,9 +7820,9 @@ p:empty + p { /* poll margin */
 .mx-1.nav-item:focus, .mx-1.nav-item:hover, .mx-1.nav-item:active,
 
 .btn:not(.score-btn):hover *, .btn:not(.score-btn):active *,
-.post-actions > .list-inline  > .list-inline-item:focus *,
-.post-actions > .list-inline  > .list-inline-item:hover *,
-.post-actions > .list-inline  > .list-inline-item:active *,
+.post-actions > .list-inline  > .list-inline-item:not(.voting):focus *,
+.post-actions > .list-inline  > .list-inline-item:not(.voting):hover *,
+.post-actions > .list-inline  > .list-inline-item:not(.voting):active *,
 .sidebar-link:focus *, .sidebar-link:hover *, .sidebar-link:active *,
 .mx-1.nav-item:not(#header--notifications--item):focus *, .mx-1.nav-item:not(#header--notifications--item):hover *, .mx-1.nav-item:not(#header--notifications--item):active * 
 {
