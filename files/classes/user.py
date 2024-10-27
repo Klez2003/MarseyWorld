@@ -1352,7 +1352,9 @@ class User(Base):
 		if self.can_see_restricted_holes != None:
 			return self.can_see_restricted_holes
 
-		if self.truescore >= TRUESCORE_MINIMUM: return True
+		one_month_ago = time.time() - 2592000
+		if self.truescore >= TRUESCORE_MINIMUM and self.created_utc < one_month_ago:
+			return True
 
 		if SITE == 'rdrama.net' and self.id == 5237: return True
 
