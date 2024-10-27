@@ -39,7 +39,7 @@
 			{% set image_src = SITE_FULL_IMAGES ~ "/assets/events/homoween/images/jumpscares/" ~ listdir("files/assets/events/homoween/images/jumpscares")|random ~ "?x=45" %}
 			<img src="{{image_src}}" id="jumpscare-img" style="display: none">
 			{% set audio_src = "/assets/events/homoween/audio/jumpscares/" ~ listdir("files/assets/events/homoween/audio/jumpscares")|random ~ "?x=45" %}
-			<audio id="jumpscare-audio" preload="none" src="{{audio_src}}"></audio>
+			<audio id="jumpscare-audio" src="{{audio_src}}"></audio>
 			<script defer src="{{'events/homoween/js/jumpscare.js' | asset}}"></script>
 		{% endif %}
 
