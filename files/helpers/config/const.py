@@ -1179,7 +1179,7 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 
 	HOLE_REQUIRED = True
 
-	EXEMPT_FROM_EDITING_LIMIT = {83848}
+	EXEMPT_FROM_EDITING_LIMIT = {12046,83848,395296}
 
 	AUTOJANNY_ID = 1
 	SNAPPY_ID = 3
