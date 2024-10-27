@@ -7,8 +7,8 @@ Restart = on-failure
 RestartSec = 30s
 User = rdrama
 Group = rdrama
-EnvironmentFile=/e
-ExecStart = /snap/bin/opera-proxy -country ${OPERA_COUNTRY}
+EnvironmentFile=/opera_country
+ExecStart = /snap/bin/opera-proxy -country ${country}
 
 [Install]
 WantedBy = multi-user.target
