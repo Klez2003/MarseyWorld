@@ -837,8 +837,7 @@ def normalize_url(url):
 	return url.rstrip('=')
 
 def normalize_url_gevent(url):
-	try: req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
-	except: return url
+	req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
 	return normalize_url(req.url)
 
 def validate_css(css):
