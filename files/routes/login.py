@@ -346,7 +346,6 @@ def sign_up_post(v):
 	g.v = new_user
 	g.username = new_user.username
 
-	check_for_alts(new_user, include_current_session=True)
 	send_notification(new_user.id, WELCOME_MSG)
 
 	if SIGNUP_FOLLOW_ID:
@@ -362,6 +361,9 @@ def sign_up_post(v):
 	check_name(new_user)
 
 	cache.delete("user_count")
+
+	g.db.commit()
+	check_for_alts(new_user, include_current_session=True)
 
 	if redir and is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
 		return redirect(redir)
