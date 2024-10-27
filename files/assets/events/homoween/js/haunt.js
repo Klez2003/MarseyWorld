@@ -15,7 +15,7 @@ window.onload = function() {
 	lightningStrike("normal")
 }
 
-setInterval(function() {
+const lightningInternval = setInterval(function() {
 	if (Math.floor(Math.random()*3) > 1) {
 		lightningStrike("haunted")
 	} else {
@@ -28,15 +28,19 @@ function lightningStrike(strike) {
 
 	if (strike == "haunted") {
 		stylesheet_haunted.disabled = false
-		if (thunder1)
+		if (thunder1) {
 			thunder2.play()
+			prepare_to_pause(thunder2)
+		}
 		setTimeout(function() {
 			stylesheet_haunted.disabled = true
 		}, 700)
 	}
 
-	if (thunder1)
+	if (thunder1) {
 		thunder1.play()
+		prepare_to_pause(thunder1)
+	}
 	setTimeout(function() {
 		div.style.animation = "none"
 	}, 1000)

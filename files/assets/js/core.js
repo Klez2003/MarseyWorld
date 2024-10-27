@@ -280,12 +280,14 @@ function prepare_to_pause(audio) {
 		if (e == audio) continue
 		e.addEventListener('play', () => {
 			if (!audio.paused) audio.pause();
+			if (lightningInternval) clearInterval(lightningInternval)
 		});
 	}
 
 	document.addEventListener('click', (e) => {
 		if ((e.target.tagName.toLowerCase() == "lite-youtube" || e.target.classList.contains('lty-playbtn')) && !audio.paused) {
 			audio.pause();
+			if (lightningInternval) clearInterval(lightningInternval)
 		}
 	});
 }
