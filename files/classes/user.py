@@ -1327,7 +1327,6 @@ class User(Base):
 		if self.is_permabanned: return False
 
 		if self.admin_level >= PERMS['VIEW_RESTRICTED_HOLES']: return True
-		if SITE == 'rdrama.net' and self.id == 5237: return True
 
 		return None
 
@@ -1342,7 +1341,6 @@ class User(Base):
 		if self.chud: return True
 		if self.unban_utc: return True
 		if self.patron: return True
-		if SITE == 'rdrama.net' and self.id == 5237: return True
 
 		return False
 
