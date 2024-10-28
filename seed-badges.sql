@@ -60,6 +60,7 @@ INSERT INTO public.badge_defs VALUES (350, 'August''s 2nd August August', 'This 
 INSERT INTO public.badge_defs VALUES (337, 'INcel bronze', 'User invited an internet celeb to rDrama', 1715140233);
 INSERT INTO public.badge_defs VALUES (185, 'Hallowgrinch', 'TP this Halloween-hating loser''s house.', 1666226224);
 INSERT INTO public.badge_defs VALUES (351, 'Necromancer', 'Resurrected a hole 🧟', 1728210760);
+INSERT INTO public.badge_defs VALUES (352, 'Homoween 2024 Survivor', 'Awarded for surviving Homoween 2024', 1730084318);
 INSERT INTO public.badge_defs VALUES (181, 'INFECTED', 'This user is a mindless zombie.', 1666073382);
 INSERT INTO public.badge_defs VALUES (182, 'VAXXMAXXED', 'This user is a mindless zombie.', 1666074754);
 INSERT INTO public.badge_defs VALUES (301, '2023 Spooooooky Marsey Artist', 'Contributed a VERY SCARY Marsey for Halloween 2023!', 1695911099);
@@ -314,7 +315,7 @@ INSERT INTO public.badge_defs VALUES (73, 'Le Rich Gentlesir', 'Spent a fucking 
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 351, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 352, true);
 
 
 --
