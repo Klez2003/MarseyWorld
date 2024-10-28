@@ -1383,7 +1383,8 @@ class User(Base):
 
 		if self.patron: return True
 
-		if self.truescore >= TRUESCORE_DONATE_MINIMUM: return True
+		if self.truescore >= TRUESCORE_MINIMUM and self.created_utc < one_month_ago:
+			return True
 
 		return False
 
