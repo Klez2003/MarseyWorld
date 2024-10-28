@@ -1356,8 +1356,6 @@ class User(Base):
 		if self.truescore >= TRUESCORE_MINIMUM and self.created_utc < one_month_ago:
 			return True
 
-		if SITE == 'rdrama.net' and self.id == 5237: return True
-
 		return False
 
 	@property
