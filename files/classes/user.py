@@ -1383,6 +1383,7 @@ class User(Base):
 
 		if self.patron: return True
 
+		one_month_ago = time.time() - 2592000
 		if self.truescore >= TRUESCORE_MINIMUM and self.created_utc < one_month_ago:
 			return True
 
