@@ -1,4 +1,4 @@
-{% if v and v.id == p.author_id and p.draft %}
+{% if p.draft and v and (v.id == p.author_id or v.admin_level >= PERMS['PUBLISH_OTHERS_POSTS']) %}
 	<button type="button" class="list-inline-item" data-areyousure="postToastReload(this,'/publish/{{p.id}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)"><i class="fas fa-globe"></i>Publish</button>
 {% endif %}
 
