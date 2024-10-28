@@ -56,9 +56,10 @@ def publish(pid, v):
 	if not p.draft:
 		return {"message": "Post published!"}
 
-	if p.author_id != v.id: stop(403)
+	if p.author_id != v.id and v.admin_level < PERMS['PUBLISH_OTHERS_POSTS']:
+		stop(403)
 
-	if v.is_suspended and p.hole != 'chudrama':
+	if p.author.is_suspended and p.hole != 'chudrama':
 		if SITE_NAME == 'rDrama':
 			stop(403, "You can only post in /h/chudrama when you're tempbanned!")
 		stop(403, "You can't perform this action while banned!")
@@ -67,10 +68,10 @@ def publish(pid, v):
 	p.created_utc = int(time.time())
 	g.db.add(p)
 
-	p.chudded = v.chud and p.hole != 'chudrama' and not (p.is_longpost and not v.chudded_by) and not p.distinguished
-	p.queened = v.queen and not p.is_longpost and not p.distinguished
-	p.sharpened = v.sharpen and not p.is_longpost and not p.distinguished
-	p.rainbowed = v.rainbow and not p.is_longpost and not p.distinguished
+	p.chudded = p.author.chud and p.hole != 'chudrama' and not (p.is_longpost and not p.author.chudded_by) and not p.distinguished
+	p.queened = p.author.queen and not p.is_longpost and not p.distinguished
+	p.sharpened = p.author.sharpen and not p.is_longpost and not p.distinguished
+	p.rainbowed = p.author.rainbow and not p.is_longpost and not p.distinguished
 
 	p.title_html = filter_emojis_only(p.title, golden=False, obj=p, author=p.author)
 	p.body_html = sanitize(p.body, golden=False, limit_pings=100, obj=p, author=p.author)
@@ -88,8 +89,8 @@ def publish(pid, v):
 			for x in notify_users:
 				add_notif(cid, x, text, pushnotif_url=p.permalink)
 
-	if v.id in PINNED_POSTS_IDS and not p.ghost and not (p.hole and p.hole_obj.stealth):
-		p.pinned_utc = time.time() + PINNED_POSTS_IDS[v.id] * 3600
+	if p.author.id in PINNED_POSTS_IDS and not p.ghost and not (p.hole and p.hole_obj.stealth):
+		p.pinned_utc = time.time() + PINNED_POSTS_IDS[p.author.id] * 3600
 		p.pinned = "AutoJanny"
 
 	cache.delete_memoized(frontlist)
@@ -97,8 +98,8 @@ def publish(pid, v):
 
 	execute_snappy(p, v)
 
-	if p.effortpost and not (SITE_NAME == 'WPD' and v.truescore < 500) and p.can_be_effortpost:
-		body = f"@{v.username} has requested that {p.textlink} be marked as an effortpost!"
+	if p.effortpost and not (SITE_NAME == 'WPD' and p.author.truescore < 500) and p.can_be_effortpost:
+		body = f"@{p.author.username} has requested that {p.textlink} be marked as an effortpost!"
 		alert_admins(body)
 	
 	p.effortpost = False
