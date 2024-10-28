@@ -1,10 +1,10 @@
 // Jump scare function
 function scare() {
-	const image = document.getElementById("jumpscare-img");
-	image.style.display = "block";
-
 	const jumpscare_audio = document.getElementById('jumpscare-audio')
 	jumpscare_audio.play();
+
+	const image = document.getElementById("jumpscare-img");
+	image.style.display = "block";
 
 	// Hide image and reset sound
 	setTimeout(function() {
