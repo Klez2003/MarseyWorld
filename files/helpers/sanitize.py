@@ -740,6 +740,7 @@ def is_whitelisted(domain, k):
 		'fbid','story_fbid','u', #facebook.com
 		'id', #facebook.com, #msn.com
 		'v','lb','list','start','time_continue', #youtube.com
+		'storyUrl', #washingtonpost.com
 	}:
 		return True
 
