@@ -236,7 +236,7 @@ def process_video(file, v, post=None):
 	posterurl = SITE_FULL_IMAGES + name
 	media.posterurl = posterurl
 
-	if SITE == 'watchpeopledie.tv' and not is_reencoding:
+	if SITE == 'watchpeopledie.tv':
 		gevent.spawn(rclone_copy, new)
 
 	return url, posterurl, name
