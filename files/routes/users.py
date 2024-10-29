@@ -1515,14 +1515,26 @@ def bm():
 def av():
 	data = json.loads(request.data)
 
-	ip = request.headers.get('CF-Connecting-IP')
-	if ip not in {'34.228.186.191','184.72.111.177','54.91.98.174','35.153.143.188'}:
+	timestamp, signature = request.headers.get('Donorbox-Signature').split(',')
+
+	if time.time() - int(timestamp) > 30:
 		print(STARS, flush=True)
-		print(f'/av fail: {ip}')
+		print(f'/av wrong timestamp: {timestamp}')
 		print(STARS, flush=True)
 		stop(400)
 
-	print(data, flush=True)
+	string = timestamp + '.' + str(request.data)[2:-1]
+	correct_signature = hmac.new(key=bytes(environ.get("AV_KEY").strip(), "utf-8"),
+								msg=bytes(string, "utf-8"),
+								digestmod=hashlib.sha256
+							).hexdigest()
+	if correct_signature != signature:
+		print(STARS, flush=True)
+		print(f'/av wrong signature: {signature}')
+		print(STARS, flush=True)
+		stop(400)
+
+
 	data = data[0]
 
 	id = str(data['id'])
