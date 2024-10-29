@@ -1523,7 +1523,7 @@ def av():
 		print(STARS, flush=True)
 		stop(400)
 
-	string = timestamp + '.' + str(request.data)[2:-1]
+	string = timestamp + '.' + str(request.data.decode('utf-8'))
 	correct_signature = hmac.new(key=bytes(environ.get("AV_KEY").strip(), "utf-8"),
 								msg=bytes(string, "utf-8"),
 								digestmod=hashlib.sha256
