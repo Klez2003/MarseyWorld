@@ -1536,6 +1536,7 @@ def av():
 
 
 	data = data[0]
+	print(data, flush=True)
 
 	id = str(data['id'])
 
