@@ -78,7 +78,7 @@ def speak(data, v):
 	file = None
 	if data['file']:
 		if data['file_type'].startswith('image/'):
-			name = f'/chat_images/{time.time()}'.replace('.','') + '.webp'
+			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			with open(name, 'wb') as f:
 				f.write(data['file'])
 			file = process_image(name, v)
