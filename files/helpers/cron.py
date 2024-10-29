@@ -523,6 +523,9 @@ def _cleanup_videos():
 	total_saved = humanize.naturalsize(total_saved, binary=True)
 	print(f"Total saved: {total_saved}")
 
+	subprocess.call("scripts/run_fclones.sh", timeout=3000)
+	print(f"fclones run succesfully!")
+
 
 def _get_real_sizes():
 	size_1 = g.db.query(Media).filter_by(size=1)
