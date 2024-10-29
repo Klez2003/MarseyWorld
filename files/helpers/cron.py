@@ -450,19 +450,17 @@ def _cleanup_videos():
 	)
 	for post in unpublished_drafts:
 		if post.media_usages:
-			print(f'draft post: {post.id}', flush=True)
+			print(f'deleted videos in draft post: {post.id}', flush=True)
 		for media_usage in post.media_usages:
 			if not media_usage.removed_utc:
-				print(f'media usage: {media_usage.id}', flush=True)
 				media_usage.removed_utc = time.time()
 				g.db.add(media_usage)
 
 		for comment in post.comments:
 			if comment.media_usages:
-				print(f'draft comment: {comment.id}', flush=True)
+				print(f'deleted videos in draft comment: {comment.id}', flush=True)
 			for media_usage in comment.media_usages:
 				if not media_usage.removed_utc:
-					print(f'media usage: {media_usage.id}', flush=True)
 					media_usage.removed_utc = time.time()
 					g.db.add(media_usage)
 
