@@ -2180,6 +2180,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseybooing', 'Marsey', 2, 'disgust jeering', false, 1689924792),
 ('marseyboomer', 'Marsey', 2, 'sipping shades sunglasses old yup vape', false, 0),
 ('marseyboomercartoon', 'Marsey', 2, 'grandpa joke comic', false, 1663161684),
+('marseyboomerzoomer', 'Marsey', 2, 'hyde jekyll old young', false, 1729985207),
 ('marseybootlicker', 'Marsey', 2, 'sheep conformist lapdog rightoid conservative trump idiot shoe', false, 0),
 ('marseybootlicker2', 'Marsey', 2, 'sheep conformist lapdog rightoid conservative trump idiot shoe hearts', false, 0),
 ('marseybootscoot', 'Marsey', 2, 'cowboy cowgirl western lasso rope spurs cow ranch farm texas south yee haw', false, 1719352578),
