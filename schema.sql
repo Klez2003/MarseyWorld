@@ -684,7 +684,7 @@ CREATE TABLE public.hats (
 CREATE TABLE public.hole_actions (
     id integer NOT NULL,
     hole character varying(25) NOT NULL,
-    user_id integer,
+    user_id integer NOT NULL,
     target_user_id integer,
     target_post_id integer,
     target_comment_id integer,
@@ -828,7 +828,7 @@ ALTER SEQUENCE public.media_usages_id_seq OWNED BY public.media_usages.id;
 
 CREATE TABLE public.modactions (
     id integer NOT NULL,
-    user_id integer,
+    user_id integer NOT NULL,
     target_user_id integer,
     target_post_id integer,
     target_comment_id integer,
