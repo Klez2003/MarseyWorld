@@ -19,7 +19,7 @@ from files.classes.chats import *
 from files.classes.currency_logs import CurrencyLog
 from files.classes.mod_logs import ModAction
 from files.helpers.config.const import *
-from files.helpers.config.modaction_types import *
+from files.helpers.config.modaction_kinds import *
 from files.helpers.config.awards import *
 from files.helpers.media import *
 from files.helpers.security import *
@@ -919,7 +919,7 @@ class User(Base):
 				ModAction.user_id != self.id,
 			)
 			if self.id == AEVANN_ID:
-				q = q.filter(ModAction.kind.notin_(AEVANN_EXCLUDED_MODACTION_TYPES))
+				q = q.filter(ModAction.kind.notin_(AEVANN_EXCLUDED_MODACTION_KINDS))
 
 			if self.admin_level < PERMS['PROGSTACK']:
 				q = q.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED__TYPES))

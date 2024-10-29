@@ -1,4 +1,4 @@
-HOLEACTION_TYPES = {
+HOLEACTION_KINDS = {
 	'exile_user': {
 		"str": 'exiled user {self.target_link}',
 		"icon": 'fa-user-slash',
@@ -156,4 +156,4 @@ HOLEACTION_TYPES = {
 	},
 }
 
-HOLEACTION_TYPES = dict(sorted(HOLEACTION_TYPES.items()))
+HOLEACTION_KINDS = dict(sorted(HOLEACTION_KINDS.items()))

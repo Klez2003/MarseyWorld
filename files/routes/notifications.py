@@ -7,7 +7,7 @@ from files.classes.mod_logs import ModAction
 from files.classes.hole_logs import HoleAction
 from files.classes.chats import *
 from files.helpers.config.const import *
-from files.helpers.config.modaction_types import *
+from files.helpers.config.modaction_kinds import *
 from files.helpers.get import *
 from files.helpers.can_see import *
 from files.routes.wrappers import *
@@ -266,7 +266,7 @@ def notifications_modactions(v):
 	listing = g.db.query(cls).filter(cls.user_id != v.id)
 
 	if v.id == AEVANN_ID:
-		listing = listing.filter(cls.kind.notin_(AEVANN_EXCLUDED_MODACTION_TYPES))
+		listing = listing.filter(cls.kind.notin_(AEVANN_EXCLUDED_MODACTION_KINDS))
 
 	if v.admin_level < PERMS['PROGSTACK']:
 		listing = listing.filter(cls.kind.notin_(MODACTION_PRIVILEGED__TYPES))

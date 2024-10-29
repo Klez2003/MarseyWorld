@@ -13,7 +13,7 @@ from files.classes.usermute import UserMute
 from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
-from files.helpers.config.modaction_types import *
+from files.helpers.config.modaction_kinds import *
 from files.routes.wrappers import *
 from files.routes.notifications import modmail_listing
 from files.__main__ import app, cache, limiter
@@ -249,29 +249,29 @@ def log(v):
 
 	if v.admin_level >= PERMS['USER_SHADOWBAN']:
 		if v.admin_level >= PERMS['PROGSTACK']:
-			types = MODACTION_TYPES
+			used_kinds = MODACTION_KINDS
 		else:
-			types = MODACTION_TYPES__FILTERED
-	else: types = MODACTION_TYPES_FILTERED
+			used_kinds = MODACTION_KINDS__FILTERED
+	else: used_kinds = MODACTION_KINDS_FILTERED
 
-	if kind and kind not in types:
+	if kind and kind not in used_kinds:
 		kind = None
 		actions = []
 		total = 0
 	else:
 		actions = g.db.query(ModAction)
 		if v.admin_level < PERMS['USER_SHADOWBAN']:
-			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED_TYPES))
+			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED_KINDS))
 		if v.admin_level < PERMS['PROGSTACK']:
-			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED__TYPES))
+			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED__KINDS))
 		if admin_id:
 			actions = actions.filter_by(user_id=admin_id)
 			kinds = {x.kind for x in actions}
 			kinds.add(kind)
-			types2 = {}
-			for k,val in types.items():
-				if k in kinds: types2[k] = val
-			types = types2
+			kinds2 = {}
+			for k,val in used_kinds.items():
+				if k in kinds: kinds2[k] = val
+			kinds = kinds2
 		if target_id:
 			target_post_ids = [x[0] for x in g.db.query(Post.id).filter_by(author_id=target_id)]
 			target_comment_ids = [x[0] for x in g.db.query(Comment.id).filter_by(author_id=target_id)]
@@ -282,17 +282,17 @@ def log(v):
 			))
 			kinds = {x.kind for x in actions}
 			kinds.add(kind)
-			types2 = {}
-			for k,val in types.items():
-				if k in kinds: types2[k] = val
-			types = types2
+			kinds2 = {}
+			for k,val in used_kinds.items():
+				if k in kinds: kinds2[k] = val
+			kinds = kinds2
 		if kind: actions = actions.filter_by(kind=kind)
 		total = actions.count()
 		actions = actions.order_by(ModAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.username)]
 
-	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, total=total, page=page, single_user_url='admin')
+	return render_template("log.html", v=v, admins=admins, kinds=kinds, admin=admin, target_id=target_id, kind=kind, actions=actions, total=total, page=page, single_user_url='admin')
 
 @app.get("/log/<int:id>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -303,17 +303,17 @@ def log_item(id, v):
 
 	if not action: stop(404)
 
-	if action.kind in MODACTION_PRIVILEGED_TYPES and v.admin_level < PERMS['USER_SHADOWBAN']:
+	if action.kind in MODACTION_PRIVILEGED_KINDS and v.admin_level < PERMS['USER_SHADOWBAN']:
 		stop(404)
 
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE'])]
 
 	if v.admin_level >= PERMS['USER_SHADOWBAN']:
 		if v.admin_level >= PERMS['PROGSTACK']:
-			types = MODACTION_TYPES
+			types = MODACTION_KINDS
 		else:
-			types = MODACTION_TYPES__FILTERED
-	else: types = MODACTION_TYPES_FILTERED
+			types = MODACTION_KINDS__FILTERED
+	else: types = MODACTION_KINDS_FILTERED
 
 	return render_template("log.html", v=v, actions=[action], total=1, page=1, action=action, admins=admins, types=types, single_user_url='admin')
 

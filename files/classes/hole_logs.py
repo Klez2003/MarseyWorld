@@ -50,7 +50,7 @@ class HoleAction(Base):
 	@property
 	@lazy
 	def string(self):
-		output = HOLEACTION_TYPES[self.kind]["str"].format(self=self)
+		output = HOLEACTION_KINDS[self.kind]["str"].format(self=self)
 		if self._note: output += f" <i>({self._note})</i>"
 		return output
 
@@ -67,16 +67,16 @@ class HoleAction(Base):
 	@property
 	@lazy
 	def icon(self):
-		return HOLEACTION_TYPES[self.kind]['icon']
+		return HOLEACTION_KINDS[self.kind]['icon']
 
 	@property
 	@lazy
 	def color(self):
-		return HOLEACTION_TYPES[self.kind]['color']
+		return HOLEACTION_KINDS[self.kind]['color']
 
 	@property
 	@lazy
 	def permalink(self):
 		return f"{SITE_FULL}/h/{self.hole}/log/{self.id}"
 
-from files.helpers.config.holeaction_types import HOLEACTION_TYPES
+from files.helpers.config.holeaction_kinds import HOLEACTION_KINDS

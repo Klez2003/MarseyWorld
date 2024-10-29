@@ -100,7 +100,7 @@ class ModAction(Base):
 	@property
 	@lazy
 	def string(self):
-		output = MODACTION_TYPES[self.kind]["str"].format(self=self)
+		output = MODACTION_KINDS[self.kind]["str"].format(self=self)
 		if self.note: output += f" <i>({self.note})</i>"
 		return output
 
@@ -117,16 +117,16 @@ class ModAction(Base):
 	@property
 	@lazy
 	def icon(self):
-		return MODACTION_TYPES[self.kind]['icon']
+		return MODACTION_KINDS[self.kind]['icon']
 
 	@property
 	@lazy
 	def color(self):
-		return MODACTION_TYPES[self.kind]['color']
+		return MODACTION_KINDS[self.kind]['color']
 
 	@property
 	@lazy
 	def permalink(self):
 		return f"{SITE_FULL}/log/{self.id}"
 
-from files.helpers.config.modaction_types import MODACTION_TYPES, MODACTION_TYPES_FILTERED
+from files.helpers.config.modaction_kinds import MODACTION_KINDS, MODACTION_KINDS_FILTERED

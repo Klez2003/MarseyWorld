@@ -1,6 +1,33 @@
 {% extends "meta_navbar.html" %}
 {% block pagetitle %}Moderation Log{% endblock %}
 {% block content %}
+	{%- macro get_href(new_admin=None, new_kind=None) -%}
+		{%- if hole -%}
+			{%- set href = "/h/" ~ hole ~ "/log?" -%}
+		{%- else -%}
+			{%- set href = "/log?" -%}
+		{%- endif -%}
+
+		{%- if new_admin -%}
+			{%- set admin = new_admin -%}
+		{%- endif -%}
+		{%- if new_kind -%}
+			{%- set kind = new_kind -%}
+		{%- endif -%}
+
+		{%- if target_id -%}
+			{%- set href = href ~ "target_id=" ~ target_id ~ "&" -%}
+		{%- endif -%}
+		{%- if admin and admin != 'All' -%}
+			{%- set href = href ~ "admin=" ~ admin ~ "&" -%}
+		{%- endif -%}
+		{%- if kind and kind != 'All' -%}
+			{%- set href = href ~ "kind=" ~ kind ~ "&" -%}
+		{%- endif -%}
+
+		{{- href[:-1] -}}
+	{%- endmacro -%}
+
 	<div class="row justify-content-around">
 		<div class="col h-100">
 			<div class="justify-content-between">
@@ -12,40 +39,37 @@
 			<div class="row" style="overflow: visible;padding-top:5px">
 				<div class="col">
 					<div class="d-flex justify-content-between align-items-center">
+						<div class="d-flex align-items-center mb-3 ml-auto">
+							<div class="dropdown dropdown-actions">
 
-						{% block navbar %}
-							<div class="d-flex align-items-center mb-3 ml-auto">
-								<div class="dropdown dropdown-actions">
-
-									<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown">
-										{% if admin %}<img loading="lazy" src="/@{{admin}}/pic" alt="avatar" class="profile-pic-20 mr-2">{{admin}}{% else %}<img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/marseyjanny.webp" alt="avatar" class="profile-pic-20 mr-2">All{% endif %}
-									</button>
-									<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px); max-height: 50vh;
-									overflow: auto">
-										<a class="dropdown-item" href="{% if hole %}/h/{{hole}}{% endif %}/log{% if type %}?kind={{type}}{% endif %}"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/marseyjanny.webp" alt="avatar" class="profile-pic-20 mr-2">All</a>
-										{% if not hole %}
-											<a class="dropdown-item" href="/log?{{single_user_url}}=AutoJanny{% if type %}&kind={{type}}{% endif %}"><img loading="lazy" src="/@AutoJanny/pic" alt="avatar" class="profile-pic-20 mr-2">AutoJanny</a>
-										{% endif %}
-										{% for a in admins %}
-											<a class="dropdown-item" href="{% if hole %}/h/{{hole}}{% endif %}/log?{{single_user_url}}={{a}}{% if type %}&kind={{type}}{% endif %}"><img loading="lazy" src="/@{{a}}/pic" alt="avatar" class="profile-pic-20 mr-2">{{a}}</a>
-										{% endfor %}
-									</div>
-								</div>
-
-								<div class="dropdown dropdown-actions ml-3">
-									<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown">
-										{% if type %}<i class="fas {{types[type]['icon']}} mr-2"></i>{{type}}{% else %}<i class="fas fa-broom mr-2"></i>All{% endif %}
-									</button>
-									<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px); max-height: 50vh;
-									overflow: auto">
-										<a class="dropdown-item" href="{% if hole %}/h/{{hole}}{% endif %}/log{% if admin %}?{{single_user_url}}={{admin}}{% endif %}"><i class="fas fa-broom mr-2"></i>All</a>
-										{% for t, v in types.items() %}
-											<a class="dropdown-item" href="{% if hole %}/h/{{hole}}{% endif %}/log?{% if admin %}{{single_user_url}}={{admin}}&{% endif %}kind={{t}}"><i class="fas {{v['icon']}} mr-2"></i>{{t}}</a>
-										{% endfor %}
-									</div>
+								<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown">
+									{% if admin %}<img loading="lazy" src="/@{{admin}}/pic" alt="avatar" class="profile-pic-20 mr-2">{{admin}}{% else %}<img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/marseyjanny2.webp" alt="avatar" class="profile-pic-20 mr-2">All{% endif %}
+								</button>
+								<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px); max-height: 50vh;
+								overflow: auto">
+									<a class="dropdown-item" href="{{get_href(new_admin='All')}}"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/marseyjanny2.webp" alt="avatar" class="profile-pic-20 mr-2">All</a>
+									{% if not hole %}
+										<a class="dropdown-item" href="{{get_href(new_admin='AutoJanny')}}"><img loading="lazy" src="/@AutoJanny/pic" alt="avatar" class="profile-pic-20 mr-2">AutoJanny</a>
+									{% endif %}
+									{% for a in admins %}
+										<a class="dropdown-item" href="{{get_href(new_admin=a)}}"><img loading="lazy" src="/@{{a}}/pic" alt="avatar" class="profile-pic-20 mr-2">{{a}}</a>
+									{% endfor %}
 								</div>
 							</div>
-						{% endblock %}
+
+							<div class="dropdown dropdown-actions ml-3">
+								<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown">
+									{% if kind %}<i class="fas {{kinds[kind]['icon']}} mr-2"></i>{{kind}}{% else %}<i class="fas fa-broom mr-2"></i>All{% endif %}
+								</button>
+								<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px); max-height: 50vh;
+								overflow: auto">
+									<a class="dropdown-item" href="{{get_href(new_kind='All')}}"><i class="fas fa-broom mr-2"></i>All</a>
+									{% for t, v in kinds.items() %}
+										<a class="dropdown-item" href="{{get_href(new_kind=t)}}"><i class="fas {{v['icon']}} mr-2"></i>{{t}}</a>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -54,13 +78,13 @@
 				{% for ma in actions %}
 					<div id="action-{{ma.id}}" class="modlog-action{% if ma.unread %} unread{% endif %}">
 					<div class="d-flex flex-grow-1 align-items-center">
-						<a href="{% if hole %}/h/{{hole}}{% endif %}/log?{% if admin %}{{single_user_url}}={{admin}}&{% endif %}kind={{ma.kind}}">
+						<a href="{{get_href(new_kind=ma.kind)}}">
 							<div class="d-flex align-items-center justify-content-center {{ma.color}} mr-3 rounded-lg flex-shrink-0" style="width: 32px;height: 32px">
 								<i class="fas text-center {{ma.icon}} text-lg text-white fa-fw"></i>
 							</div>
 						</a>
 						<div class="d-flex align-items-center">
-							<a href="{% if hole %}/h/{{hole}}{% endif %}/log?{{single_user_url}}={{ma.user.username}}{% if type %}&kind={{type}}{% endif %}">
+							<a href="{{get_href(new_admin=ma.user.username)}}">
 								<span class="rounded">
 									<div class="profile-pic-35-wrapper">
 										<img loading="lazy" src="{{ma.user.profile_url}}" alt="avatar" class="profile-pic-35">

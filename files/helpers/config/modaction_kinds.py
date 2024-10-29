@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-MODACTION_TYPES = {
+MODACTION_KINDS = {
 	'chud': {
 		"str": 'chudded {self.target_link}',
 		"icon": 'fa-snooze',
@@ -463,9 +463,9 @@ MODACTION_TYPES = {
 	},
 }
 
-MODACTION_TYPES = dict(sorted(MODACTION_TYPES.items()))
+MODACTION_KINDS = dict(sorted(MODACTION_KINDS.items()))
 
-MODACTION_PRIVILEGED_TYPES = {
+MODACTION_PRIVILEGED_KINDS = {
 								'shadowban', 'unshadowban',
 								'mute_user', 'unmute_user',
 								'link_accounts', 'delink_accounts',
@@ -481,11 +481,11 @@ MODACTION_PRIVILEGED_TYPES = {
 							}
 MODACTION_PRIVILEGED__TYPES = {'progstack_post', 'progstack_comment',
 							'unprogstack_post', 'unprogstack_comment'}
-MODACTION_TYPES_FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
-									 if not t in MODACTION_PRIVILEGED_TYPES})
-MODACTION_TYPES__FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
+MODACTION_KINDS_FILTERED = deepcopy({t:v for t,v in MODACTION_KINDS.items()
+									 if not t in MODACTION_PRIVILEGED_KINDS})
+MODACTION_KINDS__FILTERED = deepcopy({t:v for t,v in MODACTION_KINDS.items()
 									 if not t in MODACTION_PRIVILEGED__TYPES})
-AEVANN_EXCLUDED_MODACTION_TYPES = {'pin_post', 'unpin_post',
+AEVANN_EXCLUDED_MODACTION_KINDS = {'pin_post', 'unpin_post',
 								'pin_comment', 'unpin_comment',
 								'approve_emoji', 'reject_emoji',
 								'distribute', 'mark_effortpost'}

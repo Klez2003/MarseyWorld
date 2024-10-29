@@ -891,9 +891,9 @@ def hole_log(v, hole):
 
 	kind = request.values.get("kind")
 
-	types = HOLEACTION_TYPES
+	used_kinds = HOLEACTION_KINDS
 
-	if kind and kind not in types:
+	if kind and kind not in used_kinds:
 		kind = None
 		actions = []
 		total=0
@@ -904,10 +904,10 @@ def hole_log(v, hole):
 			actions = actions.filter_by(user_id=mod_id)
 			kinds = {x.kind for x in actions}
 			if kind: kinds.add(kind)
-			types2 = {}
-			for k,val in types.items():
-				if k in kinds: types2[k] = val
-			types = types2
+			kinds2 = {}
+			for k,val in used_kinds.items():
+				if k in kinds: kinds2[k] = val
+			kinds = kinds2
 		if kind: actions = actions.filter_by(kind=kind)
 		total = actions.count()
 		actions = actions.order_by(HoleAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
@@ -915,7 +915,7 @@ def hole_log(v, hole):
 	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(hole=hole.name)]
 	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username)]
 
-	return render_template("log.html", v=v, admins=mods, types=types, admin=mod, type=kind, actions=actions, total=total, page=page, hole=hole, single_user_url='mod')
+	return render_template("log.html", v=v, admins=mods, kinds=kinds, admin=mod, kind=kind, actions=actions, total=total, page=page, hole=hole, single_user_url='mod')
 
 @app.get("/h/<hole>/log/<int:id>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -933,7 +933,7 @@ def hole_log_item(id, v, hole):
 	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(hole=hole.name)]
 	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username)]
 
-	types = HOLEACTION_TYPES
+	types = HOLEACTION_KINDS
 
 	return render_template("log.html", v=v, actions=[action], total=1, page=1, action=action, admins=mods, types=types, hole=hole, single_user_url='mod')
 
