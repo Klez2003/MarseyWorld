@@ -119,7 +119,6 @@ def cron_fn(every_5m, every_1d, every_1mo, every_2mo, manual):
 
 			if manual:
 				_get_real_sizes()
-				_undo_video_migration()
 				g.db.commit()
 
 		except:
@@ -535,43 +534,3 @@ def _get_real_sizes():
 			for media_usage in media.usages:
 				g.db.delete(media_usage)
 			g.db.delete(media)
-
-def _undo_video_migration():
-	body_archiveorg_link_regex = re.compile(r'\* \[archive.org\]\(https://web.archive.org/(.*?)\)', flags=re.A)
-	body_html_archiveorg_link_regex = re.compile(r'<li>\n?<p><a href="https:\/\/web.archive.org\/(.*?)" [\w ="]+>archive.org<\/a><\/p>\n?<\/li>', flags=re.A)
-	migrated = g.db.query(Media, Post).join(Media.usages).join(MediaUsage.post).filter(
-		Media.kind == 'video',
-		not_(Media.filename.like('/videos/16%')),
-		not_(Media.filename.like('/videos/17%')),
-		Media.purged_utc == None,
-		MediaUsage.post_id != None,
-		Post.url.like(f'{SITE_FULL_VIDEOS}/%.mp4'),
-	).order_by(MediaUsage.post_id)
-
-	for media, post in migrated:
-		print('filename: ', media.filename, flush=True)
-		print('post id: ', post.id, flush=True)
-
-		snappy_comment = g.db.query(Comment).filter_by(parent_post=post.id, author_id=SNAPPY_ID).one_or_none()
-		if not snappy_comment:
-			print('\n')
-			continue
-
-		print('snappy comment id: ', snappy_comment.id, flush=True)
-		try: archiveorg_link = body_archiveorg_link_regex.search(snappy_comment.body).group(1)
-		except AttributeError: archiveorg_link = body_html_archiveorg_link_regex.search(snappy_comment.body_html).group(1)
-
-		print('original link: ', archiveorg_link, flush=True)
-
-		if not is_safe_url(archiveorg_link) or archiveorg_link.startswith('https://i.imgur.com/'):
-			print('\n')
-			continue
-
-		post.url = archiveorg_link
-		g.db.add(post)
-		for usage in post.media_usages:
-			if not usage.removed_utc:
-				usage.removed_utc = time.time()
-				g.db.add(usage)
-
-		print('replaced!\n', flush=True)
