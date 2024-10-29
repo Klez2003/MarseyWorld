@@ -249,12 +249,12 @@ def log(v):
 
 	if v.admin_level >= PERMS['USER_SHADOWBAN']:
 		if v.admin_level >= PERMS['PROGSTACK']:
-			used_kinds = MODACTION_KINDS
+			kinds = MODACTION_KINDS
 		else:
-			used_kinds = MODACTION_KINDS__FILTERED
-	else: used_kinds = MODACTION_KINDS_FILTERED
+			kinds = MODACTION_KINDS__FILTERED
+	else: kinds = MODACTION_KINDS_FILTERED
 
-	if kind and kind not in used_kinds:
+	if kind and kind not in kinds:
 		kind = None
 		actions = []
 		total = 0
@@ -266,11 +266,11 @@ def log(v):
 			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED__KINDS))
 		if admin_id:
 			actions = actions.filter_by(user_id=admin_id)
-			kinds = {x.kind for x in actions}
-			kinds.add(kind)
+			new_kinds = {x.kind for x in actions}
+			new_kinds.add(kind)
 			kinds2 = {}
-			for k,val in used_kinds.items():
-				if k in kinds: kinds2[k] = val
+			for k,val in kinds.items():
+				if k in new_kinds: kinds2[k] = val
 			kinds = kinds2
 		if target_id:
 			target_post_ids = [x[0] for x in g.db.query(Post.id).filter_by(author_id=target_id)]
@@ -280,11 +280,11 @@ def log(v):
 				ModAction.target_post_id.in_(target_post_ids),
 				ModAction.target_comment_id.in_(target_comment_ids),
 			))
-			kinds = {x.kind for x in actions}
-			kinds.add(kind)
+			new_kinds = {x.kind for x in actions}
+			new_kinds.add(kind)
 			kinds2 = {}
-			for k,val in used_kinds.items():
-				if k in kinds: kinds2[k] = val
+			for k,val in kinds.items():
+				if k in new_kinds: kinds2[k] = val
 			kinds = kinds2
 		if kind: actions = actions.filter_by(kind=kind)
 		total = actions.count()

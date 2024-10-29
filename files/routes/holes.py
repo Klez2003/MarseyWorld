@@ -891,9 +891,9 @@ def hole_log(v, hole):
 
 	kind = request.values.get("kind")
 
-	used_kinds = HOLEACTION_KINDS
+	kinds = HOLEACTION_KINDS
 
-	if kind and kind not in used_kinds:
+	if kind and kind not in kinds:
 		kind = None
 		actions = []
 		total=0
@@ -902,11 +902,11 @@ def hole_log(v, hole):
 
 		if mod_id:
 			actions = actions.filter_by(user_id=mod_id)
-			kinds = {x.kind for x in actions}
-			if kind: kinds.add(kind)
+			new_kinds = {x.kind for x in actions}
+			if kind: new_kinds.add(kind)
 			kinds2 = {}
-			for k,val in used_kinds.items():
-				if k in kinds: kinds2[k] = val
+			for k,val in kinds.items():
+				if k in new_kinds: kinds2[k] = val
 			kinds = kinds2
 		if kind: actions = actions.filter_by(kind=kind)
 		total = actions.count()
