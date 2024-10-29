@@ -922,7 +922,7 @@ class User(Base):
 				q = q.filter(ModAction.kind.notin_(AEVANN_EXCLUDED_MODACTION_KINDS))
 
 			if self.admin_level < PERMS['PROGSTACK']:
-				q = q.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED__TYPES))
+				q = q.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED__KINDS))
 
 			return q.count()
 

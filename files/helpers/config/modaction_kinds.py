@@ -479,12 +479,12 @@ MODACTION_PRIVILEGED_KINDS = {
 								'insert_transaction',
 								'change_under_siege',
 							}
-MODACTION_PRIVILEGED__TYPES = {'progstack_post', 'progstack_comment',
+MODACTION_PRIVILEGED__KINDS = {'progstack_post', 'progstack_comment',
 							'unprogstack_post', 'unprogstack_comment'}
 MODACTION_KINDS_FILTERED = deepcopy({t:v for t,v in MODACTION_KINDS.items()
 									 if not t in MODACTION_PRIVILEGED_KINDS})
 MODACTION_KINDS__FILTERED = deepcopy({t:v for t,v in MODACTION_KINDS.items()
-									 if not t in MODACTION_PRIVILEGED__TYPES})
+									 if not t in MODACTION_PRIVILEGED__KINDS})
 AEVANN_EXCLUDED_MODACTION_KINDS = {'pin_post', 'unpin_post',
 								'pin_comment', 'unpin_comment',
 								'approve_emoji', 'reject_emoji',

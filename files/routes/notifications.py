@@ -269,7 +269,7 @@ def notifications_modactions(v):
 		listing = listing.filter(cls.kind.notin_(AEVANN_EXCLUDED_MODACTION_KINDS))
 
 	if v.admin_level < PERMS['PROGSTACK']:
-		listing = listing.filter(cls.kind.notin_(MODACTION_PRIVILEGED__TYPES))
+		listing = listing.filter(cls.kind.notin_(MODACTION_PRIVILEGED__KINDS))
 
 	if cls == HoleAction:
 		listing = listing.filter(cls.hole.in_(v.moderated_holes))
