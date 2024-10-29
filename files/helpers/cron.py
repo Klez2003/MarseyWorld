@@ -450,7 +450,7 @@ def _cleanup_videos():
 	)
 	for post in unpublished_drafts:
 		if post.media_usages:
-			print(f'deleted videos in draft post: {post.id}', flush=True)
+			print(f'marked videos for deletion in draft post: {post.id}', flush=True)
 		for media_usage in post.media_usages:
 			if not media_usage.removed_utc:
 				media_usage.removed_utc = time.time()
@@ -458,7 +458,7 @@ def _cleanup_videos():
 
 		for comment in post.comments:
 			if comment.media_usages:
-				print(f'deleted videos in draft comment: {comment.id}', flush=True)
+				print(f'marked videos for deletion in draft comment: {comment.id}', flush=True)
 			for media_usage in comment.media_usages:
 				if not media_usage.removed_utc:
 					media_usage.removed_utc = time.time()
