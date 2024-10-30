@@ -250,7 +250,7 @@ function comment_edit(id) {
 
 			if (data["ping_cost"]) {
 				const ping_cost = document.getElementById('comment-ping-cost-' + id)
-				ping_cost.textContent = data["ping_cost"]
+				ping_cost.textContent = commas(data["ping_cost"])
 				ping_cost.parentElement.classList.remove('d-none')
 			}
 
