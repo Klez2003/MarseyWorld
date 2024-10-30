@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 15.6 (Ubuntu 15.6-1.pgdg22.04+1)
--- Dumped by pg_dump version 15.6 (Ubuntu 15.6-1.pgdg22.04+1)
+-- Dumped from database version 15.8 (Ubuntu 15.8-1.pgdg22.04+1)
+-- Dumped by pg_dump version 15.8 (Ubuntu 15.8-1.pgdg22.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2164,6 +2164,13 @@ CREATE INDEX commentvotes_commentid_userid_votetype_idx ON public.commentvotes U
 --
 
 CREATE INDEX commentvotes_comments_type_index ON public.commentvotes USING btree (vote_type);
+
+
+--
+-- Name: commentvotes_created_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX commentvotes_created_utc_idx ON public.commentvotes USING btree (created_utc);
 
 
 --
