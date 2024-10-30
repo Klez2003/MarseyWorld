@@ -309,7 +309,7 @@ class User(Base):
 
 		if succeeded:
 			g.db.add(self)
-			if reason:
+			if reason and len(reason) < 1000:
 				for currency, amount in logs:
 					if not amount: continue
 					currency_log = CurrencyLog(
