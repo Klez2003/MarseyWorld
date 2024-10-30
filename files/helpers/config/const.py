@@ -1309,7 +1309,6 @@ approved_embed_hosts = [
 	'media.tenor.com',
 	'media1.tenor.com',
 	'c.tenor.com',
-	'thumbs.gfycat.com',
 	'i.postimg.cc', # WPD chat seems to like it
 	'files.catbox.moe',
 
