@@ -3121,6 +3121,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyflagmaryland', 'Marsey Flags', 2, 'crab bad driver', false, 0),
 ('marseyflagmauritania', 'Marsey Flags', 2, 'mauritania', false, 1689803894),
 ('marseyflagmexico', 'Marsey Flags', 2, 'north america taco ole', false, 0),
+('marseyflagminnesota', 'Marsey Flags', 2, 'america state states united usa', false, 1730273162),
 ('marseyflagmoldova', 'Marsey Flags', 2, 'moldova', false, 1689808476),
 ('marseyflagmongolia', 'Marsey Flags', 2, 'genghis khan horde', false, 1689803615),
 ('marseyflagmontenegro', 'Marsey Flags', 2, 'montenegro', false, 1689810755),
