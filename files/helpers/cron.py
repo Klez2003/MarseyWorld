@@ -500,7 +500,7 @@ def _cleanup_videos():
 	to_delete = db.query(Media).outerjoin(Media.usages).filter(
 		Media.filename.notin_(clean),
 		Media.purged_utc == None,
-		Media.user_id.notin_(218,380983),
+		Media.user_id.notin_({218,380983}),
 		or_(
 			MediaUsage.deleted_utc < cutoff,
 			MediaUsage.removed_utc < cutoff,
