@@ -1,7 +1,7 @@
 #!/bin/bash
 
-fclones group /videos | fclones link
-fclones group /images | fclones link
-fclones group /audio | fclones link
-fclones group /songs | fclones link
-fclones group /asset_submissions | fclones link
+fclones group --cache /videos | fclones link
+fclones group --cache /images | fclones link
+fclones group --cache /audio | fclones link
+fclones group --cache /songs | fclones link
+fclones group --cache /asset_submissions | fclones link
