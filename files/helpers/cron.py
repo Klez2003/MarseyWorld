@@ -517,8 +517,9 @@ def _cleanup_videos():
 		print('deleted: ', media.filename, humanize.naturalsize(media.size, binary=True), flush=True)
 		media.purged_utc = time.time()
 		g.db.add(media)
-		os.remove(media.filename)
-		if media.posterurl:
+		if os.path.isfile(media.filename):
+			os.remove(media.filename)
+		if media.posterurl and os.path.isfile(media.posterurl):
 			os.remove(media.posterurl)
 		gevent.spawn(rclone_delete, f'no:{media.filename}')
 
