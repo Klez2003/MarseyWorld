@@ -39,5 +39,7 @@ def can_see(user, obj):
 		if obj.name == 'countryclub': return bool(user) and user.can_see_countryclub
 		if obj.name == 'highrollerclub': return bool(user) and user.can_see_highrollerclub
 	elif obj.__class__.__name__ == 'User':
+		if obj.id == CROSSTALK_ID:
+			return user and user.can_see_countryclub
 		return not obj.shadowbanned or (user and user.id == obj.id) or (user and user.admin_level >= PERMS['USER_SHADOWBAN'])
 	return True
