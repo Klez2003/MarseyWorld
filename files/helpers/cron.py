@@ -491,7 +491,10 @@ def _cleanup_videos():
 
 
 
-	clean = [x[0] for x in db.query(MediaUsage.filename).filter_by(deleted_utc=None, removed_utc=None)]
+	clean = [x[0] for x in db.query(MediaUsage.filename).filter(
+		or_(MediaUsage.deleted_utc == None, MediaUsage.deleted_utc > cutoff),
+		or_(MediaUsage.removed_utc == None, MediaUsage.removed_utc > cutoff),
+	)]
 
 
 	to_delete = db.query(Media).outerjoin(Media.usages).filter(
