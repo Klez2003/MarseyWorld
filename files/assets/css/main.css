@@ -1193,7 +1193,7 @@ input[type=submit].btn-follow, input[type=reset].btn-follow, input[type=button].
 }
 .custom-control-label::before {
 	position: absolute;
-    top: calc(50% - 0.5rem);
+	top: 0.25rem;
 	left: -1.5rem;
 	display: block;
 	width: 1rem;
@@ -1254,6 +1254,9 @@ input[type=submit].btn-follow, input[type=reset].btn-follow, input[type=button].
 }
 .custom-switch .custom-control-input:disabled:checked ~ .custom-control-label::before {
 	background-color: rgba(0, 123, 255, 0.5);
+}
+#post-text .custom-control-label::before, .comment-body .custom-control-label::before {
+    top: calc(50% - 0.5rem);
 }
 .nav {
 	display: flex;
