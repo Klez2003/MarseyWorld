@@ -1256,7 +1256,7 @@ input[type=submit].btn-follow, input[type=reset].btn-follow, input[type=button].
 	background-color: rgba(0, 123, 255, 0.5);
 }
 #post-text .custom-control-label::before, .comment-body .custom-control-label::before {
-    top: calc(50% - 0.5rem);
+	top: calc(50% - 0.5rem);
 }
 .nav {
 	display: flex;
