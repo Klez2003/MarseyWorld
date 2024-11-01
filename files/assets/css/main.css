@@ -1193,7 +1193,7 @@ input[type=submit].btn-follow, input[type=reset].btn-follow, input[type=button].
 }
 .custom-control-label::before {
 	position: absolute;
-	top: 0.25rem;
+    top: calc(50% - 0.5rem);
 	left: -1.5rem;
 	display: block;
 	width: 1rem;
