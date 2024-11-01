@@ -659,9 +659,9 @@ def hole_marsey(v, hole):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def holes(v):
-	holes = g.db.query(Hole, func.count(Post.hole)).outerjoin(Post, Hole.name == Post.hole).group_by(Hole.name).order_by(Hole.created_utc)
-	alive = holes.filter(Hole.dead_utc == None).all()
-	dead = holes.filter(Hole.dead_utc != None).all()
+	holes = g.db.query(Hole, func.count(Post.hole)).outerjoin(Post, Hole.name == Post.hole).group_by(Hole.name)
+	alive = holes.filter(Hole.dead_utc == None).order_by(Hole.created_utc).all()
+	dead = holes.filter(Hole.dead_utc != None).order_by(Hole.dead_utc).all()
 	total_users = g.db.query(User).count()
 	return render_template('hole/holes.html', v=v, alive=alive, dead=dead, total_users=total_users)
 

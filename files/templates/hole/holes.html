@@ -34,6 +34,7 @@
 						<th>#</th>
 						<th>Name</th>
 						{% if type == "dead" %}
+							<th>Died on</th>
 							<th></th>
 						{% endif %}
 						<th>Posts</th>
@@ -51,6 +52,7 @@
 						<td>
 							<button type="button" class="btn btn-success" data-areyousure="postToastSwitch(this,'/h/{{hole}}/resurrect')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)"><img class="mr-2" height=40 loading="lazy" src="https://i.rdrama.net/e/marseynecromancer.webp" alt="marseynecromancer"> Resurrect ({{HOLE_COST | commas}} coins or marseybux)</button>
 						</td>
+						<td data-time="{{hole.dead_utc}}"></td>
 						{% endif %}
 						<td><a href="/h/{{hole}}">{{count}}</a></td>
 						<td><a href="/h/{{hole}}/followers">{{hole.follow_num}}</a></td>
