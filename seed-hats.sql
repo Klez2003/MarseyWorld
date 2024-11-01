@@ -1187,6 +1187,7 @@ INSERT INTO public.hat_defs VALUES (1708, 'Rebel', 'Fuck your rulez, gayvann', 2
 INSERT INTO public.hat_defs VALUES (1693, 'vintageframe', 'The good old days are now.', 2, 500, NULL, 1726372718);
 INSERT INTO public.hat_defs VALUES (1715, 'Open To Troll', 'Work experience? Yeah, I have some! I used to shitpost on this cat website? Pretty sweet, eh, eh!', 2, 500, NULL, 1729467510);
 INSERT INTO public.hat_defs VALUES (1717, 'Lolita eyepatch', 'adds whimsy to ur already eclectic style ദ്ദി ˉ͈̀꒳ˉ͈́ ྀི)✧', 2, 500, NULL, 1730142431);
+
 INSERT INTO public.hat_defs VALUES (1450, 'Red Eminent Horns', 'Queen of the devils, leader of the chuds.', 2, 500, NULL, 1708367282);
 INSERT INTO public.hat_defs VALUES (1544, 'Sweden Flag', 'Över Norden jag härskar, med det arv som jag gavs, gång på gång, sjung Carolus sång!', 2, 1000, NULL, 1714318091);
 INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokémon. A Ghost and Poison type. Gengar can pass through dimensions and appear almost anywhere. Since Gengar absorbs any warmth around it, the temperature suddenly drops wherever it appears.', 2, 500, NULL, 1698658745);
@@ -1326,7 +1327,7 @@ INSERT INTO public.hat_defs VALUES (1534, 'Kitty Pawz', 'Kawaii? Sure. But deep 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1718, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1720, true);
 
 
 --
