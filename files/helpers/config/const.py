@@ -771,6 +771,7 @@ LONGPOSTBOT_REPLIES = (
 	"Seek help.",
 	" ",
 	"https://i.rdrama.net/images/17299120560630205.webp",
+	"https://i.rdrama.net/images/17305040437598283.webp",
 )
 
 CHUD_MSGS = (
