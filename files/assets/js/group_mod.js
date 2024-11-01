@@ -77,7 +77,7 @@ function unblacklist(t, group, uid) {
 		{
 		},
 		() => {
-			t.parentElement.parentElement.parentElement.remove();
+			t.parentElement.parentElement.remove();
 		}
 	);
 }
