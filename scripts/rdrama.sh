@@ -1,2 +1,2 @@
 . /e
-export PATH="/d/scripts/:${PATH}"
+export PATH="/d/scripts/:/root/.cargo/bin:${PATH}"
