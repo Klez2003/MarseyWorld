@@ -524,7 +524,8 @@ def _cleanup_videos():
 			os.remove(media.filename)
 		if media.posterurl and os.path.isfile(media.posterurl):
 			os.remove(media.posterurl)
-		gevent.spawn(rclone_delete, f'no:{media.filename}')
+		if SITE == 'watchpeopledie.tv' and media.kind == 'video':
+			gevent.spawn(rclone_delete, f'no:{media.filename}')
 
 	total_saved = humanize.naturalsize(total_saved, binary=True)
 	print(f"Total saved: {total_saved}")
