@@ -742,6 +742,8 @@ document.addEventListener('hide.bs.modal', () => {
 });
 
 document.querySelectorAll('form').forEach(form => {
+	if (form.classList.contains('search')) return
+
 	form.addEventListener('submit', (e) => {
 		if (form.classList.contains('is-submitting')) {
 			e.preventDefault();
