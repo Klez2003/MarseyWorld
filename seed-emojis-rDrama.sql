@@ -5908,7 +5908,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('ninja', 'Classic', 2, 'animated emoticon japan', false, 0),
 ('nod', 'Classic', 2, 'animated emoticon agree yes', false, 0),
 ('noface', 'Rage', 2, 'angry mad rage', false, 1723674101),
-('nono', 'Classic', 2, 'animated emoticon disagree finger wag', false, 0),
+('nono', 'Classic', 2, 'animated disagree emoticon finger wag wagging', false, 0),
 ('nooticer', 'Wojak', 2, 'beard coomer nooticing notice noticer noticing thinking thonk', false, 1723504277),
 ('nopics', 'Classic', 2, 'thread worthless without sign', false, 1712102034),
 ('normielarp', 'Misc', 2, 'shitlib pretend normal larping cope sjw', false, 1711991824),
