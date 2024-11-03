@@ -933,9 +933,9 @@ def hole_log_item(id, v, hole):
 	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(hole=hole.name)]
 	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username)]
 
-	types = HOLEACTION_KINDS
+	kinds = HOLEACTION_KINDS
 
-	return render_template("log.html", v=v, actions=[action], total=1, page=1, action=action, admins=mods, types=types, hole=hole, single_user_url='mod')
+	return render_template("log.html", v=v, actions=[action], total=1, page=1, action=action, admins=mods, kinds=kinds, hole=hole, single_user_url='mod')
 
 @app.post('/h/<hole>/snappy_quotes')
 @limiter.limit('1/second', scope=rpath)

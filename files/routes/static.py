@@ -310,12 +310,12 @@ def log_item(id, v):
 
 	if v.admin_level >= PERMS['USER_SHADOWBAN']:
 		if v.admin_level >= PERMS['PROGSTACK']:
-			types = MODACTION_KINDS
+			kinds = MODACTION_KINDS
 		else:
-			types = MODACTION_KINDS__FILTERED
-	else: types = MODACTION_KINDS_FILTERED
+			kinds = MODACTION_KINDS__FILTERED
+	else: kinds = MODACTION_KINDS_FILTERED
 
-	return render_template("log.html", v=v, actions=[action], total=1, page=1, action=action, admins=admins, types=types, single_user_url='admin')
+	return render_template("log.html", v=v, actions=[action], total=1, page=1, action=action, admins=admins, kinds=kinds, single_user_url='admin')
 
 @app.get("/directory")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
