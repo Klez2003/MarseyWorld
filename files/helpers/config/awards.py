@@ -788,7 +788,7 @@ AWARDS = {
 	"gigapin": {
 		"kind": "gigapin",
 		"title": "Giga Pin",
-		"description": "Pins a post for 12 hours or a comment for 72 hours.",
+		"description": "Pins a post for 12 hours or a comment for 3 days.",
 		"icon": "fas fa-thumbtack fa-rotate--45",
 		"color": "text-danger",
 		"price": 13500,
