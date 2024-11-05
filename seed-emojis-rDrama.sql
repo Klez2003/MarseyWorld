@@ -2445,6 +2445,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseychristmasparty', 'Marsey', 2, 'holiday celebrate wooo', false, 0),
 ('marseychristmasscarf', 'Marsey', 2, 'holiday candy cane cold winter candycane', false, 0),
 ('marseychristmastree', 'Marsey', 2, 'retard special holiday', false, 0),
+('marseychrome', 'Marsey', 2, 'browser chromebook chromium google icon logo whiskers', false, 1730696478),
 ('marseychtorrr', 'Marsey', 2, 'reddit administrator place moderator', false, 0),
 ('marseychtorrr2', 'Marsey', 2, 'reddit admin chonker fat', false, 0),
 ('marseychucky', 'Marsey', 2, 'doll halloween kill stab knife holiday possessed monster', false, 0),
