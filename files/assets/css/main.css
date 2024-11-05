@@ -7806,14 +7806,14 @@ p:empty + p { /* poll margin */
     width: 285px;
 }
 
-.caction:focus, .caction:hover, .caction:active,
+.caction:not(.score-btn):focus, .caction:not(.score-btn):hover, .caction:not(.score-btn):active,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):focus,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):hover,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):active,
 .sidebar-link:focus, .sidebar-link:hover, .sidebar-link:active,
 .mx-1.text-center.nav-item:focus, .mx-1.text-center.nav-item:hover, .mx-1.text-center.nav-item:active,
 
-.caction:focus *, .caction:hover *, .caction:active *,
+.caction:not(.score-btn):focus *, .caction:not(.score-btn):hover *, .caction:not(.score-btn):active *,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):focus *,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):hover *,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):active *,
