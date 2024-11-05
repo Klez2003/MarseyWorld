@@ -176,34 +176,20 @@ def process_video(file, v, post=None):
 
 	new = f'{old}.mp4'
 
-	try:
-		video_info = ffmpeg.probe(old)['streams']
-		codec = None
-		profile = 'LC'
-		for stream in video_info:
-			if stream["codec_type"] == "video":
-				codec = stream['codec_name']
-				bitrate = int(stream.get('bit_rate', 3000000))
-			elif stream["codec_type"] == "audio":
-				profile = stream.get('profile', 'LC')
+	reencode = False
+	for stream in ffmpeg.probe(old)['streams']:
+		if stream["codec_type"] == "video":
+			if stream['codec_name'] != 'h264':
+				reencode = True
+			if int(stream.get('bit_rate', 3000000)) >= 3000000:
+				reencode = True
+		elif stream["codec_type"] == "audio":
+			if stream.get('profile') != 'LC':
+				reencode = True
 
-	except:
-		os.remove(old)
-		stop(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
-
-	if not codec:
-		os.remove(old)
-		stop(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
-
-	is_reencoding = False
-	if codec != 'h264' or profile != 'LC':
-		is_reencoding = True
+	if reencode:
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new)
-	elif bitrate >= 3000000:
-		is_reencoding = True
-		copyfile(old, new)
-		gevent.spawn(reencode_video, old, new, True)
 	else:
 		try:
 			ffmpeg.input(old, threads=1).output(new, loglevel="quiet", map_metadata=-1, acodec="copy", vcodec="copy", threads=1).run()
