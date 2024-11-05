@@ -67,6 +67,7 @@ INSERT INTO public.badge_defs VALUES (353, '2024 Spooooooky Marsey Artist', 'Con
 INSERT INTO public.badge_defs VALUES (181, 'INFECTED', 'This user is a mindless zombie.', 1666073382);
 INSERT INTO public.badge_defs VALUES (182, 'VAXXMAXXED', 'This user is a mindless zombie.', 1666074754);
 INSERT INTO public.badge_defs VALUES (301, '2023 Spooooooky Marsey Artist', 'Contributed a VERY SCARY Marsey for Halloween 2023!', 1695911099);
+INSERT INTO public.badge_defs VALUES (354, 'Gigavaxxer IV', 'Vaccinated 10 people during Homoween 2024.', 1730819919);
 INSERT INTO public.badge_defs VALUES (303, 'LGBTQIA+ Drip', 'This user has sworn lifelong allegiance to the most marginalized community 🥰', 1696534759);
 INSERT INTO public.badge_defs VALUES (194, 'Master Baiter 2021', 'The cunning mastermind behind the ruse which was voted best rDrama bait of 2021.', 1670627103);
 INSERT INTO public.badge_defs VALUES (197, 'Best Marsey 2021', 'The creator of the best Marsey emoji of 2021, as voted by rDrama users.', 1670627291);
@@ -80,6 +81,7 @@ INSERT INTO public.badge_defs VALUES (329, 'WORDS WORDS WORDS WORDS', 'Wrote 10 
 INSERT INTO public.badge_defs VALUES (332, 'Sidebar God', 'Contributed 100 (or more!!!!) sidebar images 🖼🎨', 1709691274);
 INSERT INTO public.badge_defs VALUES (338, 'INcel silver', 'User invited two internet celebs to rDrama', 1715140318);
 INSERT INTO public.badge_defs VALUES (343, '3rd Birthgay Bash Artist', 'Awarded for contributing a beautiful 3pilled birthday banner or sidebar art for Marsey''s 3rd birthday!', 1716230587);
+INSERT INTO public.badge_defs VALUES (355, 'CDC Goon IV', 'Vaccinated 100 people during Homoween 2024.', 1730819928);
 INSERT INTO public.badge_defs VALUES (298, 'Gray Alien', 'This user probed /r/UFOs and left the next morning.', 1694717005);
 INSERT INTO public.badge_defs VALUES (213, 'Best Marsey 2022', 'The creator of the best Marsey emoji of 2022, as voted by rDrama users.', 1670719193);
 INSERT INTO public.badge_defs VALUES (215, 'Own Goal', 'Don''t take this user''s advice on sportsball betting.', 1671150354);
@@ -158,6 +160,7 @@ INSERT INTO public.badge_defs VALUES (260, 'Platinum-Tier Venture Capitalist', '
 INSERT INTO public.badge_defs VALUES (291, 'Griller', 'Enough about trans rights! Enough about trans wrongs! I just wanna grill for God''s sake!', 1689087935);
 INSERT INTO public.badge_defs VALUES (261, 'Double-Platinum-Tier Venture Capitalist', 'This king has contributed a lifetime total of at least $10,000 to keeping rDrama thriving', 1683678332);
 INSERT INTO public.badge_defs VALUES (313, 'Zombiechad III', 'Zombified 10 people during Homoween 2023.', 1698600949);
+INSERT INTO public.badge_defs VALUES (356, 'Zombiechad IV', 'Zombified 10 people during Homoween 2024.', 1730819971);
 INSERT INTO public.badge_defs VALUES (286, 'Pilgrimage', 'This user went on a quest to an rDrama holy site', 1687363815);
 INSERT INTO public.badge_defs VALUES (241, 'SNITCH', 'This nigga snitched on a fellow rDrama user AND GOT PAID 🤑💰💸', 1679066554);
 INSERT INTO public.badge_defs VALUES (323, 'Dramatard of the Year 2023', 'Voted as the best rdrama user of 2023. Congratulations!', 1705457749);
@@ -233,6 +236,7 @@ INSERT INTO public.badge_defs VALUES (70, 'Big Spender', 'Spent 100,000 currency
 INSERT INTO public.badge_defs VALUES (10, 'Bronze Recruiter', 'Recruited at least 1 friend to join the site', 0);
 INSERT INTO public.badge_defs VALUES (314, 'Superspreader III', 'Zombified 100 people during Homoween 2023.', 1698600973);
 INSERT INTO public.badge_defs VALUES (315, 'Gigavaxxer III', 'Vaccinated 10 people during Homoween 2023.', 1698601009);
+INSERT INTO public.badge_defs VALUES (357, 'Super Spreader IV', 'Zombified 100 people during Homoween 2024.', 1730819993);
 INSERT INTO public.badge_defs VALUES (81, 'Patron of the Arts', 'Sponsored the creation of an approved Marsey', 0);
 INSERT INTO public.badge_defs VALUES (83, 'All-Seeing Eye', 'Can view private profiles', 0);
 INSERT INTO public.badge_defs VALUES (84, 'Alt-Seeing Eye', 'Can see alts', 0);
@@ -310,13 +314,14 @@ INSERT INTO public.badge_defs VALUES (87, 'Unblockable', 'This user is unblockab
 INSERT INTO public.badge_defs VALUES (71, 'Big Big Spender', 'Spent 250,000 currency on awards', 0);
 INSERT INTO public.badge_defs VALUES (72, 'Big Big Big Spender', 'Spent 500,000 currency on awards', 0);
 INSERT INTO public.badge_defs VALUES (73, 'Le Rich Gentlesir', 'Spent a fucking million currency on awards', 0);
+INSERT INTO public.badge_defs VALUES (358, 'Pumpkin Butcher', 'Carved a SCARY PUMPKIN in 2024', 1730820061);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 353, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 358, true);
 
 
 --
