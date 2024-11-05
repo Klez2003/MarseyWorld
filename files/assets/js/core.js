@@ -241,7 +241,7 @@ function formatTime(d) {
 	const options = {year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short'};
 	return d.toLocaleTimeString([], options)
 }
-if (!location.pathname.startsWith('/chat/')) {
+if (!location.pathname.startsWith('/chat/') || location.pathname.endsWith('/orgies')) {
 	for (const e of document.querySelectorAll('[data-time]')) {
 		e.innerHTML = formatTime(new Date(e.dataset.time*1000));
 	};
