@@ -813,17 +813,6 @@ a.btn.disabled, fieldset:disabled a.btn {
 	background-color: var(--primary);
 	border-color: var(--primary);
 }
-.btn-primary:hover {
-	color: #fff;
-	background-color: var(--primary);
-	border-color: #0062cc;
-}
-.btn-primary:focus, .btn-primary.focus {
-	color: #fff;
-	background-color: var(--primary);
-	border-color: #0062cc;
-	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
-}
 .btn-primary.disabled, .btn-primary:disabled {
 	color: #fff;
 	background-color: var(--primary);
@@ -7822,16 +7811,40 @@ p:empty + p { /* poll margin */
 .post-actions > .list-inline  > .list-inline-item:not(.voting):hover,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):active,
 .sidebar-link:focus, .sidebar-link:hover, .sidebar-link:active,
-.mx-1.nav-item:focus, .mx-1.nav-item:hover, .mx-1.nav-item:active,
+.mx-1.text-center.nav-item:focus, .mx-1.text-center.nav-item:hover, .mx-1.text-center.nav-item:active,
 
 .btn:not(.score-btn):hover *, .btn:not(.score-btn):active *,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):focus *,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):hover *,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):active *,
 .sidebar-link:focus *, .sidebar-link:hover *, .sidebar-link:active *,
-.mx-1.nav-item:not(#header--notifications--item):focus *, .mx-1.nav-item:not(#header--notifications--item):hover *, .mx-1.nav-item:not(#header--notifications--item):active * 
+.mx-1.text-center.nav-item:not(#header--notifications--item):focus *, .mx-1.text-center.nav-item:not(#header--notifications--item):hover *, .mx-1.text-center.nav-item:not(#header--notifications--item):active * 
 {
 	color: var(--primary) !important;
+}
+
+.btn.btn-primary:focus, .btn.btn-primary:hover, .btn.btn-primary:active {
+    color: white !important;
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+
+.btn.btn-danger:focus, .btn.btn-danger:hover, .btn.btn-danger:active {
+    color: white !important;
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
+
+.btn.btn-success:focus, .btn.btn-success:hover, .btn.btn-success:active {
+    color: white !important;
+    background-color: #38A169 !important;
+    border-color: #38A169 !important;
+}
+
+.btn.btn-primary:focus .fas, .btn.btn-primary:hover .fas, .btn.btn-primary:active .fas,
+.btn.btn-danger:focus .fas, .btn.btn-danger:hover .fas, .btn.btn-danger:active .fas,
+.btn.btn-success:focus .fas, .btn.btn-success:hover .fas, .btn.btn-success:active .fas {
+    color: white !important;
 }
 
 .d-md-none .nav-item:focus, .d-md-none .nav-item:hover, .d-md-none .nav-item:active,
