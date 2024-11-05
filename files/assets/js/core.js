@@ -350,6 +350,8 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 				window.onbeforeunload = null;
 			extraActionsOnSuccess(xhr);
 		}
+
+		form.classList.remove('is-submitting');
 	};
 
 	xhr.send(formData);
