@@ -1,30 +1,32 @@
 {% extends "default.html" %}
 {% block pagetitle %}Holes{% endblock %}
 {% block content %}
-	<h3 class="mt-3">Create Hole</h3>
-	<form class="mt-3" id="submitform" action="/create_hole" method="post" data-nonce="{{g.nonce}}">
-		<div class="container pb-0">
-			<div class="row mb-4">
-				<div class="col col-md-4 p-3 py-md-0">
-					<div class="body">
-						<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
-						<label for="create-hole-name">Hole Name</label>
-						<input autocomplete="off" minlength="3" maxlength="25" pattern='[a-zA-Z0-9_\-]*' class="form-control" id="create-hole-name" type="text" name="name" required>
-						<small class="form-text text-muted">3-25 characters, including letters, numbers, _ , and -</small>
-						{% if HOLE_INACTIVITY_DEATH %}
-							<p class="text-danger mt-2">Warning: holes die if they spend 7 days without new posts.</p>
-						{% endif %}
-						<div class="footer">
-							<div class="d-flex">
-								<button type="submit" class="btn btn-primary ml-auto" {% if HOLE_COST > v.coins + v.marseybux %}disabled{% endif %}>Create Hole</button>
+	{% if v.can_create_hole %}
+		<h3 class="mt-3">Create Hole</h3>
+		<form class="mt-3" id="submitform" action="/create_hole" method="post" data-nonce="{{g.nonce}}">
+			<div class="container pb-0">
+				<div class="row mb-4">
+					<div class="col col-md-4 p-3 py-md-0">
+						<div class="body">
+							<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
+							<label for="create-hole-name">Hole Name</label>
+							<input autocomplete="off" minlength="3" maxlength="25" pattern='[a-zA-Z0-9_\-]*' class="form-control" id="create-hole-name" type="text" name="name" required>
+							<small class="form-text text-muted">3-25 characters, including letters, numbers, _ , and -</small>
+							{% if HOLE_INACTIVITY_DEATH %}
+								<p class="text-danger mt-2">Warning: holes die if they spend 7 days without new posts.</p>
+							{% endif %}
+							<div class="footer">
+								<div class="d-flex">
+									<button type="submit" class="btn btn-primary ml-auto" {% if HOLE_COST > v.coins + v.marseybux %}disabled{% endif %}>Create Hole</button>
+								</div>
+								<p class="mt-2 mr-1" style="float: right"><b>Cost</b>: {{HOLE_COST | commas}} coins or marseybux</p>
 							</div>
-							<p class="mt-2 mr-1" style="float: right"><b>Cost</b>: {{HOLE_COST | commas}} coins or marseybux</p>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</form>
+		</form>
+	{% endif %}
 
 	{% macro hole_table(holes, type) %}
 		<div class="overflow-x-auto">
