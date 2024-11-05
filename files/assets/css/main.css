@@ -1244,8 +1244,8 @@ input[type=submit].btn-follow, input[type=reset].btn-follow, input[type=button].
 .custom-switch .custom-control-input:disabled:checked ~ .custom-control-label::before {
 	background-color: rgba(0, 123, 255, 0.5);
 }
-#post-text .custom-control-label::before, .comment-body .custom-control-label::before, .preview .custom-control-label::before
-#post-text .custom-control-input::before, .comment-body .custom-control-input::before, .preview .custom-control-input::before
+#post-text .custom-control-label::before, .comment-body .custom-control-label::before, .preview .custom-control-label::before,
+#post-text .custom-control-input, .comment-body .custom-control-input, .preview .custom-control-input
 {
 	top: calc(50% - 0.5rem);
 }
