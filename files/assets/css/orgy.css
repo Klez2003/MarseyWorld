@@ -94,9 +94,6 @@ body > .container {
 	aspect-ratio: 16/9;
 }
 
-@media (min-width: 992px)
-{
-	.chat-message {
-		max-width: calc(48vw - 400px);
-	}
+blockquote > blockquote > blockquote > blockquote > blockquote {
+	display: none;
 }
