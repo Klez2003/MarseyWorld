@@ -1,6 +1,8 @@
 function embed_twitter() {
 	if (navigator.doNotTrack == "1") return
 
+	if (document.getElementsByClassName('orgy-top-container')) return
+
 	for (const blockquote of document.querySelectorAll('blockquote.twitter-tweet')) {
 		const id = blockquote.lastChild.href.split('/status/')[1].split('?ref_src')[0]
 		let iframe_src = `https://platform.twitter.com/embed/Tweet.html?dnt=true&id=${id}`
