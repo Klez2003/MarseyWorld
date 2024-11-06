@@ -6,7 +6,7 @@
 	--gray-900: transparent;
 }
 
-.container, #userpage > div.container-fluid, #root > div.App, .orgy-top-container {
+.container, #userpage > div.container-fluid, #root > div.App, #orgy-top-container {
 	background: rgba(var(--background), 0.9) !important;
 }
 

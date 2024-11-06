@@ -1,7 +1,7 @@
 function embed_reddit() {
 	if (navigator.doNotTrack == "1") return
 
-	if (document.getElementsByClassName('orgy-top-container')) return
+	if (document.getElementById('orgy-top-container')) return
 
 	const reddit = document.getElementById('reddit').value
 

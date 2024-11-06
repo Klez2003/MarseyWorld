@@ -5,7 +5,7 @@
 	}
 }
 
-.orgy-top-container {
+#orgy-top-container {
 	display: flex;
 	justify-content: space-around;
 }
@@ -15,7 +15,7 @@
 }
 
 @media (max-width: 768px) {
-	.orgy-top-container {
+	#orgy-top-container {
 		flex-flow: column wrap;
 	}
 	#chat-window {
