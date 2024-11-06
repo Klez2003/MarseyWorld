@@ -43,6 +43,7 @@
 @media (max-width: 768px) {
 	#orgy-file-container {
 		width: 100% !important;
+		display: block;
 	}
 	#orgy-title {
 		display: none;
