@@ -169,9 +169,12 @@ def process_video(file, v, post=None):
 		old = f'/videos/{time.time()}'.replace('.','')
 		file.save(old)
 
+	print(f'Attempting to reencode {old}', flush=True)
+
 	size = os.stat(old).st_size
 	if not IS_LOCALHOST and (size > MAX_VIDEO_SIZE_MB_PATRON * 1024 * 1024 or (not v.patron and size > MAX_VIDEO_SIZE_MB * 1024 * 1024)):
 		os.remove(old)
+		print(f'Failed (1) reencoding {old}', flush=True)
 		stop(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for {patron}s)")
 
 	new = f'{old}.mp4'
@@ -201,6 +204,7 @@ def process_video(file, v, post=None):
 			os.remove(old)
 			if os.path.isfile(new):
 				os.remove(new)
+			print(f'Failed (2) reencoding {old}', flush=True)
 			stop(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
 		os.remove(old)
@@ -228,6 +232,8 @@ def process_video(file, v, post=None):
 
 	if SITE == 'watchpeopledie.tv':
 		gevent.spawn(rclone_copy, new)
+
+	print(f'Finished reencoding {old}', flush=True)
 
 	return url, posterurl, name
 
@@ -330,10 +336,10 @@ def process_badge_entry(oldname, v, comment_body):
 
 if SITE == 'watchpeopledie.tv':
 	def rclone_copy(filename):
-		print(f'attempting to sync {filename}', flush=True)
+		print(f'Attempting to sync {filename}', flush=True)
 		params = ["rclone", "copy", filename, "no:/videos"]
 		subprocess.run(params, check=True, timeout=3000)
-		print(f'finished syncing {filename}', flush=True)
+		print(f'Finished syncing {filename}', flush=True)
 
 	def rclone_delete(path):
 		params = ("rclone", "deletefile", path)
