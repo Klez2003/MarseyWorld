@@ -131,6 +131,9 @@ def process_audio(file, v, old=None):
 
 def reencode_video(old, new, check_sizes=False):
 	tmp = new.replace('.mp4', '-t.mp4')
+
+	print(f'Attempting to reencode {new}', flush=True)
+
 	try:
 		ffmpeg.input(old, threads=1).output(tmp, loglevel="quiet", map_metadata=-1, threads=1).run()
 	except:
@@ -139,6 +142,7 @@ def reencode_video(old, new, check_sizes=False):
 			os.remove(tmp)
 		if SITE == 'watchpeopledie.tv':
 			rclone_copy(new)
+		print(f'Failed (1) reencoding {new}', flush=True)
 		return
 
 	if check_sizes:
@@ -149,6 +153,7 @@ def reencode_video(old, new, check_sizes=False):
 			os.remove(tmp)
 			if SITE == 'watchpeopledie.tv':
 				rclone_copy(new)
+			print(f'Failed (2) reencoding {new}', flush=True)
 			return
 
 	os.replace(tmp, new)
@@ -160,6 +165,7 @@ def reencode_video(old, new, check_sizes=False):
 	url = SITE_FULL_VIDEOS + new.split('/videos')[1]
 	purge_files_in_cloudflare_cache(url)
 
+	print(f'Finished reencoding {new}', flush=True)
 
 
 def process_video(file, v, post=None):
@@ -169,12 +175,9 @@ def process_video(file, v, post=None):
 		old = f'/videos/{time.time()}'.replace('.','')
 		file.save(old)
 
-	print(f'Attempting to reencode {old}', flush=True)
-
 	size = os.stat(old).st_size
 	if not IS_LOCALHOST and (size > MAX_VIDEO_SIZE_MB_PATRON * 1024 * 1024 or (not v.patron and size > MAX_VIDEO_SIZE_MB * 1024 * 1024)):
 		os.remove(old)
-		print(f'Failed (1) reencoding {old}', flush=True)
 		stop(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for {patron}s)")
 
 	new = f'{old}.mp4'
@@ -204,7 +207,6 @@ def process_video(file, v, post=None):
 			os.remove(old)
 			if os.path.isfile(new):
 				os.remove(new)
-			print(f'Failed (2) reencoding {old}', flush=True)
 			stop(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
 		os.remove(old)
@@ -232,8 +234,6 @@ def process_video(file, v, post=None):
 
 	if SITE == 'watchpeopledie.tv':
 		gevent.spawn(rclone_copy, new)
-
-	print(f'Finished reencoding {old}', flush=True)
 
 	return url, posterurl, name
 
