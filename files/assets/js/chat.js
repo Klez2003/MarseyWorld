@@ -356,7 +356,9 @@ socket.on('delete', function(text) {
 })
 
 socket.on('refresh_chat', () => {
-	location.reload()
+	setTimeout(function() {
+		location.reload()
+	}, 1000);
 })
 
 document.addEventListener('click', function(e) {
