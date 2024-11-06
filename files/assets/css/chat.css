@@ -94,6 +94,10 @@ p {
 	margin-bottom: auto;
 }
 
+.quote {
+	padding: 2rem 0.5rem 2rem 2rem !important;
+}
+
 lite-youtube {
 	max-width: min(70vw,500px) !important;
 	width: 500px;
