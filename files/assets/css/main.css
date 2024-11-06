@@ -7807,6 +7807,7 @@ p:empty + p { /* poll margin */
 }
 
 .quote:focus, .quote:hover, .quote:active,
+.del:focus, .del:hover, .del:active,
 .caction:not(.score-btn):focus, .caction:not(.score-btn):hover, .caction:not(.score-btn):active,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):focus,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):hover,
@@ -7814,7 +7815,6 @@ p:empty + p { /* poll margin */
 .sidebar-link:focus, .sidebar-link:hover, .sidebar-link:active,
 .mx-1.text-center.nav-item:focus, .mx-1.text-center.nav-item:hover, .mx-1.text-center.nav-item:active,
 
-.quote:focus *, .quote:hover *, .quote:active *,
 .caction:not(.score-btn):focus *, .caction:not(.score-btn):hover *, .caction:not(.score-btn):active *,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):focus *,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):hover *,
