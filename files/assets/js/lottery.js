@@ -12,7 +12,7 @@ const lotteryOnReady = function() {
 	setTimeout(() => {
 		ticketPulled.style.display = "none";
 		ticketPulled.src =
-		"/i/rDrama/lottery_active.webp?x=11&t=" +
+		"/i/rDrama/lottery_active.webp?x=12&t=" +
 		new Date().getTime();
 		purchaseTicket.disabled = false;
 	}, 1780);
