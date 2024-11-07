@@ -68,13 +68,13 @@ def chart(kind):
 			ChatMessage.created_utc > day_cutoffs[i + 1]).count()
 		for i in range(len(day_cutoffs) - 1)][::-1]
 
-	plt.rcParams['figure.figsize'] = (chart_width, chart_width)
+	plt.rcParams['figure.figsize'] = (chart_width, chart_width*2)
 
-	signup_chart = plt.subplot2grid((chart_width, chart_width), (0, 0), rowspan=6, colspan=chart_width)
-	posts_chart = plt.subplot2grid((chart_width, chart_width), (10, 0), rowspan=6, colspan=chart_width)
-	comments_chart = plt.subplot2grid((chart_width, chart_width), (20, 0), rowspan=6, colspan=chart_width)
-	votes_chart = plt.subplot2grid((chart_width, chart_width), (30, 0), rowspan=6, colspan=chart_width)
-	chat_chart = plt.subplot2grid((chart_width, chart_width), (40, 0), rowspan=6, colspan=chart_width)
+	signup_chart = plt.subplot2grid((chart_width, chart_width), (0, 0), rowspan=3, colspan=chart_width)
+	posts_chart = plt.subplot2grid((chart_width, chart_width), (5, 0), rowspan=3, colspan=chart_width)
+	comments_chart = plt.subplot2grid((chart_width, chart_width), (10, 0), rowspan=3, colspan=chart_width)
+	votes_chart = plt.subplot2grid((chart_width, chart_width), (15, 0), rowspan=3, colspan=chart_width)
+	chat_chart = plt.subplot2grid((chart_width, chart_width), (20, 0), rowspan=3, colspan=chart_width)
 
 	signup_chart.plot(daily_times, daily_signups, color='red')
 	posts_chart.plot(daily_times, post_stats, color='blue')
