@@ -76,8 +76,6 @@ def chart(kind):
 	votes_chart = plt.subplot2grid((chart_width, chart_width), (30, 0), rowspan=6, colspan=chart_width)
 	chat_chart = plt.subplot2grid((chart_width, chart_width), (40, 0), rowspan=6, colspan=chart_width)
 
-	signup_chart.grid(), posts_chart.grid(), comments_chart.grid()
-
 	signup_chart.plot(daily_times, daily_signups, color='red')
 	posts_chart.plot(daily_times, post_stats, color='blue')
 	comments_chart.plot(daily_times, comment_stats, color='purple')
