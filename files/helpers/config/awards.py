@@ -409,10 +409,10 @@ AWARDS = {
 	### Standard
 	"beano": {
 		"kind": "beano",
-		"title": "Coconut" if SITE_NAME == 'rDrama' else "Beano",
-		"description": "You just fell out of a coconut tree" if SITE_NAME == 'rDrama' else "Makes the recipient not hear fart noises on the site.",
-		"icon": "fas fa-coconut" if SITE_NAME == 'rDrama' else "fas fa-gas-pump-slash",
-		"color": "text-coconut" if SITE_NAME == 'rDrama' else "text-green",
+		"title": "Beano",
+		"description": "Makes the recipient not hear fart noises on the site.",
+		"icon": "fas fa-gas-pump-slash",
+		"color": "text-green",
 		"price": 100,
 		"deflectable": True,
 		"cosmetic": False,

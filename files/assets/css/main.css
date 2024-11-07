@@ -232,7 +232,6 @@
 .fa-droplet:before{content:"\f043"}
 .fa-person-rifle:before{content:"\e54e"}
 .fa-up:before{content:"\f357"}
-.fa-coconut:before{content:"\e2f6"}
 .fa-terminal:before{content:"\f120"}
 .fa-hand:before{content:"\f256"}
 
@@ -7767,10 +7766,6 @@ tr:has(hideme) {
 
 #category-filter * {
 	cursor: pointer;
-}
-
-.text-coconut {
-	color: #965a3e;
 }
 
 audio {
