@@ -459,6 +459,12 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	emojis_used = set()
 
+	if golden:
+		for pattern in (poll_regex, choice_regex, bet_regex):
+			if pattern.search(sanitized.replace('&amp;', '&')):
+				golden = False
+				break
+
 	if not (author and author.hieroglyphs):
 		emojis = list(emoji_regex.finditer(sanitized))
 		if len(emojis) > 20: golden = False
