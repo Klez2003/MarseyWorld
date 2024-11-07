@@ -197,8 +197,8 @@ def award_thing(v, thing_type, id):
 	if obj.is_longpost and kind in {"ectoplasm", "candycorn", "candycane", "stab", "glowie", "tilt", "queen", "chud", "marsify", "owoify", "sharpen", "rainbow"}:
 		stop(403, f'Long posts and comments are immune to the {award_title} award!')
 
-	if obj.distinguished:
-		stop(403, 'Distinguished posts and comments are immune to awards!')
+	if obj.distinguished and (AWARDS[kind]['cosmetic'] or AWARDS[kind]['negative']):
+		stop(403, 'Distinguished posts and comments are immune to cosmetic and negative awards!')
 
 	note = request.values.get("note", "").strip()
 	if len(note) > 200:
