@@ -1387,7 +1387,6 @@ CHUD_PHRASES = ( #if you add a phrase, remove one in turn
 	"Furry rights are human rights",
 	"Trans furry lives matter",
 	"Trump for prison",
-	"Kamala will win",
 	"Jewish lives matter",
 	"White extinction is long overdue",
 	"Climate action now",
