@@ -96,9 +96,15 @@
 									<img loading="lazy" class="mr-2" src="{{SITE_FULL_IMAGES}}/e/{{v.flag}}.webp?e=1" height=60 data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.flag}}">
 								{% endif %}
 
-								<button type="button" class="btn btn-secondary format px-3" data-nonce="{{g.nonce}}" data-onclick="openEmojiModal(this, 'flag-body', 'Marsey Flags')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji">
+								<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="openEmojiModal(this, 'flag-body', 'Marsey Flags')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji">
 									Change National Flag
 								</button>
+
+								{% if v.flag %}
+									<button type="button" class="btn btn-danger ml-2" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/remove_flag')">
+										Remove Current Flag
+									</button>
+								{% endif %}
 							</div>
 						</div>
 

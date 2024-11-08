@@ -54,6 +54,18 @@ def remove_background(v):
 		g.db.add(v)
 	return {"message": "Background removed!"}
 
+@app.post('/settings/remove_flag')
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def remove_flag(v):
+	if v.flag:
+		v.flag = None
+		g.db.add(v)
+	return {"message": "Flag removed!"}
+
 @app.post('/settings/custom_background')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
