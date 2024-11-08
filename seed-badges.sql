@@ -172,7 +172,6 @@ INSERT INTO public.badge_defs VALUES (300, 'Gorloj, Galactic High Council', 'Thi
 INSERT INTO public.badge_defs VALUES (304, 'Man in Black', 'The truth is out there. This user prevented /r/UFOs from finding it.', 1697728753);
 INSERT INTO public.badge_defs VALUES (198, 'Best rDrama Post 2021', 'The author of the best rDrama post of 2021, as voted by rDrama users.', 1670627332);
 INSERT INTO public.badge_defs VALUES (208, 'Best rDrama Post 2022', 'The author of the best rDrama post of 2022, as voted by rDrama users.', 1670628577);
-INSERT INTO public.badge_defs VALUES (294, 'Highest Roller', 'One of rDrama''s Top 10 Sugar Leather Daddies 🤤', 1690858016);
 INSERT INTO public.badge_defs VALUES (295, 'August''s August August', 'This user had a very good time in August', 1690914173);
 INSERT INTO public.badge_defs VALUES (306, 'Cascade Badge', 'From the Cerulean City Gym. Allows the HM Cut to be used outside of battle, and makes Pokemon up to level 30 obey.', 1697740811);
 INSERT INTO public.badge_defs VALUES (307, 'Thunder Badge', 'From the Vermillion City Gym. Allows the HM Fly to be used outside of battle.', 1697740819);
@@ -237,6 +236,7 @@ INSERT INTO public.badge_defs VALUES (10, 'Bronze Recruiter', 'Recruited at leas
 INSERT INTO public.badge_defs VALUES (314, 'Superspreader III', 'Zombified 100 people during Homoween 2023.', 1698600973);
 INSERT INTO public.badge_defs VALUES (315, 'Gigavaxxer III', 'Vaccinated 10 people during Homoween 2023.', 1698601009);
 INSERT INTO public.badge_defs VALUES (357, 'Super Spreader IV', 'Zombified 100 people during Homoween 2024.', 1730819993);
+INSERT INTO public.badge_defs VALUES (294, 'Highest Roller', 'One of rDrama''s Top 10 Sugar Daddies 🤤', 1690858016);
 INSERT INTO public.badge_defs VALUES (81, 'Patron of the Arts', 'Sponsored the creation of an approved Marsey', 0);
 INSERT INTO public.badge_defs VALUES (83, 'All-Seeing Eye', 'Can view private profiles', 0);
 INSERT INTO public.badge_defs VALUES (84, 'Alt-Seeing Eye', 'Can see alts', 0);
