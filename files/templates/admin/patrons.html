@@ -21,7 +21,7 @@
 							<img class="contain" alt="2{{user.patron}}" loading="lazy" width=29.33 height=32 src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{user.patron}}.webp?b=14" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.patron_tooltip}}">
 						{% endif %}
 					</td>
-					<td data-sort="{{user.lifetimedonated}}">${{user.lifetimedonated}}</td>
+					<td data-sort="{{user.lifetimedonated}}">${{user.lifetimedonated | commas}}</td>
 					<td>{{user.truescore | commas}}</td>
 				</tr>
 			{% endfor %}
