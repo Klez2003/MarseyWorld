@@ -137,6 +137,9 @@
 						{% endfor %}
 					</tbody>
 				</table>
+				{% if name == 'members' and total > size %}
+					{{macros.pagination()}}
+				{% endif %}
 			</div>
 		{% endmacro %}
 
