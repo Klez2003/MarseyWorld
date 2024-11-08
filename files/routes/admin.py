@@ -2059,8 +2059,8 @@ def change_under_siege_post(v):
 
 if FEATURES['IP_LOGGING']:
 	@app.get("/@<username>/ips")
-	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+	@limiter.limit("2000/day", deduct_when=lambda response: response.status_code < 400)
+	@limiter.limit("2000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 	@admin_level_required(PERMS['VIEW_IPS'])
 	def view_user_ips(v, username):
 		u = get_user(username, v=v)
@@ -2068,8 +2068,8 @@ if FEATURES['IP_LOGGING']:
 		return render_template('admin/user_ips.html', v=v, u=u, ip_logs=ip_logs)
 
 	@app.get("/ip_users/<ip>")
-	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+	@limiter.limit("2000/day", deduct_when=lambda response: response.status_code < 400)
+	@limiter.limit("2000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 	@admin_level_required(PERMS['VIEW_IPS'])
 	def view_ip_users(v, ip):
 		ip_logs = g.db.query(IPLog).filter_by(ip=ip).order_by(IPLog.last_used.desc())
