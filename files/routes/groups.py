@@ -171,7 +171,7 @@ def memberships(v, group_name):
 	group = g.db.get(Group, group_name)
 	if not group: stop(404)
 
-	members = g.db.query(GroupMembership).join(GroupMembership.user).filter(
+	members = g.db.query(GroupMembership).filter(
 			GroupMembership.group_name == group_name,
 			GroupMembership.approved_utc != None,
 			GroupMembership.user_id != group.owner_id,
@@ -180,7 +180,7 @@ def memberships(v, group_name):
 	members = members.order_by(GroupMembership.is_mod.desc(), GroupMembership.approved_utc).offset(500 * (page - 1)).limit(500).all()
 
 	if page == 1:
-		owner = [g.db.query(GroupMembership).join(GroupMembership.user).filter(
+		owner = [g.db.query(GroupMembership).filter(
 					GroupMembership.group_name == group_name,
 					GroupMembership.approved_utc != None,
 					GroupMembership.user_id == group.owner_id,
