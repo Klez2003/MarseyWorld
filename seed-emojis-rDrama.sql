@@ -1694,6 +1694,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('lor', 'Marsey Alphabet', 2, '∨ logical', false, 0),
 ('loveeyes', 'Classic', 2, 'hearts', false, 1679282126),
 ('loving', 'Classic', 2, 'animated emoticon love couple hearts', false, 0),
+('lucestoning', 'Misc', 2, 'catholic catholicism christianity execution jesus religion rock stone throwing', false, 1731013777),
 ('luigidance', 'Misc', 2, 'game nintendo mario groovy party celebrate', false, 1685827599),
 ('luigidizzy', 'Misc', 2, 'game nintendo mario dazed confused', false, 1685827444),
 ('luigirotate', 'Misc', 2, 'nintendo game mario spinning standing', false, 1684273227),
