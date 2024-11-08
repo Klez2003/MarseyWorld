@@ -77,7 +77,7 @@
 						{% for membership in memberships %}
 							<tr id="{{membership.user_id}}">
 								{% set counter = loop.index %}
-								{% if page > 1 %}
+								{% if name == 'members' and page > 1 %}
 									{% set counter = counter + (page - 1) * 500 + 1 %}
 								{% endif %}
 								<td id="counter-{{membership.user_id}}">{{counter}}</td>
