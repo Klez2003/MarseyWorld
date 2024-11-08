@@ -76,7 +76,7 @@
 					<tbody id="{{name}}_tbody">
 						{% for membership in memberships %}
 							<tr id="{{membership.user_id}}">
-								<td id="counter-{{membership.user_id}}">{{loop.index}}</td>
+								<td id="counter-{{membership.user_id}}">{{loop.index + ((page - 1) * 500 + 1)}}</td>
 								{% set is_owner = membership.user_id == group.owner_id %}
 								<td {% if (is_owner or membership.is_mod) and not membership.user.earlylife %}class="unbreakable"{% endif %}>
 									{% with user=membership.user %}
