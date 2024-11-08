@@ -177,7 +177,9 @@ def memberships(v, group_name):
 			GroupMembership.user_id != group.owner_id,
 		)
 	total = members.count()
-	members = members.order_by(GroupMembership.is_mod.desc(), GroupMembership.approved_utc).offset(500 * (page - 1)).limit(500).all()
+	if page == 1: size = 499
+	else: size = 500
+	members = members.order_by(GroupMembership.is_mod.desc(), GroupMembership.approved_utc).offset(size * (page - 1)).limit(size).all()
 
 	if page == 1:
 		owner = [g.db.query(GroupMembership).join(GroupMembership.user).filter(
@@ -192,7 +194,7 @@ def memberships(v, group_name):
 			GroupMembership.approved_utc == None
 		).order_by(GroupMembership.created_utc).all()
 
-	return render_template('group_memberships.html', v=v, group=group, members=members, applications=applications, page=page, total=total, size=500)
+	return render_template('group_memberships.html', v=v, group=group, members=members, applications=applications, page=page, total=total, size=size)
 
 @app.post("/!<group_name>/<user_id>/approve")
 @limiter.limit('1/second', scope=rpath)
