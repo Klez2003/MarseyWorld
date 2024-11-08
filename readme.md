@@ -7,7 +7,7 @@ This code runs https://rdrama.net and https://watchpeopledie.tv
 2- Run the following commands in the terminal:
 
 ```
-git clone https://fsdfsd.net/rDrama/rDrama.git
+git clone https://fsdfsd.net/MarseyWorld/MarseyWorld.git
 
 cd rDrama
 
