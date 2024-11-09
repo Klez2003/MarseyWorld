@@ -267,8 +267,8 @@ else:
 		'VIEW_VERSIONS': 1,
 
 		'USER_BAN': 2,
+		'NUKE_USER': 2,
 
-		'NUKE_USER': 3,
 		'PINNING_POSTS': 3,
 		'POST_BETS': 3,
 		'POST_BETS_DISTRIBUTE': 3,
