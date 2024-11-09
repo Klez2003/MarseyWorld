@@ -1564,6 +1564,25 @@ class User(Base):
 	def banner_num(self):
 		return g.db.query(ArtSubmission).filter_by(kind='banner', author_id=self.id, approved=True).count()
 
+	@property
+	@lazy
+	def num_of_bites(self):
+		one_month_ago = time.time() - 2592000
+		return g.db.query(AwardRelationship).filter(
+			AwardRelationship.user_id == self.id,
+			AwardRelationship.kind == "zombiebite",
+			AwardRelationship.awarded_utc > one_month_ago,
+		).count()
+
+	@property
+	@lazy
+	def num_of_vaxes(self):
+		one_month_ago = time.time() - 2592000
+		return g.db.query(AwardRelationship).filter(
+			AwardRelationship.user_id == self.id,
+			AwardRelationship.kind == "vax",
+			AwardRelationship.awarded_utc > one_month_ago,
+		).count()
 
 
 badge_ordering_tuple = PATRON_BADGES + (

@@ -24,6 +24,10 @@
 		<ul id="shop-stats" class="my-1 my-md-2">
 			{% if IS_EVENT() %}
 				<li>Number of lootboxes you bought: {{v.lootboxes_bought|commas}}</li>
+				{% if IS_HOMOWEEN() %}
+					<li>Number of people you bit: {{v.num_of_bites|commas}}</li>
+					<li>Number of people you vaccinated: {{v.num_of_vaxes|commas}}</li>
+				{% endif %}
 			{% endif %}
 			<li>Number of awards you bought: {{v.num_of_bought_awards|commas}}</li>
 			<li>Currency you spent on awards: {{v.currency_spent_on_awards|commas}}</li>
