@@ -264,5 +264,7 @@
 {% endif %}
 
 <input hidden id="post_permalinks" value="{{post_permalinks}}">
-<input hidden id="next_page_url" value="{{'page'|change_arg(page+1, request.full_path)|safe}}">
+{% if page %}
+	<input hidden id="next_page_url" value="{{'page'|change_arg(page+1, request.full_path)|safe}}">
+{% endif %}
 <script defer src="{{'js/post_permalinks.js' | asset}}"></script>
