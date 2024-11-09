@@ -1151,6 +1151,6 @@ def settings_birthday(v):
 		unban_utc = birthday_utc + 31556952 * 18
 		days = (unban_utc - time.time()) / 86400
 		days += random.randint(1, 40)
-		v.ban(reason=f"Underage (birthday)", days=days, modlog=False)
+		v.ban(reason=f"Underage (birthday)", days=days)
 
 	return {"message": "Birthday successfully updated!"}
