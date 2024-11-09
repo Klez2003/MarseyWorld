@@ -129,7 +129,7 @@ def process_audio(file, v, old=None):
 	return new
 
 
-def reencode_video(old, new, check_sizes=False):
+def reencode_video(old, new):
 	tmp = new.replace('.mp4', '-t.mp4')
 
 	print(f'Attempting to reencode {new}', flush=True)
@@ -144,17 +144,6 @@ def reencode_video(old, new, check_sizes=False):
 			rclone_copy(new)
 		print(f'Failed (1) reencoding {new}', flush=True)
 		return
-
-	if check_sizes:
-		old_size = os.stat(old).st_size
-		new_size = os.stat(tmp).st_size
-		if new_size > old_size:
-			os.remove(old)
-			os.remove(tmp)
-			if SITE == 'watchpeopledie.tv':
-				rclone_copy(new)
-			print(f'Failed (2) reencoding {new}', flush=True)
-			return
 
 	os.replace(tmp, new)
 	os.remove(old)
