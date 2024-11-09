@@ -17,7 +17,7 @@ class Orgy(Base):
 	type = Column(String)
 	url = Column(String)
 	data = Column(String)
-	title = Column(String)
+	title = Column(String) #title is needed for the playlist
 	start_utc = Column(Integer)
 	end_utc = Column(Integer)
 	started = Column(Boolean, default=False)
