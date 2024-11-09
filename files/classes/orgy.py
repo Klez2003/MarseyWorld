@@ -15,6 +15,7 @@ class Orgy(Base):
 
 	created_utc = Column(Integer, primary_key=True)
 	type = Column(String)
+	url = Column(String)
 	data = Column(String)
 	title = Column(String)
 	start_utc = Column(Integer)

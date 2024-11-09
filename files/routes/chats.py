@@ -351,6 +351,7 @@ def schedule_orgy(v, chat_id):
 	orgy = Orgy(
 			title=title,
 			type=orgy_type,
+			url=normalized_link,
 			data=data,
 			start_utc=start_utc,
 			end_utc=end_utc,
@@ -362,7 +363,7 @@ def schedule_orgy(v, chat_id):
 		ma = ModAction(
 			kind="schedule_orgy",
 			user_id=v.id,
-			_note=f'<a href="{orgy.data}" rel="nofollow noopener">{title}</a>',
+			_note=f'<a href="{orgy.url}" rel="nofollow noopener">{title}</a>',
 		)
 		g.db.add(ma)
 
@@ -392,7 +393,7 @@ def remove_orgy(v, created_utc, chat_id):
 			ma = ModAction(
 				kind="remove_orgy",
 				user_id=v.id,
-				_note=f'<a href="{orgy.data}" rel="nofollow noopener">{orgy.title}</a>',
+				_note=f'<a href="{orgy.url}" rel="nofollow noopener">{orgy.title}</a>',
 			)
 			g.db.add(ma)
 

@@ -1,0 +1,1 @@
+alter table orgies add column url varchar(200) NOT NULL;
