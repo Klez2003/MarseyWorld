@@ -422,9 +422,8 @@ def grassed(v):
 	users = g.db.query(User).filter(
 		User.ban_reason.like('Grass award used by @%'),
 		User.unban_utc > time.time(),
-	)
+	).order_by(User.unban_utc).all()
 
-	users = users.all()
 	return render_template("grassed.html", v=v, users=users)
 
 @app.get("/chuds")
