@@ -1182,6 +1182,12 @@ def edit_post(pid, v):
 
 		changed = True
 
+	if v.admin_level >= PERMS['POST_COMMENT_EDITING']:
+		url = request.values.get("url", "").strip()
+		if url != p.url:
+			p.url = url
+			changed = True
+
 	if not changed:
 		stop(400, "You need to change something!")
 
