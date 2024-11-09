@@ -611,8 +611,8 @@
 							<p id="profile-mobile--info--lifetime-donated">Lifetime donated: ${{u.lifetimedonated|commas}} (visible to everyone)</p>
 							<p id="profile-mobile--info--discount">Total award discount: {{u.formatted_award_discount}} (visible to everyone)</p>
 						{% elif v.id == u.id or v.admin_level >= PERMS['VIEW_PATRONS'] %}
-							<p id="profile-mobile--info--lifetime-donated">Lifetime donated: ${{u.lifetimedonated|commas}} (visible to you only)</p>
-							<p id="profile-mobile--info--discount">Total award discount: {{u.formatted_award_discount}} (visible to you only)</p>
+							<p id="profile-mobile--info--lifetime-donated">Lifetime donated: <spoiler>${{u.lifetimedonated|commas}}</spoiler> (visible to you only)</p>
+							<p id="profile-mobile--info--discount">Total award discount: <spoiler>{{u.formatted_award_discount}}</spoiler> (visible to you only)</p>
 						{% endif %}
 
 						{% if u.private_posts %}
