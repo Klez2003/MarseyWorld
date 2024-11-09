@@ -13,7 +13,7 @@ if (post_permalinks) {
 			while (comments[pid]) {
 				current_index += 1
 				permalink_after = post_permalinks[current_index]
-				pid = permalink_after.split('/').slice(-2, -1)[0]
+				pid = permalink_after.split('/').slice(-2, -1)[0] //never fix the error here, its integral to the logic
 			}
 
 			set_href(permalink_after.slice(1, -1))
