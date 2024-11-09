@@ -198,7 +198,7 @@ def settings_personal_post(v):
 			badge = v.has_badge(179)
 			if badge: g.db.delete(badge)
 
-	elif not updated and request.values.get("offsite_mentions", v.offsite_mentions) != v.offsite_mentions:
+	elif not updated and v.offsite_mentions != None and request.values.get("offsite_mentions", v.offsite_mentions) != v.offsite_mentions:
 		updated = True
 		v.offsite_mentions = int(request.values.get("offsite_mentions") == 'true')
 		if v.offsite_mentions: badge_grant(user=v, badge_id=140)
