@@ -172,7 +172,7 @@ def groups_csv(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def users_csv(v):
-	users = g.db.query(User.username)
+	users = g.db.query(User.username, User.original_username, User.extra_username)
 
 	if SITE == 'watchpeopledie.tv':
 		users = users.filter(User.truescore > 100)
@@ -181,7 +181,7 @@ def users_csv(v):
 		t = time.time() - 604800
 		users = users.filter(or_(User.truescore > 10, User.last_active > t))
 
-	return [x[0] for x in users.order_by(User.truescore.desc()).all()]
+	return [f'{x[0]},{x[1]},{x[2]}' for x in users.order_by(User.truescore.desc()).all()]
 
 @app.get('/sidebar')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)

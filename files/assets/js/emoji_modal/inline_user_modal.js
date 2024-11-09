@@ -105,7 +105,7 @@ function populate_inline_user_modal(results, textbox)
 
 		let user_option_text = document.createElement("span");
 
-		user_option_text.textContent = name;
+		user_option_text.textContent = name.split(',')[0];
 
 		user_option.addEventListener('click', () => {
 			replaceText(textbox, `@${name} `)
