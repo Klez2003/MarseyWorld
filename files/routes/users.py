@@ -209,7 +209,7 @@ def transfer_currency(v, username, currency_name, apply_tax):
 
 def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v)
-	if not u.is_visible_to(v, 0): stop(403)
+	if not u.is_visible_to(v, 0, "posts"): stop(403)
 	id = u.id
 
 	uid = get_user(username2, attributes=[User.id]).id
@@ -275,7 +275,8 @@ def downvoters_comments(v, username, username2):
 
 def upvoting_downvoting(v, username, username2, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v)
-	if not u.is_visible_to(v, 0): stop(403)
+	kind = "posts" if cls == Post else "comments"
+	if not u.is_visible_to(v, 0, kind): stop(403)
 	id = u.id
 
 	uid = get_user(username2, attributes=[User.id]).id
@@ -341,7 +342,6 @@ def downvoting_comments(v, username, username2):
 
 def user_voted(v, username, cls, vote_cls, template, standalone):
 	u = get_user(username, v=v)
-	if not u.is_visible_to(v, 0): stop(403)
 
 	page = get_page()
 
@@ -1011,10 +1011,10 @@ def u_username(v, username):
 
 	page = get_page()
 
-	if not u.is_visible_to(v, page):
+	if not u.is_visible_to(v, page, "posts"):
 		if g.is_api_or_xhr:
-			stop(403, f"@{u.username}'s userpage is private")
-		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
+			stop(403, f"@{u.username}'s post history is private")
+		return render_template("userpage/private_posts.html", u=u, v=v, is_following=is_following, private=True), 403
 
 	sort = request.values.get("sort", "new")
 	t = request.values.get("t", "all")
@@ -1099,10 +1099,10 @@ def u_username_comments(username, v):
 
 	page = get_page()
 
-	if not u.is_visible_to(v, page):
+	if not u.is_visible_to(v, page, "comments"):
 		if g.is_api_or_xhr:
-			stop(403, f"@{u.username}'s userpage is private")
-		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
+			stop(403, f"@{u.username}'s comment history is private")
+		return render_template("userpage/private_comments.html", u=u, v=v, is_following=is_following, private=True), 403
 
 	sort = request.values.get("sort","new")
 	t = request.values.get("t","all")

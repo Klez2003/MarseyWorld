@@ -276,7 +276,9 @@
 
 						{{common.text_area_section('profile-signature', '/settings/personal', 'sig', 'Signature', v.sig, 'Limit of 200 characters', 'Enter a signature...', true, 200)}}
 
-						{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your profile page from other users.', false)}}
+						{{common.toggle_section('Private Post History', 'private_posts', 'private_posts', v.private_posts, 'This will hide your post history from other users.', false)}}
+
+						{{common.toggle_section('Private Comment History', 'private_comments', 'private_comments', v.private_comments, 'This will hide your comment history from other users.', false)}}
 
 						{% if FEATURES['PATRON_ICONS'] %}
 							{% set desc = 'Make your donation badges, your lifetime-donated amount, your total award discount, and your patron icon visible to everyone instead of just you.' %}

@@ -78,9 +78,9 @@ def searchposts(v):
 		author = get_user(criteria['author'], v=v)
 		if author.id != v.id:
 			posts = posts.filter(Post.ghost == False)
-		if not author.is_visible_to(v, 0):
+		if not author.is_visible_to(v, 0, "posts"):
 			if v.client:
-				stop(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
+				stop(403, f"@{author.username}'s post history is private; You can't use the 'author' syntax on them")
 			return render_template("search.html",
 								v=v,
 								query=query,
@@ -91,7 +91,7 @@ def searchposts(v):
 								t=t,
 								domain=None,
 								domain_obj=None,
-								error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them."
+								error=f"@{author.username}'s post history is private; You can't use the 'author' syntax on them."
 								), 403
 		posts = posts.filter(Post.author_id == author.id)
 
@@ -221,11 +221,11 @@ def searchcomments(v):
 		author = get_user(criteria['author'], v=v)
 		if author.id != v.id:
 			comments = comments.filter(Comment.ghost == False)
-		if not author.is_visible_to(v, 0):
+		if not author.is_visible_to(v, 0, "comments"):
 			if v.client:
-				stop(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
+				stop(403, f"@{author.username}'s comment history is private; You can't use the 'author' syntax on them")
 
-			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them!"), 403
+			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, error=f"@{author.username}'s comment history is private; You can't use the 'author' syntax on them!"), 403
 
 		else: comments = comments.filter(Comment.author_id == author.id)
 	else:
@@ -319,13 +319,7 @@ def searchmessages(v):
 	if 'author' in criteria:
 		comments = comments.filter(Comment.ghost == False)
 		author = get_user(criteria['author'], v=v)
-		if not author.is_visible_to(v, 0):
-			if v.client:
-				stop(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
-
-			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them!"), 403
-
-		else: comments = comments.filter(Comment.author_id == author.id)
+		comments = comments.filter(Comment.author_id == author.id)
 
 	if 'q' in criteria:
 		text = criteria['full_text']

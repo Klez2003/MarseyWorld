@@ -290,8 +290,12 @@
 								<p id="profile--info--discount">Total award discount: {{u.formatted_award_discount}} (visible to you only)</p>
 							{% endif %}
 
-							{% if u.is_private %}
-								<p id="profile--info--private">User has private mode enabled</p>
+							{% if u.private_posts %}
+								<p id="profile--info--private-posts">User has a private post history.</p>
+							{% endif %}
+
+							{% if u.private_comments %}
+								<p id="profile--info--private-comments">User has a private comment history.</p>
 							{% endif %}
 
 							{% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}
@@ -611,8 +615,12 @@
 							<p id="profile-mobile--info--discount">Total award discount: {{u.formatted_award_discount}} (visible to you only)</p>
 						{% endif %}
 
-						{% if u.is_private %}
-							<p id="profile-mobile--info--private">User has private mode enabled</p>
+						{% if u.private_posts %}
+							<p id="profile-mobile--info--private-posts">User has a private post history.</p>
+						{% endif %}
+
+						{% if u.private_comments %}
+							<p id="profile-mobile--info--private-comments">User has a private comment history.</p>
 						{% endif %}
 
 						{% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}

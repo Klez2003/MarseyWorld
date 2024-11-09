@@ -41,15 +41,11 @@
 
 		{% set description %}
 			{{u.coins|commas}} coins - Joined {{u.created_date}} -
-			{%- if u.stored_subscriber_count >=1 and not u.is_private -%}
-				{{u.stored_subscriber_count|commas}} Followers -
-			{%- endif -%}
-			{%- if not u.is_private -%}
-				{{u.real_post_count(v)}}
-					Posts -
-				{{u.real_comment_count(v)}}
-					Comments
-			{%- endif -%}
+			{{u.stored_subscriber_count|commas}} Followers -
+			{{u.real_post_count(v)}}
+				Posts -
+			{{u.real_comment_count(v)}}
+				Comments
 			{% if u.bio and can_see(v, u) %}
 				- {{u.bio}}
 			{% endif %}

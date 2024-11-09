@@ -134,7 +134,8 @@ class User(Base):
 	truescore = Column(Integer, default=0)
 	marseybux = Column(Integer, default=DEFAULT_MARSEYBUX)
 	mfa_secret = deferred(Column(String))
-	is_private = Column(Boolean, default=False)
+	private_posts = Column(Boolean, default=False)
+	private_comments = Column(Boolean, default=False)
 	stored_subscriber_count = Column(Integer, default=0)
 	defaultsortingcomments = Column(String, default="hot")
 	defaultsorting = Column(String, default="hot")
@@ -1022,8 +1023,9 @@ class User(Base):
 		return g.db.query(Follow).filter_by(target_id=self.id, user_id=user.id).one_or_none()
 
 	@lazy
-	def is_visible_to(self, user, page):
-		if not self.is_private: return True
+	def is_visible_to(self, user, page, kind="posts"):
+		if kind == "posts" and not self.private_posts: return True
+		if kind == "comments" and not self.private_comments: return True
 		if not user: return False
 		if self.id == user.id: return True
 		if SITE_NAME == 'rDrama' and self.id in {CARP_ID, 1376} and page != 1: return False
@@ -1137,7 +1139,8 @@ class User(Base):
 				'is_banned': bool(self.is_banned),
 				'created_utc': self.created_utc,
 				'id': self.id,
-				'is_private': self.is_private,
+				'private_posts': self.private_posts,
+				'private_comments': self.private_comments,
 				'house': self.house,
 				'admin_level': self.admin_level,
 				'patron': bool(self.patron),

@@ -27,7 +27,7 @@
 		</div>
 	</div>
 </div>
-{% if u.is_visible_to(v, page) and "/saved/" not in request.path and "/subscribed/" not in request.path and path != '' and '/wall/comment/' not in path %}
+{% if not private and "/saved/" not in request.path and "/subscribed/" not in request.path and path != '' and '/wall/comment/' not in path %}
 	<div class="d-flex justify-content-between align-items-center" style="padding-top:10px">
 		<div class="d-flex align-items-center">
 			{{- macros.time_filter_buttons() -}}
