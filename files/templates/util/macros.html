@@ -195,7 +195,7 @@
 			<button type="button" id="save-reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r handle_disabled disabled" disabled data-nonce="{{g.nonce}}" data-onclick="post_comment('{{target_fullname}}', '{{hide}}')">Comment</button>
 
 			{% if enable_cancel_button %}
-				<button type="button" data-nonce="{{g.nonce}}" data-onclick="cancel('{{target_fullname}}')" class="btn btn-link text-muted ml-auto fl-r mr-3">Cancel</button>
+				<button type="button" data-nonce="{{g.nonce}}" data-onclick="cancel('{{target_fullname}}')" class="btn btn-secondary btn-link text-muted ml-auto fl-r mr-3">Cancel</button>
 			{% endif %}
 
 			<span id="upload-prog-{{target_fullname}}" class="d-none mt-1 mr-2 fl-r">

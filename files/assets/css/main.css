@@ -7820,7 +7820,8 @@ p:empty + p { /* poll margin */
 	color: var(--primary) !important;
 }
 
-.btn.btn-primary:focus, .btn.btn-primary:hover, .btn.btn-primary:active {
+.btn.btn-primary:focus, .btn.btn-primary:hover, .btn.btn-primary:active,
+.btn.btn-secondary:focus, .btn.btn-secondary:hover, .btn.btn-secondary:active {
     color: white !important;
     background-color: var(--primary) !important;
     border-color: var(--primary) !important;
@@ -7839,6 +7840,7 @@ p:empty + p { /* poll margin */
 }
 
 .btn.btn-primary:focus .fas, .btn.btn-primary:hover .fas, .btn.btn-primary:active .fas,
+.btn.btn-secondary:focus .fas, .btn.btn-secondary:hover .fas, .btn.btn-secondary:active .fas,
 .btn.btn-danger:focus .fas, .btn.btn-danger:hover .fas, .btn.btn-danger:active .fas,
 .btn.btn-success:focus .fas, .btn.btn-success:hover .fas, .btn.btn-success:active .fas {
     color: white !important;
