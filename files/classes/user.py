@@ -1140,6 +1140,7 @@ class User(Base):
 				'is_private': self.is_private,
 				'house': self.house,
 				'admin_level': self.admin_level,
+				'patron': bool(self.patron),
 				'profile_url': self.profile_url,
 				'bannerurl': self.banner_url,
 				'bio': self.bio,
