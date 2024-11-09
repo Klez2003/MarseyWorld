@@ -164,12 +164,16 @@ def leave_group(v, group_name):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def memberships(v, group_name):
+	t = time.time()
+
 	page = get_page()
 
 	group_name = group_name.strip().lower()
 
 	group = g.db.get(Group, group_name)
 	if not group: stop(404)
+
+	print(1, time.time() - t)
 
 	members = g.db.query(GroupMembership).join(GroupMembership.user).filter(
 			GroupMembership.group_name == group_name,
@@ -179,7 +183,12 @@ def memberships(v, group_name):
 	total = members.count()
 	if page == 1: size = 499
 	else: size = 500
+
+	print(2, time.time() - t)
+
 	members = members.order_by(GroupMembership.is_mod.desc(), GroupMembership.approved_utc).offset(size * (page - 1)).limit(size).all()
+
+	print(3, time.time() - t)
 
 	if page == 1:
 		owner = [g.db.query(GroupMembership).join(GroupMembership.user).filter(
@@ -189,12 +198,20 @@ def memberships(v, group_name):
 				).one()]
 		members = owner + members
 
+	print(4, time.time() - t)
+
 	applications = g.db.query(GroupMembership).filter(
 			GroupMembership.group_name == group_name,
 			GroupMembership.approved_utc == None
 		).order_by(GroupMembership.created_utc).all()
 
-	return render_template('group_memberships.html', v=v, group=group, members=members, applications=applications, page=page, total=total, size=size)
+	print(5, time.time() - t)
+
+	x = render_template('group_memberships.html', v=v, group=group, members=members, applications=applications, page=page, total=total, size=size)
+
+	print(6, time.time() - t)
+
+	return x
 
 @app.post("/!<group_name>/<user_id>/approve")
 @limiter.limit('1/second', scope=rpath)
