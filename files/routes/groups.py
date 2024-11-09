@@ -175,7 +175,7 @@ def memberships(v, group_name):
 
 	print(1, time.time() - t)
 
-	members = g.db.query(GroupMembership).join(GroupMembership.user).filter(
+	members = g.db.query(GroupMembership).join(GroupMembership.user).join(GroupMembership.approver).filter(
 			GroupMembership.group_name == group_name,
 			GroupMembership.approved_utc != None,
 			GroupMembership.user_id != group.owner_id,
@@ -191,7 +191,7 @@ def memberships(v, group_name):
 	print(3, time.time() - t)
 
 	if page == 1:
-		owner = [g.db.query(GroupMembership).join(GroupMembership.user).filter(
+		owner = [g.db.query(GroupMembership).join(GroupMembership.user).join(GroupMembership.approver).filter(
 					GroupMembership.group_name == group_name,
 					GroupMembership.approved_utc != None,
 					GroupMembership.user_id == group.owner_id,
