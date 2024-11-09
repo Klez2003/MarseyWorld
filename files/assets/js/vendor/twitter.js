@@ -5,7 +5,7 @@ function embed_twitter() {
 
 	for (const blockquote of document.querySelectorAll('blockquote.twitter-tweet')) {
 		const id = blockquote.lastChild.href.split('/status/')[1].split('?ref_src')[0]
-		let iframe_src = `https://platform.twitter.com/embed/Tweet.html?dnt=true&id=${id}`
+		let iframe_src = `https://platform.twitter.com/embed/Tweet.html?dnt=true&hideThread=true&id=${id}`
 		if (document.body.dataset.dark)
 			iframe_src += "&theme=dark"
 
