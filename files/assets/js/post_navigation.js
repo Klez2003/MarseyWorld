@@ -11,7 +11,13 @@ if (post_permalinks) {
 			while (comments[pid]) {
 				current_index += 1
 				permalink_after = post_permalinks[current_index]
-				pid = permalink_after.split('/').slice(-2, -1)[0]
+				if (permalink_after) {
+					pid = permalink_after.split('/').slice(-2, -1)[0]
+				}
+				else {
+					permalink_after = '+' + sessionStorage.getItem("next_page_url") + '+'
+					break
+				}
 			}
 
 			for (const btn of document.getElementsByClassName('post_navigation')) {
@@ -34,6 +40,12 @@ if (post_permalinks) {
 						history.back()
 				}
 			})
+		}
+		else {
+			for (const btn of document.getElementsByClassName('post_navigation')) {
+				btn.classList.remove('d-none')
+				btn.href = sessionStorage.getItem("next_page_url")
+			}
 		}
 	}
 }
