@@ -1211,7 +1211,6 @@ CREATE TABLE public.users (
     login_nonce integer DEFAULT 0 NOT NULL,
     reserved character varying(256),
     mfa_secret character varying(32),
-    is_private boolean DEFAULT false NOT NULL,
     unban_utc bigint DEFAULT 0,
     custom_filter_list character varying(1000),
     stored_subscriber_count integer DEFAULT 0 NOT NULL,
@@ -1309,7 +1308,9 @@ CREATE TABLE public.users (
     offsite_mentions boolean,
     twitter character varying(50) NOT NULL,
     snappy_quotes character varying(1000),
-    flag character varying(30)
+    flag character varying(30),
+    private_posts boolean DEFAULT false NOT NULL,
+    private_comments boolean DEFAULT false NOT NULL
 );
 
 
@@ -2665,10 +2666,17 @@ CREATE INDEX transactions_user_idx ON public.transactions USING btree (user_id);
 
 
 --
--- Name: user_private_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: user_private_comments_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX user_private_idx ON public.users USING btree (is_private);
+CREATE INDEX user_private_comments_idx ON public.users USING btree (private_comments);
+
+
+--
+-- Name: user_private_posts_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX user_private_posts_idx ON public.users USING btree (private_posts);
 
 
 --
