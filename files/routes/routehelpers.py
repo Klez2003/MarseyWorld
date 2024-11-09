@@ -67,8 +67,7 @@ def add_alt(user1, user2):
 		return
 
 	g.db.flush()
-	existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
-	if not existing:
+	if user1 not in get_alt_graph_ids(user2):
 		users_exist = (g.db.query(User).filter(User.id.in_(li)).count() == 2)
 		if not users_exist:
 			session.pop("history", None)
