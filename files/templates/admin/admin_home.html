@@ -82,24 +82,26 @@
 		{% endif %}
 	</ul>
 
-	<h4>Safety</h4>
-	<ul>
-		{% if v.admin_level >= PERMS['DELETE_MEDIA'] %}
-			<li><a href="/admin/delete_media">Delete Media</a></li>
-		{% endif %}
-		{% if v.admin_level >= PERMS['DOMAINS_BAN'] %}
-			<li><a href="/admin/banned_domains">Banned Domains</a></li>
-		{% endif %}
-		{% if v.admin_level >= PERMS['USER_LINK'] %}
-			<li><a href="/admin/alts">View and Link Alts</a></li>
-		{% endif %}
-		{% if v.admin_level >= PERMS['VIEW_ALT_VOTES'] %}
-			<li><a href="/admin/alt_votes">Alt Vote Analysis</a></li>
-		{% endif %}
-		{% if v.admin_level >= PERMS['CHANGE_UNDER_SIEGE'] %}
-			<li><a href="/admin/under_siege">Under Siege Thresholds</a></li>
-		{% endif %}
-	</ul>
+	{% if v.admin_level >= PERMS['DELETE_MEDIA'] or v.admin_level >= PERMS['DOMAINS_BAN'] or v.admin_level >= PERMS['USER_LINK'] or v.admin_level >= PERMS['VIEW_ALT_VOTES'] or v.admin_level >= PERMS['CHANGE_UNDER_SIEGE'] %}
+		<h4>Safety</h4>
+		<ul>
+			{% if v.admin_level >= PERMS['DELETE_MEDIA'] %}
+				<li><a href="/admin/delete_media">Delete Media</a></li>
+			{% endif %}
+			{% if v.admin_level >= PERMS['DOMAINS_BAN'] %}
+				<li><a href="/admin/banned_domains">Banned Domains</a></li>
+			{% endif %}
+			{% if v.admin_level >= PERMS['USER_LINK'] %}
+				<li><a href="/admin/alts">View and Link Alts</a></li>
+			{% endif %}
+			{% if v.admin_level >= PERMS['VIEW_ALT_VOTES'] %}
+				<li><a href="/admin/alt_votes">Alt Vote Analysis</a></li>
+			{% endif %}
+			{% if v.admin_level >= PERMS['CHANGE_UNDER_SIEGE'] %}
+				<li><a href="/admin/under_siege">Under Siege Thresholds</a></li>
+			{% endif %}
+		</ul>
+	{% endif %}
 
 	{% if FEATURES['BADGES'] and v.admin_level >= PERMS['USER_BADGES'] -%}
 		<h4>Badges</h4>
