@@ -175,11 +175,14 @@ def memberships(v, group_name):
 
 	print(1, time.time() - t)
 
-	members = g.db.query(GroupMembership).join(GroupMembership.user).filter(
-			GroupMembership.group_name == group_name,
-			GroupMembership.approved_utc != None,
-			GroupMembership.user_id != group.owner_id,
-		)
+	members = g.db.query(GroupMembership).join(GroupMembership.user).options(
+				joinedload(GroupMembership.user),
+				joinedload(GroupMembership.approver),
+			).filter(
+				GroupMembership.group_name == group_name,
+				GroupMembership.approved_utc != None,
+				GroupMembership.user_id != group.owner_id,
+			)
 	total = members.count()
 	if page == 1: size = 499
 	else: size = 500
@@ -191,7 +194,10 @@ def memberships(v, group_name):
 	print(3, time.time() - t)
 
 	if page == 1:
-		owner = [g.db.query(GroupMembership).join(GroupMembership.user).filter(
+		owner = [g.db.query(GroupMembership).options(
+					joinedload(GroupMembership.user),
+					joinedload(GroupMembership.approver),
+				).filter(
 					GroupMembership.group_name == group_name,
 					GroupMembership.approved_utc != None,
 					GroupMembership.user_id == group.owner_id,
