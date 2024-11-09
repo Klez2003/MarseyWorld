@@ -365,7 +365,7 @@ def group_usurp(v, group_name):
 	if not group: stop(404)
 
 	if v.mods_group(group):
-		stop(403, f"You're a mod of !{group.name} can't usurp it!")
+		stop(403, f"You're a mod of !{group.name} and can't usurp it!")
 
 	if not v.is_member_of_group(group):
 		stop(403, "Only members of groups can usurp them!")
