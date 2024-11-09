@@ -6,6 +6,7 @@ from shutil import copyfile
 import pyotp
 import requests
 import yt_dlp
+from calendar import timegm
 
 from sqlalchemy.orm import load_only
 
@@ -1130,3 +1131,26 @@ def settings_checkmark_text(v):
 	v.verified = process_settings_plaintext("checkmark-text", v.verified, 100, "Verified")
 	g.db.add(v)
 	return {"message": "Checkmark Text successfully updated!"}
+
+@app.post("/settings/birthday")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def settings_birthday(v):
+	if v.is_suspended:
+		return {"message": "Birthday successfully updated!"}
+
+	birthday = request.values.get('birthday')
+	try: birthday_utc = timegm(time.strptime(birthday, "%Y-%m-%d"))
+	except: stop(400, "Invalid birthday!")
+	eighteen_years_ago = time.time() - 31556952 * 18
+
+	if birthday_utc > eighteen_years_ago:
+		unban_utc = birthday_utc + 31556952 * 18
+		days = (unban_utc - time.time()) / 86400
+		days += random.randint(1, 40)
+		v.ban(reason=f"Underage (birthday)", days=days, modlog=False)
+
+	return {"message": "Birthday successfully updated!"}
