@@ -928,7 +928,8 @@ CREATE TABLE public.orgies (
     end_utc integer,
     start_utc integer NOT NULL,
     started boolean NOT NULL,
-    chat_id integer NOT NULL
+    chat_id integer NOT NULL,
+    url character varying(200) NOT NULL
 );
 
 
