@@ -3199,3 +3199,5 @@ I'd rather scroll on reddit politics and read every single comment until I die t
 <p style="color: transparent">=</p>
 <p style="color: transparent">=</p>
 <p style="transform: scaleX(150%) perspective(30px) translateX(35%) rotateX(-25deg)">:#!marseyinsane:</p>
+[para]
+<span bounce><img src="https://i.watchpeopledie.tv/e/marseyemojilaugh.webp" style="transform: rotate(9deg) scale(5);"></span> <span bounce><img src="https://i.watchpeopledie.tv/e/marseyemojilaugh.webp" style="transform: translate(50px,-50px) rotate(-23deg) scale(2);"> </span> <marquee scrollamount=1000 ><span bounce><span cide><img src="https://i.watchpeopledie.tv/e/marseyemojilaugh.webp" style="transform: translate(50px,-0px) scale(4) rotate(173deg);"></span></span></marquee>
