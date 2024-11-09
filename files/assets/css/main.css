@@ -7382,12 +7382,6 @@ table *, .playing-card_large {
 }
 
 
-@media (max-width: 768px) {
-	* {
-		resize: none !important;
-	}
-}
-
 p { /* DO NOT REMOVE */
 	overflow: hidden !important;
 }
@@ -7849,4 +7843,10 @@ p:empty + p { /* poll margin */
 .d-md-none .nav-item:focus, .d-md-none .nav-item:hover, .d-md-none .nav-item:active,
 .modal .post-actions .btn-link:focus, .modal .post-actions .btn-link:hover, .modal .post-actions .btn-link:active {
 	background-color: var(--gray-300) !important;
+}
+
+@media (max-width: 768px) {
+	*, textarea, .resizable {
+		resize: none !important;
+	}
 }
