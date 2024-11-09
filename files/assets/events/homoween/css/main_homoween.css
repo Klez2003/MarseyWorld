@@ -724,6 +724,11 @@ body::after {
 .has_header {
 	padding-top: 79.54px !important
 }
+@media (max-width: 768px) {
+	.has_header {
+		padding-top: 65.8px !important
+	}
+}
 #chat {
 	height: calc(100dvh - 79.54px - 2rem)
 }
