@@ -743,7 +743,7 @@ def is_whitelisted(domain, k):
 	if k in {
 		'q', #generic
 		'timestamp', #substack.com
-		'after','context','page','token','url','restrict_sr', #reddit.com
+		'after','context','page','token','url','restrict_sr','include_over_18', #reddit.com
 		'f', #x.com
 		'fbid','story_fbid','u', #facebook.com
 		'id', #facebook.com, #msn.com
