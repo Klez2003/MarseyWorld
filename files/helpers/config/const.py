@@ -409,7 +409,6 @@ if SITE_NAME == 'rDrama':
 		"/u/bardfinn's fan club",
 		"world's oldest website",
 		"we like trains!",
-		"watch Family Guy online",
 		"r34 Velma vore collection",
 		"like Reddit but worse",
 		"be mindful not to set off the Lunk Alarm",
