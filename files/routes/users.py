@@ -550,14 +550,14 @@ def get_coins(v, username):
 def transfer_coins(v, username):
 	return transfer_currency(v, username, 'coins', True)
 
-@app.post("/@<username>/transfer_bux")
+@app.post("/@<username>/transfer_marseybux")
 @feature_required('MARSEYBUX')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def transfer_bux(v, username):
+def transfer_marseybux(v, username):
 	return transfer_currency(v, username, 'marseybux', False)
 
 @app.get("/@<username>/css")

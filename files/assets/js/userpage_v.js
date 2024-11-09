@@ -51,7 +51,7 @@ function transferBux(t, mobile=false) {
 	let amount = parseInt(document.getElementById(mobile ? "bux-transfer-amount-mobile" : "bux-transfer-amount").value);
 	let username = document.getElementById('username').innerHTML
 
-	postToast(t, `/@${username}/transfer_bux`,
+	postToast(t, `/@${username}/transfer_marseybux`,
 		{
 		"amount": document.getElementById(mobile ? "bux-transfer-amount-mobile" : "bux-transfer-amount").value,
 		"reason": document.getElementById(mobile ? "bux-transfer-reason-mobile" : "bux-transfer-reason").value
