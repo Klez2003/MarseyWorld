@@ -290,7 +290,7 @@ def log(v):
 		total = actions.count()
 		actions = actions.order_by(ModAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
-	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.username)]
+	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(func.lower(User.username))]
 
 	return render_template("log.html", v=v, admins=admins, kinds=kinds, admin=admin, target_id=target_id, kind=kind, actions=actions, total=total, page=page, single_user_url='admin')
 

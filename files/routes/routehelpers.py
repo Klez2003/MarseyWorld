@@ -3,7 +3,7 @@ import uuid
 import random
 
 from sqlalchemy.orm import aliased, deferred
-from sqlalchemy.sql import case, literal
+from sqlalchemy.sql import case, literal, func
 from sqlalchemy.sql.expression import or_
 
 from flask import g, session
@@ -52,7 +52,7 @@ def get_alt_graph_ids(uid):
 
 def get_alt_graph(uid):
 	alt_ids = get_alt_graph_ids(uid)
-	return g.db.query(User).filter(User.id.in_(alt_ids)).order_by(User.username).all()
+	return g.db.query(User).filter(User.id.in_(alt_ids)).order_by(func.lower(User.username)).all()
 
 def add_alt(user1, user2):
 	if user1 in {1375580,14713} or user2 in {1375580,14713}:

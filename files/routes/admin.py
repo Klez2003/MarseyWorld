@@ -4,6 +4,7 @@ import os
 import random
 
 from sqlalchemy.orm import load_only
+from sqlalchemy.sql import func
 
 from files.__main__ import app, cache, limiter
 from files.classes import *
@@ -295,12 +296,12 @@ def shadowbanned(v):
 	total = users.count()
 
 	if sort == "name":
-		key = User.username
+		key = func.lower(User.username)
 	elif sort == "truescore":
 		key = User.truescore.desc()
 	elif sort == "shadowban_reason":
 		users1 = users.filter(User.shadowban_reason.like('Under Siege%')).all()
-		users2 = users.filter(not_(User.shadowban_reason.like('Under Siege%'))).order_by(User.shadowban_reason).all()
+		users2 = users.filter(not_(User.shadowban_reason.like('Under Siege%'))).order_by(func.lower(User.shadowban_reason)).all()
 		users = users1 + users2
 		users = users[PAGE_SIZE*(page-1):]
 		users = users[:PAGE_SIZE]

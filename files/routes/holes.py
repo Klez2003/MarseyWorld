@@ -1,3 +1,5 @@
+from sqlalchemy.sql import func
+
 from files.classes import *
 from files.helpers.alerts import *
 from files.helpers.get import *
@@ -913,7 +915,7 @@ def hole_log(v, hole):
 		actions = actions.order_by(HoleAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
 	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(hole=hole.name)]
-	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username)]
+	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(func.lower(User.username))]
 
 	return render_template("log.html", v=v, admins=mods, kinds=kinds, admin=mod, kind=kind, actions=actions, total=total, page=page, hole=hole, single_user_url='mod')
 
@@ -931,7 +933,7 @@ def hole_log_item(id, v, hole):
 	if not action: stop(404)
 
 	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(hole=hole.name)]
-	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username)]
+	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(func.lower(User.username))]
 
 	kinds = HOLEACTION_KINDS
 

@@ -1494,7 +1494,7 @@ class User(Base):
 			)
 		).filter(
 			User.id != self.id
-		).order_by(User.username).all()
+		).order_by(func.lower(User.username)).all()
 
 		output = []
 		for x in data:

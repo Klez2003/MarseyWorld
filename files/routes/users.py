@@ -8,6 +8,7 @@ import gevent
 import qrcode
 from sqlalchemy.orm import aliased, load_only
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.sql import func
 from sqlalchemy import nullslast
 
 from files.classes import *
@@ -399,11 +400,11 @@ def banned(v):
 	total = users.count()
 
 	if sort == "name":
-		key = User.username
+		key = func.lower(User.username)
 	elif sort == "truescore":
 		key = User.truescore.desc()
 	elif sort == "ban_reason":
-		key = User.ban_reason
+		key = func.lower(User.ban_reason)
 	elif sort == "banned_by":
 		key = User.is_banned
 	else:
@@ -433,11 +434,8 @@ def grassed(v):
 def chuds(v):
 	users = g.db.query(User).filter(
 		or_(User.chud == 1, User.chud > time.time()),
-	)
-	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
-		users = users.order_by(User.truescore.desc())
+	).order_by(User.truescore.desc())
 
-	users = users.order_by(User.username).all()
 	return render_template("chuds.html", v=v, users=users)
 
 def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
