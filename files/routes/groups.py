@@ -115,6 +115,19 @@ def join_group(v, group_name):
 
 	return {"message": f"Application to !{group} submitted successfully!"}
 
+def delete_group(membership, group, v):
+	g.db.delete(membership)
+
+	for blacklist in g.db.query(GroupBlacklist).filter_by(group_name=group.name):
+		g.db.delete(blacklist)
+
+	g.db.delete(group)
+
+	text = f':marseydisintegrate: !{group} has been deleted by @{v.username} :!marseydisintegrate:'
+	alert_active_users(text, None, User.group_creation_notifs == True)
+
+	return {"message": f"You have deleted !{group} successfully!"}
+
 @app.post("/!<group_name>/leave")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
@@ -149,6 +162,8 @@ def leave_group(v, group_name):
 				send_repeatable_notification(new_owner_id, f"@{group.owner.username} (!{group}'s owner) has left the group, You're now the new owner!")
 				group.owner_id = new_owner_id
 				g.db.add(group)
+			else:
+				return delete_group(existing, group, v)
 		else:
 			func(group.owner_id, text)
 
@@ -276,20 +291,12 @@ def group_reject(v, group_name, user_id):
 			send_repeatable_notification(new_owner_id, f"@{group.owner.username} (!{group}'s owner) has been kicked from the group by site admins, You're now the new owner!")
 			group.owner_id = new_owner_id
 			g.db.add(group)
+		else:
+			return delete_group(membership, group, v)
 
 	g.db.delete(membership)
 
-	g.db.flush()
-	count = g.db.query(GroupMembership).filter_by(group_name=group.name).count()
-	if not count:
-		g.db.commit() #need it to fix "Dependency rule tried to blank-out primary key column 'group_memberships.group_name' on instance"
-		g.db.delete(group)
-		msg = f"You have deleted !{group} successfully!"
-
-		text = f':marseydisintegrate: !{group} has been deleted by @{v.username} :!marseydisintegrate:'
-		alert_active_users(text, None, User.group_creation_notifs == True)
-
-	if count and v.id != uid:
+	if v.id != uid:
 		group_blacklist = GroupBlacklist(
 			user_id=uid,
 			group_name=group.name,
