@@ -1751,7 +1751,7 @@ def admin_nuke_user(v):
 			media_usage.removed_utc = time.time()
 			g.db.add(media_usage)
 
-		post.ban_reason = v.username
+		post.ban_reason = f'{v.username} (Mass Removal)'
 		g.db.add(post)
 
 	for comment in g.db.query(Comment).filter_by(author_id=user.id):
@@ -1764,7 +1764,7 @@ def admin_nuke_user(v):
 			media_usage.removed_utc = time.time()
 			g.db.add(media_usage)
 
-		comment.ban_reason = v.username
+		comment.ban_reason = f'{v.username} (Mass Removal)'
 		g.db.add(comment)
 
 	ma = ModAction(
@@ -1791,6 +1791,9 @@ def admin_nunuke_user(v):
 		if not post.is_banned:
 			continue
 
+		if not post.ban_reason.endswith('(Mass Removal)'):
+			continue
+
 		post.is_banned = False
 
 		for media_usage in post.media_usages:
@@ -1803,6 +1806,9 @@ def admin_nunuke_user(v):
 
 	for comment in g.db.query(Comment).filter_by(author_id=user.id):
 		if not comment.is_banned:
+			continue
+
+		if not comment.ban_reason.endswith('(Mass Removal)'):
 			continue
 
 		comment.is_banned = False
@@ -1822,7 +1828,7 @@ def admin_nunuke_user(v):
 		)
 	g.db.add(ma)
 
-	return {"message": f"@{user.username}'s content has been approved!"}
+	return {"message": "Previous mass content removal reverted successfully!"}
 
 @app.post("/blacklist/<int:user_id>")
 @limiter.limit('1/second', scope=rpath)

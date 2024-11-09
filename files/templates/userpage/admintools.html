@@ -115,15 +115,15 @@
 				{% endif %}
 
 				{% if v.admin_level >= PERMS['NUKE_USER'] %}
-					<form action="/admin/unnuke_user" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
-						<input hidden name="formkey", value="{{v|formkey}}" class="notranslate" translate="no">
-						<input hidden name="user" value="{{u.username}}">
-						<input type="submit" class="btn btn-success" value="Approve User's Content">
-					</form>
 					<form class="mt-1" action="/admin/nuke_user" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 						<input hidden name="formkey", value="{{v|formkey}}" class="notranslate" translate="no">
 						<input hidden name="user" value="{{u.username}}">
 						<input type="submit" class="btn btn-danger" value="Remove User's Content">
+					</form>
+					<form action="/admin/unnuke_user" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
+						<input hidden name="formkey", value="{{v|formkey}}" class="notranslate" translate="no">
+						<input hidden name="user" value="{{u.username}}">
+						<input type="submit" class="btn btn-success" value="Revert Previous Mass Content Removal">
 					</form>
 				{% endif %}
 
