@@ -16,7 +16,7 @@ from files.helpers.regex import *
 from files.helpers.sanitize import *
 from files.helpers.useractions import *
 from files.routes.wrappers import *
-from files.routes.routehelpers import get_alt_graph_ids
+from files.routes.routehelpers import *
 from files.__main__ import app, cache, limiter
 
 from .front import frontlist
@@ -369,7 +369,15 @@ def award_thing(v, thing_type, id):
 		if author.is_permabanned:
 			stop(400, f"{safe_username} already permabanned!")
 		author.ban(reason=ban_reason, days=quantity, modlog=False)
-		send_repeatable_notification(author.id, f"Your account has been banned for **{quantity} day{s}** for {obj.textlink}. It sucked and you should feel bad.")
+		text = f"Your account has been banned for **{quantity} day{s}** for {obj.textlink}. It sucked and you should feel bad."
+		send_repeatable_notification(author.id, text)
+
+		if SITE_NAME == 'WPD':
+			for x in get_alt_graph(author.id):
+				x.ban(reason=ban_reason, days=quantity, modlog=False, original_user=author)
+				one_month_ago = time.time() - 2592000
+				if x.last_active > one_month_ago:
+					send_repeatable_notification(x.id, text)
 	elif kind == "unban":
 		if not author.is_suspended or not author.unban_utc:
 			stop(403)
