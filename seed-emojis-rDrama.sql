@@ -4253,7 +4253,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseynegativeweiss', 'Marsey', 2, 'anime german nazi rwby weeb', false, 1721123003),
 ('marseyneko', 'Marsey', 2, 'autism autistic nekobit fedi fediverse hat programmer codecel', false, 0),
 ('marseyneon', 'Marsey', 2, 'wave flashy trippy waving flashing lights animated', false, 0),
-('marseynepeta', 'Marsey', 2, 'leijon homestuck', false, 1688050358),
 ('marseynerd', 'Marsey', 2, 'dork loser dweeb geek glasses aevann', false, 0),
 ('marseynerd2', 'Marsey', 2, 'geek glasses dork loser pimples zits', false, 0),
 ('marseynerd3', 'Marsey', 2, 'glasses teeth hand raised akshually actually', false, 1703942905),
