@@ -379,10 +379,7 @@ def award_thing(v, thing_type, id):
 				if x.last_active > one_month_ago:
 					send_repeatable_notification(x.id, text)
 	elif kind == "unban":
-		if not author.is_suspended or not author.unban_utc:
-			stop(403)
-
-		if not author.ban_reason.startswith('Ban award'):
+		if not author.is_suspended or not author.unban_utc or not author.ban_reason.startswith('Ban award'):
 			stop(400, "You can only use unban awards to undo the effect of ban awards!")
 
 		if author.unban_utc - time.time() > 86400 * quantity:
@@ -397,10 +394,7 @@ def award_thing(v, thing_type, id):
 	
 		if SITE_NAME == 'WPD':
 			for x in get_alt_graph(author.id):
-				if not x.is_suspended or not x.unban_utc:
-					continue
-
-				if not x.ban_reason.startswith('Ban award'):
+				if not x.is_suspended or not x.unban_utc or not x.ban_reason.startswith('Ban award'):
 					continue
 
 				if x.unban_utc - time.time() > 86400 * quantity:
