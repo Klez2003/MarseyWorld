@@ -1132,29 +1132,25 @@ def settings_checkmark_text(v):
 	g.db.add(v)
 	return {"message": "Checkmark Text successfully updated!"}
 
-@app.post("/settings/birthday")
+@app.post("/settings/age")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def settings_birthday(v):
+def settings_age(v):
 	if v.is_suspended:
-		return {"message": "Birthday successfully updated!"}
+		return {"message": "Age successfully updated!"}
 
-	birthday = request.values.get('birthday')
-	try: birthday_utc = timegm(time.strptime(birthday, "%Y-%m-%d"))
-	except: stop(400, "Invalid birthday!")
+	try: age = int(request.values.get('age'))
+	except: stop(400, "Invalid age!")
 
-	if birthday_utc > time.time():
-		stop(400, "Invalid birthday!")
+	if age < 13:
+		stop(400, "Invalid age!")
 
-	eighteen_years_ago = time.time() - 31556952 * 18
+	if age < 18:
+		remaining_years = 18 - age
+		remaining_days = remaining_years * 365
+		v.ban(reason=f"Underage (age input)", days=remaining_days)
 
-	if birthday_utc > eighteen_years_ago:
-		unban_utc = birthday_utc + 31556952 * 18
-		days = (unban_utc - time.time()) / 86400
-		days += random.randint(1, 40)
-		v.ban(reason=f"Underage (birthday)", days=days)
-
-	return {"message": "Birthday successfully updated!"}
+	return {"message": "Age successfully updated!"}
