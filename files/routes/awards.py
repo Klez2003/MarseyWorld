@@ -393,6 +393,30 @@ def award_thing(v, thing_type, id):
 			author.is_banned = None
 			author.ban_reason = None
 			send_repeatable_notification(author.id, "You have been unbanned!")
+	
+	
+		if SITE_NAME == 'WPD':
+			for x in get_alt_graph(author.id):
+				if not x.is_suspended or not x.unban_utc:
+					continue
+
+				if not x.ban_reason.startswith('Ban award'):
+					continue
+
+				if x.unban_utc - time.time() > 86400 * quantity:
+					x.unban_utc -= 86400 * quantity
+					one_month_ago = time.time() - 2592000
+					if x.last_active > one_month_ago:
+						send_repeatable_notification(x.id, f"Your ban duration has been reduced by {quantity} day{s}!")
+				else:
+					x.unban_utc = None
+					x.is_banned = None
+					x.ban_reason = None
+					one_month_ago = time.time() - 2592000
+					if x.last_active > one_month_ago:
+						send_repeatable_notification(x.id, "You have been unbanned!")
+
+	
 	elif kind == "grass":
 		new_unban_utc = int(time.time()) + 30 * 86400 * quantity
 		if author.is_banned and (not author.unban_utc or author.unban_utc > new_unban_utc):
