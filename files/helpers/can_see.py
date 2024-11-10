@@ -33,7 +33,7 @@ def can_see(user, obj):
 						if obj.top_comment.author_id == user.id: return True
 						return user.admin_level >= PERMS['VIEW_MODMAIL']
 					if obj.sentto != user.id:
-						return user.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS']
+						return user.admin_level >= PERMS['VIEW_CHATS']
 	elif isinstance(obj, Hole):
 		if obj.name == 'chudrama': return bool(user) and user.can_see_chudrama
 		if obj.name == 'countryclub': return bool(user) and user.can_see_countryclub

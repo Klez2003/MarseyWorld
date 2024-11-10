@@ -84,7 +84,7 @@ def execute_blackjack(v, target, body, kind):
 
 		v.shadowban(reason=f"Blackjack: {kind}")
 
-	notified_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
+	notified_ids = (AEVANN_ID, CARP_ID)
 	extra_info = kind
 
 	if target:
