@@ -869,7 +869,7 @@ def settings_name_change(v):
 	if existing and existing.id != v.id:
 		stop(400, f"Username `{new_name}` is already in use.")
 
-	if v.patron >= 4 and v.username != v.original_username and not (v.extra_username and len(v.extra_username) < 3):
+	if v.patron >= 4 and v.username != v.original_username and not (v.extra_username and len(v.extra_username) <= 3):
 		v.extra_username = v.username
 
 	v.username = new_name
