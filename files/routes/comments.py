@@ -159,7 +159,9 @@ def comment(v):
 		if hole in {'furry','vampire','racist','femboy','edgy'} and not v.client and not v.house.lower().startswith(hole):
 			stop(403, f"You need to be a member of House {hole.capitalize()} to comment in /h/{hole}")
 
-	if v.is_suspended and not (posting_to_post and hole == 'chudrama'):
+	distinguished = request.values.get('distinguished') == 'true' and v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH']
+
+	if v.is_suspended and not (posting_to_post and hole == 'chudrama') and not distinguished:
 		if SITE_NAME == 'rDrama':
 			stop(403, "You can only comment in /h/chudrama when you're tempbanned!")
 		stop(403, "You can't perform this action while banned!")
@@ -172,8 +174,6 @@ def comment(v):
 		stop(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	body = body.replace('@jannies', '!jannies')
-
-	distinguished = request.values.get('distinguished') == 'true' and v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH']
 
 	if not distinguished and not (posting_to_post and post_target.id in ADMIGGER_THREADS):
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
