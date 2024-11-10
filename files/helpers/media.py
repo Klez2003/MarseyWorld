@@ -172,7 +172,14 @@ def process_video(file, v, post=None):
 	new = f'{old}.mp4'
 
 	reencode = False
-	for stream in ffmpeg.probe(old)['streams']:
+
+	try:
+		streams = ffmpeg.probe(old)['streams']
+	except:
+		os.remove(old)
+		stop(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
+
+	for stream in streams:
 		if stream["codec_type"] == "video":
 			if stream['codec_name'] != 'h264':
 				reencode = True
