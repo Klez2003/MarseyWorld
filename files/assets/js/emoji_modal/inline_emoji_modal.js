@@ -61,6 +61,9 @@ function replaceText(input, new_text) {
 
 	if (typeof markdown === "function" && input.dataset.preview)
 		markdown(input)
+
+	if (typeof savetext === "function")
+		savetext();
 }
 
 function populate_inline_emoji_modal(results, textbox)
