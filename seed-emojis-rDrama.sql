@@ -3551,7 +3551,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyhorsemandeath', 'Marsey', 2, 'fourhorsemen biblical apocalypse', false, 1700848545),
 ('marseyhorsemanfamine', 'Marsey', 2, 'fourhorsemen biblical apocalypse', false, 1700848581),
 ('marseyhorsemanwar', 'Marsey', 2, 'fourhorsemen biblical apocalypse', false, 1700848618),
-('marseyhorseshoe', 'Marsey', 2, 'rightoid leftoid theory', false, 0),
+('marseyhorseshoe', 'Marsey', 2, 'extremists leftoid rightoid theory wingcucks wingnuts', false, 0),
 ('marseyhorseshoecry', 'Marsey', 2, 'animated beefsteak commie communist extremist horseshoetheory leftwing nazi rightwing rotating soycry', false, 1727039426),
 ('marseyhotep', 'Marsey', 2, 'party meme parrot vibing jam dance', false, 0),
 ('marseyhotline', 'Marsey', 2, 'deranged crazy bat miami', false, 1706046709),
