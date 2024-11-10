@@ -178,7 +178,7 @@ html_title_regex = re.compile("<title>(.{1,200})</title>", flags=re.I)
 
 excessive_css_scale_regex = re.compile("scale\([^)]*?(\d{2})", flags=re.A)
 
-word_alert_regex = re.compile(r'\b(764|o9a|9 angles|hurtcore|pthc)\b', flags=re.A|re.I)
+word_alert_regex = re.compile(r'\b(764|o9a|9 angles|hurtcore|pthc|oldcom|cvlt|hn|harm ?nation|cut ?sign|lore ?book|million ?pity)\b', flags=re.A|re.I)
 
 commands = {
 	"fortune": FORTUNE_REPLIES,
