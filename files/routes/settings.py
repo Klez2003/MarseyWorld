@@ -1145,6 +1145,10 @@ def settings_birthday(v):
 	birthday = request.values.get('birthday')
 	try: birthday_utc = timegm(time.strptime(birthday, "%Y-%m-%d"))
 	except: stop(400, "Invalid birthday!")
+
+	if birthday_utc > time.time():
+		stop(400, "Invalid birthday!")
+
 	eighteen_years_ago = time.time() - 31556952 * 18
 
 	if birthday_utc > eighteen_years_ago:
