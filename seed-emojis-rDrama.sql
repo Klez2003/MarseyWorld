@@ -3991,6 +3991,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseylovegigaorgy', 'Marsey', 2, 'cuddle hug blush wholesome infinity', false, 1664491045),
 ('marseyloveyou', 'Marsey', 2, 'hearts ilu reaction adoration loving ily adore animated', false, 0),
 ('marseylowpoly', 'Marsey', 2, 'polygonal spinning 3d lopoly animated', false, 0),
+('marseyluce', 'Marsey', 2, 'catholicism christianity holy jesus religion vatican', false, 1731196627),
 ('marseyluckycat', 'Marsey', 2, 'fortune gambling gambler goombler goombling animated weeb azn asian slots japanese money cash coin rich', false, 0),
 ('marseylueshi', 'Marsey', 2, 'super mario nintendo snes retro vidya dinosaur italian plumber pipes 42', false, 1664142051),
 ('marseyluka', 'Marsey', 2, 'russia belarus wagner dictator commie communist', false, 1687637320),
