@@ -3,7 +3,7 @@
 
 #generate seed-emojis-$SITE_NAME.sql
 EXPORT_EMOJIS=$(psql --csv --tuples-only -P "null=NULL" -c \
-        "SELECT ''''||name||'''', ' '''||kind||'''', ' '||2, ' '''||tags||'''', ' '||nsfw||'', ' '||created_utc||'' FROM emojis WHERE submitter_id IS NULL and author_id != 2 and author_id != 1076771 ORDER BY name" \
+        "SELECT ''''||name||'''', ' '''||kind||'''', ' '||2, ' '''||tags||'''', ' '||nsfw||'', ' '||created_utc||'' FROM emojis WHERE submitter_id IS NULL and author_id != 2 and author_id != 1076771 and name not ilike '%$SITE_NAME%' ORDER BY name" \
         "$DATABASE_URL")
 EXPORT_EMOJIS=$(sed 's/.*/\(&\),/' <<< "$EXPORT_EMOJIS")
 echo "INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUES" > "/d/seed-emojis-$SITE_NAME.sql"
