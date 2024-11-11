@@ -7,7 +7,7 @@ function embed_reddit() {
 
 	if (reddit == "undelete.pullpush.io") return
 
-	for (const a of document.querySelectorAll(`a[href^="https://${reddit}/r/"]:not(a[href$="/new"])`)) {
+	for (const a of document.querySelectorAll(`a[href^="https://${reddit}/r/"]:not(a[href$="/new"]), a[href^="https://${reddit}/user/"][href*="/comments/"]`)) {
 		if (a.innerHTML && a.innerHTML !== a.href) continue
 		if (["STRONG", "LI", "BLOCKQUOTE", "PRE", "CODEBLOCK"].includes(a.parentElement.tagName)) continue
 
