@@ -1868,6 +1868,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyangrypimp', 'Marsey', 2, 'mad whore wrangler prostitutes cane bipoc purple hat', false, 1674954093),
 ('marseyanguished', 'Marsey', 2, 'horror creepy distorted', false, 1698664069),
 ('marseyanime', 'Marsey', 2, 'sayian weeb', false, 0),
+('marseyanna', 'Marsey', 2, 'brunette isis khachiyan redscarepod rsp', false, 1731287445),
 ('marseyannoyed', 'Marsey', 2, 'pissed irritation reaction annoyance angry mad irritated stfu grr', false, 0),
 ('marseyanon', 'Marsey', 2, 'anonymous vendetta marseyv marseyvendetta mask 4chan hacker', false, 0),
 ('marseyanorexia', 'Marsey', 2, 'starvation proana old wrinkled bulimia edtwt', false, 0),
