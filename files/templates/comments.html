@@ -103,7 +103,7 @@
 				{% set isreply = False %}
 			{% endif %}
 
-			<div id="comment-{{c.id}}" class="anchor comment {% if wall and level == 1 and not (focused_comment and c == focused_comment) %}mt-5{% elif wall %}mt-4{% elif standalone and level == 1 %}mt-0{% endif %} {% if collapse or c.collapse_for_user(v, focused_comment, request.full_path) %}collapsed{% endif %}" style="{% if isreply %}padding-left:0!important{% endif %}">
+			<div id="comment-{{c.id}}" class="anchor comment {% if wall and level == 1 and not (focused_comment and c == focused_comment) %}mt-5{% elif wall %}mt-4{% elif standalone and level == 1 %}mt-0{% endif %} {% if collapse or c.collapse_for_user(v, focused_comment, request.path) %}collapsed{% endif %}" style="{% if isreply %}padding-left:0!important{% endif %}">
 				{% set is_collapsing = (request.path.startswith('/notifications') or request.path == '/contact') and replies|length > 8 %}
 				{% if not isreply %}
 					{% if is_collapsing %}
