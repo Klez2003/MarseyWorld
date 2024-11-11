@@ -8,13 +8,13 @@
 	"description": "rDrama",
 	"icons": [
 			{
-				"src": "/i/rDrama/192.png?x=12",
+				"src": "/i/rDrama/192.png?x=13",
 				"sizes": "192x192",
 				"type": "image/png",
 				"purpose": "any"
 			},
 			{
-				"src": "/i/rDrama/512.png?x=12",
+				"src": "/i/rDrama/512.png?x=13",
 				"sizes": "512x512",
 				"type": "image/png"
 			}
