@@ -66,6 +66,8 @@ if SITE_NAME == 'rDrama':
 		'(?<!cow)tools(?!\w)': 'cowtools',
 		'upvote': 'upmarsey',
 		'downvote': 'downmarsey',
+		'upvoting': 'upmarseying',
+		'downvoting': 'downmarseying',
 	}
 
 PROFANITIES = {
