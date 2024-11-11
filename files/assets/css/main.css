@@ -7840,7 +7840,7 @@ p:empty + p { /* poll margin */
     color: white !important;
 }
 
-.d-md-none .nav-item:not(:first-child):focus, .d-md-none .nav-item:not(:first-child):hover, .d-md-none .nav-item:not(:first-child):active,
+.d-md-none .nav-item:not(.nohighlight):focus, .d-md-none .nav-item:not(.nohighlight):hover, .d-md-none .nav-item:not(.nohighlight):active,
 .modal .post-actions .btn-link:focus, .modal .post-actions .btn-link:hover, .modal .post-actions .btn-link:active {
 	background-color: var(--gray-300) !important;
 }

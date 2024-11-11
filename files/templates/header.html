@@ -419,7 +419,7 @@
 					</ul>
 
 					<ul style="overflow:auto" class="navbar-nav ml-auto d-flex d-md-none mt-3">
-						<li class="nav-item pb-3">
+						<li class="nav-item pb-3 nohighlight">
 							<form id="searchform" class="form-inline search flex-nowrap mx-1 mx-lg-auto mb-0" action="/search/posts" method="get">
 								<input autocomplete="off" class="form-control form-control-sm w-100" type="search" placeholder="{{search_placeholder}}" name="q">
 								<span class="input-group-append">
@@ -497,13 +497,13 @@
 
 							<button type="button" class="nav-item border-top border-bottom mt-2 pt-2 nav-link" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this, '/logout')"><i class="fas fa-sign-out fa-fw mr-3 text-danger"></i>Log Out</button>
 						{% else %}
-							<li class="nav-item d-flex align-items-center justify-content-center pb-3">
+							<li class="nav-item d-flex align-items-center justify-content-center pb-3 nohighlight">
 								<a class="btn btn-primary btn-block" href="/contact">Contact Us</a>
 							</li>
-							<li class="nav-item d-flex align-items-center justify-content-center pb-3">
+							<li class="nav-item d-flex align-items-center justify-content-center pb-3 nohighlight">
 								<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}">Sign In</a>
 							</li>
-							<li class="nav-item d-flex align-items-center justify-content-center">
+							<li class="nav-item d-flex align-items-center justify-content-center nohighlight">
 								<a class="btn btn-primary btn-block" href="/signup?redirect={{request.full_path | urlencode}}">Sign Up</a>
 							</li>
 						{% endif %}
