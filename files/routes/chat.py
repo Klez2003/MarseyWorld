@@ -175,9 +175,9 @@ def speak(data, v):
 	if v.shadowbanned:
 		emit('speak', data)
 	else:
-		emit('speak', data, room=request.referrer)
+		emit('speak', data, room=request.referrer.split('?')[0])
 
-	typing[request.referrer] = []
+	typing[request.referrer.split('?')[0]] = []
 
 	if membership and membership.is_mod:
 		added_users = []
@@ -194,7 +194,7 @@ def speak(data, v):
 					g.db.flush()
 					added_users.append((user.username, user.name_color, user.patron, user.id, bool(user.has_badge(303))))
 		if added_users:
-			emit("add", added_users, room=request.referrer)
+			emit("add", added_users, room=request.referrer.split('?')[0])
 
 		kicked_users = []
 		for i in chat_kicking_regex.finditer(text):
@@ -207,7 +207,7 @@ def speak(data, v):
 					send_notification(user.id, f"@{v.username} kicked you from their chat [{chat.name}](/chat/{chat.id})")
 					kicked_users.append(user.id)
 		if kicked_users:
-			emit("kick", kicked_users, room=request.referrer)
+			emit("kick", kicked_users, room=request.referrer.split('?')[0])
 
 	if v.id == chat.owner_id:
 		for i in chat_jannying_regex.finditer(text):
@@ -227,7 +227,7 @@ def speak(data, v):
 					send_notification(user.id, f"@{v.username} has removed you as a mod of their chat [{chat.name}](/chat/{chat.id})")
 
 	if chat.id != 1:
-		alrdy_here = set(online[request.referrer].keys())
+		alrdy_here = set(online[request.referrer.split('?')[0]].keys())
 		memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
 			ChatMembership.chat_id == chat_id,
 			ChatMembership.user_id.notin_(alrdy_here),
@@ -277,8 +277,8 @@ def refresh_online(room):
 @socketio.on('connect')
 @auth_required_socketio
 def connect(v):
-	if not request.referrer: stop(400, "Invalid referrer!")
-	room = request.referrer
+	if not request.referrer.split('?')[0]: stop(400, "Invalid referrer!")
+	room = request.referrer.split('?')[0]
 
 	if room.startswith(f'{SITE_FULL}/notifications/messages'):
 		join_room(v.id)
@@ -303,8 +303,8 @@ def connect(v):
 @socketio.on('disconnect')
 @auth_required_socketio
 def disconnect(v):
-	if not request.referrer: stop(400, "Invalid referrer!")
-	room = request.referrer
+	if not request.referrer.split('?')[0]: stop(400, "Invalid referrer!")
+	room = request.referrer.split('?')[0]
 
 	if room.startswith(f'{SITE_FULL}/notifications/messages'):
 		leave_room(v.id)
@@ -327,8 +327,8 @@ def disconnect(v):
 @socketio.on('heartbeat')
 @auth_required_socketio
 def heartbeat(v):
-	if not request.referrer: stop(400, "Invalid referrer!")
-	room = request.referrer
+	if not request.referrer.split('?')[0]: stop(400, "Invalid referrer!")
+	room = request.referrer.split('?')[0]
 
 	if not online.get(room):
 		online[room] = {}
@@ -346,8 +346,8 @@ def heartbeat(v):
 def typing_indicator(data, v):
 	if v.is_suspended or v.shadowbanned: return ''
 	
-	if not request.referrer: stop(400, "Invalid referrer!")
-	room = request.referrer
+	if not request.referrer.split('?')[0]: stop(400, "Invalid referrer!")
+	room = request.referrer.split('?')[0]
 
 	if not typing.get(room):
 		typing[room] = []
