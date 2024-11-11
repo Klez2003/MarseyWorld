@@ -140,7 +140,7 @@ class Post(Base):
 		link = f"/post/{self.id}"
 		if self.hole: link = f"/h/{self.hole}{link}"
 
-		if self.is_banned or self.hole and self.hole in {'chudrama', 'countryclub', 'highrollerclub'}:
+		if self.is_banned or self.hole in {'chudrama', 'countryclub', 'highrollerclub'}:
 			output = '-'
 		else:
 			title = self.plaintitle(None).lower()
