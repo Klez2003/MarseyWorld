@@ -24,7 +24,7 @@ for (let i1 = 0 ; i1 < puffs; i1++)
 }
 
 
-draw(new Date().getTime(), 3000)
+draw_fog(new Date().getTime(), 3000)
 
 
 
@@ -60,7 +60,7 @@ function addNewParticle(delay)
 
 }
 
-function draw(startT, totalT)
+function draw_fog(startT, totalT)
 {
 	//Timing
 	let timeDelta = new Date().getTime() - startT;
@@ -108,7 +108,7 @@ function draw(startT, totalT)
 	//Repeat if there's still a living particle
 	if (stillAlive)
 	{
-		requestAnimationFrame(function(){draw(startT,totalT);});
+		requestAnimationFrame(function(){draw_fog(startT,totalT);});
 	}
 	else
 	{

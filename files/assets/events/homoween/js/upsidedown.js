@@ -30,7 +30,7 @@ if (innerWidth >= 768) {
 	num_fireflies = 50
 }
 
-function draw() {
+function draw_upsidedown() {
 	if (f.length < num_fireflies) {
 		for (let j = 0; j < 10; j++) {
 			f.push(new firefly());
@@ -58,7 +58,7 @@ function init(elemid) {
 
 function loop() {
 	st.clearRect(0, 0, w, h);
-	draw();
+	draw_upsidedown();
 }
 
 loop();

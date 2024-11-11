@@ -89,7 +89,7 @@ function getRandom(min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function draw() {
+function draw_stalker() {
 	let stalker = stalkers[0];
 	let prevstalker = stalkers[0];
 	stalker.x = stalker.X += (mouse.x - stalker.X) * speed;
@@ -104,7 +104,7 @@ function draw() {
 		stalker.y = stalker.Y += (prevstalker.y - stalker.Y) * speed;
 	}
 	makeCircle();
-	requestAnimationFrame(draw);
+	requestAnimationFrame(draw_stalker);
 }
 
-draw();
+draw_stalker();
