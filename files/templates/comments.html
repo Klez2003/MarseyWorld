@@ -104,8 +104,12 @@
 			{% endif %}
 
 			<div id="comment-{{c.id}}" class="anchor comment {% if wall and level == 1 and not (focused_comment and c == focused_comment) %}mt-5{% elif wall %}mt-4{% elif standalone and level == 1 %}mt-0{% endif %} {% if collapse or c.collapse_for_user(v, focused_comment, request.full_path) %}collapsed{% endif %}" style="{% if isreply %}padding-left:0!important{% endif %}">
+				{% set is_collapsing = (request.path.startswith('/notifications') or request.path == '/contact') and replies|length > 8 %}
 				{% if not isreply %}
-					<span class="comment-collapse-line" style="border-color: {% if c.ghost %}var(--primary){% else %}#{{c.author.switched.name_color}}{% endif %}" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
+					{% if is_collapsing %}
+						<span class="comment-collapse-line" style="border-color: {% if c.ghost %}var(--primary){% else %}#{{c.author.switched.name_color}}{% endif %}" data-nonce="{{g.nonce}}" data-onclick="uncollapse_all_messages(this, '{{c.id}}')"></span>
+					{% endif %}
+					<span class="comment-collapse-line {% if is_collapsing %}d-none{% endif %}" style="border-color: {% if c.ghost %}var(--primary){% else %}#{{c.author.switched.name_color}}{% endif %}" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
 				{% endif %}
 				<div class="comment-body">
 					<div id="{% if focused_comment and focused_comment.id == c.id %}context{% else %}comment-{{c.id}}-only{% endif %}" class="{% if c.unread %}unread{% endif %} comment-{{c.id}}-only comment-anchor {% if focused_comment and focused_comment.id == c.id %}context{% endif %}{% if c.is_banned %} banned{% endif %}{% if c.deleted_utc %} deleted{% endif %}">
@@ -538,7 +542,7 @@
 
 				{% if render_replies %}
 					<div id="replies-of-{{c.fullname}}">
-						{% if (request.path.startswith('/notifications') or request.path == '/contact') and replies|length > 8 %}
+						{% if is_collapsing %}
 							{% for reply in replies %}
 								{% if reply.parent_post %}
 									{% set collapse = reply.collapse %}

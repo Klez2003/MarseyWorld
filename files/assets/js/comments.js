@@ -49,3 +49,11 @@ function collapse_comment(id) {
 		document.getElementById(`children-count-${id}`).innerHTML = ''
 	}
 };
+
+function uncollapse_all_messages(t, id) {
+	for (const child of document.getElementById(`replies-of-c_${id}`).children) {
+		child.classList.remove("collapsed")
+	}
+	t.classList.add('d-none')
+	t.nextElementSibling.classList.remove('d-none')
+};
