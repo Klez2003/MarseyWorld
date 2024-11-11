@@ -303,6 +303,12 @@
 			{%- endif -%}
 		</span>
 
+		<a class="text-black link ml-1 text-center" {% if m %}href="/chat/{{chat.id}}/{{m.id}}#{{m.id}}"{% endif %}>
+			{%- if m -%}
+				#{{m.id}}
+			{% endif %}
+		</a>
+
 		<input hidden class="user_id" {% if m %}value="{{m.user_id}}"{% endif %}>
 {% endmacro %}
 

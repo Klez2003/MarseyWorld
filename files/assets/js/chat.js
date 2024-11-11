@@ -10,6 +10,7 @@ const ua = window.navigator.userAgent
 const socket = io()
 
 const chat = document.getElementById('chat')
+const chat_id = document.getElementById('chat_id').value
 const chatline = document.getElementsByClassName('chat-line')[0]
 const box = document.getElementById('chat-window')
 const ta = document.getElementById('input-text-chat')
@@ -106,6 +107,9 @@ socket.on('speak', function(json) {
 		document.getElementsByClassName('user_id')[0].value = json.user_id
 
 		document.getElementsByClassName('time')[0].innerHTML = formatHourMinute(new Date(json.created_utc*1000))
+
+		document.getElementsByClassName('link')[0].href = `/chat/${chat_id}/${json.id}#${json.id}`
+		document.getElementsByClassName('link')[0].innerHTML = `#${json.id}`
 	}
 
 	document.getElementsByClassName('chat-line')[0].id = json.id
@@ -230,7 +234,7 @@ ta.addEventListener("keydown", function(e) {
 
 socket.on('online', function(data) {
 	const online_li = data[0]
-	if (location.pathname != '/chat/1') {
+	if (!location.pathname.startsWith('/chat/1')) {
 		for (const marker of document.getElementsByClassName('online-marker')) {
 			marker.classList.add('d-none')
 		}

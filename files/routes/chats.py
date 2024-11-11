@@ -63,10 +63,11 @@ def chat_user(v, username):
 
 
 @app.get("/chat/<int:chat_id>")
+@app.get("/chat/<int:chat_id>/<int:message_id>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def chat(v, chat_id):
+def chat(v, chat_id, message_id=None):
 	chat = g.db.get(Chat, chat_id)
 	if not chat:
 		stop(404, "Chat not found!")
@@ -88,6 +89,11 @@ def chat(v, chat_id):
 
 	if v.admin_level < PERMS['USER_SHADOWBAN']:
 		displayed_messages = displayed_messages.join(ChatMessage.user).filter(or_(User.id == v.id, User.shadowbanned == None))
+
+	if message_id:
+		start = message_id - 125
+		finish = message_id + 125
+		displayed_messages = displayed_messages.filter(ChatMessage.id > start, ChatMessage.id < finish)
 
 	displayed_messages = reversed(displayed_messages.order_by(ChatMessage.id.desc()).limit(250).all())
 	displayed_messages = {m.id: m for m in displayed_messages}
