@@ -7702,6 +7702,10 @@ p:empty { /* shitty hack to fix the issue where bleach.Cleaner doesnt allow bloc
 	margin: 0 !important;
 }
 
+blockquote + p:empty + .twitter-embed {
+    margin-top: 1.5rem;
+}
+
 .twitter-embed {
 	margin-bottom: 1rem;
 }
