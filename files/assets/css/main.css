@@ -7473,12 +7473,15 @@ blink {
 
 .gold-text:not(a), .gold-text.post-title a:not(.post-flair), :not(td) > a[href="/h/highrollerclub"]:not(.hole-flair), :not(td) > a[href="/h/announcements"]:not(.hole-flair) {
 	font-family: open sans,sans-serif !important;
-	background: url("/i/animations/gold_gradient_light.svg") repeat;
-	background-size: 200% 200%;
 	color: transparent !important;
 	font-weight: 700 !important;
 	background-clip: text !important;
 	-webkit-background-clip: text !important;
+}
+
+.gold-text:not(.candycorn):not(a), .gold-text.post-title a:not(.post-flair), :not(td) > a[href="/h/highrollerclub"]:not(.hole-flair), :not(td) > a[href="/h/announcements"]:not(.hole-flair) {
+	background: url("/i/animations/gold_gradient_light.svg") repeat;
+	background-size: 200% 200%;
 }
 
 .effortpost-flair, :not(td) > a[href="/h/highrollerclub"].hole-flair, :not(td) > a[href="/h/announcements"].hole-flair {
