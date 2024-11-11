@@ -10,12 +10,8 @@
 	{% set adjust=0 %}
 {% endif %}
 
-{% block title %}
-	<title>{{p.plaintitle(v)}}</title>
-{% endblock %}
-
 {% block content %}
-	<div class="mb-2 p-3">
+	<div class="mb-2 p-3 banned">
 		<div class="col-12">
 			<div id="post-{{p.id}}" class="banned {% if p.award_count('glowie', v) %}glow{% endif %} card d-flex flex-row-reverse flex-nowrap justify-content-end border-0 p-0 {% if voted == 1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
 				<div class="card-block my-md-auto">
