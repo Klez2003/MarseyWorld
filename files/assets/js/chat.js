@@ -108,7 +108,7 @@ socket.on('speak', function(json) {
 
 		document.getElementsByClassName('time')[0].innerHTML = formatHourMinute(new Date(json.created_utc*1000))
 
-		document.getElementsByClassName('link')[0].href = `/chat/${chat_id}/${json.id}#${json.id}`
+		document.getElementsByClassName('link')[0].href = `/chat/${chat_id}?m=${json.id}#${json.id}`
 		document.getElementsByClassName('link')[0].innerHTML = `#${json.id}`
 	}
 
@@ -234,7 +234,7 @@ ta.addEventListener("keydown", function(e) {
 
 socket.on('online', function(data) {
 	const online_li = data[0]
-	if (!location.pathname.startsWith('/chat/1')) {
+	if (chat_id != 1) {
 		for (const marker of document.getElementsByClassName('online-marker')) {
 			marker.classList.add('d-none')
 		}

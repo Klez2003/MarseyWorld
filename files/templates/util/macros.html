@@ -303,7 +303,7 @@
 			{%- endif -%}
 		</span>
 
-		<a class="text-black link ml-1 text-center" {% if m %}href="/chat/{{chat.id}}/{{m.id}}#{{m.id}}"{% endif %}>
+		<a class="text-black link ml-1 text-center" {% if m %}href="/chat/{{chat.id}}?m={{m.id}}#{{m.id}}"{% endif %}>
 			{%- if m -%}
 				#{{m.id}}
 			{% endif %}
