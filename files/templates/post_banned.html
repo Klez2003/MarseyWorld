@@ -28,11 +28,6 @@
 					<div class="post-{{p.id}}-down arrow-down mx-auto"></div>
 				</div>
 			</div>
-			{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and p.body_html %}
-				<div class="post-body mt-4 mb-2">
-					{{p.body_html | safe}}
-				</div>
-			{% endif %}
 		</div>
 	</div>
 
