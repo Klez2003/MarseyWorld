@@ -6947,6 +6947,10 @@ body > .container {
 	}
 }
 
+.logo {
+	object-fit: contain;
+}
+
 @media (min-width: 1000px) {
 	#logo-WPD {
 		width: 90px;
