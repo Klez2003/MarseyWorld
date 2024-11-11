@@ -24,7 +24,7 @@
 							{% for log in logs %}
 								<tr class="{% if log.amount > 0 %}bg-green{% else %}bg-red{% endif %}">
 									<td class="p-0 text-center pl-2" style="width:40px">
-										<img width="{% if log.currency == 'coins' %}30{% else %}40{% endif %}" alt="{{log.currency}}" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/{{log.currency}}.webp?x=13" title="{{log.currency.title()}}">
+										<img width="{% if log.currency == 'coins' %}30{% else %}40{% endif %}" alt="{{log.currency}}" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/{{log.currency}}.webp?x=14" title="{{log.currency.title()}}">
 									</td>
 									<td class="unbreakable">
 										<b class="bank-statement-amount">{% if log.amount > 0 %}+{% endif %}{{log.amount | commas}}</b>

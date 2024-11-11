@@ -8,13 +8,13 @@
 	"description": "WPD",
 	"icons": [
 			{
-				"src": "/i/WPD/192.png?x=13",
+				"src": "/i/WPD/192.png?x=14",
 				"sizes": "192x192",
 				"type": "image/png",
 				"purpose": "any"
 			},
 			{
-				"src": "/i/WPD/512.png?x=13",
+				"src": "/i/WPD/512.png?x=14",
 				"sizes": "512x512",
 				"type": "image/png"
 			}

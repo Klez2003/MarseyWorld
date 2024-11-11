@@ -702,7 +702,7 @@ class User(Base):
 	def bio_html_eager(self):
 		if self.bio_html == None: return ''
 		return self.bio_html.replace('data-src', 'src') \
-			.replace(f'src="{SITE_FULL_IMAGES}/i/loading.webp?x=13"', '') \
+			.replace(f'src="{SITE_FULL_IMAGES}/i/loading.webp?x=14"', '') \
 			.replace(f'src="{SITE_FULL_IMAGES}/i/loading.webp"', '') \
 			.replace(f'src="{SITE_FULL_IMAGES}/i/l.webp"', '')
 
@@ -1036,7 +1036,7 @@ class User(Base):
 	def banner_url(self):
 		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl and can_see(g.v, self):
 			return self.bannerurl
-		return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?x=13"
+		return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?x=14"
 
 	@property
 	@lazy
@@ -1062,7 +1062,7 @@ class User(Base):
 		if self.profileurl and can_see(g.v, self):
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
-		return f"{SITE_FULL_IMAGES}/i/default-profile-pic.webp?x=13"
+		return f"{SITE_FULL_IMAGES}/i/default-profile-pic.webp?x=14"
 
 	@property
 	@lazy
