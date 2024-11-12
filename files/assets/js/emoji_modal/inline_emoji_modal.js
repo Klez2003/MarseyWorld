@@ -249,6 +249,7 @@ function inline_carot_navigate(event)
 		ArrowDown: () => emoji_index = ((emoji_index + 1) + select_items.length) % select_items.length,
 		// select the emoji
 		Enter: () => select_items[emoji_index].click(),
+		Tab: () => select_items[emoji_index].click(),
 	}
 	if (event.key in modal_keybinds)
 	{
