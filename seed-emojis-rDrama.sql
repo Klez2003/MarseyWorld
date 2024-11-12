@@ -2099,6 +2099,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseybib', 'Marsey', 2, 'baby diaper pacifier pin bonnet toddler abdl huh', false, 1666587339),
 ('marseybiden', 'Marsey', 2, 'ddd dementia daddy president sleepy joe', false, 0),
 ('marseybiden2', 'Marsey', 2, 'ddd dementia daddy president sleepy joe gas petrol ididthat', false, 0),
+('marseybidenpunished', 'Marsey', 2, '2024 cream ddd debate dementia dropout gear ice kamala kojima metal obama president trump vidya', false, 1731314111),
 ('marseybidenrentfree', 'Marsey', 2, 'maga seethe', false, 1709185591),
 ('marseybigbird', 'Marsey', 2, 'sesame street muppet fluffy yellow avian', false, 1687622667),
 ('marseybigbrain', 'Marsey', 2, 'high iq highiq smart genius', false, 0),
