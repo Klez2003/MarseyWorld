@@ -419,7 +419,7 @@
 
 		{{emoji_btn('input-text-chat')}}
 		{{gif_btn('input-text-chat')}}
-		{{file_btn('file', False)}}
+		{{file_btn('file')}}
 
 		<textarea id="input-text-chat" minlength="1" maxlength="1000" {% if g.browser in ("iphone","mac") %}style="font-size:16px!important"{% endif %} class="file-ta form-control ml-2" placeholder="Message" autocomplete="off" autofocus rows="1" {% if not membership %}disabled{% endif %}></textarea>
 
