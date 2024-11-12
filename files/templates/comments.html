@@ -503,7 +503,7 @@
 												<button type="button" id="unprogstack-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.is_approved == PROGSTACK_ID %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/unprogstack/comment/{{c.id}}','progstack-{{c.id}}','unprogstack-{{c.id}}','d-md-block')"><i class="fas fa-bullhorn text-danger fa-fw"></i>Remove Progressive Stack</button>
 											{% endif %}
 
-											{% if FEATURES['NSFW_MARKING'] and (c.parent_post or c.wall_user_id) and (c.author_id == v.id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.mods_hole(c.post.hole)) or c.wall_user_id == v.id %}
+											{% if FEATURES['NSFW_MARKING'] and ((c.parent_post or c.wall_user_id) and (c.author_id == v.id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.mods_hole(c.post.hole)) or c.wall_user_id == v.id) %}
 												<button type="button" id="mark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.nsfw %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-danger fa-fw"></i>Mark NSFW</button>
 												<button type="button" id="unmark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.nsfw %}d-md-block{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-success fa-fw"></i>Unmark NSFW</button>
 											{% endif %}
@@ -662,7 +662,7 @@
 										{% endif %}
 									{% endif %}
 
-									{% if FEATURES['NSFW_MARKING'] and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and (c.author_id == v.id or v.mods_hole(c.post.hole)) or c.wall_user_id == v.id %}
+									{% if FEATURES['NSFW_MARKING'] and (v.admin_level < PERMS['POST_COMMENT_MODERATION'] and (c.author_id == v.id or v.mods_hole(c.post.hole)) or c.wall_user_id == v.id) %}
 										<button type="button" id="mark2-{{c.id}}" class="{% if c.nsfw %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-danger mr-2"></i>Mark NSFW</button>
 
 										<button type="button" id="unmark2-{{c.id}}" class="{% if not c.nsfw %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-success mr-2"></i>Unmark NSFW</button>
