@@ -1182,7 +1182,7 @@ def edit_post(pid, v):
 		changed = True
 
 	url = request.values.get("url", "").strip()
-	if url != p.url and v.admin_level >= PERMS['POST_COMMENT_EDITING']:
+	if url != p.url:
 		p.url = url
 		changed = True
 		change_thumb = True

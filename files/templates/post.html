@@ -220,9 +220,7 @@
 									<input hidden name="current_page" value="{{request.path}}">
 									<textarea id="post-edit-title" autocomplete="off" maxlength="500" name="title" class="comment-box form-control rounded" required placeholder="Title">{{p.title}}</textarea>
 									{{macros.emoji_btn('post-edit-title')}}
-									{% if v and v.admin_level >= PERMS['POST_COMMENT_EDITING'] %}
-										<input id="post-edit-url" autocomplete="off" maxlength="2083" name="url" type="url" class="comment-box form-control rounded my-3" placeholder="URL" value="{% if p.url %}{% if p.url.startswith('/') %}{{SITE_FULL}}{% endif %}{{p.url}}{% endif %}">
-									{% endif %}
+									<input id="post-edit-url" autocomplete="off" maxlength="2083" name="url" type="url" class="comment-box form-control rounded my-3" placeholder="URL" value="{% if p.url %}{% if p.url.startswith('/') %}{{SITE_FULL}}{% endif %}{{p.url}}{% endif %}">
 									<textarea autocomplete="off" name="body" {% if v.longpost and not p.distinguished %}minlength="280"{% endif %} maxlength="{% if v.id == p.author_id and v.bird and not p.distinguished %}140{% else %}{{POST_BODY_LENGTH_LIMIT(v)}}{% endif %}" data-preview="post-edit-{{p.id}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('post-edit-box-{{p.id}}','charcount-post-edit')" id="post-edit-box-{{p.id}}" form="post-edit-form-{{p.id}}" class="file-ta comment-box form-control rounded" placeholder="Add text to your post..." rows="10" data-id="{{p.id}}">{{p.body}}</textarea>
 
 									<div class="text-small font-weight-bold mt-1" id="charcount-post-edit" style="right: 1rem; bottom: 0.5rem; z-index: 3"></div>
