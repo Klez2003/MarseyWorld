@@ -53,6 +53,10 @@ def searchparse(text):
 def searchposts(v):
 	query = request.values.get("q", '').strip()
 
+	author = request.values.get('author')
+	if author:
+		return redirect(f"/search/posts?q=author:{author} {query}")
+
 	criteria = searchparse(query)
 
 	if 'post' in criteria:
@@ -196,6 +200,10 @@ def searchposts(v):
 @auth_required
 def searchcomments(v):
 	query = request.values.get("q", '').strip()
+
+	author = request.values.get('author')
+	if author:
+		return redirect(f"/search/comments?q=author:{author} {query}")
 
 	page = get_page()
 
