@@ -312,7 +312,7 @@ function reload() {
 	location.reload();
 }
 
-function sendFormXHR(form, extraActionsOnSuccess) {
+function setupFormXhr(form, extraActionsOnSuccess) {
 	if (typeof close_inline_emoji_modal === "function") {
 		close_inline_emoji_modal();
 	}
@@ -354,6 +354,11 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 		form.classList.remove('is-submitting');
 	};
 
+	return xhr
+}
+
+function sendFormXHR(form, extraActionsOnSuccess) {
+	const xhr = setupFormXhr(form, extraActionsOnSuccess);
 	xhr.send(formData);
 }
 
