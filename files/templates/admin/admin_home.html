@@ -18,7 +18,7 @@
 		</ul>
 	{%- endif %}
 
-	{% if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and (SITE_NAME == 'rDrama' or BADGE_THREAD or SNAPPY_THREAD) %}
+	{% if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] or v.admin_level >= PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] or v.admin_level >= PERMS['UPDATE_ASSETS'] %}
 		<h4>Add Stuff</h4>
 		<ul>
 			{% if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] %}
