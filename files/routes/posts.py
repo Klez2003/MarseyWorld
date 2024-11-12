@@ -1178,8 +1178,6 @@ def edit_post(pid, v):
 
 		process_options(v, p)
 
-		gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, False, True)
-
 		changed = True
 
 	if v.admin_level >= PERMS['POST_COMMENT_EDITING']:
@@ -1205,6 +1203,10 @@ def edit_post(pid, v):
 			target_post_id=p.id
 		)
 		g.db.add(ma)
+
+	if body != p.body or p.chudded:
+		g.db.commit()
+		gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, False, True)
 
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
