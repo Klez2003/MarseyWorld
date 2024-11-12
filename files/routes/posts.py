@@ -1130,6 +1130,7 @@ def edit_post(pid, v):
 					add_notif(cid, x, text, pushnotif_url=p.permalink)
 
 	changed = False
+	change_thumb = False
 
 	if int(time.time()) - p.created_utc > 60 * 3:
 		edit_log = PostEdit(
@@ -1180,11 +1181,11 @@ def edit_post(pid, v):
 
 		changed = True
 
-	if v.admin_level >= PERMS['POST_COMMENT_EDITING']:
-		url = request.values.get("url", "").strip()
-		if url != p.url:
-			p.url = url
-			changed = True
+	url = request.values.get("url", "").strip()
+	if url != p.url and v.admin_level >= PERMS['POST_COMMENT_EDITING']:
+		p.url = url
+		changed = True
+		change_thumb = True
 
 	if not changed:
 		stop(400, "You need to change something!")
@@ -1204,9 +1205,9 @@ def edit_post(pid, v):
 		)
 		g.db.add(ma)
 
-	if body != p.body or p.chudded:
+	if body != p.body or p.chudded or change_thumb:
 		g.db.commit()
-		gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, False, True)
+		gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, change_thumb, True)
 
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
