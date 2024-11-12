@@ -39,6 +39,10 @@ function scrolled_down() {
 }
 
 socket.on('speak', function(json) {
+	if (location.href.includes('?m=')) {
+		return
+	}
+	
 	if (blocked_user_ids.includes(json.user_id.toString())) {
 		return
 	}
