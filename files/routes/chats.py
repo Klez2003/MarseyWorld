@@ -92,11 +92,12 @@ def chat(v, chat_id):
 	message_id = request.values.get('m')
 	if message_id:
 		message_id = int(message_id)
-		start = message_id - 125
-		finish = message_id + 125
-		displayed_messages = displayed_messages.filter(ChatMessage.id > start, ChatMessage.id < finish)
+		part_1 = list(reversed(displayed_messages.filter(ChatMessage.id <= message_id).order_by(ChatMessage.id.desc()).limit(125).all()))
+		part_2 = displayed_messages.filter(ChatMessage.id > message_id).order_by(ChatMessage.id).limit(125).all()
+		displayed_messages = part_1 + part_2
+	else:
+		displayed_messages = reversed(displayed_messages.order_by(ChatMessage.id.desc()).limit(250).all())
 
-	displayed_messages = reversed(displayed_messages.order_by(ChatMessage.id.desc()).limit(250).all())
 	displayed_messages = {m.id: m for m in displayed_messages}
 
 	if chat.id == 1:
