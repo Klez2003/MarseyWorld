@@ -219,6 +219,7 @@
 									<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 									<input hidden name="current_page" value="{{request.path}}">
 									<textarea id="post-edit-title" autocomplete="off" maxlength="500" name="title" class="comment-box form-control rounded" required placeholder="Title">{{p.title}}</textarea>
+									{{macros.emoji_btn('post-edit-title')}}
 									{% if v and v.admin_level >= PERMS['POST_COMMENT_EDITING'] %}
 										<input id="post-edit-url" autocomplete="off" maxlength="2083" name="url" type="url" class="comment-box form-control rounded my-3" placeholder="URL" value="{% if p.url %}{% if p.url.startswith('/') %}{{SITE_FULL}}{% endif %}{{p.url}}{% endif %}">
 									{% endif %}
