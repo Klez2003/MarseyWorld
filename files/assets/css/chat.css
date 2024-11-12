@@ -90,8 +90,6 @@ p {
 	border: none !important;
 	color: var(--black);
 	font-size: 12px;
-	margin-top: auto;
-	margin-bottom: auto;
 }
 
 .quote {
