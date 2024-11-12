@@ -550,9 +550,10 @@ def pin_comment_wall_owner(cid, v):
 		if v.id != comment.wall_user_id:
 			stop(403, "You can't pin comments on the walls of other users!")
 
-		existing = g.db.query(Comment.id).filter(
+		existing = g.db.query(Comment.id).join(Comment.author).filter(
 			Comment.wall_user_id == v.id,
 			Comment.pinned.like('% (Wall Owner)'),
+			User.shadowbanned == None,
 		).one_or_none()
 
 		if existing:

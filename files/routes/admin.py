@@ -1612,6 +1612,11 @@ def remove_comment(c_id, v):
 
 	comment.is_banned = True
 
+	if comment.pinned:
+		comment.pinned = None
+		comment.pinned_utc = None
+		comment.unpin_parents()
+
 	for media_usage in comment.media_usages:
 		media_usage.removed_utc = time.time()
 		g.db.add(media_usage)
