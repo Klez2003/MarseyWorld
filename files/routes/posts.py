@@ -626,7 +626,7 @@ def submit_post(v, hole=None):
 		distinguished=flag_distinguished,
 	)
 
-	if SITE == 'watchpeopledie.tv':
+	if SITE_NAME == 'WPD':
 		p.cw = request.values.get("cw", False, bool)
 
 	if not p.draft:
