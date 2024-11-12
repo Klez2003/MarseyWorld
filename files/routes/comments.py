@@ -393,13 +393,12 @@ def comment(v):
 		post_target.bump_utc = c.created_utc
 		g.db.add(post_target)
 
-	g.db.flush()
+	g.db.commit()
+	gevent.spawn(postprocess_comment, c.body, c.body_html, c.id)
 
 	if c.parent_post:
 		for sort in COMMENT_SORTS.keys():
 			cache.delete(f'post_{c.parent_post}_{sort}')
-
-	gevent.spawn(postprocess_comment, c.body, c.body_html, c.id)
 
 	if v.client: return c.json
 	return {"id": c.id, "comment": render_template("comments.html", v=v, comments=[c])}
@@ -788,8 +787,7 @@ def edit_comment(cid, v):
 					g.db.add(n)
 					push_notif({x}, f'New mention of you by @{c.author_name}', c.body, c)
 
-		g.db.flush()
-
+		g.db.commit()
 		gevent.spawn(postprocess_comment, c.body, c.body_html, c.id)
 	else:
 		stop(400, "You need to change something!")

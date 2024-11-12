@@ -775,13 +775,6 @@ def submit_post(v, hole=None):
 		)
 		g.db.add(ma)
 
-	cache.delete_memoized(frontlist)
-	cache.delete_memoized(userpagelisting)
-
-	g.db.flush() #Necessary, do NOT remove
-
-	generate_thumb = (not p.thumburl and p.url and p.domain != SITE)
-	gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, generate_thumb, False)
 
 	if not p.draft and flag_effortpost and not (SITE_NAME == 'WPD' and v.truescore < 500) and p.can_be_effortpost:
 		body = f"@{v.username} has requested that {p.textlink} be marked as an effortpost!"
@@ -789,6 +782,13 @@ def submit_post(v, hole=None):
 
 	if p.draft and flag_effortpost and not (SITE_NAME == 'WPD' and v.truescore < 500):
 		p.effortpost = True
+
+	g.db.commit()
+	generate_thumb = (not p.thumburl and p.url and p.domain != SITE)
+	gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, generate_thumb, False)
+
+	cache.delete_memoized(frontlist)
+	cache.delete_memoized(userpagelisting)
 
 	if v.client: return p.json
 	else:
