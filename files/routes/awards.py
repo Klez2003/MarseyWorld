@@ -502,7 +502,9 @@ def award_thing(v, thing_type, id):
 		badge_grant(user=author, badge_id=179, notify=False)
 	elif kind in {"pin", "gigapin"}:
 		if not FEATURES['PINS']: stop(403)
-		if obj.is_banned: stop(403)
+
+		if obj.is_banned:
+			stop(403, f"You can't give a {kind} award to a removed {thing_type}!")
 
 		if obj.pinned and not obj.pinned_utc:
 			stop(400, f"This {thing_type} is already pinned permanently!")
