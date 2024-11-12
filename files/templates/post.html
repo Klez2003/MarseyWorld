@@ -221,7 +221,7 @@
 									<textarea id="post-edit-title" autocomplete="off" maxlength="500" name="title" class="comment-box form-control rounded" required placeholder="Title">{{p.title}}</textarea>
 									{{macros.emoji_btn('post-edit-title')}}
 
-									<input id="post-edit-url" autocomplete="off" maxlength="2083" name="url" type="url" class="comment-box form-control rounded my-3" placeholder="URL" value="{% if p.url %}{% if p.url.startswith('/') %}{{SITE_FULL}}{% endif %}{{p.url}}{% endif %}">
+									<input id="post-edit-url" autocomplete="off" maxlength="2083" name="url" type="url" class="comment-box form-control rounded mt-3" placeholder="URL" value="{% if p.url %}{% if p.url.startswith('/') %}{{SITE_FULL}}{% endif %}{{p.url}}{% endif %}">
 									<label class="btn btn-secondary m-0 mr-1 mb-3" for="file-upload">
 										<div>Select File</div>
 										<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file-url" hidden="">
