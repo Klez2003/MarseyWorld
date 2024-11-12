@@ -535,6 +535,7 @@ def update_emoji(v):
 	file = request.files["image"]
 	kind = request.values.get('kind', '').strip()
 	new_name = request.values.get('new_name', '').lower().strip()
+	new_author = request.values.get('new_author', '').lower().strip()
 	tags = request.values.get('tags', '').lower().strip().replace('  ', ' ')
 
 	nsfw = request.values.get('nsfw', '').strip()		
@@ -562,6 +563,11 @@ def update_emoji(v):
 		existing.name = new_name
 		updated = True
 		name = existing.name
+
+	if new_author and existing.author.username.lower() != new_author:
+		author = get_user(new_author)
+		existing.author_id = author.id
+		updated = True
 
 	if file:
 		if g.is_tor:
@@ -653,6 +659,7 @@ def update_hat(v):
 
 	file = request.files["image"]
 	new_name = request.values.get('new_name', '').strip()
+	new_author = request.values.get('new_author', '').lower().strip()
 
 	existing = g.db.query(HatDef).filter_by(name=name).one_or_none()
 	if not existing:
@@ -677,7 +684,12 @@ def update_hat(v):
 		existing.name = new_name
 		updated = True
 		name = existing.name
-	
+
+	if new_author and existing.author.username.lower() != new_author:
+		author = get_user(new_author)
+		existing.author_id = author.id
+		updated = True
+
 	if file:
 		if g.is_tor:
 			stop(400, "File uploads are not allowed through TOR!")

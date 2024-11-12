@@ -1,6 +1,7 @@
 import time
 
 from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -16,6 +17,8 @@ class Emoji(Base):
 	submitter_id = Column(Integer, ForeignKey("users.id"))
 	created_utc = Column(Integer)
 	nsfw = Column(Boolean, default=False)
+
+	author = relationship("User", primaryjoin="User.id==Emoji.author_id")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
