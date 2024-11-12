@@ -40,7 +40,7 @@
 	</div>
 
 	{% set kind = request.path.split('/')[-1] %}
-	<form id="searchform" class="form-inline search flex-nowrap mt-3" action="/search/{{kind}}" method="get">
+	<form id="searchform" class="form-inline search flex-nowrap mt-3 mb-4" action="/search/{{kind}}" method="get">
 		<input hidden name="author" value="{{u.username}}">
 		<input autocomplete="off" class="form-control w-100" type="search" placeholder="Search user's {{kind}}" name="q">
 		<span class="input-group-append">
