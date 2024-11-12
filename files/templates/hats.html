@@ -50,7 +50,7 @@
 					<th class="disable-sort-click">Hat</th>
 					<th class="disable-sort-click">Name</th>
 					<th class="disable-sort-click">Description</th>
-					{% if SITE == 'rdrama.net' %}
+					{% if FEATURES['HAT_SUBMISSIONS'] %}
 						<th class="disable-sort-click">Author</a></th>
 					{% endif %}
 					<th class="disable-sort-click">Owners</th>
@@ -71,7 +71,7 @@
 						</td>
 						<td>{{hat.name}}</td>
 						<td>{{hat.censored_description(v)}}</td>
-						{% if SITE == 'rdrama.net' %}
+						{% if FEATURES['HAT_SUBMISSIONS'] %}
 							<td>{% include "user_in_table.html" %}</td>
 						{% endif %}
 						<td><a href="/hat_owners/{{hat.id}}">{{hat.number_sold|commas}}</a></td>
