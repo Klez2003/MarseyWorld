@@ -246,6 +246,13 @@ def award_thing(v, thing_type, id):
 	if v.id == author.id and kind == "zombiebite":
 		stop(403, "You can't bite yourself!")
 
+	for award in awards:
+		if isinstance(obj, Post): award.post_id = obj.id
+		else: award.comment_id = obj.id
+		award.awarded_utc = int(time.time())
+		award.note = note
+		g.db.add(award)
+
 	if v.id != author.id:
 		if author.deflector and v.deflector and AWARDS[kind]['deflectable'] and v.admin_level < PERMS['IMMUNE_TO_DEFLECTIONS']:
 			msg = f"@{v.username} has tried to give {obj.textlink} {quantity} {award_title} award{s} but {it} {was} deflected on them, they also had a deflector up, so {it} bounced back and forth until {it} vaporized!"
@@ -253,9 +260,6 @@ def award_thing(v, thing_type, id):
 
 			msg = f"{safe_username} under the effect of a deflector award; your {award_title} award{s} {has} been deflected back to you but your deflector protected you, the award{s} bounced back and forth until {it} vaporized!"
 			send_repeatable_notification(v.id, msg)
-
-			for award in awards:
-				g.db.delete(award)
 
 			return {"message": f"{quantity} {award_title} award{s} given to {thing_type} successfully!"}
 
@@ -283,13 +287,6 @@ def award_thing(v, thing_type, id):
 					author.pay_account('coins', awarded_coins, f"{quantity} {award_title} award{s} on {obj.textlink}")
 
 	can_alter_body = not obj.author.deflector or v == obj.author
-
-	for award in awards:
-		if isinstance(obj, Post): award.post_id = obj.id
-		else: award.comment_id = obj.id
-		award.awarded_utc = int(time.time())
-		award.note = note
-		g.db.add(award)
 
 	if kind in {"ban", "grass"}:
 		if author.is_suspended and author.ban_reason.startswith('Grass award used by @'):
