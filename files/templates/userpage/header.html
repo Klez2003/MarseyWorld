@@ -38,4 +38,13 @@
 			{% endif %}
 		</div>
 	</div>
+
+	<form id="searchform" class="form-inline search flex-nowrap mt-3" action="/search/{{request.path.split('/')[-1]}}" method="get">
+		<input autocomplete="off" class="form-control w-100" type="search" placeholder="Search" value="author:{{u.username}} " name="q">
+		<span class="input-group-append">
+			<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem">
+				<button type="submit" class="fas fa-search text-muted"></button>
+			</span>
+		</span>
+	</form>
 {% endif %}
