@@ -156,10 +156,10 @@
 	<button type="button" class="btn btn-secondary format m-0 mr-1 font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="show_gif_categories(this, '{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF" {% if previous_modal %}data-previous-modal="{{previous_modal}}"{% endif %}>GIF</button>
 {% endmacro %}
 
-{% macro file_btn(input_id, disabled) %}
+{% macro file_btn(input_id, disabled, multiple=True) %}
 	<label class="btn btn-secondary format m-0 {% if g.is_tor %}tor-disabled{% endif %}" for="{{input_id}}" {% if disabled %}disabled{% endif %}>
 		<span class="fas fa-file"></span>
-		<input autocomplete="off" id="{{input_id}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if g.is_tor or disabled %}disabled{% endif %} hidden>
+		<input autocomplete="off" id="{{input_id}}" accept="image/*, video/*, audio/*" type="file" {% if multiple %}multiple="multiple"{% endif %} name="file" {% if g.is_tor or disabled %}disabled{% endif %} hidden>
 	</label>
 {% endmacro %}
 
@@ -419,7 +419,7 @@
 
 		{{emoji_btn('input-text-chat')}}
 		{{gif_btn('input-text-chat')}}
-		{{file_btn('file')}}
+		{{file_btn('file', False, False)}}
 
 		<textarea id="input-text-chat" minlength="1" maxlength="1000" {% if g.browser in ("iphone","mac") %}style="font-size:16px!important"{% endif %} class="file-ta form-control ml-2" placeholder="Message" autocomplete="off" autofocus rows="1" {% if not membership %}disabled{% endif %}></textarea>
 
