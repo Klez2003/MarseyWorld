@@ -528,7 +528,9 @@ def award_thing(v, thing_type, id):
 		if isinstance(obj, Post):
 			cache.delete_memoized(frontlist)
 	elif kind == "unpin":
-		if not obj.pinned_utc: stop(400)
+		if not obj.pinned_utc:
+			stop(400, f"This {thing_type} is not pinned!")
+
 		if not obj.author.deflector or v == obj.author:
 			if isinstance(obj, Comment):
 				t = obj.pinned_utc - 3600*6 * quantity
