@@ -1182,7 +1182,29 @@ def edit_post(pid, v):
 		changed = True
 
 	url = request.values.get("url", "").strip()
-	if url != p.url:
+	if request.files.get('file-url') and not g.is_tor:
+		file = request.files['file-url']
+
+		if file.content_type.startswith('image/'):
+			name = f'/images/{time.time()}'.replace('.','') + '.webp'
+			file.save(name)
+			p.url = process_image(name, v)
+
+			name2 = name.replace('.webp', 'r.webp')
+			copyfile(name, name2)
+			p.thumburl = process_image(name2, v, resize=199)
+		elif file.content_type.startswith('video/'):
+			p.url, p.posterurl, name = process_video(file, v, post=p)
+			if p.posterurl:
+				name2 = name.replace('.webp', 'r.webp')
+				copyfile(name, name2)
+				p.thumburl = process_image(name2, v, resize=199)
+		elif file.content_type.startswith('audio/'):
+			p.url = process_audio(file, v)
+		else:
+			stop(415)
+		changed = True
+	elif url != p.url:
 		p.url = url
 		changed = True
 		change_thumb = True
