@@ -6489,7 +6489,7 @@ div.custom-control:last-of-type {
 	}
 }
 
-.dropdown-menu button.searchparam {
+.dropdown-menu button.searchparam, .dropdown-menu button.searchoperator {
 	color: var(--gray-100);
 	text-decoration: none;
 	text-transform: none;
@@ -6500,6 +6500,9 @@ div.custom-control:last-of-type {
 	width: 150px;
 }
 
+.dropdown-menu button.searchoperator {
+	pointer-events: none;
+}
 
 .comment-text blockquote {
 	max-height: 2000px;
