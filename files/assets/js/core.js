@@ -611,6 +611,20 @@ function handle_files(input, newfiles) {
 file_upload = document.getElementById('file-upload');
 
 if (file_upload) {
+	function remove_attachment() {
+		file_upload.value = null;
+		file_upload.previousElementSibling.textContent = 'Select File';
+		document.getElementById('image-preview').classList.add('d-none');
+		document.getElementById('image-preview').classList.remove('mr-2');
+		document.getElementById('urlblock').classList.remove('d-none');
+		document.getElementById('remove-attachment').classList.add('d-none');
+
+		if (typeof checkForRequired === "function") {
+			checkForRequired();
+			clear_files("attachment");
+		}
+	}
+
 	function display_url_image() {
 		if (file_upload.files)
 		{
@@ -632,9 +646,13 @@ if (file_upload) {
 					document.getElementById('image-preview').classList.remove('mr-2');
 				}
 
-				if (typeof checkForRequired === "function") {
+				try {
 					document.getElementById('urlblock').classList.add('d-none');
 					document.getElementById('remove-attachment').classList.remove('d-none');
+				}
+				catch {}
+
+				if (typeof checkForRequired === "function") {
 					checkForRequired();
 				}
 				else {

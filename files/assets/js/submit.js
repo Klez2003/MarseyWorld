@@ -74,17 +74,6 @@ function checkForRequired() {
 }
 checkForRequired();
 
-function remove_attachment() {
-	file_upload.value = null;
-	file_upload.previousElementSibling.textContent = 'Select File';
-	document.getElementById('image-preview').classList.add('d-none');
-	document.getElementById('image-preview').classList.remove('mr-2');
-	document.getElementById('urlblock').classList.remove('d-none');
-	document.getElementById('remove-attachment').classList.add('d-none');
-	checkForRequired();
-	clear_files("attachment");
-}
-
 function autoSuggestTitle()	{
 	const urlField = document.getElementById("post-url");
 	const titleField = document.getElementById("post-title");
