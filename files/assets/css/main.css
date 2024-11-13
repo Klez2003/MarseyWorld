@@ -7829,7 +7829,8 @@ p:empty + p { /* poll margin */
 }
 
 .btn.btn-primary:focus, .btn.btn-primary:hover, .btn.btn-primary:active,
-.btn.btn-secondary:focus, .btn.btn-secondary:hover, .btn.btn-secondary:active {
+.btn.btn-secondary:focus, .btn.btn-secondary:hover, .btn.btn-secondary:active,
+.searchparam:focus, .searchparam:hover, .searchparam:active {
     color: white !important;
     background-color: var(--primary) !important;
     border-color: var(--primary) !important;
