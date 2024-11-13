@@ -132,6 +132,9 @@ def video_sub_regex_matcher(match, obj):
 						media_usage.comment_id = obj.id
 						g.db.add(media_usage)
 
+				if existing and existing.deleted_utc and not obj.deleted_utc:
+					existing.deleted_utc = None
+
 			if media.posterurl:
 				return 	f'<p class="resizable"><video poster="{media.posterurl}" controls preload="none" src="{url}"></video></p>'
 	return f'<p class="resizable"><video controls preload="none" src="{url}"></video></p>'
