@@ -110,7 +110,7 @@ def searchposts(v):
 				if x.startswith('"') and x.endswith('"'):
 					words.append(param.regexp_match(f'[[:<:]]{x[1:-1]}[[:>:]]'))
 				else:
-					words.append(param.ilike('%'+x+'%'))
+					words.append(param.ilike(f'%{x}%'))
 		posts = posts.filter(or_(*words))
 
 	if 'nsfw' in criteria:
