@@ -223,7 +223,7 @@
 									{{macros.emoji_btn('post-edit-title')}}
 									<pre></pre>
 
-									<input id="urlblock" autocomplete="off" maxlength="2083" name="url" type="url" class="comment-box form-control rounded placeholder="URL" value="{% if p.url %}{% if p.url.startswith('/') %}{{SITE_FULL}}{% endif %}{{p.url}}{% endif %}">
+									<input id="urlblock" autocomplete="off" maxlength="2083" name="url" type="url" class="comment-box form-control rounded" placeholder="URL" value="{% if p.url %}{% if p.url.startswith('/') %}{{SITE_FULL}}{% endif %}{{p.url}}{% endif %}">
 
 									<div style="display:flex;align-items:center" class="mb-3">
 										<img loading="lazy" id="image-preview" class="mt-2 mb-3" style="max-width:50%" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
