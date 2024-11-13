@@ -143,7 +143,7 @@
 									{% if (p.url.startswith('https://old.reddit.com/r/') and not p.url.endswith('/new/'))
 									   or (p.url.startswith('https://old.reddit.com/user/') and '/comments/' in p.url)
 									   and not (v and v.reddit == "undelete.pullpush.io") %}
-										<a rel="nofollow noopener" href="{{p.url}}"></a>
+										<a rel="nofollow noopener" href="{{p.realurl(v)}}"></a>
 										<pre></pre>
 									{% elif p.url.startswith('https://tiktok.com/@') %}
 										{% set id = p.url.split('/video/')[1] %}
