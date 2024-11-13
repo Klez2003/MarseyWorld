@@ -84,27 +84,29 @@ def execute_blackjack(v, target, body, kind):
 
 		v.shadowban(reason=f"Blackjack: {kind}")
 
-	notified_ids = (AEVANN_ID, CARP_ID)
-	extra_info = kind
+	if AEVANN_ID and CARP_ID:
+		notified_ids = (AEVANN_ID, CARP_ID)
+		extra_info = kind
 
-	if target:
-		if kind in {'post', 'chat'}:
-			extra_info = target.permalink
-		elif kind == 'report':
-			extra_info = f"reports on {target.permalink}"
-		elif kind in {'comment', 'message'}:
+		if target:
+			if kind in {'post', 'chat'}:
+				extra_info = target.permalink
+			elif kind == 'report':
+				extra_info = f"reports on {target.permalink}"
+			elif kind in {'comment', 'message'}:
+				for id in notified_ids:
+					g.db.flush()
+					existing = g.db.query(Notification).filter_by(comment_id=target.id, user_id=id).one_or_none()
+					if existing: continue
+					n = Notification(comment_id=target.id, user_id=id)
+					g.db.add(n)
+
+				extra_info = None
+
+		if v and extra_info:
 			for id in notified_ids:
-				g.db.flush()
-				existing = g.db.query(Notification).filter_by(comment_id=target.id, user_id=id).one_or_none()
-				if existing: continue
-				n = Notification(comment_id=target.id, user_id=id)
-				g.db.add(n)
+				send_repeatable_notification_duplicated(id, f"Blackjack by @{v.username}: {extra_info}")
 
-			extra_info = None
-
-	if v and extra_info:
-		for id in notified_ids:
-			send_repeatable_notification_duplicated(id, f"Blackjack by @{v.username}: {extra_info}")
 	return True
 
 def find_all_emoji_endings(emoji):
