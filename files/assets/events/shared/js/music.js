@@ -1,4 +1,4 @@
-if (!playing_music()) {
+if (!playing_music() && !document.getElementsByClassName('twitter-embed') && !document.getElementsByClassName('reddit-embed')) {
 	addEventListener("load", () => {
 		const audio = document.getElementById('event-song');
 

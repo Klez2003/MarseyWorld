@@ -139,7 +139,7 @@
 		{% endif %}
 	{% endif %}
 
-	{% if IS_MUSICAL_EVENT() and not IS_LOCALHOST and not (SITE_NAME == 'WPD' and not v) and (not v or v.event_music) and not (hole and hole.name == 'music') and not (u and u.song) and not (IS_HOMOWEEN() and p and p.award_count("haunt", v)) and not (p and p.embed and p.domain == 'x.com') and err != 406 %}
+	{% if IS_MUSICAL_EVENT() and not IS_LOCALHOST and not (SITE_NAME == 'WPD' and not v) and (not v or v.event_music) and not (hole and hole.name == 'music') and not (u and u.song) and not (IS_HOMOWEEN() and p and p.award_count("haunt", v)) and err != 406 %}
 		{% set path = "assets/events/" ~ IS_EVENT() ~ "/music" %}
 		{% set song = SITE_FULL ~ "/" ~ path ~ "/" ~ listdir('files/'~path)|seeded_random(id) ~ '?x=45' %}
 		<audio id="event-song" hidden preload="none" src="{{song}}" loop></audio>
