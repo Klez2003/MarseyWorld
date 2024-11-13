@@ -13,7 +13,13 @@ from files.__main__ import app, limiter
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def ping_groups(v):
-	groups = g.db.query(Group).order_by(Group.created_utc).all()
+	groups = g.db.query(Group).order_by(Group.created_utc)
+
+	owner = request.values.get('owner')
+	if owner:
+		owner_id = get_user(owner, attributes=[User.id]).id
+		groups = groups.filter_by(owner_id=owner_id)
+
 	return render_template('groups.html', v=v, groups=groups, cost=GROUP_COST)
 
 @app.post("/create_group")
