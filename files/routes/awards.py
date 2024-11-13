@@ -253,9 +253,16 @@ def award_thing(v, thing_type, id):
 		award.note = note
 		g.db.add(award)
 
+	if note:
+		msg_note = '\n\n> ' + '\n\n> '.join(note.splitlines())
+
 	if v.id != author.id:
 		if author.deflector and v.deflector and AWARDS[kind]['deflectable'] and v.admin_level < PERMS['IMMUNE_TO_DEFLECTIONS']:
 			msg = f"@{v.username} has tried to give {obj.textlink} {quantity} {award_title} award{s} but {it} {was} deflected on them, they also had a deflector up, so {it} bounced back and forth until {it} vaporized!"
+			
+			if note:
+				msg += msg_note
+
 			send_repeatable_notification(author.id, msg)
 
 			msg = f"{safe_username} under the effect of a deflector award; your {award_title} award{s} {has} been deflected back to you but your deflector protected you, the award{s} bounced back and forth until {it} vaporized!"
@@ -704,6 +711,10 @@ def award_thing(v, thing_type, id):
 	if v.id != author.id:
 		if author.deflector and AWARDS[kind]['deflectable'] and v.admin_level < PERMS['IMMUNE_TO_DEFLECTIONS']:
 			msg = f"@{v.username} has tried to give {obj.textlink} {quantity} {award_title} award{s} but {it} {was} deflected and applied to them :marseytroll:"
+
+			if note:
+				msg += msg_note
+
 			n = send_repeatable_notification(author.id, msg)
 			if n: n.created_utc -= 2
 
@@ -722,10 +733,9 @@ def award_thing(v, thing_type, id):
 			if kind == 'emoji':
 				msg += f"\n\n> :{award.note}:"
 			elif note:
-				note = '\n\n> '.join(note.splitlines())
 				if kind == "chud":
 					msg += f"\n\n**You now have to say this phrase in all posts and comments you make for {24*quantity} hours:**"
-				msg += f"\n\n`{note}`"
+				msg += msg_note
 				if SITE_NAME == 'rDrama' and kind == "chud":
 					msg += f"\n\nPlease keep your chud behavior to /h/chudrama in the future!"
 			n = send_repeatable_notification(author.id, msg)
