@@ -944,7 +944,8 @@ CREATE TABLE public.post_edits (
     old_title_html character varying(5000),
     old_body character varying(100000),
     old_body_html character varying(200000),
-    created_utc integer NOT NULL
+    created_utc integer NOT NULL,
+    old_url character varying(2083)
 );
 
 
