@@ -391,8 +391,8 @@ document.addEventListener('click', function(e) {
 const input = document.getElementById('file')
 function handle_files() {
 	if (!input.files.length) return
-	if (check_file_sizet(input, input.files[0])) {
-		const char_limi = innerWidth >= 768 ? 50 : 10;
+	if (check_file_size(input, input.files[0])) {
+		const char_limit = innerWidth >= 768 ? 50 : 10;
 		input.previousElementSibling.className  = "";
 		input.previousElementSibling.textContent = input.files[0].name.substr(0, char_limit);
 
