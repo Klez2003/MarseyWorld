@@ -7758,12 +7758,6 @@ tr:has(hideme) {
 	object-fit: contain;
 }
 
-.chunky-hr {
-	margin-top: 4rem !important;
-	margin-bottom: 4rem !important;
-	border-top: 2px solid;
-}
-
 #versions .showmore {
 	display: none;
 }
@@ -7864,4 +7858,9 @@ p:empty + p { /* poll margin */
 	*, textarea, .resizable {
 		resize: none !important;
 	}
+}
+
+.edit-log {
+    padding: 14px 14px 0 14px !important;
+    margin-bottom: 3rem !important;
 }

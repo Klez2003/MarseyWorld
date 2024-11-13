@@ -5,31 +5,30 @@
 		<h2 class="my-4 py-md-2 d-none d-md-block">Versions of <a href="{{obj.permalink}}">/{% if obj.fullname.startswith('p_') %}post{% else %}comment{% endif %}/{{obj.id}}</a></h2>
 		<h4 class="my-4 py-md-2 d-md-none">Versions of <a href="{{obj.permalink}}">/{% if obj.fullname.startswith('p_') %}post{% else %}comment{% endif %}/{{obj.id}}</a></h4>
 
-		<hr class="chunky-hr">
+		<div class="card rounded border edit-log">
+			{% if obj.fullname.startswith('p_') %}
+				<h3>{{obj.title_html | safe}}</h3>
+			{% endif %}
 
-		{% if obj.fullname.startswith('p_') %}
-			<h3>{{obj.title_html | safe}}</h3>
-		{% endif %}
-
-		{{obj.body_html | safe}}
+			{{obj.body_html | safe}}
+		</div>
 
 		{% for edit in obj.edits %}
-			<hr class="chunky-hr">
-			{% if obj.fullname.startswith('p_') %}
-				<h3>{{edit.old_title_html | safe}}</h3>
+			<div class="card rounded border edit-log">
+				{% if obj.fullname.startswith('p_') %}
+					<h3>{{edit.old_title_html | safe}}</h3>
 
-				{% if edit.old_url %}
-					<a rel="noopener" href="{{edit.old_url}}" {% if not v or v.newtabexternal %}target="_blank"{% endif %}>
-						<div class="d-flex justify-content-between align-items-center border rounded p-2 mb-3">
-							<span>{{edit.old_url}}</span>
-							<i class="fas fa-external-link-alt text-small"></i>
-						</div>
-					</a>
+					{% if edit.old_url %}
+						<a rel="noopener" href="{{edit.old_url}}" {% if not v or v.newtabexternal %}target="_blank"{% endif %}>
+							<div class="d-flex justify-content-between align-items-center border rounded p-2 mb-3">
+								<span>{{edit.old_url}}</span>
+								<i class="fas fa-external-link-alt text-small"></i>
+							</div>
+						</a>
+					{% endif %}
 				{% endif %}
-			{% endif %}
-			{{edit.old_body_html | safe}}
+				{{edit.old_body_html | safe}}
+			</div>
 		{% endfor %}
-
-		<hr class="chunky-hr">
 	</div>
 {% endblock %}
