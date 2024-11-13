@@ -1,7 +1,7 @@
 {% extends "default.html" %}
 {% block pagetitle %}Users followed by @{{u.username}}{% endblock %}
 {% block content %}
-	<h5 class="my-3">Users followed by @{{u.username}} ({{total}} user{{macros.plural(total)}})</h5>
+	<h5 class="my-3">Users followed by @{{u.username}} ({{total | commas}} user{{macros.plural(total)}})</h5>
 	<div class="overflow-x-auto">
 		<table>
 			<thead>

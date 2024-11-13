@@ -2,7 +2,7 @@
 {% block pagetype %}search{% endblock %}
 {% block pagetitle %}Search for "{{query}}"{% endblock %}
 {% block head_final %}
-	<meta name="description" content="{{total}} result{{'s' if total != 1 else ''}}">
+	<meta name="description" content="{{total | commas}} result{{'s' if total != 1 else ''}}">
 {% endblock %}
 
 {% block PseudoSubmitForm %}
@@ -98,7 +98,7 @@
 						<br>
 						<script defer src="{{'js/search.js' | asset}}"></script>
 
-						<div class="text-muted text-small mb-1">Showing {% block listinglength %}{{listing | length}}{% endblock %} of {{total}} result{{'s' if total != 1 else ''}} for</div>
+						<div class="text-muted text-small mb-1">Showing {% block listinglength %}{{listing | length | commas}}{% endblock %} of {{total | commas}} result{{'s' if total != 1 else ''}} for</div>
 						<h4 class=" mb-0">{{query}}</h4>
 
 						{% if not '/users' in request.path %}

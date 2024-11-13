@@ -1,7 +1,7 @@
 {% extends "default.html" %}
 {% block pagetitle %}Users blocked by @{{u.username}}{% endblock %}
 {% block content %}
-	<h5 class="my-3">Users blocked by @{{u.username}} ({{total}} user{{macros.plural(total)}})</h5>
+	<h5 class="my-3">Users blocked by @{{u.username}} ({{total | commas}} user{{macros.plural(total)}})</h5>
 
 	<div class="overflow-x-auto mt-1">
 		<table>
