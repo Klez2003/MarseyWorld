@@ -396,7 +396,7 @@ function handle_files() {
 		input.previousElementSibling.className  = "";
 		input.previousElementSibling.textContent = input.files[0].name.substr(0, char_limit);
 
-		const image_preview = image_preview
+		const image_preview = document.getElementById('image-preview')
 
 		if (input.files[0].type.startsWith('image/')) {
 			const fileReader = new FileReader();
