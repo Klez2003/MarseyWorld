@@ -14,6 +14,7 @@ const chat_id = document.getElementById('chat_id').value
 const chatline = document.getElementsByClassName('chat-line')[0]
 const box = document.getElementById('chat-window')
 const ta = document.getElementById('input-text-chat')
+const image_preview = document.getElementById('image-preview')
 
 const vid = document.getElementById('vid').value
 const slurreplacer = document.getElementById('slurreplacer').value
@@ -398,8 +399,6 @@ function handle_files() {
 		const char_limit = innerWidth >= 768 ? 50 : 13;
 		input.previousElementSibling.className  = "";
 		input.previousElementSibling.textContent = input.files[0].name.substr(0, char_limit);
-
-		const image_preview = document.getElementById('image-preview')
 
 		if (input.files[0].type.startsWith('image/')) {
 			const fileReader = new FileReader();
