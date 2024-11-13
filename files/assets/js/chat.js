@@ -396,21 +396,23 @@ function handle_files() {
 		input.previousElementSibling.className  = "";
 		input.previousElementSibling.textContent = input.files[0].name.substr(0, char_limit);
 
+		const image_preview = image_preview
+
 		if (input.files[0].type.startsWith('image/')) {
 			const fileReader = new FileReader();
 			fileReader.readAsDataURL(input.files[0]);
 			fileReader.onload = function() {
-				document.getElementById('image-preview').setAttribute('src', this.result);
-				document.getElementById('image-preview').classList.remove('d-none');
-				document.getElementById('image-preview').classList.add('mr-2');
-				document.getElementById('image-preview').addEventListener('load', () => {
+				image_preview.setAttribute('src', this.result);
+				image_preview.classList.remove('d-none');
+				image_preview.classList.add('mr-2');
+				image_preview.addEventListener('load', () => {
 					box.scrollTo(0, box.scrollHeight)
 				})
 			};
 		}
 		else {
-			document.getElementById('image-preview').classList.add('d-none');
-			document.getElementById('image-preview').classList.remove('mr-2');
+			image_preview.classList.add('d-none');
+			image_preview.classList.remove('mr-2');
 		}
 	}
 	ta.focus()
