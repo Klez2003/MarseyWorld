@@ -609,11 +609,14 @@ function handle_files(input, newfiles) {
 
 
 file_upload = document.getElementById('file-upload');
+file_upload_edit_attachment = document.getElementById('file-upload-edit-attachment');
+file_upload_or_edit = file_upload ? file_upload : file_upload_edit_attachment
 
-if (file_upload) {
+if (file_upload_or_edit) {
+
 	function remove_attachment() {
-		file_upload.value = null;
-		file_upload.previousElementSibling.textContent = 'Select File';
+		file_upload_or_edit.value = null;
+		file_upload_or_edit.previousElementSibling.textContent = 'Select File';
 		document.getElementById('image-preview').classList.add('d-none');
 		document.getElementById('image-preview').classList.remove('mr-2');
 		document.getElementById('urlblock').classList.remove('d-none');
@@ -626,15 +629,15 @@ if (file_upload) {
 	}
 
 	function display_url_image() {
-		if (file_upload.files)
+		if (file_upload_or_edit.files)
 		{
-			const file = file_upload.files[0]
-			if (check_file_size(file_upload, file)) {
+			const file = file_upload_or_edit.files[0]
+			if (check_file_size(file_upload_or_edit, file)) {
 				const char_limit = innerWidth >= 768 ? 50 : 13;
-				file_upload.previousElementSibling.textContent = file.name.substr(0, char_limit);
+				file_upload_or_edit.previousElementSibling.textContent = file.name.substr(0, char_limit);
 				if (file.type.startsWith('image/')) {
 					const fileReader = new FileReader();
-					fileReader.readAsDataURL(file_upload.files[0]);
+					fileReader.readAsDataURL(file_upload_or_edit.files[0]);
 					fileReader.onload = function() {
 						document.getElementById('image-preview').setAttribute('src', this.result);
 						document.getElementById('image-preview').classList.remove('d-none');
@@ -661,17 +664,16 @@ if (file_upload) {
 			}
 		}
 	}
-	file_upload.onchange = () => {
+	file_upload_or_edit.onchange = () => {
 		display_url_image()
 		if (typeof submit_save_files === "function") {
 			const array = []
-			for (const x of file_upload.files) {
+			for (const x of file_upload_or_edit.files) {
 				array.push(x)
 			}
 			submit_save_files("attachment", array);
 		}
 	}
-
 }
 
 document.onpaste = function(event) {
@@ -681,10 +683,7 @@ document.onpaste = function(event) {
 	const focused = document.activeElement;
 	let input;
 
-	if (focused) {
-		input = focused.parentElement.querySelector('input[type="file"]:not(.nofocuspasting)')
-	}
-	else if (file_upload) {
+	if (file_upload) {
 		if (location.pathname.endsWith('/submit') && focused && focused.id == 'post-text') {
 			input = document.getElementById('file-upload-submit')
 		}
@@ -700,6 +699,9 @@ document.onpaste = function(event) {
 			}
 			return;
 		}
+	}
+	else if (focused) {
+		input = focused.parentElement.querySelector('input[type="file"]:not(.nofocuspasting)')
 	}
 	else {
 		input = document.querySelector('input[type="file"]')
