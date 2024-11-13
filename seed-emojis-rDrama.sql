@@ -1463,7 +1463,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('goodbyemom', 'Rage', 2, 'bitch face ming please riding tricycle trike yao', false, 1725997585),
 ('goodluck', 'Classic', 2, 'fingerscrossed', false, 1679281757),
 ('goodnightretard', 'Misc', 2, 'sleep retarded tired tiring cute anime z zz zzz zzzz', false, 1679154004),
-('goomble', 'Misc', 2, 'startrek worf klingon data riker', false, 1682881351),
 ('goosehonk', 'Misc', 2, 'duck', false, 1689087728),
 ('goosemaid', 'Misc', 2, 'leaf canada maple outfit socks injection syringe needle suicide', false, 1714452098),
 ('greeble', 'Misc', 2, 'green geeble dog puppy hand not cursed', false, 1680924957),
