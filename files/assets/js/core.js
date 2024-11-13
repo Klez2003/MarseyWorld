@@ -681,7 +681,10 @@ document.onpaste = function(event) {
 	const focused = document.activeElement;
 	let input;
 
-	if (file_upload) {
+	if (focused) {
+		input = focused.parentElement.querySelector('input[type="file"]')
+	}
+	else if (file_upload) {
 		if (location.pathname.endsWith('/submit') && focused && focused.id == 'post-text') {
 			input = document.getElementById('file-upload-submit')
 		}
@@ -697,9 +700,6 @@ document.onpaste = function(event) {
 			}
 			return;
 		}
-	}
-	else if (focused) {
-		input = focused.parentElement.querySelector('input[type="file"]')
 	}
 	else {
 		input = document.querySelector('input[type="file"]')
