@@ -1016,7 +1016,11 @@ CREATE TABLE public.posts (
     queened boolean NOT NULL,
     sharpened boolean NOT NULL,
     effortpost boolean NOT NULL,
-    distinguished boolean NOT NULL
+    distinguished boolean NOT NULL,
+    title_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (title)::text)) STORED,
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED,
+    url_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (url)::text)) STORED,
+    embed_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (embed)::text)) STORED
 );
 
 
@@ -2624,10 +2628,38 @@ CREATE INDEX post_profile_pinned_idx ON public.posts USING btree (profile_pinned
 
 
 --
+-- Name: posts_body_ts_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX posts_body_ts_idx ON public.posts USING gin (body_ts);
+
+
+--
 -- Name: posts_bump_utc_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX posts_bump_utc_idx ON public.posts USING btree (bump_utc);
+
+
+--
+-- Name: posts_embed_ts_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX posts_embed_ts_idx ON public.posts USING gin (embed_ts);
+
+
+--
+-- Name: posts_title_ts_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX posts_title_ts_idx ON public.posts USING gin (title_ts);
+
+
+--
+-- Name: posts_url_ts_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX posts_url_ts_idx ON public.posts USING gin (url_ts);
 
 
 --
