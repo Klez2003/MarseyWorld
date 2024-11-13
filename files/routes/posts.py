@@ -1212,11 +1212,17 @@ def edit_post(pid, v):
 			filename = '/videos' + p.url.split(SITE_FULL_VIDEOS)[1]
 			media = g.db.get(Media, filename)
 			if media:
-				media_usage = MediaUsage(
-					filename=filename,
-					post_id=p.id,
-				)
-				g.db.add(media_usage)
+				existing = g.db.query(MediaUsage).filter_by(filename=filename, post_id=p.id).one_or_none()
+				if not existing:
+					media_usage = MediaUsage(
+						filename=filename,
+						post_id=p.id,
+					)
+					g.db.add(media_usage)
+
+				if existing and existing.deleted_utc and not p.deleted_utc:
+					existing.deleted_utc = None
+
 				if media.posterurl:
 					p.posterurl = media.posterurl
 
