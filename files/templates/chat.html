@@ -120,6 +120,7 @@
 	{% if not session.get("GLOBAL") %}
 		<script defer src="{{'js/chat.js' | asset}}"></script>
 	{% endif %}
+	<input id="twitter" hidden value="{{v.twitter}}">
 	<input id="reddit" hidden value="{{v.reddit}}">
 	<input id="chat_id" hidden value="{{chat_id}}">
 	<script defer src="{{'js/embed_twitter_reddit.js' | asset}}"></script>
