@@ -395,6 +395,20 @@ function handle_files() {
 		const char_limit = innerWidth >= 768 ? 50 : 5;
 		input.previousElementSibling.className  = "";
 		input.previousElementSibling.textContent = input.files[0].name.substr(0, char_limit);
+
+		if (input.files[0].type.startsWith('image/')) {
+			const fileReader = new FileReader();
+			fileReader.readAsDataURL(input.files[0]);
+			fileReader.onload = function() {
+				document.getElementById('image-preview').setAttribute('src', this.result);
+				document.getElementById('image-preview').classList.remove('d-none');
+				document.getElementById('image-preview').classList.add('mr-2');
+			};
+		}
+		else {
+			document.getElementById('image-preview').classList.add('d-none');
+			document.getElementById('image-preview').classList.remove('mr-2');
+		}
 	}
 	ta.focus()
 }
