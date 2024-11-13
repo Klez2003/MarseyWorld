@@ -100,17 +100,16 @@ def searchposts(v):
 		posts = posts.filter(Post.author_id == author.id)
 
 	if 'q' in criteria:
-		params = [Post.title]
+		text = criteria['full_text']
+
+		params = [Post.title_ts]
 		if 'title_only' not in criteria:
-			params += [Post.body, Post.url, Post.embed]
+			params += [Post.body_ts, Post.url_ts, Post.embed_ts]
 
 		words = []
-		for x in criteria['q']:
-			for param in params:
-				if x.startswith('"') and x.endswith('"'):
-					words.append(param.regexp_match(f'[[:<:]]{x[1:-1]}[[:>:]]'))
-				else:
-					words.append(param.ilike(f'%{x}%'))
+		for param in params:
+			words.append(param.bool_op("@@")(func.websearch_to_tsquery("simple", text)))
+
 		posts = posts.filter(or_(*words))
 
 	if 'nsfw' in criteria:
