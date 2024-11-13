@@ -131,7 +131,10 @@ def submit_marseys_redirect():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def submit_emojis(v):
-	emojis = g.db.query(Emoji).filter(Emoji.submitter_id != None).order_by(Emoji.created_utc.desc()).all()
+	emojis = g.db.query(Emoji).options(
+			joinedload(Emoji.author),
+			joinedload(Emoji.submitter),
+		).filter(Emoji.submitter_id != None).order_by(Emoji.created_utc.desc()).all()
 	return render_template("submit_emojis.html", v=v, emojis=emojis)
 
 
@@ -350,7 +353,10 @@ def remove_emoji(v, name):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def submit_hats(v):
-	hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).order_by(HatDef.created_utc.desc()).all()
+	hats = g.db.query(HatDef).options(
+			joinedload(HatDef.author),
+			joinedload(HatDef.submitter),
+		).filter(HatDef.submitter_id != None).order_by(HatDef.created_utc.desc()).all()
 
 	return render_template("submit_hats.html", v=v, hats=hats)
 
