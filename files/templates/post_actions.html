@@ -28,10 +28,8 @@
 {% endif %}
 
 {% if v and v.id == p.author_id %}
-	{% if request.path.startswith('/@') %}
-		<button type="button" id="pin-profile-{{p.id}}" class="{% if p.profile_pinned %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/profile_pin/{{p.id}}','unpin-profile-{{p.id}}','pin-profile-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Pin to profile</button>
-		<button type="button" id="unpin-profile-{{p.id}}" class="{% if not p.profile_pinned %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/profile_pin/{{p.id}}','unpin-profile-{{p.id}}','pin-profile-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin from profile</button>
-	{% endif %}
+	<button type="button" id="pin-profile-{{p.id}}" class="{% if p.profile_pinned %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/profile_pin/{{p.id}}','unpin-profile-{{p.id}}','pin-profile-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Pin to profile</button>
+	<button type="button" id="unpin-profile-{{p.id}}" class="{% if not p.profile_pinned %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/profile_pin/{{p.id}}','unpin-profile-{{p.id}}','pin-profile-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin from profile</button>
 
 	<button type="button" id="delete2-{{p.id}}" class="{% if p.deleted_utc %}d-none{% endif %} list-inline-item" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deletePostModal" data-nonce="{{g.nonce}}" data-onclick="delete_postModal('{{p.id}}')"><i class="fas fa-trash-alt"></i>Delete</button>
 	<button type="button" id="undelete2-{{p.id}}" class="{% if not p.deleted_utc %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete_post/{{p.id}}', 'delete2-{{p.id}}', 'undelete2-{{p.id}}','d-none')" data-toggleelement="#post-{{p.id}}" data-toggleattr="deleted"><i class="fas fa-trash-alt"></i>Undelete</button>
