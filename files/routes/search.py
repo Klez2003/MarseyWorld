@@ -100,17 +100,18 @@ def searchposts(v):
 		posts = posts.filter(Post.author_id == author.id)
 
 	if 'q' in criteria:
-		if 'title' in criteria:
-			words = [or_(Post.title.ilike('%'+x+'%')) \
-					for x in criteria['q']]
-		else:
-			words = [or_(
-						Post.title.ilike('%'+x+'%'),
-						Post.body.ilike('%'+x+'%'),
-						Post.url.ilike('%'+x+'%'),
-						Post.embed.ilike('%'+x+'%'),
-					) for x in criteria['q']]
-		posts = posts.filter(*words)
+		params = [Post.title]
+		if 'title' not in criteria:
+			params += [Post.body, Post.url, Post.embed]
+
+		words = []
+		for x in criteria['q']:
+			for param in params:
+				if x.startswith('"') and x.endswith('"'):
+					words.append(param.regexp_match(f'[[:<:]]{x[1:-1]}[[:>:]]'))
+				else:
+					words.append(param.ilike('%'+x+'%'))
+		posts = posts.filter(or_(*words))
 
 	if 'nsfw' in criteria:
 		nsfw = criteria['nsfw'].lower().strip() == 'true'

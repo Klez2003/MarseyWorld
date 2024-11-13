@@ -169,7 +169,7 @@ color_regex = re.compile("[a-f0-9]{6}", flags=re.A)
 # Specifically match Snappy's way of formatting, this might break some losers' comments.
 showmore_regex = re.compile(r"^(.*?</p>(?:</li></ul>)?)(\s*<p>.*)", flags=re.A|re.DOTALL)
 
-search_token_regex = re.compile('"([^"]*)"|(\S+)', flags=re.A)
+search_token_regex = re.compile('("[^"]*")|(\S+)', flags=re.A)
 
 git_regex = re.compile("ref: (refs/.+)", flags=re.A)
 
