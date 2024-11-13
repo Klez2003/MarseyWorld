@@ -42,7 +42,7 @@ addEventListener("message", function(e) {
 			}
 		}
 	}
-	elif (typeof e.data == "string" && e.data) {
+	else if (typeof e.data == "string" && e.data) {
 		const data = JSON.parse(e.data)
 		let height = data.data
 		if (data && "type" in data && data.type == "resize.embed")
