@@ -68,6 +68,7 @@ INSERT INTO public.badge_defs VALUES (181, 'INFECTED', 'This user is a mindless 
 INSERT INTO public.badge_defs VALUES (182, 'VAXXMAXXED', 'This user is a mindless zombie.', 1666074754);
 INSERT INTO public.badge_defs VALUES (301, '2023 Spooooooky Marsey Artist', 'Contributed a VERY SCARY Marsey for Halloween 2023!', 1695911099);
 INSERT INTO public.badge_defs VALUES (354, 'Gigavaxxer IV', 'Vaccinated 10 people during Homoween 2024.', 1730819919);
+INSERT INTO public.badge_defs VALUES (359, 'Patient Zero', 'User was a Top Zombchad of 2024', 1731466447);
 INSERT INTO public.badge_defs VALUES (303, 'LGBTQIA+ Drip', 'This user has sworn lifelong allegiance to the most marginalized community 🥰', 1696534759);
 INSERT INTO public.badge_defs VALUES (194, 'Master Baiter 2021', 'The cunning mastermind behind the ruse which was voted best rDrama bait of 2021.', 1670627103);
 INSERT INTO public.badge_defs VALUES (197, 'Best Marsey 2021', 'The creator of the best Marsey emoji of 2021, as voted by rDrama users.', 1670627291);
@@ -82,6 +83,7 @@ INSERT INTO public.badge_defs VALUES (332, 'Sidebar God', 'Contributed 100 (or m
 INSERT INTO public.badge_defs VALUES (338, 'INcel silver', 'User invited two internet celebs to rDrama', 1715140318);
 INSERT INTO public.badge_defs VALUES (343, '3rd Birthgay Bash Artist', 'Awarded for contributing a beautiful 3pilled birthday banner or sidebar art for Marsey''s 3rd birthday!', 1716230587);
 INSERT INTO public.badge_defs VALUES (355, 'CDC Goon IV', 'Vaccinated 100 people during Homoween 2024.', 1730819928);
+INSERT INTO public.badge_defs VALUES (360, 'Maxximus Vaxximus', 'User was a Top Vaxmaxxer of 2024', 1731466904);
 INSERT INTO public.badge_defs VALUES (298, 'Gray Alien', 'This user probed /r/UFOs and left the next morning.', 1694717005);
 INSERT INTO public.badge_defs VALUES (213, 'Best Marsey 2022', 'The creator of the best Marsey emoji of 2022, as voted by rDrama users.', 1670719193);
 INSERT INTO public.badge_defs VALUES (215, 'Own Goal', 'Don''t take this user''s advice on sportsball betting.', 1671150354);
@@ -321,7 +323,7 @@ INSERT INTO public.badge_defs VALUES (358, 'Pumpkin Butcher', 'Carved a SCARY PU
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 358, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 360, true);
 
 
 --
