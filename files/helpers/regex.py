@@ -120,13 +120,13 @@ def video_sub_regex_matcher(match, obj):
 			if obj:
 				if not obj.id: raise Exception("The thing that never happens happened again")
 				if str(obj.__class__) == "<class 'files.classes.post.Post'>":
-					existing = g.db.query(MediaUsage.id).filter_by(filename=filename, post_id=obj.id).one_or_none()
+					existing = g.db.query(MediaUsage).filter_by(filename=filename, post_id=obj.id).one_or_none()
 					if not existing:
 						media_usage = MediaUsage(filename=filename)
 						media_usage.post_id = obj.id
 						g.db.add(media_usage)
 				else:			
-					existing = g.db.query(MediaUsage.id).filter_by(filename=filename, comment_id=obj.id).one_or_none()
+					existing = g.db.query(MediaUsage).filter_by(filename=filename, comment_id=obj.id).one_or_none()
 					if not existing:
 						media_usage = MediaUsage(filename=filename)
 						media_usage.comment_id = obj.id
