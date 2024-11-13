@@ -229,7 +229,7 @@
 										<img loading="lazy" id="image-preview" class="mt-2 mb-3" style="max-width:50%" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
 										<label class="btn btn-secondary m-0 mr-1" for="file-upload">
 											<div>Select File</div>
-											<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file-url" {% if g.is_tor %}disabled{% endif %} hidden>
+											<input autocomplete="off" class="nofocuspasting" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file-url" {% if g.is_tor %}disabled{% endif %} hidden>
 										</label>
 										<button id="remove-attachment" type="button" style="font-size:25px" class="text-danger font-weight-bold ml-2 d-none" data-bs-toggle="tooltip" title="Remove Attachment" data-nonce="{{g.nonce}}" data-onclick="remove_attachment()">X</button>
 									</div>

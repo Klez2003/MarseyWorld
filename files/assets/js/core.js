@@ -682,7 +682,7 @@ document.onpaste = function(event) {
 	let input;
 
 	if (focused) {
-		input = focused.parentElement.querySelector('input[type="file"]')
+		input = focused.parentElement.querySelector('input[type="file"]:not(.nofocuspasting)')
 	}
 	else if (file_upload) {
 		if (location.pathname.endsWith('/submit') && focused && focused.id == 'post-text') {
