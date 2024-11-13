@@ -1,3 +1,10 @@
+let socket = io()
+addEventListener("pageshow", () => {
+	socket.disconnect();
+	socket.connect();
+});
+
+
 function formatHourMinute(d) {
 	return d.toLocaleTimeString([], {timeStyle: 'short'})
 }
@@ -6,8 +13,6 @@ for (const e of document.querySelectorAll('[data-time]')) {
 };
 
 const ua = window.navigator.userAgent
-
-const socket = io()
 
 const chat = document.getElementById('chat')
 const chat_id = document.getElementById('chat_id').value
