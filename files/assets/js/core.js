@@ -312,7 +312,7 @@ function reload() {
 	location.reload();
 }
 
-function setupFormXhr(form, extraActionsOnSuccess) {
+function sendFormXHR(form, extraActionsOnSuccess, upload_prog) {
 	if (typeof close_inline_emoji_modal === "function") {
 		close_inline_emoji_modal();
 	}
@@ -323,6 +323,9 @@ function setupFormXhr(form, extraActionsOnSuccess) {
 
 	const xhr = new XMLHttpRequest();
 
+	upload_prog = document.getElementById(upload_prog);
+	xhr.upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
+
 	formData = new FormData(form);
 
 	formData.append("formkey", formkey());
@@ -332,6 +335,8 @@ function setupFormXhr(form, extraActionsOnSuccess) {
 	xhr.setRequestHeader('xhr', 'xhr');
 
 	xhr.onload = function() {
+		upload_prog.classList.add("d-none")
+
 		const success = xhr.status >= 200 && xhr.status < 300;
 
 		if (!(extraActionsOnSuccess == reload && success)) {
@@ -354,11 +359,6 @@ function setupFormXhr(form, extraActionsOnSuccess) {
 		form.classList.remove('is-submitting');
 	};
 
-	return xhr
-}
-
-function sendFormXHR(form, extraActionsOnSuccess) {
-	const xhr = setupFormXhr(form, extraActionsOnSuccess);
 	xhr.send(formData);
 }
 
@@ -373,8 +373,8 @@ function sendFormXHRSwitch(form) {
 	)
 }
 
-function sendFormXHRReload(form) {
-	sendFormXHR(form, reload)
+function sendFormXHRReload(form, upload_prog) {
+	sendFormXHR(form, reload, upload_prog)
 }
 
 let sortAscending = {};

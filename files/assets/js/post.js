@@ -47,10 +47,3 @@ if (fake_textarea) {
 		location.href = fake_textarea.dataset.href;
 	});
 }
-
-function edit_post(form) {
-	const xhr = setupFormXhr(form, reload);
-	const upload_prog = document.getElementById('upload-prog-edit-post');
-	xhr.upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
-	xhr.send(formData);
-}

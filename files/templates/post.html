@@ -215,7 +215,7 @@
 
 						{% if v and v.can_edit(p) %}
 							<div id="edit-post-body-{{p.id}}" class="d-none comment-write collapsed child">
-								<form id="post-edit-form-{{p.id}}" action="/edit_post/{{p.id}}" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="edit_post(this)">
+								<form id="post-edit-form-{{p.id}}" action="/edit_post/{{p.id}}" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this, 'upload-prog-edit-post')">
 									<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 									<input hidden name="current_page" value="{{request.path}}">
 
