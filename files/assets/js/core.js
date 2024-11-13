@@ -630,7 +630,7 @@ if (file_upload) {
 		{
 			const file = file_upload.files[0]
 			if (check_file_size(file_upload, file)) {
-				const char_limit = innerWidth >= 768 ? 50 : 10;
+				const char_limit = innerWidth >= 768 ? 50 : 13;
 				file_upload.previousElementSibling.textContent = file.name.substr(0, char_limit);
 				if (file.type.startsWith('image/')) {
 					const fileReader = new FileReader();
