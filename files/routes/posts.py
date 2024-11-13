@@ -1208,6 +1208,18 @@ def edit_post(pid, v):
 		changed = True
 		change_thumb = True
 
+		if p.url and p.url.startswith(SITE_FULL_VIDEOS):
+			filename = '/videos' + p.url.split(SITE_FULL_VIDEOS)[1]
+			media = g.db.get(Media, filename)
+			if media:
+				media_usage = MediaUsage(
+					filename=filename,
+					post_id=p.id,
+				)
+				g.db.add(media_usage)
+				if media.posterurl:
+					p.posterurl = media.posterurl
+
 	if not changed:
 		stop(400, "You need to change something!")
 
@@ -1225,6 +1237,12 @@ def edit_post(pid, v):
 			target_post_id=p.id
 		)
 		g.db.add(ma)
+
+	for media_usage in p.media_usages:
+		url = SITE_FULL_VIDEOS + media_usage.filename.split('/videos')[1]
+		if url not in f'{p.url} {p.body}':
+			media_usage.deleted_utc = time.time()
+			g.db.add(media_usage)
 
 	if body != p.body or p.chudded or change_thumb:
 		g.db.commit()
