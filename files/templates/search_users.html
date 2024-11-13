@@ -4,4 +4,4 @@
 		{% include "user_listing.html" %}
 	</div>
 {% endblock %}
-{% block listinglength %}{{users | length}}{% endblock %}
+{% block listinglength %}{{users | length | commas}}{% endblock %}
