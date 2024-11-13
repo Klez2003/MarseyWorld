@@ -674,6 +674,9 @@ def submit_post(v, hole=None):
 				)
 	g.db.add(vote)
 
+	print(p.url, flush=True)
+	print(SITE_FULL_VIDEOS, flush=True)
+
 	if request.files.get('file-url') and not g.is_tor:
 		file = request.files['file-url']
 
@@ -697,7 +700,9 @@ def submit_post(v, hole=None):
 			stop(415)
 	elif p.url and p.url.startswith(SITE_FULL_VIDEOS):
 		filename = '/videos' + p.url.split(SITE_FULL_VIDEOS)[1]
+		print(filename, flush=True)
 		media = g.db.get(Media, filename)
+		print(media, flush=True)
 		if media:
 			media_usage = MediaUsage(
 				filename=filename,
