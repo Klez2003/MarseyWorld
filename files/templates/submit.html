@@ -33,7 +33,7 @@
 								<textarea autocomplete="off" class="form-control" id="post-title" type="text" name="title" placeholder="Required" value="{{title}}" minlength="1" maxlength="500" required data-nonce="{{g.nonce}}" data-oninput="checkForRequired();savetext()"></textarea>
 
 								{{macros.emoji_btn('post-title')}}
-				
+
 								<div id="urlblock">
 									<label for="post-url" class="mt-3">URL</label>
 									<input autocomplete="off" class="form-control" id="post-url" name="url" type="url" placeholder="Optional if you have text." value="{{request.values.get('url','')}}" required data-nonce="{{g.nonce}}" data-oninput="checkForRequired();savetext();checkRepost();autoSuggestTitle()">
