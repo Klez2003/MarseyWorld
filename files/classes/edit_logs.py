@@ -13,6 +13,7 @@ class PostEdit(Base):
 	old_body_html = Column(String)
 	old_title = Column(String)
 	old_title_html = Column(String)
+	old_url = Column(String)
 	created_utc = Column(Integer)
 
 	def __init__(self, *args, **kwargs):

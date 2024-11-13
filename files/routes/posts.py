@@ -1139,6 +1139,7 @@ def edit_post(pid, v):
 			old_title_html=p.title_html,
 			old_body=p.body,
 			old_body_html=p.body_html,
+			old_url=p.url,
 		)
 		g.db.add(edit_log)
 

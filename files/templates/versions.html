@@ -17,6 +17,15 @@
 			<hr class="chunky-hr">
 			{% if obj.fullname.startswith('p_') %}
 				<h3>{{edit.old_title_html | safe}}</h3>
+
+				{% if edit.old_url %}
+					<a rel="noopener" href="{{edit.old_url}}" {% if not v or v.newtabexternal %}target="_blank"{% endif %}>
+						<div class="d-flex justify-content-between align-items-center border rounded p-2 mb-3">
+							<span>{{edit.old_url}}</span>
+							<i class="fas fa-external-link-alt text-small"></i>
+						</div>
+					</a>
+				{% endif %}
 			{% endif %}
 			{{edit.old_body_html | safe}}
 		{% endfor %}

@@ -1,0 +1,1 @@
+alter table post_edits add column old_url character varying(2083);
