@@ -19,7 +19,7 @@ valid_params = [
 	'post',
 	'before',
 	'after',
-	'title',
+	'title_only',
 	'sentto',
 	'hole',
 	'subreddit',
@@ -101,7 +101,7 @@ def searchposts(v):
 
 	if 'q' in criteria:
 		params = [Post.title]
-		if 'title' not in criteria:
+		if 'title_only' not in criteria:
 			params += [Post.body, Post.url, Post.embed]
 
 		words = []
