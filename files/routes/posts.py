@@ -697,9 +697,7 @@ def submit_post(v, hole=None):
 			stop(415)
 	elif p.url and p.url.startswith(SITE_FULL_VIDEOS):
 		filename = '/videos' + p.url.split(SITE_FULL_VIDEOS)[1]
-		print(filename, flush=True)
 		media = g.db.get(Media, filename)
-		print(media, flush=True)
 		if media:
 			media_usage = MediaUsage(
 				filename=filename,
