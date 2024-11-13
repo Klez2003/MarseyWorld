@@ -403,6 +403,7 @@ function handle_files() {
 				document.getElementById('image-preview').setAttribute('src', this.result);
 				document.getElementById('image-preview').classList.remove('d-none');
 				document.getElementById('image-preview').classList.add('mr-2');
+				box.scrollTo(0, box.scrollHeight)
 			};
 		}
 		else {
