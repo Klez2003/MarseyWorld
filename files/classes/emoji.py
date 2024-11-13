@@ -19,6 +19,7 @@ class Emoji(Base):
 	nsfw = Column(Boolean, default=False)
 
 	author = relationship("User", primaryjoin="User.id==Emoji.author_id")
+	submitter = relationship("User", primaryjoin="User.id==Emoji.submitter_id")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

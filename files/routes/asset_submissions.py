@@ -131,14 +131,7 @@ def submit_marseys_redirect():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def submit_emojis(v):
-	emojis = g.db.query(Emoji).filter(Emoji.submitter_id != None)
-
-	emojis = emojis.order_by(Emoji.created_utc.desc()).all()
-
-	for emoji in emojis:
-		emoji.author = g.db.query(User.username).filter_by(id=emoji.author_id).one()[0]
-		emoji.submitter = g.db.query(User.username).filter_by(id=emoji.submitter_id).one()[0]
-
+	emojis = g.db.query(Emoji).filter(Emoji.submitter_id != None).order_by(Emoji.created_utc.desc()).all()
 	return render_template("submit_emojis.html", v=v, emojis=emojis)
 
 
