@@ -203,6 +203,9 @@ function send() {
 		input.previousElementSibling.className  = "fas fa-file";
 		input.previousElementSibling.textContent = "";
 	}
+
+	image_preview.classList.add('d-none');
+	image_preview.classList.remove('mr-2');
 }
 
 
