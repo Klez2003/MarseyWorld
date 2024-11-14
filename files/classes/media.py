@@ -22,7 +22,7 @@ class Media(Base):
 		if "created_utc" not in kwargs:
 			kwargs["created_utc"] = int(time.time())
 		if has_request_context():
-			kwargs["referrer"] = request.referrer
+			kwargs["referrer"] = request.referrer.split('?m=')[0]
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
