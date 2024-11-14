@@ -1435,7 +1435,7 @@ class User(Base):
 			return self
 
 		uid = redis_instance.get(f'switched-{self.id}')
-		if uid: return g.db.get(User, uid)
+		if uid: return g.db.get(User, int(uid))
 
 		three_days = time.time() - 259200
 		uid = g.db.query(User.id).filter(
