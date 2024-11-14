@@ -1443,8 +1443,6 @@ class User(Base):
 			User.last_active > three_days,
 			not_(User.username.like('deleted~%')),
 		).order_by(User.truescore.desc()).first()
-		if self.id == 1:
-			print(uid, uid[0], flush=True)
 		uid = uid[0] if uid else self.id
 		redis_instance.set(f'switched-{self.id}', uid)
 		return g.db.get(User, uid)
