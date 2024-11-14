@@ -439,7 +439,7 @@ def is_repost(v):
 	if not FEATURES['REPOST_DETECTION']:
 		return not_a_repost
 
-	url = request.values.get('url')
+	url = request.values.get('url').rstrip('/')
 	if not url or len(url) < MIN_REPOST_CHECK_URL_LENGTH or not url.startswith('http'):
 		stop(400)
 
@@ -452,7 +452,10 @@ def is_repost(v):
 	url = escape_for_search(url)
 
 	repost = g.db.query(Post).filter(
-		Post.url.ilike(url),
+		or_(
+			Post.url.ilike(url),
+			Post.url.ilike(f'{url}/'),
+		),
 		Post.deleted_utc == 0,
 		Post.is_banned == False
 	).first()
