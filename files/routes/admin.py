@@ -1142,7 +1142,7 @@ def chud(fullname, v):
 
 	text = f"@{v.username} (a site admin) has chudded you **{duration}**"
 	if reason: text += f" for the following reason:\n\n> {reason}"
-	text += f"\n\n**You now have to say this phrase in all posts and comments you make {duration}:**\n\n`{user.chud_phrase}`"
+	text += f"\n\n**You now have to say this phrase in all posts and comments you make {duration}:**\n\n> {user.chud_phrase}"
 	if SITE_NAME == 'rDrama':
 		text += f"\n\nPlease keep your chud behavior to /h/chudrama in the future!"
 
