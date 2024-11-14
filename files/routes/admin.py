@@ -1793,39 +1793,30 @@ def admin_nunuke_user(v):
 
 	user = get_user(request.values.get("user"))
 
-	for post in g.db.query(Post).filter_by(author_id=user.id):
-		if not post.is_banned:
-			continue
+	objs = g.db.query(Post).filter(
+				Post.author_id == user.id,
+				Post.is_banned == True,
+				Post.ban_reason.like('%(Mass Removal)'),
+			).all() + \
+			g.db.query(Comment).filter(
+				Comment.author_id == user.id,
+				Comment.is_banned == True,
+				Comment.ban_reason.like('%(Mass Removal)'),
+			).all()
 
-		if not post.ban_reason.endswith('(Mass Removal)'):
-			continue
+	if not objs:
+		stop(400, "There is no previous mass content removal to revert!")
 
-		post.is_banned = False
+	for obj in objs:
+		obj.is_banned = False
 
-		for media_usage in post.media_usages:
+		for media_usage in obj.media_usages:
 			media_usage.removed_utc = None
 			g.db.add(media_usage)
 
-		post.ban_reason = None
-		post.is_approved = v.id
-		g.db.add(post)
-
-	for comment in g.db.query(Comment).filter_by(author_id=user.id):
-		if not comment.is_banned:
-			continue
-
-		if not comment.ban_reason.endswith('(Mass Removal)'):
-			continue
-
-		comment.is_banned = False
-
-		for media_usage in comment.media_usages:
-			media_usage.removed_utc = None
-			g.db.add(media_usage)
-
-		comment.ban_reason = None
-		comment.is_approved = v.id
-		g.db.add(comment)
+		obj.ban_reason = None
+		obj.is_approved = v.id
+		g.db.add(obj)
 
 	ma = ModAction(
 		kind="unnuke_user",
