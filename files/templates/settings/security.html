@@ -137,7 +137,11 @@
 						</div>
 						<div class="footer">
 							<div class="d-flex">
-								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Request Account Deletion">
+								{% if FEATURES['ACCOUNT_DELETION'] %}
+									<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Request Account Deletion">
+								{% else %}
+									<a class="btn btn-primary ml-auto" href="/settings/delete_account">Request Account Deletion</a>
+								{% endif %}
 							</div>
 						</div>
 					</form>
