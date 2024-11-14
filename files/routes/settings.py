@@ -1196,5 +1196,5 @@ if FEATURES['ACCOUNT_DELETION']:
 						message="You can (and should) log back in before then to cancel this. Not that we want you here or anything. Whatever bitch."), 202
 else:
 	@app.get("/settings/delete_account")
-	def settings_delete_account(v):
+	def settings_delete_account():
 		return redirect(f"{SITE_FULL_IMAGES}/i/mrburns.webp")
