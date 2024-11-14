@@ -17,7 +17,7 @@ from files.routes.routehelpers import check_for_alts
 from files.routes.wrappers import *
 
 
-NO_LOGIN_REDIRECT_URLS = ("/login", "/logout", "/signup", "/forgot", "/reset", "/reset_2fa", "/lost_2fa")
+NO_LOGIN_REDIRECT_URLS = ("/login", "/logout", "/signup", "/forgot", "/reset", "/reset_2fa", "/lost_2fa", "/settings/delete_account")
 
 @app.get("/login")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
