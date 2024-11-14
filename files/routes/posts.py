@@ -604,9 +604,6 @@ def submit_post(v, hole=None):
 	if embed and len(embed) > 1500: embed = None
 	if embed: embed = embed.strip()
 
-	if url and url.startswith(f'{SITE_FULL}/'):
-		url = url.split(SITE_FULL)[1]
-
 	if url == '': url = None
 
 	p = Post(
