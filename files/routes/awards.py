@@ -626,6 +626,9 @@ def award_thing(v, thing_type, id):
 			author.flairchanged = int(time.time()) + 86400 * quantity
 			badge_grant(user=author, badge_id=96)
 	elif kind == "namelock":
+		if author.username.startswith('deleted~'):
+			stop(403, "Recipient account is deleted!")
+
 		new_name = note.strip().lstrip('@').strip()
 		if author.namechanged and (not new_name or new_name == author.username):
 			author.namechanged += 86400 * quantity
