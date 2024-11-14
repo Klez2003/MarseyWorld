@@ -15,6 +15,7 @@ function embed_twitter_reddit() {
 		let iframe_html = `<iframe class="twitter-embed" credentialless="true" allowfullscreen="true" height="240" src="${iframe_src}" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>`
 		if (twitter != 'x.com') {
 			a.classList.add('d-block')
+			a.innerHTML = a.href
 			iframe_html = a.outerHTML + iframe_html
 		}
 		blockquote.outerHTML = iframe_html
