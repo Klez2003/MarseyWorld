@@ -323,8 +323,10 @@ function sendFormXHR(form, extraActionsOnSuccess, upload_prog) {
 
 	const xhr = new XMLHttpRequest();
 
-	upload_prog = document.getElementById(upload_prog);
-	xhr.upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
+	if (upload_prog) {
+		upload_prog = document.getElementById(upload_prog);
+		xhr.upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
+	}
 
 	formData = new FormData(form);
 
@@ -335,7 +337,8 @@ function sendFormXHR(form, extraActionsOnSuccess, upload_prog) {
 	xhr.setRequestHeader('xhr', 'xhr');
 
 	xhr.onload = function() {
-		upload_prog.classList.add("d-none")
+		if (upload_prog)
+			upload_prog.classList.add("d-none")
 
 		const success = xhr.status >= 200 && xhr.status < 300;
 
