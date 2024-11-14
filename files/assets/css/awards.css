@@ -285,12 +285,12 @@
 	100% { filter: hue-rotate(360deg); }
 }
 
-.zozbot, [pride_username], :not(td) > a[href="/h/countryclub"]:not(.hole-flair), .pride {
+.zozbot, [pride_username], :not(td) > a[href="/h/countryclub" i]:not(.hole-flair), .pride {
 	color: red;
 	animation: lgbt 3s linear infinite;
 }
 
-[pride_username].patron, :not(td) > a[href="/h/countryclub"].hole-flair {
+[pride_username].patron, :not(td) > a[href="/h/countryclub" i].hole-flair {
 	background-color: red;
 	animation: lgbt 2s linear infinite;
 }

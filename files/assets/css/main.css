@@ -3342,7 +3342,7 @@ a.text-info:hover, a.text-info:focus {
 a.text-warning:hover, a.text-warning:focus {
 	color: #ba8b00 !important;
 }
-.text-danger, :not(td) > a[href="/h/chudrama"] {
+.text-danger, :not(td) > a[href="/h/chudrama" i] {
 	color: #d54e56 !important;
 }
 
@@ -7478,7 +7478,7 @@ blink {
 	margin-left: 0.5rem;
 }
 
-.gold-text:not(a), .gold-text.post-title a:not(.post-flair), :not(td) > a[href="/h/highrollerclub"]:not(.hole-flair), :not(td) > a[href="/h/announcements"]:not(.hole-flair) {
+.gold-text:not(a), .gold-text.post-title a:not(.post-flair), :not(td) > a[href="/h/highrollerclub" i]:not(.hole-flair), :not(td) > a[href="/h/announcements"]:not(.hole-flair) {
 	font-family: open sans,sans-serif !important;
 	color: transparent !important;
 	font-weight: 700 !important;
@@ -7486,12 +7486,12 @@ blink {
 	-webkit-background-clip: text !important;
 }
 
-.gold-text:not(.candycorn):not(.candycane):not(a), .gold-text.post-title a:not(.post-flair), :not(td) > a[href="/h/highrollerclub"]:not(.hole-flair), :not(td) > a[href="/h/announcements"]:not(.hole-flair) {
+.gold-text:not(.candycorn):not(.candycane):not(a), .gold-text.post-title a:not(.post-flair), :not(td) > a[href="/h/highrollerclub" i]:not(.hole-flair), :not(td) > a[href="/h/announcements"]:not(.hole-flair) {
 	background: url("/i/animations/gold_gradient_light.svg") repeat;
 	background-size: 200% 200%;
 }
 
-.effortpost-flair, :not(td) > a[href="/h/highrollerclub"].hole-flair, :not(td) > a[href="/h/announcements"].hole-flair {
+.effortpost-flair, :not(td) > a[href="/h/highrollerclub" i].hole-flair, :not(td) > a[href="/h/announcements"].hole-flair {
 	font-family: open sans,sans-serif !important;
 	background: repeating-linear-gradient(
 		45deg,
