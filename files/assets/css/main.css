@@ -6354,7 +6354,7 @@ g {
 	font-family: "Font Awesome 6 Pro";
 	font-weight: 900;
 	-webkit-font-smoothing: antialiased;
-	display: var(--fa-display, inline-block);
+	display: inline-block;
 	font-style: normal;
 	font-variant: normal;
 	line-height: 1;
@@ -6388,7 +6388,7 @@ g {
 	position: absolute;
 	text-align: center;
 	width: 100%;
-	z-index: var(--fa-stack-z-index,auto);
+	z-index: auto;
 }
 .fa-stack-1x {
 	line-height: inherit;
