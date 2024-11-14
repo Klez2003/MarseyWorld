@@ -158,7 +158,6 @@ TAGLINES = ()
 if SITE_NAME == 'rDrama':
 	PERMS = { # Minimum admin_level to perform action.
 		'HOLE_CREATE': 0,
-		'VIEW_DELETED_ACCOUNTS': 0,
 
 		'POST_BETS': 1,
 		'POST_BETS_DISTRIBUTE': 1,
@@ -211,6 +210,7 @@ if SITE_NAME == 'rDrama':
 		'MODERATE_PENDING_SUBMITTED_ASSETS': 3,
 		'UPDATE_ASSETS': 3,
 		'PUBLISH_OTHERS_POSTS': 3,
+		'VIEW_DELETED_ACCOUNTS': 3,
 
 		'POST_COMMENT_EDITING': 4,
 		'PROGSTACK': 4,
