@@ -98,7 +98,12 @@ def login_post(v):
 	else:
 		stop(400)
 
-	on_login(account)
+	session.permanent = True
+	session["lo_user"] = account.id
+	g.v = account
+	g.username = account.username
+	session["login_nonce"] = account.login_nonce
+	check_for_alts(account, include_current_session=True)
 
 	if redir and is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
 		return redirect(redir)
@@ -110,15 +115,6 @@ def log_failed_admin_login_attempt(account, type):
 	print(f"A site admin from {ip} failed to login to account @{account.username} (invalid {type})")
 	t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
 	log_file(f"{t}, {ip}, {account.username}, {type}", "admin_failed_logins.log")
-
-def on_login(account, redir=None):
-	session.permanent = True
-	session["lo_user"] = account.id
-	g.v = account
-	g.username = account.username
-	session["login_nonce"] = account.login_nonce
-	check_for_alts(account, include_current_session=True)
-
 
 @app.get("/me")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
