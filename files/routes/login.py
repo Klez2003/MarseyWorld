@@ -105,6 +105,9 @@ def login_post(v):
 	session["login_nonce"] = account.login_nonce
 	check_for_alts(account, include_current_session=True)
 
+	if account.deletion:
+		g.db.delete(account.deletion)
+
 	if redir and is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
 		return redirect(redir)
 	return redirect('/')

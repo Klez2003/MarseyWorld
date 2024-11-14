@@ -40,5 +40,8 @@ from .currency_logs import *
 if FEATURES['IP_LOGGING']:
 	from .ip_logs import *
 
+if FEATURES['ACCOUNT_DELETION']:
+	from .account_deletion import *
+
 from .edit_logs import *
 from .chats import *

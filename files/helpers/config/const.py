@@ -363,6 +363,7 @@ FEATURES = {
 	'PING_GROUPS': True,
 	'IP_LOGGING': False,
 	'BLOCK_MUTE_EXILE_EXPIRY': False,
+	'ACCOUNT_DELETION': True,
 }
 
 DEFAULT_PRONOUNS = None
@@ -958,6 +959,8 @@ BADGE_BLACKLIST = PATRON_BADGES + ( # only grantable by admins higher than PERMS
 )
 
 if SITE in {'rdrama.net', 'staging.rdrama.net'}:
+	FEATURES['ACCOUNT_DELETION'] = False
+
 	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
 
 	TELEGRAM_ID = "rdramanet"

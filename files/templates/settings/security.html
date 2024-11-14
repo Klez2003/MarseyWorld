@@ -121,6 +121,26 @@
 						</div>
 					</form>
 				</section>
+
+				<section id="site-settings-delete-account-section" class="settings-section-section">
+					<h5 class="text-danger">Request Account Deletion</h5>
+					<form action="/settings/delete_account" method="post">
+						<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
+						<div class="body">
+							<div class="d-lg-flex">
+								<label for="delete-account-password" class="w-lg-25">Password</label>
+								<div class="w-lg-100">
+									<input autocomplete="off" type="password" class="form-control mb-2" id="delete-account-password" name="password" required>
+								</div>
+							</div>
+						</div>
+						<div class="footer">
+							<div class="d-flex">
+								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Request Account Deletion">
+							</div>
+						</div>
+					</form>
+				</section>
 			</div>
 		</div>
 	</div>

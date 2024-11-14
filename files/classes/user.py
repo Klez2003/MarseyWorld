@@ -209,6 +209,9 @@ class User(Base):
 	hole_mods = relationship("Mod", primaryjoin="User.id == Mod.user_id", lazy="raise")
 	notifications = relationship("Notification", back_populates="user")
 
+	if FEATURES['ACCOUNT_DELETION']:
+		deletion = relationship("AccountDeletion", back_populates="user", uselist=False)
+
 	def __init__(self, **kwargs):
 
 		if "password" in kwargs:
@@ -1103,6 +1106,9 @@ class User(Base):
 
 	@lazy
 	def json_popover(self, v):
+		if self.username.startswith('deleted~') and not (v and v.admin_level >= PERMS['VIEW_DELETED_ACCOUNTS']):
+			return {}
+
 		data = {'username': self.username,
 				'url': self.url,
 				'id': self.id,
