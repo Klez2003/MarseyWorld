@@ -400,7 +400,7 @@ const input = document.getElementById('file')
 function handle_files() {
 	if (!input.files.length) return
 	if (check_file_size(input, input.files[0])) {
-		const char_limit = innerWidth >= 768 ? 50 : 13;
+		const char_limit = innerWidth >= 768 ? 50 : 14;
 		input.previousElementSibling.className  = "";
 		input.previousElementSibling.textContent = input.files[0].name.substr(0, char_limit);
 
