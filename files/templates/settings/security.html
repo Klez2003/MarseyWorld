@@ -126,6 +126,7 @@
 					<h5 class="text-danger">Request Account Deletion</h5>
 					<form action="/settings/delete_account" method="post">
 						<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
+						<input hidden name="username" value="{{v.username}}" class="notranslate" translate="no"> {# needed for subsequent pw suggestion #}
 						<div class="body">
 							<div class="d-lg-flex">
 								<label for="delete-account-password" class="w-lg-25">Password</label>
