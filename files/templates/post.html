@@ -401,6 +401,7 @@
 
 	{% if not p.replies %}{% include "comments.html" %}{% endif %}
 
+	<input hidden class="pid" value="{{p.id}}">
 	<input hidden id="twoattrs-{{p.id}}" class="twoattrs" value="{{p.id}},{{p.comment_count}}">
 	<script defer src="{{'js/new_comments.js' | asset}}"></script>
 	<script defer src="{{'js/post_navigation.js' | asset}}"></script>

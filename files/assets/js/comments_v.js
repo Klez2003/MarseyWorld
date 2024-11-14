@@ -292,6 +292,15 @@ function distinguished_toggle(t, fullname) {
 }
 
 function post_comment(fullname, hide) {
+	const pids = document.getElementsByClassName('pid') //to account for crosspost embed
+	if (pids) {
+		const pid = pids[pids.length - 1].value
+		const comments = JSON.parse(localStorage.getItem("comment-counts"))
+		const newTotal = parseInt(comments[pid].c) + 1
+		comments[pid] = {c: newTotal, t: comments[pid].t}
+		localStorage.setItem("comment-counts", JSON.stringify(comments))
+	}
+
 	close_inline_emoji_modal();
 
 	const btn = document.getElementById('save-reply-to-'+fullname)
