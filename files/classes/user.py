@@ -517,6 +517,9 @@ class User(Base):
 		if self.chud == 1 or (self.unban_utc and self.unban_utc > 2000000000):
 			stealth = stealth - {'chudrama'}
 
+		if self.house.startswith('Racist'):
+			stealth = stealth - {'racist'}
+
 		public_use = {x[0] for x in g.db.query(Hole.name).filter_by(public_use=True)}
 
 		return stealth | {x[0] for x in g.db.query(HoleBlock.hole).filter_by(user_id=self.id)} - public_use
