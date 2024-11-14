@@ -1429,11 +1429,17 @@ class User(Base):
 	@property
 	@lazy
 	def switched(self):
-		if not IS_FOOL() or (has_request_context() and request.path in {'/notifications/modmail', '/notifications/messages'}):
+		if not IS_FOOL() \
+		or self.username.startswith('deleted~') \
+		or (has_request_context() and request.path in {'/notifications/modmail', '/notifications/messages'}):
 			return self
 
 		three_days = time.time() - 259200
-		return g.db.query(User).filter(User.truescore < self.truescore, User.last_active > three_days).order_by(User.truescore.desc()).first() or self
+		return g.db.query(User).filter(
+			User.truescore < self.truescore,
+			User.last_active > three_days,
+			not_(User.username.like('deleted~%')),
+		).order_by(User.truescore.desc()).first() or self
 
 	@property
 	@lazy
