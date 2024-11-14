@@ -24,6 +24,7 @@ from files.helpers.sanitize import filter_emojis_only
 from files.helpers.security import *
 from files.helpers.useractions import *
 from files.routes.wrappers import *
+from files.routes.routehelpers import get_alt_graph
 
 from .front import frontlist
 from files.__main__ import app, cache, limiter
