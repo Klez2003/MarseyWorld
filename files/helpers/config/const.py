@@ -1327,29 +1327,29 @@ EMOJI_KINDS = ("Marsey", "Tay", "Platy", "Wolf", "Donkey Kong", "Capy", "Carp", 
 t = datetime.datetime.now()
 
 fistmas_begin_day = 1 if SITE_NAME == 'rDrama' else 21
-fistmas_begin = datetime.datetime.strptime(f'{fistmas_begin_day}/12/{t.year}', '%d/%m/%Y')
+fistmas_begin = datetime.datetime.strptime(f'{fistmas_begin_day}/12/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
 fistmas_end = datetime.datetime.strptime(f'26/12/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
 def IS_FISTMAS():
 	return fistmas_begin < datetime.datetime.now() < fistmas_end
 
 homoween_begin_day = 1 if SITE_NAME == 'rDrama' else 26
-homoween_begin = datetime.datetime.strptime(f'{homoween_begin_day}/10/{t.year}', '%d/%m/%Y')
+homoween_begin = datetime.datetime.strptime(f'{homoween_begin_day}/10/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
 homoween_end = datetime.datetime.strptime(f'1/11/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
 def IS_HOMOWEEN():
 	return homoween_begin < datetime.datetime.now() < homoween_end
 
-dkd_begin = datetime.datetime.strptime(f'2/4/{t.year}', '%d/%m/%Y')
-dkd_end = datetime.datetime.strptime(f'10/4/{t.year}', '%d/%m/%Y')
+dkd_begin = datetime.datetime.strptime(f'2/4/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
+dkd_end = datetime.datetime.strptime(f'10/4/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
 def IS_DKD():
 	return SITE_NAME == 'rDrama' and dkd_begin < datetime.datetime.now() < dkd_end
 
 
 if SITE_NAME == 'rDrama':
-	bday_begin = datetime.datetime.strptime(f'20/5/{t.year}', '%d/%m/%Y')
-	bday_end = datetime.datetime.strptime(f'24/5/{t.year}', '%d/%m/%Y')
+	bday_begin = datetime.datetime.strptime(f'20/5/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
+	bday_end = datetime.datetime.strptime(f'24/5/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
 else:
-	bday_begin = datetime.datetime.strptime(f'26/4/{t.year}', '%d/%m/%Y')
-	bday_end = datetime.datetime.strptime(f'30/4/{t.year}', '%d/%m/%Y')
+	bday_begin = datetime.datetime.strptime(f'26/4/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
+	bday_end = datetime.datetime.strptime(f'30/4/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
 def IS_BDAY():
 	return bday_begin < datetime.datetime.now() < bday_end
 
@@ -1368,13 +1368,13 @@ def IS_EVENT():
 def IS_MUSICAL_EVENT():
 	return IS_FISTMAS() or IS_HOMOWEEN() or IS_DKD()
 
-fourth_begin = datetime.datetime.strptime(f'4/7/{t.year}', '%d/%m/%Y')
-fourth_end = datetime.datetime.strptime(f'5/7/{t.year}', '%d/%m/%Y')
+fourth_begin = datetime.datetime.strptime(f'4/7/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
+fourth_end = datetime.datetime.strptime(f'5/7/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
 def IS_FOURTH():
 	return SITE_NAME == 'rDrama' and fourth_begin < datetime.datetime.now() < fourth_end
 
-fool_begin = datetime.datetime.strptime(f'1/4/{t.year}', '%d/%m/%Y')
-fool_end = datetime.datetime.strptime(f'2/4/{t.year}', '%d/%m/%Y')
+fool_begin = datetime.datetime.strptime(f'1/4/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
+fool_end = datetime.datetime.strptime(f'2/4/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
 def IS_FOOL():
 	return fool_begin < datetime.datetime.now() < fool_end
 
