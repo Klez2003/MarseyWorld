@@ -83,8 +83,6 @@ if "cron" not in argv:
 cache = Cache(app)
 Compress(app)
 
-redis_instance = redis.Redis.from_url(app.config["CACHE_REDIS_URL"])
-
 from files.routes.allroutes import *
 
 if "load_chat" in argv:

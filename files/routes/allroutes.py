@@ -5,7 +5,7 @@ from files.helpers.config.const import *
 from files.helpers.settings import get_setting
 from files.helpers.cloudflare import CLOUDFLARE_AVAILABLE
 from files.routes.wrappers import *
-from files.__main__ import app, limiter, get_IP, redis_instance
+from files.__main__ import app, limiter, get_IP
 
 if FEATURES['IP_LOGGING']:
 	from files.classes.ip_logs import *

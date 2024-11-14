@@ -1434,12 +1434,18 @@ class User(Base):
 		or (has_request_context() and request.path in {'/notifications/modmail', '/notifications/messages'}):
 			return self
 
+		uid = redis_instance.get(f'{self.id}-switched')
+		if uid: return g.db.get(User, uid)
+
 		three_days = time.time() - 259200
-		return g.db.query(User).filter(
+		uid = g.db.query(User.id).filter(
 			User.truescore < self.truescore,
 			User.last_active > three_days,
 			not_(User.username.like('deleted~%')),
-		).order_by(User.truescore.desc()).first() or self
+		).order_by(User.truescore.desc()).first()
+		uid = uid[0] if uid else self.id
+		redis_instance.set(f'{self.id}-switched', uid)
+		return g.db.get(User, uid)
 
 	@property
 	@lazy

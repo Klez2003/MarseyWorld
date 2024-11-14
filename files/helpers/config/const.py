@@ -3,6 +3,7 @@ from os import environ, path
 
 import tldextract
 import datetime
+import redis
 
 DEFAULT_TIME_FILTER = "all"
 DEFAULT_THEME = "midnight"
@@ -1465,3 +1466,5 @@ else:
 	from flask import abort
 	def stop(code, message=None):
 		abort(code, message)
+
+redis_instance = redis.Redis.from_url(environ.get("REDIS_URL").strip())
