@@ -1166,5 +1166,7 @@ def settings_age(v):
 		remaining_days = remaining_years * 365
 		v.ban(reason="Underage (age input)", days=remaining_days)
 
+		for x in get_alt_graph(v.id):
+			x.ban(reason="Underage (age input)", days=remaining_days, modlog=False, original_user=v)
 
 	return {"message": "Age successfully updated!"}
