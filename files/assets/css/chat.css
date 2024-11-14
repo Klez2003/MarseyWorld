@@ -9,7 +9,7 @@
 	background-color: var(--background) !important;
 }
 #online.online-wpd {
-	max-height: calc(100dvh - 365px);
+	max-height: calc(100dvh - 345px);
 }
 
 #chat-window .chat-profile {
