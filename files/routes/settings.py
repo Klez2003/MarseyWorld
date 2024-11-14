@@ -28,6 +28,13 @@ from .front import frontlist
 from files.__main__ import app, cache, limiter
 
 
+def _notify_followers_song_change(v, new_song):
+	text = f"@{v.username} has set a new profile song! :marseyjamming: \n\nYou can disable this notification by unfollowing them :marseysad:<hidden>{new_song}</hidden>"
+	cid = notif_comment(text)
+	follower_ids = (x[0] for x in g.db.query(Follow.user_id).filter_by(target_id=v.id).all())
+	for follower_id in follower_ids:
+		add_notif(cid, follower_id, text, pushnotif_url=v.url)
+
 @app.get("/settings")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
@@ -932,6 +939,8 @@ def settings_song_change_mp3(v):
 	v.song = song
 	g.db.add(v)
 
+	_notify_followers_song_change(v, v.song)
+
 	return redirect("/settings/personal?msg=Profile Anthem successfully updated!")
 
 
@@ -1003,6 +1012,7 @@ def settings_song_change(v):
 	if path.isfile(f'/songs/{id}.mp3'):
 		v.song = id
 		g.db.add(v)
+		_notify_followers_song_change(v, v.song)
 		return redirect("/settings/personal?msg=Profile Anthem successfully updated!")
 
 
@@ -1024,6 +1034,9 @@ def settings_song_change(v):
 			duration = int(duration.split("PT")[1].split("M")[0])
 			if duration > 15:
 				return redirect("/settings/personal?error=Duration of the video must not exceed 15 minutes!")
+
+
+	_notify_followers_song_change(v, id)
 
 	gevent.spawn(_change_song_youtube, v.id, id)
 

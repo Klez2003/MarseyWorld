@@ -7864,3 +7864,7 @@ p:empty + p { /* poll margin */
     padding: 14px 14px 0 14px !important;
     margin-bottom: 6rem !important;
 }
+
+hidden {
+	display: none;
+}

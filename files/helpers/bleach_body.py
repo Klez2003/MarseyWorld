@@ -6,7 +6,7 @@ import functools
 from files.helpers.regex import sanitize_url_regex, excessive_css_scale_regex
 from files.helpers.config.const import *
 
-allowed_tags = ('a','alpha','audio','b','blink','blockquote','br','center','code','del','details','em','g','gl','h1','h2','h3','h4','h5','h6','hr','i','img','li','lite-youtube','marquee','ol','p','pre','rp','rt','ruby','small','span','spoiler','strike','strong','sub','summary','sup','table','tbody','td','th','thead','tr','u','ul','video')
+allowed_tags = ('a','alpha','audio','b','blink','blockquote','br','center','code','del','details','em','g','gl','h1','h2','h3','h4','h5','h6','hidden','hr','i','img','li','lite-youtube','marquee','ol','p','pre','rp','rt','ruby','small','span','spoiler','strike','strong','sub','summary','sup','table','tbody','td','th','thead','tr','u','ul','video')
 allowed_tags_runtime = ('div', 'input', 'label', 'score', 'button', 'd')
 allowed_css_properties = ('background-color', 'color', 'filter', 'font-weight', 'text-align', 'transform', 'font-variant-caps')
 
