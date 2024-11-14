@@ -296,9 +296,11 @@ function post_comment(fullname, hide) {
 	if (pids.length) { //need .length, getElementsByClassName is always truthy
 		const pid = pids[pids.length - 1].value
 		const comments = JSON.parse(localStorage.getItem("comment-counts"))
-		const newTotal = parseInt(comments[pid].c) + 1
-		comments[pid] = {c: newTotal, t: comments[pid].t}
-		localStorage.setItem("comment-counts", JSON.stringify(comments))
+		if (comments[pid]) {
+			const newTotal = parseInt(comments[pid].c) + 1
+			comments[pid] = {c: newTotal, t: comments[pid].t}
+			localStorage.setItem("comment-counts", JSON.stringify(comments))
+		}
 	}
 
 	close_inline_emoji_modal();
