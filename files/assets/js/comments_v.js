@@ -293,7 +293,7 @@ function distinguished_toggle(t, fullname) {
 
 function post_comment(fullname, hide) {
 	const pids = document.getElementsByClassName('pid') //to account for crosspost embed
-	if (pids.length) { //need .length, getElementsByClassName is always True
+	if (pids.length) { //need .length, getElementsByClassName is always truthy
 		const pid = pids[pids.length - 1].value
 		const comments = JSON.parse(localStorage.getItem("comment-counts"))
 		const newTotal = parseInt(comments[pid].c) + 1
