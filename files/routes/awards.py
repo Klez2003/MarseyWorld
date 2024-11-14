@@ -737,7 +737,7 @@ def award_thing(v, thing_type, id):
 				msg += f"\n\n> :{award.note}:"
 			elif note:
 				if kind == "chud":
-					msg += f"\n\n**You now have to say this phrase in all posts and comments you make for {24*quantity} hours:**"
+					msg += f"\n\n**You now have to say this phrase in all posts and comments you make for {quantity} day{s}:**"
 				msg += msg_note
 				if SITE_NAME == 'rDrama' and kind == "chud":
 					msg += f"\n\nPlease keep your chud behavior to /h/chudrama in the future!"
