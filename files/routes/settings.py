@@ -31,6 +31,9 @@ from files.__main__ import app, cache, limiter
 
 
 def _notify_followers_song_change(v, new_song):
+	if not FEATURES['SONG_NOTIFICATIONS']:
+		return
+
 	text = f"@{v.username} has set a new profile song! :marseyjamming: \n\nYou can disable this notification by unfollowing them :marseysad:<hidden>{new_song}</hidden>"
 	cid = notif_comment(text)
 	follower_ids = (x[0] for x in g.db.query(Follow.user_id).filter_by(target_id=v.id).all())
