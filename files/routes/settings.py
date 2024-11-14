@@ -1164,6 +1164,7 @@ def settings_age(v):
 	if age < 18:
 		remaining_years = 18 - age
 		remaining_days = remaining_years * 365
-		v.ban(reason=f"Underage (age input)", days=remaining_days)
+		v.ban(reason="Underage (age input)", days=remaining_days)
+
 
 	return {"message": "Age successfully updated!"}
