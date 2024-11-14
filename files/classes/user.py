@@ -1047,6 +1047,9 @@ class User(Base):
 	@property
 	@lazy
 	def profile_url(self):
+		if self.username.startswith('deleted~') and not (g.v and g.v.admin_level >= PERMS['VIEW_DELETED_ACCOUNTS']):
+			return f"{SITE_FULL_IMAGES}/i/default-profile-pic.webp?x=14"
+
 		if IS_HOMOWEEN() and self.zombie < 0:
 			random.seed(self.id)
 			zombie_num = random.randint(1, 10)

@@ -92,20 +92,24 @@
 	{% if p.ghost %}
 		<span {% if p.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
 	{% else %}
-		{% if p.author.switched.flag %}
-			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{p.author.switched.flag}}.webp?e=1" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.flag}}">
+		{% if not (p.author.username.startswith('deleted~') and not (v and v.admin_level >= PERMS['VIEW_DELETED_ACCOUNTS'])) %}
+			{% if p.author.switched.flag %}
+				<img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{p.author.switched.flag}}.webp?e=1" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.flag}}">
+			{% endif %}
+
+			{% if FEATURES['PATRON_ICONS'] and p.author.switched.patron > 1 and p.author.switched.lifetimedonated_visible %}
+				<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{p.author.switched.patron}}.webp?b=14" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.patron_tooltip}}" alt="{{p.author.switched.patron_tooltip}}">
+			{% endif %}
+
+			{% if FEATURES['HOUSES'] and p.author.switched.house %}
+				<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/houses/{{p.author.switched.house}}.webp?x=14" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.switched.house}}" alt="House {{p.author.switched.house}}">
+			{% endif %}
+
+			{% if p.author.switched.verified %}
+				<i class="fas fa-badge-check align-middle ml-1 {{p.author.switched.checkmark_classes}}" style="color:{% if p.author.switched.verifiedcolor %}#{{p.author.switched.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.verified}}"></i>
+			{% endif %}
 		{% endif %}
 
-		{% if FEATURES['PATRON_ICONS'] and p.author.switched.patron > 1 and p.author.switched.lifetimedonated_visible %}
-			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{p.author.switched.patron}}.webp?b=14" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.patron_tooltip}}" alt="{{p.author.switched.patron_tooltip}}">
-		{% endif %}
-
-		{% if FEATURES['HOUSES'] and p.author.switched.house %}
-			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/houses/{{p.author.switched.house}}.webp?x=14" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.switched.house}}" alt="House {{p.author.switched.house}}">
-		{% endif %}
-
-		{% if p.author.switched.verified %}<i class="fas fa-badge-check align-middle ml-1 {{p.author.switched.checkmark_classes}}" style="color:{% if p.author.switched.verifiedcolor %}#{{p.author.switched.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.verified}}"></i>
-		{% endif %}
 		<a class="user-name text-decoration-none {% if not p.author.switched.earlylife %}unbreakable{% endif %}" href="{{p.author.switched.url}}" data-pop-info='{{p.author.switched.json_popover(v) | tojson}}' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="manual" data-content-id="popover" tabindex="0" style="color: #{{p.author.switched.name_color}}; font-weight: bold">
 			<div class="profile-pic-30-wrapper" style="margin-top:9px;margin-bottom:9px">
 				<img loading="lazy" src="{{p.author.switched.profile_url}}" class="profile-pic-30 mr-2">
@@ -115,11 +119,14 @@
 			</div>
 			<span {% if p.author.switched.patron and not p.distinguished %}class="patron" style="background-color:#{{p.author.switched.name_color}}"{% elif p.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if p.author.switched.pride_username(v) %}pride_username{% endif %}>{{p.author_name}}</span>
 		</a>
-		{% if FEATURES['PRONOUNS'] and p.author.switched.pronouns %}
-			<span class="pronouns" style="color:#{{p.author.switched.flaircolor}} !important;border-color:#{{p.author.switched.flaircolor}} !important">{{p.author.switched.pronouns_display}}</span>
-		{% endif %}
-		{% if p.author.switched.flair_html %}
-			<bdi class="ml-2" style="color: #{{p.author.switched.flaircolor}}">{{p.author.switched.flair_html | safe}}</bdi>
+
+		{% if not (p.author.username.startswith('deleted~') and not (v and v.admin_level >= PERMS['VIEW_DELETED_ACCOUNTS'])) %}
+			{% if FEATURES['PRONOUNS'] and p.author.switched.pronouns %}
+				<span class="pronouns" style="color:#{{p.author.switched.flaircolor}} !important;border-color:#{{p.author.switched.flaircolor}} !important">{{p.author.switched.pronouns_display}}</span>
+			{% endif %}
+			{% if p.author.switched.flair_html %}
+				<bdi class="ml-2" style="color: #{{p.author.switched.flaircolor}}">{{p.author.switched.flair_html | safe}}</bdi>
+			{% endif %}
 		{% endif %}
 	{% endif %}
 	<span class="ml-2 d-inline-block" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{p.created_utc}}')" id="timestamp-{{p.id}}">&nbsp;{{p.age_string}}</span>

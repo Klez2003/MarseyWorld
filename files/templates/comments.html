@@ -188,19 +188,22 @@
 							{% if c.ghost %}
 								<span {% if c.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
 							{% else %}
-								{% if c.author.switched.flag %}
-									<img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{c.author.switched.flag}}.webp?e=1" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.switched.flag}}">
-								{% endif %}
+								{% if not (c.author.username.startswith('deleted~') and not (v and v.admin_level >= PERMS['VIEW_DELETED_ACCOUNTS'])) %}
+									{% if c.author.switched.flag %}
+										<img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{c.author.switched.flag}}.webp?e=1" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.switched.flag}}">
+									{% endif %}
 
-								{% if FEATURES['PATRON_ICONS'] and c.author.switched.patron > 1 and c.author.switched.lifetimedonated_visible %}
-									<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{c.author.switched.patron}}.webp?b=14" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.switched.patron_tooltip}}" alt="{{c.author.switched.patron_tooltip}}">
-								{% endif %}
+									{% if FEATURES['PATRON_ICONS'] and c.author.switched.patron > 1 and c.author.switched.lifetimedonated_visible %}
+										<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{c.author.switched.patron}}.webp?b=14" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.switched.patron_tooltip}}" alt="{{c.author.switched.patron_tooltip}}">
+									{% endif %}
 
-								{% if FEATURES['HOUSES'] and c.author.switched.house %}
-									<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/houses/{{c.author.switched.house}}.webp?x=14" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{c.author.switched.house}}" alt="House {{c.author.switched.house}}">
-								{% endif %}
+									{% if FEATURES['HOUSES'] and c.author.switched.house %}
+										<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/houses/{{c.author.switched.house}}.webp?x=14" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{c.author.switched.house}}" alt="House {{c.author.switched.house}}">
+									{% endif %}
 
-								{% if c.author.switched.verified %}<i class="fas fa-badge-check align-middle ml-1 {{c.author.switched.checkmark_classes}}" style="color:{% if c.author.switched.verifiedcolor %}#{{c.author.switched.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.switched.verified}}"></i>
+									{% if c.author.switched.verified %}
+										<i class="fas fa-badge-check align-middle ml-1 {{c.author.switched.checkmark_classes}}" style="color:{% if c.author.switched.verifiedcolor %}#{{c.author.switched.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.switched.verified}}"></i>
+									{% endif %}
 								{% endif %}
 
 								<a class="user-name text-decoration-none {% if not c.author.switched.earlylife %}unbreakable{% endif %}" href="{{c.author.switched.url}}" data-pop-info='{{c.author.switched.json_popover(v) | tojson}}'' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="manual" data-content-id="popover" tabindex="0" style="color:#{{c.author.switched.name_color}}; font-size:12px; font-weight:bold">
@@ -212,11 +215,14 @@
 									</div>
 									<span {% if c.author.switched.patron and not c.distinguished %}class="patron" style="background-color:#{{c.author.switched.name_color}}"{% elif c.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if c.author.switched.pride_username(v) %}pride_username{% endif %}>{{c.author_name}}</span>
 								</a>
-								{% if FEATURES['PRONOUNS'] and c.author.switched.pronouns %}
-									<span class="pronouns" style="color:#{{c.author.switched.flaircolor}} !important;border-color:#{{c.author.switched.flaircolor}} !important">{{c.author.switched.pronouns_display}}</span>
-								{% endif %}
-								{% if c.author.switched.flair_html %}
-									&nbsp;<bdi style="color: #{{c.author.switched.flaircolor}}">&nbsp;{{c.author.switched.flair_html | safe}}</bdi>
+
+								{% if not (c.author.username.startswith('deleted~') and not (v and v.admin_level >= PERMS['VIEW_DELETED_ACCOUNTS'])) %}
+									{% if FEATURES['PRONOUNS'] and c.author.switched.pronouns %}
+										<span class="pronouns" style="color:#{{c.author.switched.flaircolor}} !important;border-color:#{{c.author.switched.flaircolor}} !important">{{c.author.switched.pronouns_display}}</span>
+									{% endif %}
+									{% if c.author.switched.flair_html %}
+										&nbsp;<bdi style="color: #{{c.author.switched.flaircolor}}">&nbsp;{{c.author.switched.flair_html | safe}}</bdi>
+									{% endif %}
 								{% endif %}
 							{% endif %}
 
