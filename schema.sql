@@ -70,6 +70,17 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: account_deletions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.account_deletions (
+    user_id integer NOT NULL,
+    created_utc integer NOT NULL,
+    deleted_utc integer
+);
+
+
+--
 -- Name: alts; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1492,6 +1503,14 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
+-- Name: account_deletions account_deletions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.account_deletions
+    ADD CONSTRAINT account_deletions_pkey PRIMARY KEY (user_id);
+
+
+--
 -- Name: alts alts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2906,6 +2925,14 @@ CREATE INDEX vote_user_index ON public.votes USING btree (user_id);
 --
 
 CREATE INDEX votes_type_index ON public.votes USING btree (vote_type);
+
+
+--
+-- Name: account_deletions account_deletions_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.account_deletions
+    ADD CONSTRAINT account_deletions_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
