@@ -80,6 +80,7 @@
 			<li><a href="/admin/loggedin">Currently Logged-in Users</a></li>
 			<li><a href="/admin/loggedout">Currently Logged-out Users</a></li>
 		{% endif %}
+		<li><a href="/deletion_requests">Account Deletion Requests</a></li>
 	</ul>
 
 	{% if v.admin_level >= PERMS['DELETE_MEDIA'] or v.admin_level >= PERMS['DOMAINS_BAN'] or v.admin_level >= PERMS['USER_LINK'] or v.admin_level >= PERMS['VIEW_ALT_VOTES'] or v.admin_level >= PERMS['CHANGE_UNDER_SIEGE'] %}
