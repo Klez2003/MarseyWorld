@@ -17,14 +17,14 @@ def before_request():
 	if request.host != SITE:
 		stop(403, "Unauthorized host provided!")
 
-	if SITE == 'marsey.world' and request.path not in {'/kofi','/bm','/av'}:
+	if SITE == 'marsey.world' and request.path not in {'/kofi','/av'}:
 		stop(404)
 
 	if request.headers.get("CF-Worker"):
 		stop(403, "Cloudflare workers are not allowed to access this website!")
 
 	g.agent = request.headers.get("User-Agent", "")
-	if not g.agent and request.path not in {'/kofi','/bm','/av'}:
+	if not g.agent and request.path not in {'/kofi','/av'}:
 		stop(403, 'Please use a "User-Agent" header!')
 
 	if not get_setting('bots') and request.headers.get("Authorization"):

@@ -1473,57 +1473,6 @@ def gumroad():
 	return ''
 
 
-@app.post("/bm")
-@limiter.exempt
-def bm():
-	data = json.loads(request.data)
-
-	ip = request.headers.get('CF-Connecting-IP')
-
-	if ip not in {'54.187.174.169','54.187.205.235','54.187.216.72'}:
-		print(STARS, flush=True)
-		print(f'/bm fail: {ip}')
-		print(STARS, flush=True)
-		stop(400)
-
-	data = data['data']['object']
-
-	if data['calculated_statement_descriptor'] != 'MARSEY':
-		return ''
-
-	id = data['id']
-
-	existing = g.db.get(Transaction, id)
-	if existing: return ''
-
-	amount = data['amount']/100
-
-	email = data['billing_details']['email']
-	if not email: return ''
-	email = email.strip().lower()
-
-	created_utc = data['created']
-
-	if data['description'] == 'rdrama.net (@rdrama.net) - Support':
-		type = "one-time"
-	else:
-		type = "monthly"
-
-	transaction = Transaction(
-		id=id,
-		created_utc=created_utc,
-		type=type,
-		amount=amount,
-		email=email
-	)
-
-	g.db.add(transaction)
-
-	claim_rewards_all_users()
-
-	return ''
-
-
 @app.post("/av")
 @limiter.exempt
 def av():
