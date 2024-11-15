@@ -157,7 +157,10 @@
 										{% endif %}
 									{% elif p.url.startswith('https://instagram.com/') %}
 										{% set path = p.url.split('https://instagram.com/')[1].rstrip('/') %}
-										{% if '/' in path %} {# implies post or reel #}
+										{% if '/' in path %} {# implies p/ or reel/ #}
+											{% if path.count('/') == 2 %} {# implies a url like this https://instagram.com/magdalenanderssons/p/C-5Mp93iI3u instead of https://instagram.com/p/C-5Mp93iI3u #}
+												{% set path = path.split('/')[1] + '/' + path.split('/')[2] %}
+											{% endif %}
 											{% set path = path + '/embed/captioned' %}
 										{% else %} {# implies profile #}
 											{% set path = path + '/embed' %}
