@@ -210,8 +210,11 @@ def transfer_currency(v, username, currency_name, apply_tax):
 
 def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v)
-	kind = "posts" if cls == Post else "comments"
-	if not u.is_visible_to(v, 0, kind): stop(403)
+
+	if username == username2:
+		kind = "posts" if cls == Post else "comments"
+		if not u.is_visible_to(v, 0, kind): stop(403)
+
 	id = u.id
 
 	uid = get_user(username2, attributes=[User.id]).id
@@ -277,8 +280,11 @@ def downvoters_comments(v, username, username2):
 
 def upvoting_downvoting(v, username, username2, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v)
-	kind = "posts" if cls == Post else "comments"
-	if not u.is_visible_to(v, 0, kind): stop(403)
+
+	if username == username2:
+		kind = "posts" if cls == Post else "comments"
+		if not u.is_visible_to(v, 0, kind): stop(403)
+
 	id = u.id
 
 	uid = get_user(username2, attributes=[User.id]).id
