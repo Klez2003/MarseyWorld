@@ -156,7 +156,7 @@ def auth_required(f):
 		v = get_logged_in_user()
 		if not v:
 			stop(401, "You need to login to perform this action!")
-		if v.is_permabanned and request.method == "POST" and request.path not in {'/contact','/reply','/logout'} and not request.path.startswith('/delete/'):
+		if v.is_permabanned and request.method == "POST" and request.path not in {'/contact','/reply','/logout','/settings/delete_account'} and not request.path.startswith('/delete/'):
 			stop(403, "You can't perform this action while permabanned!")
 
 		if request.path.startswith('/@deleted~') and v.admin_level < PERMS['VIEW_DELETED_ACCOUNTS']:
