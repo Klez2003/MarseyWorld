@@ -1053,7 +1053,7 @@ def ban_user(fullname, v):
 	user.ban(admin=v, reason=reason, days=days)
 	send_repeatable_notification(user.id, text)
 
-	if request.values.get("alts"):
+	if SITE_NAME == 'WPD' or request.values.get("alts"):
 		for x in get_alt_graph(user.id):
 			if x.admin_level > v.admin_level:
 				continue
