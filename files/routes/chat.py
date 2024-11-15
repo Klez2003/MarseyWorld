@@ -36,7 +36,7 @@ typing = {}
 
 cache.set('loggedin_chat', 0, timeout=86400)
 
-def get_request_referrer():
+def get_referrer():
 	if '?m=' in request.referrer:
 		return request.referrer.split("?m=")[0]
 	return request.referrer
