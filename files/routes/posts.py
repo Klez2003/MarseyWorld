@@ -92,6 +92,23 @@ def _process_post_attachement(p, v):
 	else:
 		stop(415)
 
+def _register_duplicate_media_usage(p):
+	filename = '/videos' + p.url.split(SITE_FULL_VIDEOS)[1]
+	media = g.db.get(Media, filename)
+	if media:
+		existing = g.db.query(MediaUsage).filter_by(filename=filename, post_id=p.id).one_or_none()
+		if not existing:
+			media_usage = MediaUsage(
+				filename=filename,
+				post_id=p.id,
+			)
+			g.db.add(media_usage)
+
+		if existing and existing.deleted_utc and not p.deleted_utc:
+			existing.deleted_utc = None
+
+		if media.posterurl:
+			p.posterurl = media.posterurl
 
 def _add_post_view(pid):
 	db = db_session()
@@ -704,16 +721,7 @@ def submit_post(v, hole=None):
 	if request.files.get('file-url') and not g.is_tor:
 		_process_post_attachement(p, v)
 	elif p.url and p.url.startswith(SITE_FULL_VIDEOS):
-		filename = '/videos' + p.url.split(SITE_FULL_VIDEOS)[1]
-		media = g.db.get(Media, filename)
-		if media:
-			media_usage = MediaUsage(
-				filename=filename,
-				post_id=p.id,
-			)
-			g.db.add(media_usage)
-			if media.posterurl:
-				p.posterurl = media.posterurl
+		_register_duplicate_media_usage(p)
 
 	if not p.draft and not complies_with_chud(p):
 		p.is_banned = True
@@ -1197,22 +1205,7 @@ def edit_post(pid, v):
 		change_thumb = True
 
 		if p.url and p.url.startswith(SITE_FULL_VIDEOS):
-			filename = '/videos' + p.url.split(SITE_FULL_VIDEOS)[1]
-			media = g.db.get(Media, filename)
-			if media:
-				existing = g.db.query(MediaUsage).filter_by(filename=filename, post_id=p.id).one_or_none()
-				if not existing:
-					media_usage = MediaUsage(
-						filename=filename,
-						post_id=p.id,
-					)
-					g.db.add(media_usage)
-
-				if existing and existing.deleted_utc and not p.deleted_utc:
-					existing.deleted_utc = None
-
-				if media.posterurl:
-					p.posterurl = media.posterurl
+			_register_duplicate_media_usage(p)
 
 	if not changed:
 		stop(400, "You need to change something!")
