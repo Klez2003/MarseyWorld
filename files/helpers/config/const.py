@@ -374,6 +374,7 @@ GET_HELP_MESSAGE = "Hi there,\n\nA [concerned user](/id/{vid}) reached out to us
 
 if SITE_NAME == 'rDrama':
 	FEATURES['BLOCK_MUTE_EXILE_EXPIRY'] = True
+	FEATURES['ACCOUNT_DELETION'] = False
 
 	DEFAULT_PRONOUNS = 'they/them'
 
@@ -962,8 +963,6 @@ BADGE_BLACKLIST = PATRON_BADGES + ( # only grantable by admins higher than PERMS
 )
 
 if SITE in {'rdrama.net', 'staging.rdrama.net'}:
-	FEATURES['ACCOUNT_DELETION'] = False
-
 	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
 
 	TELEGRAM_ID = "rdramanet"

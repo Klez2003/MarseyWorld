@@ -1175,29 +1175,26 @@ def settings_age(v):
 
 	return {"message": "Age successfully updated!"}
 
+@app.post("/settings/delete_account")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def settings_delete_account(v):
+	submitted_password = request.values.get("password", "").strip()
+	if not v.verifyPass(submitted_password):
+		stop(400, "Incorrect password!")
 
-if FEATURES['ACCOUNT_DELETION']:
-	@app.post("/settings/delete_account")
-	@limiter.limit('1/second', scope=rpath)
-	@limiter.limit('1/second', scope=rpath, key_func=get_ID)
-	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-	@auth_required
-	def settings_delete_account(v):
-		submitted_password = request.values.get("password", "").strip()
-		if not v.verifyPass(submitted_password):
-			stop(400, "Incorrect password!")
+	account_deletion = AccountDeletion(user_id=v.id)
+	g.db.add(account_deletion)
 
-		v.login_nonce += 1
-		g.db.add(v)
-
-		account_deletion = AccountDeletion(user_id=v.id)
-		g.db.add(account_deletion)
-
-		return render_template("message.html",
-						title="Your account will be deleted in 30 days.",
-						message="You can (and should) log back in before then to cancel this. Not that we want you here or anything. Whatever bitch."), 202
-else:
-	@app.get("/settings/delete_account")
-	def settings_delete_account():
+	if not FEATURES['ACCOUNT_DELETION']:
 		return redirect(f"{SITE_FULL_IMAGES}/i/mrburns.webp")
+
+	v.login_nonce += 1
+	g.db.add(v)
+
+	return render_template("message.html",
+					title="Your account will be deleted in 30 days.",
+					message="You can (and should) log back in before then to cancel this. Not that we want you here or anything. Whatever bitch."), 202
