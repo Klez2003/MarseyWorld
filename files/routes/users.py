@@ -443,7 +443,7 @@ def chuds(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def deletion_requests(v):
-	users = g.db.query(User, AccountDeletion).join(User.deletion)
+	users = g.db.query(User, AccountDeletion).join(User.deletion).order_by(AccountDeletion.created_utc)
 	return render_template("deletion_requests.html", v=v, users=users)
 
 def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
