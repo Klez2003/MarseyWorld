@@ -157,9 +157,9 @@
 										{% endif %}
 									{% elif p.url.startswith('https://instagram.com/') %}
 										{% set path = p.url.split('https://instagram.com/')[1].rstrip('/') %}
-										{% if '/' in path %}
+										{% if '/' in path %} {# implies post or reel #}
 											{% set path = path + '/embed/captioned' %}
-										{% else %}
+										{% else %} {# implies profile #}
 											{% set path = path + '/embed' %}
 										{% endif %}
 										<iframe id="other-embed" credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" scrolling="no" class="autoresizable" src="https://www.instagram.com/{{path}}" style="width:calc(100% - 2px);min-width:326px;max-width:540px"></iframe>
