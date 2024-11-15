@@ -1190,7 +1190,7 @@ def settings_delete_account(v):
 	g.db.add(account_deletion)
 
 	if not FEATURES['ACCOUNT_DELETION']:
-		return redirect(f"{SITE_FULL_IMAGES}/i/mrburns.webp")
+		return redirect(f"{SITE_FULL}/i/mrburns.webp") #dont use SITE_FULL_IMAGES here, it breaks CSP
 
 	v.login_nonce += 1
 	g.db.add(v)
