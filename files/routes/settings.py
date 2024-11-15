@@ -1186,8 +1186,10 @@ def settings_delete_account(v):
 	if not v.verifyPass(submitted_password):
 		stop(400, "Incorrect password!")
 
-	account_deletion = AccountDeletion(user_id=v.id)
-	g.db.add(account_deletion)
+	existing = g.db.get(AccountDeletion, v.id)
+	if not existing:
+		account_deletion = AccountDeletion(user_id=v.id)
+		g.db.add(account_deletion)
 
 	if not FEATURES['ACCOUNT_DELETION']:
 		return redirect(f"{SITE_FULL}/i/mrburns.webp") #dont use SITE_FULL_IMAGES here, it breaks CSP
