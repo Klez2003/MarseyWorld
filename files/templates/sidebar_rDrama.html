@@ -69,7 +69,8 @@
 		<div class="mb-4">{{hole.sidebar_html|safe}}</div>
 	{% endif %}
 
-	<a class="btn btn-primary btn-block mb-3" href="/?effortposts_only=True">BROWSE EFFORTPOSTS</a>
+	{# need SITE_FULL here cuz https://watchpeopledie.tv/h/meta/post/61549/megathread-for-bugs-and-suggestions/4228859#context #} 
+	<a class="btn btn-primary btn-block mb-3" href="{{SITE_FULL}}?effortposts_only=True">BROWSE EFFORTPOSTS</a>
 	<a class="btn btn-primary btn-block mb-3" href="/post/151246/rdrama-featureset">SITE GUIDE</a>
 	<a class="btn btn-primary btn-block mb-3" href="/directory">
 		<span class="sidebar--big--head">DIRECTORY</span>
