@@ -73,6 +73,9 @@ def cron_fn(every_5m, every_1d, every_1mo, manual):
 						"WHERE users.zombie < 0"))
 					g.db.commit()
 
+				_set_top_poster_of_the_day_id()
+				g.db.commit()
+
 				_generate_emojis_zip()
 				g.db.commit()
 
@@ -96,9 +99,6 @@ def cron_fn(every_5m, every_1d, every_1mo, manual):
 				if FEATURES['BLOCK_MUTE_EXILE_EXPIRY']:
 					_expire_restrictions()
 					g.db.commit()
-
-				_set_top_poster_of_the_day_id()
-				g.db.commit()
 
 				_grant_one_year_badges()
 				g.db.commit()
