@@ -418,6 +418,7 @@ def _set_top_poster_of_the_day_id():
 
 	user = db.query(User, func.sum(Post.upvotes)).join(Post, Post.author_id == User.id).filter(
 		Post.created_utc > t,
+		Post.hole != 'chudrama',
 		User.admin_level == 0,
 	).group_by(User).order_by(func.sum(Post.upvotes).desc()).first()
 
