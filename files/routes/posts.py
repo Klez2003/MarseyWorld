@@ -92,7 +92,7 @@ def _process_post_attachement(p, v):
 	else:
 		stop(415)
 
-def _register_duplicate_media_usage(p):
+def _register_duplicate_media_usage_and_get_poster(p):
 	filename = '/videos' + p.url.split(SITE_FULL_VIDEOS)[1]
 	media = g.db.get(Media, filename)
 	if media:
@@ -721,7 +721,7 @@ def submit_post(v, hole=None):
 	if request.files.get('file-url') and not g.is_tor:
 		_process_post_attachement(p, v)
 	elif p.url and p.url.startswith(SITE_FULL_VIDEOS):
-		_register_duplicate_media_usage(p)
+		_register_duplicate_media_usage_and_get_poster(p)
 
 	if not p.draft and not complies_with_chud(p):
 		p.is_banned = True
@@ -1205,7 +1205,7 @@ def edit_post(pid, v):
 		change_thumb = True
 
 		if p.url and p.url.startswith(SITE_FULL_VIDEOS):
-			_register_duplicate_media_usage(p)
+			_register_duplicate_media_usage_and_get_poster(p)
 
 	if not changed:
 		stop(400, "You need to change something!")
