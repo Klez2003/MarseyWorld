@@ -214,7 +214,7 @@ def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, templat
 	if username == username2:
 		kind = "post" if cls == Post else "comment"
 		if not u.is_visible_to(v, 0, f"{kind}s"):
-			stop(403, f"@{u.username}'s {kind} history is private")
+			stop(403, f"@{u.username}'s {kind} history is private.")
 
 	id = u.id
 
@@ -285,7 +285,7 @@ def upvoting_downvoting(v, username, username2, cls, vote_cls, vote_dir, templat
 	if username == username2:
 		kind = "post" if cls == Post else "comment"
 		if not u.is_visible_to(v, 0, f"{kind}s"):
-			stop(403, f"@{u.username}'s {kind} history is private")
+			stop(403, f"@{u.username}'s {kind} history is private.")
 
 	id = u.id
 
@@ -1027,7 +1027,7 @@ def u_username(v, username):
 
 	if not u.is_visible_to(v, page, "posts"):
 		if g.is_api_or_xhr:
-			stop(403, f"@{u.username}'s post history is private")
+			stop(403, f"@{u.username}'s post history is private.")
 		return render_template("userpage/private_posts.html", u=u, v=v, is_following=is_following, private=True), 403
 
 	sort = request.values.get("sort", "new")
@@ -1115,7 +1115,7 @@ def u_username_comments(username, v):
 
 	if not u.is_visible_to(v, page, "comments"):
 		if g.is_api_or_xhr:
-			stop(403, f"@{u.username}'s comment history is private")
+			stop(403, f"@{u.username}'s comment history is private.")
 		return render_template("userpage/private_comments.html", u=u, v=v, is_following=is_following, private=True), 403
 
 	sort = request.values.get("sort","new")
