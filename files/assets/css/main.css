@@ -5426,14 +5426,6 @@ span > img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"]~img {
 	object-fit: contain;
 }
 
-span[bounce] {
-	animation: pat-pfp-anim 0.6s infinite;
-	transform-origin: bottom center;
-	text-align: center;
-	object-fit: contain;
-	display: inline-block;
-}
-
 span > img[src$="/i/talking.webp"]~img {
 	margin-top: 22%;
 }
@@ -5507,13 +5499,21 @@ span > img[src$="/i/love-background.webp"] {
 	100% { transform: scale(0, 0)  rotate(360deg) }
 }
 
+span[bounce] {
+	animation: pat-pfp-anim 0.6s infinite;
+	transform-origin: bottom center;
+	text-align: center;
+	object-fit: contain;
+	display: inline-block;
+}
+
 .cide, span[cide] {
 	display: inline-block;
 	animation: cide-anim 2s infinite;
 	animation-timing-function: linear;
 }
 
-[cide] [cide], [bounce] [bounce] {
+[bounce] [bounce], [cide] [cide] {
 	animation: none;
 }
 
