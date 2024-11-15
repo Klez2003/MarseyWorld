@@ -208,9 +208,7 @@ class User(Base):
 	hats_equipped = relationship("Hat", lazy="raise", viewonly=True)
 	hole_mods = relationship("Mod", primaryjoin="User.id == Mod.user_id", lazy="raise")
 	notifications = relationship("Notification", back_populates="user")
-
-	if FEATURES['ACCOUNT_DELETION']:
-		deletion = relationship("AccountDeletion", back_populates="user", uselist=False)
+	deletion = relationship("AccountDeletion", back_populates="user", uselist=False)
 
 	def __init__(self, **kwargs):
 

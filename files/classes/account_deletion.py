@@ -10,6 +10,7 @@ class AccountDeletion(Base):
 	__tablename__ = "account_deletions"
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	created_utc = Column(Integer)
+	deleted_utc = Column(Integer)
 
 	user = relationship("User", primaryjoin="User.id==AccountDeletion.user_id")
 

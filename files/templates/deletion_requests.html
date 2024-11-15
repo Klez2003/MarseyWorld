@@ -1,0 +1,25 @@
+{% extends "default.html" %}
+{% block pagetitle %}Account Deletion Requests{% endblock %}
+{% block content %}
+	<h5 class="my-4">Account Deletion Requests</h5>
+	<div class="overflow-x-auto">
+		<table>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Name</th>
+					<th>Requested on</th>
+					<th>Deleted on</th>
+				</tr>
+			</thead>
+			{% for user, deletion in users %}
+				<tr>
+					<td>{{loop.index}}</td>
+					<td>{% include "user_in_table.html" %}</td>
+					<td data-time="{{deletion.created_utc}}"></td>
+					<td {% if deletion.deleted_utc %}data-time="{{deletion.deleted_utc}}"{% endif %}></td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+{% endblock %}

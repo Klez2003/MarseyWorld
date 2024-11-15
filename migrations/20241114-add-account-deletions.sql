@@ -1,6 +1,7 @@
 create table account_deletions (
 	user_id integer primary key,
-	created_utc integer not null
+	created_utc integer not null,
+	deleted_utc integer
 );
 
 alter table account_deletions

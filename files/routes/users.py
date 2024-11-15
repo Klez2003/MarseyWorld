@@ -438,6 +438,14 @@ def chuds(v):
 
 	return render_template("chuds.html", v=v, users=users)
 
+@app.get("/deletion_requests")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def deletion_requests(v):
+	users = g.db.query(User, AccountDeletion).join(User.deletion)
+	return render_template("deletion_requests.html", v=v, users=users)
+
 def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 	if username == 'Snappy':
 		stop(403, "For performance reasons, you can't see Snappy's statistics!")
