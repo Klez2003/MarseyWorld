@@ -32,6 +32,14 @@ from .users import userpagelisting
 
 from files.__main__ import app, limiter
 
+def _make_post_url():
+	url = request.values.get("url", "").replace('\x00', '').strip()
+	if '\\' in url: stop(400)
+	if len(url) > 2048:
+		stop(400, "There's a 2048 character limit for URLs!")
+	if url == '': url = None
+	return url
+
 def _make_post_embed(url, v):
 	if not url:
 		return None
@@ -504,9 +512,7 @@ def is_repost(v):
 def submit_post(v, hole=None):
 	flag_draft = request.values.get("draft", False, bool)
 
-	url = request.values.get("url", "").replace('\x00', '').strip()
-
-	if '\\' in url: stop(400)
+	url = _make_post_url()
 
 	title = request.values.get("title", "").replace('\x00', '').replace('\n', ' ').strip()
 	if len(title) > POST_TITLE_LENGTH_LIMIT:
@@ -596,9 +602,6 @@ def submit_post(v, hole=None):
 	if not execute_antispam_post_check(title, v, url):
 		stop(403, "You have been banned for 1 day for spamming!")
 
-	if len(url) > 2048:
-		stop(400, "There's a 2048 character limit for URLs!")
-
 	body = process_files(request.files, v, body).strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
 		stop(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
@@ -610,8 +613,6 @@ def submit_post(v, hole=None):
 	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
 
 	if flag_ghost: hole = None
-
-	if url == '': url = None
 
 	p = Post(
 		draft=flag_draft,
@@ -1181,7 +1182,8 @@ def edit_post(pid, v):
 
 		changed = True
 
-	url = request.values.get("url", "").strip()
+	url = _make_post_url()
+
 	if request.files.get('file-url') and not g.is_tor:
 		file = request.files['file-url']
 
