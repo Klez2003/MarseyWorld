@@ -32,6 +32,37 @@ from .users import userpagelisting
 
 from files.__main__ import app, limiter
 
+def _make_post_embed(url, v):
+	if not url:
+		return None
+
+	embed = None
+	url = normalize_url(url)
+	domain = tldextract.extract(url).registered_domain
+
+	if v.admin_level < PERMS["IGNORE_DOMAIN_BAN"]:
+		combined = (domain + urlparse(url).path).lower()
+		for x in g.db.query(BannedDomain):
+			if combined.startswith(x.domain):
+				stop(400, f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
+
+	if domain == "x.com" and '/status/' in url:
+		try:
+			embed = requests.get("https://publish.x.com/oembed", params={"url":url, "omit_script":"t", "dnt":"t"}, headers=HEADERS, timeout=5).json()["html"]
+			embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
+		except: pass
+	elif url.startswith('https://youtube.com/watch?'):
+		embed = handle_youtube_links(url)
+	elif SITE in domain and "/post/" in url and "context" not in url and url.count('/') < 6:
+		id = url.split("/post/")[1]
+		if "/" in id: id = id.split("/")[0]
+		embed = str(int(id))
+
+	if embed and len(embed) > 1500: embed = None
+	if embed: embed = embed.strip()
+	return embed
+
+
 def _add_post_view(pid):
 	db = db_session()
 
@@ -546,31 +577,7 @@ def submit_post(v, hole=None):
 			stop(400, "You have to type less than 140 characters!")
 
 
-	embed = None
-
-	if url:
-		url = normalize_url(url)
-
-		domain = tldextract.extract(url).registered_domain
-
-		if v.admin_level < PERMS["IGNORE_DOMAIN_BAN"]:
-			combined = (domain + urlparse(url).path).lower()
-			for x in g.db.query(BannedDomain):
-				if combined.startswith(x.domain):
-					stop(400, f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
-
-		if domain == "x.com" and '/status/' in url:
-			try:
-				embed = requests.get("https://publish.x.com/oembed", params={"url":url, "omit_script":"t", "dnt":"t"}, headers=HEADERS, timeout=5).json()["html"]
-				embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
-			except: pass
-		elif url.startswith('https://youtube.com/watch?'):
-			embed = handle_youtube_links(url)
-		elif SITE in domain and "/post/" in url and "context" not in url and url.count('/') < 6:
-			id = url.split("/post/")[1]
-			if "/" in id: id = id.split("/")[0]
-			embed = str(int(id))
-
+	embed = _make_post_embed(url, v)
 
 	if not url and not body and not request.files.get("file") and not request.files.get("file-url"):
 		stop(400, "Please enter a url or some text!")
@@ -603,9 +610,6 @@ def submit_post(v, hole=None):
 	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
 
 	if flag_ghost: hole = None
-
-	if embed and len(embed) > 1500: embed = None
-	if embed: embed = embed.strip()
 
 	if url == '': url = None
 
@@ -1202,6 +1206,7 @@ def edit_post(pid, v):
 		changed = True
 	elif url != p.url:
 		p.url = url
+		p.embed = _make_post_embed(p.url, v)
 		changed = True
 		change_thumb = True
 
