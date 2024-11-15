@@ -950,6 +950,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('chomikheroin', 'Misc', 2, 'hamster drugs opiod poland piracy spoon', false, 1699941944),
 ('chrischad', 'Wojak', 2, 'chrischan sonichu lolcow cwc', false, 1704065242),
 ('chrismutt', 'Wojak', 2, 'autism autistics chrischan chrischanmutt cwcmutt internets lolcows retarded retards sonichu spergs virgins', false, 1726188294),
+('chtorrr', 'Misc', 2, 'admin ban fat janny reddit', false, 1731619923),
 ('chubbyemu', 'Misc', 2, 'doctor asian food illness sick', false, 1680411933),
 ('chuckbuddy', 'Misc', 2, 'invert cat irl', false, 0),
 ('chudba', 'Misc', 2, 'enemy goomba mario mob right shooter walk wing', false, 1721436256),
