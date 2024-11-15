@@ -1604,7 +1604,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('kappa', 'Marsey Alphabet', 2, 'κ', false, 0),
 ('kaptainkroolblunderbuss', 'Donkey Kong', 2, 'crocodile gun pirate boss kremling donkeykong', false, 1679330773),
 ('kazakhstan', 'Misc', 2, 'flag', false, 0),
-('keanuwould', 'Misc', 2, 'keanu would', false, 1687980842),
 ('keffalscry', 'Misc', 2, 'clara sorrenti trans kiwi farms dox global news interview bathtub', false, 1679163875),
 ('kenjak', 'Wojak', 2, 'kenough barbie', false, 1691422871),
 ('keyeddance', 'Misc', 2, 'bateman dancing americanpsycho christianbale', false, 1682880587),
