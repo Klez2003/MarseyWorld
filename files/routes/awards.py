@@ -552,6 +552,9 @@ def award_thing(v, thing_type, id):
 					obj.unpin_parents()	
 			else: obj.pinned_utc = t
 	elif kind == "queen":
+		if author.username.startswith('deleted~'):
+			stop(403, "Recipient account is deleted!")
+
 		if not author.queen:
 			characters = list(filter(str.isalpha, author.username))
 			if characters:
@@ -610,6 +613,9 @@ def award_thing(v, thing_type, id):
 			obj.chudded = True
 			complies_with_chud(obj)
 	elif kind == "flairlock":
+		if author.username.startswith('deleted~'):
+			stop(403, "Recipient account is deleted!")
+
 		new_flair = note
 
 		if len(new_flair) > 100:
