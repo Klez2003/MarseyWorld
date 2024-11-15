@@ -40,7 +40,7 @@ def _make_post_url():
 	if url == '': url = None
 	return url
 
-def _make_post_embed(url, v):
+def _check_domain_ban_and_make_post_embed(url, v):
 	if not url:
 		return None
 
@@ -622,7 +622,7 @@ def submit_post(v, hole=None):
 			stop(400, "You have to type less than 140 characters!")
 
 
-	embed = _make_post_embed(url, v)
+	embed = _check_domain_ban_and_make_post_embed(url, v)
 
 	if not url and not body and not request.files.get("file") and not request.files.get("file-url"):
 		stop(400, "Please enter a url or some text!")
@@ -1200,7 +1200,7 @@ def edit_post(pid, v):
 		changed = True
 	elif url != p.url:
 		p.url = url
-		p.embed = _make_post_embed(p.url, v)
+		p.embed = _check_domain_ban_and_make_post_embed(p.url, v)
 		changed = True
 		change_thumb = True
 
