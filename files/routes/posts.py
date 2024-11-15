@@ -70,6 +70,28 @@ def _make_post_embed(url, v):
 	if embed: embed = embed.strip()
 	return embed
 
+def _process_post_attachement(p, v):
+	file = request.files['file-url']
+
+	if file.content_type.startswith('image/'):
+		name = f'/images/{time.time()}'.replace('.','') + '.webp'
+		file.save(name)
+		p.url = process_image(name, v)
+
+		name2 = name.replace('.webp', 'r.webp')
+		copyfile(name, name2)
+		p.thumburl = process_image(name2, v, resize=199)
+	elif file.content_type.startswith('video/'):
+		p.url, p.posterurl, name = process_video(file, v, post=p)
+		if p.posterurl:
+			name2 = name.replace('.webp', 'r.webp')
+			copyfile(name, name2)
+			p.thumburl = process_image(name2, v, resize=199)
+	elif file.content_type.startswith('audio/'):
+		p.url = process_audio(file, v)
+	else:
+		stop(415)
+
 
 def _add_post_view(pid):
 	db = db_session()
@@ -680,26 +702,7 @@ def submit_post(v, hole=None):
 	g.db.add(vote)
 
 	if request.files.get('file-url') and not g.is_tor:
-		file = request.files['file-url']
-
-		if file.content_type.startswith('image/'):
-			name = f'/images/{time.time()}'.replace('.','') + '.webp'
-			file.save(name)
-			p.url = process_image(name, v)
-
-			name2 = name.replace('.webp', 'r.webp')
-			copyfile(name, name2)
-			p.thumburl = process_image(name2, v, resize=199)
-		elif file.content_type.startswith('video/'):
-			p.url, p.posterurl, name = process_video(file, v, post=p)
-			if p.posterurl:
-				name2 = name.replace('.webp', 'r.webp')
-				copyfile(name, name2)
-				p.thumburl = process_image(name2, v, resize=199)
-		elif file.content_type.startswith('audio/'):
-			p.url = process_audio(file, v)
-		else:
-			stop(415)
+		_process_post_attachement(p, v)
 	elif p.url and p.url.startswith(SITE_FULL_VIDEOS):
 		filename = '/videos' + p.url.split(SITE_FULL_VIDEOS)[1]
 		media = g.db.get(Media, filename)
@@ -1185,26 +1188,7 @@ def edit_post(pid, v):
 	url = _make_post_url()
 
 	if request.files.get('file-url') and not g.is_tor:
-		file = request.files['file-url']
-
-		if file.content_type.startswith('image/'):
-			name = f'/images/{time.time()}'.replace('.','') + '.webp'
-			file.save(name)
-			p.url = process_image(name, v)
-
-			name2 = name.replace('.webp', 'r.webp')
-			copyfile(name, name2)
-			p.thumburl = process_image(name2, v, resize=199)
-		elif file.content_type.startswith('video/'):
-			p.url, p.posterurl, name = process_video(file, v, post=p)
-			if p.posterurl:
-				name2 = name.replace('.webp', 'r.webp')
-				copyfile(name, name2)
-				p.thumburl = process_image(name2, v, resize=199)
-		elif file.content_type.startswith('audio/'):
-			p.url = process_audio(file, v)
-		else:
-			stop(415)
+		_process_post_attachement(p, v)
 		changed = True
 	elif url != p.url:
 		p.url = url
