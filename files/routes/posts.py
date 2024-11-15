@@ -1168,9 +1168,6 @@ def edit_post(pid, v):
 
 		p.body = body
 
-		for text in [p.body, p.title, p.url]:
-			if execute_blackjack(v, p, text, 'post'): break
-
 		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
 			stop(400, "Rendered post body is too long!")
 
@@ -1232,6 +1229,8 @@ def edit_post(pid, v):
 	if not p.draft and not complies_with_chud(p):
 		stop(403, f'You have to include "{p.author.chud_phrase}" in your post!')
 
+	for text in [p.body, p.title, p.url]:
+		if execute_blackjack(v, p, text, 'post'): break
 
 	if v.id == p.author_id:
 		if not p.draft and int(time.time()) - p.created_utc > 60 * 3:
