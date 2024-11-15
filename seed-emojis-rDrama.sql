@@ -368,6 +368,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('capyshy', 'Capy', 2, 'aevann blush flushed uwu anxious', false, 0),
 ('capyskiploom', 'Capy', 2, 'pkmn pokemon 188', false, 1709493839),
 ('capysmoliv', 'Capy', 2, 'pkmn pokemon 928', false, 1714222187),
+('capysmug', 'Capy', 2, 'aevann cute hand imagine lick reaction smile snicker', false, 1731640319),
 ('capysneedboat', 'Capy', 2, 'aevann', false, 0),
 ('capysneedboat2', 'Capy', 2, 'marsey schizo schizocel rare tripping love excited seethe schizomarsey', false, 0),
 ('capysoren', 'Capy', 2, 'aevann', false, 1695158487),
