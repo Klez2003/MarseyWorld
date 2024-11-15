@@ -232,9 +232,7 @@ def speak(data, v):
 					send_notification(user.id, f"@{v.username} has removed you as a mod of their chat [{chat.name}](/chat/{chat.id})")
 
 	if chat.id != 1:
-		print(get_referrer(), flush=True)
 		alrdy_here = set(online[get_referrer()].keys())
-		print(alrdy_here, flush=True)
 		memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
 			ChatMembership.chat_id == chat_id,
 			ChatMembership.user_id.notin_(alrdy_here),
