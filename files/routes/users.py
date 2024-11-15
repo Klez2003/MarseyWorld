@@ -179,11 +179,11 @@ def transfer_currency(v, username, currency_name, apply_tax):
 		tax = math.ceil(amount*TAX_PCT)
 
 	if v.shadowbanned:
-		return {"message": f"{amount - tax} {currency_name} have been transferred to @{receiver.username}"}
+		return {"message": f"{commas(amount-tax)} {currency_name} have been transferred to @{receiver.username}"}
 
 	reason = request.values.get("reason", "").strip()
-	log_message = f"@{v.username} has transferred {amount} {currency_name} to @{receiver.username}"
-	notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} {currency_name}!"
+	log_message = f"@{v.username} has transferred {commas(amount)} {currency_name} to @{receiver.username}"
+	notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {commas(amount-tax)} {currency_name}!"
 
 	if reason:
 		if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT:
@@ -199,14 +199,14 @@ def transfer_currency(v, username, currency_name, apply_tax):
 		pay_reason = f'Gift from <a href="/id/{v.id}">@{v.username}</a>'
 		receiver.pay_account(currency_name, amount - tax, pay_reason)
 	else:
-		raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
+		raise ValueError(f"Invalid currency '{currency_name}' got when transferring {commas(amount)} from {v.id} to {receiver.id}")
 
 	if CURRENCY_TRANSFER_ID:
 		send_repeatable_notification(CURRENCY_TRANSFER_ID, log_message)
 
 	send_repeatable_notification(receiver.id, notif_text)
 
-	return {"message": f"{commas(amount - tax)} {currency_name} have been transferred to @{receiver.username}"}
+	return {"message": f"{commas(amount-tax)} {currency_name} have been transferred to @{receiver.username}"}
 
 def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v)
