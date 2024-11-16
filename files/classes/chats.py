@@ -110,7 +110,7 @@ class ChatMessage(Base):
 	@property
 	@lazy
 	def permalink(self):
-		return f"{SITE_FULL}/chat/{self.chat_id}#{self.id}"
+		return f"{SITE_FULL}/chat/{self.chat_id}?m={self.id}#{self.id}"
 
 	@property
 	@lazy
