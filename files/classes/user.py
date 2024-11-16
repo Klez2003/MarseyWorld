@@ -1369,8 +1369,8 @@ class User(Base):
 		if self.can_see_restricted_holes != None:
 			return self.can_see_restricted_holes
 
-		one_month_ago = time.time() - 2592000
-		if self.truescore >= TRUESCORE_MINIMUM and self.created_utc < one_month_ago:
+		two_weeks_ago = time.time() - 1209600
+		if self.truescore >= TRUESCORE_MINIMUM and self.created_utc < two_weeks_ago:
 			return True
 
 		return False
