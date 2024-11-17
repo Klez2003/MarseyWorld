@@ -378,6 +378,7 @@ def award_thing(v, thing_type, id):
 
 		if SITE_NAME == 'WPD':
 			for x in get_alt_graph(author.id):
+				if x.deflector: continue
 				x.ban(reason=ban_reason, days=quantity, modlog=False, original_user=author)
 				one_month_ago = time.time() - 2592000
 				if x.last_active > one_month_ago:
@@ -398,6 +399,8 @@ def award_thing(v, thing_type, id):
 	
 		if SITE_NAME == 'WPD':
 			for x in get_alt_graph(author.id):
+				if x.deflector: continue
+
 				if not x.is_suspended or not x.unban_utc or not x.ban_reason.startswith('Ban award'):
 					continue
 
