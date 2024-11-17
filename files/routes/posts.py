@@ -426,7 +426,8 @@ def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, e
 
 
 		#thumbnail
-		if not generate_thumb: return
+		if not generate_thumb or not post_url:
+			return
 
 		if post_url.startswith('/') and '\\' not in post_url:
 			post_url = f"{SITE_FULL}{post_url}"
