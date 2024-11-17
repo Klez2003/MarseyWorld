@@ -482,7 +482,7 @@ if SITE_NAME == 'rDrama':
 		'erstory',
 	}
 
-	OFFSITE_NOTIF_QUERIES.update({'marsey', 'r/drama', 'justice4darrell', 'cringetopia.org', 'rdramanet.github.io', 'aevann', 'carpathianflorist'})
+	OFFSITE_NOTIF_QUERIES.update({'marsey', 'r/drama', 'justice4darrell', 'cringetopia.org', 'rdramanet.github.io', 'aevann'})
 
 elif SITE_NAME == 'WPD':
 	FEATURES['PATRON_ICONS'] = True
