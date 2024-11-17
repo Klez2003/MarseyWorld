@@ -35,7 +35,8 @@ from files.__main__ import app, limiter
 def _make_post_url():
 	url = request.values.get("url", "").replace('\x00', '').strip()
 	if url == '': return None
-	if '\\' in url: stop(400)
+	if '\\' in url:
+		stop(400)
 	if len(url) > 2048:
 		stop(400, "There's a 2048 character limit for URLs!")
 	return normalize_url(url)
