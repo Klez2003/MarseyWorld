@@ -450,6 +450,8 @@ if SITE_NAME == 'rDrama':
 		"Come for the cats. Stay for the empathy.",
 		"gay cat dating site",
 		"you WILL be trans",
+		"always there for you",
+		"pure unadulterated autiam",
 	)
 
 	BOOSTED_HOLES = {
