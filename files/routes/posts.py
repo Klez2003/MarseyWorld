@@ -34,18 +34,17 @@ from files.__main__ import app, limiter
 
 def _make_post_url():
 	url = request.values.get("url", "").replace('\x00', '').strip()
+	if url == '': return None
 	if '\\' in url: stop(400)
 	if len(url) > 2048:
 		stop(400, "There's a 2048 character limit for URLs!")
-	if url == '': url = None
-	return url
+	return normalize_url(url)
 
 def _check_domain_ban_and_make_post_embed(url, v):
 	if not url:
 		return None
 
 	embed = None
-	url = normalize_url(url)
 	domain = tldextract.extract(url).registered_domain
 
 	if v.admin_level < PERMS["IGNORE_DOMAIN_BAN"]:
