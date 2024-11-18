@@ -379,6 +379,8 @@ def _unpin_expired():
 
 def _give_marseybux_salary():
 	for u in g.db.query(User).filter(User.admin_level > 0).all():
+		if SITE == 'rdrama.net' and u.admin_level == 2:
+			continue
 		marseybux_salary = u.admin_level * 10000
 		if SITE_NAME == 'WPD':
 			marseybux_salary *= 2
