@@ -7679,6 +7679,8 @@ img[src$="/e/speechbubble.webp"] {
 	display: inline !important;
 	width: min(100%, 552px);
     vertical-align: middle;
+    z-index: 0;
+    position: relative;
 }
 
 p:has(.reddit-embed, .twitter-embed) {
