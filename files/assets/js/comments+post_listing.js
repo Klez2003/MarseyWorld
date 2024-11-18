@@ -158,3 +158,10 @@ document.addEventListener("click", function(e) {
 		bs_trigger(generated_popover)
 	}
 });
+
+function award_timestamp(t) {
+	const date = formatDate(new Date(t.dataset.on*1000));
+	const text = t.getAttribute("data-bs-original-title")
+	t.setAttribute("data-bs-original-title", `${text} on ${date.toString()}`);
+	t.removeAttribute("data-onmouseover")
+}
