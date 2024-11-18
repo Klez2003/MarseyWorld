@@ -1284,7 +1284,7 @@ INSERT INTO public.hat_defs VALUES (1422, 'Star Cowboy Hat', 'This star represen
 INSERT INTO public.hat_defs VALUES (1423, 'CuddlyBear3', 'Bear hugs are welcome.', 2, 500, NULL, 1705794874);
 INSERT INTO public.hat_defs VALUES (1438, 'British Cap', 'Back to the chimney sweeping days.', 2, 500, NULL, 1706152998);
 INSERT INTO public.hat_defs VALUES (1424, 'Jotaro', 'From Jojo''s Bizarre Adventure. ORA ORA ORA ORA.', 2, 500, NULL, 1705794911);
-INSERT INTO public.hat_defs VALUES (1425, 'Edgy Cap (gray)', 'Gray and okay. Pay no mind to me i guess...', 2, 500, NULL, 1705794950);
+INSERT INTO public.hat_defs VALUES (1425, 'Edgy Cap (grey)', 'Grey and okay. Pay no mind to me i guess...', 2, 500, NULL, 1705794950);
 INSERT INTO public.hat_defs VALUES (1426, 'Id Win', 'If all the femboys and furries teamed up they might give me a little trouble. "would you lose?". Nah I''d win', 2, 500, NULL, 1705883159);
 INSERT INTO public.hat_defs VALUES (1427, 'Kuromi Chan Head Band', 'I''m a fucking bat.', 2, 500, NULL, 1705886610);
 INSERT INTO public.hat_defs VALUES (1432, 'Kuromi Chan Cap', 'Bitch, don''t hate me cause i''m beautiful.', 2, 500, NULL, 1705886747);
