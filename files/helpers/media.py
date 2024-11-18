@@ -48,7 +48,7 @@ def media_ratelimit(v):
 def process_files(files, v, body, is_dm=False, dm_user=None, is_badge_thread=False, comment_body=None):
 	if g.is_tor or not files.get("file"): return body
 
-	files = files.getlist('file')[:20]
+	files = files.getlist('file')[:50]
 
 	if files:
 		media_ratelimit(v)
@@ -61,7 +61,10 @@ def process_files(files, v, body, is_dm=False, dm_user=None, is_badge_thread=Fal
 		if file.content_type.startswith('image/'):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			file.save(name)
-			url = process_image(name, v)
+			try: url = process_image(name, v)
+			except Exception as e:
+				print(e)
+				continue
 			if is_badge_thread:
 				process_badge_entry(name, v, comment_body)
 		elif file.content_type.startswith('video/'):

@@ -576,9 +576,9 @@ function handle_files(input, newfiles) {
 	}
 
 	for (let file of newfiles) {
-		if (oldfiles[ta.id].items.length == 20)
+		if (oldfiles[ta.id].items.length == 50)
 		{
-			window.alert("You can't upload more than 20 files at one time!")
+			window.alert("You can't upload more than 50 files at one time!")
 			break
 		}
 	
