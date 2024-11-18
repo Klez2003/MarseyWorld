@@ -7782,54 +7782,52 @@ p:empty + p { /* poll margin */
     width: 285px;
 }
 
-.quote:focus, .quote:hover, .quote:active,
-.del:focus, .del:hover, .del:active,
-.caction:not(.score-btn):focus, .caction:not(.score-btn):hover, .caction:not(.score-btn):active,
-.post-actions > .list-inline  > .list-inline-item:not(.voting):focus,
+.quote:hover, .quote:active,
+.del:hover, .del:active,
+.caction:not(.score-btn):hover, .caction:not(.score-btn):active,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):hover,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):active,
-.sidebar-link:focus, .sidebar-link:hover, .sidebar-link:active,
-.mx-1.text-center.nav-item:focus, .mx-1.text-center.nav-item:hover, .mx-1.text-center.nav-item:active,
+.sidebar-link:hover, .sidebar-link:active,
+.mx-1.text-center.nav-item:hover, .mx-1.text-center.nav-item:active,
 
-.caction:not(.score-btn):focus *, .caction:not(.score-btn):hover *, .caction:not(.score-btn):active *,
-.post-actions > .list-inline  > .list-inline-item:not(.voting):focus *,
+.caction:not(.score-btn):hover *, .caction:not(.score-btn):active *,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):hover *,
 .post-actions > .list-inline  > .list-inline-item:not(.voting):active *,
-.sidebar-link:focus *, .sidebar-link:hover *, .sidebar-link:active *,
-.mx-1.text-center.nav-item:not(#header--notifications--item):focus *, .mx-1.text-center.nav-item:not(#header--notifications--item):hover *, .mx-1.text-center.nav-item:not(#header--notifications--item):active * 
+.sidebar-link:hover *, .sidebar-link:active *,
+.mx-1.text-center.nav-item:not(#header--notifications--item):hover *, .mx-1.text-center.nav-item:not(#header--notifications--item):active * 
 {
 	color: var(--primary) !important;
 }
 
-.btn.btn-primary:focus, .btn.btn-primary:hover, .btn.btn-primary:active,
-.btn.btn-secondary:focus, .btn.btn-secondary:hover, .btn.btn-secondary:active,
-.searchparam:focus, .searchparam:hover, .searchparam:active {
+.btn.btn-primary:hover, .btn.btn-primary:active,
+.btn.btn-secondary:hover, .btn.btn-secondary:active,
+.searchparam:hover, .searchparam:active {
     color: white !important;
     background-color: var(--primary) !important;
     border-color: var(--primary) !important;
 }
 
-.btn.btn-danger:focus, .btn.btn-danger:hover, .btn.btn-danger:active {
+.btn.btn-danger:hover, .btn.btn-danger:active {
     color: white !important;
     background-color: #dc3545 !important;
     border-color: #dc3545 !important;
 }
 
-.btn.btn-success:focus, .btn.btn-success:hover, .btn.btn-success:active {
+.btn.btn-success:hover, .btn.btn-success:active {
     color: white !important;
     background-color: #38A169 !important;
     border-color: #38A169 !important;
 }
 
-.btn.btn-primary:focus .fas, .btn.btn-primary:hover .fas, .btn.btn-primary:active .fas,
-.btn.btn-secondary:focus .fas, .btn.btn-secondary:hover .fas, .btn.btn-secondary:active .fas,
-.btn.btn-danger:focus .fas, .btn.btn-danger:hover .fas, .btn.btn-danger:active .fas,
-.btn.btn-success:focus .fas, .btn.btn-success:hover .fas, .btn.btn-success:active .fas {
+.btn.btn-primary:hover .fas, .btn.btn-primary:active .fas,
+.btn.btn-secondary:hover .fas, .btn.btn-secondary:active .fas,
+.btn.btn-danger:hover .fas, .btn.btn-danger:active .fas,
+.btn.btn-success:hover .fas, .btn.btn-success:active .fas {
     color: white !important;
 }
 
-.d-md-none .nav-item:not(.nohighlight):focus, .d-md-none .nav-item:not(.nohighlight):hover, .d-md-none .nav-item:not(.nohighlight):active,
-.modal .post-actions .btn-link:focus, .modal .post-actions .btn-link:hover, .modal .post-actions .btn-link:active {
+.d-md-none .nav-item:not(.nohighlight):hover, .d-md-none .nav-item:not(.nohighlight):active,
+.modal .post-actions .btn-link:hover, .modal .post-actions .btn-link:active {
 	background-color: var(--gray-300) !important;
 }
 
