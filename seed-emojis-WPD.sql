@@ -42,6 +42,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('capybloodymaniac', 'Capy', 2, 'crazy laughing scary psycho horror', false, 1716472058),
 ('capyblushreal', 'Capy', 2, 'love embarrassed', false, 1699564294),
 ('capybowtiereal', 'Capy', 2, 'cute', false, 1708095152),
+('capychristmas', 'Capy', 2, 'merryvann', false, 1731941855),
 ('capycry', 'Capy', 2, 'sad tears', false, 1705164484),
 ('capycryreal', 'Capy', 2, 'tear tears realistic sad sorrow onion onions', false, 1699399067),
 ('capycutemarshmallow1', 'Capy', 2, 'marshmallowcapycute', false, 1723820300),
