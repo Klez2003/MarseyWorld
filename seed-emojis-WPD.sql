@@ -700,6 +700,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseymesmerized', 'Marsey', 2, 'amazed astonished impressed beautiful', false, 1699486721),
 ('marseymetled', 'Marsey', 2, 'melted nxt smirk smug wwe', false, 1721324504),
 ('marseymewmew', 'Marsey', 2, 'pkmn pokemon 151', false, 1699294164),
+('marseymexico', 'Marsey', 2, 'bloody cartel maimed mexican sombrero', false, 1731825181),
 ('marseymichelob', 'Marsey', 2, 'beer alcohol', false, 1719115118),
 ('marseymidori', 'Marsey', 2, 'anime weebshit', false, 1699692984),
 ('marseymikucos', 'Marsey', 2, 'cosplay hatsune hatsunemiku', false, 1725851882),
