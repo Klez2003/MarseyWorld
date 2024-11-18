@@ -176,6 +176,8 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		or (target.domain in BOOSTED_SITES and not target.url.startswith('/')) \
 		or any(i in target.domain for i in ('forum','community','board','chan','lemmy','mastodon','stackoverflow.com','stackexchange.com')):
 			mul = 2
+	elif target.author.new_user:
+		mul = 1.25
 
 	if target.body_html and target.author.id != SNAPPY_ID and not (cls == Post and target.hole == 'mnn'):
 		x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
