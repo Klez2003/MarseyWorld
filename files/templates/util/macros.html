@@ -32,9 +32,9 @@
 	{% for a in p.awards %}
 		<span class="mr-1">
 			{% if a.kind in ["emoji","emoji-hz"] %}
-				<img class="emoji-award-icon" alt='{{a.title}} Award given by @{{a.user.username}}: "{{a.note}}"' data-bs-toggle="tooltip" loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{a.note}}.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title='{{a.title}} Award given by @{{a.user.username}}: "{{a.note}}"' {% if a.awarded_utc %}data-on="{{a.awarded_utc}}" data-nonce="{{g.nonce}}" data-onmouseover="award_timestamp(this)"{% endif %}>
+				<img class="emoji-award-icon" alt='{{a.title}} Award given by @{{a.user.username}}: "{{a.note}}"' data-bs-toggle="tooltip" loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{a.note}}.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title='{{a.title}} Award given by @{{a.user.username}}: "{{a.note}}"' {% if a.awarded_utc and a.kind == "deflector" %}data-on="{{a.awarded_utc}}" data-nonce="{{g.nonce}}" data-onmouseover="award_timestamp(this)"{% endif %}>
 			{% else %}
-				<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title='{{a.title}} Award given by @{{a.user.username}}{% if a.kind in ["chud","namelock","flairlock"] %}: "{{a.note}}"{% endif %}' {% if a.awarded_utc %}data-on="{{a.awarded_utc}}" data-nonce="{{g.nonce}}" data-onmouseover="award_timestamp(this)"{% endif %}></i>
+				<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title='{{a.title}} Award given by @{{a.user.username}}{% if a.kind in ["chud","namelock","flairlock"] %}: "{{a.note}}"{% endif %}' {% if a.awarded_utc and a.kind == "deflector" %}data-on="{{a.awarded_utc}}" data-nonce="{{g.nonce}}" data-onmouseover="award_timestamp(this)"{% endif %}></i>
 			{% endif %}
 		</span>
 	{% endfor %}
