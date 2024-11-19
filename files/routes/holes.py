@@ -308,6 +308,12 @@ def add_mod(v, hole):
 	if hole in {'furry','vampire','racist','femboy','edgy'} and not v.client and not user.house.lower().startswith(hole):
 		stop(403, f"@{user.username} needs to be a member of House {hole.capitalize()} to be added as a mod there!")
 
+	if user.has_muted(v):
+		stop(403, f"@{user.username} has muted you, so you can't add them as a mod!")
+
+	if user.has_blocked(v):
+		stop(403, f"@{user.username} has blocked you, so you can't add them as a mod!")
+
 	existing = g.db.query(Mod).filter_by(user_id=user.id, hole=hole).one_or_none()
 
 	if not existing:
