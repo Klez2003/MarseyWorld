@@ -257,7 +257,7 @@ def award_thing(v, thing_type, id):
 		msg_note = '\n\n> ' + '\n\n> '.join(note.splitlines())
 
 	if v.id != author.id:
-		if author.deflector and v.deflector and AWARDS[kind]['deflectable'] and v.admin_level < PERMS['IMMUNE_TO_DEFLECTIONS']:
+		if v.deflector and author.deflector and AWARDS[kind]['deflectable'] and v.admin_level < PERMS['IMMUNE_TO_DEFLECTIONS'] and not v.penetrator:
 			msg = f"@{v.username} has tried to give {obj.textlink} {quantity} {award_title} award{s} but {it} {was} deflected on them, they also had a deflector up, so {it} bounced back and forth until {it} vaporized!"
 			
 			if note:
@@ -270,7 +270,7 @@ def award_thing(v, thing_type, id):
 
 			return {"message": f"{quantity} {award_title} award{s} given to {thing_type} successfully!"}
 
-		if author.deflector and AWARDS[kind]['deflectable'] and v.admin_level < PERMS['IMMUNE_TO_DEFLECTIONS']:
+		if author.deflector and AWARDS[kind]['deflectable'] and v.admin_level < PERMS['IMMUNE_TO_DEFLECTIONS'] and not v.penetrator:
 			author = v
 			safe_username = f"Your award{s} {has} been deflected but failed since you're"
 
@@ -293,7 +293,7 @@ def award_thing(v, thing_type, id):
 				else:
 					author.pay_account('coins', awarded_coins, f"{quantity} {award_title} award{s} on {obj.textlink}")
 
-	can_alter_body = not obj.author.deflector or v == obj.author
+	can_alter_body = not obj.author.deflector or v == obj.author or v.penetrator
 
 	if kind in {"ban", "grass"}:
 		if author.is_suspended and author.ban_reason.startswith('Grass award'):
@@ -450,9 +450,11 @@ def award_thing(v, thing_type, id):
 		badge_grant(user=author, badge_id=109)
 	elif kind == "deflector":
 		if author.id in IMMUNE_TO_NEGATIVE_AWARDS:
-			stop(400, f"{safe_username} immune to negative awards!")
+			stop(400, f"{safe_username} immune to negative awards!") #he's immune, so why put a deflector on him and deprive him of positive awards
 		if author.deflector: author.deflector += 36000 * quantity
 		else: author.deflector = int(time.time()) + 36000 * quantity
+	elif kind == "penetrator":
+		author.penetrator += 1
 	elif kind == 'marsify':
 		if not author.marsify or author.marsify != 1:
 			if author.marsify: author.marsify += 86400 * quantity
@@ -540,7 +542,7 @@ def award_thing(v, thing_type, id):
 		if not obj.pinned_utc:
 			stop(400, f"This {thing_type} is not pinned!")
 
-		if not obj.author.deflector or v == obj.author:
+		if not obj.author.deflector or v == obj.author or v.penetrator:
 			if isinstance(obj, Comment):
 				t = obj.pinned_utc - 3600*6 * quantity
 			else:
@@ -722,17 +724,25 @@ def award_thing(v, thing_type, id):
 	author = obj.author
 	if v.id != author.id:
 		if author.deflector and AWARDS[kind]['deflectable'] and v.admin_level < PERMS['IMMUNE_TO_DEFLECTIONS']:
-			msg = f"@{v.username} has tried to give {obj.textlink} {quantity} {award_title} award{s} but {it} {was} deflected and applied to them :marseytroll:"
+			if v.penetrator:
+				v.penetrator -= 1
+				g.db.add(v)
 
-			if note:
-				msg += msg_note
+				msg = f"@{v.username} has tried to give {obj.textlink} {quantity} {award_title} award{s} but {it} {was} deflected and applied to... JUST KIDDING BITCH THEY HAD A PENETRATOR ON, YOU'VE BEEN <b>PENETRATED</b> :marseytroll::marseytroll::marseytroll:"
+				if note:
+					msg += msg_note
+				n = send_repeatable_notification(author.id, msg)
+				if n: n.created_utc -= 2
+			else:
+				msg = f"@{v.username} has tried to give {obj.textlink} {quantity} {award_title} award{s} but {it} {was} deflected and applied to them :marseytroll:"
+				if note:
+					msg += msg_note
+				n = send_repeatable_notification(author.id, msg)
+				if n: n.created_utc -= 2
 
-			n = send_repeatable_notification(author.id, msg)
-			if n: n.created_utc -= 2
-
-			msg = f"@{obj.author_name} is under the effect of a deflector award; your {award_title} award{s} {has} been deflected back to you :marseytroll:"
-			n = send_repeatable_notification(v.id, msg)
-			if n: n.created_utc -= 2
+				msg = f"@{obj.author_name} is under the effect of a deflector award; your {award_title} award{s} {has} been deflected back to you :marseytroll:"
+				n = send_repeatable_notification(v.id, msg)
+				if n: n.created_utc -= 2
 		elif kind not in {'spider', 'jumpscare'}:
 			msg = f"@{v.username} has given {obj.textlink} {quantity} {award_title} award{s}"
 

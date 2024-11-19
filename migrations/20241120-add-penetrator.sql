@@ -1,0 +1,1 @@
+alter table users add column penetrator int not null default 0;

@@ -120,6 +120,7 @@ class User(Base):
 	show_sigs = Column(Boolean, default=True)
 	progressivestack = Column(Integer, default=0)
 	deflector = Column(Integer, default=0)
+	penetrator = Column(Integer, default=0)
 	friends = deferred(Column(String))
 	friends_html = deferred(Column(String))
 	enemies = deferred(Column(String))

@@ -292,6 +292,11 @@
 								<p id="profile--info--discount">Total award discount: <spoiler>{{u.formatted_award_discount}}</spoiler> (visible to you only)</p>
 							{% endif %}
 
+							{% if v.id == u.id %}
+								<p id="profile--info--deflectors">Current Deflectors: {% if v.deflector %}<span data-time="{{v.deflector}}"></span>{% else %}0{% endif %} (visible to you only)</p>
+								<p id="profile--info--penetrators">Current Penetrators: {{v.penetrator}} (visible to you only)</p>
+							{% endif %}
+
 							{% if u.private_posts %}
 								<p id="profile--info--private-posts">User has a private post history.</p>
 							{% endif %}
@@ -617,6 +622,11 @@
 						{% elif v.id == u.id or v.admin_level >= PERMS['VIEW_PATRONS'] %}
 							<p id="profile-mobile--info--lifetime-donated">Lifetime donated: <spoiler>${{u.lifetimedonated|commas}}</spoiler> (visible to you only)</p>
 							<p id="profile-mobile--info--discount">Total award discount: <spoiler>{{u.formatted_award_discount}}</spoiler> (visible to you only)</p>
+						{% endif %}
+
+						{% if v.id == u.id %}
+							<p id="profile-mobile--info--deflectors">Current Deflectors: {% if v.deflector %}<span data-time="{{v.deflector}}"></span>{% else %}0{% endif %} (visible to you only)</p>
+							<p id="profile-mobile--info--penetrators">Current Penetrators: {{v.penetrator}} (visible to you only)</p>
 						{% endif %}
 
 						{% if u.private_posts %}
