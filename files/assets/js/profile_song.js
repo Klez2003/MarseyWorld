@@ -8,6 +8,7 @@ const anthem_button_mobile = document.getElementById('toggle-anthem-mobile')
 
 function play_audio(audio) {
 	audio.play()
+	prepare_to_pause(audio)
 	if (anthem_button && !audio.paused) {
 		anthem_button.classList.add('text-primary')
 		anthem_button_mobile.classList.add('text-primary')
@@ -32,8 +33,6 @@ function play_profile_song() {
 				return
 			if (audio.paused) play_audio(audio);
 		}, {once : true});
-
-		prepare_to_pause(audio)
 	})
 }
 
