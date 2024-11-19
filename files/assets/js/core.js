@@ -279,7 +279,12 @@ function prepare_to_pause(audio) {
 	{
 		if (e == audio) continue
 		e.addEventListener('play', () => {
-			if (!audio.paused) audio.pause();
+				e.addEventListener('ended', () => {
+					audio.play();
+				}, {once : true})
+				e.addEventListener('pause', () => {
+					audio.play();
+				}, {once : true})
 			if (typeof lightningInternval !== 'undefined')
 				clearInterval(lightningInternval)
 		});
