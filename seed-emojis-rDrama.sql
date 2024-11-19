@@ -3718,7 +3718,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyjesus2', 'Marsey', 2, 'crucify crucifixion christianity easter persecuted religion saint martyr religious cross', false, 0),
 ('marseyjetbombing', 'Marsey', 2, 'obama bush animated usa american pilot bomber plane war usaf air force', false, 0),
 ('marseyjetfighter', 'Marsey', 2, 'pilot plane airforce air force usaf bomber dogfight war', false, 0),
-('marseyjewcrybackstab', 'Marsey', 2, 'antisemitism betrayal kippah knife kosher merchant nazi yamka', false, 1728766847),
 ('marseyjewish', 'Marsey', 2, 'religon hat yarmulke yid kike sheeny sheenie heeb merchant israeli', false, 1665706842),
 ('marseyjewishkkk', 'Marsey', 2, 'klan israel racism hood blue', false, 1664491568),
 ('marseyjewoftheorient', 'Marsey', 2, 'china chinese greedy jewish merchant', false, 0),
