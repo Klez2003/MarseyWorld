@@ -96,7 +96,7 @@
 
 							{% if p.effortpost and not p.draft %}
 								{# need SITE_FULL here cuz https://watchpeopledie.tv/h/meta/post/61549/megathread-for-bugs-and-suggestions/4228859#context #} 
-								<a href="{{SITE_FULL}}?effortposts_only=True" class="post-flair effortpost-flair font-weight-bolder mr-1">EFFORTPOST</a>
+								<a href="{{SITE_FULL}}?effortposts_only=true" class="post-flair effortpost-flair font-weight-bolder mr-1">EFFORTPOST</a>
 							{% endif %}
 
 							{% if p.flair %}<span class="post-flair font-weight-bolder mr-1">{{p.flair | safe}}</span>{% endif %}
