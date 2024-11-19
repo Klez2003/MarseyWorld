@@ -37,7 +37,7 @@ def media_ratelimit(v):
 	if v.patron or (SITE == 'rdrama.net' and v.id == 2158):
 		limit = 300 
 	else:
-		limit = 100
+		limit = 200
 
 	if count > limit and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
 		print(STARS, flush=True)
