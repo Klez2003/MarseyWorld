@@ -27,7 +27,7 @@ def front_all(v, hole=None):
 
 	page = get_page()
 
-	effortposts_only = request.values.get('effortposts_only') == 'true'
+	effortposts_only = request.values.get('effortposts_only') == '1'
 
 	if effortposts_only:
 		defaultsorting = 'new'
