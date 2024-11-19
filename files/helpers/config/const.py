@@ -452,6 +452,7 @@ if SITE_NAME == 'rDrama':
 		"you WILL be trans",
 		"always there for you",
 		"pure unadulterated autiam",
+		"the fifth caliphate",
 	)
 
 	BOOSTED_HOLES = {
