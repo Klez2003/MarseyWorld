@@ -835,7 +835,10 @@ a.btn.disabled, fieldset:disabled a.btn {
 	background-color: #5a6268;
 	border-color: #545b62;
 }
-.btn-secondary:focus, .btn-secondary.focus {
+.btn-primary:focus, .btn-primary.focus,
+.btn-secondary:focus, .btn-secondary.focus,
+.btn-danger:focus, .btn-danger.focus,
+.btn-success:focus, .btn-success.focus {
 	color: #fff;
 	background-color: #5a6268;
 	border-color: #545b62;
@@ -5113,9 +5116,6 @@ span.green {
 }
 .btn-lg {
 	border-color: transparent !important;
-}
-.btn-primary:focus, .btn-primary.focus {
-	box-shadow: none !important;
 }
 .reports {
 	margin: 7px;
