@@ -6606,7 +6606,9 @@ div.markdown {
 .comment-actions *:hover {
 	color: var(--black);
 }
-
+.actionbtns {
+	line-height: 3.5rem;
+}
 .actionbtns > *:not(.d-none) {
 	display: inline !important;
 	margin-bottom: 10px !important;

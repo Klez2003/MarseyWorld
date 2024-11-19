@@ -96,8 +96,6 @@
 			{% endif %}
 
 			<div class="actionbtns my-3">
-				<a id="moderation-history-{{deviceType}}" class="btn btn-primary" style="display:inline-block!important" href="/log?target_id={{u.id}}">Moderation History</a>
-
 				{% if FEATURES['BADGES'] and v.admin_level >= PERMS['USER_BADGES'] %}
 					<a id="give-badge-{{deviceType}}" class="btn btn-primary" style="display:inline-block!important" href="/admin/badge_grant?usernames={{u.username}}">Give Badge</a>
 					<a id="remove-badge-{{deviceType}}" class="btn btn-primary" style="display:inline-block!important" href="/admin/badge_remove?usernames={{u.username}}">Remove Badge</a>

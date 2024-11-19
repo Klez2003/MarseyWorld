@@ -267,6 +267,8 @@
 									<i id="toggle-anthem-icon" class="fas fa-music mr-1"></i> Profile Anthem
 								</button>
 							{% endif %}
+
+							<a class="btn btn-secondary" href="/log?target_id={{u.id}}">Moderation History</a>
 						</div>
 
 						<div class="mt-3" id="profile--info">
@@ -519,6 +521,8 @@
 								<i id="toggle-anthem-mobile-icon" class="fas fa-music mr-1"></i> Profile Anthem
 							</button>
 						{% endif %}
+
+						<a class="btn btn-secondary" href="/log?target_id={{u.id}}">Moderation History</a>
 
 						{% if v and v.id != u.id %}
 							<button type="button" id="button-sub2" class="btn btn-primary {% if is_following or u.is_blocked %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/follow/{{u.username}}','button-unsub2','button-sub2','d-none')">Follow</button>
