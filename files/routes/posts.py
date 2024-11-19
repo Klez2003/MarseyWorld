@@ -139,7 +139,7 @@ def publish(pid, v):
 
 	if p.author.is_suspended and p.hole != 'chudrama':
 		if SITE_NAME == 'rDrama':
-			stop(403, "You can only post in /h/chudrama when you're tempbanned!")
+			stop(403, "While temp-banned, you can only post in h/chudrama")
 		stop(403, "You can't perform this action while banned!")
 
 	p.draft = False
@@ -580,7 +580,7 @@ def submit_post(v, hole=None):
 
 	if v.is_suspended and hole != 'chudrama' and not flag_draft:
 		if SITE_NAME == 'rDrama':
-			stop(403, "You can only post in /h/chudrama when you're tempbanned!")
+			stop(403, "While temp-banned, you can only post in h/chudrama")
 		stop(403, "You can't perform this action while banned!")
 
 	if hole == 'changelog':

@@ -163,7 +163,7 @@ def comment(v):
 
 	if v.is_suspended and not (posting_to_post and hole == 'chudrama') and not distinguished:
 		if SITE_NAME == 'rDrama':
-			stop(403, "You can only comment in /h/chudrama when you're tempbanned!")
+			stop(403, "While temp-banned, you can only comment in h/chudrama")
 		stop(403, "You can't perform this action while banned!")
 
 	if level > COMMENT_MAX_DEPTH:
