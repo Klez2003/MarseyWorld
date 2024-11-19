@@ -209,7 +209,7 @@ def command_regex_matcher(match):
 reason_regex_post = re.compile('(/post/[0-9]+)', flags=re.A)
 reason_regex_comment = re.compile('(/comment/[0-9]+)', flags=re.A)
 
-numbered_list_regex = re.compile('((\n|^)[> ]*[0-9]+)[\.)] ', flags=re.A)
+numbered_list_regex = re.compile('((\n|^)[> ]*[0-9]+)([\.)]) ', flags=re.A)
 unnumbered_list_regex = re.compile('((\n|^)[> ]*)\+ ', flags=re.A)
 
 image_link_regex = re.compile(f"https:\/\/(i\.)?{SITE}\/(chat_)?images\/[0-9]{{11,17}}r?\.webp", flags=re.A)

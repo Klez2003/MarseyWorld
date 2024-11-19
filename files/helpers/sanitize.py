@@ -361,7 +361,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	if FEATURES['MARKUP_COMMANDS']:
 		sanitized = command_regex.sub(command_regex_matcher, sanitized)
 
-	sanitized = numbered_list_regex.sub(r'\1\. ', sanitized)
+	sanitized = numbered_list_regex.sub(r'\1\\\3 ', sanitized)
 	sanitized = unnumbered_list_regex.sub(r'\1\+ ', sanitized)
 
 	sanitized = strikethrough_regex.sub(r'<del>\1</del>', sanitized)
