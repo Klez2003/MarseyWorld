@@ -64,7 +64,8 @@ def process_files(files, v, body, is_dm=False, dm_user=None, is_badge_thread=Fal
 			try: url = process_image(name, v)
 			except Exception as e:
 				print(e)
-				os.remove(name)
+				if os.path.isfile(name):
+					os.remove(name)
 				continue
 			if is_badge_thread:
 				process_badge_entry(name, v, comment_body)
