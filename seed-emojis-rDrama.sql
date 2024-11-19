@@ -6771,7 +6771,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('w', 'Marsey Alphabet', 2, 'letter', false, 0),
 ('wah', 'Classic', 2, 'emoticon despair sad', false, 0),
 ('wall2', 'Misc', 2, 'prop marsey grafitti', false, 1686076918),
-('wallhead', 'Classic', 2, 'frustrated angry headbang', false, 1679227672),
 ('wariotransrights', 'Misc', 2, 'lgbt mario vidya', false, 1679531636),
 ('wat', 'Classic', 2, 'emoticon what confused surprised', false, 0),
 ('waterjet', 'Misc', 2, 'pokemon pkmn atk sprite', false, 1697840697),
