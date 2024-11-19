@@ -1026,6 +1026,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('platyhippo', 'Platy', 2, 'hippopotamus costume', false, 1700279775),
 ('platyisis', 'Platy', 2, 'daesh terrorist islam muslim', false, 1707121129),
 ('platyisisfemboy', 'Platy', 2, 'daesh terrorist islam muslim', false, 1707121210),
+('platyjason', 'Platy', 2, 'voorhees', false, 1731968488),
 ('platylgbt', 'Platy', 2, 'lgbtg gay pride flag', false, 1704704875),
 ('platymaniac', 'Platy', 2, 'crazy laughing scary psycho horror', false, 1716471786),
 ('platypalestineflag2', 'Platy', 2, 'palestineflag1', false, 1724215812),
