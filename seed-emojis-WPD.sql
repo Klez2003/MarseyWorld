@@ -81,6 +81,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('carpbunny', 'Carp', 2, 'costume', false, 1700464055),
 ('carpburmy', 'Carp', 2, 'pokemon', false, 1718670588),
 ('carpcat', 'Carp', 2, 'costume', false, 1700406779),
+('carpchef', 'Carp', 2, 'bait cook delicious restaurant spoon yummy', false, 1732031729),
 ('carpchespin', 'Carp', 2, 'pokemon pkmn 650', false, 1700860561),
 ('carpclefairy', 'Carp', 2, 'pokemon', false, 1718661858),
 ('carpcold', 'Carp', 2, 'scarf', false, 1730768688),
