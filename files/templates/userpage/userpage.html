@@ -8,7 +8,7 @@
 	{% if u and u.profile_background %}
 		<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
 	{% endif %}
-	{% if u and (u.profilecss or u.profile_background) and can_see(v, u) and not request.values.get('nocss') and (v.admin_level < PERMS["CSS_DISABLED"] or v.id == GTIX_ID) %}
+	{% if u and (u.profilecss or u.profile_background) and can_see(v, u) and not request.values.get('nocss') and (v.admin_level < PERMS["CSS_DISABLED"] or v.id in (AEVANN_ID, GTIX_ID)) %}
 		<link rel="stylesheet" href="/@{{u.username}}/profilecss">
 	{% endif %}
 {% endblock %}
