@@ -435,7 +435,7 @@ def award_thing(v, thing_type, id):
 
 	
 	elif kind == "grass":
-		new_unban_utc = int(time.time()) + 30 * 86400 * quantity
+		new_unban_utc = int(time.time()) + 30 * 86400
 		if author.is_banned and (not author.unban_utc or author.unban_utc > new_unban_utc):
 			stop(403, f"{safe_username} already banned for more than 30 days!")
 
