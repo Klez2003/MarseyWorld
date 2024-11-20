@@ -273,7 +273,7 @@ def award_thing(v, thing_type, id):
 		msg_note = '\n\n> ' + '\n\n> '.join(note.splitlines())
 
 	if v.id != author.id:
-		if v.deflector and author.deflector and AWARDS[kind]['deflectable'] and v.admin_level < PERMS['IMMUNE_TO_DEFLECTIONS'] and not v.penetrator:
+		if v.deflector and author.deflector and AWARDS[kind]['deflectable'] and not v.penetrator:
 			msg = f"@{v.username} has tried to give {obj.textlink} {quantity} {award_title} award{s} but {it} {was} deflected on them, they also had a deflector up, so {it} bounced back and forth until {it} vaporized!"
 			
 			if note:
@@ -286,7 +286,7 @@ def award_thing(v, thing_type, id):
 
 			return {"message": f"{quantity} {award_title} award{s} given to {thing_type} successfully!"}
 
-		if author.deflector and AWARDS[kind]['deflectable'] and v.admin_level < PERMS['IMMUNE_TO_DEFLECTIONS'] and not v.penetrator:
+		if author.deflector and AWARDS[kind]['deflectable'] and not v.penetrator:
 			author = v
 			safe_username = f"Your award{s} {has} been deflected but failed since you're"
 
