@@ -95,7 +95,7 @@
 				<button type="button" id="unchud-{{deviceType}}" class="{% if not u.chud %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{u.id}}')">Unchud</button>
 			{% endif %}
 
-			<div class="actionbtns my-3">
+			<div class="actionbtns mt-3">
 				{% if FEATURES['BADGES'] and v.admin_level >= PERMS['USER_BADGES'] %}
 					<a id="give-badge-{{deviceType}}" class="btn btn-primary" style="display:inline-block!important" href="/admin/badge_grant?usernames={{u.username}}">Give Badge</a>
 					<a id="remove-badge-{{deviceType}}" class="btn btn-primary" style="display:inline-block!important" href="/admin/badge_remove?usernames={{u.username}}">Remove Badge</a>

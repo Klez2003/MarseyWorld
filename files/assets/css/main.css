@@ -6611,7 +6611,7 @@ div.markdown {
 	line-height: 3.5rem;
 }
 .actionbtns > *:not(.d-none) {
-	display: inline !important;
+	display: inline-block !important;
 	margin-bottom: 10px !important;
 	margin-right: 5px !important;
 }
