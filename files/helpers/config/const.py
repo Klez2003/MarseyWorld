@@ -434,7 +434,7 @@ if SITE_NAME == 'rDrama':
 		"gently used condom trading",
 		"best easy slow cooker hot chili recipe",
 		"Dasha please notice us",
-		"the worst of all possible worlds",
+		"the worst of both worlds",
 		"Columbia University students only",
 		"the Solution to the Yakubian Question",
 		"elbows too pointy",
