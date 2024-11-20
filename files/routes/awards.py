@@ -193,7 +193,7 @@ def award_thing(v, thing_type, id):
 
 	safe_username = f"@{obj.author_name} is"
 
-	if author.deflector and AWARDS[kind]['deflectable'] and v.penetrator and quantity > v.penetrator:
+	if v.id != author.id and author.deflector and AWARDS[kind]['deflectable'] and v.penetrator and quantity > v.penetrator:
 		msg = f"You tried to give {quantity} {award_title} award{s}, but {safe_username} under the effect of a deflector award. As you only have {v.penetrator} penetrators, only {v.penetrator} {award_title} award{s} were given."
 		send_repeatable_notification(v.id, msg)
 		quantity = v.penetrator
