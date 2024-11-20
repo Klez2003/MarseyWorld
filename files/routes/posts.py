@@ -635,7 +635,7 @@ def submit_post(v, hole=None):
 			Post.title == title,
 			Post.url == url,
 			Post.body == body
-		).one_or_none()
+		).first()
 		if dup:
 			return {"post_id": dup.id, "success": False}
 
