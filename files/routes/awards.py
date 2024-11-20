@@ -179,7 +179,25 @@ def award_thing(v, thing_type, id):
 	quantity = int(request.values.get("quantity", "1").strip() or 1)
 	if quantity < 1 or quantity > 30:
 		quantity = 1
-	
+
+	if quantity == 1:
+		s = ""
+		it = "it"
+		was = "was"
+		has = "has"
+	else:
+		s = "s"
+		it = "they"
+		was = "were"
+		has = "have"
+
+	safe_username = f"@{obj.author_name} is"
+
+	if v.penetrator and quantity > v.penetrator:
+		msg = f"You tried to give {quantity} {award_title} award{s}, but {safe_username} under the effect of a deflector award. As you only have {v.penetrator} penetrators, only {v.penetrator} {award_title} award{s} were given."
+		send_repeatable_notification(v.id, msg)
+		quantity = v.penetrator
+
 	if quantity == 1:
 		s = ""
 		it = "it"
@@ -203,8 +221,6 @@ def award_thing(v, thing_type, id):
 	note = request.values.get("note", "").strip()
 	if len(note) > 200:
 		stop(400, "Award note is too long (max 200 characters)")
-
-	safe_username = f"@{obj.author_name} is"
 
 	if AWARDS[kind]['negative'] and author.immune_to_negative_awards(v):
 		if author.new_user and not author.alts:
