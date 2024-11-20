@@ -746,7 +746,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyonemanonecup', 'Marsey', 2, '1cup jar oneguyonecup anal', true, 1699040990),
 ('marseyorange1', 'Marsey', 2, 'fruit', false, 1725630342),
 ('marseyoshawott', 'Marsey', 2, 'pkmn pokemon 501', false, 1698896811),
-('marseyoverheadpress', 'Marsey', 2, 'lift workout exercise drawing weight dumbbell power', false, 1706012475),
 ('marseyowo', 'Marsey', 2, 'cute knife blood', false, 1710959256),
 ('marseypal', 'Marsey', 2, 'smirking grinning', false, 1699649980),
 ('marseypalestineflag', 'Marsey', 2, 'country', false, 1716839037),
