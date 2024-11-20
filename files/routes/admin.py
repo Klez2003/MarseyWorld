@@ -1987,8 +1987,8 @@ def insert_transaction_post(v):
 	if type not in {DONATE_SERVICE, 'BTC', 'ETH', 'XMR', 'SOL', 'DOGE', 'LTC'}:
 		stop(400, "Invalid transaction currency!")
 
-	if type == 'Kofi':
-		id = 'Kofi-' + str(int(time.time()))
+	if type == DONATE_SERVICE:
+		id = f'{DONATE_SERVICE}-' + str(int(time.time()))
 
 	if not id:
 		stop(400, "A transaction ID is required!")
