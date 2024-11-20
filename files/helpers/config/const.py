@@ -875,6 +875,7 @@ ZOZBOT_ID = 4
 PIZZASHILL_ID = 0
 CARP_ID = 0
 AEVANN_ID = 0
+JOAN_ID = 0
 GTIX_ID = 0
 FISHY_ID = 0
 CROSSTALK_ID = 0
@@ -999,6 +1000,7 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	PROGSTACK_ID = 15531
 	CARP_ID = 995
 	AEVANN_ID = 1
+	JOAN_ID = 28
 	CROSSTALK_ID = 26878
 
 	CURRENCY_TRANSFER_ID = CARP_ID
@@ -1007,7 +1009,7 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 
 	PINNED_POSTS_IDS = {
 		PIZZASHILL_ID: 1,
-		28: 1, #Joan_Wayne_Gacy
+		JOAN_ID: 1,
 		1096: 1, #xa15428
 		2008: 1, #transgirltradwife
 		4999: 1, #justcool393
