@@ -166,7 +166,7 @@
 				>
 			</a>
 
-			{% if hole and not (SITE == 'rdrama.net' and hole != 'chudrama') %} {# not shown in all holes for screenshots #}
+			{% if hole and not (SITE == 'rdrama.net' and hole.name != 'chudrama') %} {# not shown in all holes for screenshots #}
 				<a id="hole-name" href="/h/{{hole}}" class="font-weight-bold flex-grow-1 ml-2 mt-1" {% if hole.name|length >= 17 %}style="font-size:max(10px,1.2vw)"{% endif %}>/h/{{hole}}</a>
 			{% elif has_logo %}
 				<div id="logo-container" class="flex-grow-1 logo-container">
