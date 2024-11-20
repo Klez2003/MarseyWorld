@@ -130,7 +130,8 @@ def option_votes(option_id, v):
 	total_ts = format(total_ts, ",") if total_ts else '0'
 
 	if v.admin_level >= PERMS['VIEW_PATRONS']:
-		patrons = [x[0] for x in g.db.query(User.patron).filter(User.id.in_(user_ids - [AEVANN_ID, CARP_ID, JOAN_ID]), User.patron > 1)]
+		uids = set(user_ids) - {AEVANN_ID, CARP_ID, JOAN_ID}
+		patrons = [x[0] for x in g.db.query(User.patron).filter(User.id.in_(uids), User.patron > 1)]
 		total_patrons = len(patrons)
 		total_money = 0
 		for tier in patrons:
@@ -172,7 +173,8 @@ def option_votes_comment(option_id, v):
 	total_ts = format(total_ts, ",") if total_ts else '0'
 
 	if v.admin_level >= PERMS['VIEW_PATRONS']:
-		patrons = [x[0] for x in g.db.query(User.patron).filter(User.id.in_(user_ids - [AEVANN_ID, CARP_ID, JOAN_ID]), User.patron > 1)]
+		uids = set(user_ids) - {AEVANN_ID, CARP_ID, JOAN_ID}
+		patrons = [x[0] for x in g.db.query(User.patron).filter(User.id.in_(uids), User.patron > 1)]
 		total_patrons = len(patrons)
 		total_money = 0
 		for tier in patrons:
