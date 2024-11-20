@@ -11,10 +11,8 @@ def can_see(user, obj):
 		if isinstance(obj, Post):
 			if obj.hole and not can_see(user, obj.hole_obj):
 				return False
-			if request.headers.get("Cf-Ipcountry") == 'NZ':
-				if 'christchurch' in obj.title.lower():
-					return False
-				if SITE == 'watchpeopledie.tv' and obj.id in {5, 17212, 22653, 23814, 222321}:
+			if SITE == 'watchpeopledie.tv' and request.headers.get("Cf-Ipcountry") == 'NZ' and \
+			('christchurch' in obj.title.lower() or obj.id in {5, 17212, 22653, 23814, 222321}):
 					return False
 		else:
 			if obj.pinned == "Admin Note":
