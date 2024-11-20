@@ -71,9 +71,6 @@ def allowed_attributes(tag, name, value):
 		if name == 'class' and value == 'twitter-tweet': return True
 		if name == 'data-dnt' and value == 'true': return True
 
-	if tag in allowed_tags_runtime:
-		return True
-
 	return False
 
 
