@@ -6934,6 +6934,9 @@ body > .container {
 	object-fit: contain;
 }
 
+#logo-WPD {
+	width: 70px;
+}
 @media (min-width: 1000px) {
 	#logo-WPD {
 		width: 90px;
@@ -6941,9 +6944,12 @@ body > .container {
 	}
 }
 
+#logo-rDrama {
+	width: 130px;
+}
 @media (min-width: 380px) {
 	#logo-rDrama {
-		width: 100px;
+		width: 150px;
 		height: 29.59px;
 		margin-left: 0.5rem !important;
 	}
