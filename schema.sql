@@ -1326,7 +1326,8 @@ CREATE TABLE public.users (
     snappy_quotes character varying(1000),
     flag character varying(30),
     private_posts boolean DEFAULT false NOT NULL,
-    private_comments boolean DEFAULT false NOT NULL
+    private_comments boolean DEFAULT false NOT NULL,
+    penetrator integer DEFAULT 0 NOT NULL
 );
 
 
