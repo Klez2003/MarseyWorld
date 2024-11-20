@@ -454,7 +454,7 @@ def award_thing(v, thing_type, id):
 		if author.deflector: author.deflector += 36000 * quantity
 		else: author.deflector = int(time.time()) + 36000 * quantity
 	elif kind == "penetrator":
-		author.penetrator += 1
+		author.penetrator += quantity
 	elif kind == 'marsify':
 		if not author.marsify or author.marsify != 1:
 			if author.marsify: author.marsify += 86400 * quantity
@@ -725,7 +725,7 @@ def award_thing(v, thing_type, id):
 	if v.id != author.id:
 		if author.deflector and AWARDS[kind]['deflectable'] and v.admin_level < PERMS['IMMUNE_TO_DEFLECTIONS']:
 			if v.penetrator:
-				v.penetrator -= 1
+				v.penetrator -= quantity
 				g.db.add(v)
 
 				msg = f"@{v.username} has tried to give {obj.textlink} {quantity} {award_title} award{s} but {it} {was} deflected and applied to... JUST KIDDING BITCH THEY HAD A PENETRATOR ON, YOU'VE BEEN <b>PENETRATED</b> :marseytroll::marseytroll::marseytroll:"
