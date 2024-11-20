@@ -74,16 +74,25 @@ def allowed_attributes(tag, name, value):
 	return False
 
 
+def allowed_attributes_runtime(tag, name, value):
+	original = allowed_attributes(tag, name, value)
+	if original: return True
+	if tag == 'span' and name == 'id': return True
+	if tag in allowed_tags_runtime: return True
+	return False
+
 def bleach_body_html(body_html, runtime=False):
 	css_sanitizer = CSSSanitizer(allowed_css_properties=allowed_css_properties)
 
 	tags = allowed_tags
+	func = allowed_attributes
 	if runtime:
 		tags += allowed_tags_runtime
+		func = allowed_attributes_runtime
 
 	body_html = bleach.Cleaner(
 		tags=tags,
-		attributes=allowed_attributes,
+		attributes=func,
 		protocols=['http', 'https'],
 		css_sanitizer=css_sanitizer,
 		filters=[
