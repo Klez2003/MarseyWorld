@@ -195,25 +195,25 @@ class Post(Base):
 	@lazy
 	def thumb_url(self):
 		if self.nsfw:
-			return f"{SITE_FULL_IMAGES}/i/nsfw.webp?x=14"
+			return f"{SITE_FULL_IMAGES}/i/nsfw.webp?x=15"
 		elif not self.url:
-			return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/default_text.webp?x=14"
+			return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/default_text.webp?x=15"
 		elif self.thumburl:
 			if self.thumburl.startswith('/'): return SITE_FULL + self.thumburl
 			return self.thumburl
 		elif self.is_youtube or self.is_video:
-			return f"{SITE_FULL_IMAGES}/i/default_thumb_video.webp?x=14"
+			return f"{SITE_FULL_IMAGES}/i/default_thumb_video.webp?x=15"
 		elif self.is_audio:
-			return f"{SITE_FULL_IMAGES}/i/default_thumb_audio.webp?x=14"
+			return f"{SITE_FULL_IMAGES}/i/default_thumb_audio.webp?x=15"
 		elif self.domain == SITE:
-			return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?x=14"
+			return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?x=15"
 		elif self.domain == 'x.com':
 			if SITE == 'watchpeopledie.tv':
 				return "https://i.watchpeopledie.tv/images/17110710913860154.webp"
 			else:
 				return "https://i.rdrama.net/images/17104844257987864.webp"
 		else:
-			return f"{SITE_FULL_IMAGES}/i/default_thumb_link.webp?x=14"
+			return f"{SITE_FULL_IMAGES}/i/default_thumb_link.webp?x=15"
 
 	@property
 	@lazy

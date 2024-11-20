@@ -5,7 +5,7 @@
 {%- endmacro -%}
 
 {%- macro random_image(path) -%}
-	{{- SITE_FULL_IMAGES ~ "/" ~ path ~ "/" ~ listdir('files/' ~ path)|seeded_random(p) ~ '?x=14' -}}
+	{{- SITE_FULL_IMAGES ~ "/" ~ path ~ "/" ~ listdir('files/' ~ path)|seeded_random(p) ~ '?x=15' -}}
 {%- endmacro -%}
 
 {% macro post_meta(p) %}
@@ -102,7 +102,7 @@
 			{% endif %}
 
 			{% if FEATURES['HOUSES'] and p.author.switched.house %}
-				<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/houses/{{p.author.switched.house}}.webp?x=14" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.switched.house}}" alt="House {{p.author.switched.house}}">
+				<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/houses/{{p.author.switched.house}}.webp?x=15" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.switched.house}}" alt="House {{p.author.switched.house}}">
 			{% endif %}
 
 			{% if p.author.switched.verified %}
