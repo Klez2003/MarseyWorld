@@ -440,7 +440,16 @@ def award_thing(v, thing_type, id):
 			stop(403, f"{safe_username} already banned for more than 30 days!")
 
 		author.ban(reason=ban_reason, days=30, modlog=False)
-		send_repeatable_notification(author.id, f"@{v.username} gave you {quantity} grass award{s} on {obj.textlink} and as a result you have been banned! You must [send the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
+		text = f"@{v.username} gave you {quantity} grass award{s} on {obj.textlink} and as a result you have been banned! You must [send the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!"
+		send_repeatable_notification(author.id, text)
+	
+		if SITE_NAME == 'WPD':
+			for x in get_alt_graph(author.id):
+				if x.deflector: continue
+				x.ban(reason=ban_reason, days=30, modlog=False, original_user=author)
+				one_month_ago = time.time() - 2592000
+				if x.last_active > one_month_ago:
+					send_repeatable_notification(x.id, text)
 	elif kind == "hieroglyphs":
 		if author.hieroglyphs: author.hieroglyphs += 86400 * quantity
 		else: author.hieroglyphs = int(time.time()) + 86400 * quantity
