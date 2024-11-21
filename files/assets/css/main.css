@@ -7711,6 +7711,7 @@ blockquote + p:empty + .twitter-embed {
 
 .twitter-embed {
 	margin-bottom: 1rem;
+	overflow: hidden;
 }
 
 #other-embed {
