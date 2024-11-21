@@ -438,7 +438,6 @@ if SITE_NAME == 'rDrama':
 		"web's best deals on SodaStream refills",
 		"70% off your first order!",
 		"Haitian Pride Worldwide",
-		"second largest Marsey Cat fansite",
 		"why is that fish so fucking ugly",
 		"a global superpower by 2020",
 		"all-natural homeopathic herpes treatment",
