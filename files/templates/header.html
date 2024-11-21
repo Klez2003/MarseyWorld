@@ -603,7 +603,7 @@
 
 {% include "modals/expanded_image.html" %}
 
-{% if v and not err %}
+{% if v and (not err or err == 406) %}
 	<div id="formkey" class="d-none">{{v|formkey}}</div>
 {% endif %}
 

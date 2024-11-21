@@ -1183,13 +1183,21 @@ def settings_age(v):
 @auth_required
 def settings_delete_account(v):
 	submitted_password = request.values.get("password", "").strip()
-	if not v.verifyPass(submitted_password):
+	if not v.verifyPass(submitted_password) and not v.is_underage:
 		stop(400, "Incorrect password!")
 
-	existing = g.db.get(AccountDeletion, v.id)
-	if not existing:
+	account_deletion = g.db.get(AccountDeletion, v.id)
+	if not account_deletion:
 		account_deletion = AccountDeletion(user_id=v.id)
 		g.db.add(account_deletion)
+
+	if v.is_underage:
+		account_deletion.deleted_utc = time.time()
+		g.db.add(account_deletion)
+		v.username = f'deleted~{v.id}'
+		v.passhash = ''
+		g.db.add(v)
+		return {"message": "Your account has beeen deleted successfully."}
 
 	if not FEATURES['ACCOUNT_DELETION']:
 		return redirect(f"{SITE_FULL}/i/mrburns.webp") #dont use SITE_FULL_IMAGES here, it breaks CSP

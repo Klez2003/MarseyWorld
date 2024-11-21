@@ -99,7 +99,8 @@ def get_logged_in_user():
 			else:
 				session.pop("lo_user")
 
-	if request.path not in {'/contact', '/reply', '/socket.io/'} and v and v.is_underage:
+	g.v = v
+	if request.path not in {'/contact', '/reply', '/socket.io/', '/settings/delete_account'} and v and v.is_underage:
 		stop(406)
 
 	if request.method != "GET" and get_setting('read_only_mode') and not (v and v.admin_level >= PERMS['BYPASS_SITE_READ_ONLY_MODE']):
@@ -108,7 +109,6 @@ def get_logged_in_user():
 	if get_setting('offline_mode') and not (v and v.admin_level >= PERMS['SITE_OFFLINE_MODE']):
 		stop(403, "Site is in offline mode right now. It will be back shortly!")
 
-	g.v = v
 	if v:
 		g.username = v.username
 

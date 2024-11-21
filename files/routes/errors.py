@@ -39,7 +39,13 @@ def error(e):
 	if request.headers.get("Authorization") or request.headers.get("xhr"):
 		return {"error": title, "code": e.code, "description": msg, "details": details}, e.code
 	img = ERROR_MARSEYS.get(e.code, 'marseyl')
-	return render_template('errors/error.html', err=e.code, title=title, msg=msg, details=details, img=img, code=e.code), e.code
+
+	v = g.v if hasattr(g, 'v') else None
+
+	if e.code == 406 and v.username.startswith('deleted~'):
+		msg = "You have been banned for being underage and your account has been deleted on your request."
+
+	return render_template('errors/error.html', err=e.code, title=title, msg=msg, details=details, img=img, code=e.code, v=v), e.code
 
 @app.errorhandler(401)
 def error_401(e):

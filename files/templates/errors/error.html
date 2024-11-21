@@ -14,8 +14,11 @@
 					<blockquote class="error-details mb-4 py-2">{{details|safe}}</blockquote>
 				{%- endif %}
 				{% if code == 406 %}
-					<div><a href="/contact" class="btn btn-primary mt-1">Contact Admins</a></div>
-					<script defer src="{{'js/underage.js' | asset}}"></script>
+					{% if not v.username.startswith('deleted~') %}
+						<div><a href="/contact" class="btn btn-primary mt-1">Contact Admins</a></div>
+						<script defer src="{{'js/underage.js' | asset}}"></script>
+						<button type="button" class="btn btn-danger mt-3" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this,'/settings/delete_account')">Delete Account</button>
+					{% endif %}
 				{% elif code != 418 %}
 					<div><a href="/" class="btn btn-primary mt-3">Go to frontpage</a></div>
 				{% endif %}
