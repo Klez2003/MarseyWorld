@@ -2,6 +2,7 @@ import bleach
 from bleach.css_sanitizer import CSSSanitizer
 from bleach.linkifier import LinkifyFilter
 import functools
+from flask import g
 
 from files.helpers.regex import sanitize_url_regex, excessive_css_scale_regex
 from files.helpers.config.const import *
@@ -71,14 +72,60 @@ def allowed_attributes(tag, name, value):
 		if name == 'class' and value == 'twitter-tweet': return True
 		if name == 'data-dnt' and value == 'true': return True
 
+	if tag == 'd':
+		if name == 'class' and value == 'd-none': return True
+
 	return False
 
 
 def allowed_attributes_runtime(tag, name, value):
 	original = allowed_attributes(tag, name, value)
 	if original: return True
-	if tag == 'span' and name == 'id': return True
-	if tag in allowed_tags_runtime: return True
+
+	if tag == 'span': 
+		if name == 'id':
+			return True
+	
+	if tag == 'div': 
+		if name == 'class' and value == 'custom-control mt-2':
+			return True
+
+	if tag == 'input': 
+		if name == 'class' and value in {'d-none', 'custom-control-input bet', 'custom-control-input'}:
+			return True
+		if name == 'id':
+			return True
+		if name == 'name':
+			return True
+		if name == 'type' and value in {'radio', 'checkbox'}:
+			return True
+		if name == 'data-nonce' and value == g.nonce:
+			return True
+		if name == 'data-onclick':
+			return True
+		if name == 'checked' and value == '':
+			return True
+
+	if tag == 'label': 
+		if name == 'class' and value == 'custom-control-label':
+			return True
+		if name == 'for':
+			return True
+
+	if tag == 'score': 
+		if name == 'id':
+			return True
+
+	if tag == 'button': 
+		if name == 'class' and value in {'btn btn-primary distribute', 'showmore'}:
+			return True
+		if name == 'data-areyousure':
+			return True
+		if name == 'data-nonce' and value == g.nonce:
+			return True
+		if name == 'data-onclick' and value == 'areyousure(this)':
+			return True
+
 	return False
 
 def bleach_body_html(body_html, runtime=False):

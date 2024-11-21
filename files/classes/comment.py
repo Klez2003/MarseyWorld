@@ -121,7 +121,7 @@ def add_options(self, body, v):
 		option_body = ''
 
 		if o.exclusive > 1:
-			option_body += f'''<div class="custom-control mt-2"><input name="option-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" data-nonce="{g.nonce}" data-onclick="option_vote_2(this,'{o.id}','{kind}')"'''
+			option_body += f'''<div class="custom-control mt-2"><input name="option-{self.id}" class="custom-control-input bet" type="radio" id="{o.id}" data-nonce="{g.nonce}" data-onclick="option_vote_2(this,'{o.id}','{kind}')"'''
 			if o.voted(v): option_body += " checked "
 
 			if not (v and v.coins + v.marseybux >= POLL_BET_COINS) or self.total_bet_voted(v):
