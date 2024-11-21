@@ -55,8 +55,7 @@ else:
 
 def is_underage_reason(reason):
 	reason = reason.lower()
-	if reason == 'underage': return True
-	if 'underage ' in reason: return True
+	if reason.startswith('underage'): return True
 	if ' underage' in reason: return True
 	return False
 
