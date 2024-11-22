@@ -190,7 +190,7 @@ def process_video(file, v, post=None):
 				reencode = True
 			if int(stream.get('bit_rate', 3000000)) >= 3000000:
 				reencode = True
-			if stream.get('profile') != 'High':
+			if stream.get('profile') == 'Baseline':
 				reencode = True
 			if stream.get('level') > 52:
 				reencode = True
