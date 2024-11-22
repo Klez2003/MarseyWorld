@@ -43,7 +43,7 @@ def media_ratelimit(v):
 		print(STARS, flush=True)
 		print(f'@{v.username} hit the {limit} file daily limit!')
 		print(STARS, flush=True)
-		stop(500)
+		stop(451)
 
 def process_files(files, v, body, is_dm=False, dm_user=None, is_badge_thread=False, comment_body=None):
 	if g.is_tor or not files.get("file"): return body

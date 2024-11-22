@@ -761,6 +761,7 @@ WERKZEUG_ERROR_DESCRIPTIONS = {
 	417: "The server could not meet the requirements of the Expect header",
 	418: "This server is a teapot, not a coffee machine",
 	429: "This user has exceeded an allotted request count. Try again later.",
+	451: "Unavailable for legal reasons.",
 	500: "The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.",
 }
 
@@ -777,6 +778,7 @@ ERROR_TITLES = {
 	415: "Weird Media Type",
 	418: "We need you to login",
 	429: "Too Many Requests",
+	451: "Balls-Deep Server Error",
 	500: "Balls-Deep Server Error",
 }
 
@@ -793,6 +795,7 @@ ERROR_MSGS = {
 	415: "Please upload only Image, Video, or Audio files!",
 	418: f'''{SITE} is currently being DDOSed. Who is behind it? The Russians? The deep state? The communists? <i>You?</i><br>We have no idea, but you'll need to either <a href="/login">log in</a> or <a href="/signup">create an account</a> to see anything while this is ongoing.<br>Sorry!''',
 	429: "go spam somewhere else nerd",
+	451: "Hiiiii it's carp! I think this error means that there's a timeout error. And I think that means something took too long to load so it decided not to work at all. If you keep seeing this on the same page <i>but not other pages</i>, then something is probably wrong with that specific function. It may not be called a function, but that sounds right to me. Anyway, <s>ping me and I'll whine to someone smarter to fix it. Don't bother them.</s> <b>After a year and a half of infuriating pings, the new instructions are to quit whining and just wait until it works again oh my god shut UP.</b><br><br> Thanks ily &lt;3",
 	500: "Hiiiii it's carp! I think this error means that there's a timeout error. And I think that means something took too long to load so it decided not to work at all. If you keep seeing this on the same page <i>but not other pages</i>, then something is probably wrong with that specific function. It may not be called a function, but that sounds right to me. Anyway, <s>ping me and I'll whine to someone smarter to fix it. Don't bother them.</s> <b>After a year and a half of infuriating pings, the new instructions are to quit whining and just wait until it works again oh my god shut UP.</b><br><br> Thanks ily &lt;3",
 }
 
@@ -809,6 +812,7 @@ ERROR_MARSEYS = {
 	415: "marseydetective",
 	418: "marseyhacker",
 	429: "marseyrentfree",
+	451: "marseycarp3",
 	500: "marseycarp3",
 }
 
@@ -1067,6 +1071,7 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 		415: "Please upload only Image, Video, or Audio files!",
 		418: f'''{SITE} is currently being DDOSed. Who is behind it? The Russians? The deep state? The communists? <i>You?</i><br>We have no idea, but you'll need to either <a href="/login">log in</a> or <a href="/signup">create an account</a> to see anything while this is ongoing.<br>Sorry!''',
 		429: "Please wait a bit before doing that.",
+		451: "Internal Server Error. Something went very wrong when trying to fulfill your request. Try refreshing the page. If it still doesn't work, shoot <a href='/@CLiTPEELER'>@CLiTPEELER</a> a message.",
 		500: "Internal Server Error. Something went very wrong when trying to fulfill your request. Try refreshing the page. If it still doesn't work, shoot <a href='/@CLiTPEELER'>@CLiTPEELER</a> a message.",
 	}
 

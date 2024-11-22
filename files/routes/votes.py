@@ -216,7 +216,7 @@ def vote_info_get(v, link):
 		stop(403)
 
 	if obj.author.shadowbanned and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
-		stop(500)
+		stop(451)
 
 	if isinstance(obj, Post):
 		query = g.db.query(Vote).join(Vote.user).filter(

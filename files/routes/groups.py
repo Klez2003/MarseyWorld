@@ -46,7 +46,7 @@ def create_group(v):
 		stop(403, "You don't have enough coins or marseybux!")
 
 	g.db.add(v)
-	if v.shadowbanned: stop(500)
+	if v.shadowbanned: stop(451)
 
 	group = Group(
 			name=name,

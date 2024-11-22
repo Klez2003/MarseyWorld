@@ -27,6 +27,7 @@ from files.__main__ import app, limiter
 @app.errorhandler(415)
 @app.errorhandler(418)
 @app.errorhandler(429)
+@app.errorhandler(451)
 def error(e):
 	g.desires_auth = False
 	title = ERROR_TITLES.get(e.code, str(e.code))

@@ -402,7 +402,7 @@ def create_hole(v):
 		stop(400, f"/h/{hole} already exists!")
 
 	g.db.add(v)
-	if v.shadowbanned: stop(500)
+	if v.shadowbanned: stop(451)
 
 	hole = Hole(name=name)
 	g.db.add(hole)
@@ -512,7 +512,7 @@ def upload_hole_sidebar(v, hole):
 
 	hole = get_hole(hole)
 	if not v.mods_hole(hole.name): stop(403)
-	if v.shadowbanned: stop(500)
+	if v.shadowbanned: stop(451)
 
 	file = request.files["image"]
 
@@ -576,7 +576,7 @@ def upload_hole_banner(v, hole):
 
 	hole = get_hole(hole)
 	if not v.mods_hole(hole.name): stop(403)
-	if v.shadowbanned: stop(500)
+	if v.shadowbanned: stop(451)
 
 	file = request.files["image"]
 
@@ -640,7 +640,7 @@ def hole_marsey(v, hole):
 
 	hole = get_hole(hole)
 	if not v.mods_hole(hole.name): stop(403)
-	if v.shadowbanned: stop(500)
+	if v.shadowbanned: stop(451)
 
 	file = request.files["marsey"]
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
