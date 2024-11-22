@@ -155,7 +155,7 @@ def approve_art(v, id):
 		msg = f"@{v.username} (a site admin) has approved a {entry.formatted_kind} you made:\n{entry_url}\n\nYou have received 250 coins as a reward!" 
 
 		if comment:
-			msg += f"\nComment: `{comment}`"
+			msg += f"\nComment:\n> {comment}"
 
 		send_repeatable_notification(author.id, msg)
 
@@ -163,7 +163,7 @@ def approve_art(v, id):
 		msg = f"@{v.username} (a site admin) has approved a {entry.formatted_kind} you submitted:\n{entry_url}" 
 		
 		if comment:
-			msg += f"\nComment: `{comment}`"
+			msg += f"\nComment:\n> {comment}"
 
 		send_repeatable_notification(entry.submitter_id, msg)
 
@@ -213,7 +213,7 @@ def remove_art(v, id):
 		msg = f"@{v.username} (a site admin) has rejected a {entry.formatted_kind} you submitted:\n{entry_url}" 
 		
 		if comment:
-			msg += f"\nComment: `{comment}`"
+			msg += f"\nComment:\n> {comment}"
 
 		send_repeatable_notification(entry.submitter_id, msg)
 

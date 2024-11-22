@@ -75,7 +75,7 @@ def finishing_approving_emoji(emoji, author, old_name, comment):
 		msg = f"@{v.username} (a site admin) has approved an emoji you made: :{emoji.name}:\n\nYou have received 250 coins as a reward!"
 
 		if comment:
-			msg += f"\nComment: `{comment}`"
+			msg += f"\nComment:\n> {comment}"
 
 		send_repeatable_notification(author.id, msg)
 
@@ -83,7 +83,7 @@ def finishing_approving_emoji(emoji, author, old_name, comment):
 		msg = f"@{v.username} (a site admin) has approved an emoji you submitted: :{emoji.name}:"
 		
 		if comment:
-			msg += f"\nComment: `{comment}`"
+			msg += f"\nComment:\n> {comment}"
 
 		send_repeatable_notification(emoji.submitter_id, msg)
 
@@ -314,7 +314,7 @@ def remove_asset(cls, type_name, v, name):
 		msg = f"@{v.username} (a site admin) has rejected a {type_name} you submitted: `'{name}'`"
 
 		if comment:
-			msg += f"\nComment: `{comment}`"
+			msg += f"\nComment:\n> {comment}"
 
 		send_repeatable_notification(asset.submitter_id, msg)
 
@@ -469,7 +469,7 @@ def approve_hat(v, name):
 		msg = f"@{v.username} (a site admin) has approved a hat you made: `'{hat.name}'`"
 
 		if comment:
-			msg += f"\nComment: `{comment}`"
+			msg += f"\nComment:\n> {comment}"
 
 		send_repeatable_notification(author.id, msg)
 
@@ -477,7 +477,7 @@ def approve_hat(v, name):
 		msg = f"@{v.username} (a site admin) has approved a hat you submitted: `'{hat.name}'`"
 
 		if comment:
-			msg += f"\nComment: `{comment}`"
+			msg += f"\nComment:\n> {comment}"
 
 		send_repeatable_notification(hat.submitter_id, msg)
 
