@@ -245,6 +245,7 @@ def random_user(v):
 	u = g.db.query(User.username).filter(
 		User.song != None,
 		User.shadowbanned == None,
+		User.is_banned == None,
 	).order_by(func.random()).first()
 
 	if u: u = u[0]
