@@ -165,8 +165,12 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 	posts = sort_objects(sort, posts, Post)
 
-	if v: size = v.frontsize or 0
-	else: size = PAGE_SIZE
+	if effortposts_only and SITE_NAME == 'WPD' and g.browser == 'iphone':
+		size = 10
+	elif v:
+		size = v.frontsize or 0
+	else:
+		size = PAGE_SIZE
 
 	for category, enabled in categories.items():
 		if not enabled:
