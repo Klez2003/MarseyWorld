@@ -7,7 +7,7 @@
 			<div class="profile-pic-20-wrapper mb-2">
 				<img loading="lazy" src="{{user.profile_url}}" class="pp20">
 				{% if user.hat_active(v)[0] -%}
-					<img class="profile-pic-20-hat hat" loading="lazy" src="{{user.hat_active(v)[0]}}?h=8" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_active(v)[1]}}">
+					<img class="profile-pic-20-hat hat" loading="lazy" src="{{user.hat_active(v)[0]}}?h=8" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_active(v)[1]}}" data-bs-html="true">
 				{%- endif %}
 			</div>
 			<span {% if user.earlylife %}style="word-break:break-word!important"{% endif %} {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %} {% if user.pride_username(v) %}pride_username{% endif %}>{{user.username}}</span>

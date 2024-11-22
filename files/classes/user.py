@@ -403,6 +403,12 @@ class User(Base):
 	@property
 	@lazy
 	def forced_hat(self):
+		if self.is_suspended:
+			text = f'Banned by {self.banned_by} for "{self.ban_reason}"'
+			if self.unban_utc:
+				text += f' - {self.unban_string}'
+			return ("Behind Bars", text)
+
 		user_forced_hats = []
 		for k, val in forced_hats.items():
 			get = getattr(self, k)

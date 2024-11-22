@@ -210,7 +210,7 @@
 									<div class="profile-pic-30-wrapper">
 										<img loading="lazy" src="{{c.author.switched.profile_url}}" class="profile-pic-30 mr-2">
 										{% if c.author.switched.hat_active(v)[0] -%}
-											<img class="profile-pic-30-hat hat" loading="lazy" src="{{c.author.switched.hat_active(v)[0]}}?h=8" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.switched.hat_active(v)[1]}}">
+											<img class="profile-pic-30-hat hat" loading="lazy" src="{{c.author.switched.hat_active(v)[0]}}?h=8" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.switched.hat_active(v)[1]}}" data-bs-html="true">
 										{%- endif %}
 									</div>
 									<span {% if c.author.switched.patron and not c.distinguished %}class="patron" style="background-color:#{{c.author.switched.name_color}}"{% elif c.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if c.author.switched.pride_username(v) %}pride_username{% endif %}>{{c.author_name}}</span>

@@ -114,7 +114,7 @@
 			<div class="profile-pic-30-wrapper" style="margin-top:9px;margin-bottom:9px">
 				<img loading="lazy" src="{{p.author.switched.profile_url}}" class="profile-pic-30 mr-2">
 				{% if p.author.switched.hat_active(v)[0] -%}
-					<img class="profile-pic-30-hat hat" loading="lazy" src="{{p.author.switched.hat_active(v)[0]}}?h=8" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.hat_active(v)[1]}}">
+					<img class="profile-pic-30-hat hat" loading="lazy" src="{{p.author.switched.hat_active(v)[0]}}?h=8" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.switched.hat_active(v)[1]}}" data-bs-html="true">
 				{%- endif %}
 			</div>
 			<span {% if p.author.switched.patron and not p.distinguished %}class="patron" style="background-color:#{{p.author.switched.name_color}}"{% elif p.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if p.author.switched.pride_username(v) %}pride_username{% endif %}>{{p.author_name}}</span>
