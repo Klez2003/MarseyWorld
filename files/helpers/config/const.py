@@ -1055,6 +1055,7 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 		410: "Gone",
 		413: "Payload Too Large",
 		415: "Unsupported Media Type",
+		451: "Internal Server Error",
 		500: "Internal Server Error",
 	})
 
