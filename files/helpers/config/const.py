@@ -745,6 +745,7 @@ HOLE_MARSEY_URL_LENGTH = 60
 
 HOUSES = ["Furry","Femboy","Vampire","Racist","Edgy"]
 
+# must match https://github.com/pallets/werkzeug/blob/main/src/werkzeug/exceptions.py
 WERKZEUG_ERROR_DESCRIPTIONS = {
 	400: "The browser (or proxy) sent a request that this server could not understand.",
 	401: "The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required.",
