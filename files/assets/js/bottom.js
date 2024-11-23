@@ -182,8 +182,6 @@ document.addEventListener("click", function(e) {
 
 	if (!element) return
 
-	element.blur()
-
 	if (element instanceof HTMLImageElement && (element.alt.startsWith('![](') || element.classList.contains('img'))) {
 		expandImage(element.dataset.expandedUrl)
 		let search_in
