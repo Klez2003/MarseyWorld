@@ -476,8 +476,8 @@ def award_thing(v, thing_type, id):
 	elif kind == "deflector":
 		if author.id in IMMUNE_TO_NEGATIVE_AWARDS:
 			stop(400, f"{safe_username} immune to negative awards!") #he's immune, so why put a deflector on him and deprive him of positive awards
-		if author.deflector: author.deflector += 36000 * quantity
-		else: author.deflector = int(time.time()) + 36000 * quantity
+		if author.deflector: author.deflector += 43200 * quantity
+		else: author.deflector = int(time.time()) + 43200 * quantity
 	elif kind == "penetrator":
 		author.penetrator += quantity
 	elif kind == 'marsify':
