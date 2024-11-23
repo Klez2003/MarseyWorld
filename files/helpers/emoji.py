@@ -16,7 +16,6 @@ class EmojiEnding(Enum):
 	GENOCIDE = 'genocide'
 	LOVE = 'love'
 	TYPING = 'typing'
-	INVASION = 'invasion'
 
 SPECIAL_EMOJIS = {
 	'capylove': ['love'],
