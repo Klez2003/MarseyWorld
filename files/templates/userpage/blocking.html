@@ -12,7 +12,9 @@
 						<th class="disable-sort-click"></th>
 					{% endif %}
 					<th class="disable-sort-click">Blocking since</th>
-					<th class="disable-sort-click">Expires on</td>
+					{% if FEATURES['BLOCK_MUTE_EXILE_EXPIRY'] %}
+						<th class="disable-sort-click">Expires on</td>
+					{% endif %}
 				</tr>
 			</thead>
 			<tbody id="blockers-table">
@@ -25,7 +27,9 @@
 						</td>
 					{% endif %}
 					<td data-time="{{block.created_utc}}"></td>
-					<td data-time="{{block.created_utc+2678400}}"></td>
+					{% if FEATURES['BLOCK_MUTE_EXILE_EXPIRY'] %}
+						<td data-time="{{block.created_utc+2678400}}"></td>
+					{% endif %}
 				</tr>
 			{% endfor %}
 			</tbody>

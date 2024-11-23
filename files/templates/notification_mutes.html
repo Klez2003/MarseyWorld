@@ -11,7 +11,9 @@
 					<th>User</th>
 					<th>Target</th>
 					<th>Muted on</th>
-					<th>Expires on</th>
+					{% if FEATURES['BLOCK_MUTE_EXILE_EXPIRY'] %}
+						<th>Expires on</th>
+					{% endif %}
 				</tr>
 			</thead>
 			{% for mute in mutes %}
@@ -27,7 +29,9 @@
 						{% endwith %}
 					</td>
 					<td data-time="{{mute.created_utc}}"></td>
-					<td data-time="{{mute.created_utc+2678400}}"></td>
+					{% if FEATURES['BLOCK_MUTE_EXILE_EXPIRY'] %}
+						<td data-time="{{mute.created_utc+2678400}}"></td>
+					{% endif %}
 				</tr>
 			{% endfor %}
 		</table>

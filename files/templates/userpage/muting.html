@@ -11,7 +11,9 @@
 						<th class="disable-sort-click"></th>
 					{% endif %}
 					<th class="disable-sort-click">Muting notifications since</th>
-					<th class="disable-sort-click">Expires on</th>
+					{% if FEATURES['BLOCK_MUTE_EXILE_EXPIRY'] %}
+						<th class="disable-sort-click">Expires on</th>
+					{% endif %}
 				</tr>
 			</thead>
 			<tbody id="muters-table">
@@ -24,7 +26,9 @@
 						</td>
 					{% endif %}
 					<td data-time="{{mute.created_utc}}"></td>
-					<td data-time="{{mute.created_utc+2678400}}"></td>
+					{% if FEATURES['BLOCK_MUTE_EXILE_EXPIRY'] %}
+						<td data-time="{{mute.created_utc+2678400}}"></td>
+					{% endif %}
 				</tr>
 			{% endfor %}
 			</tbody>

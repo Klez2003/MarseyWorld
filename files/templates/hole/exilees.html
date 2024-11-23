@@ -11,7 +11,9 @@
 					<th class="disable-sort-click"></th>
 					<th>Exiled by</th>
 					<th>Exiled since</th>
-					<th>Expires on</th>
+					{% if FEATURES['BLOCK_MUTE_EXILE_EXPIRY'] %}
+						<th>Expires on</th>
+					{% endif %}
 				</tr>
 			</thead>
 			{% for user, exile in users %}
@@ -32,7 +34,9 @@
 						{% endwith %}
 					</td>
 					<td data-time="{{exile.created_utc}}"></td>
-					<td data-time="{{exile.created_utc+2678400}}"></td>
+					{% if FEATURES['BLOCK_MUTE_EXILE_EXPIRY'] %}
+						<td data-time="{{exile.created_utc+2678400}}"></td>
+					{% endif %}
 				</tr>
 			{% endfor %}
 		</table>

@@ -15,9 +15,11 @@
 					<th class="disable-sort-click" {% if sort=="time" %}disabled{% endif %}>
 						<a href="?sort=time">Blocked on</a>
 					</th>
-					<th class="disable-sort-click" {% if sort=="time" %}disabled{% endif %}>
-						<a href="?sort=time">Expires on</a>
-					</th>
+					{% if FEATURES['BLOCK_MUTE_EXILE_EXPIRY'] %}
+						<th class="disable-sort-click" {% if sort=="time" %}disabled{% endif %}>
+							<a href="?sort=time">Expires on</a>
+						</th>
+					{% endif %}
 				</tr>
 			</thead>
 			{% for block in blocks %}
@@ -33,7 +35,9 @@
 						{% endwith %}
 					</td>
 					<td data-time="{{block.created_utc}}"></td>
-					<td data-time="{{block.created_utc+2678400}}"></td>
+					{% if FEATURES['BLOCK_MUTE_EXILE_EXPIRY'] %}
+						<td data-time="{{block.created_utc+2678400}}"></td>
+					{% endif %}
 				</tr>
 			{% endfor %}
 		</table>
