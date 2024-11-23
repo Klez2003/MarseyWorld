@@ -152,7 +152,7 @@ def publish(pid, v):
 	p.rainbowed = p.author.rainbow and not p.is_longpost and not p.distinguished
 
 	p.title_html = filter_emojis_only(p.title, golden=False, obj=p, author=p.author)
-	p.body_html = sanitize(p.body, golden=False, limit_pings=100, obj=p, author=p.author)
+	p.body_html = sanitize(p.body, golden=False, limit_pings=POST_PING_LIMIT, obj=p, author=p.author)
 
 	if p.draft or not complies_with_chud(p):
 		stop(403, f'You have to include "{p.author.chud_phrase}" in your post!')
@@ -688,7 +688,7 @@ def submit_post(v, hole=None):
 	p.title_html = title_html
 
 	g.db.add(p)
-	body_html = sanitize(body, count_emojis=True, limit_pings=100, obj=p, author=v)
+	body_html = sanitize(body, count_emojis=True, limit_pings=POST_PING_LIMIT, obj=p, author=v)
 
 	if v.hieroglyphs and not p.distinguished and marseyaward_body_regex.search(body_html):
 		stop(400, "You can only type emojis!")
@@ -1177,7 +1177,7 @@ def edit_post(pid, v):
 		stop(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
 
 	if body != p.body or p.chudded:
-		body_html = sanitize(body, golden=False, limit_pings=100, obj=p, author=p.author)
+		body_html = sanitize(body, golden=False, limit_pings=POST_PING_LIMIT, obj=p, author=p.author)
 
 		if p.author.hieroglyphs and not p.distinguished and marseyaward_body_regex.search(body_html):
 			stop(403, "You can only type emojis!")

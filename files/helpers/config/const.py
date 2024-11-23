@@ -156,6 +156,9 @@ CATEGORIES_HOLES = {}
 
 TAGLINES = ()
 
+COMMENT_PING_LIMIT = 10
+POST_PING_LIMIT = 100
+
 if SITE_NAME == 'rDrama':
 	PERMS = { # Minimum admin_level to perform action.
 		'HOLE_CREATE': 0,

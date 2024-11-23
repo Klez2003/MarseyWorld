@@ -233,7 +233,7 @@ def comment(v):
 	c.upvotes = 1
 
 	g.db.add(c)
-	body_html = sanitize(body, limit_pings=10, showmore=(not v.hieroglyphs), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id, obj=c, author=v)
+	body_html = sanitize(body, limit_pings=COMMENT_PING_LIMIT, showmore=(not v.hieroglyphs), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id, obj=c, author=v)
 
 	if post_target.id not in ADMIGGER_THREADS and not (v.chud and v.chud_phrase.lower() in body.lower()):
 		existing = g.db.query(Comment.id).filter(
@@ -729,7 +729,7 @@ def edit_comment(cid, v):
 		if len(body) > COMMENT_BODY_LENGTH_LIMIT:
 			stop(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
-		body_html = sanitize(body, golden=False, limit_pings=10, showmore=(not v.hieroglyphs), commenters_ping_post_id=c.parent_post, obj=c, author=c.author)
+		body_html = sanitize(body, golden=False, limit_pings=COMMENT_PING_LIMIT, showmore=(not v.hieroglyphs), commenters_ping_post_id=c.parent_post, obj=c, author=c.author)
 
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
 			stop(400, "Rendered comment is too long!")

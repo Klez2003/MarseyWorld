@@ -143,7 +143,7 @@ def buy(v, kind):
 	return {"message": f"{award_title} award bought!"}
 
 def alter_body(obj):
-	obj.body_html = sanitize(obj.body, limit_pings=10, obj=obj, author=obj.author)
+	obj.body_html = sanitize(obj.body, limit_pings=COMMENT_PING_LIMIT, obj=obj, author=obj.author)
 	if isinstance(obj, Post):
 		obj.title_html = filter_emojis_only(obj.title, golden=False, obj=obj, author=obj.author)
 
