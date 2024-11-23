@@ -1027,6 +1027,7 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 		18308: 1, #gee891
 		24031: 1, #PrettyKitty
 		24456: 1, #PreyingMantits
+		26033: 1, #starry
 		3336: 24, #Snally
 	}
 
