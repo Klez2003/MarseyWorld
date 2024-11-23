@@ -6945,11 +6945,11 @@ body > .container {
 }
 
 #logo-rDrama {
-	width: 110px;
+	width: 90px;
 }
 @media (min-width: 380px) {
 	#logo-rDrama {
-		width: 130px;
+		width: 110px;
 		height: 29.59px;
 		margin-left: 0.5rem !important;
 	}
