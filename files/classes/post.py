@@ -216,6 +216,11 @@ class Post(Base):
 			return "https://i.rdrama.net/images/1732387179866288.webp"
 		elif self.domain == 'scored.co':
 			return "https://i.rdrama.net/images/17309046624223871.webp"
+		elif self.domain == 'tiktok.com':
+			if SITE == 'watchpeopledie.tv':
+				return "https://i.watchpeopledie.tv/images/17323894958019562r.webp"
+			else:
+				return "https://i.rdrama.net/images/17323893974484575r.webp"
 		else:
 			return f"{SITE_FULL_IMAGES}/i/default_thumb_link.webp?x=15"
 
