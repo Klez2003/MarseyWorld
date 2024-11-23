@@ -140,7 +140,7 @@
 									{% endif %}
 								{% endif %}
 
-								{% if p.url %}
+								{% if p.url %} {# we use url for checking instead of domain in the following if conditions bc we dont wanna embed the frontpage of these sites #}
 									{% if (p.url.startswith('https://old.reddit.com/r/') and not p.url.endswith('/new/'))
 									   or (p.url.startswith('https://old.reddit.com/user/') and '/comments/' in p.url)
 									   and not (v and v.reddit == "undelete.pullpush.io") %}
