@@ -6988,6 +6988,7 @@ body {
 
 .navbar-nav > .nav-item {
 	text-align: left;
+	margin-top: 0;
 }
 
 sub, sup {
