@@ -2,7 +2,6 @@ import functools
 import random
 import re
 import signal
-from os import path, listdir
 from urllib.parse import parse_qs, urlparse, unquote, ParseResult, urlencode, urlunparse
 import time
 import requests
@@ -29,6 +28,7 @@ from files.helpers.owoify import *
 from files.helpers.sharpen import *
 from files.helpers.queenify import *
 from files.helpers.bleach_body import *
+from files.helpers.emoji import *
 
 def create_comment_duplicated(text_html):
 	new_comment = Comment(author_id=AUTOJANNY_ID,
@@ -108,145 +108,6 @@ def execute_blackjack(v, target, body, kind):
 				send_repeatable_notification_duplicated(id, f"Blackjack by @{v.username}: {extra_info}")
 
 	return True
-
-def find_all_emoji_endings(emoji):
-	endings = []
-
-	is_non_ending_found = False
-	while not is_non_ending_found:
-		if emoji.endswith('pat'):
-			if 'pat' in endings:
-				is_non_ending_found = True
-				continue
-			endings.append('pat')
-			emoji = emoji[:-3]
-			continue
-
-		if emoji.endswith('talking'):
-			if 'talking' in endings:
-				is_non_ending_found = True
-				continue
-			endings.append('talking')
-			emoji = emoji[:-7]
-			continue
-
-		if emoji.endswith('genocide'):
-			if 'genocide' in endings:
-				is_non_ending_found = True
-				continue
-			endings.append('genocide')
-			emoji = emoji[:-8]
-			continue
-
-		if emoji.endswith('love') and emoji not in {'marseycornlove', 'capylove'}:
-			if 'love' in endings:
-				is_non_ending_found = True
-				continue
-			endings.append('love')
-			emoji = emoji[:-4]
-			continue
-
-		if emoji.endswith('typing'):
-			if 'typing' in endings:
-				is_non_ending_found = True
-				continue
-			endings.append('typing')
-			emoji = emoji[:-6]
-			continue
-
-		is_non_ending_found = True
-
-	if emoji.endswith('random'):
-		kind = emoji.split('random')[0].title()
-		if kind == 'Donkeykong': kind = 'Donkey Kong'
-		elif kind == 'Marseyflag': kind = 'Marsey Flags'
-		elif kind == 'Marseyalphabet': kind = 'Marsey Alphabet'
-
-		if kind in EMOJI_KINDS:
-			emoji = g.db.query(Emoji.name).filter_by(kind=kind, nsfw=False).order_by(func.random()).first()[0]
-
-	return endings, emoji
-
-
-def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False, obj=None):
-	emojis = list(regexp.finditer(html))
-	captured = set()
-
-	for i in emojis:
-		if i.group(0) in captured: continue
-		captured.add(i.group(0))
-
-		emoji = i.group(1).lower()
-		attrs = ''
-
-		if is_title and '#' in emoji:
-			if obj:
-				obj.title = obj.title.replace(emoji, emoji.replace('#',''))
-			emoji = emoji.replace('#','')
-
-		if golden and len(emojis) <= 20 and ('marsey' in emoji or emoji in MARSEYS_CONST2) and random.random() < 0.005:
-			attrs += ' ' + random.choice(('g', 'glow', 'party'))
-
-		old = emoji
-		emoji = emoji.replace('!','').replace('#','')
-		
-		if emoji in ALPHABET_MARSEYS:
-			attrs += ' alpha'
-		elif b:
-			attrs += ' b'
-
-		emoji_partial_pat = '<img alt=":{0}:" loading="lazy" src="{1}"{2}>'
-		emoji_partial = '<img alt=":{0}:" data-bs-toggle="tooltip" loading="lazy" src="{1}" title=":{0}:"{2}>'
-		emoji_html = None
-
-		ending_modifiers, emoji = find_all_emoji_endings(emoji)
-
-		is_talking = 'talking' in ending_modifiers
-		is_patted = 'pat' in ending_modifiers
-		is_talking_first = ending_modifiers.index('pat') > ending_modifiers.index('talking') if is_talking and is_patted else False
-		is_loved = 'love' in ending_modifiers
-		is_genocided = 'genocide' in ending_modifiers
-		is_typing = 'typing' in ending_modifiers
-		is_user = emoji.startswith('@')
-
-		end_modifier_length = 3 if is_patted else 0
-		end_modifier_length = end_modifier_length + 7 if is_talking else end_modifier_length
-
-		hand_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/hand.webp">' if is_patted and emoji != 'marseyunpettable' else ''
-		talking_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/talking.webp">' if is_talking else ''
-		typing_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/typing-hands.webp">' if is_typing else ''
-		loved_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/love-foreground.webp" alt=":{old}:" {attrs}><img loading="lazy" alt=":{old}:" src="{SITE_FULL_IMAGES}/i/love-background.webp" {attrs}>'
-		genocide_attr = ' cide' if is_genocided else ''
-
-		modifier_html = ''
-		if is_talking and is_patted:
-			modifier_html = f'{talking_html}{hand_html}' if is_talking_first else f'{hand_html}{talking_html}'
-		elif is_patted:
-			modifier_html = hand_html
-		elif is_talking:
-			modifier_html = talking_html
-
-		if is_loved:
-			modifier_html = f'{modifier_html}{loved_html}'
-
-		if is_typing:
-			modifier_html = f'{modifier_html}{typing_html}'
-
-		if (is_patted and emoji != 'marseyunpettable') or is_talking or is_genocided or is_loved or is_typing:
-			if path.isfile(f"files/assets/images/emojis/{emoji}.webp"):
-				emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:"{genocide_attr}>{modifier_html}{emoji_partial_pat.format(old, f"{SITE_FULL_IMAGES}/e/{emoji}.webp", attrs)}</span>'
-			elif is_user:
-				if u := get_user(emoji[1:], graceful=True):
-					emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:"{genocide_attr}>{modifier_html}{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
-		elif path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
-			emoji_html = emoji_partial.format(old, f'{SITE_FULL_IMAGES}/e/{emoji}.webp', attrs)
-
-
-		if emoji_html:
-			emojis_used.add(emoji)
-			html = re.sub(f'(?<!"){i.group(0)}(?![^<]*<\/(code|pre)>)', emoji_html, html)
-	return html
-
 
 def with_sigalrm_timeout(timeout):
 	'Use SIGALRM to raise an exception if the function executes for longer than timeout seconds'
