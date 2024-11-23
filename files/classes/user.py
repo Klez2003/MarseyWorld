@@ -404,7 +404,10 @@ class User(Base):
 	@lazy
 	def forced_hat(self):
 		if self.is_suspended:
-			text = f'Banned by {self.banned_by} for "{self.ban_reason}"'
+			text = 'Banned'
+			if not self.ban_reason.startswith('Ban award') and not self.ban_reason.startswith('Grass award'):
+				text += f' by {self.banned_by}'
+			text += f' for "{self.ban_reason}"'
 			if self.unban_utc:
 				text += f' - {self.unban_string}'
 			return ("Behind Bars", text)
