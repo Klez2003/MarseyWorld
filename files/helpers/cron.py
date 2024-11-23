@@ -100,6 +100,9 @@ def cron_fn(every_5m, every_1d, every_1mo, manual):
 					_expire_restrictions()
 					g.db.commit()
 
+				_expire_blacklists()
+				g.db.commit()
+
 				_grant_one_year_badges()
 				g.db.commit()
 
@@ -406,6 +409,9 @@ def _expire_restrictions():
 	for exile in exiles:
 		send_repeatable_notification(exile.user_id, f"Your exile from /h/{exile.hole} has passed 30 days and expired!")
 		g.db.delete(exile)
+
+def _expire_blacklists():
+	cutoff = time.time() - 2592000
 
 	blacklists = g.db.query(GroupBlacklist).filter(GroupBlacklist.created_utc < cutoff)
 	for blacklist in blacklists:
