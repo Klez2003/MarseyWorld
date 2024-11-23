@@ -254,6 +254,8 @@ document.addEventListener("click", function(e) {
 		const attr = element.dataset.toggleattr;
 
 		toggling.classList.toggle(attr);
+
+		element.blur()
 	}
 
 	if (!element.classList.contains("areyousure")) {
