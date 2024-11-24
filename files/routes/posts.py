@@ -1111,7 +1111,7 @@ def edit_post(pid, v):
 
 	if SITE_NAME == 'rDrama': days = 7
 	else: days = 30
-	if time.time() - p.created_utc > days*24*60*60 and not p.draft and v.admin_level < PERMS["IGNORE_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_EDITING_LIMIT:
+	if not p.effortpost and time.time() - p.created_utc > days*24*60*60 and not p.draft and v.admin_level < PERMS["IGNORE_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_EDITING_LIMIT:
 		stop(403, f"You can't edit posts older than {days} days!")
 
 	if p.is_banned:
