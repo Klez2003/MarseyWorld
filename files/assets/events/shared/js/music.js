@@ -1,4 +1,4 @@
-if (!playing_music() && !document.getElementsByClassName('twitter-embed') && !document.getElementsByClassName('reddit-embed')) {
+if (!playing_music() && !document.querySelector('.twitter-embed, .reddit-embed, .substack-embed, .tiktok-embed, .instagram-embed')) {
 	addEventListener("load", () => {
 		const audio = document.getElementById('event-song');
 

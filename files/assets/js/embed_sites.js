@@ -1,6 +1,6 @@
 let blockquotes_map = new Map();
 
-function embed_twitter_reddit() {
+function embed_sites() {
 	if (navigator.doNotTrack == "1") return
 
 	if (document.getElementById('orgy-top-container')) return
@@ -41,6 +41,7 @@ function embed_twitter_reddit() {
 			iframe_html = a.outerHTML + iframe_html
 		}
 		a.outerHTML = iframe_html
+		a.classList.remove('d-none')
 	}
 
 	//substack
@@ -62,6 +63,7 @@ function embed_twitter_reddit() {
 
 		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" scrolling="no" class="substack-embed" src="${iframe_src}" height="500" width="500"></iframe>`
 		a.outerHTML = iframe_html
+		a.classList.remove('d-none')
 	}
 
 	//tiktok
@@ -74,9 +76,46 @@ function embed_twitter_reddit() {
 
 		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" scrolling="no" class="tiktok-embed" src="${iframe_src}" height="756" width="325"></iframe>`
 		a.outerHTML = iframe_html
+		a.classList.remove('d-none')
+	}
+
+	//blind
+	for (const a of document.querySelectorAll(`a[href^="https://www.teamblind.com/"][href*="-"]`)) {
+		if (a.innerHTML && a.innerHTML !== a.href) continue
+		if (["STRONG", "LI", "BLOCKQUOTE", "PRE", "CODEBLOCK"].includes(a.parentElement.tagName)) continue
+
+		const id = a.href.split('-').pop()
+		const iframe_src = `https://www.teamblind.com/embed/${id}`
+
+		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" scrolling="no" class="tiktok-embed" src="${iframe_src}" height="500" width="500"></iframe>`
+		a.outerHTML = iframe_html
+		a.classList.remove('d-none')
+	}
+
+	//instagram
+	for (const a of document.querySelectorAll(`a[href^="https://instagram.com/"]`)) {
+		if (a.innerHTML && a.innerHTML !== a.href) continue
+		if (["STRONG", "LI", "BLOCKQUOTE", "PRE", "CODEBLOCK"].includes(a.parentElement.tagName)) continue
+
+		let iframe_src = a.href.split('https://instagram.com/')[1]
+		if (iframe_src.endsWith('/'))
+			iframe_src = iframe_src.slice(0, -1)
+		if (iframe_src.includes('/')) { //implies p/ or reel/
+			if (iframe_src.split('/').length == 3) //implies a url like this https://instagram.com/magdalenanderssons/p/C-5Mp93iI3u instead of https://instagram.com/p/C-5Mp93iI3u
+				iframe_src = iframe_src.split('/')[1] + '/' + iframe_src.split('/')[2]
+			iframe_src = iframe_src + '/embed/captioned'
+		}
+		else {
+			iframe_src = iframe_src + '/embed'
+		}
+		iframe_src = `https://www.instagram.com/${iframe_src}`
+
+		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" scrolling="no" class="instagram-embed" src="${iframe_src}" height="500" width="500"></iframe>`
+		a.outerHTML = iframe_html
+		a.classList.remove('d-none')
 	}
 }
-embed_twitter_reddit()
+embed_sites()
 
 
 
@@ -100,7 +139,29 @@ addEventListener("message", function(e) {
 		if (height) {
 			for (const iframe of document.getElementsByClassName("substack-embed")) {
 				if (e.source === iframe.contentWindow) {
-					iframe.height = e.data.iframeHeight
+					iframe.height = height
+					break
+				}
+			}
+		}
+	}
+	else if (e.origin == "https://www.teamblind.com") {
+		const height = e.data.height
+		if (height) {
+			for (const iframe of document.getElementsByClassName("blind-embed")) {
+				if (e.source === iframe.contentWindow) {
+					iframe.height = height
+					break
+				}
+			}
+		}
+	}
+	else if (e.origin == "https://www.instagram.com") {
+		const height = JSON.parse(e.data).details.height
+		if (height) {
+			for (const iframe of document.getElementsByClassName("instagram-embed")) {
+				if (e.source === iframe.contentWindow) {
+					iframe.height = height
 					break
 				}
 			}
