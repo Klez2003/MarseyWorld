@@ -440,12 +440,17 @@ def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, e
 
 		try:
 			x = requests.get(post_url, headers=HEADERS, timeout=5, proxies=proxies)
-		except:
+		except Exception as e:
+			print(e, flush=True)
 			return
+
+		print(x.status_code, flush=True)
 
 		if x.status_code != 200:
 			return
 
+		print(x.content, flush=True)
+		print(x.headers.get("Content-Type",""), flush=True)
 		if x.headers.get("Content-Type","").startswith("text/html"):
 			soup = BeautifulSoup(x.content, 'lxml')
 
