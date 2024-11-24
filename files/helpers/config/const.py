@@ -678,6 +678,8 @@ LONGPOSTBOT_REPLIES = (
 	"https://i.rdrama.net/images/17299120560630205.webp",
 	"https://i.rdrama.net/images/17305040437598283.webp",
 	"https://i.rdrama.net/images/17313409462539911.webp",
+	"Shut up meg",
+	"https://i.rdrama.net/images/1732466945440225.webp",
 )
 
 CHUD_MSGS = (
