@@ -255,7 +255,7 @@ tlds = ( # Original gTLDs and ccTLDs
 	'moe','mom','monster','new','news','one','online','pics','press','pub','site','blog',
 	'vip','win','world','wtf','xyz','video','host','art','media','wiki','tech',
 	'cooking','network','party','goog','markets','today','beauty','camp','top',
-	'red','city','quest','works','soy','zone','gl',
+	'red','city','quest','works','soy','zone','gl','fyi',
 	)
 
 protocols = ('http', 'https')
