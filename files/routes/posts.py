@@ -439,7 +439,10 @@ def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, e
 			post_url = f"{SITE_FULL}{post_url}"
 
 		try:
-			x = requests.get(post_url, headers=HEADERS, timeout=5, proxies=proxies)
+			if post_url.startswith('https://youtube.com/watch?v='):
+				x = requests.get(post_url, headers=HEADERS, timeout=5)
+			else:
+				x = requests.get(post_url, headers=HEADERS, timeout=5, proxies=proxies)
 		except Exception as e:
 			print(e, flush=True)
 			return
