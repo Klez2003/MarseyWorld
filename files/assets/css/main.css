@@ -7862,3 +7862,7 @@ p:empty + p { /* poll margin */
 hidden {
 	display: none;
 }
+
+#searchparams-dropdown {
+	line-height: 3rem;
+}
