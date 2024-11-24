@@ -444,13 +444,13 @@ def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, e
 			print(e, flush=True)
 			return
 
-		if post_url == 'https://youtube.com/watch?v=5fvDfDDZ4Ms':
+		if post_url.startswith('https://youtube.com/watch?v='):
 			print(x.status_code, flush=True)
 
 		if x.status_code != 200:
 			return
 
-		if post_url == 'https://youtube.com/watch?v=5fvDfDDZ4Ms':
+		if post_url.startswith('https://youtube.com/watch?v='):
 			print(x.content, flush=True)
 			print(x.headers.get("Content-Type",""), flush=True)
 
@@ -464,14 +464,17 @@ def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, e
 				if not tag:
 					tag = soup.find('meta', attrs={"property": tag_name, "content": True})
 				if tag:
-					print(1, tag, flush=True)
+					if post_url.startswith('https://youtube.com/watch?v='):
+						print(1, tag, flush=True)
 					thumb_candidate_urls.append(expand_url(post_url, tag['content']))
 
 			for tag in soup.find_all("img", attrs={'src': True}):
-				print(2, tag, flush=True)
+				if post_url.startswith('https://youtube.com/watch?v='):
+					print(2, tag, flush=True)
 				thumb_candidate_urls.append(expand_url(post_url, tag['src']))
 
-			print(3, thumb_candidate_urls, flush=True)
+			if post_url.startswith('https://youtube.com/watch?v='):
+				print(3, thumb_candidate_urls, flush=True)
 			for url in thumb_candidate_urls:
 				try:
 					image_req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
