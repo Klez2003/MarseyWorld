@@ -444,13 +444,16 @@ def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, e
 			print(e, flush=True)
 			return
 
-		print(x.status_code, flush=True)
+		if post_url == 'https://www.youtube.com/watch?v=5fvDfDDZ4Ms':
+			print(x.status_code, flush=True)
 
 		if x.status_code != 200:
 			return
 
-		print(x.content, flush=True)
-		print(x.headers.get("Content-Type",""), flush=True)
+		if post_url == 'https://www.youtube.com/watch?v=5fvDfDDZ4Ms':
+			print(x.content, flush=True)
+			print(x.headers.get("Content-Type",""), flush=True)
+
 		if x.headers.get("Content-Type","").startswith("text/html"):
 			soup = BeautifulSoup(x.content, 'lxml')
 
