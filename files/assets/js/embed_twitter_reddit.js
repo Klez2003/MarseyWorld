@@ -44,7 +44,6 @@ function embed_twitter_reddit() {
 	}
 
 	//substack
-
 	for (const a of document.querySelectorAll(`a[href*="substack.com/"]`)) {
 		if (a.innerHTML && a.innerHTML !== a.href) continue
 		if (["STRONG", "LI", "BLOCKQUOTE", "PRE", "CODEBLOCK"].includes(a.parentElement.tagName)) continue
