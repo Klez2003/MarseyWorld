@@ -200,7 +200,11 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 					member_ids = {x[0] for x in g.db.query(ChatMembership.user_id).filter_by(chat_id=chat.id).all()} - {v.id}
 				else:
 					if charge:
-						cost = g.db.query(User).count() * 5
+						cutoff = time.time() - 604800
+						cost = g.db.query(User).filter(
+									User.id != v.id,
+									User.last_active > cutoff,
+								).count() * 5
 
 						if cost > v.coins + v.marseybux:
 							stop(403, f"You need {cost} currency to mention these ping groups!")
@@ -342,9 +346,10 @@ def _push_notif_thread(subscriptions, title, body, url):
 def alert_everyone(cid):
 	cid = int(cid)
 	t = int(time.time())
+	cutoff = t - 604800
 	_everyone_query = text(f"""
 	insert into notifications
-	select id, {cid}, false, {t} from users where id != {g.v.id}
+	select id, {cid}, false, {t} from users where id != {g.v.id} and last_active > {cutoff}
 	on conflict do nothing;""")
 	g.db.execute(_everyone_query)
 
@@ -367,10 +372,10 @@ def alert_admins(body):
 def alert_active_users(body, vid, extra_criteria):
 	body_html = sanitize(body, blackjack="notification")
 	cid = create_comment(body_html)
-	t = time.time() - 604800
+	cutoff = time.time() - 604800
 
 	notified_users = [x[0] for x in g.db.query(User.id).filter(
-			User.last_active > t,
+			User.last_active > cutoff,
 			User.id != vid,
 			extra_criteria,
 		)]
