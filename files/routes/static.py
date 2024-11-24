@@ -165,8 +165,7 @@ def flag_emojis_csv(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def groups_csv(v):
-	return [x[0] for x in g.db.query(Group.name).order_by(Group.name).all()]
-
+	return [x[0] for x in g.db.query(Group.name).order_by(Group.name).all()] + ['everyone', 'jannies', 'holejannies', 'followers', 'commenters']
 @app.get("/users.csv")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
