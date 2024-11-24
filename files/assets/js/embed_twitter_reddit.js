@@ -1,3 +1,5 @@
+let blockquotes_map = new Map();
+
 function embed_twitter_reddit() {
 	if (navigator.doNotTrack == "1") return
 
@@ -18,6 +20,7 @@ function embed_twitter_reddit() {
 			a.innerHTML = a.href
 			iframe_html = a.outerHTML + iframe_html
 		}
+		blockquotes_map[iframe_src] = blockquote.outerHTML
 		blockquote.outerHTML = iframe_html
 	}
 
@@ -50,7 +53,10 @@ addEventListener("message", function(e) {
 		if (height) {
 			for (const iframe of document.getElementsByClassName("twitter-embed")) {
 				if (e.source === iframe.contentWindow)
-					iframe.height = height
+					if (height == 76) //not found
+						iframe.outerHTML = blockquotes_map[iframe.src]
+					else
+						iframe.height = height
 			}
 		}
 	}
