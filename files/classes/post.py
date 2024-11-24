@@ -221,6 +221,11 @@ class Post(Base):
 				return "https://i.watchpeopledie.tv/images/17323894958019562r.webp"
 			else:
 				return "https://i.rdrama.net/images/17323893974484575r.webp"
+		elif self.domain == 'instagram.com':
+			if SITE == 'watchpeopledie.tv':
+				return "https://i.watchpeopledie.tv/images/1732443717978363r.webp"
+			else:
+				return "https://i.rdrama.net/images/17324436577768068r.webp"
 		else:
 			return f"{SITE_FULL_IMAGES}/i/default_thumb_link.webp?x=15"
 
