@@ -158,7 +158,6 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		mul = PROGSTACK_MUL
 	elif cls == Post and (any(i in target.title.lower() for i in ENCOURAGED) or any(i in str(target.url).lower() for i in ENCOURAGED2)):
 		mul = PROGSTACK_MUL
-		send_notification(AEVANN_ID, target.permalink)
 	elif cls == Post and target.hole == 'highrollerclub':
 		mul = 8
 	elif cls == Post and (target.effortpost or target.hole in STEALTH_HOLES):

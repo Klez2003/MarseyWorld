@@ -798,6 +798,9 @@ def submit_post(v, hole=None):
 	if p.draft and flag_effortpost and not (SITE_NAME == 'WPD' and v.truescore < 500):
 		p.effortpost = True
 
+	if any(i in p.title.lower() for i in ENCOURAGED) or any(i in str(p.url).lower() for i in ENCOURAGED2):
+		send_notification(AEVANN_ID, p.permalink)
+
 	g.db.commit()
 	generate_thumb = (not p.thumburl and p.url and p.domain != SITE)
 	gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, generate_thumb, False)
@@ -1233,6 +1236,9 @@ def edit_post(pid, v):
 		if url not in f'{p.url} {p.body}':
 			media_usage.deleted_utc = time.time()
 			g.db.add(media_usage)
+
+	if any(i in p.title.lower() for i in ENCOURAGED) or any(i in str(p.url).lower() for i in ENCOURAGED2):
+		send_notification(AEVANN_ID, p.permalink)
 
 	if body != p.body or p.chudded or change_thumb:
 		g.db.commit()
