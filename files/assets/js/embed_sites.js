@@ -14,7 +14,7 @@ function embed_sites() {
 		if (document.body.dataset.dark)
 			iframe_src += "&theme=dark"
 
-		let iframe_html = `<iframe class="twitter-embed" credentialless="true" allowfullscreen="true" height="240" src="${iframe_src}" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>`
+		let iframe_html = `<iframe class="twitter-embed" credentialless="true" allowfullscreen="true" height="240" src="${iframe_src}" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>`
 		if (twitter != 'x.com') {
 			a.classList.add('d-block')
 			a.innerHTML = a.href
@@ -29,7 +29,7 @@ function embed_sites() {
 		const a = blockquote.lastChild
 		const iframe_src = a.href.replace('https://bsky.app/profile/', 'https://embed.bsky.app/embed/').replace('/post/', '/app.bsky.feed.post/')
 
-		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" scrolling="no" class="bluesky-embed" src="${iframe_src}" height="240" width="500"></iframe>`
+		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" scrolling="no" class="bluesky-embed" src="${iframe_src}" height="240" width="500"></iframe>`
 
 		blockquotes_map[iframe_src] = blockquote.outerHTML
 		blockquote.outerHTML = iframe_html
@@ -72,7 +72,7 @@ function embed_sites() {
 			continue
 		}
 
-		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" scrolling="no" class="substack-embed" src="${iframe_src}" height="500" width="500"></iframe>`
+		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" scrolling="no" class="substack-embed" src="${iframe_src}" height="500" width="500"></iframe>`
 		a.outerHTML = iframe_html
 		a.classList.remove('d-none')
 	}
@@ -85,7 +85,7 @@ function embed_sites() {
 		const id = a.href.split('/video/')[1]
 		const iframe_src = `https://www.tiktok.com/embed/${id}`
 
-		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" scrolling="no" class="tiktok-embed" src="${iframe_src}" height="756" width="325"></iframe>`
+		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" scrolling="no" class="tiktok-embed" src="${iframe_src}" height="756" width="325"></iframe>`
 		a.outerHTML = iframe_html
 		a.classList.remove('d-none')
 	}
@@ -98,7 +98,7 @@ function embed_sites() {
 		const id = a.href.split('-').pop()
 		const iframe_src = `https://www.teamblind.com/embed/${id}`
 
-		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" scrolling="no" class="tiktok-embed" src="${iframe_src}" height="500" width="500"></iframe>`
+		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" scrolling="no" class="tiktok-embed" src="${iframe_src}" height="500" width="500"></iframe>`
 		a.outerHTML = iframe_html
 		a.classList.remove('d-none')
 	}
