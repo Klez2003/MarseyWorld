@@ -459,6 +459,17 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 					embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
 					embed = BeautifulSoup(embed, 'lxml')
 					link.replaceWith(embed)
+			elif link["href"].startswith('https://bsky.app/profile/') and '/post/' in link["href"]:
+				try:
+					embed = requests.get("https://embed.bsky.app/oembed", params={"url":link["href"]}, headers=HEADERS, timeout=5, proxies=proxies).json()["html"]
+				except:
+					pass
+				else:
+					embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
+					embed = embed.split('<script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>')[0]
+					embed = BeautifulSoup(embed, 'lxml')
+					link.replaceWith(embed)
+
 
 	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','').replace('/>','>')
 

@@ -363,7 +363,7 @@ class Post(Base):
 		if self.hole != 'chudrama':
 			body = censor_slurs_profanities(body, v)
 
-		if self.embed and self.domain == "x.com":
+		if self.embed and self.domain in {"x.com", "bsky.app"}:
 			body = self.embed + body
 
 		body = normalize_urls_runtime(body, v)

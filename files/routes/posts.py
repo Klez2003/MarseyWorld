@@ -59,6 +59,12 @@ def _check_domain_ban_and_make_post_embed(url, v):
 			embed = requests.get("https://publish.x.com/oembed", params={"url":url, "omit_script":"t", "dnt":"t"}, headers=HEADERS, timeout=5).json()["html"]
 			embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
 		except: pass
+	elif url.startswith("https://bsky.app/profile/") and '/post/' in url:
+		try:
+			embed = requests.get("https://embed.bsky.app/oembed", params={"url":url}, headers=HEADERS, timeout=5, proxies=proxies).json()["html"]
+			embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
+			embed = embed.split('<script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>')[0]
+		except: pass
 	elif url.startswith('https://youtube.com/watch?'):
 		embed = handle_youtube_links(url)
 	elif SITE in domain and "/post/" in url and "context" not in url and url.count('/') < 6:

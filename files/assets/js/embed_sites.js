@@ -24,6 +24,17 @@ function embed_sites() {
 		blockquote.outerHTML = iframe_html
 	}
 
+	//bluesky
+	for (const blockquote of document.querySelectorAll('blockquote.bluesky-embed')) {
+		const a = blockquote.lastChild
+		const iframe_src = a.href.replace('https://bsky.app/profile/', 'https://embed.bsky.app/embed/').replace('/post/', '/app.bsky.feed.post/')
+
+		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" scrolling="no" class="bluesky-embed" src="${iframe_src}" height="240" width="500"></iframe>`
+
+		blockquotes_map[iframe_src] = blockquote.outerHTML
+		blockquote.outerHTML = iframe_html
+	}
+
 	//reddit
 	const reddit = document.getElementById('reddit').value
 	for (const a of document.querySelectorAll(`a[href^="https://${reddit}/r/"]:not(a[href$="/new"]), a[href^="https://${reddit}/user/"][href*="/comments/"]`)) {
@@ -126,6 +137,20 @@ addEventListener("message", function(e) {
 			for (const iframe of document.getElementsByClassName("twitter-embed")) {
 				if (e.source === iframe.contentWindow) {
 					if (height == 76) //not found
+						iframe.outerHTML = blockquotes_map[iframe.src]
+					else
+						iframe.height = height
+					break
+				}
+			}
+		}
+	}
+	else if (e.origin == "https://embed.bsky.app") {
+		const height = e.data.height
+		if (height) {
+			for (const iframe of document.getElementsByClassName("bluesky-embed")) {
+				if (e.source === iframe.contentWindow) {
+					if (height == 176) //not found
 						iframe.outerHTML = blockquotes_map[iframe.src]
 					else
 						iframe.height = height

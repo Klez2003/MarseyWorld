@@ -69,7 +69,7 @@ def allowed_attributes(tag, name, value):
 		if name == 'class' and value == 'table': return True
 
 	if tag == 'blockquote':
-		if name == 'class' and value == 'twitter-tweet': return True
+		if name == 'class' and value in {'twitter-tweet', 'bluesky-embed'}: return True
 		if name == 'data-dnt' and value == 'true': return True
 
 	if tag == 'd':
