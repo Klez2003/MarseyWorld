@@ -4611,6 +4611,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyproctologist', 'Marsey', 2, 'exam rectal glove reaction anus anal colonoscopy', false, 0),
 ('marseyprojection', 'Marsey', 2, 'animated projector movie director film cinema theatre theater kino', false, 0),
 ('marseyproofster', 'Marsey', 2, 'evidence vatnig vatnik zigger', false, 1723058997),
+('marseypropose', 'Marsey', 2, 'engagement husband marriage marry proposal wedding wife', false, 1732408598),
 ('marseyprostateexam', 'Marsey', 2, 'gloves doctor proctologist proctology anal cavity search rectum', false, 0),
 ('marseyprotestno', 'Marsey', 2, 'sign protester refuse reaction deny reject', false, 0),
 ('marseyprotesttrans', 'Marsey', 2, 'activist frown shut sign stfu upset', false, 1727145808),
