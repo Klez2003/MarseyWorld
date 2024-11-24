@@ -68,6 +68,7 @@ if SITE_NAME == 'rDrama':
 		'downvote': 'downmarsey',
 		'upvoting': 'upmarseying',
 		'downvoting': 'downmarseying',
+		'chiobu(?!\))': 'X (formerly chiobu)',
 	}
 
 PROFANITIES = {
