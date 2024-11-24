@@ -60,7 +60,19 @@ function embed_twitter_reddit() {
 			continue
 		}
 
-		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" scrolling="no" class="substack-embed" src="${iframe_src}" height="500" width="500" style="max-width:100%"></iframe>`
+		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" scrolling="no" class="substack-embed" src="${iframe_src}" height="500" width="500"></iframe>`
+		a.outerHTML = iframe_html
+	}
+
+	//tiktok
+	for (const a of document.querySelectorAll(`a[href^="https://tiktok.com/@"][href*="/video/"]`)) {
+		if (a.innerHTML && a.innerHTML !== a.href) continue
+		if (["STRONG", "LI", "BLOCKQUOTE", "PRE", "CODEBLOCK"].includes(a.parentElement.tagName)) continue
+
+		const id = a.href.split('/video/')[1]
+		const iframe_src = `https://www.tiktok.com/embed/${id}`
+
+		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" scrolling="no" class="tiktok-embed" src="${iframe_src}" height="756" width="325"></iframe>`
 		a.outerHTML = iframe_html
 	}
 }

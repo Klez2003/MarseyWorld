@@ -146,11 +146,9 @@
 									   and not (v and v.reddit == "undelete.pullpush.io") %}
 										<a rel="nofollow noopener" href="{{p.realurl(v)}}"></a>
 										<pre></pre>
-									{% elif p.url.startswith('https://tiktok.com/@') %}
-										{% set id = p.url.split('/video/')[1] %}
-										{% if id %}
-											<iframe id="other-embed" sandbox="allow-scripts allow-same-origin allow-popups" scrolling="no" src="https://www.tiktok.com/embed/{{id}}" height="756" width="325"></iframe>
-										{% endif %}
+									{% elif p.url.startswith('https://tiktok.com/@') and '/video/' in p.url %}
+										<a rel="nofollow noopener" href="{{p.realurl(v)}}"></a>
+										<pre></pre>
 									{% elif p.url.startswith('https://www.teamblind.com/') %}
 										{% set id = p.url.split('-')[-1] %}
 										{% if id %}
