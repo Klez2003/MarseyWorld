@@ -24,7 +24,8 @@ function pause_audio(audio) {
 }
 
 function play_profile_song() {
-	if (playing_music()) return
+	if (playing_music() || document.querySelector('.twitter-embed, .reddit-embed, .substack-embed, .tiktok-embed, .instagram-embed'))
+		return
 
 	addEventListener("load", () => {
 		play_audio(audio);
