@@ -102,13 +102,15 @@ def searchposts(v):
 	if 'q' in criteria:
 		text = criteria['full_text']
 
-		params = [Post.title_ts]
+		words = [Post.title_ts.bool_op("@@")(func.websearch_to_tsquery("simple", text))]
 		if 'title_only' not in criteria:
-			params += [Post.body_ts, Post.url_ts, Post.embed_ts]
-
-		words = []
-		for param in params:
-			words.append(param.bool_op("@@")(func.websearch_to_tsquery("simple", text)))
+			words.append(Post.body_ts.bool_op("@@")(func.websearch_to_tsquery("simple", text)))
+			for x in criteria['q']:
+				for param in (Post.url, Post.embed):
+					if x.startswith('"') and x.endswith('"'):
+						words.append(param.regexp_match(f'[[:<:]]{x[1:-1]}[[:>:]]'))
+					else:
+						words.append(param.ilike(f'%{x}%'))
 
 		posts = posts.filter(or_(*words))
 

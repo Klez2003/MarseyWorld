@@ -71,8 +71,6 @@ class Post(Base):
 	bump_utc = Column(Integer)
 	title_ts = Column(TSVECTOR(), server_default=FetchedValue())
 	body_ts = Column(TSVECTOR(), server_default=FetchedValue())
-	url_ts = Column(TSVECTOR(), server_default=FetchedValue())
-	embed_ts = Column(TSVECTOR(), server_default=FetchedValue())
 
 	if FEATURES['NSFW_MARKING']:
 		nsfw = Column(Boolean, default=False)
