@@ -7715,7 +7715,7 @@ blockquote + p:empty + .twitter-embed {
 	overflow: hidden;
 }
 
-#other-embed {
+#other-embed, .substack-embed {
 	border: none;
 	margin-bottom: 10px;
 }

@@ -167,13 +167,10 @@
 											{% set path = path + '/embed' %}
 										{% endif %}
 										<iframe id="other-embed" credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" scrolling="no" class="autoresizable" src="https://www.instagram.com/{{path}}" style="width:calc(100% - 2px);min-width:326px;max-width:540px"></iframe>
-									{% elif p.domain.endswith('substack.com') %}
-										{% if 'substack.com/p/' in p.url and p.url.count('/') == 4 %}
-											<iframe id="other-embed" credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" scrolling="no" class="autoresizable" src="{{p.url.replace('substack.com/p/', 'substack.com/embed/p/')}}?origin={{SITE_FULL}}" height="500" width="500" style="max-width:100%"></iframe>
-										{% elif '/note/c-' in p.url %}
-											{% set id = p.url.split('/note/c-')[-1] %}
-											<iframe id="other-embed" credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" scrolling="no" class="autoresizable" src="https://substack.com/embed/c/{{id}}?origin={{SITE_FULL}}" height="500" width="500" style="max-width:100%"></iframe>
-										{% endif %}
+									{% elif p.domain.endswith('substack.com')
+									   and (('substack.com/p/' in p.url and p.url.count('/') == 4) or '/note/c-' in p.url) %}
+										<a rel="nofollow noopener" href="{{p.realurl(v)}}"></a>
+										<pre></pre>
 									{% endif %}
 								{% endif %}
 

@@ -42,6 +42,28 @@ function embed_twitter_reddit() {
 		}
 		a.outerHTML = iframe_html
 	}
+
+	//substack
+
+	for (const a of document.querySelectorAll(`a[href*="substack.com/"]`)) {
+		if (a.innerHTML && a.innerHTML !== a.href) continue
+		if (["STRONG", "LI", "BLOCKQUOTE", "PRE", "CODEBLOCK"].includes(a.parentElement.tagName)) continue
+
+		let iframe_src
+		if (a.href.includes('substack.com/p/') && a.href.split("/").length == 5) {
+			iframe_src = a.href.replaceAll('substack.com/p/', 'substack.com/embed/p/') + '?origin=' + location.origin
+		}
+		else if (a.href.includes('/note/c-')) {
+			const id = a.href.split('/note/c-').pop()
+			iframe_src = `https://substack.com/embed/c/${id}?origin=${location.origin}`
+		}
+		else {
+			continue
+		}
+
+		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups" scrolling="no" class="substack-embed" src="${iframe_src}" height="500" width="500" style="max-width:100%"></iframe>`
+		a.outerHTML = iframe_html
+	}
 }
 embed_twitter_reddit()
 
@@ -52,11 +74,24 @@ addEventListener("message", function(e) {
 		const height = e.data["twttr.embed"]["params"][0]["height"]
 		if (height) {
 			for (const iframe of document.getElementsByClassName("twitter-embed")) {
-				if (e.source === iframe.contentWindow)
+				if (e.source === iframe.contentWindow) {
 					if (height == 76) //not found
 						iframe.outerHTML = blockquotes_map[iframe.src]
 					else
 						iframe.height = height
+					break
+				}
+			}
+		}
+	}
+	else if (e.origin.endsWith('.substack.com')) {
+		const height = e.data.iframeHeight
+		if (height) {
+			for (const iframe of document.getElementsByClassName("substack-embed")) {
+				if (e.source === iframe.contentWindow) {
+					iframe.height = e.data.iframeHeight
+					break
+				}
 			}
 		}
 	}
@@ -65,8 +100,10 @@ addEventListener("message", function(e) {
 		let height = data.data
 		if (data && "type" in data && data.type == "resize.embed")
 			for (const iframe of document.getElementsByClassName("reddit-embed")) {
-				if (e.source === iframe.contentWindow)
+				if (e.source === iframe.contentWindow) {
 					iframe.height = height
+					break
+				}
 			}
 	}
 })

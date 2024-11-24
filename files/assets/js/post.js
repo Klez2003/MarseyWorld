@@ -8,8 +8,6 @@ if (autoresizable) {
 			if (height)
 				autoresizable.height = height;
 		}
-		if (e.origin.endsWith('.substack.com') && e.data.iframeHeight)
-			autoresizable.height = e.data.iframeHeight;
 	});
 }
 
