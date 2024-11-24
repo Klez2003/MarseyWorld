@@ -435,61 +435,66 @@ def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, e
 		if not generate_thumb or not post_url:
 			return
 
-		if post_url.startswith('/') and '\\' not in post_url:
-			post_url = f"{SITE_FULL}{post_url}"
+		if post_url.startswith('https://youtube.com/watch?v='):
+			id, _ = get_youtube_id_and_t(post_url)
+			url = f'https://i.ytimg.com/vi/{id}/maxresdefault.jpg'
+			image_req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
+		else:
+			if post_url.startswith('/') and '\\' not in post_url:
+				post_url = f"{SITE_FULL}{post_url}"
 
-		try:
-			x = requests.get(post_url, headers=HEADERS, timeout=5, proxies=proxies)
-		except:
-			return
+			try:
+				x = requests.get(post_url, headers=HEADERS, timeout=5, proxies=proxies)
+			except:
+				return
 
-		if x.status_code != 200:
-			return
+			if x.status_code != 200:
+				return
 
-		if x.headers.get("Content-Type","").startswith("text/html"):
-			soup = BeautifulSoup(x.content, 'lxml')
+			if x.headers.get("Content-Type","").startswith("text/html"):
+				soup = BeautifulSoup(x.content, 'lxml')
 
-			thumb_candidate_urls = []
+				thumb_candidate_urls = []
 
-			for tag_name in ("twitter:image", "og:image", "thumbnail"):
-				tag = soup.find('meta', attrs={"name": tag_name, "content": True})
-				if not tag:
-					tag = soup.find('meta', attrs={"property": tag_name, "content": True})
-				if tag:
-					thumb_candidate_urls.append(expand_url(post_url, tag['content']))
+				for tag_name in ("twitter:image", "og:image", "thumbnail"):
+					tag = soup.find('meta', attrs={"name": tag_name, "content": True})
+					if not tag:
+						tag = soup.find('meta', attrs={"property": tag_name, "content": True})
+					if tag:
+						thumb_candidate_urls.append(expand_url(post_url, tag['content']))
 
-			for tag in soup.find_all("img", attrs={'src': True}):
-				thumb_candidate_urls.append(expand_url(post_url, tag['src']))
+				for tag in soup.find_all("img", attrs={'src': True}):
+					thumb_candidate_urls.append(expand_url(post_url, tag['src']))
 
-			for url in thumb_candidate_urls:
-				try:
-					image_req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
-				except:
-					continue
-
-				if image_req.status_code >= 400:
-					continue
-
-				if not image_req.headers.get("Content-Type","").startswith("image/"):
-					continue
-
-				if image_req.headers.get("Content-Type","").startswith("image/svg"):
-					continue
-
-				with Image.open(BytesIO(image_req.content)) as i:
-					if i.width < 30 or i.height < 30:
+				for url in thumb_candidate_urls:
+					try:
+						image_req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
+					except:
 						continue
-				break
+
+					if image_req.status_code >= 400:
+						continue
+
+					if not image_req.headers.get("Content-Type","").startswith("image/"):
+						continue
+
+					if image_req.headers.get("Content-Type","").startswith("image/svg"):
+						continue
+
+					with Image.open(BytesIO(image_req.content)) as i:
+						if i.width < 30 or i.height < 30:
+							continue
+					break
+				else:
+					return
+			elif x.headers.get("Content-Type","").startswith("image/"):
+				image_req = x
+				with Image.open(BytesIO(x.content)) as i:
+					size = len(i.fp.read())
+					if size > 8 * 1024 * 1024:
+						return
 			else:
 				return
-		elif x.headers.get("Content-Type","").startswith("image/"):
-			image_req = x
-			with Image.open(BytesIO(x.content)) as i:
-				size = len(i.fp.read())
-				if size > 8 * 1024 * 1024:
-					return
-		else:
-			return
 
 		name = f'/images/{time.time()}'.replace('.','') + '.webp'
 
