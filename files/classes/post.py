@@ -224,6 +224,8 @@ class Post(Base):
 				return "https://i.watchpeopledie.tv/images/1732443717978363r.webp"
 			else:
 				return "https://i.rdrama.net/images/17324436577768068r.webp"
+		elif self.domain == 'news.ycombinator.com':
+			return "https://i.rdrama.net/images/17324613596010087r.webp"
 		else:
 			return f"{SITE_FULL_IMAGES}/i/default_thumb_link.webp?x=15"
 
