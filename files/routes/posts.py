@@ -439,23 +439,12 @@ def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, e
 			post_url = f"{SITE_FULL}{post_url}"
 
 		try:
-			if post_url.startswith('https://youtube.com/watch?v='):
-				x = requests.get(post_url, headers=HEADERS, timeout=5)
-			else:
-				x = requests.get(post_url, headers=HEADERS, timeout=5, proxies=proxies)
-		except Exception as e:
-			print(e, flush=True)
+			x = requests.get(post_url, headers=HEADERS, timeout=5, proxies=proxies)
+		except:
 			return
-
-		if post_url.startswith('https://youtube.com/watch?v='):
-			print(x.status_code, flush=True)
 
 		if x.status_code != 200:
 			return
-
-		if post_url.startswith('https://youtube.com/watch?v='):
-			print(x.content, flush=True)
-			print(x.headers.get("Content-Type",""), flush=True)
 
 		if x.headers.get("Content-Type","").startswith("text/html"):
 			soup = BeautifulSoup(x.content, 'lxml')
@@ -467,17 +456,11 @@ def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, e
 				if not tag:
 					tag = soup.find('meta', attrs={"property": tag_name, "content": True})
 				if tag:
-					if post_url.startswith('https://youtube.com/watch?v='):
-						print(1, tag, flush=True)
 					thumb_candidate_urls.append(expand_url(post_url, tag['content']))
 
 			for tag in soup.find_all("img", attrs={'src': True}):
-				if post_url.startswith('https://youtube.com/watch?v='):
-					print(2, tag, flush=True)
 				thumb_candidate_urls.append(expand_url(post_url, tag['src']))
 
-			if post_url.startswith('https://youtube.com/watch?v='):
-				print(3, thumb_candidate_urls, flush=True)
 			for url in thumb_candidate_urls:
 				try:
 					image_req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
