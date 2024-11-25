@@ -105,6 +105,8 @@ def allowed_attributes_runtime(tag, name, value):
 			return True
 		if name == 'checked' and value == '':
 			return True
+		if name == 'disabled' and value == '':
+			return True
 
 	if tag == 'label': 
 		if name == 'class' and value == 'custom-control-label':
