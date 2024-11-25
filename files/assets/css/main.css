@@ -6612,11 +6612,7 @@ div.markdown {
 }
 .actionbtns > *:not(.d-none) {
 	display: inline-block !important;
-	margin-bottom: 10px !important;
 	margin-right: 5px !important;
-}
-.actionbtns > form > * {
-	margin-bottom: 10px !important;
 }
 
 #expandImageModal > .modal-dialog {
