@@ -88,7 +88,7 @@
 								<div class="body w-lg-100 my-auto">
 									<form action="/settings/age" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 										<input hidden type="submit" name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
-										<input autocomplete="off" type="number" name="age" class="form-control d-inline" style="width:auto" min="13" step="1" placeholder="Enter your age">
+										<input autocomplete="off" type="number" name="age" class="form-control d-inline" style="width:auto;max-width:75%" min="13" step="1" placeholder="Enter your age">
 										<button type="button" class="btn btn-primary side-submit-btn" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="submit(this)">Submit</button>
 									</form>
 								</div>
