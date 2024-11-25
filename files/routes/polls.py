@@ -23,7 +23,7 @@ def vote_option(option_id, v):
 	if hole in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(hole):
 		stop(403, f"You need to be a member of House {hole.capitalize()} to vote on polls in /h/{hole}")
 
-	if option.exclusive == 2:
+	if option.exclusive >= 2:
 		if option.parent.total_bet_voted(v):
 			stop(403, "You can't participate in a closed bet!")
 		if not v.charge_account('coins/marseybux', POLL_BET_COINS, f"Cost of bet on {option.parent.textlink}"):
@@ -76,7 +76,7 @@ def vote_option_comment(option_id, v):
 	if hole in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(hole):
 		stop(403, f"You need to be a member of House {hole.capitalize()} to vote on polls in /h/{hole}")
 
-	if option.exclusive == 2:
+	if option.exclusive >= 2:
 		if option.parent.total_bet_voted(v):
 			stop(403, "You can't participate in a closed bet!")
 		if not v.charge_account('coins/marseybux', POLL_BET_COINS, f"Cost of bet on {option.parent.textlink}"):
