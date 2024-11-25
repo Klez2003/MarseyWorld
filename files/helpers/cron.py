@@ -103,6 +103,10 @@ def cron_fn(every_5m, every_1d, every_1mo, manual):
 				_expire_blacklists()
 				g.db.commit()
 
+				if FEATURES['ACCOUNT_DELETION']:
+					_delete_accounts()
+					g.db.commit()
+
 				_grant_one_year_badges()
 				g.db.commit()
 
@@ -418,6 +422,16 @@ def _expire_blacklists():
 		send_repeatable_notification(blacklist.user_id, f"Your blacklisting from !{blacklist.group_name} has passed 30 days and expired!")
 		g.db.delete(blacklist)
 
+def _delete_accounts():
+	cutoff = time.time() - 2592000
+
+	account_deletions = g.db.query(AccountDeletion).filter(AccountDeletion.created_utc < cutoff)
+	for account_deletion in account_deletions:
+		account_deletion.deleted_utc = time.time()
+		g.db.add(account_deletion)
+		account_deletion.user.username = f'deleted~{account_deletion.user.id}'
+		account_deletion.user.passhash = ''
+		g.db.add(account_deletion.user)
 
 def _set_top_poster_of_the_day_id():
 	t = int(time.time()) - 86400
