@@ -481,6 +481,7 @@ if SITE_NAME == 'rDrama':
 		'meowr',
 		'spongebob',
 		'erstory',
+		'outdoors',
 	}
 
 	OFFSITE_NOTIF_QUERIES.update({'marsey', 'r/drama', 'justice4darrell', 'cringetopia.org', 'rdramanet.github.io', 'aevann'})
