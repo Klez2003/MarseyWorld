@@ -7866,3 +7866,13 @@ hidden {
 #searchparams-dropdown {
 	line-height: 3rem;
 }
+
+.side-submit-btn {
+	margin-top: -0.4rem;
+}
+
+@media (max-width: 768px) {
+	.side-submit-btn {
+		margin-top: -0.25rem;
+	}
+}
