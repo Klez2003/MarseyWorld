@@ -183,7 +183,7 @@
 						<div>
 						{% if v and v.id != u.id %}
 							<div id="profile--actionbtns">
-								<div class="actionbtns mb-3">
+								<div class="actionbtns">
 									<button type="button" id="button-sub" class="btn btn-primary {% if is_following or u.is_blocked %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/follow/{{u.username}}','button-unsub','button-sub','d-none')">Follow</button>
 									<button type="button" id="button-unsub" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unfollow/{{u.username}}','button-unsub','button-sub','d-none')">Unfollow</button>
 
