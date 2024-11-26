@@ -16,6 +16,7 @@ from files.helpers.lazy import lazy
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import make_age_string
 from files.helpers.bleach_body import *
+from files.helpers.youtube import *
 
 from .comment import *
 from .polls import *
@@ -200,7 +201,7 @@ class Post(Base):
 			if self.thumburl.startswith('/'): return SITE_FULL + self.thumburl
 			return self.thumburl
 		elif self.domain == 'youtube.com':
-			id = get_youtube_id_and_t(self.url)
+			id, _ = get_youtube_id_and_t(self.url)
 			if id:
 				return f"https://i.ytimg.com/vi/{id}/hqdefault.jpg"
 		elif self.is_youtube or self.is_video:

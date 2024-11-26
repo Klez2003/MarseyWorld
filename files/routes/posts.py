@@ -24,6 +24,7 @@ from files.helpers.settings import get_setting
 from files.helpers.slots import *
 from files.helpers.sorting_and_time import *
 from files.helpers.can_see import *
+from files.helpers.youtube import *
 from files.routes.routehelpers import execute_shadowban_viewers_and_voters
 from files.routes.wrappers import *
 
