@@ -23,13 +23,14 @@ valid_params = [
 	'sentto',
 	'hole',
 	'subreddit',
+	'flair',
 	'effortpost',
 ]
 
 def searchparse(text):
 	text = text.lower()
 
-	criteria = {x[0]:x[1] for x in query_regex.findall(text)}
+	criteria = {x[0]:x[2] for x in query_regex.findall(text)}
 	for x in criteria:
 		if x in valid_params:
 			text = text.replace(f"{x}:{criteria[x]}", "")
@@ -149,6 +150,11 @@ def searchposts(v):
 
 		posts = posts.filter(Post.url.ilike(f"https://old.reddit.com/r/{subreddit}/%"))
 
+	if 'flair' in criteria:
+		flair = criteria['flair']
+		if flair.startswith('"') and flair.endswith('"'):
+			flair = flair[1:-1]
+		posts = posts.filter(Post.flair.ilike(f'%{flair}%'))
 
 	if 'hole' in criteria:
 		posts = posts.filter(Post.hole == criteria['hole'])

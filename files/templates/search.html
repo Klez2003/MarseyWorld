@@ -94,6 +94,10 @@
 												<div style="display: inline-block; width: 150px; text-align: center">Subreddit</div>
 												<button type="button" data-nonce="{{g.nonce}}" data-onclick="addParam(this)" class="searchparam mb-1">subreddit:menslib</button>
 											</div>
+											<div>
+												<div style="display: inline-block; width: 150px; text-align: center">Flair</div>
+												<button type="button" data-nonce="{{g.nonce}}" data-onclick="addParam(this)" class="searchparam mb-1">flair:"IN IN IN"</button>
+											</div>
 										{% endif %}
 									{% endif %}
 									{% if FEATURES['NSFW_MARKING'] %}

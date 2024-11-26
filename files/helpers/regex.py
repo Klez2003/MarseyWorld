@@ -38,7 +38,7 @@ badge_name_regex = re.compile(r"[^\/.]+", flags=re.A)
 
 hole_group_name_regex = re.compile("^[\w-]{3,25}$", flags=re.A)
 
-query_regex = re.compile("(\w+):(\S+)", flags=re.A)
+query_regex = re.compile('(\w+):(("[^"]*"|\S+))', flags=re.A)
 
 poll_regex = re.compile("(^|\n|>)\$\$([^\n]+?)\$\$\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
 bet_regex = re.compile("(^|\n|>)##([^\n]+?)##\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
