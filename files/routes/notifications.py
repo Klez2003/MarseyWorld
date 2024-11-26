@@ -223,6 +223,9 @@ def notifications_posts(v):
 		or_(*or_criteria),
 	).options(load_only(Post.id))
 
+	if v.admin_level < PERMS['USER_SHADOWBAN']:
+		listing = listing.join(Post.author).filter(User.shadowbanned == None)
+
 	total = listing.count()
 
 	listing = listing.order_by(Post.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()

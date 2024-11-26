@@ -905,7 +905,7 @@ class User(Base):
 		if self.effortpost_notifs:
 			or_criteria.append(Post.effortpost == True)
 
-		return g.db.query(Post).filter(
+		listing = g.db.query(Post).filter(
 			Post.created_utc > self.last_viewed_post_notifs,
 			Post.deleted_utc == 0,
 			Post.is_banned == False,
@@ -914,7 +914,12 @@ class User(Base):
 			Post.author_id.notin_(self.userblocks),
 			or_(Post.hole == None, Post.hole.notin_(self.hole_blocks)),
 			or_(*or_criteria),
-		).count()
+		)
+
+		if self.admin_level < PERMS['USER_SHADOWBAN']:
+			listing = listing.join(Post.author).filter(User.shadowbanned == None)
+
+		return listing.count()
 
 	@property
 	@lazy
