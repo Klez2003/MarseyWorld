@@ -1,5 +1,6 @@
 import os
 from shutil import copyfile
+import user_agents
 
 from sqlalchemy import func, text, or_
 from files.helpers.media import *
@@ -473,8 +474,9 @@ def dismiss_mobile_tip():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_required
 def report_memory(v):
-	print(v.username, request.values.get('memory'), g.agent, flush=True)
-	session["checked_memory"] = True
+	ua = str(user_agents.parse(g.agent))
+	print(v.username, ' - ', request.values.get('memory'), ' - ', ua, flush=True)
+	session["reported_memory"] = True
 	return ""
 
 @app.get("/transfers/<int:id>")

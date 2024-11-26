@@ -136,7 +136,7 @@
 		<script defer src="{{'js/mobile_prompt.js' | asset}}"></script>
 	{% endif %}
 
-	{% if v and not session.get('checked_memory') %}
+	{% if v and not session.get('reported_memory') %}
 		<script defer src="{{'js/check_memory.js' | asset}}"></script>
 	{% endif %}
 {% endblock %}
