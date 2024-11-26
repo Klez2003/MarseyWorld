@@ -226,6 +226,10 @@ class Post(Base):
 				return "https://i.rdrama.net/images/17324436577768068r.webp"
 		elif self.domain == 'news.ycombinator.com':
 			return "https://i.rdrama.net/images/17324613596010087r.webp"
+		elif self.domain == 'youtube.com':
+			id = get_youtube_id_and_t(self.url)
+			if id:
+				return f"https://i.ytimg.com/vi/{id}/hqdefault.jpg"
 		else:
 			return f"{SITE_FULL_IMAGES}/i/default_thumb_link.webp?x=15"
 

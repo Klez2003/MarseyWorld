@@ -437,7 +437,7 @@ def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, e
 
 		if post_url.startswith('https://youtube.com/watch?v='):
 			id, _ = get_youtube_id_and_t(post_url)
-			url = f'https://i.ytimg.com/vi/{id}/maxresdefault.jpg'
+			url = f'https://i.ytimg.com/vi/{id}/hqdefault.jpg'
 			image_req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
 		else:
 			if post_url.startswith('/') and '\\' not in post_url:
