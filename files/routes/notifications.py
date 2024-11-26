@@ -313,7 +313,7 @@ def notifications_offsite(v):
 	)
 
 	total = listing.count()
-	listing = listing.order_by(Comment.created_utc.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
+	listing = listing.order_by(Comment.created_utc.desc(), Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
 	for ma in listing:
 		ma.unread = ma.created_utc > v.last_viewed_offsite_notifs
