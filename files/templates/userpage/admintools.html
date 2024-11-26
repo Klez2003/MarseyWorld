@@ -27,7 +27,7 @@
 {% endmacro %}
 
 {% macro userAdminTools(deviceType) %}
-	{% if v and v.id != u.id %}
+	{% if v and v.id != u.id and v.admin_level %}
 		<div class="admintools-user-lower-{{deviceType}}">
 			{% if v.admin_level >= PERMS['USER_CHANGE_FLAIR'] %}
 				<div class="body d-lg-flex border-bottom mt-4 mb-2">
@@ -143,7 +143,6 @@
 					<a id="view-user-ips-{{deviceType}}" class="btn btn-primary" style="display:inline-block!important" href="/@{{u.username}}/ips">View User IPs</a>
 				{% endif %}
 			</div>
-			<br class="d-md-none">
 		</div>
 	{% endif %}
 {%- endmacro %}

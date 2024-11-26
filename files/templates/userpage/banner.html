@@ -93,7 +93,8 @@
 						<a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> |
 						<a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> |
 						<a class="mx-1" href="/@{{u.username}}/voted/posts">Voted</a> |
-						<a class="mx-1" href="/@{{u.username}}/bank_statement">Bank Statement</a>
+						<a class="mx-1" href="/@{{u.username}}/bank_statement">Bank Statement</a> |
+						<a class="mx-1" href="/log?target_id={{u.id}}">Moderation History</a>
 
 						<div class="font-weight-bolder mb-1">
 							<div class="my-2">
@@ -267,8 +268,6 @@
 									<i id="toggle-anthem-icon" class="fas fa-music mr-1"></i> Profile Anthem
 								</button>
 							{% endif %}
-
-							<a class="btn btn-secondary" href="/log?target_id={{u.id}}">Moderation History</a>
 						</div>
 
 						<div class="mt-3" id="profile--info">
@@ -414,7 +413,8 @@
 						<a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> |
 						<a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> |
 						<a class="mx-1" href="/@{{u.username}}/voted/posts">Voted</a> |
-						<a class="mx-1" href="/@{{u.username}}/bank_statement">Bank Statement</a>
+						<a class="mx-1" href="/@{{u.username}}/bank_statement">Bank Statement</a> |
+						<a class="mx-1" href="/log?target_id={{u.id}}">Moderation History</a>
 					</div>
 
 					<div class="font-weight-bolder">
@@ -527,8 +527,6 @@
 							</button>
 						{% endif %}
 
-						<a class="btn btn-secondary" href="/log?target_id={{u.id}}">Moderation History</a>
-
 						{% if v and v.id != u.id %}
 							<button type="button" id="button-sub2" class="btn btn-primary {% if is_following or u.is_blocked %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/follow/{{u.username}}','button-unsub2','button-sub2','d-none')">Follow</button>
 							<button type="button" id="button-unsub2" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unfollow/{{u.username}}','button-unsub2','button-sub2','d-none')">Unfollow</button>
@@ -603,7 +601,7 @@
 						{{userpage_admintools.userAdminTools('mobile')}}
 					{% endif %}
 
-					<div id="profile-mobile--info" {% if v.id == u.id %}class="mt-3"{% endif %}>
+					<div id="profile-mobile--info" class="mt-3">
 						<p id="profile-mobile--info--id">User ID: {{u.id}}</p>
 						<p id="profile-mobile--info--truescore">True score: {{u.truescore|commas}}</p>
 						<p id="profile-mobile--info--casino-winnings">Casino winnings: {{u.winnings|commas}}</p>
