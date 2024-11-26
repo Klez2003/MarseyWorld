@@ -8,8 +8,8 @@ from files.helpers.alerts import push_notif
 from files.classes.notifications import Notification
 
 def notify(body, created_utc):
-	if len(body) > 1000:
-		body = body[:1000] + "..."
+	if len(body) > 2000:
+		body = body[:2000] + "......"
 
 	existing_comment = g.db.query(Comment.id).filter_by(
 		author_id=AUTOJANNY_ID,
@@ -68,9 +68,11 @@ def reddit_mentions_task():
 
 			author_string = f"/u/{thing['author']}"
 			permalink = 'https://old.reddit.com' + thing['permalink']
+			text = offsite_query_regex.sub(r'<span class="offsite-alert">\1</span>', text)
 			text =  f'New site mention by {author_string}\n\n**{permalink}**\n\n{text}'
 			created_utc = thing['created_utc']
 			if notify(text, created_utc) == 1: break
+			break
 
 
 def lemmy_mentions_task():
@@ -100,10 +102,12 @@ def lemmy_mentions_task():
 				if 'erdrama' in text.lower(): continue
 
 				permalink = thing['ap_id']
+				text = offsite_query_regex.sub(r'<span class="offsite-alert">\1</span>', text)
 				text =  f'New site mention by {author_string}\n\n**{permalink}**\n\n{text}'
 				try: created_utc = int(time.mktime(time.strptime(thing['published'].split('.')[0], "%Y-%m-%dT%H:%M:%S")))
 				except: created_utc = int(time.mktime(time.strptime(thing['published'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
 				if notify(text, created_utc) == 1: break
+				break
 
 
 def fourchan_mentions_task():
@@ -128,9 +132,11 @@ def fourchan_mentions_task():
 				text = f'<blockquote><p>{thing["title"]}</p></blockquote><br><blockquote><p>{thing["comment"]}</p></blockquote>'
 				permalink = f'https://archived.moe/{board}/thread/{thread_num}'
 
+			text = offsite_query_regex.sub(r'<span class="offsite-alert">\1</span>', text)
 			text = f'New site mention by {author_string}\n\n**{permalink}**\n\n{text}'
 			created_utc = thing["timestamp"]
 			if notify(text, created_utc) == 1: break
+			break
 
 
 def soyjak_mentions_task():
@@ -146,6 +152,8 @@ def soyjak_mentions_task():
 			if 'erdrama' in text.lower(): continue
 			if 'rdrama won' in text.lower(): continue
 			permalink = thing['url']
+			text = offsite_query_regex.sub(r'<span class="offsite-alert">\1</span>', text)
 			text =  f'New site mention\n\n**{permalink}**\n\n{text}'
 			created_utc = int(time.mktime(time.strptime(thing['date'].split('.')[0], "%Y-%m-%dT%H:%M:%S")))
 			if notify(text, created_utc) == 1: break
+			break

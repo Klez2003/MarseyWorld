@@ -218,6 +218,8 @@ video_link_regex = re.compile(f"https://(videos2?\.)?{SITE}\/(videos\/)?[0-9a-zA
 
 asset_image_link_regex = re.compile(f"https:\/\/(i\.)?{SITE}\/assets\/images\/[\w\/]+.webp(\?x=\d+)?", flags=re.A)
 
+offsite_query_regex = re.compile("(" + "|".join(OFFSITE_NOTIF_QUERIES) + ")", flags=re.A|re.I)
+
 search_regex_1 = re.compile(r'[\0():|&*!<>]', flags=re.A)
 search_regex_2 = re.compile(r"'", flags=re.A)
 search_regex_3 = re.compile(r'\s+', flags=re.A)

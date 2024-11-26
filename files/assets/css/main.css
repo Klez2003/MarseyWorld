@@ -7872,3 +7872,8 @@ hidden {
 		margin-top: -0.25rem;
 	}
 }
+
+.offsite-alert, .offsite-alert * {
+	color: red !important;
+	font-weight: 700 !important;
+}
