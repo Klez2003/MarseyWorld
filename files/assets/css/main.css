@@ -7791,6 +7791,10 @@ p:empty + p { /* poll margin */
     margin-top: 1rem;
 }
 
+p.resizable + p:empty { /* margin after video at the end of the comment */
+    margin-bottom: 1rem !important;
+}
+
 .post-preview p.resizable {
     width: 285px;
 }
