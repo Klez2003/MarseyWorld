@@ -236,6 +236,8 @@ class Post(Base):
 				return "https://i.rdrama.net/images/17324436577768068r.webp"
 		elif self.domain == 'news.ycombinator.com':
 			return "https://i.rdrama.net/images/17324613596010087r.webp"
+		elif self.domain.startswith('kiwifarms.'):
+			return "https://i.rdrama.net/images/16764197614414222.webp"
 		else:
 			return f"{SITE_FULL_IMAGES}/i/default_thumb_link.webp?x=15"
 
