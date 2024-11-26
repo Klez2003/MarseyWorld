@@ -5,7 +5,7 @@ if (!is_pwa) {
 		document.getElementsByClassName('tooltip')[0].addEventListener('click', function(e) {
 			tt.hide()
 			const xhr = new XMLHttpRequest();
-			xhr.open("POST", '/dismiss_mobile_tip', true);
+			xhr.open("POST", '/dismiss_mobile_tip');
 			xhr.setRequestHeader('xhr', 'xhr');
 			xhr.send();
 			if (!e.target.classList.contains('dismiss-beg'))
