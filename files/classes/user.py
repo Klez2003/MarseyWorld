@@ -335,11 +335,6 @@ class User(Base):
 
 	@property
 	@lazy
-	def poor(self):
-		return session.get('poor')
-
-	@property
-	@lazy
 	def cursormarsey(self):
 		return session.get('cursormarsey', CURSORMARSEY_DEFAULT)
 
@@ -1484,7 +1479,7 @@ class User(Base):
 
 	@lazy
 	def pride_username(self, v):
-		return bool(not (v and v.poor) and self.has_badge(303))
+		return bool(not session.get('poor') and self.has_badge(303))
 
 	@property
 	@lazy

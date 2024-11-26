@@ -1,7 +1,7 @@
 import time
 from math import floor
 from urllib.parse import parse_qs, urlencode, urlparse, urlunparse, ParseResult
-from flask import g, request
+from flask import g, request, session
 
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects.postgresql import TSVECTOR
@@ -37,7 +37,7 @@ def get_award_classes(obj, v, title=False):
 		classes.append("text-uppercase")
 		if not title: classes.append(f"chud-img chud-{obj.id_last_num}")
 
-	if not (v and v.poor):
+	if not session.get('poor'):
 		if not obj.is_longpost and not obj.ghost and obj.author.bite:
 			classes.append('author-bitten')
 		if obj.award_count('glowie', v):
@@ -361,7 +361,7 @@ class Comment(Base):
 		if self.distinguished and SITE_NAME == 'WPD':
 			return 0
 
-		if v and v.poor:
+		if session.get('poor'):
 			return 0
 		return len([x for x in self.awards if x.kind == kind])
 

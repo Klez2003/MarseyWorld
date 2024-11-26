@@ -15,7 +15,7 @@
 {% endif %}
 
 {% block head_final %}
-	{% if not (v and v.poor) %}
+	{% if not session.get('poor') %}
 		{% include "awards.html" %}
 		{% if IS_FISTMAS() %}
 			{% include "events/fistmas/awards.html" %}

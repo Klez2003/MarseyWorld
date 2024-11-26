@@ -17,7 +17,7 @@
 							</div>
 							<div class="body w-lg-100 pt-1 pt-lg-3">
 								<div class="custom-control custom-switch">
-									<input autocomplete="off" type="checkbox" class="custom-control-input setting_switch" data-nonce="{{g.nonce}}" id="poor" name="poor"{% if v.poor %} checked{% endif %}>
+									<input autocomplete="off" type="checkbox" class="custom-control-input setting_switch" data-nonce="{{g.nonce}}" id="poor" name="poor"{% if session.get('poor') %} checked{% endif %}>
 									<label class="custom-control-label" for="poor"></label>
 								</div>
 								<span class="text-small text-muted">Makes the site faster for low-end devices:</span>

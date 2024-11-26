@@ -9,6 +9,7 @@ import yt_dlp
 from calendar import timegm
 
 from sqlalchemy.orm import load_only
+from flask import session
 
 from files.classes.account_deletion import *
 from files.helpers.actions import *
@@ -167,9 +168,9 @@ def settings_personal_post(v):
 		if reddit in {'old.reddit.com', 'new.reddit.com', 'sh.reddit.com', 'reddit.com', 'undelete.pullpush.io'}:
 			updated = True
 			v.reddit = reddit
-	elif request.values.get("poor", v.poor) != v.poor:
+	elif request.values.get("poor", session.get('poor')) != session.get('poor'):
 		updated = True
-		session['poor'] = request.values.get("poor", v.poor) == 'true'
+		session['poor'] = request.values.get("poor", session.get('poor')) == 'true'
 		if session['poor']:
 			v.show_sigs = False
 			if v.frontsize > 25:

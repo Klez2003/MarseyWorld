@@ -43,7 +43,7 @@
 			<script defer src="{{'events/homoween/js/jumpscare.js' | asset}}"></script>
 		{% endif %}
 
-		{% if (IS_BDAY() or p and p.award_count("confetti", v)) and not (v and v.poor) %}
+		{% if (IS_BDAY() or p and p.award_count("confetti", v)) and not session.get('poor') %}
 			<link rel="stylesheet" href="{{('css/click_confetti.css') | asset}}">
 			<script defer src="{{'js/click_confetti.js' | asset}}"></script>
 		{% endif %}

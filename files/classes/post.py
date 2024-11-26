@@ -1,7 +1,7 @@
 import random
 import time
 from urllib.parse import urlparse
-from flask import g
+from flask import g, session
 from bs4 import BeautifulSoup
 
 from sqlalchemy import Column, FetchedValue, ForeignKey
@@ -302,7 +302,7 @@ class Post(Base):
 
 	@lazy
 	def award_count(self, kind, v):
-		if v and v.poor:
+		if session.get('poor'):
 			return 0
 
 		if self.distinguished and SITE_NAME == 'WPD':
