@@ -646,6 +646,9 @@ def award_thing(v, thing_type, id):
 		if author.username.startswith('deleted~'):
 			stop(403, "Recipient account is deleted!")
 
+		if SITE_NAME == 'WPD' and author.id == AUTOJANNY_ID:
+			stop(403, f"You can't change @{author.username}'s flair!")
+
 		new_flair = note
 
 		if len(new_flair) > 100:
