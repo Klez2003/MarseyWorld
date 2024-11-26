@@ -210,6 +210,11 @@ class Post(Base):
 			return f"{SITE_FULL_IMAGES}/i/default_thumb_audio.webp?x=15"
 		elif self.domain == SITE:
 			return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?x=15"
+		elif self.domain == 'reddit.com':
+			if SITE == 'watchpeopledie.tv':
+				return "https://i.watchpeopledie.tv/images/1728360164949774.webp"
+			else:
+				return "https://i.rdrama.net/images/17325804049299114.webp"
 		elif self.domain == 'x.com':
 			if SITE == 'watchpeopledie.tv':
 				return "https://i.watchpeopledie.tv/images/17110710913860154.webp"
