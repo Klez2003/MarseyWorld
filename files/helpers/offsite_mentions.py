@@ -72,7 +72,6 @@ def reddit_mentions_task():
 			text =  f'New site mention by {author_string}\n\n**{permalink}**\n\n{text}'
 			created_utc = thing['created_utc']
 			if notify(text, created_utc) == 1: break
-			break
 
 
 def lemmy_mentions_task():
@@ -107,7 +106,6 @@ def lemmy_mentions_task():
 				try: created_utc = int(time.mktime(time.strptime(thing['published'].split('.')[0], "%Y-%m-%dT%H:%M:%S")))
 				except: created_utc = int(time.mktime(time.strptime(thing['published'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
 				if notify(text, created_utc) == 1: break
-				break
 
 
 def fourchan_mentions_task():
@@ -136,7 +134,6 @@ def fourchan_mentions_task():
 			text = f'New site mention by {author_string}\n\n**{permalink}**\n\n{text}'
 			created_utc = thing["timestamp"]
 			if notify(text, created_utc) == 1: break
-			break
 
 
 def soyjak_mentions_task():
@@ -156,4 +153,3 @@ def soyjak_mentions_task():
 			text =  f'New site mention\n\n**{permalink}**\n\n{text}'
 			created_utc = int(time.mktime(time.strptime(thing['date'].split('.')[0], "%Y-%m-%dT%H:%M:%S")))
 			if notify(text, created_utc) == 1: break
-			break
