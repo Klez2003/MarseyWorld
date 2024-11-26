@@ -30,7 +30,7 @@ def const_initialize():
 		Emoji.submitter_id == None,
 		Emoji.name != 'chudsey',
 		Emoji.nsfw == False,
-		not_(Emoji.tags.ilike('pkmn')),
+		not_(Emoji.tags.ilike('%pkmn%')),
 	)]
 	ALPHABET_MARSEYS = [x[0] for x in db.query(Emoji.name).filter_by(kind='Marsey Alphabet')]
 	MARSEYS_CONST2 = MARSEYS_CONST + ALPHABET_MARSEYS
