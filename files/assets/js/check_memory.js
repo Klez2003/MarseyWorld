@@ -1,4 +1,4 @@
-if (navigator.deviceMemory < 8 && !navigator.brave) {
+if (navigator.deviceMemory < 4 && !navigator.brave) {
 	const xhr = new XMLHttpRequest();
 	xhr.open("POST", '/report_memory',);
 	xhr.setRequestHeader('xhr', 'xhr');
