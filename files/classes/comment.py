@@ -462,7 +462,11 @@ class Comment(Base):
 		if community_notes:
 			community_notes = g.db.query(Comment).filter_by(parent_comment_id=self.id, community_note=True).order_by(Comment.id)
 			for community_note in community_notes:
-				body += f'<fieldset class="community-note"><legend><i class="fas fa-users text-blue mr-2"></i><a href="#comment-text-{community_note.id}">Community Note</a></legend>{community_note.realbody(v, community_notes=False)}</fieldset>'
+				if '/post/' in request.path:
+					url = f"#comment-{community_note.id}-only"
+				else:
+					url = community_note.permalink
+				body += f'<fieldset class="community-note"><legend><i class="fas fa-users text-blue mr-2"></i><a href="{url}">Community Note</a></legend>{community_note.realbody(v, community_notes=False)}</fieldset>'
 
 		return body
 
