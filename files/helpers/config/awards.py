@@ -746,7 +746,7 @@ AWARDS = {
 	"unpin": {
 		"kind": "unpin",
 		"title": "Unpin",
-		"description": "Removes 1 hour from the pin duration of a post or 6 hours from the pin duration of a comment.",
+		"description": "Removes 1 hour from the pin duration of a post or 1 day from the pin duration of a comment.",
 		"icon": "fas fa-thumbtack fa-rotate--45",
 		"color": "text-black",
 		"price": 1000,
@@ -774,7 +774,7 @@ AWARDS = {
 	"pin": {
 		"kind": "pin",
 		"title": "Pin",
-		"description": "Pins a post for 1 hour or a comment for 6 hours.",
+		"description": "Pins a post for 1 hour or a comment for 1 day.",
 		"icon": "fas fa-thumbtack fa-rotate--45",
 		"color": "text-warning",
 		"price": 1500,
@@ -802,7 +802,7 @@ AWARDS = {
 	"gigapin": {
 		"kind": "gigapin",
 		"title": "Giga Pin",
-		"description": "Pins a post for 12 hours or a comment for 3 days.",
+		"description": "Pins a post for 12 hours or a comment for 12 days.",
 		"icon": "fas fa-thumbtack fa-rotate--45",
 		"color": "text-danger",
 		"price": 13500,

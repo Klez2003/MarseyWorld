@@ -546,7 +546,7 @@ def award_thing(v, thing_type, id):
 		if SITE_NAME == 'WPD' and isinstance(obj, Comment) and not obj.parent_post:
 			stop(400, "You can't pin wall comments!")
 
-		if isinstance(obj, Comment): add = 3600*6 * quantity
+		if isinstance(obj, Comment): add = 3600*24 * quantity
 		else: add = 3600 * quantity
 
 		if kind == "gigapin":
@@ -585,7 +585,7 @@ def award_thing(v, thing_type, id):
 
 		if not obj.author.deflector or v == obj.author or v.penetrator:
 			if isinstance(obj, Comment):
-				t = obj.pinned_utc - 3600*6 * quantity
+				t = obj.pinned_utc - 3600*24 * quantity
 			else:
 				t = obj.pinned_utc - 3600 * quantity
 
