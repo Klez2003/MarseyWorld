@@ -211,7 +211,7 @@ class Leaderboard:
 	@classmethod
 	def get_effortposts_lb(cls, lb_criteria, v, users, limit, desc):
 		sq = g.db.query(lb_criteria, cls.count_and_label(lb_criteria), cls.rank_filtered_rank_label_by_desc(lb_criteria))
-		sq = sq.filter(Post.effortpost == True)
+		sq = sq.filter(Post.effortpost == True, Post.draft == False)
 		sq = sq.group_by(lb_criteria).subquery()
 		sq_criteria = User.id == sq.c.author_id
 
