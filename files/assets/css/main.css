@@ -6392,7 +6392,6 @@ g {
 	border: 1px solid #1da1f2 !important;
     border-radius: 0.35rem !important;
 }
-
 .community-note > legend {
 	padding-top: 7px !important;
 	padding-bottom: 7px !important;
@@ -6402,14 +6401,15 @@ g {
 	font-weight: 700;
 	color: #CFCFCF;
 }
-
 .community-note > * {
 	padding-left: 14px !important;
 	padding-right: 14px !important;
 }
-
 .community-note + .community-note {
     margin-top: 1.5rem;
+}
+.post-preview > .community-note:last-of-type {
+    margin-bottom: 1.5rem;
 }
 
 .showmore {
