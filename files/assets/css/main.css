@@ -5111,7 +5111,7 @@ span.green {
 .btn-danger {
 	border-color: #E53E3E !important;
 }
-.alert, .alert * {
+.alert, .alert *:not(a) {
 	color: #000000 !important;
 	font-weight: 500;
 }
