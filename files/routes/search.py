@@ -121,7 +121,7 @@ def searchposts(v):
 
 	if 'effortpost' in criteria:
 		effortpost = criteria['effortpost'].lower().strip() == 'true'
-		posts = posts.filter(Post.effortpost == effortpost)
+		posts = posts.filter(Post.effortpost == effortpost, Post.draft == False)
 
 	if 'domain' in criteria or 'site' in criteria:
 		if 'domain' in criteria:

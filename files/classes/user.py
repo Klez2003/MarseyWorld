@@ -1562,7 +1562,7 @@ class User(Base):
 	@property
 	@lazy
 	def effortposts_made(self):
-		return g.db.query(Post).filter_by(author_id=self.id, effortpost=True).count()
+		return g.db.query(Post).filter_by(author_id=self.id, effortpost=True, draft=False).count()
 
 	@property
 	@lazy
