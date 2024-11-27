@@ -193,7 +193,7 @@ def award_thing(v, thing_type, id):
 
 	safe_username = f"@{obj.author_name} is"
 
-	if v.id != author.id and author.deflector and AWARDS[kind]['deflectable'] and v.penetrator and quantity > v.penetrator:
+	if v.id != author.id and author.deflector and AWARDS[kind]['negative'] and v.penetrator and quantity > v.penetrator:
 		msg = f"You tried to give {quantity} {award_title} award{s}, but {safe_username} under the effect of a deflector award. As you only have {v.penetrator} penetrators, only {v.penetrator} {award_title} award{s} were given."
 		send_repeatable_notification(v.id, msg)
 		quantity = v.penetrator
@@ -273,7 +273,7 @@ def award_thing(v, thing_type, id):
 		msg_note = '\n\n> ' + '\n\n> '.join(note.splitlines())
 
 	if v.id != author.id:
-		if v.deflector and author.deflector and AWARDS[kind]['deflectable'] and not v.penetrator:
+		if v.deflector and author.deflector and AWARDS[kind]['negative'] and not v.penetrator:
 			msg = f"@{v.username} has tried to give {obj.textlink} {quantity} {award_title} award{s} but {it} {was} deflected on them, they also had a deflector up, so {it} bounced back and forth until {it} vaporized!"
 			
 			if note:
@@ -286,7 +286,7 @@ def award_thing(v, thing_type, id):
 
 			return {"message": f"{quantity} {award_title} award{s} given to {thing_type} successfully!"}
 
-		if author.deflector and AWARDS[kind]['deflectable'] and not v.penetrator:
+		if author.deflector and AWARDS[kind]['negative'] and not v.penetrator:
 			author = v
 			safe_username = f"Your award{s} {has} been deflected but failed since you're"
 
@@ -767,7 +767,7 @@ def award_thing(v, thing_type, id):
 
 	author = obj.author
 	if v.id != author.id:
-		if author.deflector and AWARDS[kind]['deflectable']:
+		if author.deflector and AWARDS[kind]['negative']:
 			if v.penetrator:
 				v.penetrator -= quantity
 				g.db.add(v)
