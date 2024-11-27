@@ -220,6 +220,7 @@ class Comment(Base):
 	rainbowed = Column(Boolean, default=False)
 	queened = Column(Boolean, default=False)
 	sharpened = Column(Boolean, default=False)
+	community_note = Column(Boolean, default=False)
 
 	if FEATURES['NSFW_MARKING']:
 		nsfw = Column(Boolean, default=False)
@@ -439,7 +440,7 @@ class Comment(Base):
 		return False
 
 	@lazy
-	def realbody(self, v):
+	def realbody(self, v, community_notes=True):
 		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)):
 			return "[Deleted by user]"
 		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id):
@@ -457,6 +458,11 @@ class Comment(Base):
 
 			if self.created_utc > 1706137534:
 				body = bleach_body_html(body, runtime=True) #to stop slur filters and poll options being used as a vector for html/js injection
+
+		if community_notes:
+			community_notes = g.db.query(Comment).filter_by(parent_comment_id=self.id, community_note=True).order_by(Comment.id)
+			for community_note in community_notes:
+				body += f'<fieldset class="community-note"><legend><i class="fas fa-users text-blue mr-2"></i><a href="#comment-{community_note.id}-only">Community Note</a></legend>{community_note.realbody(v, community_notes=False)}</fieldset>'
 
 		return body
 

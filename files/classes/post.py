@@ -72,6 +72,7 @@ class Post(Base):
 	bump_utc = Column(Integer)
 	title_ts = Column(TSVECTOR(), server_default=FetchedValue())
 	body_ts = Column(TSVECTOR(), server_default=FetchedValue())
+	community_note = Column(Boolean, default=False)
 
 	if FEATURES['NSFW_MARKING']:
 		nsfw = Column(Boolean, default=False)
@@ -383,12 +384,9 @@ class Post(Base):
 		if self.created_utc > 1706137534:
 			body = bleach_body_html(body, runtime=True) #to stop slur filters and poll options being used as a vector for html/js injection
 
-		community_notes = g.db.query(Comment).filter(
-			Comment.parent_post == self.id,
-			Comment.pinned.like('% (community note award)'),
-		).order_by(Comment.id)
+		community_notes = g.db.query(Comment).filter_by(parent_post=self.id, level=1, community_note=True).order_by(Comment.id)
 		for community_note in community_notes:
-			body += f'<fieldset class="community-note"><legend><i class="fas fa-users text-blue mr-2"></i>Community Note</legend>{community_note.realbody(v)}</fieldset>'
+			body += f'<fieldset class="community-note"><legend><i class="fas fa-users text-blue mr-2"></i><a href="#comment-{community_note.id}-only">Community Note</a></legend>{community_note.realbody(v, community_notes=False)}</fieldset>'
 
 		return body
 
