@@ -368,7 +368,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			continue
 
 		#don't allow something like this https://rdrama.net/post/78376/reminder-of-the-fact-that-our/2150032#context
-		domain = tldextract.extract(href).registered_domain
+		domain = tldextract.extract(href).fqdn
 		if domain and not allowed_domain_regex.fullmatch(domain):
 			unlinkfy()
 			continue
@@ -391,7 +391,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 		#don't allow something like this [https://rԁrama.net/leaderboard](https://iplogger.org/1fRKk7)
 		if not snappy:
-			string_domain = tldextract.extract(str(link.string)).registered_domain
+			string_domain = tldextract.extract(str(link.string)).fqdn
 			if string_domain and string_domain != domain:
 				link.string = href
 
@@ -689,7 +689,7 @@ def validate_css(css):
 	for i in css_url_regex.finditer(css):
 		url = i.group(1)
 		if not url.startswith('https://fonts.gstatic.com/s/') and not is_safe_url(url):
-			domain = tldextract.extract(url).registered_domain
+			domain = tldextract.extract(url).fqdn
 			return False, f"The domain '{domain}' is not allowed here!"
 
 	return True, ""

@@ -47,7 +47,7 @@ def _check_domain_ban_and_make_post_embed(url, v):
 		return None
 
 	embed = None
-	domain = tldextract.extract(url).registered_domain
+	domain = tldextract.extract(url).fqdn
 
 	if v.admin_level < PERMS["IGNORE_DOMAIN_BAN"]:
 		combined = (domain + urlparse(url).path).lower()
