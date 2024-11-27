@@ -6407,7 +6407,7 @@ g {
 .community-note + .community-note {
     margin-top: 1.5rem;
 }
-.post-preview > .community-note:last-of-type {
+.post-preview > .community-note:last-of-type, .comment-text > .community-note:last-of-type {
     margin-bottom: 1.5rem;
 }
 
