@@ -214,7 +214,7 @@ def vote_info_get(v, link):
 	if obj.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
 		stop(403)
 
-	if obj.author.shadowbanned and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
+	if v.shadowbanned:
 		stop(451)
 
 	if isinstance(obj, Post):
