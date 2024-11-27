@@ -6388,6 +6388,25 @@ g {
 	}
 }
 
+.community-note {
+	border: 1px solid #1da1f2 !important;
+}
+
+.community-note > legend {
+	padding-top: 7px !important;
+	padding-bottom: 7px !important;
+	font-size: 1rem;
+	border: 1px solid #1da1f2 !important;
+	background: #093653;
+	font-weight: 700;
+	color: #CFCFCF;
+}
+
+.community-note > * {
+	padding-left: 14px !important;
+	padding-right: 14px !important;
+}
+
 .showmore {
 	width: 99%;
 	padding: 5px;
