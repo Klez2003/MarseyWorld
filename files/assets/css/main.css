@@ -6390,6 +6390,7 @@ g {
 
 .community-note {
 	border: 1px solid #1da1f2 !important;
+    border-radius: 0.35rem !important;
 }
 
 .community-note > legend {
