@@ -313,7 +313,7 @@ def award_thing(v, thing_type, id):
 
 	if kind in {"ban", "grass"}:
 		if author.is_suspended and author.ban_reason.startswith('Grass award'):
-			stop(400, f"You can't give a {kind} award to an already-grassed user!")
+			stop(400, f"You can't give a {award_title} award to an already-grassed user!")
 
 		ban_reason_link = f"/{thing_type}/{obj.id}"
 		if isinstance(obj, Comment):
@@ -538,7 +538,7 @@ def award_thing(v, thing_type, id):
 		if not FEATURES['PINS']: stop(403)
 
 		if obj.is_banned:
-			stop(403, f"You can't give a {kind} award to a removed {thing_type}!")
+			stop(403, f"You can't give a {award_title} award to a removed {thing_type}!")
 
 		if obj.pinned and not obj.pinned_utc:
 			stop(400, f"This {thing_type} is already pinned permanently!")
