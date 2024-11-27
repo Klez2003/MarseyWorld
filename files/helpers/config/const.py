@@ -451,6 +451,7 @@ if SITE_NAME == 'rDrama':
 		"always there for you",
 		"pure unadulterated autiam",
 		"the fifth caliphate",
+		"world's largest adult daycare",
 	)
 
 	BOOSTED_HOLES = {
@@ -557,6 +558,7 @@ elif SITE_NAME == 'WPD':
 		"not affiliated with AllTrails.com",
 		"30-minute full body workouts",
 		"Family Guy Funny Moments #82",
+		"world's largest adult daycare",
 	)
 
 	OFFSITE_NOTIF_QUERIES.update({'marsey', 'watchpeopledie', 'makemycoffin'})
