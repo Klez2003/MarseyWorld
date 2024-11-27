@@ -386,10 +386,10 @@ class Post(Base):
 
 		community_notes = g.db.query(Comment).filter_by(parent_post=self.id, level=1, community_note=True).order_by(Comment.id)
 		for community_note in community_notes:
-			if request.path[-1].isnumeric(): #implies we're viewing a comment
-				url = community_note.permalink
-			else:
+			if '/post/' in request.path and not request.path[-1].isnumeric():
 				url = f"#comment-{community_note.id}-only"
+			else:
+				url = community_note.permalink
 			body += f'<fieldset class="community-note"><legend><i class="fas fa-users text-blue mr-2"></i><a href="{url}">Community Note</a></legend>{community_note.realbody(v, community_notes=False)}</fieldset>'
 
 		return body
