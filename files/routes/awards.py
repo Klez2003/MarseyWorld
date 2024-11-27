@@ -564,6 +564,9 @@ def award_thing(v, thing_type, id):
 		if isinstance(obj, Post):
 			cache.delete_memoized(frontlist)
 	elif kind == "communitynote":
+		if obj.community_note:
+			stop(400, f"This {thing_type} is already designated as a Community Note!")
+
 		if not isinstance(obj, Comment):
 			stop(403, f"You can only give a {award_title} award to comments!")
 
