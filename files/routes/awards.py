@@ -579,6 +579,9 @@ def award_thing(v, thing_type, id):
 		obj.pin_parents()
 
 		obj.post.flair = filter_emojis_only(":marseydisgustnotes: COMMUNITY NOTED", link=True)
+
+		msg = f"@{v.username} has given a {award_title} award to {obj.textlink} on {obj.post.textlink}"
+		send_repeatable_notification(obj.post.author.id, msg)
 	elif kind == "unpin":
 		if not obj.pinned_utc:
 			stop(400, f"This {thing_type} is not pinned!")
