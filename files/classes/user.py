@@ -399,12 +399,17 @@ class User(Base):
 	@lazy
 	def forced_hat(self):
 		if self.is_suspended:
-			text = 'Banned'
-			if not self.ban_reason.startswith('Ban award') and not self.ban_reason.startswith('Grass award'):
-				text += f' by {self.banned_by}'
-			text += f' for "{self.ban_reason}"'
-			if self.unban_utc:
-				text += f' - {self.unban_string}'
+
+			if self.username.startswith('deleted~') and not (g.v and g.v.admin_level >= PERMS['VIEW_DELETED_ACCOUNTS']):
+				text = "This user was banned before they deleted their account!"
+			else:
+				text = 'Banned'
+				if not self.ban_reason.startswith('Ban award') and not self.ban_reason.startswith('Grass award'):
+					text += f' by {self.banned_by}'
+				text += f' for "{self.ban_reason}"'
+				if self.unban_utc:
+					text += f' - {self.unban_string}'
+
 			return ("Behind Bars", text)
 
 		user_forced_hats = []
