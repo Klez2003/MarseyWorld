@@ -563,6 +563,22 @@ def award_thing(v, thing_type, id):
 
 		if isinstance(obj, Post):
 			cache.delete_memoized(frontlist)
+	elif kind == "communitynote":
+		if not FEATURES['PINS']: stop(403)
+
+		if not isinstance(obj, Comment):
+			stop(403, f"You can only give a {award_title} award to comments!")
+
+		if obj.is_banned:
+			stop(403, f"You can't give a {award_title} award to a removed {thing_type}!")
+
+		if not obj.parent_post:
+			stop(400, f"You can't give a {award_title} award to wall comments!")
+
+		obj.pinned = f'{v.username} (community note award)'
+		obj.pin_parents()
+
+		obj.post.flair = filter_emojis_only(":marseydisgustnotes: COMMUNITY NOTED", link=True)
 	elif kind == "unpin":
 		if not obj.pinned_utc:
 			stop(400, f"This {thing_type} is not pinned!")
