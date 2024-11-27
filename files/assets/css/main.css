@@ -6407,6 +6407,10 @@ g {
 	padding-right: 14px !important;
 }
 
+.community-note + .community-note {
+    margin-top: 1.5rem;
+}
+
 .showmore {
 	width: 99%;
 	padding: 5px;
