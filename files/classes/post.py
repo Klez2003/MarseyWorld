@@ -383,15 +383,12 @@ class Post(Base):
 		if self.created_utc > 1706137534:
 			body = bleach_body_html(body, runtime=True) #to stop slur filters and poll options being used as a vector for html/js injection
 
-		t = time.time()
 		community_notes = g.db.query(Comment).filter(
 			Comment.parent_post == self.id,
 			Comment.pinned.like('% (community note award)'),
 		)
 		for community_note in community_notes:
 			body += f'<fieldset class="card rounded community-note"><legend><i class="fas fa-users text-blue mr-2"></i>Community Note</legend>{community_note.realbody(v)}</fieldset>'
-
-		print(time.time() - t, flush=True)
 
 		return body
 
