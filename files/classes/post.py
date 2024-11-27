@@ -386,7 +386,7 @@ class Post(Base):
 		community_notes = g.db.query(Comment).filter(
 			Comment.parent_post == self.id,
 			Comment.pinned.like('% (community note award)'),
-		)
+		).order_by(Comment.id)
 		for community_note in community_notes:
 			body += f'<fieldset class="card rounded community-note"><legend><i class="fas fa-users text-blue mr-2"></i>Community Note</legend>{community_note.realbody(v)}</fieldset>'
 
