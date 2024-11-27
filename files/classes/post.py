@@ -386,7 +386,7 @@ class Post(Base):
 
 		community_notes = g.db.query(Comment).filter_by(parent_post=self.id, level=1, community_note=True).order_by(Comment.id)
 		for community_note in community_notes:
-			body += f'<fieldset class="community-note"><legend><i class="fas fa-users text-blue mr-2"></i><a href="#comment-{community_note.id}-only">Community Note</a></legend>{community_note.realbody(v, community_notes=False)}</fieldset>'
+			body += f'<fieldset class="community-note"><legend><i class="fas fa-users text-blue mr-2"></i><a href="#comment-text-{community_note.id}">Community Note</a></legend>{community_note.realbody(v, community_notes=False)}</fieldset>'
 
 		return body
 
