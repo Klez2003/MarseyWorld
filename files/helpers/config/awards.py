@@ -348,7 +348,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": lambda v:IS_HOMOWEEN(),
-		"negative": False,
+		"negative": True,
 		"included_in_lootbox": True,
 	},
 	"flashlight": {
