@@ -563,6 +563,9 @@ def award_thing(v, thing_type, id):
 		if isinstance(obj, Post):
 			cache.delete_memoized(frontlist)
 	elif kind == "communitynote":
+		if not note:
+			stop(400, "You need to enter a valid community note!")
+
 		body_html = sanitize(note, blackjack="community note")
 
 		if isinstance(obj, Post):
