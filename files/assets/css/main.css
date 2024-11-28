@@ -6391,7 +6391,6 @@ g {
 fieldset {
 	border: 1px solid #1da1f2 !important;
     border-radius: 0.35rem !important;
-    margin-top: 1.5rem;
 }
 fieldset > legend {
 	padding-top: 7px !important;
@@ -6405,10 +6404,16 @@ fieldset > * {
 	padding-left: 14px !important;
 	padding-right: 14px !important;
 }
+.post-body fieldset {
+	margin-top: 1rem;
+}
 fieldset + fieldset {
     margin-top: 1.5rem;
 }
-.post-preview > fieldset:last-of-type, .comment-text > fieldset:last-of-type {
+.comment-body fieldset:last-of-type {
+	margin-bottom: 1rem;
+}
+.post-preview > fieldset:last-of-type {
     margin-bottom: 1.5rem;
 }
 

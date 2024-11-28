@@ -456,9 +456,6 @@ class Comment(Base):
 
 			body = normalize_urls_runtime(body, v)
 
-			for note in self.notes:
-				body += f'<fieldset><legend><i class="fas fa-users text-blue mr-2"></i>Community Note by <a href="/id/{note.author.id}">@{note.author.username}</a></legend>{note.body_html}</fieldset>'
-
 			if self.created_utc > 1706137534:
 				body = bleach_body_html(body, runtime=True) #to stop slur filters and poll options being used as a vector for html/js injection
 
