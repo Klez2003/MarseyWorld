@@ -281,6 +281,17 @@ document.addEventListener("click", function(e) {
 				i.removeAttribute("data-bs-dismiss")
 		});
 	}
+
+	if (element.classList.contains('delconfirm')) {
+		element.nextElementSibling.classList.remove('d-none');
+		element.classList.add('d-none');
+	}
+	else {
+		for (const btn of document.querySelectorAll('.delmsg:not(.d-none)')) {
+			btn.classList.add('d-none');
+			btn.previousElementSibling.classList.remove('d-none');
+		}
+	}
 });
 
 const inputs = document.querySelectorAll('input[type="number"]')

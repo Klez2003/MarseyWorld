@@ -2200,3 +2200,45 @@ def user_chats(v, username):
 	total = len(chats)
 
 	return render_template("userpage/chats.html", v=v, u=u, chats=chats, total=total)
+
+@app.post('/admin/remove_note/post/<int:nid>')
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit("100/minute;300/hour;2000/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("100/minute;300/hour;2000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@admin_level_required(PERMS['NOTES_REMOVE'])
+def remove_note_post(v, nid):
+	note = g.db.get(PostNote, nid)
+
+	if note:
+		g.db.delete(note)
+
+		ma = ModAction(
+			kind="remove_note",
+			user_id=v.id,
+			target_post_id=note.parent_id,
+		)
+		g.db.add(ma)
+
+	return {"message": "Note removed successfully!"}
+
+@app.post('/admin/remove_note/comment/<int:nid>')
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit("100/minute;300/hour;2000/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("100/minute;300/hour;2000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@admin_level_required(PERMS['NOTES_REMOVE'])
+def remove_note_comment(v, nid):
+	note = g.db.get(CommentNote, nid)
+
+	if note:
+		g.db.delete(note)
+
+		ma = ModAction(
+			kind="remove_note",
+			user_id=v.id,
+			target_comment_id=note.parent_id,
+		)
+		g.db.add(ma)
+
+	return {"message": "Note removed successfully!"}

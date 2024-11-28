@@ -217,7 +217,7 @@
 			{% if p.realbody(v) or p.notes %}
 				<div class="{% if p.chudded %}text-uppercase chud-img chud-{{p.id_last_num}}{% endif %} d-none card rounded border post-preview" id="post-text-{{p.id}}">
 					{{p.realbody(v) | safe}}
-					{{macros.notes(p)}}
+					{{macros.notes(p, "post")}}
 				</div>
 			{% endif %}
 		{% endif %}

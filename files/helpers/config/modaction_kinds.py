@@ -271,6 +271,11 @@ MODACTION_KINDS = {
 		"icon": 'fa-user-crown',
 		"color": 'bg-danger'
 	},
+	'remove_note': {
+		"str": 'removed note on {self.target_link}',
+		"icon": 'fa-users-slash',
+		"color": 'bg-danger'
+	},
 	'revert': {
 		"str": "reverted {self.target_link}'s mod actions made in the last 24 hours",
 		"icon": 'fa-history',

@@ -99,6 +99,10 @@ function postToastReload(t, url) {
 	postToast(t, url, {}, reload);
 }
 
+function postToastRemove(t, url, to_remove) {
+	postToast(t, url, {}, document.getElementById(to_remove).remove());
+}
+
 function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
 	postToast(t, url,
 		{

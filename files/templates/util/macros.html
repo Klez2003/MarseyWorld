@@ -552,10 +552,15 @@
 {% endmacro %}
 
 
-{% macro notes(obj) %}
+{% macro notes(obj, kind) %}
 	{% for note in obj.notes %}
-		<div class="community-note">
-			<div><i class="fas fa-users text-blue mr-2"></i>Community Note by <a href="/@{{note.author.username}}">@{{note.author.username}}</a></div>
+		<div id="{{kind}}-note-{{note.id}}" class="community-note">
+			<div><i class="fas fa-users text-blue mr-2"></i>Community Note by <a href="/@{{note.author.username}}">@{{note.author.username}}</a>
+				{% if v and v.admin_level >= PERMS['NOTES_REMOVE'] %}
+					<button class="delconfirm fas fa-trash-alt fl-r mt-1 text-muted"></button>
+					<button class="d-none delmsg fas fa-trash-alt text-danger fl-r mt-1" data-nonce="{{g.nonce}}" data-onclick="postToastRemove(this,'/admin/remove_note/{{kind}}/{{note.id}}', '{{kind}}-note-{{note.id}}')"></button>
+				{% endif %}
+			</div>
 			{{note.body_html | safe}}
 		</div>
 	{% endfor %}

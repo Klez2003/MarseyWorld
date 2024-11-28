@@ -346,7 +346,7 @@
 							</div>
 
 							<div id="comment-notes-{{c.id}}">
-								{{macros.notes(c)}}
+								{{macros.notes(c, "comment")}}
 							</div>
 
 							<div id="comment-{{c.id}}-actions" class="comment-actions{% if voted == 1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
