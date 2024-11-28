@@ -7,7 +7,7 @@ CREATE INDEX comment_parent_index ON public.comments USING btree (parent_comment
 drop INDEX post_community_notes_idx;
 drop INDEX comment_community_notes_idx;
 
-alter table awards alter column note type varchar(400);
+alter table award_relationships alter column note type varchar(400);
 
 
 
