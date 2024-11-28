@@ -490,7 +490,8 @@ CREATE TABLE public.comments (
     sharpened boolean NOT NULL,
     num_of_pinned_children integer NOT NULL,
     distinguished boolean NOT NULL,
-    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED,
+    community_note boolean DEFAULT false NOT NULL
 );
 
 
@@ -1030,7 +1031,8 @@ CREATE TABLE public.posts (
     effortpost boolean NOT NULL,
     distinguished boolean NOT NULL,
     title_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (title)::text)) STORED,
-    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED,
+    community_note boolean DEFAULT false NOT NULL
 );
 
 
@@ -2108,6 +2110,13 @@ CREATE INDEX casino_games_winnings_idx ON public.casino_games USING btree (winni
 
 
 --
+-- Name: comment_community_notes_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comment_community_notes_idx ON public.comments USING btree (parent_comment_id, community_note, id);
+
+
+--
 -- Name: comment_new_sort_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2115,24 +2124,10 @@ CREATE INDEX comment_new_sort_idx ON public.comments USING btree (is_banned, del
 
 
 --
--- Name: comment_parent_index; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX comment_parent_index ON public.comments USING btree (parent_comment_id);
-
-
---
 -- Name: comment_pinned_utc_idex; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX comment_pinned_utc_idex ON public.comments USING btree (pinned_utc);
-
-
---
--- Name: comment_post_id_index; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX comment_post_id_index ON public.comments USING btree (parent_post);
 
 
 --
@@ -2588,6 +2583,13 @@ CREATE INDEX post_app_id_idx ON public.posts USING btree (app_id);
 --
 
 CREATE INDEX post_author_id_idx ON public.posts USING btree (author_id);
+
+
+--
+-- Name: post_community_notes_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_community_notes_idx ON public.comments USING btree (parent_post, level, community_note, id);
 
 
 --
