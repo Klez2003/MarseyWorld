@@ -4506,7 +4506,7 @@ ul.comment-section {
 .comment.collapsed .comment-collapse-icon:hover::before {
 	color: var(--primary);
 }
-.comment.collapsed .comment-body p.text, .comment.collapsed div.comment-text, .comment.collapsed .comment-actions, .comment.collapsed .comment-write, .comment.collapsed .comment, .comment.collapsed .user-signature {
+.comment.collapsed .comment-body p.text, .comment.collapsed div.comment-text, .comment.collapsed .comment-actions, .comment.collapsed .comment-write, .comment.collapsed .comment, .comment.collapsed .user-signature, .comment.collapsed .community-note {
 	display: none;
 }
 .comment.collapsed .user-info {
@@ -6399,6 +6399,7 @@ g {
 	border: 1px solid #1da1f2 !important;
 	background: #093653;
 	font-weight: 700;
+    color: #CFCFCF;
 }
 .community-note > * {
 	padding-left: 14px !important;
