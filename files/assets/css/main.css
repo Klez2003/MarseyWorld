@@ -6402,6 +6402,11 @@ g {
 	background: #093653;
 	font-weight: 700;
 }
+@media (min-width: 768px) {
+	.community-note > div {
+		margin-bottom: 0.75rem;
+	}
+}
 .community-note > div, .community-note > div a {
     color: #CFCFCF;
 }
