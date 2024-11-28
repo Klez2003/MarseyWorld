@@ -6388,11 +6388,11 @@ g {
 	}
 }
 
-fieldset {
+.community-note {
 	border: 1px solid #1da1f2 !important;
     border-radius: 0.35rem !important;
 }
-fieldset > legend {
+.community-note > legend {
 	padding-top: 7px !important;
 	padding-bottom: 7px !important;
 	font-size: 1rem;
@@ -6400,20 +6400,20 @@ fieldset > legend {
 	background: #093653;
 	font-weight: 700;
 }
-fieldset > * {
+.community-note > * {
 	padding-left: 14px !important;
 	padding-right: 14px !important;
 }
-.post-body fieldset {
+.post-body .community-note {
 	margin-top: 1rem;
 }
-fieldset + fieldset {
+.community-note + .community-note {
     margin-top: 1.5rem;
 }
-.comment-body fieldset:last-of-type {
+.comment-body .community-note:last-of-type {
 	margin-bottom: 1rem;
 }
-.post-preview > fieldset:last-of-type {
+.post-preview > .community-note:last-of-type {
     margin-bottom: 1.5rem;
 }
 
