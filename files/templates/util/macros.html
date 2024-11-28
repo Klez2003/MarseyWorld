@@ -554,6 +554,6 @@
 
 {% macro notes(obj) %}
 	{% for note in obj.notes %}
-		<fieldset class="community-note"><legend><i class="fas fa-users text-blue mr-2"></i>Community Note by <a href="/id/{{note.author.id}}">@{{note.author.username}}</a></legend>{{note.body_html | safe}}</fieldset>
+		<fieldset class="community-note"><legend><i class="fas fa-users text-blue mr-2"></i>Community Note by <a href="/@{{note.author.username}}">@{{note.author.username}}</a></legend>{{note.body_html | safe}}</fieldset>
 	{% endfor %}
 {% endmacro %}
