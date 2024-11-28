@@ -7919,11 +7919,15 @@ hidden {
 }
 
 button.note-helpful {
-	border-color: #1da1f2;
 	margin-bottom: 0.5rem;
 	margin-left: 1rem;
 }
+button.note-helpful:not(.btn-primary) {
+	border-color: #1da1f2 !important;
+}
 button.note-unhelpful {
-	border-color: #d54e56;
 	margin-bottom: 0.5rem;
+}
+button.note-unhelpful:not(.btn-primary) {
+	border-color: #d54e56 !important;
 }
