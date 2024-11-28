@@ -562,10 +562,10 @@
 				{% endif %}
 			</div>
 			{{n.body_html | safe}}
-			<button type="button" class="btn btn-secondary note-vote note-helpful {% if n.voted(v) %}note-voted {% if n.voted(v) == 1 %}btn-primary{% endif %}{% endif %}" data-nonce="{{g.nonce}}" data-onclick="vote_note(this, '{{kind}}', '{{n.id}}' ,1)">
+			<button type="button" class="btn btn-secondary note-vote note-helpful {% if n.voted(v) %}note-voted {% if n.voted(v)[0] == 1 %}btn-primary{% endif %}{% endif %}" data-nonce="{{g.nonce}}" data-onclick="vote_note(this, '{{kind}}', '{{n.id}}' ,1)">
 				Helpful <span {% if not n.upvotes %}class="d-none"{% endif %}>[<span>{{n.upvotes}}</span>]</span>
 			</button>
-			<button type="button" class="btn btn-secondary note-vote note-unhelpful {% if n.voted(v) %}note-voted {% if n.voted(v) == -1 %}btn-primary{% endif %}{% endif %}" data-nonce="{{g.nonce}}" data-onclick="vote_note(this, '{{kind}}', '{{n.id}}', -1)">
+			<button type="button" class="btn btn-secondary note-vote note-unhelpful {% if n.voted(v) %}note-voted {% if n.voted(v)[0] == -1 %}btn-primary{% endif %}{% endif %}" data-nonce="{{g.nonce}}" data-onclick="vote_note(this, '{{kind}}', '{{n.id}}', -1)">
 				Not Helpful <span {% if not n.downvotes %}class="d-none"{% endif %}>[<span>{{n.downvotes}}</span>]</span>
 			</button>
 		</div>

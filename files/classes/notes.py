@@ -44,7 +44,7 @@ class PostNote(Note):
 	@lazy
 	def voted(self, v):
 		if not v: return False
-		return g.db.query(PostNoteVote.note_id).filter_by(note_id=self.id, user_id=v.id).one_or_none()
+		return g.db.query(PostNoteVote.vote_type).filter_by(note_id=self.id, user_id=v.id).one_or_none()
 
 class CommentNote(Note):
 	__tablename__ = "comment_notes"
@@ -66,7 +66,7 @@ class CommentNote(Note):
 	@lazy
 	def voted(self, v):
 		if not v: return False
-		return g.db.query(CommentNoteVote.note_id).filter_by(note_id=self.id, user_id=v.id).one_or_none()
+		return g.db.query(CommentNoteVote.vote_type).filter_by(note_id=self.id, user_id=v.id).one_or_none()
 
 class NoteVote(Base):
 	__tablename__ = NotImplemented
