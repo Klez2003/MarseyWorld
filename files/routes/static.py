@@ -469,16 +469,6 @@ def dismiss_mobile_tip():
 	session["tooltip_dismissed"] = int(time.time())
 	return ""
 
-@app.post("/report_memory")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@auth_required
-def report_memory(v):
-	ua = str(user_agents.parse(g.agent))
-	print(v.username, ' - ', request.values.get('memory'), ' - ', ua, flush=True)
-	session["reported_memory"] = True
-	return ""
-
 @app.get("/transfers/<int:id>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
