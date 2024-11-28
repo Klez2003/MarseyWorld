@@ -557,7 +557,7 @@
 		<div id="{{kind}}-note-{{n.id}}" class="community-note">
 			<div><i class="fas fa-users text-blue mr-2"></i>Community Note by <a href="/@{{n.author.username}}">@{{n.author.username}}</a>
 				{% if v and v.admin_level >= PERMS['NOTES_REMOVE'] %}
-					<button class="delconfirm fas fa-trash-alt fl-r mt-1 text-muted"></button>
+					<button class="del delconfirm fas fa-trash-alt fl-r mt-1 text-muted"></button>
 					<button class="d-none delmsg fas fa-trash-alt text-danger fl-r mt-1" data-nonce="{{g.nonce}}" data-onclick="postToastRemove(this,'/admin/remove_note/{{kind}}/{{n.id}}', '{{kind}}-note-{{n.id}}')"></button>
 				{% endif %}
 			</div>
