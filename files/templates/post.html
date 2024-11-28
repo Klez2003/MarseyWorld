@@ -176,11 +176,14 @@
 									{% endif %}
 								</div>
 							</div>
-							{% if not p.ghost %}
-								{{p.author.switched.rendered_sig(v) | safe}}
-							{% endif %}
-
-							{{macros.notes(p)}}
+							<div id="post-sig">
+								{% if not p.ghost %}
+									{{p.author.switched.rendered_sig(v) | safe}}
+								{% endif %}
+							</div>
+							<div id="post-notes">
+								{{macros.notes(p)}}
+							</div>
 						{% else %}
 							<div id="post-body" class="post-body mt-3">
 								<div id="post-text"><code>[Deleted by author.]</code></div>

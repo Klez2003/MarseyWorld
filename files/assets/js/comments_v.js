@@ -89,11 +89,15 @@ function toggleReplyBox(t, id) {
 
 function toggleEdit(id) {
 	const comment = document.getElementById("comment-text-"+id);
+	const sig = document.getElementById("comment-sig-"+id);
+	const notes = document.getElementById("comment-notes-"+id);
 	const form = document.getElementById("comment-edit-"+id);
 	const box = document.getElementById('comment-edit-body-'+id);
 	const actions = document.getElementById('comment-' + id +'-actions');
 
 	comment.classList.toggle("d-none");
+	sig.classList.toggle("d-none");
+	notes.classList.toggle("d-none");
 	form.classList.toggle("d-none");
 	actions.classList.toggle("d-none");
 
