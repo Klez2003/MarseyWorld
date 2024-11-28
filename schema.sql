@@ -387,6 +387,39 @@ ALTER SEQUENCE public.comment_edits_id_seq OWNED BY public.comment_edits.id;
 
 
 --
+-- Name: comment_notes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.comment_notes (
+    id integer NOT NULL,
+    parent_id integer NOT NULL,
+    author_id integer NOT NULL,
+    body_html character varying(5000),
+    created_utc integer NOT NULL
+);
+
+
+--
+-- Name: comment_notes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.comment_notes_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: comment_notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.comment_notes_id_seq OWNED BY public.comment_notes.id;
+
+
+--
 -- Name: comment_option_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -490,8 +523,7 @@ CREATE TABLE public.comments (
     sharpened boolean NOT NULL,
     num_of_pinned_children integer NOT NULL,
     distinguished boolean NOT NULL,
-    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED,
-    community_note boolean DEFAULT false NOT NULL
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED
 );
 
 
@@ -1031,8 +1063,7 @@ CREATE TABLE public.posts (
     effortpost boolean NOT NULL,
     distinguished boolean NOT NULL,
     title_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (title)::text)) STORED,
-    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED,
-    community_note boolean DEFAULT false NOT NULL
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED
 );
 
 
@@ -1054,6 +1085,39 @@ CREATE SEQUENCE public.post_id_seq
 --
 
 ALTER SEQUENCE public.post_id_seq OWNED BY public.posts.id;
+
+
+--
+-- Name: post_notes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.post_notes (
+    id integer NOT NULL,
+    parent_id integer NOT NULL,
+    author_id integer NOT NULL,
+    body_html character varying(5000),
+    created_utc integer NOT NULL
+);
+
+
+--
+-- Name: post_notes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.post_notes_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: post_notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.post_notes_id_seq OWNED BY public.post_notes.id;
 
 
 --
@@ -1427,6 +1491,13 @@ ALTER TABLE ONLY public.comment_edits ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: comment_notes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_notes ALTER COLUMN id SET DEFAULT nextval('public.comment_notes_id_seq'::regclass);
+
+
+--
 -- Name: comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1487,6 +1558,13 @@ ALTER TABLE ONLY public.oauth_apps ALTER COLUMN id SET DEFAULT nextval('public.o
 --
 
 ALTER TABLE ONLY public.post_edits ALTER COLUMN id SET DEFAULT nextval('public.post_edits_id_seq'::regclass);
+
+
+--
+-- Name: post_notes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.post_notes ALTER COLUMN id SET DEFAULT nextval('public.post_notes_id_seq'::regclass);
 
 
 --
@@ -1613,6 +1691,14 @@ ALTER TABLE ONLY public.client_auths
 
 ALTER TABLE ONLY public.comment_edits
     ADD CONSTRAINT comment_edits_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comment_notes comment_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_notes
+    ADD CONSTRAINT comment_notes_pkey PRIMARY KEY (id);
 
 
 --
@@ -1837,6 +1923,14 @@ ALTER TABLE ONLY public.orgies
 
 ALTER TABLE ONLY public.post_edits
     ADD CONSTRAINT post_edits_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: post_notes post_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.post_notes
+    ADD CONSTRAINT post_notes_pkey PRIMARY KEY (id);
 
 
 --
@@ -2110,13 +2204,6 @@ CREATE INDEX casino_games_winnings_idx ON public.casino_games USING btree (winni
 
 
 --
--- Name: comment_community_notes_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX comment_community_notes_idx ON public.comments USING btree (parent_comment_id, community_note, id);
-
-
---
 -- Name: comment_new_sort_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2124,10 +2211,24 @@ CREATE INDEX comment_new_sort_idx ON public.comments USING btree (is_banned, del
 
 
 --
+-- Name: comment_parent_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comment_parent_index ON public.comments USING btree (parent_comment_id);
+
+
+--
 -- Name: comment_pinned_utc_idex; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX comment_pinned_utc_idex ON public.comments USING btree (pinned_utc);
+
+
+--
+-- Name: comment_post_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comment_post_id_index ON public.comments USING btree (parent_post);
 
 
 --
@@ -2544,6 +2645,20 @@ CREATE INDEX mute_target_idx ON public.usermutes USING btree (target_id);
 
 
 --
+-- Name: note_comment_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX note_comment_idx ON public.comment_notes USING btree (parent_id);
+
+
+--
+-- Name: note_post_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX note_post_idx ON public.post_notes USING btree (parent_id);
+
+
+--
 -- Name: notifications_comment_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2583,13 +2698,6 @@ CREATE INDEX post_app_id_idx ON public.posts USING btree (app_id);
 --
 
 CREATE INDEX post_author_id_idx ON public.posts USING btree (author_id);
-
-
---
--- Name: post_community_notes_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX post_community_notes_idx ON public.comments USING btree (parent_post, level, community_note, id);
 
 
 --
@@ -3107,6 +3215,22 @@ ALTER TABLE ONLY public.comment_edits
 
 
 --
+-- Name: comment_notes comment_notes_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_notes
+    ADD CONSTRAINT comment_notes_author_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
+
+
+--
+-- Name: comment_notes comment_notes_comment_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_notes
+    ADD CONSTRAINT comment_notes_comment_fkey FOREIGN KEY (parent_id) REFERENCES public.comments(id);
+
+
+--
 -- Name: comments comment_parent_comment_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3480,6 +3604,22 @@ ALTER TABLE ONLY public.posts
 
 ALTER TABLE ONLY public.post_edits
     ADD CONSTRAINT post_edits_post_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id);
+
+
+--
+-- Name: post_notes post_notes_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.post_notes
+    ADD CONSTRAINT post_notes_author_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
+
+
+--
+-- Name: post_notes post_notes_post_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.post_notes
+    ADD CONSTRAINT post_notes_post_fkey FOREIGN KEY (parent_id) REFERENCES public.posts(id);
 
 
 --
