@@ -239,6 +239,7 @@ class Comment(Base):
 	wall_user = relationship("User", primaryjoin="User.id==Comment.wall_user_id")
 	edits = relationship("CommentEdit", order_by="CommentEdit.id.desc()")
 	media_usages = relationship("MediaUsage", back_populates="comment")
+	notes = relationship("CommentNote", order_by="CommentNote.id")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:
@@ -456,17 +457,11 @@ class Comment(Base):
 
 			body = normalize_urls_runtime(body, v)
 
+			for note in self.notes:
+				body += f'<fieldset><legend><i class="fas fa-users text-blue mr-2"></i>Community Note by <a href="/id/{note.author.id}">@{note.author.username}</a></legend>{note.body_html}</fieldset>'
+
 			if self.created_utc > 1706137534:
 				body = bleach_body_html(body, runtime=True) #to stop slur filters and poll options being used as a vector for html/js injection
-
-		if community_notes:
-			community_notes = g.db.query(Comment).filter_by(parent_comment_id=self.id, community_note=True).order_by(Comment.id)
-			for community_note in community_notes:
-				if '/post/' in request.path:
-					url = f"#comment-{community_note.id}-only"
-				else:
-					url = community_note.permalink
-				body += f'<fieldset class="community-note"><legend><i class="fas fa-users text-blue mr-2"></i><a href="{url}">Community Note</a></legend>{community_note.realbody(v, community_notes=False)}</fieldset>'
 
 		return body
 
