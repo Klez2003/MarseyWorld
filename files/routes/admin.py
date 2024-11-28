@@ -2211,6 +2211,8 @@ def remove_note_post(v, nid):
 	note = g.db.get(PostNote, nid)
 
 	if note:
+		for vote in note.votes:
+			g.db.delete(vote)
 		g.db.delete(note)
 
 		ma = ModAction(
@@ -2232,6 +2234,8 @@ def remove_note_comment(v, nid):
 	note = g.db.get(CommentNote, nid)
 
 	if note:
+		for vote in note.votes:
+			g.db.delete(vote)
 		g.db.delete(note)
 
 		ma = ModAction(

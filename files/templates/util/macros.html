@@ -553,15 +553,21 @@
 
 
 {% macro notes(obj, kind) %}
-	{% for note in obj.notes %}
-		<div id="{{kind}}-note-{{note.id}}" class="community-note">
-			<div><i class="fas fa-users text-blue mr-2"></i>Community Note by <a href="/@{{note.author.username}}">@{{note.author.username}}</a>
+	{% for n in obj.notes %}
+		<div id="{{kind}}-note-{{n.id}}" class="community-note">
+			<div><i class="fas fa-users text-blue mr-2"></i>Community Note by <a href="/@{{n.author.username}}">@{{n.author.username}}</a>
 				{% if v and v.admin_level >= PERMS['NOTES_REMOVE'] %}
 					<button class="delconfirm fas fa-trash-alt fl-r mt-1 text-muted"></button>
-					<button class="d-none delmsg fas fa-trash-alt text-danger fl-r mt-1" data-nonce="{{g.nonce}}" data-onclick="postToastRemove(this,'/admin/remove_note/{{kind}}/{{note.id}}', '{{kind}}-note-{{note.id}}')"></button>
+					<button class="d-none delmsg fas fa-trash-alt text-danger fl-r mt-1" data-nonce="{{g.nonce}}" data-onclick="postToastRemove(this,'/admin/remove_note/{{kind}}/{{n.id}}', '{{kind}}-note-{{n.id}}')"></button>
 				{% endif %}
 			</div>
-			{{note.body_html | safe}}
+			{{n.body_html | safe}}
+			<button type="button" class="btn btn-secondary note-vote note-helpful {% if n.voted(v) %}note-voted{% endif %}" data-nonce="{{g.nonce}}" data-onclick="vote_note(this, '{{kind}}', '{{n.id}}' ,1)">
+				Helpful <span {% if not n.upvotes %}class="d-none"{% endif %}>[<span>{{n.upvotes}}</span>]</span>
+			</button>
+			<button type="button" class="btn btn-secondary note-vote note-unhelpful {% if n.voted(v) %}note-voted{% endif %}" data-nonce="{{g.nonce}}" data-onclick="vote_note(this, '{{kind}}', '{{n.id}}', -1)">
+				Not Helpful <span {% if not n.downvotes %}class="d-none"{% endif %}>[<span>{{n.downvotes}}</span>]</span>
+			</button>
 		</div>
 	{% endfor %}
 {% endmacro %}

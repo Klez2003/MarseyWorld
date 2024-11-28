@@ -7157,7 +7157,7 @@ button, .btn {
 	}
 }
 
-[disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled, .disabled:before {
+[disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled, .disabled:before, .note-voted {
 	color: #6c757d !important;
 	pointer-events: none !important;
 	cursor: default !important;
@@ -7915,4 +7915,14 @@ hidden {
 .offsite-alert, .offsite-alert * {
 	color: red !important;
 	font-weight: 700 !important;
+}
+
+button.note-helpful {
+	border-color: #1da1f2 !important;
+	margin-bottom: 0.5rem;
+	margin-left: 0.5rem;
+}
+button.note-unhelpful {
+	border-color: #d54e56 !important;
+	margin-bottom: 0.5rem;
 }

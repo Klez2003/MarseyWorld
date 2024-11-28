@@ -42,6 +42,7 @@ if FEATURES['GAMBLING']:
 	from .lottery import *
 	from .casino import *
 from .polls import *
+from .notes import *
 from .notifications import *
 if FEATURES['HATS']:
 	from .hats import *
