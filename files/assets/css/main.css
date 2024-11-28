@@ -6392,6 +6392,7 @@ g {
 .community-note {
 	border: 1px solid #1da1f2 !important;
     border-radius: 0.15rem !important;
+	margin-top: 0.5rem;
 }
 .community-note > div {
     margin-bottom: 0.5rem;
@@ -6418,7 +6419,7 @@ g {
 	margin-top: 1rem;
 }
 .community-note + .community-note {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
 }
 .comment-body .community-note:last-of-type {
 	margin-bottom: 1rem;
