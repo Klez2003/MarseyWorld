@@ -294,7 +294,6 @@ def award_thing(v, thing_type, id):
 				not_from_lootbox_quantity = len([award for award in awards if award.price_paid])
 				awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) * not_from_lootbox_quantity
 				v.charge_account('coins', awarded_coins, f"{quantity} deflected Shit award{s} on {obj.textlink}", should_check_balance=False)
-				obj.author.pay_account('coins', awarded_coins, f"{quantity} deflected Shit award{s} on {obj.textlink}")
 		elif kind != 'spider':
 			not_from_lootbox_quantity = len([award for award in awards if award.price_paid])
 			if AWARDS[kind]['cosmetic']:
@@ -305,7 +304,6 @@ def award_thing(v, thing_type, id):
 			if awarded_coins:
 				if kind == 'shit':
 					author.charge_account('coins', awarded_coins, f"{quantity} Shit award{s} on {obj.textlink}", should_check_balance=False)
-					v.pay_account('coins', awarded_coins, f"{quantity} Shit award{s} on {obj.textlink}")
 				else:
 					author.pay_account('coins', awarded_coins, f"{quantity} {award_title} award{s} on {obj.textlink}")
 
@@ -794,7 +792,7 @@ def award_thing(v, thing_type, id):
 			msg = f"@{v.username} has given {obj.textlink} {quantity} {award_title} award{s}"
 
 			if kind == 'shit':
-				msg += f" and has stolen from you {awarded_coins} coins as a result"
+				msg += f" and has burned {awarded_coins} of your coins as a result"
 			elif awarded_coins:
 				msg += f" and you have received {awarded_coins} coins as a result"
 
