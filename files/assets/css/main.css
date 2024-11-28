@@ -6388,11 +6388,11 @@ g {
 	}
 }
 
-.community-note {
+fieldset {
 	border: 1px solid #1da1f2 !important;
     border-radius: 0.35rem !important;
 }
-.community-note > legend {
+fieldset > legend {
 	padding-top: 7px !important;
 	padding-bottom: 7px !important;
 	font-size: 1rem;
@@ -6400,14 +6400,20 @@ g {
 	background: #093653;
 	font-weight: 700;
 }
-.community-note > * {
+fieldset > * {
 	padding-left: 14px !important;
 	padding-right: 14px !important;
 }
-.community-note + .community-note {
+.post-body fieldset {
+	margin-top: 1rem;
+}
+fieldset + fieldset {
     margin-top: 1.5rem;
 }
-.post-preview > .community-note:last-of-type, .comment-text > .community-note:last-of-type {
+.comment-body fieldset:last-of-type {
+	margin-bottom: 1rem;
+}
+.post-preview > fieldset:last-of-type {
     margin-bottom: 1.5rem;
 }
 

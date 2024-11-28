@@ -148,10 +148,15 @@ function pick(kind, price, coins, marseybux) {
 		document.getElementById('note').placeholder = "Insert one site emoji here.";
 		document.getElementById('note').maxLength = 33;
 	}
+	else if (kind == "communitynote") {
+		document.getElementById('notelabel').innerHTML = "Community Note:";
+		document.getElementById('note').placeholder = "Text that will appear as the note...";
+		document.getElementById('note').maxLength = 400;
+	}
 	else {
 		document.getElementById('notelabel').innerHTML = "Note (optional):";
-		document.getElementById('note').placeholder = "Note to include in award notification";
-		document.getElementById('note').maxLength = 200;
+		document.getElementById('note').placeholder = "Note to include in award notification...";
+		document.getElementById('note').maxLength = 400;
 	}
 
 	const ownednum = Number(document.getElementById(`${kind}-owned`).textContent);

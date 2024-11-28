@@ -43,3 +43,4 @@ if FEATURES['IP_LOGGING']:
 from .edit_logs import *
 from .chats import *
 from .account_deletion import *
+from .notes import *

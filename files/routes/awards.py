@@ -6,6 +6,7 @@ from sqlalchemy import func
 
 from files.classes.award import AwardRelationship
 from files.classes.userblock import UserBlock
+from files.classes.notes import *
 from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
@@ -219,8 +220,8 @@ def award_thing(v, thing_type, id):
 		stop(403, 'Distinguished posts and comments are immune to cosmetic and negative awards!')
 
 	note = request.values.get("note", "").strip()
-	if len(note) > 200:
-		stop(400, "Award note is too long (max 200 characters)")
+	if len(note) > 400:
+		stop(400, "Award note is too long (max 400 characters)")
 
 	if AWARDS[kind]['negative'] and author.immune_to_negative_awards(v):
 		if author.new_user and not author.alts:
@@ -562,27 +563,16 @@ def award_thing(v, thing_type, id):
 		if isinstance(obj, Post):
 			cache.delete_memoized(frontlist)
 	elif kind == "communitynote":
-		if obj.community_note:
-			stop(400, f"This {thing_type} is already designated as a Community Note!")
+		body_html = sanitize(note, blackjack="community note")
 
-		if not isinstance(obj, Comment):
-			stop(403, f"You can only give a {award_title} award to comments!")
+		if isinstance(obj, Post):
+			cls = PostNote
+			obj.flair = filter_emojis_only(":marseydisgustnotes: COMMUNITY NOTED", link=True)
+		else:
+			cls = CommentNote
 
-		if obj.is_banned:
-			stop(403, f"You can't give a {award_title} award to a removed {thing_type}!")
-
-		if not obj.parent_post and not obj.parent_comment_id:
-			stop(400, f"You can't give a {award_title} award to this comment!")
-
-		obj.community_note = True
-
-		if obj.level == 1:
-			obj.post.flair = filter_emojis_only(":marseydisgustnotes: COMMUNITY NOTED", link=True)
-
-		parent_author_id = obj.parent_comment.author_id if obj.parent_comment_id else obj.post.author_id
-		if parent_author_id != v.id:
-			msg = f"@{v.username} has given a {award_title} award to {obj.textlink}"
-			send_repeatable_notification(parent_author_id, msg)
+		community_note = cls(parent_id=obj.id, author_id=v.id, body_html=body_html)
+		g.db.add(community_note)
 	elif kind == "unpin":
 		if not obj.pinned_utc:
 			stop(400, f"This {thing_type} is not pinned!")
