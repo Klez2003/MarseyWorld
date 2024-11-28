@@ -694,7 +694,7 @@ AWARDS = {
 	"communitynote": {
 		"kind": "communitynote",
 		"title": "Community Note",
-		"description": "Designate a comment as a Community Note of its parent.",
+		"description": f"Fight fake news on {SITE_NAME} by fact-checking a SNAKE. Apply to a post or comment of your choosing.",
 		"icon": "fas fa-users",
 		"color": "text-blue",
 		"price": 1000,

@@ -175,10 +175,12 @@
 										<div class="text-removed mb-0">Removed by @{{p.ban_reason}}</div>
 									{% endif %}
 								</div>
-								{% if not p.ghost %}
-									{{p.author.switched.rendered_sig(v) | safe}}
-								{% endif %}
 							</div>
+							{% if not p.ghost %}
+								{{p.author.switched.rendered_sig(v) | safe}}
+							{% endif %}
+
+							{{macros.notes(p)}}
 						{% else %}
 							<div id="post-body" class="post-body mt-3">
 								<div id="post-text"><code>[Deleted by author.]</code></div>
