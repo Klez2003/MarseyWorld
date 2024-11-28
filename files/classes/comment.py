@@ -220,7 +220,6 @@ class Comment(Base):
 	rainbowed = Column(Boolean, default=False)
 	queened = Column(Boolean, default=False)
 	sharpened = Column(Boolean, default=False)
-	community_note = Column(Boolean, default=False)
 
 	if FEATURES['NSFW_MARKING']:
 		nsfw = Column(Boolean, default=False)
