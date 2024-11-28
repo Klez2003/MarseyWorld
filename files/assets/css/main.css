@@ -6399,6 +6399,8 @@ g {
 	border: 1px solid #1da1f2 !important;
 	background: #093653;
 	font-weight: 700;
+}
+.community-note > legend, .community-note > legend a {
     color: #CFCFCF;
 }
 .community-note > * {
