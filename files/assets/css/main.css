@@ -6390,17 +6390,18 @@ g {
 
 .community-note {
 	border: 1px solid #1da1f2 !important;
-    border-radius: 0.35rem !important;
+    border-radius: 0.15rem !important;
 }
-.community-note > legend {
+.community-note > div {
+    margin-bottom: 0.5rem;
 	padding-top: 7px !important;
 	padding-bottom: 7px !important;
 	font-size: 1rem;
-	border: 1px solid #1da1f2 !important;
+	border-bottom: 1px solid #1da1f2 !important;
 	background: #093653;
 	font-weight: 700;
 }
-.community-note > legend, .community-note > legend a {
+.community-note > div, .community-note > div a {
     color: #CFCFCF;
 }
 .community-note > * {
