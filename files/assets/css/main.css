@@ -7920,7 +7920,7 @@ hidden {
 button.note-helpful {
 	border-color: #1da1f2 !important;
 	margin-bottom: 0.5rem;
-	margin-left: 0.5rem;
+	margin-left: 1rem;
 }
 button.note-unhelpful {
 	border-color: #d54e56 !important;
