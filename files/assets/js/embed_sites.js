@@ -1,5 +1,5 @@
 function embed_sites(element=document) {
-	if (navigator.doNotTrack == "1") return
+	if (gbrowser == 'firefox' && navigator.doNotTrack == "1") return
 
 	if (document.getElementById('orgy-top-container')) return
 
