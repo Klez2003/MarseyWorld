@@ -120,6 +120,9 @@
 		<h5><i class="fas fa-{{CATEGORIES_ICONS['Community']}} mx-2"></i>COMMUNITY</h5>
 		<hr>
 	</div>
+	<div class="sidebar-wpd--holes">
+		<a href="/h/announcements" {% if hole and hole.name == "announcements" %}class="active-hole"{% endif %}>Announcements</a>
+	</div>
 	<div class="sidebar-wpd--holes sidebar-wpd--holes--3">
 		{% for name in CATEGORIES_HOLES['Community'] %}
 			<a href="/h/{{name.lower()}}" {% if hole and hole.name == name.lower() %}class="active-hole"{% endif %}>{{name}}</a>

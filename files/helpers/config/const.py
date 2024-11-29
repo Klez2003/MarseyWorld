@@ -575,7 +575,7 @@ elif SITE_NAME == 'WPD':
 	CATEGORIES_HOLES = {
 		'Death': ('Accident','Animal','Beating','Beheading','Bladed','Burning','Cartel','Combat','Compilation','Disaster','Drowning','Electricity','Execution','Explosions','Falling','Industrial','ISIS','Maiming','Police','Shooting','Suicide','Vehicle','Other'),
 		'Gore': ('Aftermath','Fights','Gore','Injury','Medical','Request','SelfHarm'),
-		'Community': ('Announcements','Art','Discussion','Meta','Music','Pets','Social'),
+		'Community': ('Art','Discussion','Meta','Music','Pets','Social'),
 		'Active Conflicts': ('Slavshit','Sandshit'),
 	}
 

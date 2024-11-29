@@ -7507,7 +7507,7 @@ blink {
 	margin-left: 0.5rem;
 }
 
-.gold-text:not(a), .gold-text.post-title a:not(.post-flair), :not(td) > a[href="/h/highrollerclub" i]:not(.hole-flair), :not(td) > a[href="/h/announcements"]:not(.hole-flair) {
+.gold-text:not(a), .gold-text.post-title a:not(.post-flair), :not(td) > a[href="/h/highrollerclub" i]:not(.hole-flair), :not(td) > a[href="/h/announcements"]:not(.hole-flair, .sidebar-wpd--holes > a) {
 	font-family: open sans,sans-serif !important;
 	color: transparent !important;
 	font-weight: 700 !important;
@@ -7515,7 +7515,7 @@ blink {
 	-webkit-background-clip: text !important;
 }
 
-.gold-text:not(.rainbow-text):not(.candycorn):not(.candycane):not(a), .gold-text.post-title a:not(.post-flair), :not(td) > a[href="/h/highrollerclub" i]:not(.hole-flair), :not(td) > a[href="/h/announcements"]:not(.hole-flair) {
+.gold-text:not(.rainbow-text):not(.candycorn):not(.candycane):not(a), .gold-text.post-title a:not(.post-flair), :not(td) > a[href="/h/highrollerclub" i]:not(.hole-flair), :not(td) > a[href="/h/announcements"]:not(.hole-flair, .sidebar-wpd--holes > a) {
 	background: url("/i/animations/gold_gradient_light.svg") repeat;
 	background-size: 200% 200%;
 }
