@@ -166,7 +166,7 @@
 {% macro file_btn(input_id, disabled, multiple=True) %}
 	<label tabindex="0" class="btn btn-secondary format m-0 {% if g.is_tor %}tor-disabled{% endif %}" for="{{input_id}}" {% if disabled %}disabled{% endif %}>
 		<span class="fas fa-file"></span>
-		<input autocomplete="off" id="{{input_id}}" accept="image/*, video/*, audio/*" type="file" {% if multiple %}multiple="multiple"{% endif %} name="file" {% if g.is_tor or disabled %}disabled{% endif %} hidden>
+		<input autocomplete="off" id="{{input_id}}" accept="image/*, video/*, audio/*, video/x-matroska" type="file" {% if multiple %}multiple="multiple"{% endif %} name="file" {% if g.is_tor or disabled %}disabled{% endif %} hidden>
 	</label>
 {% endmacro %}
 
