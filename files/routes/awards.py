@@ -385,8 +385,8 @@ def award_thing(v, thing_type, id):
 		if not emoji:
 			stop(404, f'an Emoji with the name "{award.note}" was not found!')
 	elif kind == "ban":
-		if author.is_permabanned:
-			stop(400, f"{safe_username} already permabanned!")
+		if author.is_suspended:
+			stop(400, f"{safe_username} already banned!")
 		author.ban(reason=ban_reason, days=quantity, modlog=False)
 		text = f"Your account has been banned for **{quantity} day{s}** for {obj.textlink}. It sucked and you should feel bad."
 		send_repeatable_notification(author.id, text)
