@@ -803,10 +803,10 @@ textarea.form-control {
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
-.btn.disabled, .btn:disabled {
+.btn.disabled, .btn:disabled, .note-voted {
 	opacity: 0.65;
 }
-a.btn.disabled, fieldset:disabled a.btn {
+a.btn.disabled, fieldset:disabled a.btn, .note-voted {
 	pointer-events: none;
 }
 .btn-primary {
@@ -7158,7 +7158,7 @@ button, .btn {
 	}
 }
 
-[disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled, .disabled:before, .note-voted {
+[disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled, .disabled:before {
 	color: #6c757d !important;
 	pointer-events: none !important;
 	cursor: default !important;
@@ -7921,13 +7921,19 @@ hidden {
 button.note-helpful {
 	margin-bottom: 0.5rem;
 	margin-left: 1rem;
-}
-button.note-helpful:not(.btn-primary) {
 	border-color: #1da1f2 !important;
 }
 button.note-unhelpful {
 	margin-bottom: 0.5rem;
-}
-button.note-unhelpful:not(.btn-primary) {
 	border-color: #d54e56 !important;
+}
+button.note-helpful.note-voted-btn {
+	background-color: #1da1f2 !important;
+}
+button.note-unhelpful.note-voted-btn {
+	background-color: #d54e56 !important;
+}
+button.btn.note-helpful:hover {
+    background-color: #1da1f2 !important;
+	border-color: #1da1f2 !important;
 }

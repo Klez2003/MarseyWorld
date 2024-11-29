@@ -223,10 +223,10 @@ function switchAwardTab() {
 
 function vote_note(t, kind, nid, vote_type) {
 	postToast(t, `/vote/${kind}/note/${nid}/${vote_type}`)
-	t.classList.add('btn-primary')
 	for (const element of t.parentElement.getElementsByClassName('note-vote')) {
 		element.classList.add('note-voted')
 	}
+	t.classList.add('note-voted-btn')
 	t.firstElementChild.classList.remove('d-none')
 	t.firstElementChild.firstElementChild.innerHTML = parseInt(t.firstElementChild.firstElementChild.innerHTML) + 1
 }
