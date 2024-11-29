@@ -11,7 +11,7 @@
 
 			<div id="bank-statement" class="rounded border overflow-x-auto">
 				{% if logs %}
-					<table class="border-0">
+					<table class="datatable d-none border-0">
 						<thead class="bg-transparent">
 							<tr>
 								<th></th>
@@ -41,7 +41,10 @@
 						</tbody>
 					</table>
 					<img id="bank-stamp" src="/i/bank-stamp.webp">
-					{{macros.pagination("pb-0 pl-0 pt-1")}}
+
+					<link rel="stylesheet" href="{{('css/datatables.css') | asset}}">
+					<script defer src="{{'js/vendor/jquery.js' | asset}}"></script>
+					<script defer src="{{'js/vendor/datatables.js' | asset}}"></script>
 				{% else %}
 					<div class="p-3">There's nothing here right now.</div>
 				{% endif %}

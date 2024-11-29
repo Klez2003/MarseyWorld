@@ -1652,12 +1652,6 @@ def user_effortposts(v, username):
 def bank_statement(v, username):
 	user = get_user(username, attributes=[User.id, User.username])
 
-	page = get_page()
+	logs = g.db.query(CurrencyLog).filter_by(user_id=user.id).order_by(CurrencyLog.created_utc.desc()).all()
 
-	logs = g.db.query(CurrencyLog).filter_by(user_id=user.id)
-
-	total = logs.count()
-
-	logs = logs.order_by(CurrencyLog.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
-
-	return render_template("bank_statement.html", v=v, user=user, logs=logs, page=page, total=total)
+	return render_template("bank_statement.html", v=v, user=user, logs=logs)
