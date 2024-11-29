@@ -1,8 +1,4 @@
-let blockquotes_map = new Map();
-
 function embed_sites() {
-	if (navigator.doNotTrack == "1") return
-
 	if (document.getElementById('orgy-top-container')) return
 
 	//twitter
@@ -14,14 +10,13 @@ function embed_sites() {
 		if (document.body.dataset.dark)
 			iframe_src += "&theme=dark"
 
-		let iframe_html = `<iframe class="twitter-embed" credentialless="true" allowfullscreen="true" height="240" src="${iframe_src}" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>`
+		let iframe_html = `<iframe class="twitter-embed" credentialless="true" allowfullscreen="true" height="0" src="${iframe_src}" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>`
 		if (twitter != 'x.com') {
 			a.classList.add('d-block')
 			a.innerHTML = a.href
 			iframe_html = a.outerHTML + iframe_html
 		}
-		blockquotes_map[iframe_src] = blockquote.outerHTML
-		blockquote.outerHTML = iframe_html
+		blockquote.insertAdjacentHTML('afterend', iframe_html);
 	}
 
 	//bluesky
@@ -29,10 +24,9 @@ function embed_sites() {
 		const a = blockquote.lastChild
 		const iframe_src = a.href.replace('https://bsky.app/profile/', 'https://embed.bsky.app/embed/').replace('/post/', '/app.bsky.feed.post/')
 
-		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" scrolling="no" class="bluesky-embed" src="${iframe_src}" height="240" width="500"></iframe>`
+		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" scrolling="no" class="bluesky-embed" src="${iframe_src}" height="0" width="500"></iframe>`
 
-		blockquotes_map[iframe_src] = blockquote.outerHTML
-		blockquote.outerHTML = iframe_html
+		blockquote.insertAdjacentHTML('afterend', iframe_html);
 	}
 
 	//reddit
@@ -136,11 +130,13 @@ addEventListener("message", function(e) {
 		if (height) {
 			for (const iframe of document.getElementsByClassName("twitter-embed")) {
 				if (e.source === iframe.contentWindow) {
-					if (height == 76) //not found
-						iframe.outerHTML = blockquotes_map[iframe.src]
-					else
+					if (height == 76) {//not found
+						iframe.remove()
+					}
+					else {
 						iframe.height = height
-					break
+						iframe.previousElementSibling.remove()
+					}
 				}
 			}
 		}
@@ -150,11 +146,13 @@ addEventListener("message", function(e) {
 		if (height) {
 			for (const iframe of document.getElementsByClassName("bluesky-embed")) {
 				if (e.source === iframe.contentWindow) {
-					if (height == 176) //not found
-						iframe.outerHTML = blockquotes_map[iframe.src]
-					else
+					if (height == 176) {//not found
+						iframe.remove()
+					}
+					else {
 						iframe.height = height
-					break
+						iframe.previousElementSibling.remove()
+					}
 				}
 			}
 		}

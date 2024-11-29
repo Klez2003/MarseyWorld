@@ -7751,6 +7751,10 @@ blockquote + p:empty + .twitter-embed {
 	overflow: hidden;
 }
 
+.twitter-embed[height="0"] {
+	margin: 0 !important;
+}
+
 .substack-embed, .tiktok-embed, .blind-embed, .instagram-embed, .bluesky-embed {
 	border: none;
 	margin-bottom: 10px;
