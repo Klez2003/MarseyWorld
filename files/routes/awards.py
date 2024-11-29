@@ -51,7 +51,7 @@ def shop(v):
 	return render_template("shop.html", awards=list(AWARDS.values()), v=v, sales=sales)
 
 
-def buy_awards(v, kind, AWARDS, quantity):
+def buy_awards(v, kind, AWARDS, quantity, obj=None):
 	og_price = AWARDS[kind]["price"]
 	price = int(og_price * v.award_discount)
 	if v.house.endswith(' Founder') and kind in {"earlylife", "rainbow", "sharpen", "owoify", "bite"}:
@@ -71,7 +71,11 @@ def buy_awards(v, kind, AWARDS, quantity):
 		s = "s"
 		es = "es"
 
-	charged = v.charge_account(currency, price*quantity, f"Cost of {quantity} {AWARDS[kind]['title']} award{s}")
+	reason = f"Cost of {quantity} {AWARDS[kind]['title']} award{s}"
+	if obj:
+		reason += f" on {obj.textlink}"
+
+	charged = v.charge_account(currency, price*quantity, reason)
 	if not charged:
 		stop(400, f"Not enough {currency}!")
 
@@ -255,7 +259,7 @@ def award_thing(v, thing_type, id):
 	num_owned = len(awards)
 
 	if quantity > num_owned:
-		bought = buy_awards(v, kind, AWARDS, quantity-num_owned)
+		bought = buy_awards(v, kind, AWARDS, quantity-num_owned, obj=obj)
 		if isinstance(bought, dict):
 			return bought
 		awards.extend(bought)
