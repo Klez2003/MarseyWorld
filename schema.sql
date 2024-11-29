@@ -140,7 +140,7 @@ CREATE TABLE public.award_relationships (
     awarded_utc integer,
     created_utc integer,
     price_paid integer DEFAULT 0 NOT NULL,
-    note character varying(200)
+    note character varying(400)
 );
 
 
@@ -384,6 +384,18 @@ CREATE SEQUENCE public.comment_edits_id_seq
 --
 
 ALTER SEQUENCE public.comment_edits_id_seq OWNED BY public.comment_edits.id;
+
+
+--
+-- Name: comment_note_votes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.comment_note_votes (
+    note_id integer NOT NULL,
+    user_id integer NOT NULL,
+    vote_type integer NOT NULL,
+    created_utc integer NOT NULL
+);
 
 
 --
@@ -1088,6 +1100,18 @@ ALTER SEQUENCE public.post_id_seq OWNED BY public.posts.id;
 
 
 --
+-- Name: post_note_votes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.post_note_votes (
+    note_id integer NOT NULL,
+    user_id integer NOT NULL,
+    vote_type integer NOT NULL,
+    created_utc integer NOT NULL
+);
+
+
+--
 -- Name: post_notes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1694,6 +1718,14 @@ ALTER TABLE ONLY public.comment_edits
 
 
 --
+-- Name: comment_note_votes comment_note_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_note_votes
+    ADD CONSTRAINT comment_note_votes_pkey PRIMARY KEY (note_id, user_id);
+
+
+--
 -- Name: comment_notes comment_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1923,6 +1955,14 @@ ALTER TABLE ONLY public.orgies
 
 ALTER TABLE ONLY public.post_edits
     ADD CONSTRAINT post_edits_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: post_note_votes post_note_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.post_note_votes
+    ADD CONSTRAINT post_note_votes_pkey PRIMARY KEY (note_id, user_id);
 
 
 --
@@ -2208,6 +2248,13 @@ CREATE INDEX casino_games_winnings_idx ON public.casino_games USING btree (winni
 --
 
 CREATE INDEX comment_new_sort_idx ON public.comments USING btree (is_banned, deleted_utc, created_utc DESC, nsfw);
+
+
+--
+-- Name: comment_note_votes_vote_type_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comment_note_votes_vote_type_idx ON public.comment_note_votes USING btree (note_id, vote_type);
 
 
 --
@@ -2726,6 +2773,13 @@ CREATE INDEX post_deleted_utc_idx ON public.posts USING btree (deleted_utc);
 --
 
 CREATE INDEX post_new_sort_idx ON public.posts USING btree (is_banned, deleted_utc, created_utc DESC, nsfw);
+
+
+--
+-- Name: post_note_votes_vote_type_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_note_votes_vote_type_idx ON public.post_note_votes USING btree (note_id, vote_type);
 
 
 --
@@ -3847,6 +3901,22 @@ ALTER TABLE ONLY public.comment_option_votes
 
 
 --
+-- Name: post_note_votes vote_note_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.post_note_votes
+    ADD CONSTRAINT vote_note_fkey FOREIGN KEY (note_id) REFERENCES public.post_notes(id) MATCH FULL;
+
+
+--
+-- Name: comment_note_votes vote_note_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_note_votes
+    ADD CONSTRAINT vote_note_fkey FOREIGN KEY (note_id) REFERENCES public.comment_notes(id) MATCH FULL;
+
+
+--
 -- Name: post_option_votes vote_option_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3899,6 +3969,22 @@ ALTER TABLE ONLY public.post_option_votes
 --
 
 ALTER TABLE ONLY public.comment_option_votes
+    ADD CONSTRAINT vote_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
+
+
+--
+-- Name: post_note_votes vote_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.post_note_votes
+    ADD CONSTRAINT vote_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
+
+
+--
+-- Name: comment_note_votes vote_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_note_votes
     ADD CONSTRAINT vote_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
 
 
