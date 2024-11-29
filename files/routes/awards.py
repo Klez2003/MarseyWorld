@@ -181,8 +181,8 @@ def award_thing(v, thing_type, id):
 	if quantity < 1 or quantity > 30:
 		quantity = 1
 
-	if kind == "ban" and quantity > 1:
-		stop(403, "You can only give a maximum of 1 Ban award at a time!")
+	if kind in {"ban", "grass"} and quantity > 1:
+		stop(403, f"You can only give a maximum of 1 {award_title} award at a time!")
 
 	if quantity == 1:
 		s = ""
