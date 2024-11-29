@@ -564,7 +564,7 @@ def award_thing(v, thing_type, id):
 			cache.delete_memoized(frontlist)
 	elif kind == "communitynote":
 		if not note:
-			stop(400, "You need to enter a valid community note!")
+			stop(400, "You need to enter a valid Community Note!")
 
 		body_html = sanitize(note, blackjack="community note")
 
