@@ -7267,6 +7267,7 @@ button, .btn {
 .img {
 	height: 100%;
 	width: auto;
+    object-fit: contain;
 }
 
 .order-first {
