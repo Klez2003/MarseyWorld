@@ -9,6 +9,15 @@
 				<h5 class="font-weight-bolder text-center pt-2 pb-3 d-md-none">@{{user.username}}'s Bank Statement</h5>
 			</div>
 
+			<form id="searchform" class="form-inline search flex-nowrap mt-3 mb-4" action="/@{{user.username}}/bank_statement" method="get">
+				<input autocomplete="off" class="form-control w-100" type="search" placeholder="Search bank statement" name="query" {% if query %}value="{{query}}"{% endif %}>
+				<span class="input-group-append">
+					<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem">
+						<button type="submit" class="fas fa-search text-muted"></button>
+					</span>
+				</span>
+			</form>
+
 			<div id="bank-statement" class="rounded border overflow-x-auto">
 				{% if logs %}
 					<table class="border-0">

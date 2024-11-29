@@ -1656,8 +1656,12 @@ def bank_statement(v, username):
 
 	logs = g.db.query(CurrencyLog).filter_by(user_id=user.id)
 
+	query = request.values.get("query", '').strip()
+	if query:
+		logs = logs.filter(CurrencyLog.reason.ilike(f'%{query}%'))
+
 	total = logs.count()
 
 	logs = logs.order_by(CurrencyLog.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
-	return render_template("bank_statement.html", v=v, user=user, logs=logs, page=page, total=total)
+	return render_template("bank_statement.html", v=v, user=user, logs=logs, page=page, total=total, query=query)
