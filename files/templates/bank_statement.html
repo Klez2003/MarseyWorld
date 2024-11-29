@@ -41,6 +41,8 @@
 											<span class="font-weight-normal" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{log.created_utc}}')">
 												{{log.age_string}}
 											</span>
+											<a href="/@{{user.username}}/bank_statement/{{log.id}}"><i class="fas fa-link ml-3 text-muted"></i></a>
+											<button type="button" class="copy-link ml-3" data-clipboard-text="{{SITE_FULL}}/@{{user.username}}/bank_statement/{{log.id}}"><i class="fas fa-copy text-muted"></i></button>
 										</div>
 									</td>
 									<td class="font-weight-normal">{{log.reason | safe}}</td>
@@ -57,4 +59,11 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="toast clipboard" id="toast-success" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
+		<div class="toast-body text-center">
+			<i class="fas fa-check-circle text-success mr-2"></i>Link copied to clipboard
+		</div>
+	</div>
+	<script defer src="{{'js/vendor/clipboard.js' | asset}}"></script>
 {% endblock %}

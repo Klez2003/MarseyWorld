@@ -1665,3 +1665,15 @@ def bank_statement(v, username):
 	logs = logs.order_by(CurrencyLog.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	return render_template("bank_statement.html", v=v, user=user, logs=logs, page=page, total=total, query=query)
+
+@app.get("/@<username>/bank_statement/<int:id>")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def bank_statement_item(v, username, id):
+	user = get_user(username, attributes=[User.id, User.username])
+
+	logs = g.db.get(CurrencyLog, id)
+	if not logs: stop(404)
+
+	return render_template("bank_statement.html", v=v, user=user, logs=[logs], page=1, total=1)
