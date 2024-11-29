@@ -1329,7 +1329,7 @@ forced_hats = {
 }
 
 IMAGE_FORMATS = ('png','jpg','jpeg','webp','gif')
-VIDEO_FORMATS = ('mp4','webm','mov','avi','mkv','m4v','3gp')
+VIDEO_FORMATS = ('mp4','webm','mov','avi','mkv','m4v')
 AUDIO_FORMATS = ('mp3','wav','ogg','m4a','flac','oga')
 
 if not IS_LOCALHOST and SECRET_KEY == DEFAULT_CONFIG_VALUE:
