@@ -1,4 +1,6 @@
 function embed_sites() {
+	if (navigator.doNotTrack == "1") return
+
 	if (document.getElementById('orgy-top-container')) return
 
 	//twitter
