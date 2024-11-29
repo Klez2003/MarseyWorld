@@ -680,6 +680,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('carpmewtwo3', 'Carp', 2, 'pkmn pokemon megamewtwoy 0150', false, 1702087315),
 ('carpmexican', 'Carp', 2, 'hispanic latino latinx mustache sombrero', false, 1720745487),
 ('carpminun', 'Carp', 2, 'pkmn pokemon 312', false, 1697827874),
+('carpmoment', 'Carp', 2, 'everyday just regular retarded stupid usual', false, 1732898248),
 ('carpmorelull', 'Carp', 2, 'pkmn pokemon 755', false, 1714662694),
 ('carpmorshu', 'Carp', 2, 'fish greedy merchant shop shopping zelda meme fat obese miserly bastard', false, 1690717492),
 ('carpmrfrog', 'Carp', 2, 'adultswim demon hello misterfrog smilingfriends', false, 1720931612),
