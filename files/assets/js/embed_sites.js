@@ -122,8 +122,8 @@ function embed_sites() {
 		a.classList.remove('d-none')
 	}
 }
-embed_sites()
 
+addEventListener("load", embed_sites)
 
 
 addEventListener("message", function(e) {
