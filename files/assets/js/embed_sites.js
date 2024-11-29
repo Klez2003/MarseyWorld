@@ -124,7 +124,7 @@ function embed_sites(element=document) {
 }
 
 if (!document.getElementById('post_permalinks'))
-	addEventListener("load", embed_sites)
+	addEventListener("load", () => {embed_sites(document)})
 
 
 addEventListener("message", function(e) {
