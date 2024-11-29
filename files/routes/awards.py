@@ -785,7 +785,7 @@ def award_thing(v, thing_type, id):
 			msg = f"@{v.username} has given {obj.textlink} {quantity} {award_title} award{s}"
 
 			if kind == 'shit':
-				msg += f" and has burned {awarded_coins} of your coins as a result"
+				msg += f" and has destroyed {awarded_coins} of your coins as a result"
 			elif awarded_coins:
 				msg += f" and you have received {awarded_coins} coins as a result"
 
