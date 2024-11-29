@@ -140,7 +140,7 @@
 									{% endif %}
 								{% endif %}
 
-								{% if p.url %} {# for embedding #}
+								{% if p.has_url_embed %}
 									<a class="d-none" rel="nofollow noopener" href="{{p.realurl(v)}}"></a>
 									<pre></pre>
 								{% endif %}

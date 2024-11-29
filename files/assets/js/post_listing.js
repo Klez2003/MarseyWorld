@@ -1,5 +1,7 @@
 function expandText(id) {
-	document.getElementById('post-text-'+id).classList.toggle('d-none');
+	const preview = document.getElementById('post-text-'+id)
+	preview.classList.toggle('d-none');
+	embed_sites(preview)
 	for (const e of document.getElementsByClassName('text-expand-icon-p_'+id))
 	{
 		e.classList.toggle('fa-expand-alt');

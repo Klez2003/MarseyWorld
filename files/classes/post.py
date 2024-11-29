@@ -505,3 +505,39 @@ class Post(Base):
 		ti = int(time.time()) + 3600
 		metric = self.realupvotes + 1 + self.comment_count/5
 		return -1000000*(metric / pow(((ti - self.created_utc)/1000), 1.4))
+
+	@property
+	@lazy
+	def has_url_embed(self):
+		if not self.url:
+			return False
+
+		if (self.url.startswith('https://old.reddit.com/r/') and not self.url.endswith('/new/')) or (self.url.startswith('https://old.reddit.com/user/') and '/comments/' in self.url):
+			return True
+
+		if self.url.startswith('https://tiktok.com/@'):
+			return True
+
+		if self.url.startswith('https://www.teamblind.com/'):
+			return True
+
+		if self.url.startswith('https://instagram.com/'):
+			return True
+
+		if self.domain.endswith('substack.com'):	
+			return True
+
+		return False
+
+	@lazy
+	def has_preview(self, v):
+		if self.realbody(v):
+			return True
+		
+		if self.notes:
+			return True
+
+		if self.has_url_embed:
+			return True
+		
+		return False

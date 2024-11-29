@@ -1,11 +1,11 @@
-function embed_sites() {
+function embed_sites(element=document) {
 	if (navigator.doNotTrack == "1") return
 
 	if (document.getElementById('orgy-top-container')) return
 
 	//twitter
 	const twitter = document.getElementById('twitter').value
-	for (const blockquote of document.querySelectorAll('blockquote.twitter-tweet')) {
+	for (const blockquote of element.querySelectorAll('blockquote.twitter-tweet')) {
 		const a = blockquote.lastChild
 		const id = a.href.split('/status/')[1].split('?ref_src')[0]
 		let iframe_src = `https://platform.twitter.com/embed/Tweet.html?dnt=true&hideThread=true&id=${id}`
@@ -22,7 +22,7 @@ function embed_sites() {
 	}
 
 	//bluesky
-	for (const blockquote of document.querySelectorAll('blockquote.bluesky-embed')) {
+	for (const blockquote of element.querySelectorAll('blockquote.bluesky-embed')) {
 		const a = blockquote.lastChild
 		const iframe_src = a.href.replace('https://bsky.app/profile/', 'https://embed.bsky.app/embed/').replace('/post/', '/app.bsky.feed.post/')
 
@@ -33,7 +33,7 @@ function embed_sites() {
 
 	//reddit
 	const reddit = document.getElementById('reddit').value
-	for (const a of document.querySelectorAll(`a[href^="https://${reddit}/r/"]:not(a[href$="/new"]), a[href^="https://${reddit}/user/"][href*="/comments/"]`)) {
+	for (const a of element.querySelectorAll(`a[href^="https://${reddit}/r/"]:not(a[href$="/new"]), a[href^="https://${reddit}/user/"][href*="/comments/"]`)) {
 		if (a.innerHTML && a.innerHTML !== a.href) continue
 		if (["STRONG", "LI", "BLOCKQUOTE", "PRE", "CODEBLOCK"].includes(a.parentElement.tagName)) continue
 
@@ -52,7 +52,7 @@ function embed_sites() {
 	}
 
 	//substack
-	for (const a of document.querySelectorAll(`a[href*="substack.com/"]`)) {
+	for (const a of element.querySelectorAll(`a[href*="substack.com/"]`)) {
 		if (a.innerHTML && a.innerHTML !== a.href) continue
 		if (["STRONG", "LI", "BLOCKQUOTE", "PRE", "CODEBLOCK"].includes(a.parentElement.tagName)) continue
 
@@ -74,7 +74,7 @@ function embed_sites() {
 	}
 
 	//tiktok
-	for (const a of document.querySelectorAll(`a[href^="https://tiktok.com/@"][href*="/video/"]`)) {
+	for (const a of element.querySelectorAll(`a[href^="https://tiktok.com/@"][href*="/video/"]`)) {
 		if (a.innerHTML && a.innerHTML !== a.href) continue
 		if (["STRONG", "LI", "BLOCKQUOTE", "PRE", "CODEBLOCK"].includes(a.parentElement.tagName)) continue
 
@@ -87,7 +87,7 @@ function embed_sites() {
 	}
 
 	//blind
-	for (const a of document.querySelectorAll(`a[href^="https://www.teamblind.com/"][href*="-"]`)) {
+	for (const a of element.querySelectorAll(`a[href^="https://www.teamblind.com/"][href*="-"]`)) {
 		if (a.innerHTML && a.innerHTML !== a.href) continue
 		if (["STRONG", "LI", "BLOCKQUOTE", "PRE", "CODEBLOCK"].includes(a.parentElement.tagName)) continue
 
@@ -100,7 +100,7 @@ function embed_sites() {
 	}
 
 	//instagram
-	for (const a of document.querySelectorAll(`a[href^="https://instagram.com/"]`)) {
+	for (const a of element.querySelectorAll(`a[href^="https://instagram.com/"]`)) {
 		if (a.innerHTML && a.innerHTML !== a.href) continue
 		if (["STRONG", "LI", "BLOCKQUOTE", "PRE", "CODEBLOCK"].includes(a.parentElement.tagName)) continue
 
@@ -123,7 +123,8 @@ function embed_sites() {
 	}
 }
 
-addEventListener("load", embed_sites)
+if (!document.getElementById('post_permalinks'))
+	addEventListener("load", embed_sites)
 
 
 addEventListener("message", function(e) {
