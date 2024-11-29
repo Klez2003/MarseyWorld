@@ -685,6 +685,8 @@ LONGPOSTBOT_REPLIES = (
 	"https://i.rdrama.net/images/17313409462539911.webp",
 	"Shut up meg",
 	"https://i.rdrama.net/images/1732466945440225.webp",
+	"I'm sorry your uncle molested you, but this is no way to process your trauma!",
+	"https://i.rdrama.net/images/17328431494893084.webp",
 )
 
 CHUD_MSGS = (
