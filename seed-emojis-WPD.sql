@@ -587,6 +587,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyfuckoff', 'Marsey', 2, 'middlefinger', false, 1730649870),
 ('marseyfurret', 'Marsey', 2, 'pkmn pokemon 162', false, 1698901966),
 ('marseyfurrycat', 'Marsey', 2, 'blonde woman', false, 1732172749),
+('marseyfurrycute', 'Marsey', 2, 'catgirl', false, 1732884335),
 ('marseyfurryflag', 'Marsey', 2, 'pride', false, 1717279516),
 ('marseygac', 'Marsey', 2, 'cognac', false, 1722807344),
 ('marseygapingdragon', 'Marsey', 2, 'darksouls', false, 1707253928),
