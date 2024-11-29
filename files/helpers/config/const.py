@@ -1328,7 +1328,7 @@ forced_hats = {
 
 }
 
-IMAGE_FORMATS = ('png','jpg','jpeg','webp','gif','avif')
+IMAGE_FORMATS = ('png','jpg','jpeg','webp','gif')
 VIDEO_FORMATS = ('mp4','webm','mov','avi','mkv','flv','m4v','3gp')
 AUDIO_FORMATS = ('mp3','wav','ogg','aac','m4a','flac','oga')
 
