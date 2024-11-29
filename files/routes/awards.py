@@ -181,9 +181,6 @@ def award_thing(v, thing_type, id):
 	if quantity < 1 or quantity > 30:
 		quantity = 1
 
-	if kind in {"ban", "grass"} and quantity > 1:
-		stop(403, f"You can only give a maximum of 1 {award_title} award at a time!")
-
 	if quantity == 1:
 		s = ""
 		it = "it"
@@ -314,6 +311,9 @@ def award_thing(v, thing_type, id):
 	can_alter_body = not obj.author.deflector or v == obj.author or v.penetrator
 
 	if kind in {"ban", "grass"}:
+		if quantity > 1:
+			stop(403, f"You can only give a maximum of 1 {award_title} award at a time!")
+
 		if author.is_suspended and author.ban_reason.startswith('Grass award'):
 			stop(400, f"You can't give a {award_title} award to an already-grassed user!")
 
