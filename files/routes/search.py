@@ -103,15 +103,22 @@ def searchposts(v):
 	if 'q' in criteria:
 		text = criteria['full_text']
 
-		words = [Post.title_ts.bool_op("@@")(func.websearch_to_tsquery("simple", text))]
-		if 'title_only' not in criteria:
-			words.append(Post.body_ts.bool_op("@@")(func.websearch_to_tsquery("simple", text)))
+		if text.startswith("!"):
+			words = []
 			for x in criteria['q']:
-				for param in (Post.url, Post.embed):
-					if x.startswith('"') and x.endswith('"'):
-						words.append(param.regexp_match(f'[[:<:]]{x[1:-1]}[[:>:]]'))
-					else:
-						words.append(param.ilike(f'%{x}%'))
+				words.append(Post.title.ilike(f'%{x}%'))
+				words.append(Post.body.ilike(f'%{x}%'))
+			posts = posts.filter(or_(*words))
+		else:
+			words = [Post.title_ts.bool_op("@@")(func.websearch_to_tsquery("simple", text))]
+			if 'title_only' not in criteria:
+				words.append(Post.body_ts.bool_op("@@")(func.websearch_to_tsquery("simple", text)))
+				for x in criteria['q']:
+					for param in (Post.url, Post.embed):
+						if x.startswith('"') and x.endswith('"'):
+							words.append(param.regexp_match(f'[[:<:]]{x[1:-1]}[[:>:]]'))
+						else:
+							words.append(param.ilike(f'%{x}%'))
 
 		posts = posts.filter(or_(*words))
 
@@ -249,11 +256,17 @@ def searchcomments(v):
 
 	if 'q' in criteria:
 		text = criteria['full_text']
-		comments = comments.filter(
-			Comment.body_ts.bool_op("@@")(
-				func.websearch_to_tsquery("simple", text)
+		if text.startswith("!"):
+			words = []
+			for x in criteria['q']:
+				words.append(Comment.body.ilike(f'%{x}%'))
+			comments = comments.filter(or_(*words))
+		else:
+			comments = comments.filter(
+				Comment.body_ts.bool_op("@@")(
+					func.websearch_to_tsquery("simple", text)
+				)
 			)
-		)
 
 	if 'nsfw' in criteria:
 		nsfw = criteria['nsfw'].lower().strip() == 'true'
