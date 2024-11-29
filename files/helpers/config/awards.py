@@ -846,7 +846,7 @@ AWARDS = {
 		"enabled": lambda v:True,
 		"negative": False,
 		"included_in_lootbox": False,
-    },
+	},
 	"benefactor": {
 		"kind": "benefactor",
 		"title": "Benefactor",

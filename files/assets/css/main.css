@@ -4126,8 +4126,8 @@ small, .small {
 }
 
 .ghost-post .post-meta {
-    margin-top: 0.5rem;
-    margin-bottom: 1.5rem !important;
+	margin-top: 0.5rem;
+	margin-bottom: 1.5rem !important;
 }
 
 .post-meta-domain {
@@ -5507,7 +5507,7 @@ div[id^="form-preview-"] li > p:first-child {
 .twitter-tweet {
 	margin-bottom: 9.8px;
 	padding-bottom: 7px;
-    overflow-y: hidden;
+	overflow-y: hidden;
 }
 .controversial {
 	color: #f27d0c !important;
@@ -6391,11 +6391,11 @@ g {
 
 .community-note {
 	border: 1px solid #1da1f2 !important;
-    border-radius: 0.15rem !important;
+	border-radius: 0.15rem !important;
 	margin-top: 0.5rem;
 }
 .community-note > div {
-    margin-bottom: 0.5rem;
+	margin-bottom: 0.5rem;
 	padding-top: 7px !important;
 	padding-bottom: 7px !important;
 	font-size: 1rem;
@@ -6409,7 +6409,7 @@ g {
 	}
 }
 .community-note > div, .community-note > div a {
-    color: #CFCFCF;
+	color: #CFCFCF;
 }
 .community-note > * {
 	padding-left: 14px !important;
@@ -6419,13 +6419,13 @@ g {
 	margin-top: 1rem;
 }
 .community-note + .community-note {
-    margin-top: 1rem;
+	margin-top: 1rem;
 }
 .comment-body .community-note:last-of-type {
 	margin-bottom: 1rem;
 }
 .post-preview > .community-note:last-of-type {
-    margin-bottom: 1.5rem;
+	margin-bottom: 1.5rem;
 }
 
 .showmore {
@@ -6773,7 +6773,7 @@ div.markdown {
 	margin: 0 !important;
 	max-height: 65vh !important;
 	max-width: 85vw !important;
-    min-width: 285px !important;
+	min-width: 285px !important;
 }
 
 @media (max-width: 768px) {
@@ -7267,7 +7267,7 @@ button, .btn {
 .img {
 	height: 100%;
 	width: auto;
-    object-fit: contain;
+	object-fit: contain;
 }
 
 .order-first {
@@ -7730,9 +7730,9 @@ img[src$="/e/speechbubble.webp"] {
 	border: none;
 	display: inline !important;
 	width: min(100%, 552px);
-    vertical-align: middle;
-    z-index: 0;
-    position: relative;
+	vertical-align: middle;
+	z-index: 0;
+	position: relative;
 }
 
 p:has(.reddit-embed, .twitter-embed) {
@@ -7744,7 +7744,7 @@ p:empty { /* shitty hack to fix the issue where bleach.Cleaner doesnt allow bloc
 }
 
 blockquote + p:empty + .twitter-embed {
-    margin-top: 1.5rem;
+	margin-top: 1.5rem;
 }
 
 .twitter-embed {
@@ -7800,7 +7800,7 @@ tr:has(hideme) {
 }
 
 #versions d {
-    display: initial !important;
+	display: initial !important;
 }
 
 #category-filter * {
@@ -7825,7 +7825,7 @@ audio {
 }
 
 li {
-    margin-top: 0.3rem;
+	margin-top: 0.3rem;
 }
 
 video {
@@ -7833,15 +7833,15 @@ video {
 }
 
 p:empty + p { /* poll margin */
-    margin-top: 1rem;
+	margin-top: 1rem;
 }
 
 p.resizable + p:empty { /* margin after video at the end of the comment */
-    margin-bottom: 1rem !important;
+	margin-bottom: 1rem !important;
 }
 
 .post-preview p.resizable {
-    width: 285px;
+	width: 285px;
 }
 
 .quote:hover, .quote:active,
@@ -7864,28 +7864,28 @@ p.resizable + p:empty { /* margin after video at the end of the comment */
 .btn.btn-primary:hover, .btn.btn-primary:active,
 .btn.btn-secondary:hover, .btn.btn-secondary:active,
 .searchparam:hover, .searchparam:active {
-    color: white !important;
-    background-color: var(--primary) !important;
-    border-color: var(--primary) !important;
+	color: white !important;
+	background-color: var(--primary) !important;
+	border-color: var(--primary) !important;
 }
 
 .btn.btn-danger:hover, .btn.btn-danger:active {
-    color: white !important;
-    background-color: #dc3545 !important;
-    border-color: #dc3545 !important;
+	color: white !important;
+	background-color: #dc3545 !important;
+	border-color: #dc3545 !important;
 }
 
 .btn.btn-success:hover, .btn.btn-success:active {
-    color: white !important;
-    background-color: #38A169 !important;
-    border-color: #38A169 !important;
+	color: white !important;
+	background-color: #38A169 !important;
+	border-color: #38A169 !important;
 }
 
 .btn.btn-primary:hover .fas, .btn.btn-primary:active .fas,
 .btn.btn-secondary:hover .fas, .btn.btn-secondary:active .fas,
 .btn.btn-danger:hover .fas, .btn.btn-danger:active .fas,
 .btn.btn-success:hover .fas, .btn.btn-success:active .fas {
-    color: white !important;
+	color: white !important;
 }
 
 .d-md-none .nav-item:not(.nohighlight):hover, .d-md-none .nav-item:not(.nohighlight):active,
@@ -7900,8 +7900,8 @@ p.resizable + p:empty { /* margin after video at the end of the comment */
 }
 
 .edit-log {
-    padding: 14px 14px 0 14px !important;
-    margin-bottom: 6rem !important;
+	padding: 14px 14px 0 14px !important;
+	margin-bottom: 6rem !important;
 }
 
 hidden {
@@ -7939,6 +7939,6 @@ button.note-unhelpful.note-voted-btn {
 	background-color: #d54e56 !important;
 }
 button.btn.note-helpful:hover {
-    background-color: #1da1f2 !important;
+	background-color: #1da1f2 !important;
 	border-color: #1da1f2 !important;
 }

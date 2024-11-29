@@ -1259,7 +1259,7 @@ class User(Base):
 	@lazy
 	def is_underage(self):
 		return (self.is_suspended and is_underage_reason(self.ban_reason)) \
-		    or (self.shadowbanned and is_underage_reason(self.shadowban_reason))
+			or (self.shadowbanned and is_underage_reason(self.shadowban_reason))
 
 	@property
 	@lazy

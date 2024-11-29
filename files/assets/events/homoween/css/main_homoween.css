@@ -480,7 +480,7 @@ body::after {
 }
 
 .ectoplasm.candycorn {
-    color: transparent !important;
+	color: transparent !important;
 }
 
 .ectoplasm.blood {
@@ -755,5 +755,5 @@ body::after {
 }
 
 blockquote {
-    background-color: #000000;
+	background-color: #000000;
 }
