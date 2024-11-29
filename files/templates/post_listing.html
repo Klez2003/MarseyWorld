@@ -107,7 +107,7 @@
 				</h5>
 				<div class="post-actions d-mob-none">
 					<ul class="list-inline text-right text-md-left w-100" style="line-height: 2">
-						{% if p.realbody(v) %}
+						{% if p.realbody(v) or p.notes %}
 							<button type="button" class="list-inline-item ml-2" data-nonce="{{g.nonce}}" data-onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mx-0 text-expand-icon-{{p.fullname}}"></i></button>
 						{% endif %}
 						<a class="list-inline-item" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}">
@@ -137,7 +137,7 @@
 
 					</li>
 
-					{% if p.realbody(v) %}
+					{% if p.realbody(v) or p.notes %}
 						<button type="button" class="list-inline-item ml-2" data-nonce="{{g.nonce}}" data-onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mx-0 text-expand-icon-{{p.fullname}}"></i></button>
 					{% endif %}
 
