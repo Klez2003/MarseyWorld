@@ -390,8 +390,6 @@ def user_voted_posts(v, username):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def user_voted_comments(v, username):
-	if SITE == 'rdrama.net':
-		stop(400, "Disabled temporarily")
 	return user_voted(v, username, Comment, CommentVote, "userpage/voted_comments.html", True)
 
 @app.get("/banned")
