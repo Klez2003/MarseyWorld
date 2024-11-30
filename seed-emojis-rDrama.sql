@@ -2159,7 +2159,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyblart', 'Marsey', 2, 'mall cop mallcop paul authority segwey segway segue security guard', false, 1678843995),
 ('marseyblastoise', 'Marsey', 2, 'pkmn pokemon 009', false, 1701360042),
 ('marseyblenderafter', 'Marsey', 2, 'wrrr will it chinese shake juice blood', false, 1683418751),
-('marseyblenderbefore', 'Marsey', 2, 'wrrr chinese shake', false, 1683418696),
 ('marseyblep', 'Marsey', 2, 'tongue smile sweet', false, 1665456875),
 ('marseyblep2', 'Marsey', 2, 'smile tongue sweet', false, 1665456914),
 ('marseyblep3', 'Marsey', 2, 'tongue sweet wholesome smile', false, 1665457366),
