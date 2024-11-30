@@ -1,3 +1,5 @@
+const reddit = document.getElementById('reddit').value
+
 function embed_sites(element=document) {
 	if (gbrowser == 'firefox' && navigator.doNotTrack == "1") return
 
@@ -35,7 +37,6 @@ function embed_sites(element=document) {
 	}
 
 	//reddit
-	const reddit = document.getElementById('reddit').value
 	for (const a of element.querySelectorAll(`a[href^="https://${reddit}/r/"]:not(a[href$="/new"]), a[href^="https://${reddit}/user/"][href*="/comments/"]`)) {
 		if (a.innerHTML && a.innerHTML !== a.href) continue
 		if (["STRONG", "LI", "BLOCKQUOTE", "PRE", "CODEBLOCK"].includes(a.parentElement.tagName)) continue
@@ -206,6 +207,13 @@ addEventListener("message", function(e) {
 		if (data && "type" in data && data.type == "resize.embed")
 			for (const iframe of document.getElementsByClassName("reddit-embed")) {
 				if (e.source === iframe.contentWindow) {
+					if (height == 240) {//deleted
+						const prev = iframe.previousElementSibling
+						if (prev && prev.id == 'post-url') {
+							prev.href = prev.href.replace(`https://${reddit}/`, 'https://undelete.pullpush.io/')
+							prev.innerHTML = prev.innerHTML.replace(`https://${reddit}/`, 'https://undelete.pullpush.io/')
+						}
+					}
 					iframe.height = height
 					break
 				}
