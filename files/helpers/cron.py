@@ -32,6 +32,9 @@ from files.cli import app, db_session, g
 
 CRON_CACHE_TIMEOUT = 172800
 
+engine = create_engine(os.environ.get("DATABASE_URL").strip(), connect_args={"options": "-c statement_timeout=40000 -c idle_in_transaction_session_timeout=40000"})
+db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
+
 def cron_fn(every_5m, every_1d, every_1mo, manual):
 	with app.app_context():
 		g.db = db_session()
