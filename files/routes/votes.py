@@ -191,12 +191,15 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if imlazy == 1:
 		target.author.pay_account('coins', coin_value)
 		target.author.truescore += coin_delta
+		target.coins += coin_value
 	elif imlazy == 2:
 		target.author.charge_account('coins', existing.coins, should_check_balance=False)
 		target.author.truescore -= coin_delta
+		target.coins -= coin_value
 	elif imlazy == 3:
 		target.author.pay_account('coins', coin_value)
 		target.author.truescore += coin_delta
+		target.coins += coin_value
 
 	return ""
 

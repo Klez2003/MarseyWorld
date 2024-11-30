@@ -72,6 +72,7 @@ class Post(Base):
 	bump_utc = Column(Integer)
 	title_ts = Column(TSVECTOR(), server_default=FetchedValue())
 	body_ts = Column(TSVECTOR(), server_default=FetchedValue())
+	coins = Column(Integer, default=0)
 
 	if FEATURES['NSFW_MARKING']:
 		nsfw = Column(Boolean, default=False)

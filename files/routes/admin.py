@@ -1405,6 +1405,10 @@ def remove_post(post_id, v):
 		)
 	g.db.add(ma)
 
+	post.author.coins -= post.coins
+	post.author.truescore -= post.coins
+	g.db.add(post.author)
+
 	cache.delete_memoized(frontlist)
 
 	for sort in COMMENT_SORTS.keys():
@@ -1443,6 +1447,10 @@ def approve_post(post_id, v):
 	post.is_approved = v.id
 
 	g.db.add(post)
+
+	post.author.coins += post.coins
+	post.author.truescore += post.coins
+	g.db.add(post.author)
 
 	cache.delete_memoized(frontlist)
 
@@ -1631,6 +1639,10 @@ def remove_comment(c_id, v):
 		)
 	g.db.add(ma)
 
+	comment.author.coins -= comment.coins
+	comment.author.truescore -= comment.coins
+	g.db.add(comment.author)
+
 	if comment.parent_post:
 		for sort in COMMENT_SORTS.keys():
 			cache.delete(f'post_{comment.parent_post}_{sort}')
@@ -1668,6 +1680,10 @@ def approve_comment(c_id, v):
 	comment.is_approved = v.id
 
 	g.db.add(comment)
+
+	comment.author.coins += comment.coins
+	comment.author.truescore += comment.coins
+	g.db.add(comment.author)
 
 	if comment.parent_post:
 		for sort in COMMENT_SORTS.keys():
