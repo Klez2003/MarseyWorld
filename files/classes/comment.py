@@ -147,14 +147,7 @@ def add_options(self, body, v):
 			disabled = False
 
 			if v:
-				if kind == 'post':
-					hole = self.hole
-				elif self.parent_post:
-					hole = self.post.hole
-				else:
-					hole = None
-
-				if hole in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(hole):
+				if self.hole in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(self.hole):
 					disabled = True
 					option_body += ' disabled '
 
@@ -374,7 +367,7 @@ class Comment(Base):
 					'ban_reason': self.ban_reason,
 					'id': self.id,
 					'post_id': self.post.id if self.post else 0,
-					'hole': self.post.hole if self.post else None,
+					'hole': self.hole,
 					'level': self.level,
 					'parent': self.parent_fullname
 					}
@@ -382,7 +375,7 @@ class Comment(Base):
 			data = {'deleted_utc': self.deleted_utc,
 					'id': self.id,
 					'post_id': self.post.id if self.post else 0,
-					'hole': self.post.hole if self.post else None,
+					'hole': self.hole,
 					'level': self.level,
 					'parent': self.parent_fullname
 					}
@@ -408,7 +401,7 @@ class Comment(Base):
 				'pinned': self.pinned,
 				'distinguished': self.distinguished,
 				'post_id': self.post.id if self.post else 0,
-				'hole': self.post.hole if self.post else None,
+				'hole': self.hole,
 				'score': self.score,
 				'upvotes': self.upvotes,
 				'downvotes': self.downvotes,
@@ -451,7 +444,7 @@ class Comment(Base):
 		body = add_options(self, body, v)
 
 		if body:
-			if not (self.parent_post and self.post.hole == 'chudrama'):
+			if self.hole != 'chudrama':
 				body = censor_slurs_profanities(body, v)
 
 			body = normalize_urls_runtime(body, v)
@@ -472,7 +465,7 @@ class Comment(Base):
 
 		if not body: return ""
 
-		if not (self.parent_post and self.post.hole == 'chudrama'):
+		if self.hole != 'chudrama':
 			body = censor_slurs_profanities(body, v, True)
 
 		return body
@@ -561,6 +554,13 @@ class Comment(Base):
 	@lazy
 	def is_longpost(self):
 		return self.body and len(self.body) >= 2000
+
+	@property
+	@lazy
+	def hole(self):
+		if self.parent_post:
+			return self.post.hole
+		return None
 
 	def pin_parents(self):
 		c = self
