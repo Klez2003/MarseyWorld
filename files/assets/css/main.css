@@ -5034,12 +5034,12 @@ span.green {
 	border-left: 10px solid #a78787 !important;
 }
 .deleted {
-	background-color: #15154a !important;
-	border-left: 10px solid #15154a !important;
+	background-color: #979270 !important;
+	border-left: 10px solid #979270 !important;
 }
 .deleted.banned {
-	background-color: #4a154a !important;
-	border-left: 10px solid #4a154a !important;
+	background-color: #b3957f !important;
+	border-left: 10px solid #b3957f !important;
 }
 
 .text-admin {
