@@ -10,7 +10,7 @@
 	{% endif %}
 
 	{% include "popover.html" %}
-{% end if %}
+{% endif %}
 
 {% set disable_votes = request.path.startswith('/@') and u != v and v and v.admin_level < PERMS['ENABLE_VOTE_BUTTONS_ON_USER_PAGE'] %}
 
