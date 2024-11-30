@@ -124,7 +124,7 @@
 		{{macros.pagination()}}
 	{% endif %}
 
-	{% if request.path == '/' and v %}
+	{% if request.path == '/' %}
 		<script defer src="{{'js/register_service_worker.js' | asset}}"></script>
 	{% endif %}
 
