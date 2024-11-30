@@ -9,7 +9,6 @@ if FEATURES['ART_SUBMISSIONS']:
 
 SNAPPY_KONGS = []
 MARSEYS_CONST = []
-MARSEYS_CONST2 = []
 MARSEY_MAPPINGS = {}
 SNAPPY_MARSEYS = []
 SNAPPY_QUOTES = []
@@ -21,7 +20,7 @@ ALPHABET_MARSEYS = []
 MIN_ART_ID_FOR_HQ = 999999999
 
 def const_initialize():
-	global MARSEYS_CONST, MARSEYS_CONST2, MARSEY_MAPPINGS, SNAPPY_KONGS, SNAPPY_MARSEYS, SNAPPY_QUOTES, SNAPPY_QUOTES_FISTMAS, SNAPPY_QUOTES_HOMOWEEN, STEALTH_HOLES, NSFW_EMOJIS, ALPHABET_MARSEYS, MIN_ART_ID_FOR_HQ
+	global MARSEYS_CONST, MARSEY_MAPPINGS, SNAPPY_KONGS, SNAPPY_MARSEYS, SNAPPY_QUOTES, SNAPPY_QUOTES_FISTMAS, SNAPPY_QUOTES_HOMOWEEN, STEALTH_HOLES, NSFW_EMOJIS, ALPHABET_MARSEYS, MIN_ART_ID_FOR_HQ
 
 	db = db_session()
 
@@ -33,7 +32,7 @@ def const_initialize():
 		not_(Emoji.tags.ilike('%pkmn%')),
 	)]
 	ALPHABET_MARSEYS = [x[0] for x in db.query(Emoji.name).filter_by(kind='Marsey Alphabet')]
-	MARSEYS_CONST2 = MARSEYS_CONST + ALPHABET_MARSEYS
+	MARSEYS_CONST = MARSEYS_CONST + ALPHABET_MARSEYS
 
 	marseys = db.query(Emoji).filter(Emoji.kind=="Marsey", Emoji.submitter_id == None, Emoji.nsfw == False).all()
 	for marsey in marseys:
@@ -57,7 +56,7 @@ def const_initialize():
 	db.commit()
 	db.close()
 
-	SNAPPY_MARSEYS = [f':#{x}:' for x in MARSEYS_CONST2]
+	SNAPPY_MARSEYS = [f':#{x}:' for x in MARSEYS_CONST]
 
 	try:
 		with open(f"snappy_{SITE_NAME}.txt", "r") as f:
