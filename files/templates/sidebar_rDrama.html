@@ -22,7 +22,7 @@
 	{% elif IS_EVENT() %}
 		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar") %}
 	{% elif v and v.chud %}
-		{% set image = SITE_FULL_IMAGES + "/i/rDrama/sidebar/2317.webp?x=17" %}
+		{% set image = SITE_FULL_IMAGES + "/i/rDrama/sidebar/2317.webp?x=18" %}
 		{% set expanded_image = image|expand_art %}
 	{% else %}
 		{% set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") %}

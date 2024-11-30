@@ -715,7 +715,7 @@ class User(Base):
 	def bio_html_eager(self):
 		if self.bio_html == None: return ''
 		return self.bio_html.replace('data-src', 'src') \
-			.replace(f'src="{SITE_FULL_IMAGES}/i/loading.webp?x=17"', '') \
+			.replace(f'src="{SITE_FULL_IMAGES}/i/loading.webp?x=18"', '') \
 			.replace(f'src="{SITE_FULL_IMAGES}/i/loading.webp"', '') \
 			.replace(f'src="{SITE_FULL_IMAGES}/i/l.webp"', '')
 
@@ -1054,13 +1054,13 @@ class User(Base):
 	def banner_url(self):
 		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl and can_see(g.v, self):
 			return self.bannerurl
-		return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?x=17"
+		return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?x=18"
 
 	@property
 	@lazy
 	def profile_url(self):
 		if self.username.startswith('deleted~') and not (g.v and g.v.admin_level >= PERMS['VIEW_DELETED_ACCOUNTS']):
-			return f"{SITE_FULL_IMAGES}/i/default-profile-pic.webp?x=17"
+			return f"{SITE_FULL_IMAGES}/i/default-profile-pic.webp?x=18"
 
 		if IS_HOMOWEEN() and self.zombie < 0:
 			random.seed(self.id)
@@ -1083,7 +1083,7 @@ class User(Base):
 		if self.profileurl and can_see(g.v, self):
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
-		return f"{SITE_FULL_IMAGES}/i/default-profile-pic.webp?x=17"
+		return f"{SITE_FULL_IMAGES}/i/default-profile-pic.webp?x=18"
 
 	@property
 	@lazy
