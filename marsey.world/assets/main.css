@@ -4151,8 +4151,8 @@ small, .small {
 }
 
 .ghost-post .post-meta {
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
+	margin-top: 1rem;
+	margin-bottom: 1.5rem;
 }
 
 .post-meta-domain {
@@ -5535,7 +5535,7 @@ div[id^="form-preview-"] li > p:first-child {
 .twitter-tweet {
 	margin-bottom: 9.8px;
 	padding-bottom: 7px;
-    overflow-y: hidden;
+	overflow-y: hidden;
 }
 .controversial {
 	color: #f27d0c !important;
@@ -6726,7 +6726,7 @@ div.markdown {
 	margin: 0 !important;
 	max-height: 65vh !important;
 	max-width: 85vw !important;
-    min-width: 285px !important;
+	min-width: 285px !important;
 }
 
 @media (max-width: 768px) {
@@ -7647,7 +7647,7 @@ img[src$="/e/speechbubble.webp"] {
 	border: none;
 	display: inline !important;
 	width: min(100%, 552px);
-    vertical-align: middle;
+	vertical-align: middle;
 }
 
 p:has(.reddit-embed, .twitter-embed) {
@@ -7705,7 +7705,7 @@ tr:has(hideme) {
 }
 
 #versions d {
-    display: initial !important;
+	display: initial !important;
 }
 
 #category-filter * {
@@ -7734,7 +7734,7 @@ audio {
 }
 
 li {
-    margin-top: 0.25rem;
+	margin-top: 0.25rem;
 }
 
 video {
@@ -7742,11 +7742,11 @@ video {
 }
 
 p:empty + p { /* poll margin */
-    margin-top: 1rem;
+	margin-top: 1rem;
 }
 
 .post-preview p.resizable {
-    width: 285px;
+	width: 285px;
 }
 
 .btn:hover, .btn:active,
@@ -7851,7 +7851,7 @@ blockquote {
 
 body {
 	background: url(/assets/background.webp) center center fixed !important;
-    background-color: rgb(var(--background)) !important;
+	background-color: rgb(var(--background)) !important;
 	background-size: 70px !important;
 }
 
