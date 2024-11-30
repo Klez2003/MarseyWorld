@@ -1,4 +1,4 @@
-importScripts('/assets/js/vendor/workbox-sw.js');
+importScripts('/assets/js/vendor/workbox-sw.js?x=15');
 
 const CACHE = "pwabuilder-page";
 
