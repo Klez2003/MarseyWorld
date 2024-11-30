@@ -827,7 +827,7 @@ function enablePushNotifications() {
 	if (!publicKeyElement) return;
 
 	let publicKey = urlB64ToUint8Array(publicKeyElement.value);
-	navigator.serviceWorker.getRegistration("/assets/js/service_worker.js?x=19").then((reg) => {
+	navigator.serviceWorker.getRegistration("/assets/js/service_worker.js?x=20").then((reg) => {
 		return reg.pushManager.subscribe({
 			userVisibleOnly: true,
 			applicationServerKey: publicKey,

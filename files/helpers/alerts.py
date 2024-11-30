@@ -336,7 +336,7 @@ def _push_notif_thread(subscriptions, title, body, url):
 					"title": title,
 					"body": body,
 					'url': url,
-					'icon': f'{SITE_FULL}/icon.webp?x=19',
+					'icon': f'{SITE_FULL}/icon.webp?x=20',
 					}),
 				vapid_private_key=VAPID_PRIVATE_KEY,
 				vapid_claims={"sub": f"mailto:{EMAIL}"}

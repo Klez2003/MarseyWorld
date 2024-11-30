@@ -8,27 +8,27 @@
 	"description": "rDrama",
 	"icons": [
 			{
-				"src": "/i/rDrama/192.png?x=19",
+				"src": "/i/rDrama/192.png?x=20",
 				"sizes": "192x192",
 				"type": "image/png",
 				"purpose": "any"
 			},
 			{
-				"src": "/i/rDrama/512.png?x=19",
+				"src": "/i/rDrama/512.png?x=20",
 				"sizes": "512x512",
 				"type": "image/png"
 			}
 	],
 	"screenshots": [
 			{
-				"src": "/i/rDrama/512.png?x=19",
+				"src": "/i/rDrama/512.png?x=20",
 				"sizes": "512x512",
 				"type": "image/png",
 				"form_factor": "wide",
 				"label": "Home screen showing main navigation and featured content"
 			},
 			{
-				"src": "/i/rDrama/512.png?x=19",
+				"src": "/i/rDrama/512.png?x=20",
 				"sizes": "512x512",
 				"type": "image/png",
 				"label": "Home screen showing main navigation and featured content"

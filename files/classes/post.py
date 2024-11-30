@@ -195,9 +195,9 @@ class Post(Base):
 	@lazy
 	def thumb_url(self):
 		if self.nsfw:
-			return f"{SITE_FULL_IMAGES}/i/nsfw.webp?x=19"
+			return f"{SITE_FULL_IMAGES}/i/nsfw.webp?x=20"
 		elif not self.url:
-			return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/default_text.webp?x=19"
+			return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/default_text.webp?x=20"
 		elif self.thumburl:
 			if self.thumburl.startswith('/'): return SITE_FULL + self.thumburl
 			return self.thumburl
@@ -206,11 +206,11 @@ class Post(Base):
 			if id:
 				return f"https://i.ytimg.com/vi/{id}/hqdefault.jpg"
 		elif self.is_youtube or self.is_video:
-			return f"{SITE_FULL_IMAGES}/i/default_thumb_video.webp?x=19"
+			return f"{SITE_FULL_IMAGES}/i/default_thumb_video.webp?x=20"
 		elif self.is_audio:
-			return f"{SITE_FULL_IMAGES}/i/default_thumb_audio.webp?x=19"
+			return f"{SITE_FULL_IMAGES}/i/default_thumb_audio.webp?x=20"
 		elif self.domain == SITE:
-			return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?x=19"
+			return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?x=20"
 		elif self.domain == 'reddit.com':
 			if SITE == 'watchpeopledie.tv':
 				return "https://i.watchpeopledie.tv/images/1728360164949774.webp"
@@ -240,7 +240,7 @@ class Post(Base):
 		elif self.domain.startswith('kiwifarms.'):
 			return "https://i.rdrama.net/images/16764197614414222.webp"
 		else:
-			return f"{SITE_FULL_IMAGES}/i/default_thumb_link.webp?x=19"
+			return f"{SITE_FULL_IMAGES}/i/default_thumb_link.webp?x=20"
 
 	@property
 	@lazy
