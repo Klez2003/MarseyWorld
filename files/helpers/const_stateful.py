@@ -24,13 +24,18 @@ def const_initialize():
 
 	db = db_session()
 
-	MARSEYS_CONST = [x[0] for x in db.query(Emoji.name).filter(
+	MARSEY_CONST = db.query(Emoji.name).filter(
 		Emoji.kind == "Marsey",
 		Emoji.submitter_id == None,
 		Emoji.name != 'chudsey',
 		Emoji.nsfw == False,
 		not_(Emoji.tags.ilike('%pkmn%')),
-	)]
+	)
+
+	if SITE_NAME == 'rDrama':
+		MARSEY_CONST = MARSEY_CONST.filter(Emoji.author_id != 2)
+
+	MARSEYS_CONST = [x[0] for x in MARSEY_CONST]
 	ALPHABET_MARSEYS = [x[0] for x in db.query(Emoji.name).filter_by(kind='Marsey Alphabet')]
 	MARSEYS_CONST = MARSEYS_CONST + ALPHABET_MARSEYS
 
