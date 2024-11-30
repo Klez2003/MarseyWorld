@@ -855,6 +855,9 @@ def settings_advanced_get(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_name_change(v):
+	if v.is_suspended:
+		stop(403, "You can't perform this action while banned!")
+
 	if SITE == 'rdrama.net' and v.id == 10489:
 		stop(403)
 
