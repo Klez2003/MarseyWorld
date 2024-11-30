@@ -166,7 +166,7 @@
 				<div id="logo-container" class="flex-grow-1 logo-container">
 					<a href="/">
 						{% if IS_EVENT() %}
-							{% set logo_url = SITE_FULL_IMAGES ~ '/assets/events/' ~ IS_EVENT() ~ '/images/logo/' ~ SITE_NAME ~ '.webp?x=16' %}
+							{% set logo_url = SITE_FULL_IMAGES ~ '/assets/events/' ~ IS_EVENT() ~ '/images/logo/' ~ SITE_NAME ~ '.webp?x=17' %}
 						{% else %}
 							{% set logo_url = 'logo.webp' | asset_siteimg %}
 						{% endif %}
@@ -348,9 +348,9 @@
 										</div>
 										<div class="text-left pl-2" id="header--username--outerdiv">
 											<div style="color: #{{v.name_color}}" class="text-small font-weight-bold"><span id="header--username" {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %} {% if v.pride_username(v) %}pride_username{% endif %}>{{v.username}}</span></div>
-											<div class="header--currency"><img loading="lazy" alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/coins.webp?x=16" title="Coins"><span id="user-coins-amount">{{v.coins|commas}}</span>{% if not FEATURES['MARSEYBUX'] %} Coin{{macros.plural(v.coins)}}{% endif %}</div>
+											<div class="header--currency"><img loading="lazy" alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/coins.webp?x=17" title="Coins"><span id="user-coins-amount">{{v.coins|commas}}</span>{% if not FEATURES['MARSEYBUX'] %} Coin{{macros.plural(v.coins)}}{% endif %}</div>
 											{% if FEATURES['MARSEYBUX'] %}
-												<div class="header--currency"><img loading="lazy" alt="marseybux" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=16" title="Marseybux"><span id="user-bux-amount">{{v.marseybux|commas}}</span></div>
+												<div class="header--currency"><img loading="lazy" alt="marseybux" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=17" title="Marseybux"><span id="user-bux-amount">{{v.marseybux|commas}}</span></div>
 											{% endif %}
 										</div>
 									</div>
@@ -424,12 +424,12 @@
 						{% if v %}
 							<li class="nav-item">
 								<div class="header--currency ml-2 pl-1 my-2">
-									<img loading="lazy" alt="coins" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/coins.webp?x=16" title="Coins">
+									<img loading="lazy" alt="coins" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/coins.webp?x=17" title="Coins">
 									<span id="user-coins-amount-mobile">{{v.coins|commas}}</span>
 								</div>
 								{% if FEATURES['MARSEYBUX'] %}
 									<div class="header--currency">
-										<img loading="lazy" alt="marseybux" class="ml-3" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=16" title="Marseybux">
+										<img loading="lazy" alt="marseybux" class="ml-3" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=17" title="Marseybux">
 										<span id="user-bux-amount-mobile">{{v.marseybux|commas}}</span>
 									</div>
 								{% endif %}	
