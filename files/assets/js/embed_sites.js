@@ -168,7 +168,7 @@ addEventListener("message", function(e) {
 			}
 		}
 	}
-	else if (e.origin.endsWith('.substack.com')) {
+	else if (e.origin.endsWith('substack.com')) {
 		const height = e.data.iframeHeight
 		if (height) {
 			for (const iframe of document.getElementsByClassName("substack-embed")) {
