@@ -862,6 +862,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseysmilinggunshot', 'Marsey', 2, 'blood pistol shooting', false, 1716866057),
 ('marseysmokin', 'Marsey', 2, 'smoking shades sunglasses cool chill', false, 1719867754),
 ('marseysnorlax2', 'Marsey', 2, 'pokemon pkmn 143', false, 1700676880),
+('marseysnowcrash', 'Marsey', 2, 'discombobulated fuckedup hazy horror pixelated scrambled trippy', false, 1732987674),
 ('marseysnubbull', 'Marsey', 2, 'pkmn pokemon 209', false, 1698976361),
 ('marseysoangry', 'Marsey', 2, 'bored grimace hates', false, 1732481292),
 ('marseysolaire', 'Marsey', 2, 'darksouls armor', false, 1707178484),
