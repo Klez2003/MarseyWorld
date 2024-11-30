@@ -12,22 +12,25 @@ function embed_sites(element=document) {
 		if (document.body.dataset.dark)
 			iframe_src += "&theme=dark"
 
-		let iframe_html = `<iframe class="twitter-embed" credentialless="true" allowfullscreen="true" height="0" src="${iframe_src}" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>`
+		let iframe_html = `<iframe data-blockquote="${id}" class="twitter-embed" credentialless="true" allowfullscreen="true" height="0" src="${iframe_src}" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>`
 		if (twitter != 'x.com') {
 			a.classList.add('d-block')
 			a.innerHTML = a.href
 			iframe_html = a.outerHTML + iframe_html
 		}
+		blockquote.id = id;
 		blockquote.insertAdjacentHTML('afterend', iframe_html);
 	}
 
 	//bluesky
 	for (const blockquote of element.querySelectorAll('blockquote.bluesky-embed')) {
 		const a = blockquote.lastChild
+		const id = a.href.split('/post/')[1].split('?ref_src')[0]
 		const iframe_src = a.href.replace('https://bsky.app/profile/', 'https://embed.bsky.app/embed/').replace('/post/', '/app.bsky.feed.post/')
 
-		let iframe_html = `<iframe credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" scrolling="no" class="bluesky-embed" src="${iframe_src}" height="0" width="500"></iframe>`
+		let iframe_html = `<iframe data-blockquote="${id}" credentialless="true" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" scrolling="no" class="bluesky-embed" src="${iframe_src}" height="0" width="500"></iframe>`
 
+		blockquote.id = id;
 		blockquote.insertAdjacentHTML('afterend', iframe_html);
 	}
 
@@ -138,7 +141,9 @@ addEventListener("message", function(e) {
 					}
 					else {
 						iframe.height = height
-						iframe.previousElementSibling.remove()
+						const blockquote = document.getElementById(iframe.dataset.blockquote)
+						if (blockquote)
+							blockquote.remove()
 					}
 				}
 			}
@@ -154,7 +159,9 @@ addEventListener("message", function(e) {
 					}
 					else {
 						iframe.height = height
-						iframe.previousElementSibling.remove()
+						const blockquote = document.getElementById(iframe.dataset.blockquote)
+						if (blockquote)
+							blockquote.remove()
 					}
 				}
 			}
