@@ -42,7 +42,7 @@ function registerServiceWorker(serviceWorkerUrl, applicationServerPublicKey, api
 }
 
 registerServiceWorker(
-	"/service_worker.js?x=18",
+	"/service_worker.js?x=19",
 	document.getElementById('VAPID_PUBLIC_KEY').value,
 	"/push_subscribe"
 )

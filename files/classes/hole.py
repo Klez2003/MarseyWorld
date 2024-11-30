@@ -59,7 +59,7 @@ class Hole(Base):
 	@lazy
 	def marsey_url(self):
 		if self.marseyurl: return self.marseyurl
-		return f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/headericon.webp?x=18'
+		return f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/headericon.webp?x=19'
 
 	@property
 	@lazy

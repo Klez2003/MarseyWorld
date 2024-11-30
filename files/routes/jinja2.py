@@ -64,7 +64,7 @@ def template_change_arg(arg, value, url):
 
 @app.template_filter("asset_siteimg")
 def template_asset_siteimg(asset_path):
-	return f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/{asset_path}?x=18'
+	return f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/{asset_path}?x=19'
 
 @app.template_filter("timestamp")
 def timestamp(timestamp):
