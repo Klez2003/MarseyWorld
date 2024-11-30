@@ -231,7 +231,7 @@ class Comment(Base):
 	wall_user = relationship("User", primaryjoin="User.id==Comment.wall_user_id")
 	edits = relationship("CommentEdit", order_by="CommentEdit.id.desc()")
 	media_usages = relationship("MediaUsage", back_populates="comment")
-	notes = relationship("CommentNote", order_by="CommentNote.id")
+	notes = relationship("CommentNote", order_by="CommentNote.id", back_populates="parent")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:

@@ -561,7 +561,7 @@
 					<button class="d-none delmsg fas fa-trash-alt text-danger fl-r mt-1" data-nonce="{{g.nonce}}" data-onclick="postToastRemove(this,'/admin/remove_note/{{kind}}/{{n.id}}', '{{kind}}-note-{{n.id}}')"></button>
 				{% endif %}
 			</div>
-			{{n.body_html | safe}}
+			{{n.realbody(v) | safe}}
 			<button type="button" class="btn btn-secondary note-vote note-helpful {% if n.voted(v) %}note-voted {% if n.voted(v)[0] == 1 %}note-voted-btn{% endif %}{% endif %}" data-nonce="{{g.nonce}}" data-onclick="vote_note(this, '{{kind}}', '{{n.id}}' ,1)">
 				Helpful <span {% if not n.upvotes %}class="d-none"{% endif %}>[<span>{{n.upvotes}}</span>]</span>
 			</button>

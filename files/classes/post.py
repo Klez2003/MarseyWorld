@@ -91,7 +91,7 @@ class Post(Base):
 	options = relationship("PostOption", order_by="PostOption.id")
 	edits = relationship("PostEdit", order_by="PostEdit.id.desc()")
 	media_usages = relationship("MediaUsage", back_populates="post")
-	notes = relationship("PostNote", order_by="PostNote.id")
+	notes = relationship("PostNote", order_by="PostNote.id", back_populates="parent")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:

@@ -7,6 +7,7 @@ from flask import g
 
 from files.classes import Base
 from files.helpers.lazy import lazy
+from files.helpers.slurs_and_profanities import censor_slurs_profanities
 
 class Note(Base):
 	__tablename__ = NotImplemented
@@ -30,6 +31,7 @@ class PostNote(Note):
 
 	author = relationship("User")
 	votes = relationship("PostNoteVote")
+	parent = relationship("Post", back_populates="notes")
 
 	@property
 	@lazy
@@ -46,12 +48,21 @@ class PostNote(Note):
 		if not v: return False
 		return g.db.query(PostNoteVote.vote_type).filter_by(note_id=self.id, user_id=v.id).one_or_none()
 
+	@lazy
+	def realbody(self, v):
+		body = self.body_html
+		if self.parent.hole != 'chudrama':
+			body = censor_slurs_profanities(body, v)
+		return body
+
+
 class CommentNote(Note):
 	__tablename__ = "comment_notes"
 	parent_id = Column(Integer, ForeignKey("comments.id"))
 
 	author = relationship("User")
 	votes = relationship("CommentNoteVote")
+	parent = relationship("Comment", back_populates="notes")
 
 	@property
 	@lazy
@@ -67,6 +78,13 @@ class CommentNote(Note):
 	def voted(self, v):
 		if not v: return False
 		return g.db.query(CommentNoteVote.vote_type).filter_by(note_id=self.id, user_id=v.id).one_or_none()
+
+	@lazy
+	def realbody(self, v):
+		body = self.body_html
+		if self.parent.hole != 'chudrama':
+			body = censor_slurs_profanities(body, v)
+		return body
 
 class NoteVote(Base):
 	__tablename__ = NotImplemented
