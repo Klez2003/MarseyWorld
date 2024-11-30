@@ -144,11 +144,6 @@
 					] -%}
 				{% else %}
 					{% set icon_url = 'headericon.webp' | asset_siteimg %}
-					{% if SITE_NAME == 'rDrama' %}
-						{% set width = 40 %}
-					{% elif SITE_NAME == 'WPD' %}
-						{% set width = 45 %}
-					{% endif %}
 				{% endif %}
 				<img loading="lazy" id="header--icon"
 					{%- if hole and hole.marseyurl -%}
@@ -159,9 +154,6 @@
 							{%- set icon_url = "/e/" ~icons|random~ ".webp" -%}
 						{%- endif -%}
 						src="{{icon_url}}"
-						{%- if width -%}
-							width="{{width}}"
-						{%- endif -%}
 					{%- endif -%}
 				>
 			</a>
