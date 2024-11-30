@@ -1,14 +1,16 @@
 {%- import 'util/macros.html' as macros with context -%}
 
-{% if v %}
-	{% include "modals/award.html" %}
-{% endif %}
+{% if not crosspost %}
+	{% if v %}
+		{% include "modals/award.html" %}
+	{% endif %}
 
-{% if v and v.admin_level >= PERMS['PINNING_POSTS'] %}
-	<script defer src="{{'js/admin/pinpost.js' | asset}}"></script>
-{% endif %}
+	{% if v and v.admin_level >= PERMS['PINNING_POSTS'] %}
+		<script defer src="{{'js/admin/pinpost.js' | asset}}"></script>
+	{% endif %}
 
-{% include "popover.html" %}
+	{% include "popover.html" %}
+{% end if %}
 
 {% set disable_votes = request.path.startswith('/@') and u != v and v and v.admin_level < PERMS['ENABLE_VOTE_BUTTONS_ON_USER_PAGE'] %}
 
@@ -249,32 +251,34 @@
 	</div>
 {% endfor %}
 
-<script src="{{'js/new_comments.js' | asset}}"></script>
+{% if not crosspost %}
+	<script src="{{'js/new_comments.js' | asset}}"></script>
 
-{% if v %}
-	{% include "modals/delete_post.html" %}
-	{% include "modals/report_post.html" %}
-	{% include "modals/change_hole.html" %}
-	{% if v.admin_level >= PERMS['USER_BAN'] %}
-		{% include "modals/punish.html" %}
+	{% if v %}
+		{% include "modals/delete_post.html" %}
+		{% include "modals/report_post.html" %}
+		{% include "modals/change_hole.html" %}
+		{% if v.admin_level >= PERMS['USER_BAN'] %}
+			{% include "modals/punish.html" %}
+		{% endif %}
+		{% include "modals/emoji.html" %}
+		{% include "modals/gif.html" %}
 	{% endif %}
-	{% include "modals/emoji.html" %}
-	{% include "modals/gif.html" %}
-{% endif %}
 
-<script defer src="{{'js/vendor/clipboard.js' | asset}}"></script>
-<script defer src="{{'js/comments+post_listing.js' | asset}}"></script>
-<script defer src="{{'js/post_listing.js' | asset}}"></script>
-{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-	<script defer src="{{'js/admin/post.js' | asset}}"></script>
-{% endif %}
+	<script defer src="{{'js/vendor/clipboard.js' | asset}}"></script>
+	<script defer src="{{'js/comments+post_listing.js' | asset}}"></script>
+	<script defer src="{{'js/post_listing.js' | asset}}"></script>
+	{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+		<script defer src="{{'js/admin/post.js' | asset}}"></script>
+	{% endif %}
 
-<input hidden id="post_permalinks" value="{{post_permalinks}}">
-{% if page %}
-	<input hidden id="next_page_url" value="{{'page'|change_arg(page+1, request.full_path)|safe}}">
-{% endif %}
-<script defer src="{{'js/post_permalinks.js' | asset}}"></script>
+	<input hidden id="post_permalinks" value="{{post_permalinks}}">
+	{% if page %}
+		<input hidden id="next_page_url" value="{{'page'|change_arg(page+1, request.full_path)|safe}}">
+	{% endif %}
+	<script defer src="{{'js/post_permalinks.js' | asset}}"></script>
 
-<input id="twitter" hidden value="{{v.twitter if v else 'x.com'}}">
-<input id="reddit" hidden value="{{v.reddit if v else 'old.reddit.com'}}">
-<script defer src="{{'js/embed_sites.js' | asset}}"></script>
+	<input id="twitter" hidden value="{{v.twitter if v else 'x.com'}}">
+	<input id="reddit" hidden value="{{v.reddit if v else 'old.reddit.com'}}">
+	<script defer src="{{'js/embed_sites.js' | asset}}"></script>
+{% endif %}
