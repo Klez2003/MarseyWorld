@@ -207,7 +207,7 @@ addEventListener("message", function(e) {
 		if (data && "type" in data && data.type == "resize.embed")
 			for (const iframe of document.getElementsByClassName("reddit-embed")) {
 				if (e.source === iframe.contentWindow) {
-					if (height == 240) {//deleted
+					if (height == 240 && gbrowser != 'firefox') {//deleted
 						const prev = iframe.previousElementSibling
 						if (prev && prev.id == 'post-url') {
 							prev.href = prev.href.replace(`https://${reddit}/`, 'https://undelete.pullpush.io/')
