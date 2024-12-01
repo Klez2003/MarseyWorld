@@ -17,6 +17,9 @@ from files.__main__ import app, cache, limiter
 @limiter.limit("30/minute;5000/hour;10000/day", deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
 def front_all(v, hole=None):
+	if SITE == 'redscarepod.net':
+		hole = 'redscarepod'
+
 	if hole:
 		hole = get_hole(hole, graceful=True)
 		if hole and not can_see(v, hole):
@@ -114,9 +117,6 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		posts = posts.outerjoin(Vote,
 					and_(Vote.post_id == Post.id, Vote.user_id == v.id)
 				).filter(Vote.post_id == None)
-
-	if SITE == 'redscarepod.net':
-		hole = 'redscarepod'
 
 	if hole:
 		posts = posts.filter(Post.hole == hole.name)
