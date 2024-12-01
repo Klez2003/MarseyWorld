@@ -17,7 +17,7 @@ from files.__main__ import app, cache, limiter
 @limiter.limit("30/minute;5000/hour;10000/day", deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
 def front_all(v, hole=None):
-	if SITE == 'redscarepod.net':
+	if SITE == 'redscarepod.net' and not hole:
 		hole = 'redscarepod'
 
 	if hole:
