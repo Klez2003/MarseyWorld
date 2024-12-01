@@ -535,7 +535,8 @@ CREATE TABLE public.comments (
     sharpened boolean NOT NULL,
     num_of_pinned_children integer NOT NULL,
     distinguished boolean NOT NULL,
-    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED,
+    coins integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1075,7 +1076,8 @@ CREATE TABLE public.posts (
     effortpost boolean NOT NULL,
     distinguished boolean NOT NULL,
     title_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (title)::text)) STORED,
-    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED,
+    coins integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2433,6 +2435,13 @@ CREATE INDEX fki_comment_approver_fkey ON public.comments USING btree (is_approv
 
 
 --
+-- Name: fki_comment_edits_comment_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_comment_edits_comment_fkey ON public.comment_edits USING btree (comment_id);
+
+
+--
 -- Name: fki_comment_option_votes_user_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2500,6 +2509,13 @@ CREATE INDEX fki_modactions_user_fkey ON public.modactions USING btree (target_u
 --
 
 CREATE INDEX fki_post_approver_fkey ON public.posts USING btree (is_approved);
+
+
+--
+-- Name: fki_post_edits_post_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_post_edits_post_fkey ON public.post_edits USING btree (post_id);
 
 
 --
