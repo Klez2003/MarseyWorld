@@ -431,18 +431,15 @@ class User(Base):
 	@lazy
 	def hat_active(self, v):
 		if FEATURES['HATS']:
-			if IS_FISTMAS():
-				hat = random.choice(('Santa Hat III', 'Winter Cap', 'Present Bow'))
-				if SITE_NAME == 'rDrama':
-					return (f'{SITE_FULL_IMAGES}/i/hats/{hat}.webp', 'Merry Fistmas!')
-				else:
-					return (f'{SITE_FULL_IMAGES}/i/hats/{hat}.webp', 'Merry Christmas!')
-
 			if self.is_cakeday:
 				return ('/i/hats/Cakeday.webp', "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓")
 
 			if self.forced_hat:
 				return (f'{SITE_FULL_IMAGES}/i/hats/{self.forced_hat[0]}.webp', self.forced_hat[1])
+
+			if IS_FISTMAS() and not self.new_user and self.equipped_hat not in FISTMAS_HATS:
+				hat = random.choice(FISTMAS_HATS)
+				return (f'{SITE_FULL_IMAGES}/i/hats/{hat}.webp', 'Merry Fistmas!')
 
 			if self.equipped_hat:
 				return (f'{SITE_FULL_IMAGES}/i/hats/{self.equipped_hat.name}.webp', self.equipped_hat.name + ' - ' + self.equipped_hat.censored_description(v))
