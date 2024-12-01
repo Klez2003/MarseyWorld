@@ -18,13 +18,17 @@
 								<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 								<label class='mt-4' for="hole">Hole</label>
 								<div class="input-group">
-									{%- set hole_placeholder = 'Required' if HOLE_REQUIRED else 'Optional' -%}
-									<input list="holes" autocomplete="off" id="hole" class="form-control" form="submitform" name="hole" data-nonce="{{g.nonce}}" data-oninput="savetext(){% if SITE_NAME == 'WPD' %};showrules(this ){% endif %}" {% if hole %}value="{{hole}}"{% endif %} placeholder="{{hole_placeholder}}" {% if HOLE_REQUIRED %}required{% endif %}>
-									<datalist id="holes">
-										{% for h in HOLES() %}
-											<option value="{{h}}"></option>
-										{% endfor %}
-									</datalist>
+									{% if SITE == 'redscarepod.net' %}
+										<input hidden autocomplete="off" id="hole" class="form-control" form="submitform" name="hole" data-nonce="{{g.nonce}}" data-oninput="savetext()" value="redscarepod">
+									{% else %}
+										{%- set hole_placeholder = 'Required' if HOLE_REQUIRED else 'Optional' -%}
+										<input list="holes" autocomplete="off" id="hole" class="form-control" form="submitform" name="hole" data-nonce="{{g.nonce}}" data-oninput="savetext(){% if SITE_NAME == 'WPD' %};showrules(this ){% endif %}" {% if hole %}value="{{hole}}"{% endif %} placeholder="{{hole_placeholder}}" {% if HOLE_REQUIRED %}required{% endif %}>
+										<datalist id="holes">
+											{% for h in HOLES() %}
+												<option value="{{h}}"></option>
+											{% endfor %}
+										</datalist>
+									{% endif %}
 								</div>
 
 								<div id="hole-rules" class="alert alert-warning mt-3 d-none"></div>
