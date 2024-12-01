@@ -11,9 +11,9 @@
 {% macro post_meta(p) %}
 	{% if p.hole %}
 		{% if SITE_NAME == 'WPD' -%}
-			<a href='/h/{{p.hole}}' class="hole-flair font-weight-bold">{{p.hole|capitalize}}</a>
+			<a href='/h/{{p.hole}}' class="post-hole hole-flair font-weight-bold">{{p.hole|capitalize}}</a>
 		{%- else -%}
-			<a class="mr-2 font-weight-bold" href='/h/{{p.hole}}'>/h/{{p.hole}}</a>
+			<a class="post-hole mr-2 font-weight-bold" href='/h/{{p.hole}}'>/h/{{p.hole}}</a>
 		{%- endif %}
 	{% endif %}
 
