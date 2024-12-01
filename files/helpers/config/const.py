@@ -64,7 +64,7 @@ IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("19
 
 if SITE in {'rdrama.net', 'watchpeopledie.tv'}:
 	SITE_IMAGES = 'i.' + SITE
-elif SITE == 'staging.rdrama.net':
+elif SITE in {'staging.rdrama.net', 'redscarepod.net'}:
 	SITE_IMAGES = 'i.rdrama.net'
 else:
 	SITE_IMAGES = SITE
@@ -978,7 +978,7 @@ BADGE_BLACKLIST = PATRON_BADGES + ( # only grantable by admins higher than PERMS
 	137, # Lottery Winner
 )
 
-if SITE in {'rdrama.net', 'staging.rdrama.net'}:
+if SITE in {'rdrama.net', 'staging.rdrama.net', 'redscarepod.net'}:
 	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
 
 	TELEGRAM_ID = "rdramanet"
@@ -1221,6 +1221,7 @@ approved_embed_hosts = [
 	'videos.watchpeopledie.tv',
 	'videos2.watchpeopledie.tv',
 	'staging.rdrama.net',
+	'redscarepod.net'
 	'marsey.world',
 
 	### Third-Party Image Hosts

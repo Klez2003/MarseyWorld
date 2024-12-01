@@ -115,6 +115,9 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 					and_(Vote.post_id == Post.id, Vote.user_id == v.id)
 				).filter(Vote.post_id == None)
 
+	if SITE == 'redscarepod.net':
+		hole = 'redscarepod'
+
 	if hole:
 		posts = posts.filter(Post.hole == hole.name)
 	elif v:
