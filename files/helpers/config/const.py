@@ -1221,7 +1221,7 @@ approved_embed_hosts = [
 	'videos.watchpeopledie.tv',
 	'videos2.watchpeopledie.tv',
 	'staging.rdrama.net',
-	'redscarepod.net'
+	'redscarepod.net',
 	'marsey.world',
 
 	### Third-Party Image Hosts
