@@ -437,7 +437,7 @@ class User(Base):
 			if self.forced_hat:
 				return (f'{SITE_FULL_IMAGES}/i/hats/{self.forced_hat[0]}.webp', self.forced_hat[1])
 
-			if IS_FISTMAS() and not self.new_user and self.equipped_hat not in FISTMAS_HATS:
+			if IS_FISTMAS() and not self.new_user and not (self.equipped_hat and self.equipped_hat.name in FISTMAS_HATS):
 				hat = random.choice(FISTMAS_HATS)
 				return (f'{SITE_FULL_IMAGES}/i/hats/{hat}.webp', 'Merry Fistmas!')
 
