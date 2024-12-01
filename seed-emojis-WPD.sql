@@ -454,6 +454,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseycdmemoji', 'Marsey', 2, 'curseddankmemes wpd poweruser marsona', false, 1718121612),
 ('marseycharizard2', 'Marsey', 2, '0006 pkm pokemon', false, 1722097211),
 ('marseychill', 'Marsey', 2, 'high', false, 1699650006),
+('marseychillguy', 'Marsey', 2, 'comfortable comfy condescending smirk smug', false, 1733039309),
 ('marseychillingphone', 'Marsey', 2, 'laying relax relaxing', false, 1724564445),
 ('marseychingling', 'Marsey', 2, 'pkmn pokemon 433', false, 1698905447),
 ('marseychiraq', 'Marsey', 2, 'black chicago crime criminality dreadlocks dreads driveby gangster oblock rastafari shooting', false, 1729734318),
