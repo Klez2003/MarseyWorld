@@ -1,6 +1,4 @@
 cd /d
 git pull
-. /e
-export SITE="redscarepod.net"
-export WORKER_COUNT="3"
+. /e5
 gunicorn files.__main__:app -b 0.0.0.0:5003 -t 0
