@@ -68,6 +68,9 @@ def chat_user(v, username):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def chat(v, chat_id):
+	if chat_id == 14887 and not (v.id == 184695 or v.admin_level >= 4):
+		stop(404, "Chat not found!")
+
 	chat = g.db.get(Chat, chat_id)
 	if not chat:
 		stop(404, "Chat not found!")
