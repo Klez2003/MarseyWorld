@@ -246,7 +246,6 @@ def _hole_inactive_purge_task():
 	return True
 
 def _generate_emojis_zip():
-	print(STARS + 'wtf' + STARS, flush=True)
 	make_archive('files/assets/emojis', 'zip', 'files/assets/images/emojis')
 
 	m = md5()
@@ -254,7 +253,6 @@ def _generate_emojis_zip():
 		data = f.read()
 	m.update(data)
 	cache.set('emojis_hash', m.hexdigest(), timeout=CRON_CACHE_TIMEOUT)
-	print(STARS + str(m.hexdigest()) + STARS, flush=True)
 
 def _generate_emojis_original_zip():
 	make_archive('files/assets/emojis_original', 'zip', '/asset_submissions/emojis/original')
