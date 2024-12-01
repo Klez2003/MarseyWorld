@@ -46,7 +46,7 @@
 					</span>
 				</span>
 			</form>
-			<a class="btn btn-primary btn-block mt-3 {% if hole and hole.dead_utc %}disabled{% endif %}" href="{% if hole %}/h/{{hole}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post {% if hole %}in /h/{{hole}}{% endif %}</a>
+			<a class="btn btn-primary btn-block mt-3 {% if hole and hole.dead_utc %}disabled{% endif %}" href="{% if hole %}/h/{{hole}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post {% if hole and SITE != 'redscarepod.net' %}in /h/{{hole}}{% endif %}</a>
 
 			{% if hole and hole.dead_utc %}
 				<button type="button" class="btn btn-success btn-block mt-3" data-areyousure="postToastSwitch(this,'/h/{{hole}}/resurrect')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)"><img class="mr-2" height=40 loading="lazy" src="https://i.rdrama.net/e/marseynecromancer.webp" alt="marseynecromancer"> Resurrect /h/{{hole}} ({{HOLE_COST | commas}} coins or marseybux)</button>
