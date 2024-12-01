@@ -2,7 +2,7 @@
 
 {% block title %}
 	{% if SITE == 'redscarepod.net' %}
-		{{SITE}}
+		<title>{{SITE}}</title>
 	{% elif hole %}
 		<title>/h/{{hole.name}}</title>
 	{% elif request.path == '/' %}
