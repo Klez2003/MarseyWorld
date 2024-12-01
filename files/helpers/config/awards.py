@@ -493,7 +493,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": lambda v:True,
-		"negative": False,
+		"negative": True,
 		"included_in_lootbox": False,
 	},
 	"fireflies": {
