@@ -51,7 +51,7 @@ table tbody tr:nth-of-type(odd) {
 	background-color: rgba(0, 0, 0, 0.3);
 }
 
-.visited, h5.post-title a:not(.effortpost-flair):visited, a[href^="https://"]:not([href^="https://rdrama.net" i], [href^="https://watchpeopledie.tv" i], .dropdown-item, .nav-link, .novisited):visited {
+.visited, h5.post-title a:not(.effortpost-flair):visited, a[href^="https://"]:not([href^="https://rdrama.net" i], [href^="https://watchpeopledie.tv" i], [href^="https://redscarepod.net" i], .dropdown-item, .nav-link, .novisited):visited {
 	color: #6e6e6e !important;
 }
 

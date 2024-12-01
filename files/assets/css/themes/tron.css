@@ -222,7 +222,7 @@
 	margin-top: 6px;
 }
 
-.visited, h5.post-title a:not(.effortpost-flair):visited, a[href^="https://"]:not([href^="https://rdrama.net" i], [href^="https://watchpeopledie.tv" i], .dropdown-item, .nav-link, .novisited):visited {
+.visited, h5.post-title a:not(.effortpost-flair):visited, a[href^="https://"]:not([href^="https://rdrama.net" i], [href^="https://watchpeopledie.tv" i], [href^="https://redscarepod.net" i], .dropdown-item, .nav-link, .novisited):visited {
 	color: #b0b0b0 !important;
 }
 
