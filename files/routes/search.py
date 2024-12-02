@@ -256,17 +256,11 @@ def searchcomments(v):
 
 	if 'q' in criteria:
 		text = criteria['full_text']
-		if text.startswith("!"):
-			words = []
-			for x in criteria['q']:
-				words.append(Comment.body.ilike(f'%{x}%'))
-			comments = comments.filter(or_(*words))
-		else:
-			comments = comments.filter(
-				Comment.body_ts.bool_op("@@")(
-					func.websearch_to_tsquery("simple", text)
-				)
+		comments = comments.filter(
+			Comment.body_ts.bool_op("@@")(
+				func.websearch_to_tsquery("simple", text)
 			)
+		)
 
 	if 'nsfw' in criteria:
 		nsfw = criteria['nsfw'].lower().strip() == 'true'
