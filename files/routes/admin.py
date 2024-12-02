@@ -849,8 +849,8 @@ def unchud(fullname, v):
 	else:
 		user = get_account(fullname)
 
-	# if not user.chudded_by:
-	# 	stop(403, "Jannies can't undo chud awards!")
+	if not user.chudded_by:
+		stop(403, "Jannies can't undo chud awards!")
 
 	user.chud = 0
 	user.chud_phrase = None
