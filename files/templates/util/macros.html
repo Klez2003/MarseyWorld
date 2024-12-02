@@ -146,6 +146,10 @@
 
 	<a class="vertical-align ml-2" href="{{p.permalink}}">#{{p.id}}</a>
 
+	{% if p.coins %}
+		<em class="ml-2">earned {{p.coins|commas}} coins from this post</em>
+	{% endif %}
+
 	{% if p.ping_cost %}
 		<em class="ml-2">spent {{p.ping_cost|commas}} currency on pings</em>
 	{% endif %}
