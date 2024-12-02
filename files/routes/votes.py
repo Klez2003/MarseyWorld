@@ -13,6 +13,24 @@ from sqlalchemy.orm.exc import StaleDataError
 from math import floor
 from datetime import datetime
 
+def get_coin_mul(cls, target):
+	if cls == Post and target.effortpost:
+		coin_mul = 16
+	else:
+		coin_mul = 1
+
+		if SITE_NAME == 'WPD' or cls == Post:
+			coin_mul *= 4
+
+		if IS_EVENT():
+			coin_mul *= 2
+
+		if IS_HOMOWEEN() and target.author.zombie > 0:
+			coin_mul += 1
+	
+	return coin_mul
+
+
 def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if new == "-1" and DISABLE_DOWNVOTES: stop(403)
 	if new not in {"-1", "0", "1"}: stop(400)
@@ -54,26 +72,9 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		stop(400)
 	existing = existing.one_or_none()
 
+	coin_mul = get_coin_mul(cls, target)
 
-	if cls == Post and target.effortpost:
-		if SITE_NAME == 'WPD':
-			coin_mult = 8
-		else:
-			coin_mult = 16
-	else:
-		coin_mult = 1
-
-		if SITE_NAME == 'WPD' or cls == Post:
-			coin_mult *= 4
-
-		if IS_EVENT():
-			coin_mult *= 2
-
-		if IS_HOMOWEEN() and target.author.zombie > 0:
-			coin_mult += 1
-
-
-	coin_value = coin_delta * coin_mult
+	coin_value = coin_delta * coin_mul
 
 	imlazy = 0
 

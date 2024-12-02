@@ -24,6 +24,7 @@ from files.routes.routehelpers import check_for_alts
 from files.routes.wrappers import *
 from files.routes.routehelpers import get_alt_graph, get_alt_graph_ids
 from files.routes.users import claim_rewards_all_users
+from files.routes.votes import get_coin_mul
 
 from .front import frontlist, comment_idlist
 
@@ -2127,18 +2128,15 @@ def mark_effortpost(pid, v):
 	)
 	g.db.add(ma)
 
-	if SITE_NAME == 'WPD':
-		mul = 1
-	else:
-		mul = 3
-
-	coins = (p.upvotes + p.downvotes) * mul
+	coin_mul = get_coin_mul(Post, p)
+	new_coins = (p.upvotes - 1 + p.downvotes) * coin_mul
+	coins = new_coins - p.coins
 
 	p.author.pay_account('coins', coins, f"Retroactive effortpost gains from {p.textlink}")
 
 	if v.id != p.author_id:
 		p.coins += coins
-		send_repeatable_notification(p.author_id, f":marseyclapping: @{v.username} (a site admin) has marked {p.textlink} as an effortpost, it now gets x{mul} coins from votes. You have received {coins} coins retroactively, thanks! :!marseyclapping:")
+		send_repeatable_notification(p.author_id, f":marseyclapping: @{v.username} (a site admin) has marked {p.textlink} as an effortpost, it now gets x{coin_mul} coins from votes. You have received {coins} coins retroactively, thanks! :!marseyclapping:")
 
 	return {"message": "Post has been marked as an effortpost!"}
 
@@ -2165,12 +2163,9 @@ def unmark_effortpost(pid, v):
 	)
 	g.db.add(ma)
 
-	if SITE_NAME == 'WPD':
-		mul = 7
-	else:
-		mul = 3
-
-	coins = (p.upvotes + p.downvotes) * mul
+	coin_mul = get_coin_mul(Post, p)
+	new_coins = (p.upvotes - 1 + p.downvotes) * coin_mul
+	coins = p.coins - new_coins
 
 	p.author.charge_account('coins', coins, f"Revocation of effortpost gains from {p.textlink}")
 
