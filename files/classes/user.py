@@ -1433,7 +1433,7 @@ class User(Base):
 	@lazy
 	def user_name(self):
 		if self.earlylife:
-			expiry_days = ceil((self.earlylife - time.time()) / 21600)
+			expiry_days = ceil((self.earlylife - time.time()) / 86400)
 			earlylife_mult = min(1, expiry_days) + min(1, expiry_days) + expiry_days
 			return ('(' * earlylife_mult) + self.username + (')' * earlylife_mult)
 		return self.username
