@@ -545,7 +545,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": lambda v:True,
-		"negative": True,
+		"negative": False,
 		"included_in_lootbox": IS_DKD() or IS_BDAY(),
 	},
 	"owoify": {
@@ -571,7 +571,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": lambda v:True,
-		"negative": True,
+		"negative": False,
 		"included_in_lootbox": IS_DKD() or IS_BDAY(),
 	},
 	"gold": {
