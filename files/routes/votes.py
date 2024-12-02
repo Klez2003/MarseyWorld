@@ -66,9 +66,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		if SITE_NAME == 'WPD' or cls == Post:
 			coin_mult *= 4
 
-		if IS_BDAY():
-			coin_mult *= 3
-		elif IS_EVENT():
+		if IS_EVENT():
 			coin_mult *= 2
 
 		if IS_HOMOWEEN() and target.author.zombie > 0:
