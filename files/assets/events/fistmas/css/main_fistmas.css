@@ -365,11 +365,6 @@ body {
 	display: none;
 }
 
-
-blockquote {
-	background-color: var(--gray-300);
-}
-
 #profilestuff {
 	color: white;
 }
