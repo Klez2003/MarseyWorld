@@ -9,8 +9,8 @@
 	background-color: #ff7e7e !important;
 	border-left: 10px solid #ff7e7e !important;
 }
-blockquote a {
-	color: #15de59;
+blockquote {
+	background-color: #bbbbbb;
 }
 .dropdown-item:hover, .dropdown-item:focus, .dropdown-item.active {
 	background-color: #becad5;
