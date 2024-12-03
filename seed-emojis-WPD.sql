@@ -709,6 +709,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseymedallion', 'Marsey', 2, 'chrischan sonichu', false, 1728316990),
 ('marseymeenah', 'Marsey', 2, 'homestuck', false, 1699708678),
 ('marseymegaexe', 'Marsey', 2, 'megaman man rockman rock blaster helmet', false, 1716187871),
+('marseymegaphonehappy', 'Marsey', 2, 'announcement boo bullhorn cute protest shouting speaker yelling', false, 1733180946),
 ('marseymegaspider', 'Marsey', 2, 'megaman rockman man hat cards nes anime', false, 1716002336),
 ('marseymegatard', 'Marsey', 2, 'retard', false, 1720717953),
 ('marseymelmetal', 'Marsey', 2, 'pkmn pokemon 809', false, 1718472147),
