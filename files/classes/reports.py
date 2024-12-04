@@ -16,7 +16,8 @@ class Report(Base):
 	reason = Column(String)
 	created_utc = Column(Integer)
 
-	user = relationship("User", primaryjoin = "Report.user_id == User.id", uselist = False)
+	user = relationship("User", primaryjoin="Report.user_id == User.id", uselist=False)
+	post = relationship("Post", uselist=False)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -44,7 +45,8 @@ class CommentReport(Base):
 	reason = Column(String)
 	created_utc = Column(Integer)
 
-	user = relationship("User", primaryjoin = "CommentReport.user_id == User.id", uselist = False)
+	user = relationship("User", primaryjoin="CommentReport.user_id == User.id", uselist=False)
+	comment = relationship("Comment", uselist=False)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

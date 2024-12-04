@@ -132,6 +132,9 @@ def remove_report_post(v, pid, uid):
 			)
 			g.db.add(ma)
 
+			text = f"@{v.username} (a site admin) has removed your report on {report.post.textlink}"
+			send_repeatable_notification(report.user_id, text)
+
 	return {"message": "Report removed successfully!"}
 
 
@@ -157,5 +160,8 @@ def remove_report_comment(v, cid, uid):
 				target_comment_id=cid
 			)
 			g.db.add(ma)
+
+			text = f"@{v.username} (a site admin) has removed your report on {report.comment.textlink}"
+			send_repeatable_notification(report.user_id, text)
 
 	return {"message": "Report removed successfully!"}
