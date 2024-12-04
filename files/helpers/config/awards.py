@@ -486,7 +486,7 @@ AWARDS = {
 	"shit": {
 		"kind": "shit",
 		"title": "Shit",
-		"description": "Makes flies swarm the post.",
+		"description": "Makes flies swarm the post and destroys 150 of the recipient's coins.",
 		"icon": "fas fa-poop",
 		"color": "text-black-50",
 		"price": 300,
