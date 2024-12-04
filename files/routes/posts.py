@@ -228,7 +228,8 @@ def post_id(pid, v, anything=None, hole=None):
 	if sort == 'saves':
 		sort = defaultsortingcomments
 
-	if not request.values.get("sort") and "advent calendar 2024" in p.title.lower():
+	if not request.values.get("sort") and \
+	("advent calendar 2024" in p.title.lower() or "[random]" in p.title.lower()):
 		sort = "random"
 
 	if not v:
