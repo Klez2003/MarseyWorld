@@ -107,7 +107,7 @@ exclamation_point_regex = regex.compile('(?<!!|\?|>.*)(?<!, motherfucker)(!)(?!!
 
 image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/({hosts})\/|\/)).*?)\)', flags=re.A)
 
-dyslexia_word_regex = re.compile('[a-z;.,]+', flags=re.I|re.A)
+dyslexia_word_regex = re.compile("[a-z;.,']+", flags=re.I|re.A)
 
 video_regex_extensions = '|'.join(VIDEO_FORMATS)
 video_sub_regex = re.compile(f'(?<!")(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({video_regex_extensions}))' + NOT_IN_CODE_OR_LINKS_OR_SPOILER, flags=re.A|re.I)
