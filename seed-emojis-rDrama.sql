@@ -5143,6 +5143,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseysnowglobe', 'Marsey', 2, 'christmas tree small miniature', false, 0),
 ('marseysnowman', 'Marsey', 2, 'christmas cold winter', false, 0),
 ('marseysnowman2', 'Marsey', 2, 'christmas cold winter', false, 0),
+('marseysnowmansweater', 'Marsey', 2, 'balls christmas jul penis xmassweater', false, 1733295769),
 ('marseysoap', 'Marsey', 2, 'clean dirty bath bubbles', false, 1687531309),
 ('marseysoapy', 'Marsey', 2, 'cinnamoroll hat beanie wpd foid', false, 1704482854),
 ('marseysob', 'Marsey', 2, 'tear crying depressed reaction sobbing depression sad cry animated tears pensive', false, 0),

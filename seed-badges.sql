@@ -69,7 +69,7 @@ INSERT INTO public.badge_defs VALUES (182, 'VAXXMAXXED', 'This user is a mindles
 INSERT INTO public.badge_defs VALUES (301, '2023 Spooooooky Marsey Artist', 'Contributed a VERY SCARY Marsey for Halloween 2023!', 1695911099);
 INSERT INTO public.badge_defs VALUES (354, 'Gigavaxxer IV', 'Vaccinated 10 people during Homoween 2024.', 1730819919);
 INSERT INTO public.badge_defs VALUES (359, 'Patient Zero', 'User was a Top Zombchad of 2024', 1731466447);
-INSERT INTO public.badge_defs VALUES (361, 'SIIIIMPLY HAAAAAVIIIIIIIN', 'This user designed a very ugly sweater for Marsey to swear on Fistmas Day 2024!', 1733282533);
+INSERT INTO public.badge_defs VALUES (361, 'SIIIIMPLY HAAAAAVIIIIIIIN', 'This user designed a very ugly sweater for Marsey to wear on Fistmas Day 2024!', 1733282533);
 INSERT INTO public.badge_defs VALUES (303, 'LGBTQIA+ Drip', 'This user has sworn lifelong allegiance to the most marginalized community 🥰', 1696534759);
 INSERT INTO public.badge_defs VALUES (194, 'Master Baiter 2021', 'The cunning mastermind behind the ruse which was voted best rDrama bait of 2021.', 1670627103);
 INSERT INTO public.badge_defs VALUES (197, 'Best Marsey 2021', 'The creator of the best Marsey emoji of 2021, as voted by rDrama users.', 1670627291);
