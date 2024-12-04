@@ -400,6 +400,15 @@ class User(Base):
 	def forced_hat(self):
 		if self.is_suspended:
 
+			if self.ban_reason.startswith('Grass award'):
+				hat = "Banned 1"
+			elif self.ban_reason.startswith('Ban award'):
+				hat = "Banned 2"
+			elif self.unban_utc:
+				hat = "Banned 3"
+			else:
+				hat = "Banned 4"
+
 			if self.username.startswith('deleted~') and not (g.v and g.v.admin_level >= PERMS['VIEW_DELETED_ACCOUNTS']):
 				text = "This user was banned before they deleted their account!"
 			else:
@@ -410,7 +419,7 @@ class User(Base):
 				if self.unban_utc:
 					text += f' - {self.unban_string}'
 
-			return ("Behind Bars", text)
+			return (hat, text)
 
 		user_forced_hats = []
 		for k, val in forced_hats.items():
