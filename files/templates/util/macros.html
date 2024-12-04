@@ -566,12 +566,21 @@
 				{% endif %}
 			</div>
 			{{n.realbody(v) | safe}}
-			<button type="button" class="btn btn-secondary note-vote note-helpful {% if n.voted(v) %}note-voted {% if n.voted(v)[0] == 1 %}note-voted-btn{% endif %}{% endif %}" data-nonce="{{g.nonce}}" data-onclick="vote_note(this, '{{kind}}', '{{n.id}}' ,1)">
-				Helpful <span {% if not n.upvotes %}class="d-none"{% endif %}>[<span>{{n.upvotes}}</span>]</span>
-			</button>
-			<button type="button" class="btn btn-danger note-vote note-unhelpful {% if n.voted(v) %}note-voted {% if n.voted(v)[0] == -1 %}note-voted-btn{% endif %}{% endif %}" data-nonce="{{g.nonce}}" data-onclick="vote_note(this, '{{kind}}', '{{n.id}}', -1)">
-				Not Helpful <span {% if not n.downvotes %}class="d-none"{% endif %}>[<span>{{n.downvotes}}</span>]</span>
-			</button>
+			{% if v %}
+				<button type="button" class="btn btn-secondary note-vote note-helpful {% if n.voted(v) %}note-voted {% if n.voted(v)[0] == 1 %}note-voted-btn{% endif %}{% endif %}" data-nonce="{{g.nonce}}" data-onclick="vote_note(this, '{{kind}}', '{{n.id}}' ,1)">
+					Helpful <span {% if not n.upvotes %}class="d-none"{% endif %}>[<span>{{n.upvotes}}</span>]</span>
+				</button>
+				<button type="button" class="btn btn-danger note-vote note-unhelpful {% if n.voted(v) %}note-voted {% if n.voted(v)[0] == -1 %}note-voted-btn{% endif %}{% endif %}" data-nonce="{{g.nonce}}" data-onclick="vote_note(this, '{{kind}}', '{{n.id}}', -1)">
+					Not Helpful <span {% if not n.downvotes %}class="d-none"{% endif %}>[<span>{{n.downvotes}}</span>]</span>
+				</button>
+			{% else %}
+				<a type="button" class="btn btn-secondary note-vote note-helpful" href="/login?redirect={{request.full_path | urlencode}}">
+					Helpful <span {% if not n.upvotes %}class="d-none"{% endif %}>[<span>{{n.upvotes}}</span>]</span>
+				</a>
+				<a type="button" class="btn btn-danger note-vote note-unhelpful" href="/login?redirect={{request.full_path | urlencode}}">
+					Not Helpful <span {% if not n.downvotes %}class="d-none"{% endif %}>[<span>{{n.downvotes}}</span>]</span>
+				</a>
+			{% endif %}
 		</div>
 	{% endfor %}
 {% endmacro %}
