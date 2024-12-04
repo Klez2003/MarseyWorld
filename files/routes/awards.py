@@ -578,11 +578,17 @@ def award_thing(v, thing_type, id):
 		if isinstance(obj, Post):
 			cls = PostNote
 			obj.flair = filter_emojis_only(":marseydisgustnotes: COMMUNITY NOTED", link=True)
+			post_id = obj.id
 		else:
 			cls = CommentNote
+			post_id = obj.parent_post
 
 		community_note = cls(parent_id=obj.id, author_id=v.id, body_html=body_html)
 		g.db.add(community_note)
+
+		if post_id:
+			for sort in COMMENT_SORTS.keys():
+				cache.delete(f'post_{post_id}_{sort}')
 	elif kind == "unpin":
 		if not obj.pinned_utc:
 			stop(400, f"This {thing_type} is not pinned!")
