@@ -517,7 +517,13 @@ def award_thing(v, thing_type, id):
 			stop(403, "Recipient account is deleted!")
 
 		if not author.owoify:
-			available_names = FURRY_NAMES
+			characters = list(filter(str.isalpha, author.username))
+			if characters:
+				first_character = characters[0].upper()
+			else:
+				first_character = random.choice(string.ascii_letters).upper()
+
+			available_names = FURRY_NAMES[first_character]
 			random.shuffle(available_names)
 
 			broken = False
