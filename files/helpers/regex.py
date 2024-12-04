@@ -12,7 +12,7 @@ NOT_IN_CODE_OR_LINKS_OR_SPOILER = '(?!([^<]*<\/(code|pre|a|spoiler)>|[^`\n]*`))'
 valid_username_regex = re.compile("^[\w-]{3,25}$", flags=re.A)
 valid_username_patron_regex = re.compile("^[\w-]{1,25}$", flags=re.A)
 
-mention_regex = re.compile('(?<![:/\w])@([\w-]{1,30})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+user_mention_regex = re.compile('(?<![:/\w])@([\w-]{1,30})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 group_mention_regex = re.compile('(?<![:/\w=])!([\w-]{3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A|re.I)
 
 chat_adding_regex = re.compile('\+@([\w-]{1,30})' + NOT_IN_CODE_OR_LINKS, flags=re.A)

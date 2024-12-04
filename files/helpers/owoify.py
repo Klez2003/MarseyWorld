@@ -17,7 +17,7 @@ OWO_EXCLUDE_PATTERNS = [
 	owo_ignore_emojis_regex, #emojis
 	owo_ignore_the_Regex, # exclude: 'the' ↦ 'teh'
 	sanitize_url_regex, # bare links
-	mention_regex, # mentions
+	user_mention_regex, # mentions
 	group_mention_regex, #ping group mentions
 	reddit_mention_regex, #/u/ and /r/
 	command_regex, # markup commands

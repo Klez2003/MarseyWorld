@@ -200,7 +200,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = reddit_mention_regex.sub(reddit_mention_replacer, sanitized)
 	sanitized = hole_mention_regex.sub(r'<a href="/\1">/\1</a>', sanitized)
 
-	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
+	names = set(m.group(1) for m in user_mention_regex.finditer(sanitized))
 
 	if limit_pings and len(names) > limit_pings and author and author.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
 		return stop(400, f"Max ping limit is {COMMENT_PING_LIMIT} for comments and {POST_PING_LIMIT} for posts!")
@@ -222,7 +222,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			return m.group(0)
 		return f'<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
 
-	sanitized = mention_regex.sub(replacer, sanitized)
+	sanitized = user_mention_regex.sub(replacer, sanitized)
 
 	if FEATURES['PING_GROUPS']:
 		def group_replacer(m):

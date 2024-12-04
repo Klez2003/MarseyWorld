@@ -160,10 +160,10 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 				notify_users.add(uid)
 
 
-	names = set(m.group(1) for m in mention_regex.finditer(text))
+	names = set(m.group(1) for m in user_mention_regex.finditer(text))
 
 	if oldtext:
-		oldnames = set(m.group(1) for m in mention_regex.finditer(oldtext))
+		oldnames = set(m.group(1) for m in user_mention_regex.finditer(oldtext))
 		names = names - oldnames
 
 	user_ids = get_users(names, ids_only=True, graceful=True)
