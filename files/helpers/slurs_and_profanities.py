@@ -78,6 +78,7 @@ PROFANITIES = {
 	'shitting': 'pooping',
 	'damn': 'darn',
 	'bitch(?!\w)': 'b-word',
+	'bitches': 'b-words',
 	'toilet': 'potty',
 	'(?<!\w)asshole': 'butthole',
 	'(?<!\w)rape': 'r*pe',
