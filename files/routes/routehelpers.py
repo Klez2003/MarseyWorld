@@ -32,10 +32,6 @@ def validate_formkey(u, formkey):
 
 @cache.memoize(timeout=86400)
 def get_alt_graph_ids(uid):
-	if SITE_NAME == 'WPD':
-		alts = g.db.query(Alt.user1).filter_by(user2=uid).all() + g.db.query(Alt.user2).filter_by(user1=uid).all()
-		return {x[0] for x in alts}
-
 	alt_graph_cte = g.db.query(literal(uid).label('user_id')).select_from(Alt).cte('alt_graph', recursive=True)
 
 	alt_graph_cte_inner = g.db.query(
