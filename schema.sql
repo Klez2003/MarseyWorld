@@ -1419,7 +1419,8 @@ CREATE TABLE public.users (
     flag character varying(30),
     private_posts boolean DEFAULT false NOT NULL,
     private_comments boolean DEFAULT false NOT NULL,
-    penetrator integer DEFAULT 0 NOT NULL
+    penetrator integer DEFAULT 0 NOT NULL,
+    pinghab integer DEFAULT 0 NOT NULL
 );
 
 
