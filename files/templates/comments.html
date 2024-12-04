@@ -384,13 +384,13 @@
 												</li>
 											{% else %}
 												<li id="voting-{{c.id}}-mobile" class="voting list-inline-item d-md-none">
-													<a tabindex="0" class="arrow-{{c.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" href="/login?redirect={{request.full_path | urlencode}}">
+													<a tabindex="0" class="arrow-{{c.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" href="/signup?redirect={{request.full_path | urlencode}}">
 														<i class="fas fa-arrow-alt-up mx-0"></i>
 													</a>
 
 													<span class="comment-mobile-score-{{c.id}} score{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %} style="cursor: default">{{score}}</span>
 
-													<a tabindex="0" class="arrow-{{c.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" href="/login?redirect={{request.full_path | urlencode}}">
+													<a tabindex="0" class="arrow-{{c.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" href="/signup?redirect={{request.full_path | urlencode}}">
 														<i class="fas fa-arrow-alt-down mx-0"></i>
 													</a>
 												</li>
@@ -403,7 +403,7 @@
 									{% if v %}
 										<button type="button" tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment', '{{c.id}}', '1')" class="comment-{{c.id}}-up btn caction py-0 m-0 px-3 nobackground arrow-up upvote-button mx-0 comment-{{c.id}}-up {% if voted == 1 %}active{% endif %} {% if disable_votes and voted != 1 %}disabled {% endif %}"></button>
 									{% else %}
-										<a type="button" tabindex="0" class="comment-{{c.id}}-up btn caction nobackground py-0 m-0 px-3 arrow-up" href="/login?redirect={{request.full_path | urlencode}}"></a>
+										<a type="button" tabindex="0" class="comment-{{c.id}}-up btn caction nobackground py-0 m-0 px-3 arrow-up" href="/signup?redirect={{request.full_path | urlencode}}"></a>
 									{% endif %}
 
 									<span class="btn caction nobackground p-0 m-0 score-btn" style="cursor: default">
@@ -413,7 +413,7 @@
 									{% if v %}
 										<button type="button" {% if DISABLE_DOWNVOTES %}style="display:none!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment', '{{c.id}}', '-1')" class="comment-{{c.id}}-down btn caction py-0 m-0 px-3 nobackground arrow-down downvote-button comment-{{c.id}}-down {% if voted==-1 %}active{% endif %} {% if disable_votes and voted != -1 %}disabled {% endif %}"></button>
 									{% else %}
-										<a type="button" {% if DISABLE_DOWNVOTES %}style="display:none!important"{% endif %} tabindex="0" class="comment-{{c.id}}-down btn caction py-0 m-0 px-3 nobackground arrow-down" href="/login?redirect={{request.full_path | urlencode}}"></a>
+										<a type="button" {% if DISABLE_DOWNVOTES %}style="display:none!important"{% endif %} tabindex="0" class="comment-{{c.id}}-down btn caction py-0 m-0 px-3 nobackground arrow-down" href="/signup?redirect={{request.full_path | urlencode}}"></a>
 									{% endif %}
 
 									{% if v and (c.parent_post or c.wall_user_id) %}

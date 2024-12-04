@@ -65,8 +65,8 @@
 					<button type="button" id="follow-hole" class="btn btn-primary btn-follow {% if v.follows(hole.name) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{hole.name}}/follow','follow-hole','unfollow-hole','d-none')"><i class="fas fa-bell mr-2"></i>Follow /h/{{hole.name}}</button>
 					<button type="button" id="unfollow-hole" class="btn btn-primary btn-follow {% if not v.follows(hole.name) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{hole.name}}/unfollow','follow-hole','unfollow-hole','d-none')"><i class="fas fa-bell-slash mr-2"></i>Unfollow /h/{{hole.name}}</button>
 				{% else %}
-					<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}"><i class="fas fa-eye-slash mr-2"></i>Block /h/{{hole.name}}</a>
-					<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}"><i class="fas fa-bell mr-2"></i>Follow /h/{{hole.name}}</a>
+					<a class="btn btn-primary btn-block" href="/signup?redirect={{request.full_path | urlencode}}"><i class="fas fa-eye-slash mr-2"></i>Block /h/{{hole.name}}</a>
+					<a class="btn btn-primary btn-block" href="/signup?redirect={{request.full_path | urlencode}}"><i class="fas fa-bell mr-2"></i>Follow /h/{{hole.name}}</a>
 				{% endif %}
 			{% endif %}
 

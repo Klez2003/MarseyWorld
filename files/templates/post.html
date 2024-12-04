@@ -260,10 +260,10 @@
 						</div>
 					{% else %}
 						<div id="voting" class="voting d-mob-none mb-auto mt-1">
-							<a tabindex="0" class="post-{{p.id}}-up arrow-up mx-auto" href="/login?redirect={{request.full_path | urlencode}}">
+							<a tabindex="0" class="post-{{p.id}}-up arrow-up mx-auto" href="/signup?redirect={{request.full_path | urlencode}}">
 							</a>
 							<span class="post-{{p.id}}-score-none score text-muted{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
-							<a {% if DISABLE_DOWNVOTES %}style="display:none!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down arrow-down mx-auto" href="/login?redirect={{request.full_path | urlencode}}"></a>
+							<a {% if DISABLE_DOWNVOTES %}style="display:none!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down arrow-down mx-auto" href="/signup?redirect={{request.full_path | urlencode}}"></a>
 						</div>
 					{% endif %}
 				</div>
@@ -299,7 +299,7 @@
 							<span tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted == 1 %}active{% endif %}">
 							</span>
 						{% else %}
-							<a tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" href="/login?redirect={{request.full_path | urlencode}}">
+							<a tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" href="/signup?redirect={{request.full_path | urlencode}}">
 								<i class="fas fa-arrow-alt-up mx-0"></i>
 							</a>
 						{% endif %}
@@ -309,7 +309,7 @@
 						{% if v %}
 							<span {% if DISABLE_DOWNVOTES %}style="display:none!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post-mobile', '{{p.id}}', '-1')" class="post-mobile-{{p.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></span>
 						{% else %}
-							<a {% if DISABLE_DOWNVOTES %}style="display:none!important"{% endif %} tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" href="/login?redirect={{request.full_path | urlencode}}">
+							<a {% if DISABLE_DOWNVOTES %}style="display:none!important"{% endif %} tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" href="/signup?redirect={{request.full_path | urlencode}}">
 								<i class="fas fa-arrow-alt-down mx-0"></i>
 							</a>
 						{% endif %}
@@ -350,7 +350,7 @@
 					{% if v %}
 						{% set ghost_town = 'This comment section is a ghost town...' %}
 					{% else %}
-						{% set ghost_town = 'This comment section is a ghost town... <a href="/login?redirect={{request.full_path | urlencode}}">Sign in</a></p> '%}
+						{% set ghost_town = 'This comment section is a ghost town... <a href="/signup?redirect={{request.full_path | urlencode}}">Sign in</a></p> '%}
 					{% endif %}
 					{{macros.ghost_box('Be the first to comment!', ghost_town, 1)}}
 				</div>

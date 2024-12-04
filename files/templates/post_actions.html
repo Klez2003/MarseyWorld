@@ -37,7 +37,7 @@
 
 {% if p.hole %}
 	{% if not v %}
-		<a id="block-hole-{{p.id}}" href="/login?redirect={{request.full_path | urlencode}}" class="list-inline-item text-danger"><i class="fas fa-eye-slash text-danger"></i>Block /h/{{p.hole}}</a>
+		<a id="block-hole-{{p.id}}" href="/signup?redirect={{request.full_path | urlencode}}" class="list-inline-item text-danger"><i class="fas fa-eye-slash text-danger"></i>Block /h/{{p.hole}}</a>
 	{% elif v.id != p.author_id  %}
 		<button type="button" id="block-hole-{{p.id}}" class="list-inline-item text-danger {% if v.blocks(p.hole) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{p.hole}}/block','block-hole-{{p.id}}','unblock-hole-{{p.id}}','d-none')"><i class="fas fa-eye-slash text-danger"></i>Block /h/{{p.hole}}</button>
 		<button type="button" id="unblock-hole-{{p.id}}" class="text-success list-inline-item {% if not v.blocks(p.hole) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{p.hole}}/unblock','block-hole-{{p.id}}','unblock-hole-{{p.id}}','d-none')"><i class="fas fa-eye text-success"></i>Unblock /h/{{p.hole}}</button>

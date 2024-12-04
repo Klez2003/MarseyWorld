@@ -46,11 +46,11 @@
 
 					<div {% if DISABLE_DOWNVOTES %}style="display:none!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %} {% if disable_votes and voted != -1 %}disabled {% endif %}"></div>
 				{% else %}
-					<a tabindex="0" data-nonce="{{g.nonce}}" class="post-{{p.id}}-up mx-auto arrow-up" href="/login?redirect={{request.full_path | urlencode}}"></a>
+					<a tabindex="0" data-nonce="{{g.nonce}}" class="post-{{p.id}}-up mx-auto arrow-up" href="/signup?redirect={{request.full_path | urlencode}}"></a>
 
 					<span class="post-{{p.id}}-score-none score{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 
-					<a {% if DISABLE_DOWNVOTES %}style="display:none!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down" href="/login?redirect={{request.full_path | urlencode}}"></a>
+					<a {% if DISABLE_DOWNVOTES %}style="display:none!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down" href="/signup?redirect={{request.full_path | urlencode}}"></a>
 				{% endif %}
 
 			</div>
@@ -160,13 +160,13 @@
 						</li>
 					{% else %}
 						<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none">
-							<a tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" href="/login?redirect={{request.full_path | urlencode}}">
+							<a tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" href="/signup?redirect={{request.full_path | urlencode}}">
 								<i class="fas fa-arrow-alt-up mx-0"></i>
 							</a>
 
 							<span class="post-mobile-score-{{p.id}} score{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 
-							<a tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" href="/login?redirect={{request.full_path | urlencode}}">
+							<a tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" href="/signup?redirect={{request.full_path | urlencode}}">
 								<i class="fas fa-arrow-alt-down mx-0"></i>
 							</a>
 						</li>
