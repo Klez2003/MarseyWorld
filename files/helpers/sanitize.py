@@ -200,31 +200,32 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = reddit_mention_regex.sub(reddit_mention_replacer, sanitized)
 	sanitized = hole_mention_regex.sub(r'<a href="/\1">/\1</a>', sanitized)
 
-	names = set(m.group(1) for m in user_mention_regex.finditer(sanitized))
+	if not v.pinghab:
+		names = set(m.group(1) for m in user_mention_regex.finditer(sanitized))
 
-	if limit_pings and len(names) > limit_pings and author and author.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
-		return stop(400, f"Max ping limit is {COMMENT_PING_LIMIT} for comments and {POST_PING_LIMIT} for posts!")
+		if limit_pings and len(names) > limit_pings and author and author.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
+			return stop(400, f"Max ping limit is {COMMENT_PING_LIMIT} for comments and {POST_PING_LIMIT} for posts!")
 
-	users_list = get_users(names, graceful=True)
-	users_dict = {}
-	for u in users_list:
-		users_dict[u.username.lower()] = u
-		if u.original_username:
-			users_dict[u.original_username.lower()] = u
-		if u.extra_username:
-			users_dict[u.extra_username.lower()] = u
-		if u.prelock_username:
-			users_dict[u.prelock_username.lower()] = u
+		users_list = get_users(names, graceful=True)
+		users_dict = {}
+		for u in users_list:
+			users_dict[u.username.lower()] = u
+			if u.original_username:
+				users_dict[u.original_username.lower()] = u
+			if u.extra_username:
+				users_dict[u.extra_username.lower()] = u
+			if u.prelock_username:
+				users_dict[u.prelock_username.lower()] = u
 
-	def replacer(m):
-		u = users_dict.get(m.group(1).lower())
-		if not u or (v and u.id in v.all_twoway_blocks) or (v and u.has_muted(v)):
-			return m.group(0)
-		return f'<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
+		def replacer(m):
+			u = users_dict.get(m.group(1).lower())
+			if not u or (v and u.id in v.all_twoway_blocks) or (v and u.has_muted(v)):
+				return m.group(0)
+			return f'<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
 
-	sanitized = user_mention_regex.sub(replacer, sanitized)
+		sanitized = user_mention_regex.sub(replacer, sanitized)
 
-	if FEATURES['PING_GROUPS']:
+	if FEATURES['PING_GROUPS'] and not v.pinghab:
 		def group_replacer(m):
 			name = m.group(1)
 

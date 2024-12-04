@@ -159,15 +159,13 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 			if word in text:
 				notify_users.add(uid)
 
-
-	names = set(m.group(1) for m in user_mention_regex.finditer(text))
-
-	if oldtext:
-		oldnames = set(m.group(1) for m in user_mention_regex.finditer(oldtext))
-		names = names - oldnames
-
-	user_ids = get_users(names, ids_only=True, graceful=True)
-	notify_users.update(user_ids)
+	if not v.pinghab:
+		names = set(m.group(1) for m in user_mention_regex.finditer(text))
+		if oldtext:
+			oldnames = set(m.group(1) for m in user_mention_regex.finditer(oldtext))
+			names = names - oldnames
+		user_ids = get_users(names, ids_only=True, graceful=True)
+		notify_users.update(user_ids)
 
 	if SITE_NAME == "WPD" and (
 		('daisy' in text and 'destruction' in text)
@@ -177,7 +175,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_SPECIFIC_WPD_COMMENTS'], User.id != AEVANN_ID)]
 		notify_users.update(admin_ids)
 
-	if FEATURES['PING_GROUPS']:
+	if FEATURES['PING_GROUPS'] and not v.pinghab:
 		cost = 0
 		cost_groups = []
 		coin_receivers = set()

@@ -84,6 +84,7 @@ class User(Base):
 	verifiedcolor = Column(String)
 	hieroglyphs = Column(Integer, default=0)
 	rehab = Column(Integer, default=0)
+	pinghab = Column(Integer, default=0)
 	longpost = Column(Integer, default=0)
 	bird = Column(Integer, default=0)
 	email = deferred(Column(String))

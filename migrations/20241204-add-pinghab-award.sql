@@ -1,0 +1,1 @@
+alter table users add column pinghab int default 0 not null;

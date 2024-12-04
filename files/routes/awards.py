@@ -479,6 +479,9 @@ def award_thing(v, thing_type, id):
 		if author.rehab: author.rehab += 86400 * quantity
 		else: author.rehab = int(time.time()) + 86400 * quantity
 		badge_grant(user=author, badge_id=109)
+	elif kind == "pinghab":
+		if author.pinghab: author.pinghab += 86400 * quantity
+		else: author.pinghab = int(time.time()) + 86400 * quantity
 	elif kind == "deflector":
 		if author.id in IMMUNE_TO_NEGATIVE_AWARDS:
 			stop(400, f"{safe_username} immune to negative awards!") #he's immune, so why put a deflector on him and deprive him of positive awards

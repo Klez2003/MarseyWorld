@@ -331,6 +331,7 @@ def _award_timers_task():
 	_process_timer(User.longpost, [97], "The pizzashill award you received has expired!")
 	_process_timer(User.hieroglyphs, [98], "The hieroglyphs award you received has expired!")
 	_process_timer(User.rehab, [109], "The rehab award you received has expired!")
+	_process_timer(User.pinghab, [109], "The pinghab award you received has expired!")
 	_process_timer(User.owoify, [167], "The OwOify award you received has expired!")
 	_process_timer(User.sharpen, [289], "The Sharpen award you received has expired!")
 	_process_timer(User.bite, [168], "The bite award you received has expired! You're now back in your original house!", {
