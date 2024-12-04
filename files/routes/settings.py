@@ -230,7 +230,7 @@ def settings_personal_post(v):
 
 	elif not updated and IS_MUSICAL_EVENT() and request.values.get("event_music", v.event_music) != v.event_music:
 		if not v.grinch:
-			stop(403, "You need to award yourself the grinch award to be able to disable event music!")
+			stop(403, "You need to give the grinch award to one of your posts or comments to be able to disable event music!")
 		updated = True
 		session['event_music'] = request.values.get("event_music", v.event_music) == 'true'
 
