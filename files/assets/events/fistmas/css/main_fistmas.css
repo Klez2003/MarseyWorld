@@ -58,7 +58,7 @@ body {
 }
 
 .btn:not(.award-tab, .shop-tab, #mobile-bottom-navigation-bar > .btn) .fas {
-	color: #fff !important;
+	color: #fff;
 }
 
 .form-control:disabled, .form-control[readonly] {
