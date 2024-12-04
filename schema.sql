@@ -3086,6 +3086,13 @@ CREATE INDEX vote_user_index ON public.votes USING btree (user_id);
 
 
 --
+-- Name: voted_comments_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX voted_comments_idx ON public.comments USING btree (ghost, is_banned, deleted_utc, author_id);
+
+
+--
 -- Name: votes_type_index; Type: INDEX; Schema: public; Owner: -
 --
 
