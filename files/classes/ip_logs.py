@@ -3,8 +3,9 @@ import time
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import *
-from files.helpers.lazy import lazy
+from flask import g
 
+from files.helpers.lazy import lazy
 from files.classes import Base
 
 class IPLog(Base):
