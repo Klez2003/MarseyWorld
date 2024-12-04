@@ -5345,6 +5345,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyswalot', 'Marsey', 2, 'pokemon pkmn 317', false, 1699132422),
 ('marseyswastika', 'Marsey', 2, 'nazi chud germany swasi swazi windmill of peace hitler racist racism antisemitic antisemitism third reich jewish jews', false, 0),
 ('marseyswear', 'Marsey', 2, 'vulgar scold fuck words rude angry pissed slurs curse rant rage', false, 1703626622),
+('marseysweaterahegao', 'Marsey', 2, 'anime coomer hentai xmassweater', false, 1733300042),
 ('marseysweaterdbl', 'Marsey', 2, 'bussy christmas dude lmao xmas', false, 1733288458),
 ('marseysweaterdrip', 'Marsey', 2, 'christmas dababy dmx festive icy jolly kaczynski supreme ted theodore unabomber', false, 1733284709),
 ('marseysweaterputout', 'Marsey', 2, 'cookie milk xmassweater', false, 1733290004),
