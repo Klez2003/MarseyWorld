@@ -1,4 +1,4 @@
-{% if request.path == '/' %}
+{% if request.path == '/' and not session.get('poor') %}
 	<script defer src="{{'events/fistmas/js/vendor/snow.js'|asset}}"></script>
 {% endif %}
 
