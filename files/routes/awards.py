@@ -552,6 +552,9 @@ def award_thing(v, thing_type, id):
 			obj.sharpened = True
 			alter_body(obj)
 	elif kind == "dyslexia":
+		if obj.award_count('dyslexia', v):
+			stop(409, f"This {thing_type} is already under the effect of a {award_title} award!")
+
 		if can_alter_body or v == obj.author:
 			obj.dyslexia = True
 			alter_body(obj)
