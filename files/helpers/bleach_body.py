@@ -86,7 +86,9 @@ def allowed_attributes_runtime(tag, name, value):
 	if tag == 'span': 
 		if name == 'id':
 			return True
-	
+		if name == 'class':
+			return True
+
 	if tag == 'div': 
 		if name == 'class' and value == 'custom-control mt-2':
 			return True

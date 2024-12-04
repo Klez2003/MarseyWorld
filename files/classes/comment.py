@@ -128,6 +128,8 @@ def add_options(self, body, v):
 				option_body += " disabled "
 
 			option_body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
+			if not disabled and not self.total_poll_voted(v):
+				option_body += ' d-none'
 			option_body += f'"> - <a href="/votes/{kind}/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> bets</a>'
 			if not self.total_bet_voted(v):
 				option_body += f'''<span class="cost"> (cost of entry: {POLL_BET_COINS} coins or marseybux)</span>'''
