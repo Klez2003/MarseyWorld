@@ -2084,8 +2084,10 @@ if FEATURES['IP_LOGGING']:
 	@admin_level_required(PERMS['VIEW_IPS'])
 	def view_user_ips(v, username):
 		u = get_user(username, v=v)
-		ip_logs = g.db.query(IPLog).filter_by(user_id=u.id).order_by(IPLog.last_used.desc())
-		return render_template('admin/user_ips.html', v=v, u=u, ip_logs=ip_logs)
+		ip_logs = g.db.query(IPLog).filter_by(user_id=u.id).order_by(IPLog.last_used.desc()).all()
+		ips = {x.ip for x in ip_logs}
+		ip_counts = {x[0]: x[1] for x in g.db.query(IPLog.ip, func.count(IPLog.ip)).filter(IPLog.ip.in_(ips)).group_by(IPLog.ip).all()}
+		return render_template('admin/user_ips.html', v=v, u=u, ip_logs=ip_logs, ip_counts=ip_counts)
 
 	@app.get("/ip_users/<ip>")
 	@limiter.limit("2000/day", deduct_when=lambda response: response.status_code < 400)

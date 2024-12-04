@@ -3,9 +3,7 @@ import time
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import *
-from flask import g
 
-from files.helpers.lazy import lazy
 from files.classes import Base
 
 class IPLog(Base):
@@ -25,8 +23,3 @@ class IPLog(Base):
 
 	def __repr__(self):
 		return f"<{self.__class__.__name__}(user_id={self.user_id}, ip={self.ip})>"
-
-	@property
-	@lazy
-	def ip_count(self):
-		return g.db.query(IPLog).filter_by(ip=self.ip).count()
