@@ -69,7 +69,7 @@ def execute_blackjack(v, target, body, kind):
 	execute = False
 
 	for x in blackjack.split(','):
-		if x in body.lower():
+		if all(i in body.lower() for i in x.split('+')):
 			execute = True
 
 	if not execute: return False
