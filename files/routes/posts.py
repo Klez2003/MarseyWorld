@@ -228,6 +228,9 @@ def post_id(pid, v, anything=None, hole=None):
 	if sort == 'saves':
 		sort = defaultsortingcomments
 
+	if not request.values.get("sort") and "advent calender 2024" in p.title.lower():
+		sort = "random"
+
 	if not v:
 		result = cache.get(f'post_{p.id}_{sort}')
 		if result:
