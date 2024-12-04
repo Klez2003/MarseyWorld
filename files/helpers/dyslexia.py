@@ -7,7 +7,7 @@ def dyslexia(string, chud_phrase):
 
 	new_lines = []
 	for line in string.splitlines():
-		if chud_phrase and chud_phrase in line:
+		if (chud_phrase and chud_phrase in line) or '&&' in line or '$$' in line or '##' in line:
 			new_lines.append(line)
 			continue
 
