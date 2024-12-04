@@ -350,7 +350,7 @@
 					{% if v %}
 						{% set ghost_town = 'This comment section is a ghost town...' %}
 					{% else %}
-						{% set ghost_town = 'This comment section is a ghost town... <a href="/signup?redirect={{request.full_path | urlencode}}">Sign in</a></p> '%}
+						{% set ghost_town = 'This comment section is a ghost town... <a href="/login?redirect={{request.full_path | urlencode}}">Sign in</a></p> '%}
 					{% endif %}
 					{{macros.ghost_box('Be the first to comment!', ghost_town, 1)}}
 				</div>
