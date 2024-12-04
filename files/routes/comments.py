@@ -211,8 +211,6 @@ def comment(v):
 
 	is_bot = v.client is not None and v.id not in BOT_SYMBOL_HIDDEN
 
-	chudded = v.chud and not (posting_to_post and post_target.hole == 'chudrama')
-
 	c = Comment(author_id=v.id,
 				parent_post=post_target.id if posting_to_post else None,
 				wall_user_id=post_target.id if not posting_to_post else None,
@@ -223,12 +221,13 @@ def comment(v):
 				app_id=v.client.application.id if v.client else None,
 				body=body,
 				ghost=ghost,
-				chudded=chudded,
-				rainbowed=bool(v.rainbow),
-				queened=bool(v.queen),
-				sharpened=bool(v.sharpen),
 				distinguished=distinguished,
 			)
+
+	c.chudded = v.chud and not (posting_to_post and post_target.hole == 'chudrama') and not (c.is_longpost and not v.chudded_by) and not c.distinguished
+	c.queened = v.queen and not c.is_longpost and not c.distinguished
+	c.sharpened = v.sharpen and not c.is_longpost and not c.distinguished
+	c.rainbowed = v.rainbow and not c.is_longpost and not c.distinguished
 
 	c.upvotes = 1
 
