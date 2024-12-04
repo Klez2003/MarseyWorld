@@ -1457,6 +1457,61 @@ GIRL_NAMES_TOTAL = set()
 for l in GIRL_NAMES.values():
 	GIRL_NAMES_TOTAL.update(l)
 
+FURRY_NAMES = [
+	'Eveningstud_Fancypelt',
+	'Mildvixen_Eagercoat',
+	'Celestia_Whiskerglow',
+	'Trixie_Featherpaw',
+	'Fira_Brighttail',
+	'Nymira_Brightshadow',
+	'Lira_Foxglove',
+	'Hazel_Hopsnout',
+	'Furrik_Valtor',
+	'Vesper_Oakshade',
+	'Fuzzwhisker_Vulpin',
+	'Koda_Shadowtail',
+	'Blitz_Silvermoon',
+	'Tiberius_Fluffington',
+	'Fluffy_McSparklehorn',
+	'Finn_Furrington',
+	'Brarok_Swiftclaw',
+	'Pouncepaws_Aberfur',
+	'Vixara_Softwhisper',
+	'Faye_Moonpaw',
+	'Astraea_Flufftail',
+	'Misty_Glimmerfur',
+	'Ruby_Pawsworth',
+	'Echo_Silkstride',
+	'Tazrin_Emberleaf',
+	'Clover_Sunshadow',
+	'Cuddleswick_Shadowstride',
+	'Luna_Wiskersnout',
+	'Flamerabbit_Twinhoof',
+	'Skybunny_Vainclaw',
+	'Snowfox_Purecoat',
+	'Stoutpanther_Sharpblade',
+	'Rainbowsnout_Richbone',
+	'Whisper_Heartwolf',
+	'Bluebell_Pawlight',
+	'Squeaks_McFuzzybutt',
+	'Shadow_Howler',
+	'Asher_Grayclaw',
+	'Vixen_Darkhowl',
+	'Raven_Sharpfang',
+	'Thunder_Ironfur',
+	'Blaze_Foxblade',
+	'Grizzly_Wildfur',
+	'Kodiak_Strongpaw',
+	'Luna_Tigertail',
+	'Roar_Wildmane',
+	'Leo_Goldmane',
+	'Savannah_Clawstrike',
+	'Bella_Floofears',
+	'Rusty_Snoutpaw',
+]
+
+FURRY_NAMES_TOTAL = set(FURRY_NAMES)
+
 from sqlalchemy.engine.create import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 

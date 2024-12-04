@@ -510,6 +510,27 @@ def award_thing(v, thing_type, id):
 		else: author.earlylife = int(time.time()) + 86400 * quantity
 		badge_grant(user=author, badge_id=169)
 	elif kind == "owoify":
+		if author.username.startswith('deleted~'):
+			stop(403, "Recipient account is deleted!")
+
+		if not author.owoify:
+			available_names = FURRY_NAMES
+			random.shuffle(available_names)
+
+			broken = False
+			for new_name in available_names:
+				existing = get_user(new_name, graceful=True)
+				if not existing:
+					broken = True
+					break
+
+			if not broken:
+				new_name = new_name + f'-{author.id}'
+
+			if not author.prelock_username:
+				author.prelock_username = author.username
+			author.username = new_name
+
 		if author.owoify: author.owoify += 86400 * quantity
 		else: author.owoify = int(time.time()) + 86400 * quantity
 		badge_grant(user=author, badge_id=167)

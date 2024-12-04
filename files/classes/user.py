@@ -1086,6 +1086,10 @@ class User(Base):
 			number_of_girl_pfps = 25
 			pic_num = (self.id % number_of_girl_pfps) + 1
 			return f"{SITE_FULL_IMAGES}/i/pfps/girls/{pic_num}.webp"
+		if self.owoify:
+			number_of_girl_pfps = 38
+			pic_num = (self.id % number_of_girl_pfps) + 1
+			return f"{SITE_FULL_IMAGES}/i/pfps/furries/{pic_num}.webp"
 		if self.profileurl and can_see(g.v, self):
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl

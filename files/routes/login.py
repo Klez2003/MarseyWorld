@@ -238,7 +238,7 @@ def sign_up_post(v):
 							email=email,
 							), 400
 
-	if username.title() in GIRL_NAMES_TOTAL:
+	if username.title() in GIRL_NAMES_TOTAL | FURRY_NAMES_TOTAL:
 		return signup_error("This name is reserved for a site award.")
 
 	submitted_token = session.get("signup_token", "")

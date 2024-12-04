@@ -876,7 +876,7 @@ def settings_name_change(v):
 	if not used_regex.fullmatch(new_name):
 		stop(400, "This isn't a valid username.")
 
-	if new_name.title() in GIRL_NAMES_TOTAL:
+	if new_name.title() in GIRL_NAMES_TOTAL | FURRY_NAMES_TOTAL:
 		stop(400, "This name is reserved for a site award.")
 
 	existing = get_user(new_name, graceful=True)
