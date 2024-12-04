@@ -463,7 +463,7 @@
 
 {% macro sorting_buttons(sorts, saves_allowed, hot_allowed) %}
 	<div class="dropdown dropdown-actions">
-		<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown">
+		<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown" data-bs-display="static">
 			<i class="fas fa-{{sorts[sort]}} mr-1"></i>
 			{{sort | capitalize}}
 		</button>
