@@ -2307,6 +2307,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseycarlbrutananadilewski', 'Marsey', 2, 'athf aquateenhungerforce adultswim', false, 1710805669),
 ('marseycarlos', 'Marsey', 2, '4chan cartoon funny humor joke latino lmao lmbo lol magic magical meme mexican reaction school schoolbus', false, 1723088455),
 ('marseycarpocide', 'Marsey', 2, 'evil capy edgy death kill eat blood', false, 1687895010),
+('marseycarpsweater', 'Marsey', 2, 'christmas hat holidays santa xmassweater', false, 1733326151),
 ('marseycarrots', 'Marsey', 2, 'food vegetables veggies healthy fresh diet', false, 1707605806),
 ('marseycarsuicide', 'Marsey', 2, 'kms kill death vehicle carbon monoxide co muffler suffocation suffocate', false, 0),
 ('marseycartman', 'Marsey', 2, 'south park eric screw', false, 1717699169),
