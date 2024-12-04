@@ -15,7 +15,7 @@
 			</thead>
 			{% for ip_log in ip_logs %}
 				<tr>
-					<td><a href="/ip_users/{{ip_log.ip}}">{{ip_log.ip}} [{{ip_log.ip_count}}]</a></td>
+					<td><a href="/ip_users/{{ip_log.ip}}">{{ip_log.ip}} [{{ip_log.ip_count}} users]</a></td>
 					<td><a href="https://ipinfo.io/{{ip_log.ip}}">IP Info</a></td>
 					<td data-time="{{ip_log.created_utc}}"></td>
 					<td data-time="{{ip_log.last_used}}"></td>
