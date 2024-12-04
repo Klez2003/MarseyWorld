@@ -13,7 +13,7 @@ def dyslexia(string, chud_phrase):
 
 		new_words = []
 		for word in line.split(" "):
-			if not word_regex.fullmatch(word):
+			if not dyslexia_word_regex.fullmatch(word):
 				new_words.append(word)
 				continue
 
