@@ -1,3 +1,6 @@
+:root {
+	--gray-300: #c7c7c7;
+}
 .unread {
 	background: #00000022 !important;
 }
