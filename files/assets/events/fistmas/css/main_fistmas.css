@@ -432,3 +432,12 @@ body {
 .candycane:hover, h1.candycane.post-title a:hover {
 	animation-duration: 30s;
 }
+
+.btn.btn-primary:hover, .btn.btn-primary:active,
+.btn.btn-secondary:hover, .btn.btn-secondary:active,
+.searchparam:hover, .searchparam:active,
+.btn.btn-danger:hover, .btn.btn-danger:active,
+.btn.btn-success:hover, .btn.btn-success:active {
+	background-color: #994043 !important;
+	border-color: #994043 !important;
+}
