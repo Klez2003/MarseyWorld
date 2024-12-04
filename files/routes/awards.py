@@ -420,7 +420,7 @@ def award_thing(v, thing_type, id):
 	
 	
 		if SITE_NAME == 'WPD':
-			for x in get_alt_graph(author.id):
+			for x in get_alt_graph(author.id, unban=True):
 				if x.deflector: continue
 
 				if not x.is_suspended or not x.unban_utc or not x.ban_reason.startswith('Ban award'):

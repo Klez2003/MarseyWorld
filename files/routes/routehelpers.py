@@ -31,7 +31,11 @@ def validate_formkey(u, formkey):
 	return validate_hash(get_raw_formkey(u), formkey)
 
 @cache.memoize(timeout=86400)
-def get_alt_graph_ids(uid):
+def get_alt_graph_ids(uid, unban=False):
+	if SITE_NAME == 'WPD' and not unban:
+		alts = g.db.query(Alt.user1).filter_by(user2=uid).all() + g.db.query(Alt.user2).filter_by(user1=uid).all()
+		return {x[0] for x in alts}
+
 	alt_graph_cte = g.db.query(literal(uid).label('user_id')).select_from(Alt).cte('alt_graph', recursive=True)
 
 	alt_graph_cte_inner = g.db.query(
@@ -46,8 +50,11 @@ def get_alt_graph_ids(uid):
 	alt_graph_cte = alt_graph_cte.union(alt_graph_cte_inner)
 	return {x[0] for x in g.db.query(User.id).filter(User.id == alt_graph_cte.c.user_id, User.id != uid)}
 
-def get_alt_graph(uid):
-	alt_ids = get_alt_graph_ids(uid)
+def get_alt_graph(uid, unban=False):
+	if SITE_NAME == 'WPD' and unban:
+		alt_ids = get_alt_graph_ids(uid, unban=True)
+	else:
+		alt_ids = get_alt_graph_ids(uid)
 	return g.db.query(User).filter(User.id.in_(alt_ids)).order_by(func.lower(User.username)).all()
 
 def add_alt(user1, user2):

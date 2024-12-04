@@ -269,7 +269,7 @@ def revert_actions(v, username):
 			send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
 		g.db.add(user)
 
-		for u in get_alt_graph(user.id):
+		for u in get_alt_graph(user.id, unban=True):
 			u.shadowbanned = None
 			u.unban_utc = None
 			u.ban_reason = None
@@ -920,7 +920,7 @@ def unshadowban(user_id, v):
 	user.shadowban_reason = None
 	g.db.add(user)
 
-	for alt in get_alt_graph(user.id):
+	for alt in get_alt_graph(user.id, unban=True):
 		alt.shadowbanned = None
 		alt.shadowban_reason = None
 		g.db.add(alt)
@@ -1219,7 +1219,7 @@ def unban_user(fullname, v):
 	send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
 	g.db.add(user)
 
-	for x in get_alt_graph(user.id):
+	for x in get_alt_graph(user.id, unban=True):
 		if x.is_banned:
 			one_month_ago = time.time() - 2592000
 			if x.last_active > one_month_ago:
