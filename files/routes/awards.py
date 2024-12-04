@@ -533,6 +533,9 @@ def award_thing(v, thing_type, id):
 
 		if author.owoify: author.owoify += 86400 * quantity
 		else: author.owoify = int(time.time()) + 86400 * quantity
+
+		author.namechanged = author.queen
+
 		badge_grant(user=author, badge_id=167)
 
 		if can_alter_body:
