@@ -384,7 +384,7 @@
 							{%- endif -%}
 						{%- endif -%}
 					</span>
-					<button class="quote btn fas fa-reply ml-auto" data-nonce="{{g.nonce}}" data-onclick="quote(this)"></button>
+					<button class="quote fas fa-reply ml-auto" data-nonce="{{g.nonce}}" data-onclick="quote(this)"></button>
 					{% if chat.id == 1 and v.admin_level >= PERMS.POST_COMMENT_MODERATION %}
 						<button class="btn del delconfirm fas fa-trash-alt"></button>
 						<button class="btn d-none del delmsg fas fa-trash-alt text-danger" data-nonce="{{g.nonce}}" data-onclick="del(this)"></button>
