@@ -554,7 +554,7 @@ AWARDS = {
 		"description": "Scrabmles the wodrs in the psot or cmoment.",
 		"icon": "fas fa-glasses",
 		"color": "text-black",
-		"price": 500,
+		"price": 300,
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": lambda v:True,
