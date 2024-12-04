@@ -226,7 +226,7 @@ class Comment(Base):
 	senttouser = relationship("User", primaryjoin="User.id==Comment.sentto")
 	parent_comment = relationship("Comment", remote_side=[id])
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="comment")
-	reports = relationship("CommentReport", order_by="CommentReport.created_utc")
+	reports = relationship("CommentReport", back_populates="comment", order_by="CommentReport.created_utc")
 	options = relationship("CommentOption", order_by="CommentOption.id")
 	casino_game = relationship("CasinoGame")
 	wall_user = relationship("User", primaryjoin="User.id==Comment.wall_user_id")
