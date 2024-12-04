@@ -200,7 +200,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = reddit_mention_regex.sub(reddit_mention_replacer, sanitized)
 	sanitized = hole_mention_regex.sub(r'<a href="/\1">/\1</a>', sanitized)
 
-	if not (v and v.pinghab):
+	if not (obj and obj.author.pinghab):
 		names = set(m.group(1) for m in user_mention_regex.finditer(sanitized))
 
 		if limit_pings and len(names) > limit_pings and author and author.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
@@ -225,7 +225,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 		sanitized = user_mention_regex.sub(replacer, sanitized)
 
-	if FEATURES['PING_GROUPS'] and not (v and v.pinghab):
+	if FEATURES['PING_GROUPS'] and not (obj and obj.author.pinghab):
 		def group_replacer(m):
 			name = m.group(1)
 
