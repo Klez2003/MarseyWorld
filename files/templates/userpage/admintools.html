@@ -70,7 +70,9 @@
 						</div>
 					{% endif %}
 
-					<input autocomplete="off" id="user-ban-submit-{{deviceType}}" type="submit" class="btn btn-danger" value="Ban user" disabled>
+					<button autocomplete="off" id="user-ban-submit-{{deviceType}}" type="submit" class="btn btn-danger" disabled>
+						Ban user
+					</button>
 				</form>
 
 				<button type="button" id="unban-{{deviceType}}" class="mt-1 {% if not u.is_suspended %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{u.id}}')">Unban user</button>
@@ -79,7 +81,9 @@
 				<form id="shadowban-{{deviceType}}" class="mt-3 {% if u.shadowbanned %}d-none{% endif %}" action="/shadowban/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this)">
 					<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 					<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="{{BAN_REASON_LENGTH_LIMIT}}" name="reason" placeholder="Shadowban Reason" data-nonce="{{g.nonce}}" data-undisable_element="user-shadowban-submit-{{deviceType}}" required>
-					<input autocomplete="off" id="user-shadowban-submit-{{deviceType}}" type="submit" class="btn btn-danger" value="Shadowban user" disabled>
+					<button autocomplete="off" id="user-shadowban-submit-{{deviceType}}" type="submit" class="btn btn-danger" disabled>
+						Shadowban user
+					</button>
 				</form>
 
 				<button type="button" id="unshadowban-{{deviceType}}" class="mt-3 mx-auto mx-md-0 {% if not u.shadowbanned %}d-none{% endif %} btn btn-success" style="display:block" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unshadowban/{{u.id}}','shadowban-{{deviceType}}','unshadowban-{{deviceType}}','d-none')">Unshadowban user</button>
@@ -89,7 +93,9 @@
 				<form class="mb-3 {% if u.chud == 1 %}d-none{% endif %}" action="/chud_user/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this)">
 					<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 					<input autocomplete="off" type="number" step="any" name="days" max="{{max_days()}}" class="form-control" placeholder="Days (0 or blank = permanent)">
-					<input type="submit" class="btn btn-danger" value="Chud">
+					<button type="submit" class="btn btn-danger">
+						Chud
+					</button>
 				</form>
 
 				<button type="button" id="unchud-{{deviceType}}" class="{% if not u.chud %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{u.id}}')">Unchud</button>
@@ -120,12 +126,16 @@
 					<form class="mt-1" action="/admin/nuke_user" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 						<input hidden name="formkey", value="{{v|formkey}}" class="notranslate" translate="no">
 						<input hidden name="user" value="{{u.username}}">
-						<input type="submit" class="btn btn-danger" value="Remove User's Content">
+						<button type="submit" class="btn btn-danger">
+							Remove User's Content
+						</button>
 					</form>
 					<form action="/admin/unnuke_user" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 						<input hidden name="formkey", value="{{v|formkey}}" class="notranslate" translate="no">
 						<input hidden name="user" value="{{u.username}}">
-						<input type="submit" class="btn btn-success" value="Revert Previous Mass Content Removal">
+						<button type="submit" class="btn btn-success">
+							Revert Previous Mass Content Removal
+						</button>
 					</form>
 				{% endif %}
 
