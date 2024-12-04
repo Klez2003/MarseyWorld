@@ -18,7 +18,7 @@ def dyslexia(string, chud_phrase):
 				continue
 
 			if len(word.strip(";.,'")) > 3:
-				idx = random.randint(1, len(word) - 3)
+				idx = random.randint(1, len(word.strip(";.,'")) - 3)
 				word = word[:idx] + word[idx + 1] + word[idx] + word[idx + 2:]
 			new_words.append(word)
 
