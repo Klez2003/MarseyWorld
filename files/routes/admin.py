@@ -1406,7 +1406,7 @@ def remove_post(post_id, v):
 		)
 	g.db.add(ma)
 
-	post.author.coins -= post.coins
+	post.author.charge_account('coins', post.coins, should_check_balance=False)
 	post.author.truescore -= post.coins
 	g.db.add(post.author)
 
@@ -1449,7 +1449,7 @@ def approve_post(post_id, v):
 
 	g.db.add(post)
 
-	post.author.coins += post.coins
+	post.author.pay_account('coins', post.coins)
 	post.author.truescore += post.coins
 	g.db.add(post.author)
 
@@ -1640,7 +1640,7 @@ def remove_comment(c_id, v):
 		)
 	g.db.add(ma)
 
-	comment.author.coins -= comment.coins
+	comment.author.charge_account('coins', comment.coins, should_check_balance=False)
 	comment.author.truescore -= comment.coins
 	g.db.add(comment.author)
 
@@ -1682,7 +1682,7 @@ def approve_comment(c_id, v):
 
 	g.db.add(comment)
 
-	comment.author.coins += comment.coins
+	comment.author.pay_account('coins', comment.coins)
 	comment.author.truescore += comment.coins
 	g.db.add(comment.author)
 
