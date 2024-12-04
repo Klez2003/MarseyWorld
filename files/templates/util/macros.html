@@ -461,9 +461,9 @@
 	</div>
 {% endmacro %}
 
-{% macro sorting_buttons(sorts, saves_allowed, hot_allowed) %}
+{% macro sorting_buttons(sorts, saves_allowed, hot_allowed, static) %}
 	<div class="dropdown dropdown-actions">
-		<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown" data-bs-display="static">
+		<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown" {% if static %}data-bs-display="static"{% endif %}>
 			<i class="fas fa-{{sorts[sort]}} mr-1"></i>
 			{{sort | capitalize}}
 		</button>

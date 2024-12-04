@@ -237,6 +237,8 @@
 .fa-hand:before{content:"\f256"}
 .fa-sword:before{content:"\f71c"}
 .fa-glasses:before{content:"\f530"}
+.fa-ring-diamond:before{content:"\e5ab"}
+.fa-files:before{content:"\e178"}
 
 /* do not remove - fixes hand, talking, marsey-love components
 	from breaking out of the comment box
@@ -7945,11 +7947,11 @@ button.btn.note-helpful:hover {
 }
 
 @media (min-width: 768px) {
-	#dropdownMenuButton2 + .dropdown-menu.show {
+	#dropdownMenuButton2[data-bs-display="static"] + .dropdown-menu.show {
 		transform: translate3d(5px, 35px, 0px) !important;
 	}
 }
 
-#dropdownMenuButton2 + .dropdown-menu.show {
+#dropdownMenuButton2[data-bs-display="static"] + .dropdown-menu.show {
 	transform: translate3d(-85px, 35px, 0px) !important;
 }
