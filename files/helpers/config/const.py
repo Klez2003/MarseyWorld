@@ -1546,4 +1546,4 @@ else:
 
 redis_instance = redis.Redis.from_url(environ.get("REDIS_URL").strip())
 
-FISTMAS_HATS = ("Spinning Santa Hat", "Santa Hat (pink)", "Santa Hat I", "Santa Hat II", "Santa Hat III", "Christmas Wreath", "Christmas Wreath II", "Mistletoe", "Christmas Lights", "Christmas String Lights", "Spinning Christmas Elf Hat", "Winter Cap", "Present Bow")
+FISTMAS_HATS = ("Spinning Santa Hat", "Santa Hat (pink)", "Santa Hat I", "Santa Hat II", "Santa Hat III", "Christmas Wreath", "Christmas Wreath II", "Mistletoe", "Christmas Lights", "Christmas String Lights", "Spinning Christmas Elf Hat", "Winter Cap", "Present Bow", "Antlers")
