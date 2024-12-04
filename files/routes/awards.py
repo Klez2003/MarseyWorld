@@ -217,7 +217,7 @@ def award_thing(v, thing_type, id):
 	if v.shadowbanned:
 		return {"message": f"{quantity} {award_title} award{s} given to {thing_type} successfully!"}
 
-	if obj.is_longpost and kind in {"ectoplasm", "candycorn", "candycane", "stab", "glowie", "tilt", "queen", "chud", "marsify", "owoify", "sharpen", "rainbow"}:
+	if obj.is_longpost and kind in {"ectoplasm", "candycorn", "candycane", "stab", "glowie", "tilt", "queen", "chud", "marsify", "owoify", "sharpen", "rainbow", "dyslexia"}:
 		stop(403, f'Long posts and comments are immune to the {award_title} award!')
 
 	if obj.distinguished and (AWARDS[kind]['cosmetic'] or AWARDS[kind]['negative']):
@@ -544,6 +544,10 @@ def award_thing(v, thing_type, id):
 
 		if can_alter_body:
 			obj.sharpened = True
+			alter_body(obj)
+	elif kind == "dyslexia":
+		if can_alter_body or v == obj.author:
+			obj.dyslexia = True
 			alter_body(obj)
 	elif kind == "rainbow":
 		if author.rainbow: author.rainbow += 86400 * quantity

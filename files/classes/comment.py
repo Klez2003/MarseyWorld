@@ -213,6 +213,7 @@ class Comment(Base):
 	rainbowed = Column(Boolean, default=False)
 	queened = Column(Boolean, default=False)
 	sharpened = Column(Boolean, default=False)
+	dyslexia = Column(Boolean, default=False)
 	coins = Column(Integer, default=0)
 
 	if FEATURES['NSFW_MARKING']:

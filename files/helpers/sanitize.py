@@ -27,6 +27,7 @@ from files.helpers.marsify import *
 from files.helpers.owoify import *
 from files.helpers.sharpen import *
 from files.helpers.queenify import *
+from files.helpers.dyslexia import *
 from files.helpers.bleach_body import *
 from files.helpers.emoji import *
 from files.helpers.youtube import *
@@ -167,6 +168,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	if obj and obj.sharpened:
 		sanitized = sharpen(sanitized, author.chud_phrase)
+
+	if obj and obj.dyslexia:
+		sanitized = dyslexia(sanitized, author.chud_phrase)
 
 	if '```' not in sanitized and '<pre>' not in sanitized:
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
@@ -506,6 +510,9 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 
 	if obj and obj.sharpened:
 		title = sharpen(title, author.chud_phrase)
+
+	if obj and obj.dyslexia:
+		title = dyslexia(title, author.chud_phrase)
 
 	emojis_used = set()
 
