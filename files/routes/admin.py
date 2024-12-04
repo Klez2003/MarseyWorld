@@ -1410,6 +1410,10 @@ def remove_post(post_id, v):
 	post.author.truescore -= post.coins
 	g.db.add(post.author)
 
+	for r in post.reports:
+		text = f"@{v.username} (a site admin) has removed [a post]({post.permalink}) you reported!"
+		send_repeatable_notification(r.user_id, text)
+
 	cache.delete_memoized(frontlist)
 
 	for sort in COMMENT_SORTS.keys():
@@ -1643,6 +1647,10 @@ def remove_comment(c_id, v):
 	comment.author.charge_account('coins', comment.coins, should_check_balance=False)
 	comment.author.truescore -= comment.coins
 	g.db.add(comment.author)
+
+	for r in comment.reports:
+		text = f"@{v.username} (a site admin) has removed [a comment]({comment.permalink}) you reported!"
+		send_repeatable_notification(r.user_id, text)
 
 	if comment.parent_post:
 		for sort in COMMENT_SORTS.keys():
