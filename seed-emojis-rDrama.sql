@@ -1302,7 +1302,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('dreamgender', 'Misc', 2, 'mogai flag', false, 0),
 ('drink', 'Classic', 2, 'animated emoticon beer alcohol bottoms up imbibe', false, 0),
 ('drool', 'Classic', 2, 'emoticon retard retarded stupid idiot', false, 0),
-('drumstickdancer', 'Misc', 2, 'chicken drumstick nigger kfc friedchicken', false, 1697639399),
 ('duckdance', 'Misc', 2, 'bird shuka hololive hat animated', false, 0),
 ('dudeweedlmao', 'Classic', 2, 'animated emoticon drugs', false, 0),
 ('dukenukemtldr', 'Misc', 2, 'wordswordswords toolongdidntread', false, 1681392490),

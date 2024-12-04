@@ -536,7 +536,8 @@ CREATE TABLE public.comments (
     num_of_pinned_children integer NOT NULL,
     distinguished boolean NOT NULL,
     body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED,
-    coins integer DEFAULT 0 NOT NULL
+    coins integer DEFAULT 0 NOT NULL,
+    dyslexia boolean DEFAULT false NOT NULL
 );
 
 
@@ -1077,7 +1078,8 @@ CREATE TABLE public.posts (
     distinguished boolean NOT NULL,
     title_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (title)::text)) STORED,
     body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED,
-    coins integer DEFAULT 0 NOT NULL
+    coins integer DEFAULT 0 NOT NULL,
+    dyslexia boolean DEFAULT false NOT NULL
 );
 
 
