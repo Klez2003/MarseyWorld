@@ -551,7 +551,7 @@ AWARDS = {
 	"owoify": {
 		"kind": "owoify",
 		"title": "OwOify",
-		"description": "OwOifies the recipient's posts and comments for 24 hours.",
+		"description": "Turns the recipient into a furry for 24 hours.",
 		"icon": "fas fa-paw-simple",
 		"color": "text-purple",
 		"price": 500,
