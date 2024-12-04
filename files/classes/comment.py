@@ -120,7 +120,7 @@ def add_options(self, body, v):
 	for o in self.options:
 		option_body = ''
 
-		if o.exclusive > 1:
+		if o.exclusive > 1: #implies bet
 			option_body += f'''<div class="custom-control mt-2"><input name="option-{self.id}" class="custom-control-input bet" type="radio" id="{o.id}" data-nonce="{g.nonce}" data-onclick="option_vote_2(this,'{o.id}','{kind}')"'''
 			if o.voted(v): option_body += " checked "
 
