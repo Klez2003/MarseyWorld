@@ -3422,6 +3422,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseygoodmap', 'Marsey', 2, 'pedo dead shoot animated shotgun buckshot kill minor libertarian', false, 0),
 ('marseygoodnight', 'Marsey', 2, 'kazakhstan flag reaction kazakh hate women', false, 0),
 ('marseygoodshit', 'Marsey', 2, 'sardines canned fish eating nice awesome cool neat yum tasty delicious great srdine mmm', false, 1691308147),
+('marseygoodstarsweater', 'Marsey', 2, 'christmas xmassweater', false, 1733357869),
 ('marseygoomy', 'Marsey', 2, 'pkmn pokemon 704', false, 1697904523),
 ('marseygoose', 'Marsey', 2, 'geese kill duck bird death bite chomp', false, 0),
 ('marseygoose2', 'Marsey', 2, 'geese kill bird death bite chomp', false, 0),
